@@ -1,0 +1,27 @@
+@use 'abstracts' as *;
+
+select {
+  // General styles for select elements
+  &:not([multiple]):not([size]) {
+    background-position: center right var(--size-1);
+    background-repeat: no-repeat;
+    padding-right: var(--padding-x-input-lg);
+    padding-inline-end: var(--padding-x-input-lg);
+  }
+
+  // Hide arrow icon in IE browsers
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+option {
+  font-weight: 400;
+}
+
+// Support for multiple select elements
+select[multiple] {
+  background-image: none;
+  overflow-y: auto;
+  padding-right: var(--size-2);
+}

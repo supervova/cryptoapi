@@ -1,0 +1,82 @@
+@use '../abstracts/mixins' as *;
+
+// -----------------------------------------------------------------------------
+// CONTEXTUAL COLORS
+// -----------------------------------------------------------------------------
+
+.bg-highlight {
+  background-color: var(--color-bg-brand-dark);
+}
+
+.text-highlight-title {
+  color: var(--color-ink-2ry-brand);
+}
+
+.text-2ry {
+  color: var(--color-ink-2ry);
+}
+
+// -----------------------------------------------------------------------------
+// TEXT PROPERTIES
+// -----------------------------------------------------------------------------
+
+$text-props: (
+  'text-align': (
+    class-base: text,
+    values: (
+      center: center,
+      start: start,
+      end: end,
+    )
+  ),
+);
+
+@include utility-classes($text-props);
+
+[class$='text-center'] > p {
+  margin-right: auto;
+  margin-left: auto;
+  margin-inline: auto;
+}
+
+.nobr {
+  white-space: nowrap;
+}
+
+// -----------------------------------------------------------------------------
+// TEXT PROPERTIES
+// -----------------------------------------------------------------------------
+
+.vertical-middle {
+  vertical-align: middle;
+}
+
+// -----------------------------------------------------------------------------
+// OVERFLOW CONTENT
+// -----------------------------------------------------------------------------
+
+ .snap-x {
+
+  // x auto, y hidden
+  overflow: auto hidden;
+
+  // prevent scroll chaining on x scroll
+  overscroll-behavior-x: contain;
+
+  // scrolling should snap children on x
+  scroll-snap-type: x mandatory;
+
+  @media (prefers-reduced-motion: no-preference) {
+    scroll-behavior: smooth;
+  }
+
+  // Hide scrollbar on mobiles
+  @media (hover: none) {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+  }
+}

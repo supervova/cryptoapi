@@ -1,0 +1,22 @@
+@use 'config' as *;
+
+@custom-media --phone only screen and (width < #{$tablet});
+@custom-media --phone-p only screen and (width < #{$phone-l});
+@custom-media --phone-l only screen and (width >= #{$phone-l});
+@custom-media --phone-l-height only screen and (max-height: #{$phone-l-height - 1px});
+@custom-media --tablet only screen and (width >= #{$tablet}) and (min-height: #{$phone-l-height});
+@custom-media --tablet-p-only only screen and (#{$tablet} <= width <= #{$tablet-l - 1px}) and (min-height: #{$phone-l-height});
+@custom-media --tablet-l-down only screen and (width < #{$tablet-l});
+@custom-media --tablet-l only screen and (width >= #{$tablet-l}) and (min-height: #{$phone-l-height});
+@custom-media --tablet-only only screen and (#{$tablet} <= width <= #{$laptop}) and (min-height: #{$phone-l-height});
+@custom-media --laptop-down only screen and (width < #{$laptop});
+@custom-media --laptop only screen and (width >= #{$laptop}) and (min-height: #{$phone-l-height});
+@custom-media --desktop only screen and (width >= #{$desktop}) and (min-height: #{$phone-l-height});
+
+@custom-media --retina print,
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 1.25dppx),
+  (min-resolution: 120dpi);
+
+@custom-selector :--text-field select, textarea, .e-form__text-input, input[type='text'], input[type='email'], input[type='password'], input[type='number'], input[type='url'], input[type='tel'], input[type='date'];
+@custom-selector :--text-field-blur :where(input:not([type='checkbox']):not([type='radio']), select, textarea):not(:focus);

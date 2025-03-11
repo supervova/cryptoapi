@@ -1,0 +1,19 @@
+@use '../abstracts' as *;
+
+// Add new media queries in class instances if required to and change --columns in them
+// Add min-width if modulo ≠ 0
+.e-flex {
+  @include flex-base();
+
+  @media (--tablet) {
+    @include flex-grid(); // 2 columns by default
+  }
+}
+
+.tablet-l\:flex {
+  @include flex-base();
+
+  @media (--tablet-l) {
+    @include flex-grid();
+  }
+}

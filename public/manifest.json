@@ -1,0 +1,10 @@
+{
+  "name": "Echo Immortal",
+  "short_name": "Echo IM",
+  "icons": [
+    { "src": "/assets/img/components/icon/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assets/img/components/icon/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "background_color": "#fcfcfc",
+  "theme_color": "#8ced7e"
+}

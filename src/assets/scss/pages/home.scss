@@ -1,0 +1,94 @@
+@use '../abstracts' as *;
+@use '../abstracts/custom';
+
+// FEATURES
+.e-section.is-testimonials .e-card.is-featured {
+  --card-bg-image:
+    image-set(
+      url('/assets/img/pages/home/featured--testimonial.jpg') 1x,
+      url('/assets/img/pages/home/featured--testimonial@2x.jpg') 2x
+    );
+}
+
+// MARKETS
+.e-section.is-markets {}
+:where(.e-section.is-markets) .e-section__keypoints {}
+:where(.e-section.is-markets) .e-section__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  @media (--tablet) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+:where(.e-section.is-markets) .e-section__chart-header {}
+:where(.e-section.is-markets) .e-section__list-header {}
+:where(.e-section.is-markets) .e-section__chart {}
+:where(.e-section.is-markets) .e-section__list {}
+
+// PLANS
+.e-section.is-plans {}
+:where(.e-section.is-plans) .e-section__hgroup {}
+:where(.e-section.is-plans) .e-section__desc {}
+:where(.e-section.is-plans) .e-section__controls {} // + segmented-control
+
+:where(.e-section.is-plans) .e-section__base {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  @media (--tablet) {
+    flex-direction: row;
+  }
+}
+
+.e-plan {
+  flex: 1;
+  padding: 0;
+}
+
+.e-plan__header {}
+
+.e-plan__features ul {
+  list-style: none;
+  li {}
+}
+
+.e-plan.is-highlighted {}
+
+// AGENT
+.e-section.is-agent-price {}
+:where(.e-section.is-agent-price) .e-section__body {}
+:where(.e-section.is-agent-price) .e-section__image {}
+
+// TESTIMONIALS
+
+.e-section.is-testimonials {}
+:where(.e-section.is-testimonials) .e-section__card {
+  // background: ;
+  // border-radius: ;
+  // border: ;
+  flex: 0 0 auto;
+  // padding: ;
+  // width: ;
+}
+:where(.e-section.is-testimonials) .e-section__hgroup {}
+
+// FAQ
+.e-section.is-faq {}
+
+// ACCORDION
+// _accordion.scss
+
+// -----------------------------------------------------------------------------
+// CTA
+// -----------------------------------------------------------------------------
+// #region
+.e-cta {}
+.e-cta__title {}
+.e-cta__desc {}
+// #endregion
+
+

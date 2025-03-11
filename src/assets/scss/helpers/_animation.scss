@@ -1,0 +1,83 @@
+[data-animation] {
+  animation:
+    var(--ani-name, none)
+    var(--ani-duration, 0s)
+    var(--ani-function, linear)
+    var(--ani-delay, 0s)
+    var(--ani-iteration, 1)
+    var(--ani-direction, alternate)
+    var(--ani-fill, none)
+    var(--ani-state, running);
+}
+
+// -----------------------------------------------------------------------------
+// APPEARANCE
+// -----------------------------------------------------------------------------
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-up {
+  0% {
+    translate: 0 50%;
+  }
+  50% {
+    translate: 0;
+  }
+}
+
+@keyframes slide-in-down {
+  0% {
+    translate: var(--translate-start, 0 -50%);
+  }
+  50% {
+    translate: 0;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// DISAPPEARANCE
+// -----------------------------------------------------------------------------
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-out-up {
+  0% {
+    translate: 0;
+  }
+  100% {
+    translate: 0 -50%;
+  }
+}
+
+@keyframes slide-out-down {
+  0% {
+    translate: 0;
+  }
+  100% {
+    translate: 0 50%;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// PERMANENT
+// -----------------------------------------------------------------------------
+
+@keyframes full-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}

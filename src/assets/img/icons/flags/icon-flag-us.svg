@@ -1,0 +1,47 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="2" y="4" width="20" height="16" fill="white"/>
+<path d="M2 4H22V4.98958H2V4Z" fill="#FF0000"/>
+<path d="M2 7H22V7.98958H2V7Z" fill="#FF0000"/>
+<path d="M2 10H22V10.9896H2V10Z" fill="#FF0000"/>
+<path d="M2 13H22V13.9896H2V13Z" fill="#FF0000"/>
+<path d="M2 16H22V16.9896H2V16Z" fill="#FF0000"/>
+<path d="M2 19H22V19.9896H2V19Z" fill="#FF0000"/>
+<rect x="2" y="4" width="11" height="10" fill="#0066CC"/>
+<rect x="2.5" y="4.5" width="19" height="15" stroke="black" stroke-opacity="0.12"/>
+<path d="M3 5H4V6H3V5Z" fill="white"/>
+<path d="M3 7H4V8H3V7Z" fill="white"/>
+<path d="M3 9H4V10H3V9Z" fill="white"/>
+<path d="M3 11H4V12H3V11Z" fill="white"/>
+<path d="M4 6H5V7H4V6Z" fill="white"/>
+<path d="M4 8H5V9H4V8Z" fill="white"/>
+<path d="M4 10H5V11H4V10Z" fill="white"/>
+<path d="M4 12H5V13H4V12Z" fill="white"/>
+<path d="M6 6H7V7H6V6Z" fill="white"/>
+<path d="M6 8H7V9H6V8Z" fill="white"/>
+<path d="M6 10H7V11H6V10Z" fill="white"/>
+<path d="M6 12H7V13H6V12Z" fill="white"/>
+<path d="M8 6H9V7H8V6Z" fill="white"/>
+<path d="M8 8H9V9H8V8Z" fill="white"/>
+<path d="M8 10H9V11H8V10Z" fill="white"/>
+<path d="M8 12H9V13H8V12Z" fill="white"/>
+<path d="M10 6H11V7H10V6Z" fill="white"/>
+<path d="M10 8H11V9H10V8Z" fill="white"/>
+<path d="M10 10H11V11H10V10Z" fill="white"/>
+<path d="M10 12H11V13H10V12Z" fill="white"/>
+<path d="M5 5H6V6H5V5Z" fill="white"/>
+<path d="M5 7H6V8H5V7Z" fill="white"/>
+<path d="M5 9H6V10H5V9Z" fill="white"/>
+<path d="M5 11H6V12H5V11Z" fill="white"/>
+<path d="M7 5H8V6H7V5Z" fill="white"/>
+<path d="M7 7H8V8H7V7Z" fill="white"/>
+<path d="M7 9H8V10H7V9Z" fill="white"/>
+<path d="M7 11H8V12H7V11Z" fill="white"/>
+<path d="M9 5H10V6H9V5Z" fill="white"/>
+<path d="M9 7H10V8H9V7Z" fill="white"/>
+<path d="M9 9H10V10H9V9Z" fill="white"/>
+<path d="M9 11H10V12H9V11Z" fill="white"/>
+<path d="M11 5H12V6H11V5Z" fill="white"/>
+<path d="M11 7H12V8H11V7Z" fill="white"/>
+<path d="M11 9H12V10H11V9Z" fill="white"/>
+<path d="M11 11H12V12H11V11Z" fill="white"/>
+</svg>

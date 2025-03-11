@@ -1,0 +1,79 @@
+@use 'abstracts/mixins' as *;
+
+// SPACING
+
+.mt-1 { margin-top: var(--size-1); }
+.mt-2 { margin-top: var(--size-2); }
+.mt-1l { margin-top: var(--size-line); }
+
+.mb-1 { margin-bottom: var(--size-1); }
+.mb-2 { margin-bottom: var(--size-2); }
+.mb-1l { margin-bottom: var(--size-line); }
+
+.me-1 { margin-inline-end: var(--size-1); }
+
+.pt-half-max { padding-top: var(--spacer-half-max); }
+.pb-half-max { padding-bottom: var(--spacer-half-max); }
+.py-half-max {
+  padding-top: var(--spacer-half-max);
+  padding-bottom: var(--spacer-half-max);
+}
+
+.pt-max { padding-top: var(--spacer-max); }
+.pb-max { padding-bottom: var(--spacer-max); }
+
+// SIZE
+.max-w-none	{ max-width: none; }
+.w-100	{ width: 100%; }
+
+
+// DISPLAY
+
+.d-none {
+  display: none;
+}
+
+.d-flex {
+  display: flex;
+}
+
+@media (--tablet) {
+  .tablet\:d-none {
+    display: none;
+  }
+
+  .tablet\:d-inline {
+    display: inline;
+  }
+}
+
+@media (--tablet-l) {
+  .tablet-l\:d-none {
+    display: none;
+  }
+
+  .tablet-l\:d-inline {
+    display: inline;
+  }
+}
+
+@media (--laptop) {
+  .laptop\:d-none {
+    display: none;
+  }
+}
+
+// TYPOOGRAPHY
+
+.text-2ry { color: var(--color-ink-2ry); }
+.text-center { text-align: center; }
+.text-highlight { color: var(--color-ink-text-info); }
+
+// MISC
+
+.visually-hidden {
+  @include visually-hidden;
+}
+
+// Use with inline-block elements with tooltips
+.w-fit { width: fit-content; }

@@ -1,0 +1,57 @@
+// stylelint-disable selector-no-qualifying-type, selector-max-compound-selectors, no-descending-specificity
+
+@use 'abstracts' as *;
+
+// -----------------------------------------------------------------------------
+// INVALID INPUTS
+// -----------------------------------------------------------------------------
+// #region
+
+:--text-field-blur:user-invalid {
+  box-shadow: 0 0 0 rem(2) var(--color-base-error);
+
+  // Show error message
+  + .e-form__error {
+    opacity: 1;
+    height: auto;
+  }
+
+  // Hide hint
+  + small {
+    display: none;
+  }
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// INLINE ERROR MESSAGES
+// -----------------------------------------------------------------------------
+// #region
+
+.e-form__error {
+  color: var(--color-ink-text-error);
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-caption);
+  display: block;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity var(--duration-700);
+  height: 0;
+}
+
+// Ensure proper padding around error messages
+// BTW, use [role='alert'] on child
+.e-form__error > span,
+.e-form__error > small {
+  display: block;
+  padding-top: calc(var(--padding-top-caption) + var(--size-half));
+  padding-bottom: var(--padding-bottom-caption);
+  padding-inline: var(--size-2);
+}
+
+// Show validation alert for form rows with errors
+.e-grid.has-error + .e-form__error {
+  opacity: 1;
+  height: auto;
+}
+// #endregion

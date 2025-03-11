@@ -1,0 +1,30 @@
+<footer class="e-footer">
+  <div class="e-container">
+    <small class="e-footer__copy">© {{ current_year }}. CryptoAPI</small>
+    <ul class="e-footer__menu">
+      {% for item in data_footer %}
+        <li><a href="/{{ lang }}{{ item.href }}">{{ item.label[lang] }}</a></li>
+      {% endfor %}
+    </ul>
+    <details class="e-popover e-footer__languages" data-role="popover">
+      <summary class="has-chevron">
+        {{ icon('flag-russia-ru', 'me-1', 'flags') }}
+        Русский
+      </summary>
+      <ul class="e-popover__body e-menu">
+        <li class="e-menu__item">
+          <a href="/ru" aria-current="true">
+            {{ icon('flag-russia-ru', false, 'flags') }}
+            Русский
+          </a>
+        </li>
+        <li class="e-menu__item" >
+          <a href="/en">
+            {{ icon('flag-britain-en', false, 'flags') }}
+            English
+          </a>
+        </li>
+      </ul>
+    </details>
+  </div>
+</footer>

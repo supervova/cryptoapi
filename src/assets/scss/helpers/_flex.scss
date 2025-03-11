@@ -1,0 +1,94 @@
+@use '../abstracts' as *;
+
+$flex-props: (
+  'flex-direction': (
+    class-base: flex,
+    values: (
+      row: row,
+      column: column,
+      /* row-reverse: row-reverse,
+      column-reverse: column-reverse, */
+    ),
+  ),
+  'flex-wrap': (
+    class-base: flex,
+    values: (
+      wrap: wrap,
+      nowrap: nowrap,
+      /* wrap-reverse: wrap-reverse, */
+    ),
+  ),
+  'flex': (
+    class-base: flex,
+    values: (
+      /* flex: 1 = = flex-grow: 1; flex-shrink: 1; flex-basis: 0; */
+      1: 1,
+    ),
+  ),
+  'flex-grow': (
+    class-base: flex,
+    values: (
+      grow-0: 0,
+      grow: 1,
+    ),
+  ),
+  'flex-shrink': (
+    class-base: flex,
+    values: (
+      shrink-0: 0,
+      shrink: 1,
+    ),
+  ),
+  'justify-content': (
+    class-base: justify,
+    values: (
+      'start': flex-start,
+      'end': flex-end,
+      'center': center,
+      'between': space-between,
+      /* 'around': space-around, */
+    ),
+  ),
+  'align-items': (
+    class-base: items,
+    values: (
+      start: flex-start,
+      end: flex-end,
+      center: center,
+      stretch: stretch,
+      /* baseline: baseline, */
+    ),
+  ),
+  'align-content': (
+    class-base: content,
+    values: (
+      start: flex-start,
+      end: flex-end,
+      center: center,
+      between: space-between,
+      stretch: stretch,
+      /* around: space-around, */
+    ),
+  ),
+  'align-self': (
+    class-base: self,
+    values: (
+      auto: auto,
+      start: flex-start,
+      end: flex-end,
+      center: center,
+      stretch: stretch,
+      /* baseline: baseline, */
+    ),
+  ),
+);
+
+@include utility-classes($flex-props);
+
+.row__item {
+  display: block;
+  flex: 1 1 auto;
+  margin-left: 0;
+  max-width: 100%;
+  width: 100%;
+}

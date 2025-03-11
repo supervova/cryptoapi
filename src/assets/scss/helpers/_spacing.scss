@@ -1,0 +1,162 @@
+// Margin and Padding
+
+// #region
+@use 'sass:map';
+@use '../abstracts' as *;
+
+// prettier-ignore
+$spacing-values: (
+  0:  0,
+  1s: var(--size-1),
+  2s: var(--size-2),
+  4s: var(--size-4),
+  5s: var(--size-5),
+  7s: var(--size-7),
+  8s: var(--size-8),
+  1:  var(--size-line),
+  2:  calc(var(--size-line) * 2),
+  3:  calc(var(--size-line) * 3),
+  4:  calc(var(--size-line) * 4),
+);
+
+$spacing-values-negative: (
+  n1s: calc(var(--size-1) * -1),
+  n2s: calc(var(--size-2) * -1),
+  n1: calc(var(--size-line) * -1),
+);
+// prettier-ignore-end
+
+$spacing-props-shorthand: (
+  'margin': (
+    class-base: m,
+    values:
+      map.merge(
+        $spacing-values,
+        map.merge(
+          $spacing-values-negative,
+          (
+            auto: auto,
+          )
+        )
+      ),
+  ),
+  'margin-block': (
+    class-base: my,
+    values:
+      map.merge(
+        $spacing-values,
+        (
+          auto: auto,
+        )
+      ),
+  ),
+  'padding': (
+    class-base: p,
+    values: $spacing-values,
+  ),
+  'padding-block': (
+    class-base: py,
+    values: $spacing-values,
+  ),
+  'padding-inline': (
+    class-base: px,
+    values: $spacing-values,
+  ),
+);
+
+$spacing-props-margin-x: (
+  'margin-inline': (
+    class-base: mx,
+    values:
+      map.merge(
+        $spacing-values,
+        map.merge(
+          $spacing-values-negative,
+          (
+            auto: auto,
+          )
+        )
+      ),
+  ),
+  'margin-inline-start': (
+    class-base: ms,
+    values:
+      map.merge(
+        $spacing-values,
+        map.merge(
+          $spacing-values-negative,
+          (
+            auto: auto,
+          )
+        )
+      ),
+  ),
+  'margin-inline-end': (
+    class-base: me,
+    values:
+      map.merge(
+        $spacing-values,
+        map.merge(
+          $spacing-values-negative,
+          (
+            auto: auto,
+          )
+        )
+      ),
+  ),
+);
+
+$spacing-props: (
+  'margin-top': (
+    class-base: mt,
+    values:
+      map.merge(
+        $spacing-values,
+        map.merge(
+          $spacing-values-negative,
+          (
+            auto: auto,
+          )
+        )
+      ),
+  ),
+  'margin-bottom': (
+    class-base: mb,
+    values:
+      map.merge(
+        $spacing-values,
+        map.merge(
+          $spacing-values-negative,
+          (
+            auto: auto,
+          )
+        )
+      ),
+  ),
+  'padding-top': (
+    class-base: pt,
+    values: $spacing-values,
+  ),
+  'padding-bottom': (
+    class-base: pb,
+    values: $spacing-values,
+  ),
+  'padding-inline-start': (
+    class-base: ps,
+    values: $spacing-values,
+  ),
+  'padding-inline-end': (
+    class-base: pe,
+    values: $spacing-values,
+  ),
+);
+
+@if $enable-shorthand-space {
+  $spacing-props: map.merge($spacing-props-shorthand, $spacing-props);
+}
+
+@if $enable-margin-x {
+  $spacing-props: map.merge($spacing-props-margin-x, $spacing-props);
+}
+
+@include utility-classes($spacing-props);

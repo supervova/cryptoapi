@@ -1,0 +1,94 @@
+@use 'abstracts' as *;
+
+// -----------------------------------------------------------------------------
+// BASE ACCORDION
+// -----------------------------------------------------------------------------
+// #region
+
+/* details */.e-accordion {
+  --accordion-border-radius: var(--border-radius-sm);
+  --summary-background: var(--color-bg-brand);
+  --summary-color: var(--color-ink-text);
+  --summary-color-active: var(--color-ink-text-brand);
+  --summary-font-weight: bolder;
+  --summary-padding-top: var(--size-2);
+  --summary-padding-bottom: var(--size-2);
+  --summary-padding-left: var(--padding-x-box);
+  --summary-padding-right: var(--size-5);
+
+  border-radius: var(--accordion-border-radius);
+  box-shadow: inset 0 0 0 1px var(--summary-background);
+  display: block;
+  overflow: hidden;
+
+  summary {
+    background-color: var(--summary-background);
+    border-radius: var(--accordion-border-radius);
+    color: var(--summary-color);
+    cursor: pointer;
+    font-weight: var(--summary-font-weight);
+    padding: var(--summary-padding-top) var(--summary-padding-right) var(--summary-padding-bottom)
+      var(--summary-padding-left);
+    position: relative;
+    transition: color var(--duration-50) var(--easing-base);
+    width: 100%;
+
+    // Chevron
+    &::after {
+      @include chevron-down;
+    }
+
+    &:focus-visible {
+      @include state-focus;
+      color: var(--summary-color-active);
+    }
+  }
+
+  // Body Animation
+  // stylelint-disable-next-line selector-pseudo-element-no-unknown
+  &::details-content {
+    height: 0;
+    transition:
+      content-visibility var(--duration-200) var(--easing-base),
+      height var(--duration-200) var(--easing-base);
+    transition-behavior: allow-discrete;
+  }
+
+  // Body styling (to avoid ::details-content padding behavior in closed state)
+  > div {
+    padding: var(--size-2) var(--padding-x-box);
+  }
+
+  // Open
+  &[open] {
+    > summary {
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+      color: var(--summary-color-active);
+      margin-bottom: 0;
+
+      &::after {
+        transform: rotate(180deg);
+      }
+    }
+
+    // stylelint-disable-next-line selector-pseudo-element-no-unknown
+    &::details-content {
+      height: auto;
+    }
+  }
+}
+
+.e-accordion + .e-accordion {
+  margin-top: var(--size-line);
+}
+
+.e-accordion + :not(.e-accordion) {
+  margin-top: var(--size-line);
+
+  @media (--tablet) {
+    margin-top: calc(var(--size-line) * 2);
+  }
+}
+
+// #endregion

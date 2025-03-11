@@ -1,0 +1,123 @@
+// stylelint-disable selector-no-qualifying-type, declaration-no-important
+
+@media print {
+  .e-comments,
+  .e-pagination,
+  .e-social-tools,
+  body > *:not(main) {
+    display: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: #000 !important;
+    // Black prints faster
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  body,
+  pre,
+  code,
+  summary,
+  details,
+  button,
+  input,
+  textarea {
+    background-color: #fff;
+  }
+
+  a:not(.e-btn) {
+    color: #00f !important;
+    text-decoration: underline;
+  }
+
+  a[href]::after {
+    content: ' (" attr(href) ")';
+  }
+
+  /* Don't show links that are fragment identifiers,
+  or use the `javascript:` pseudo protocol */
+  a[href^='#']::after,
+  a[href^='javascript:']::after {
+    content: '';
+  }
+
+  abbr[title]::after {
+    content: ' (" attr(title) ")';
+  }
+
+  article,
+  main {
+    padding: 0;
+  }
+
+  button,
+  input,
+  textarea {
+    border: 1px solid #000;
+  }
+
+  p,
+  h2,
+  h3,
+  h4 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 700;
+    break-after: avoid;
+    break-inside: avoid;
+  }
+
+  h1 + p,
+  h2 + p,
+  h3 + p {
+    break-before: avoid;
+  }
+
+  pre {
+    white-space: pre-wrap !important;
+  }
+
+  pre,
+  blockquote {
+    border: 1px solid #999;
+  }
+
+  blockquote,
+  figure,
+  img,
+  pre,
+  table,
+  tr {
+    break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  @page {
+    margin: 2.97cm 2.1cm;
+  }
+
+  @page :right {
+    @bottom-right {
+      content: counter(page);
+    }
+  }
+
+  @page :left {
+    @bottom-left {
+      content: counter(page);
+    }
+  }
+}

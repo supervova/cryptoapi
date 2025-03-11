@@ -1,0 +1,17 @@
+@use 'sass:list';
+
+$html-font-size: 16px !default;
+
+$enable-margin-x: true !default;
+$enable-shorthand-space: false !default;
+
+$phone-l-height: 361px !default;
+$phone-l: 568px !default;
+$tablet: 768px !default;
+$tablet-l: 1024px !default;
+$laptop: 1360px !default;
+$desktop: 1920px !default;
+
+$mq-breakpoints-base: phone, phone-p, phone-l, tablet-l-down !default;
+$mq-breakpoints-lg: tablet, tablet-l, laptop !default;
+$mq-breakpoints: list.join($mq-breakpoints-base, $mq-breakpoints-lg) !default;

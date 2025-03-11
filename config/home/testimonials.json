@@ -1,0 +1,51 @@
+[
+  {
+    "icon": "robot",
+    "eyebrow": "01. Торговый агент",
+    "title": "Подключение торговых ботов",
+    "description": "Автоматизация сделок.",
+    "featured": false
+  },
+  {
+    "icon": "candles",
+    "eyebrow": "02. ИИ-консультант",
+    "title": "Генерация торговых сигналов",
+    "description": "Прогнозирование и рекомендации.",
+    "featured": false
+  },
+  {
+    "icon": "plug",
+    "eyebrow": "03. Интеграции API",
+    "title": "API-интерфейсы",
+    "description": "Подключение к рынку, получение данных, сигналы.",
+    "featured": true
+  },
+  {
+    "icon": "award",
+    "eyebrow": "Кроме того",
+    "title": "Рейтинги активов",
+    "description": "Индексы риска TRIndx.",
+    "featured": false
+  },
+  {
+    "icon": "speed",
+    "eyebrow": "Кроме того",
+    "title": "Графики и индикаторы",
+    "description": "RSI, индекс страха и жадности.",
+    "featured": false
+  },
+  {
+    "icon": "bitcoin",
+    "eyebrow": "Кроме того",
+    "title": "Встраиваемые виджеты",
+    "description": "Курсы криптовалют и аналитика.",
+    "featured": false
+  },
+  {
+    "icon": "news",
+    "eyebrow": "Кроме того",
+    "title": "Агрегация новостей и AI-анализ",
+    "description": "Оценка влияния новостей на рынок.",
+    "featured": false
+  }
+]

@@ -1,0 +1,89 @@
+@use 'sass:math';
+@use 'abstracts' as *;
+
+.e-footer > .e-container {
+  border-top: 1px solid var(--color-ink-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: var(--spacer);
+  padding-top: var(--size-6);
+  padding-bottom: rem(96);
+
+  @media (--tablet) {
+    padding-inline-start: var(--navbar-area);
+    padding-bottom: rem(34);
+  }
+
+  @media (--tablet-l) {
+    flex-direction: row;
+    padding-inline-start: var(--padding-x-container);
+    padding-bottom: var(--size-6);
+  }
+}
+
+.e-footer__menu {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: var(--size-1);
+  list-style: none;
+  margin: var(--size-3) 0;
+  padding: 0;
+
+  li {
+    padding: 0;
+  }
+
+  @media (--tablet-l) {
+    flex-direction: row;
+    gap: var(--size-2);
+    margin: 0;
+    padding-inline-start: var(--size-5);
+  }
+}
+
+// Typography
+.e-footer__copy,
+.e-footer__menu a,
+.e-footer summary {
+  @include text-format(caption);
+  display: inline-flex;
+  text-align: center;
+}
+
+.e-footer__copy {
+  color: var(--color-ink-2ry);
+}
+
+.e-footer__menu a,
+.e-footer__summary {
+  @include text-format(caption);
+
+  color: var(--color-ink-base);
+  display: block;
+}
+
+// Popover: Languages
+
+:where(.e-footer) summary::after {
+  rotate: 180deg;
+}
+
+:where(.e-footer .e-popover[open]) summary::after {
+  rotate: 0deg;
+}
+
+.e-footer__languages .e-popover__body {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  translate: 0 var(--size-5);
+
+  @media (--tablet-l) {
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+}

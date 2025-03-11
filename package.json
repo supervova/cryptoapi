@@ -1,0 +1,244 @@
+{
+  "name": "cryptoapi",
+  "description": "",
+  "author": {
+    "name": "Vladimir Nikishin",
+    "email": "vlaimir.nikishin@gmail.com",
+    "url": "https://super-mark.ru/"
+  },
+  "license": "MIT",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "format": "prettier --write 'src/**/*.{js,html}'",
+    "lint:js": "eslint 'src/**/*.js'",
+    "lint:styles": "stylelint 'src/**/*.scss'"
+  },
+  "stylelint": {
+    "extends": [
+      "stylelint-config-recommended-scss"
+    ],
+    "rules": {
+      "at-rule-empty-line-before": null,
+      "at-rule-no-vendor-prefix": true,
+      "color-named": "never",
+      "declaration-empty-line-before": null,
+      "declaration-no-important": true,
+      "font-family-name-quotes": "always-where-recommended",
+      "font-weight-notation": [
+        "numeric",
+        {
+          "ignore": [
+            "relative"
+          ]
+        }
+      ],
+      "function-url-no-scheme-relative": true,
+      "function-url-quotes": "always",
+      "length-zero-no-unit": true,
+      "media-feature-name-no-vendor-prefix": true,
+      "no-descending-specificity": null,
+      "no-duplicate-selectors": true,
+      "no-empty-source": null,
+      "media-feature-name-no-unknown": [
+        true,
+        {
+          "ignoreMediaFeatureNames": [
+            "prefers-reduced-motion"
+          ]
+        }
+      ],
+      "property-no-unknown": [true, {
+        "ignoreProperties": ["interpolate-size"]
+      }],
+      "property-no-vendor-prefix": true,
+      "rule-empty-line-before": null,
+      "scss/dollar-variable-default": null,
+      "selector-attribute-quotes": "always",
+      "selector-class-pattern": [
+        "^[a-z0-9-_\\/:]+$",
+        {
+          "message": "Class names should only contain lowercase letters, numbers, hyphens, underscores (for BEM elements only), and may include forward slashes for fractions and colons."
+        }
+      ],
+      "selector-max-attribute": 3,
+      "selector-max-class": 4,
+      "selector-max-combinators": 4,
+      "selector-max-compound-selectors": 4,
+      "selector-max-id": 0,
+      "selector-max-specificity": null,
+      "selector-max-universal": 1,
+      "selector-no-qualifying-type": null,
+      "selector-no-vendor-prefix": true,
+
+      "value-keyword-case": [
+        "lower",
+        {
+          "camelCaseSvgKeywords": true,
+          "ignoreFunctions": ["color-mix"],
+          "ignoreKeywords": [
+            "Arial",
+            "Baskerville",
+            "BlinkMacSystemFont",
+            "Consolas",
+            "Georgia",
+            "Inter",
+            "Menlo",
+            "Monaco",
+            "Roboto",
+            "SFMono-Regular",
+            "Times"
+          ]
+        }
+      ],
+      "value-no-vendor-prefix": true
+    }
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "airbnb-base",
+      "plugin:prettier/recommended"
+    ],
+    "env": {
+      "browser": true,
+      "es2023": true,
+      "node": true
+    },
+    "plugins": [
+      "import"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2023,
+      "sourceType": "module"
+    },
+    "settings": {
+      "import/ignore": [
+        "node_modules",
+        "\\.(coffee|scss|css|less|hbs|svg|json)$"
+      ]
+    },
+    "rules": {
+      "import/no-extraneous-dependencies": "off",
+      "import/extensions": [
+        "error",
+        "ignorePackages",
+        {
+          "js": "always",
+          "jsx": "always",
+          "ts": "never",
+          "tsx": "never"
+        }
+      ],
+      "max-len": [
+        "error",
+        {
+          "ignoreComments": true,
+          "ignoreStrings": true,
+          "ignoreTemplateLiterals": true
+        }
+      ],
+      "no-multi-spaces": [
+        "error",
+        {
+          "exceptions": {
+            "BinaryExpression": true,
+            "VariableDeclarator": true
+          }
+        }
+      ],
+      "no-plusplus": [
+        2,
+        {
+          "allowForLoopAfterthoughts": true
+        }
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ]
+    }
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "bracketSpacing": true,
+    "endOfLine": "auto",
+    "jsxSingleQuote": false,
+    "printWidth": 80,
+    "quoteProps": "as-needed",
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "overrides": [
+      {
+        "files": [
+          "*.html"
+        ],
+        "options": {
+          "printWidth": 40000,
+          "bracketSameLine": true
+        }
+      }
+    ]
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ],
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "lenis": "^1.1.16"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.0",
+    "@babel/preset-env": "^7.21.0",
+    "@babel/register": "^7.24.6",
+    "@fullhuman/postcss-purgecss": "^6.0.0",
+    "autoprefixer": "^10.4.13",
+    "browser-sync": "^3.0.2",
+    "cssnano": "^7.0.5",
+    "cssnano-preset-lite": "^4.0.3",
+    "del": "^8.0.0",
+    "esbuild": "^0.24.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "gulp": "^5.0.0",
+    "gulp-changed": "^5.0.2",
+    "gulp-esbuild": "^0.12.1",
+    "gulp-if": "^3.0.0",
+    "gulp-imagemin": "^9.1.0",
+    "gulp-newer": "^1.4.0",
+    "gulp-notify": "^5.0.0",
+    "gulp-nunjucks-render": "^2.2.3",
+    "gulp-plumber": "^1.2.1",
+    "gulp-postcss": "^10.0.0",
+    "gulp-prettier": "^6.0.0",
+    "gulp-replace": "^1.1.4",
+    "gulp-sass": "^5.1.0",
+    "gulp-size": "^5.0.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-svg-sprite": "^2.0.3",
+    "gulp-twig": "^1.2.0",
+    "imagemin-gifsicle": "^7.0.0",
+    "imagemin-mozjpeg": "^10.0.0",
+    "imagemin-pngquant": "^10.0.0",
+    "imagemin-svgo": "^11.0.1",
+    "postcss": "^8.4.19",
+    "postcss-inline-svg": "^6.0.0",
+    "postcss-preset-env": "^10.0.2",
+    "prettier": "^3.3.3",
+    "sass": "^1.78.0",
+    "stylelint": "^16.10.0",
+    "stylelint-config-recommended-scss": "^14.1.0",
+    "stylelint-scss": "^6.8.1",
+    "yargs": "^17.7.2"
+  }
+}

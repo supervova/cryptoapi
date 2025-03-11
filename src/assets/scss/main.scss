@@ -1,0 +1,113 @@
+// -----------------------------------------------------------------------------
+// ESSENTIALS
+// -----------------------------------------------------------------------------
+
+@use 'sass:meta';
+@use 'abstracts' as *;
+@use 'abstracts/custom';
+@use 'content/fonts';
+@use 'vars';
+@use 'vars-dark';
+
+// Uncomment everything else needed
+// @use 'styles/vars-dark';
+
+@layer base, components, pages, helpers, print;
+
+@layer base {
+  @include meta.load-css('reset');
+  @include meta.load-css('doc');
+  @include meta.load-css('content/headings');
+  @include meta.load-css('content/copy');
+  @include meta.load-css('content/media');
+  @include meta.load-css('containers');
+}
+
+// -----------------------------------------------------------------------------
+// EXTENDED
+// -----------------------------------------------------------------------------
+
+@layer base {
+  @include meta.load-css('icon');
+  @include meta.load-css('button');
+  @include meta.load-css('form/form');
+
+  // @include meta.load-css('form/checkbox-radio');
+  // @include meta.load-css('form/select');
+  // @include meta.load-css('logo');
+  // @include meta.load-css('helpers/animation');
+  // @include meta.load-css('grid');
+}
+
+
+// _Tmp — keep only on 01-boilerplate
+// @layer stock {
+//   @include meta.load-css('stock/base');
+//   @include meta.load-css('stock/components-actions-nav');
+//   @include meta.load-css('stock/components-content');
+//   @include meta.load-css('stock/components-feedback');
+//   @include meta.load-css('stock/components-form');
+//   @include meta.load-css('stock/components-hide-show');
+//   @include meta.load-css('stock/components-structures');
+//   @include meta.load-css('stock/config');
+//   @include meta.load-css('stock/tricks');
+//   @include meta.load-css('stock/helpers');
+//   // @include meta.load-css('stock/woocommerce');
+// }
+
+// Structures
+@layer components {
+  @include meta.load-css('card');
+  @include meta.load-css('navbar');
+  @include meta.load-css('footer');
+  @include meta.load-css('hero');
+  @include meta.load-css('section');
+  // @include meta.load-css('header');
+  // @include meta.load-css('scroller');
+  // @include meta.load-css('snippet');
+
+  // Navigation & Actions
+  @include meta.load-css('menu');
+  @include meta.load-css('segmented-control');
+  // @include meta.load-css('pagination');
+
+
+  // Content
+  // @include meta.load-css('badge');
+  // @include meta.load-css('content/blockquote');
+  // @include meta.load-css('content/callout');
+  // @include meta.load-css('content/code');
+  // @include meta.load-css('content/table');
+  // @include meta.load-css('content/tag');
+
+  // Feedback
+  // @include meta.load-css('alert');
+  // @include meta.load-css('loading-spinner');
+
+  // Form
+  // @include meta.load-css('form/date-time');
+  // @include meta.load-css('form/file');
+  // @include meta.load-css('form/validation');
+  // @include meta.load-css('form/search');
+
+  // Show | Hide
+  @include meta.load-css('accordion');
+  @include meta.load-css('popover');
+  // @include meta.load-css('modal');
+  // @include meta.load-css('tabs');
+  // @include meta.load-css('tooltip');
+}
+
+@layer helpers {
+  @include meta.load-css('helpers/essentials');
+  // @include meta.load-css('helpers/accessibility');
+  // @include meta.load-css('helpers/content');
+  // @include meta.load-css('helpers/display');
+  // @include meta.load-css('helpers/flex');
+  // @include meta.load-css('helpers/spacing');
+  // @include meta.load-css('helpers/width');
+}
+
+@layer print {
+  @include meta.load-css('print');
+}

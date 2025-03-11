@@ -1,0 +1,138 @@
+{% extends "base/base.twig" %}
+{% from "base/macros.twig" import icon %}
+
+{% block config %}
+  {{ parent() }}
+
+  {% set page = {
+    lang: 'ru',
+
+    desc: site.desc.ru,
+    body_classes: 'e-page is-home'
+  } %}
+{% endblock %}
+
+{% block head %}
+  {{ parent() }}
+  <link rel="stylesheet" href="/assets/css/home.css?{{ timestamp }}">
+{% endblock %}
+
+{# MAIN CONTENT ------------------------------------------------------------- #}
+{% block content %}
+
+  {# HERO #}
+  <header class="e-hero">
+    <div class="e-container">
+      <figure class="e-hero__image">
+        <img
+          src="/assets/img/pages/home/hero.png"
+          srcset="/assets/img/pages/home/hero.png 1x, /assets/img/pages/home/hero@2x.png 2x"
+          alt="Cryptoapi.ai"
+        >
+      </figure>
+      <div class="e-hero__copy">
+        <h1><strong>Торгуй ИИ</strong> всё получится</h1>
+        <p>Аналитика. Автоматизация. Прогнозирование. CRYPTOAPI.AI — инновационная платформа для трейдеров и инвесторов, предоставляющая передовые API и интеллектуальный анализ криптовалютного рынка.</p>
+        <div class="e-buttons">
+          <a class="e-btn is-primary" href="">Попробовать</a>
+          <a class="e-btn" href="">Документация API</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {# FEATURES #}
+  <section class="e-section has-scroller-row is-features">
+    <header class="e-section__header">
+      <span class="e-eyebrow">Три продукта</span>
+      <h2 class="e-section__title">Торговый агент, ИИ-консультант интеграции API</h2>
+    </header>
+    <div class="e-section__scroller">
+      {% for card in data_features %}
+        <div class="e-card{% if card.featured %} is-featured{% endif %}">
+          <figure class="e-card__spot-icon">{{ icon(card.icon) }}</figure>
+          <div class="e-card__base">
+            <span class="e-eyebrow">{{ card.eyebrow }}</span>
+            <h3 class="e-card__title">{{ card.title }}</h3>
+            <p class="e-card__desc">{{ card.description }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  {# TESTIMONIALS #}
+  <section class="e-section has-scroller-row-reverse is-features">
+    <header class="e-section__header">
+      <span class="e-eyebrow">Три продукта</span>
+      <h2 class="e-section__title">Торговый агент, ИИ-консультант интеграции API</h2>
+    </header>
+    <div class="e-section__scroller">
+      <div class="e-card">
+        <figure class="e-card__spot-icon">{{ icon('robot') }}</figure>
+
+        <div class="e-card__base">
+          <span class="e-eyebrow">01. Торговый агент</span>
+          <h3 class="e-card__title">Подключение торговых ботов</h3>
+          <p class="e-card__desc">Автоматизация сделок.</p>
+        </div>
+      </div>
+
+      <div class="e-card">
+        <figure class="e-card__spot-icon">{{ icon('candles') }}</figure>
+        <div class="e-card__base">
+          <span class="e-eyebrow">02. ИИ-консультант</span>
+          <h3 class="e-card__title">Генерация торговых сигналов</h3>
+          <p class="e-card__desc">Прогнозирование и рекомендации.</p>
+        </div>
+      </div>
+
+      <div class="e-card is-featured">
+        <figure class="e-card__spot-icon">{{ icon('plug') }}</figure>
+        <div class="e-card__base">
+          <span class="e-eyebrow">03. Интеграции API</span>
+          <h3 class="e-card__title">API-интерфейсы</h3>
+          <p class="e-card__desc">Подключение к рынку, получение данных, сигналы.</p>
+        </div>
+      </div>
+
+      <div class="e-card">
+        <figure class="e-card__spot-icon">{{ icon('award') }}</figure>
+        <div class="e-card__base">
+          <span class="e-eyebrow">Кроме того</span>
+          <h3 class="e-card__title">Рейтинги активов</h3>
+          <p class="e-card__desc">Индексы риска TRIndx.</p>
+        </div>
+      </div>
+
+      <div class="e-card">
+        <figure class="e-card__spot-icon">{{ icon('speed') }}</figure>
+        <div class="e-card__base">
+          <span class="e-eyebrow">Кроме того</span>
+          <h3 class="e-card__title">Графики и индикаторы</h3>
+          <p class="e-card__desc">RSI, индекс страха и жадности.</p>
+        </div>
+      </div>
+
+      <div class="e-card">
+        <figure class="e-card__spot-icon">{{ icon('bitcoin') }}</figure>
+        <div class="e-card__base">
+          <span class="e-eyebrow">Кроме того</span>
+          <h3 class="e-card__title">Встраиваемые виджеты</h3>
+          <p class="e-card__desc">Курсы криптовалют и аналитика.</p>
+        </div>
+      </div>
+
+      <div class="e-card">
+        <figure class="e-card__spot-icon">{{ icon('news') }}</figure>
+        <div class="e-card__base">
+          <span class="e-eyebrow">Кроме того</span>
+          <h3 class="e-card__title">Агрегация новостей и AI-анализ</h3>
+          <p class="e-card__desc">Оценка влияния новостей на рынок.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+{% endblock %}

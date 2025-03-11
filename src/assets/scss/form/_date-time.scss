@@ -1,0 +1,22 @@
+@use 'abstracts' as *;
+
+[type='date'],
+[type='datetime-local'],
+[type='month'],
+[type='time'],
+[type='week'] {
+  background-image: var(--icon-calendar);
+  background-position: center right var(--size-1);
+  background-repeat: no-repeat;
+  background-size: var(--size-icon) auto;
+}
+
+[type='time'] {
+  background-image: var(--icon-time);
+}
+
+::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0;
+  width: var(--size-icon);
+}

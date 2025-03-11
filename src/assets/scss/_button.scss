@@ -1,0 +1,164 @@
+@use 'abstracts' as *;
+
+// -----------------------------------------------------------------------------
+// BASE STYLES FOR BUTTONS
+// -----------------------------------------------------------------------------
+// #region
+
+.e-btn,
+button,
+input[type='submit'],
+input[type='button'],
+input[type='reset'],
+a[role='button'] {
+  @include button;
+}
+
+// Убирает внутреннюю границу и отступы в Firefox
+:where(button, [type='button'], [type='reset'], [type='submit'])::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// TYPES
+// -----------------------------------------------------------------------------
+// #region
+
+// Primary
+.e-btn.is-primary {
+  @include button-primary;
+}
+
+// Outline and ghost
+.e-btn.is-outline,
+.e-btn.is-ghost {
+  background: transparent;
+  color: var(--button-color-outline);
+
+  &:active,
+  &:focus-visible {
+    background: var(--color-ink-min);
+  }
+
+  @media (any-hover: hover) and (pointer: fine) {
+    &:hover {
+      background: var(--color-ink-min);
+    }
+  }
+}
+
+.e-btn.is-outline {
+  border: var(--button-border-outline);
+}
+
+// Link: use instead a(href='#') and a(href='javascript:void(0)')
+.e-btn.is-link {
+  appearance: none;
+  background: transparent;
+  border-radius: 0;
+  color: var(--color-ink-link);
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  padding: 0;
+  transition: filter var(--duration-50) var(--easing-base);
+  vertical-align: baseline;
+  height: auto;
+
+  @media (any-hover: hover) and (pointer: fine) {
+    &:hover {
+      background: transparent;
+      text-decoration: underline;
+    }
+  }
+}
+
+// Icon
+.e-btn.is-icon {
+  --button-padding-x: 0;
+  aspect-ratio: 1;
+  width: var(--button-height);
+
+  > .label {
+    @include visually-hidden;
+  }
+}
+
+.e-btn.is-close {
+  --button-padding-x: 0;
+  aspect-ratio: 1;
+  border-radius: var(--border-radius-pill);
+  backdrop-filter: var(--backdrop-filter-blur);
+  z-index: var(--zindex-fixed);
+
+  &:focus-visible {
+    background: var(--button-hover, var(--color-ink-min));
+    outline: none;
+  }
+
+  // Expanded clickable area
+  &::after {
+    background: transparent;
+    content: '';
+    position: absolute;
+    inset: -1 * rem(2);
+    border-radius: inherit;
+  }
+}
+
+.e-btn.has-start-icon {
+  padding-inline-start: calc(var(--button-padding-x) - var(--size-half));
+}
+
+.e-btn.has-end-icon {
+  padding-inline-end: calc(var(--button-padding-x) - var(--size-half));
+}
+
+.e-btn.has-both-icons {
+  padding-inline: calc(var(--button-padding-x) - var(--size-half));
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// DISABLED STATE
+// -----------------------------------------------------------------------------
+// #region
+
+.e-btn[disabled],
+button[disabled],
+input[type='submit'][disabled],
+input[type='button'][disabled],
+input[type='reset'][disabled],
+a[role='button'][disabled] {
+  @include state-disabled();
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// BUTTON GROUP
+// -----------------------------------------------------------------------------
+// #region
+
+.e-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--size-1p5);
+
+  @supports not (gap: 4px) {
+    > * {
+      margin-bottom: var(--size-2);
+
+      @media (--tablet) {
+        margin-bottom: 0;
+      }
+    }
+
+    .e-btn + .e-btn {
+      margin-left: var(--size-1p5);
+    }
+  }
+}
+// #endregion

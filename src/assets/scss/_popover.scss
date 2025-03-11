@@ -1,0 +1,133 @@
+@use 'abstracts' as *;
+
+// CONTAINER
+.e-popover {
+  --popover-body-background: var(--color-bg-layer-02);
+  --popover-body-border-radius: var(--border-radius-base);
+  --popover-body-border: 0;
+  --popover-body-box-shadow: var(--box-shadow-level-02);
+  --popover-body-color: var(--color-ink-2ry);
+  --popover-body-width: var(--width-sm);
+  --popover-body-padding-x: var(--padding-x-box);
+  --popover-body-padding-y: var(--padding-x-box);
+
+  position: relative;
+}
+
+// Body animation
+// stylelint-disable-next-line selector-pseudo-element-no-unknown
+.e-popover::details-content {
+  opacity: 0;
+  transition:
+    content-visibility var(--duration-200) var(--easing-base),
+    opacity var(--duration-200) var(--easing-base);
+  transition-behavior: allow-discrete;
+}
+
+// stylelint-disable-next-line selector-pseudo-element-no-unknown
+.e-popover[open]::details-content {
+  opacity: 1;
+}
+
+// Body styling
+.e-popover__body {
+  background-color: var(--popover-body-background);
+  border-radius: var(--popover-body-border-radius);
+  border: var(--popover-body-border);
+  box-shadow: var(--popover-body-box-shadow);
+  color: var(--popover-body-color);
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin: 0;
+  padding-block: var(--popover-body-padding-y);
+  padding-inline: var(--popover-body-padding-x);
+  // States are keeping keep this for browsers that do not get the ::details-content
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transition:
+    opacity calc(var(--duration-200) * 0.8) var(--easing-disappearance),
+    translate calc(var(--duration-200) * 0.8) var(--easing-disappearance);
+  width: var(--popover-body-width);
+  max-width: calc(100vw - var(--size-2p5) * 2);
+  z-index: var(--zindex-popover);
+
+  [open] &,
+  .is-open > & {
+    pointer-events: all;
+    opacity: 1;
+    transition:
+      opacity var(--duration-200) var(--easing-appearance),
+      translate var(--duration-200) var(--easing-appearance);
+    translate: 0 0;
+  }
+
+  // Position adjustments
+  .is-up > & {
+    bottom: 100%;
+  }
+
+  .is-right > & {
+    left: auto;
+    right: 0;
+  }
+
+  &.e-menu {
+    --popover-body-padding-y: var(--size-1p5);
+    --popover-body-padding-x: var(--size-1p5);
+  }
+}
+
+summary,
+[data-role='popover-summary'] {
+  cursor: pointer;
+}
+
+// Summary Marker
+:where(.e-popover) .has-chevron {
+  display: flex;
+  align-items: center;
+
+  &::after {
+    background-image: var(--icon-chevron-down);
+    background-position: center;
+    background-repeat: no-repeat;
+    content: '';
+    display: block;
+    margin-inline-start: var(--size-half);
+    transition: rotate var(--duration-50) var(--easing-base);
+    width: var(--size-icon);
+    height: var(--size-icon);
+  }
+}
+
+.e-popover[open] summary::after {
+  rotate: 180deg;
+}
+
+
+// Share Specific Styles
+.e-popover.is-share {
+  summary {
+    border-radius: var(--border-radius-small);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--padding-small);
+
+    &:hover {
+      background-color: var(--color-background-hover);
+    }
+
+    &::after {
+      display: none;
+    }
+  }
+
+  .e-popover__body {
+    bottom: var(--size-offset);
+    right: calc(var(--size-offset) * -1);
+    left: auto;
+  }
+}

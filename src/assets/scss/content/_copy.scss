@@ -1,0 +1,227 @@
+@use '../abstracts' as *;
+
+// Focus visible
+:focus-visible {
+  scroll-padding-block-end: var(--scroll-padding-end, 8vh);
+}
+
+// -----------------------------------------------------------------------------
+// BLOCK
+// -----------------------------------------------------------------------------
+
+// Basic block elements
+address,
+dd,
+dt,
+p {
+  margin-top: 0;
+  padding-top: var(--padding-top-base);
+  padding-bottom: var(--padding-bottom-base);
+}
+
+address,
+p {
+  margin-bottom: var(--size-2);
+}
+
+address {
+  font-style: normal;
+}
+
+div,
+dd,
+dt,
+li,
+p,
+td,
+th {
+  overflow-wrap: break-word;
+}
+
+.e-lead {
+  @include text-format(h3);
+  margin: 0;
+}
+
+// Lists
+ol,
+ul {
+  margin-top: 0;
+  margin-bottom: var(--size-2);
+}
+
+// nested
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+  padding-top: var(--size-1);
+  margin-bottom: 0;
+}
+
+ul ul,
+ol ul {
+  padding-left: var(--size-2p5);
+}
+
+ul {
+  padding-left: var(--size-2p5);
+}
+
+ul:not([class]):not(nav ul) > li::marker,
+ul.e-list.is-ul > li::marker, {
+  color: var(--color-brand-primary);
+  content: '\2022\00a0\00a0';
+}
+
+// Ordered list
+:where(ol:not([class], nav ol)) {
+  @include ol;
+}
+
+li {
+  padding-top: var(--padding-top-base);
+  padding-bottom: var(--padding-bottom-base);
+
+  > p:first-child {
+    padding-top: 0;
+  }
+
+  > p:last-child {
+    padding-bottom: 0;
+  }
+}
+
+nav ul,
+.e-list.is-unstyled,
+.e-list.is-inline {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.e-list.is-inline {
+  li {
+    display: inline-block;
+    padding: 0;
+
+    &:not(:last-child) {
+      margin-right: var(--size-half);
+    }
+  }
+}
+
+// Description list
+dl {
+  --grid-columns: 1fr 2fr;
+  display: grid;
+  gap: var(--size-1) var(--size-3);
+  grid-template-columns: var(--grid-columns);
+}
+
+dt {
+  font-weight: bolder;
+}
+
+dd {
+  margin-left: 0;
+}
+
+// Dividers
+hr {
+  --margin: calc(var(--size-line) * 3);
+  border: 0;
+  border-top: var(--border-width) solid var(--color-ink-border);
+  margin-top: calc(var(--margin) - var(--border-width));
+  margin-bottom: var(--margin);
+}
+
+// -----------------------------------------------------------------------------
+// INLINE
+// -----------------------------------------------------------------------------
+
+:where(a:not(.e-btn):not([role='button'])),
+[role='link'] {
+  --background-focus: var(--color-bg-brand);
+
+  color: var(--color-ink-link);
+  text-decoration: none;
+  outline: none;
+  transition:
+    background-color var(--duration-50),
+    color var(--duration-50),
+    text-decoration var(--duration-50);
+
+  &:is(:active, :focus-visible) {
+    @include state-hover-a;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @include state-hover-a;
+    }
+  }
+
+  &:focus-visible {
+    --background-color: var(--background-focus);
+  }
+
+  &:is([aria-current]) {
+    color: var(--color-current, var(--color-ink-text));
+  }
+}
+
+.e-link.is-forward {
+  display: inline-flex;
+  align-self: start;
+  white-space: nowrap;
+  position: relative;
+}
+
+// Scroll padding allowance above anchor links
+:target {
+  scroll-padding-block-start: var(--size-4);
+}
+
+// Miscellaneous
+b,
+strong {
+  font-weight: bolder;
+}
+
+em,
+i {
+  font-style: italic;
+}
+
+small {
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-caption);
+}
+
+.e-petit {
+  @include text-format(caption);
+}
+
+::selection {
+  background: var(--color-bg-bold-brand);
+  color: var(--color-alpha-light-900);
+  text-shadow: none;
+}
+
+// Sub / Sup
+sub,
+sup {
+  font-size: var(--font-size-caption);
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}

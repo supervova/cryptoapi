@@ -1,0 +1,56 @@
+@use 'abstracts' as *;
+
+.e-segmented-control {
+  background: var(--color-bg-base);
+  border-radius: calc(var(--border-radius-lg) + var(--size-1));
+  box-shadow: var(--box-shadow-level-01);
+  display: flex;
+  gap: 0;
+  justify-content: center;
+  margin-bottom: var(--size-1);
+  padding: var(--size-1);
+  overflow-x: auto;
+  width: fit-content;
+}
+
+.e-segmented-control__item {
+  --border: 1px solid var(--color-ink-border);
+
+  background: none;
+  color: var(--color-ink-2ry);
+  cursor: pointer;
+  padding: 0.75rem 1.25rem;
+  transition: all 0.2s;
+
+  &:first-child {
+    border: var(--border);
+    border-radius: var(--border-radius-lg) 0 0 var(--border-radius-lg);
+  }
+
+  &:last-child {
+    border-radius: 0 var(--border-radius-lg) var(--border-radius-lg) 0;
+  }
+
+  &:not(:first-child) {
+    border: var(--border);
+    border-inline-start: 0;
+  }
+
+  &:not(:first-child):not(:last-child) {
+    border-radius: 0;
+  }
+
+  &.is-active {
+    &,
+    &:hover {
+      background-color: var(--color-bg-success);
+      color: var(--color-ink-text-success);
+      cursor: default;
+      filter: none;
+    }
+  }
+
+  &:hover {
+    color: var(--color-ink-text);
+  }
+}

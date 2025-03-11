@@ -1,0 +1,135 @@
+@use 'sass:math';
+
+// prettier-ignore
+@mixin light {
+  color-scheme: light;
+
+  // #region: Colors 🎨
+
+  // SEMANTIC BRAND
+  --color-bg-brand:         hsl(var(--h) var(--s) 96%);
+  --color-bg-bold-brand:    hsl(var(--h) var(--s) 55%);
+  --color-ink-text-brand:   hsl(var(--h) var(--s) 42%);
+  --color-ink-2ry-brand:    hsl(var(--h) var(--s) 55%);
+  --color-ink-border-brand: hsl(var(--h) var(--s) 93%);
+  --color-gradient-brand:
+      hsl(var(--h) var(--s) 71%),
+      hsl(var(--h) var(--s) 67%);
+
+  --color-bg-base:         hsl(var(--h) var(--s-min) 99%);
+  --color-bg-2ry:          hsl(var(--h) var(--s-min) 97%);
+  --color-bg-inverse:      hsl(var(--h) var(--s-min) 24%);
+  --color-bg-layer-01:     var(--color-bg-base);
+  --color-bg-layer-02:     hsl(from var(--color-bg-base) / 0.88);
+  --color-bg-2ry-layer-02: hsl(from var(--color-bg-2ry) / 0.88);
+  --color-bg-layer-03:     var(--color-bg-layer-02);
+
+  --color-bg-scrim:        var(--color-alpha-dark-400);
+
+  --color-ink-text:         hsl(var(--h) var(--s-min) 14%);
+  --color-ink-2ry:          hsl(var(--h) var(--s-min) 47%);
+  --color-ink-3ry:          hsl(var(--h) var(--s-min) 62%);
+  --color-ink-icon:         var(--color-ink-3ry);
+  --color-ink-border:       hsl(var(--color-shadow) / 0.08);
+  --color-ink-min:          hsl(var(--color-shadow) / 0.04);
+  --color-ink-link:         var(--color-ink-text-info);
+
+  --color-ink-max-inverse:    var(--color-alpha-light-max);
+  --color-ink-text-inverse:   var(--color-alpha-light-900);
+  --color-ink-2ry-inverse:    var(--color-alpha-light-600);
+  --color-ink-3ry-inverse:    var(--color-alpha-light-400);
+  --color-ink-icon-inverse:   var(--color-ink-3ry-inverse);
+  --color-ink-border-inverse: var(--color-alpha-light-200);
+
+  --color-ink-text-neutral:   var(--color-alpha-dark-900);
+  --color-ink-2ry-neutral:    var(--color-alpha-dark-600);
+  --color-ink-3ry-neutral:    var(--color-alpha-dark-400);
+  --color-ink-border-neutral: var(--color-alpha-dark-100);
+
+  --color-base-info:     hsl(var(--h-blue) var(--s) 66%);
+  --color-bg-info:       hsl(var(--h-blue) var(--s) 92%);
+  --color-ink-text-info: hsl(var(--h-blue) var(--s) 41%);
+  --color-ink-2ry-info:  hsl(var(--h-blue) var(--s) 52%);
+
+  --color-base-error:     hsl(var(--h-red) var(--s) 73%);
+  --color-bg-error:       hsl(var(--h-red) var(--s) 94%);
+  --color-ink-text-error: hsl(var(--h-red) var(--s) 44%);
+  --color-ink-2ry-error:  hsl(var(--h-red) var(--s) 60%);
+
+  --color-base-warning:     hsl(var(--h-yellow) var(--s) 46%);
+  --color-bg-warning:       hsl(var(--h-yellow) var(--s) 54%);
+  --color-ink-text-warning: hsl(var(--h-yellow) var(--s) 22%);
+  --color-ink-2ry-warning:  hsl(var(--h-yellow) var(--s) 29%);
+
+  --color-base-success:     hsl(var(--h-green) var(--s) 39%);
+  --color-bg-success:       hsl(var(--h-green) var(--s) 83%);
+  --color-ink-text-success: hsl(var(--h-green) var(--s) 25%);
+  --color-ink-2ry-success:  hsl(var(--h-green) var(--s) 32%);
+
+  // Optional - code: number, property, string, variable, tag, function, operator
+
+  // 🌓 SHADOWS
+  // #region
+
+  --shadow-ring:        0.04;
+  --shadow-opacity-low: 0.06;
+
+  // Buttons, Cards, Alerts, App Bar, Tab Bar, Switches
+  --box-shadow-min: 0 1px 0 hsl(var(--color-shadow) / 0.10);
+
+  // FAB, Buttons hover, Snackbars, Sticky Components
+  --box-shadow-level-01:
+    0 0 0.5px 1px var(--color-alpha-light-min),
+    0 0 0 1px hsl(var(--color-shadow) / var(--shadow-ring, 0.04)),
+    0 1px 2px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06)),
+    0 2px 4px -1px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06));
+
+  // Overlays: popovers, Tooltips, Drawers, Dropdowns, Pickers,
+  // Modal Bottom Sheets, FAB hover
+  --box-shadow-level-02:
+    0 0 0.5px 1px var(--color-alpha-light-min),
+    0 0 0 1px hsl(var(--color-shadow) / var(--shadow-ring, 0.04)),
+    0 2px 4px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06)),
+    0 6px 12px -2px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06)),
+    0 14px 28px -4px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06));
+
+  // Modals
+  --box-shadow-level-03:
+    0 0 0.5px 1px var(--color-alpha-light-min),
+    0 0 0 1px hsl(var(--color-shadow) / var(--shadow-ring, 0.04)),
+    0 3px 6px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06)),
+    0 8px 16px -2px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06)),
+    0 18px 36px -4px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06)),
+    0 30px 60px -4px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06));
+  // #endregion
+
+  // #region: Graphics 🧑🏻‍🎨
+  --icon-checkbox: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M6%2011L9%2014L15%208%22%20stroke%3D%22white%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E%0A");
+  --icon-chevron-down: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%207L8%2010L11%207%22%20stroke%3D%22%23B1918B%22%20stroke-width%3D%222%22%20stroke-miterlimit%3D%2210%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E%0A");
+  --icon-error: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M21%2012C21%2016.9706%2016.9706%2021%2012%2021C7.02944%2021%203%2016.9706%203%2012C3%207.02944%207.02944%203%2012%203C16.9706%203%2021%207.02944%2021%2012Z%22%20fill%3D%22%23FDE2E7%22%2F%3E%3Cpath%20d%3D%22M12%2016.9V17M12%207V13M21%2012C21%2016.9706%2016.9706%2021%2012%2021C7.02944%2021%203%2016.9706%203%2012C3%207.02944%207.02944%203%2012%203C16.9706%203%2021%207.02944%2021%2012Z%22%20stroke%3D%22%23F2405E%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E%0A");
+  --icon-minus: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cline%20x1%3D%225%22%20y1%3D%2210%22%20x2%3D%2215%22%20y2%3D%2210%22%20stroke%3D%22white%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E");
+  --icon-search: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M14.3074%2014.3074C16.6653%2011.9494%2016.6653%208.12643%2014.3074%205.76847C11.9494%203.41051%208.12643%203.41051%205.76847%205.76847C3.41051%208.12643%203.41051%2011.9494%205.76847%2014.3074C8.12643%2016.6653%2011.9494%2016.6653%2014.3074%2014.3074ZM14.3074%2014.3074L20%2020%22%20stroke%3D%22%23B1918B%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E");
+  --icon-success: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2021C16.9706%2021%2021%2016.9706%2021%2012C21%207.02944%2016.9706%203%2012%203C7.02944%203%203%207.02944%203%2012C3%2016.9706%207.02944%2021%2012%2021Z%22%20fill%3D%22%23BBF9AE%22%2F%3E%3Cpath%20d%3D%22M9%2012L11%2014L15%2010%22%20fill%3D%22%23BBF9AE%22%2F%3E%3Cpath%20d%3D%22M9%2012L11%2014L15%2010M21%2012C21%2016.9706%2016.9706%2021%2012%2021C7.02944%2021%203%2016.9706%203%2012C3%207.02944%207.02944%203%2012%203C16.9706%203%2021%207.02944%2021%2012Z%22%20stroke%3D%22%2322990A%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E%0A");
+  // #endregion
+
+  // #region: Components 🍱
+  --color-scroll-thumb: var(--color-alpha-dark-100);
+  --color-scroll-track: var(--color-alpha-dark-min);
+
+  --button-bg: hsl(var(--h) var(--s-min) 11% / 0.08);
+  --button-color: var(--color-brand-primary);
+  --button-color-primary: hsl(var(--h) var(--s-min) 11% / 0.7);
+  // #endregion
+}
+
+@media only screen and (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    @include light;
+  }
+}
+
+/* Dark theme (Forced)
+Enabled if forced with data-theme="dark" */
+[data-theme='light'] {
+  @include light;
+}

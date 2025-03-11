@@ -1,0 +1,59 @@
+@use '../styles/abstracts' as *;
+
+// Container with horizontal scroll for wide elements (tables, galleries, etc.)
+.e-scroller {
+  // Shadow configuration
+  --scroller-shadow-size: 24px;
+  --scroller-shadow-color: hsl(var(--color-shadow));
+  --scroller-shadow:
+    hsl(var(--color-shadow) / 0.15),
+    hsl(var(--color-shadow) / 0.13) 3%,
+    hsl(var(--color-shadow) / 0.11) 11%,
+    hsl(var(--color-shadow) / 0.09) 23%,
+    hsl(var(--color-shadow) / 0.05) 38%,
+    hsl(var(--color-shadow) / 0.03) 57%,
+    hsl(var(--color-shadow) / 0.01) 78%,
+    hsl(var(--color-shadow) / 0);
+  --scroller-patch-bg: var(--color-bg-base);
+
+  // Layout properties
+  display: block;
+  max-width: 100%;
+  margin-block: var(--size-line);
+  padding: 0;
+
+  // Border and scroll behavior
+  border: 1px solid var(--color-ink-border);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+
+  // Shadow gradients
+  background:
+    linear-gradient(90deg, var(--scroller-patch-bg) 50%, transparent) 0 0,
+    linear-gradient(90deg, transparent, var(--scroller-patch-bg) 50%) 100% 0,
+    linear-gradient(90deg, var(--scroller-shadow)) 0 0,
+    linear-gradient(270deg, var(--scroller-shadow)) 100% 0,
+    transparent;
+  background-attachment: local, local, scroll, scroll;
+  background-repeat: no-repeat;
+  background-size:
+    var(--scroller-shadow-size) 100%,
+    var(--scroller-shadow-size) 100%,
+    calc(var(--scroller-shadow-size) / 2) 100%,
+    calc(var(--scroller-shadow-size) / 2) 100%;
+
+  // Focus state
+  &:focus-visible {
+    @include state-focus;
+  }
+
+  // Custom scrollbar for desktop devices
+  @media (pointer: fine) {
+    @include scrollbar($track-bg: transparent);
+  }
+}
+
+// Reset table margins inside scroller
+.e-scroller > table {
+  margin: 0;
+}

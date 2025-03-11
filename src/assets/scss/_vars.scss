@@ -1,0 +1,361 @@
+@use 'sass:math';
+@use 'abstracts/config' as *;
+@use 'abstracts/functions' as *;
+// prettier-ignore
+
+:root {
+  // 🎨 COLORS
+  // #region
+
+  --h-blue:   223;
+  --h-green:  168;
+  --h-red:    353;
+  --h-yellow: 45;
+
+  --s-base: 88%;
+  --s-2ry:  80%; // desaturate the base by 4-10% for dark theme
+  --s-min:  11%; // for dark theme backgrounds
+
+  --h:  254;
+  --s:  var(--s-base);
+  --l:  78%;
+
+  // DECLARATIVE PALETTE
+  --color-brand-primary: hsl(var(--h) var(--s) var(--l));
+  --color-brand-accent:  hsl(var(--h-green) var(--s) 40%);
+
+  --color-alpha-dark-max: rgb(0 0 0);
+  --color-alpha-dark-900: rgb(0 0 0 / 0.87);
+  --color-alpha-dark-600: rgb(0 0 0 / 0.6);
+  --color-alpha-dark-400: rgb(0 0 0 / 0.38);
+  --color-alpha-dark-100: rgb(0 0 0 / 0.12);
+  --color-alpha-dark-min: rgb(0 0 0 / 0.05);
+
+  --color-alpha-light-max: hsl(0 0% 100%);
+  --color-alpha-light-900: hsl(0 0% 100% / 0.87);
+  --color-alpha-light-600: hsl(0 0% 100% / 0.6);
+  --color-alpha-light-400: hsl(0 0% 100% / 0.38);
+  --color-alpha-light-200: hsl(0 0% 100% / 0.2);
+  --color-alpha-light-100: hsl(0 0% 100% / 0.08);
+  --color-alpha-light-min: hsl(0 0% 100% / 0.04);
+
+  --color-shadow: var(--h) var(--s-min) 11%;
+
+  --color-bg-base-alpha:      hsl(from var(--color-bg-base) h s l / 0.8);
+  --backdrop-filter-elevated: saturate(180%) blur(20px);
+  --backdrop-filter-blur:     blur(20px);
+
+  // Adjustments
+  --filter-brightness-up:   brightness(1.16);
+  --filter-brightness-down: brightness(0.84);
+  // #endregion
+
+  // 🔠 TYPOGRAPHY
+  // #region
+
+  --font-family-emoji:
+   'Apple Color Emoji',
+   'Segoe UI Emoji',
+   'Segoe UI Symbol',
+   'Noto Color Emoji';
+
+  --font-family-sans:
+   -apple-system,
+    BlinkMacSystemFont,
+    Inter,
+    sans-serif;
+
+  --font-family-mono:
+    ui-monospace,
+    SFMono-Regular,
+    Monaco,
+    Consolas,
+   'Andale Mono',
+    monospace,
+    var(--font-family-emoji);
+
+  --font-family-base:   var(--font-family-sans), var(--font-family-emoji);
+  --font-family-titles: var(--font-family-base);
+
+  --font-size-doc:         #{$html-font-size};
+
+  --font-weight-titles-max:     600;
+  --font-weight-titles:         500;
+  --font-weight-titles-lighter: 400;
+  --font-weight-titles-min:     300;
+
+  --font-size-display:      #{rem(34)};
+  --font-weight-display:    var(--font-weight-titles-min);
+  --letter-spacing-display: #{rem(-1)};
+  --line-height-display:    #{math.div(40, 34)};
+  --padding-top-display:    0;
+  --padding-bottom-display: 0;
+
+  --font-size-title:      #{rem(28)};
+  --font-weight-title:    var(--font-weight-titles);
+  --letter-spacing-title: 0;
+  --line-height-title:    #{math.div(32, 28)};
+  --padding-top-title:    #{rem(6)};
+  --padding-bottom-title: #{rem(2)};
+
+  --font-size-h2:       #{rem(22)};
+  --font-weight-h2:     var(--font-weight-titles-lighter);
+  --letter-spacing-h2:  0;
+  --line-height-h2:     #{math.div(32, 22)};
+  --padding-top-h2:     0;
+  --padding-bottom-h2:  0;
+
+  --margin-top-subhead: var(--size-line);
+
+  --font-size-h3:      #{rem(17)};
+  --font-weight-h3:    var(--font-weight-titles);
+  --letter-spacing-h3: 0;
+  --line-height-h3:    #{math.div(24, 17)};
+  --padding-top-h3:    #{rem(6)};
+  --padding-bottom-h3: #{rem(2)};
+
+  --font-size-base:      #{rem(17)};
+  --line-height-base:    #{math.div(24, 17)};
+  --letter-spacing-base: 0;
+  --padding-top-base:    #{rem(6)};
+  --padding-bottom-base: #{rem(2)};
+
+  --font-size-body-sm:      #{rem(15)};
+  --line-height-body-sm:    #{math.div(20, 15)};
+  --letter-spacing-body-sm: 0;
+  --padding-top-body-sm:    #{rem(1)};
+  --padding-bottom-body-sm: #{rem(3)};
+
+  --font-size-label:      #{rem(15)};
+  --letter-spacing-label: 0;
+  --line-height-label:    #{math.div(20, 15)};
+  --padding-top-label:    #{rem(1)};
+  --padding-bottom-label: #{rem(3)};
+
+  --font-size-caption:      #{rem(12)};
+  --letter-spacing-caption: 0;
+  --line-height-caption:    #{math.div(16, 12)};
+  --padding-top-caption:    #{rem(4)};
+  --padding-bottom-caption: #{rem(4)};
+    // #endregion
+
+  // 📐 SPACING
+  // #region
+
+  --size-half: #{rem(4)};
+  --size-1:    #{rem(8)};
+  --size-1p5:  #{rem(12)};
+  --size-2:    #{rem(16)};
+  --size-2p5:  #{rem(20)};
+  --size-3:    #{rem(24)};
+  --size-4:    #{rem(32)};
+  --size-5:    #{rem(40)};
+  --size-6:    #{rem(48)};
+  --size-7:    #{rem(56)};
+  --size-8:    #{rem(64)};
+
+  --size-line:       var(--size-3);
+  --spacer:          var(--size-line);
+  --spacer-half-max: var(--size-4);
+  --spacer-max:      var(--size-8);
+  --gap-base:        var(--size-2p5);
+  --gap-large:       var(--size-4);
+  // #endregion
+
+  // 🍱 COMPONENTS BASE
+  // #region
+
+  // SPACING
+  --padding-bottom-list: #{rem(16)};
+  --padding-bottom-li:   #{rem(10)};  // 2 base + 8 as margin
+
+  --padding-x-box:       var(--size-2);
+  --padding-x-container: var(--size-2p5);
+
+  --padding-y-btn: 0;
+  --padding-x-btn: var(--size-2);
+  --button-height: var(--size-6);
+
+  --padding-x-input:     var(--size-2);
+  --padding-y-input:     #{rem(5)};
+
+  --size-icon:           #{rem(24)};
+  --size-icon-sm:        #{rem(20)};
+
+  --border-width: #{rem(1)};
+
+  // RADIUS
+  // Rectangular Images
+  --border-radius-xs:   var(--size-half);
+
+  // Buttons
+  --border-radius-sm:   var(--size-1);
+  --border-radius-base: var(--size-1p5);
+
+  // Boxes: Pickers, Tooltips
+  --border-radius-md: var(--size-2);
+
+  // Drawers
+  --border-radius-lg:   #{rem(28)};
+
+  // Modals
+  --border-radius-xl:   var(--size-5);
+  --border-radius-xxl:   #{rem(52)};
+
+  --border-radius-pill: 100vmax;
+
+  // 🌓 SHADOWS
+  // #region
+
+  // FAB, Buttons hover, Snackbars, Sticky Components
+  --box-shadow-level-01:
+    inset 0 0 0.5px 1px var(--color-alpha-light-min),
+    0 0 0 1px hsl(var(--color-shadow) / var(--shadow-ring, 0.04)),
+    0 1px 2px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06)),
+    0 2px 4px -1px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06));
+
+  // Overlays: popovers, Tooltips, Drawers, Dropdowns, Pickers,
+  // Modal Bottom Sheets, FAB hover
+  --box-shadow-level-02:
+    inset 0 0 0.5px 1px var(--color-alpha-light-min),
+    0 0 0 1px hsl(var(--color-shadow) / var(--shadow-ring, 0.04)),
+    0 3px 6px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06)),
+    0 15px 28px -1px hsl(var(--color-shadow) / var(--shadow-opacity-mid, 0.1));
+
+  // Modals
+  --box-shadow-level-03:
+    inset 0 0 0.5px 1px var(--color-alpha-light-min),
+    0 0 0 1px hsl(var(--color-shadow) / var(--shadow-ring, 0.04)),
+    0 9px 14px -5px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06)),
+    0 40px 72px -5px hsl(var(--color-shadow) / var(--shadow-opacity-hi, 0.12));
+
+  // Z-INDEX
+  --zindex-sticky:  10;
+  --zindex-fixed:   20;  // including app/nav bar
+  --zindex-fab:     30;
+  --zindex-popover: 40;
+  --zindex-tooltip: 50;
+  --zindex-drawer:  70;
+  --zindex-modal:   80;
+  // #endregion
+
+  // 🔲 WIDTHS
+  // #region
+
+  --width-sm:        #{rem(272)};
+
+  // popovers, tablet and desktop drawers, alerts (.e-modal.is-sm) on landscape phones
+  --width-base:      #{rem(320)};
+
+  // Wide drawers, alerts (.e-modal.is-sm), popovers on tablets and up
+  --width-md:        #{rem(448)};
+
+  // Default modals on landscape phones and up
+  --width-lg:        #{rem(544)};
+
+  // Large modals on desktops
+  --width-xl:        #{rem(720)};
+
+  // 1232 + 64*2 paddings
+  --width-container: #{rem(1360)};
+
+  --width-readable:  70ch;
+  // #endregion
+
+
+  // 👻 MOTION DESIGN
+  // #region
+  // https://designsystems.surf/directories/motion
+
+  // Micro-interactions such as button and toggle
+  --duration-50: 0.07s;
+
+  // Micro-interactions such as fade
+  --duration-100: 0.11s;
+
+  // Micro-interactions, small expansion, short distance movements
+  --duration-200: 0.15s;
+
+  // Expansion, system communication, toast
+  --duration-500: 0.24s;
+
+  // Large expansion, important system notifications
+  --duration-700: 0.4s;
+
+  // Background dimming and other ambient transitions that don't involve user input.
+  --duration-900: 0.7s;
+  --duration-1000: 1s;
+
+  // In the visible state of the panel, use --easing-appearance and the full duration variable in transition.
+  // In the hidden state, use --easing-disappearance and a reducing coefficient of 0.8 for duration.
+  --easing-base: cubic-bezier(0.2, 0, 0.38, 0.9);
+  --easing-appearance: cubic-bezier(0, 0, 0.38, 0.9);
+  --easing-disappearance: cubic-bezier(0.2, 0, 1, 0.9);
+  --easing-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  // #endregion
+
+
+  // 🧩 COMPONENTS SPECIFIC
+  // #region
+  --icon-fill: none;
+  --icon-stroke: var(--color-ink-icon);
+  --icon-stroke-width: 2;
+  // #endregion
+
+  // 📋 TABLET OVERRIDES
+  @media (--tablet) {
+    --font-size-display:      #{rem(53)};
+    --font-weight-display:    var(--font-weight-titles);
+    --line-height-display:    #{math.div(56, 53)};
+    --padding-top-display:    #{rem(1)};
+    --padding-bottom-display: #{rem(7)};
+
+    --font-size-title:      #{rem(40)};
+    --font-weight-titles:    var(--font-weight-titles);
+    --line-height-title:    #{math.div(48, 40)};
+    --padding-top-title:    #{rem(1)};
+    --padding-bottom-title: #{rem(7)};
+
+    --font-size-h2:      #{rem(30)};
+    --font-weight-h2:    var(--font-weight-titles-lighter);
+    --line-height-h2:    #{math.div(40, 30)};
+    --padding-top-h2:    #{rem(1)};
+    --padding-bottom-h2: #{rem(7)};
+
+    --font-size-h3:      #{rem(23)};
+    --font-weight-h3:    var(--font-weight-titles);
+    --line-height-h3:    #{math.div(32, 23)};
+    --padding-top-h3:    #{rem(1)};
+    --padding-bottom-h3: #{rem(7)};
+
+    --font-size-label:      #{rem(15)};
+    --letter-spacing-label: 0.1px;
+    --line-height-label:    #{math.div(20, 15)};
+    --padding-top-label:    #{rem(1)};
+    --padding-bottom-label: #{rem(3)};
+
+    --spacer:               calc(var(--size-line) * 3);
+    --spacer-half-max:      var(--size-8);
+    --spacer-max:           calc(var(--size-8) * 2);
+
+    --padding-x-box:        var(--size-line);
+    --padding-x-container:  var(--size-5);
+
+    --navbar-area:          #{rem(96)};
+  }
+
+  // 📟 LANDSCAPE TABLET OVERRIDES
+  @media (--tablet-l) {
+    --navbar-area: #{rem(144)};
+  }
+
+  // 💻 LAPTOP OVERRIDES
+  @media (--laptop) {
+    --padding-x-container:  var(--size-8);
+  }
+
+  //Animate to height: auto; (and other intrinsic sizing keywords)
+  @supports (interpolate-size: allow-keywords) {
+    interpolate-size: allow-keywords;
+  }
+}

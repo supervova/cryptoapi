@@ -1,0 +1,54 @@
+@use '../abstracts' as *;
+
+// GRID CONTAINER
+.e-grid {
+  @include grid;
+}
+
+.e-grid.is-auto {
+  --layout-grid-min: calc(var(--size-line) * 7);
+
+  @media (--tablet) {
+    --grid-columns: repeat(auto-fit, minmax(min(100%, var(--layout-grid-min)), 1fr));
+  }
+}
+
+// Phone-specific grid layouts
+@media (--phone) {
+  .phone\:grid-3 {
+    --grid-columns: repeat(3, 1fr);
+  }
+
+  .phone\:grid-4 {
+    --grid-columns: repeat(4, 1fr);
+  }
+}
+
+// COLUMN
+.e-col,
+[class^='col-'] {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.e-col {
+  grid-column: 1 / -1;
+}
+
+// .e-col-1 to .e-col-4 classes for flexible column spans
+@for $i from 1 through 4 {
+  .e-col-#{$i} {
+    grid-column: auto / span $i;
+  }
+}
+
+// Offsets for all screens (e.g., col-start-1, col-start-2)
+@for $i from 1 through 3 {
+  .e-col-start-#{$i} {
+    grid-column-start: $i;
+  }
+}
+
+// Column classes for tablets and desktops
+@include grid-columns();

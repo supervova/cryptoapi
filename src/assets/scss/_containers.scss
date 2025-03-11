@@ -1,0 +1,30 @@
+@use 'abstracts' as *;
+
+// BASE CONTAINER
+.e-container {
+  @include container;
+}
+
+// CONTENT CONTAINERS
+// For list view, e. g. SERP or blog feed
+.e-col-1\/1 {
+  list-style: none;
+  margin: 0 auto;
+  width: min(100%, var(--width-readable));
+}
+
+.e-main {
+  flex: 1;
+  padding-top: var(--size-5);
+
+  @media (--tablet) {
+    // Make room for navbar...
+    padding-inline-start: var(--navbar-area);
+  }
+
+  @media (--tablet-l) {
+    // ...Now from the top.
+    padding-top: var(--navbar-area);
+    padding-inline-start: 0;
+  }
+}

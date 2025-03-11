@@ -1,0 +1,50 @@
+@use 'sass:math';
+@use 'sass:map';
+@use 'abstracts/mixins' as *;
+
+html {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  // Remove the grey highlight on links in iOS (opinionated)
+  -webkit-tap-highlight-color: transparent;
+  color-scheme: light dark;
+  font-family: var(--font-family-base);
+  // For
+  font-size: var(--font-size-doc);
+  font-synthesis: none;
+  // https://caniuse.com/?search=hanging-punctuation
+  hanging-punctuation: first last;
+  text-rendering: optimizeLegibility;
+  // Prevent adjustments of font size after orientation changes in iOS
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+
+  @media (pointer: fine) {
+    @include scrollbar();
+  }
+}
+
+body {
+  accent-color: var(--color-brand-primary);
+  background: var(--color-bg-base);
+  color: var(--color-ink-text);
+  display: flex;
+  flex-direction: column;
+  font-size: var(--font-size-base);
+  font-variant-numeric: oldstyle-nums;
+  letter-spacing: var(--letter-spacing-base, 0.011em);
+  line-height: var(--line-height-base);
+  text-align: left;
+  margin: 0;
+  // Create safe areas for iPhone X+
+  padding:
+    env(safe-area-inset-top)
+    env(safe-area-inset-right)
+    env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
+  overflow-x: hidden;
+  min-width: 320px;
+  min-height: 100vh;
+  min-height: 100dvh;
+}

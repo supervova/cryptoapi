@@ -1,0 +1,888 @@
+<!doctype html>
+<html lang="zxx" prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Vertical Rhythm | 01-boilerplate</title>
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <style>
+      body {
+        background: #fff;
+        color: rgb(0 0 0 / 0.87);
+      }
+
+      body:hover {
+        background: transparent url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%228%22%20height%3D%2224%22%20viewBox%3D%220%200%208%2024%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Crect%20width%3D%228%22%20height%3D%221%22%20y%3D%2223%22%20fill%3D%22%23000%22%20fill-opacity%3D%22.24%22%2F%3E%3Crect%20width%3D%228%22%20height%3D%221%22%20y%3D%2215%22%20fill%3D%22%23F0F%22%20fill-opacity%3D%22.12%22%2F%3E%3Crect%20width%3D%228%22%20height%3D%221%22%20y%3D%227%22%20fill%3D%22%23F0F%22%20fill-opacity%3D%22.12%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E') repeat;
+      }
+
+      .main {
+        margin-inline: auto;
+        max-width: 70ch;
+      }
+
+      h1:hover,
+      h2:hover,
+      h3:hover,
+      h4:hover,
+      dl:hover,
+      p:hover,
+      ol:hover,
+      td:hover,
+      .content ul:hover,
+      .link:hover {
+        background: hsl(240 100% 50% / 0.24);
+      }
+
+      .grid__item {
+        background: var(--color-bg-brand);
+        border-radius: 8px;
+        color: var(--color-info-text);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 8px 8px 16px;
+
+        > p {
+          margin-bottom: 0;
+        }
+      }
+
+      pre, table {
+        background: rgb(0 0 0 / 0.04);
+      }
+
+      @media only screen and (max-width: 568px) {
+        body {
+          background: transparent url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%228%22%20height%3D%2224%22%20viewBox%3D%220%200%208%2024%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Crect%20width%3D%228%22%20height%3D%221%22%20y%3D%2223%22%20fill%3D%22%23000%22%20fill-opacity%3D%22.24%22%2F%3E%3Crect%20width%3D%228%22%20height%3D%221%22%20y%3D%2215%22%20fill%3D%22%23F0F%22%20fill-opacity%3D%22.12%22%2F%3E%3Crect%20width%3D%228%22%20height%3D%221%22%20y%3D%227%22%20fill%3D%22%23F0F%22%20fill-opacity%3D%22.12%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E') repeat;
+        }
+
+        .d-xs-none {
+          display: none;
+        }
+
+        img:not(td img) {
+          height: 144px;
+        }
+      }
+    </style>
+  </head>
+  <body class="page">
+    <main class="main">
+      <!-- Typography-->
+      <section class="mb-2" id="typography">
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <h1 class="hero__title">Heroic title</h1>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <h1>Title — H1</h1>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <p><a href="">Lorem ipsum dolor</a>, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <header>
+          <p class="eyebrow">Eyebrow</p>
+          <h1>Съешь же <span class="d-xs-none">ещё этих</span></h1>
+        </header>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <h2>H2: Съешь же</h2>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <a class="link is-forward" href="#">
+          Learn more
+          <svg class="icon" aria-hidden="true" focusable="false">
+            <use href="/assets/img/components/icon/sprite.svg#icon-chevron-right"></use>
+          </svg>
+        </a>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <h3>h3: Съешь же ещё этих</h3>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <h4>h4: Съешь же ещё этих</h4>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <p class="petit">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <p class="petit">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <!-- Blockquote-->
+        <blockquote>
+          <p>Maecenas vehicula metus tellus, vitae congue turpis hendrerit non. Nam at dui sit amet ipsum cursus ornare.</p>
+          <footer>
+            <cite>- Phasellus eget lacinia</cite>
+          </footer>
+        </blockquote>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <ul>
+          <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</li>
+          <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</li>
+          <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</li>
+        </ul>
+        <ol>
+          <li><b>Lorem ipsum dolor,</b> sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</li>
+          <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</li>
+          <li>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            <p>Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+          </li>
+          <li>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+            <p>Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+          </li>
+          <li>Lorem ipsum dolor sit amet.
+            <ol>
+              <li>Lorem ipsum dolor sit amet.</li>
+              <li>Lorem ipsum dolor sit amet.</li>
+              <li>Lorem ipsum dolor sit amet.</li>
+              <li>Lorem ipsum dolor sit amet.</li>
+            </ol>
+          </li>
+          <li>Lorem ipsum dolor sit amet.</li>
+        </ol>
+        <ul>
+          <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+          <li>Quisquam, aliquid aliquam? Excepturi quia ex delectus molestiae.</li>
+          <li>Quam itaque, velit quo veritatis sint doloribus quas?</li>
+          <li>Incidunt unde ex optio delectus rerum quidem quos.</li>
+        </ul>
+        <ul class="list is-hint">
+          <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+          <li>Quisquam, aliquid aliquam? Excepturi quia ex delectus molestiae.</li>
+          <li>Quam itaque, velit quo veritatis sint doloribus quas?</li>
+          <li>Incidunt unde ex optio delectus rerum quidem quos.</li>
+        </ul>
+        <figure>
+          <span class="border">
+            <img src="https://unsplash.it/440/240" alt="">
+          </span>
+          <figcaption>Image from unsplash.com</figcaption>
+        </figure>
+        <figure class="border">
+          <img src="https://unsplash.it/440/240" alt="">
+        </figure>
+        <img src="https://unsplash.it/440/240" alt="">
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <!-- Tables -->
+        <figure class="scroller">
+          <table>
+            <tbody>
+              <tr>
+                <td>One line</td>
+                <td>content</td>
+                <td>Lorem, ipsum dolor.</td>
+              </tr>
+              <tr>
+                <td><img src="https://unsplash.it/72/72" alt=""></td>
+                <td>Media — Images</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Lorem, ipsum dolor.</td>
+                <td>Sit amet consectetur adipisicing elit.</td>
+                <td>
+                  Table Documentation:<br>
+                  <a href="https://spectrum.adobe.com/page/table/" target="_blank" rel="noopener noreferrer">Adobe</a><br>
+                  <a href="https://britishgas.design/docs/components/ns-table/" target="_blank" rel="noopener noreferrer">British Gas</a><br>
+                  <a href="https://www.delldesignsystem.com/components/table/" target="_blank" rel="noopener noreferrer">Dell</a><br>
+                  <a href="https://ebay.gitbook.io/mindpatterns/structure/table" target="_blank" rel="noopener noreferrer">ebay</a><br>
+                  <a href="https://edisondesignsystem.com/table?tab=0" target="_blank" rel="noopener noreferrer">General Electric</a><br>
+                  <a href="https://design.gs.com/components/table" target="_blank" rel="noopener noreferrer">Goldman Sachs</a><br>
+                  <a href="https://design-system.service.gov.uk/components/table/" target="_blank" rel="noopener noreferrer">Gov.uk</a><br>
+                  <a href="http://carbondesignsystem.com/components/data-table/usage" target="_blank">IBM Carbon</a><br>
+                  <a href="https://m2.material.io/components/data-tables" target="_blank" rel="noopener noreferrer"><b>Material Design</b></a
+                  ><br>
+                  <a href="https://gestalt.pinterest.systems/web/table" target="_blank" rel="noopener noreferrer">Pinterest</a><br>
+                  <a href="https://www.lightningdesignsystem.com/components/data-tables/" target="_blank" rel="noopener noreferrer">Salesforce</a><br>
+                  <a href="https://polaris.shopify.com/components/tables/data-table" target="_blank" rel="noopener noreferrer">Shopify</a><br>
+                  <a href="https://stackoverflow.design/product/components/tables/" target="_blank" rel="noopener noreferrer">Stack Overflow</a><br>
+                  <a href="https://designsystem.digital.gov/components/table/" target="_blank" rel="noopener noreferrer">US Government</a><br>
+                  <a href="https://volkswagen.frontify.com/d/rzB71PwpjXgt/documentation#/components/table" target="_blank" rel="noopener noreferrer">Volkswagen</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </figure>
+        <figure class="scroller">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Heading</th>
+                <th scope="col">Heading</th>
+                <th scope="col">Heading</th>
+                <th scope="col">Heading</th>
+                <th scope="col">Heading</th>
+                <th scope="col">Heading</th>
+                <th scope="col">Heading</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+              </tr>
+            </tbody>
+          </table>
+        </figure>
+        <figure class="scroller">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Heading</th>
+                <th scope="col">Heading</th>
+                <th scope="col">Heading</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+              </tr>
+            </tbody>
+          </table>
+        </figure>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</p>
+        <pre>
+ Text in a pre element
+  is displayed in a fixed-width
+  font, and it preserves
+  both spaces and
+  line breaks</pre
+        >
+        <dl>
+          <dt>DL, description list.</dt>
+          <dd>Sit amet <code>inline code</code> consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</dd>
+          <dt>DT, description term.</dt>
+          <dd>Sit amet consectetur adipisicing elit. Quis facere possimus non consectetur libero, consequatur asperiores, aliquam quo incidunt alias modi in minus minima totam expedita suscipit molestiae maiores quam!</dd>
+        </dl>
+        <!-- Inline text elements-->
+        <h3>Inline text elements</h3>
+        <div class="grid is-auto">
+          <p><a href="#" onclick="event.preventDefault()">Link</a></p>
+          <p><strong>Bold</strong></p>
+          <p><em>Italic</em></p>
+        </div>
+        <div class="grid is-auto">
+          <p><del>Deleted</del></p>
+          <p><ins>Inserted</ins></p>
+          <p><s>Strikethrough</s></p>
+        </div>
+        <div class="grid is-auto">
+          <p><small>Small </small></p>
+          <p>Text <sub>Sub</sub></p>
+          <p>Text <sup>Sup</sup></p>
+        </div>
+        <div class="grid is-auto">
+          <p><abbr title="Abbreviation">Abbr.</abbr></p>
+          <p><kbd>Kbd</kbd></p>
+          <p><mark>Highlighted</mark></p>
+        </div>
+      </section>
+
+      <!-- Tooltips & popovers -->
+      <section class="pt-max" id="tooltips">
+        <h2>Tooltips & popovers</h2>
+        <div class="grid is-auto mb-2s">
+          <a class="btn has-tooltip" href="https://super-mark.ru/" target="_blank" rel="noopener noreferrer" aria-label="Developed by super-mark.ru"> Default </a>
+          <a class="btn has-tooltip is-right" href="https://super-mark.ru/" target="_blank" rel="noopener noreferrer" aria-label="Developed by super-mark.ru"> Right </a>
+          <a class="btn has-tooltip is-left" href="https://super-mark.ru/" target="_blank" rel="noopener noreferrer" aria-label="Developed by super-mark.ru"> Left </a>
+          <a class="btn has-tooltip is-bottom" href="https://super-mark.ru/" target="_blank" rel="noopener noreferrer" aria-label="Developed by super-mark.ru Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius hic, beatae dolores numquam repellendus magni nobis "> Bottom </a>
+        </div>
+        <details class="popover" data-role="popover">
+          <summary class="btn">popover</summary>
+          <div class="popover__body">A&nbsp;popover is&nbsp;a&nbsp;small non-modal overlay that pops up&nbsp;over all other elements on&nbsp;a&nbsp;page. It&nbsp;may contain a&nbsp;menu and then you can call it&nbsp;a&nbsp;dropdown. But also a&nbsp;popover may contain a&nbsp;text or&nbsp;small forms.</div>
+        </details>
+      </section>
+
+      <!-- Modals Launchers -->
+      <section class="pt-max" id="modal">
+        <h2>Modals</h2>
+        <div class="buttons">
+          <a href="/examples/modal-content.html" data-role="open-modal" data-target="modal-external"> Внешняя ссылка </a>
+          <button type="button" data-role="open-modal" data-target="modal-default">Стандартный</button>
+          <button type="button" data-role="open-modal" data-target="modal-brief">Мало содержания</button>
+          <button type="button" data-role="open-modal" data-target="modal-lg">LG</button>
+          <button type="button" data-role="open-modal" data-target="modal-sm">SM</button>
+          <button type="button" data-role="open-modal" data-target="modal-headerless">Headerless</button>
+          <button type="button" data-role="open-modal" data-target="modal-footerless">Footerless</button>
+          <button type="button" data-role="open-modal" data-target="modal-just-body">Just body</button>
+        </div>
+      </section>
+
+      <!-- Accordions -->
+      <section class="pt-max" id="accordions">
+        <h2>Accordions</h2>
+        <details class="accordion">
+          <summary>Accordion 1</summary>
+          <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque urna diam, tincidunt nec porta sed, auctor id velit. Etiam venenatis nisl ut orci consequat, vitae tempus quam commodo. Nulla non mauris ipsum. Aliquam eu posuere orci. Nulla convallis lectus rutrum quam hendrerit, in facilisis elit sollicitudin. Mauris pulvinar pulvinar mi, dictum tristique elit auctor quis. Maecenas ac ipsum ultrices, porta turpis sit amet, congue turpis.</p>
+          </div>
+        </details>
+        <details class="accordion" open>
+          <summary>Accordion 2</summary>
+          <div>
+            <ul>
+              <li>Vestibulum id elit quis massa interdum sodales.</li>
+              <li>Nunc quis eros vel odio pretium tincidunt nec quis neque.</li>
+              <li>Quisque sed eros non eros ornare elementum.</li>
+              <li>Cras sed libero aliquet, porta dolor quis, dapibus ipsum.</li>
+            </ul>
+          </div>
+        </details>
+      </section>
+
+      <!-- Card -->
+      <article class="card pt-max">
+        <header>
+          <h2 class="card__heading">Card</h2>
+        </header>
+        <div class="card__copy">
+          <p>Nullam dui arcu, malesuada et sodales eu, efficitur vitae dolor. Sed ultricies dolor non ante vulputate hendrerit. Vivamus sit amet suscipit sapien. Nulla iaculis eros a elit pharetra egestas. Nunc placerat facilisis cursus. Sed vestibulum metus eget dolor pharetra rutrum.</p>
+        </div>
+        <footer>
+          <button class="btn">Button</button>
+        </footer>
+      </article>
+
+      <!-- Buttons-->
+      <section class="pt-max" id="buttons">
+        <h2>Buttons</h2>
+        <div class="grid is-auto">
+          <button class="btn is-primary">Primary</button>
+          <button class="btn">Default</button>
+          <button class="btn is-ghost">Ghost</button>
+        </div>
+      </section>
+
+      <!-- Form -->
+      <section class="pt-max" id="form">
+        <form>
+          <h2>Form elements</h2>
+          <!-- Search -->
+          <p>
+            <label for="search">Search</label>
+            <input type="search" id="search" name="search" placeholder="Search">
+          </p>
+          <!-- Text -->
+          <p>
+            <label for="text">Text</label>
+            <input type="text" id="text" name="text" placeholder="Text">
+            <small>Curabitur consequat lacus at lacus porta finibus.</small>
+          </p>
+          <!-- Textarea -->
+          <p>
+            <label for="about">Textarea</label>
+            <textarea id="about" name="about" placeholder="Give me a word..."></textarea>
+          </p>
+          <!-- Select -->
+          <p>
+            <label for="select">Select</label>
+            <select id="select" name="select">
+              <option selected>Select…</option>
+              <option>…</option>
+            </select>
+          </p>
+          <!-- File browser -->
+          <p>
+            <label for="file">File browser</label>
+            <input id="file" name="file" type="file">
+          </p>
+          <!-- Range slider control -->
+          <p>
+            <label for="range">Range slider</label>
+            <input type="range" min="0" max="100" value="50" id="range" name="range">
+          </p>
+          <!-- States -->
+          <div class="grid is-auto mb-2">
+            <p>
+              <label for="valid">Default</label>
+              <input type="text" placeholder="Default">
+            </p>
+            <p>
+              <label for="valid">Valid</label>
+              <input id="valid" name="valid" type="text" placeholder="Valid" aria-invalid="false">
+            </p>
+            <p>
+              <label for="invalid">Invalid</label>
+              <input type="text" id="invalid" name="invalid" placeholder="Invalid" aria-invalid="true">
+            </p>
+            <p>
+              <label for="disabled">Disabled</label>
+              <input type="text" id="disabled" name="disabled" placeholder="Disabled" disabled>
+            </p>
+          </div>
+          <div class="grid is-auto mb-2">
+            <!-- Date-->
+            <p>
+              <label for="date">Date</label>
+              <input type="date" id="date" name="date">
+            </p>
+            <!-- Time-->
+            <p>
+              <label for="time">Time</label>
+              <input type="time" id="time" name="time">
+            </p>
+            <!-- Color-->
+            <p>
+              <label for="color">Color</label>
+              <input type="color" id="color" name="color" value="#007bff">
+            </p>
+          </div>
+          <div class="grid is-auto">
+            <!-- Checkboxes -->
+            <fieldset>
+              <legend>Checkboxes</legend>
+              <label for="checkbox-1">
+                <input type="checkbox" id="checkbox-1" name="checkbox-1" checked>
+                Checkbox
+              </label>
+              <label for="checkbox-2">
+                <input type="checkbox" id="checkbox-2" name="checkbox-2">
+                Checkbox
+              </label>
+            </fieldset>
+            <!-- Radio buttons -->
+            <fieldset>
+              <legend>Radio buttons</legend>
+              <label for="radio-1">
+                <input type="radio" id="radio-1" name="radio" value="radio-1" checked>
+                Radio button
+              </label>
+              <label for="radio-2">
+                <input type="radio" id="radio-2" name="radio" value="radio-2">
+                Radio button
+              </label>
+            </fieldset>
+            <!-- Switch -->
+            <fieldset>
+              <legend>Switches</legend>
+              <label for="switch-1">
+                <input type="checkbox" id="switch-1" name="switch-1" role="switch" checked>
+                Switch
+              </label>
+              <label for="switch-2">
+                <input type="checkbox" id="switch-2" name="switch-2" role="switch">
+                Switch
+              </label>
+            </fieldset>
+          </div>
+          <!-- Buttons: use <button> or input[type=submit|reset] -->
+          <div class="buttons">
+            <button class="btn" type="reset">Reset</button>
+            <input class="btn" type="submit" value="Submit" onclick="event.preventDefault()">
+          </div>
+        </form>
+      </section>
+
+      <!-- Progress -->
+      <section class="pt-max" id="progress">
+        <h2>Progress bar</h2>
+        <progress id="progress-1" value="25" max="100"></progress>
+        <progress id="progress-2"></progress>
+      </section>
+
+      <!-- Loading -->
+      <section class="pt-max" id="loading" aria-label="loaded">
+        <article class="card mb-2" aria-busy="true">
+          <h2 class="visually-hidden">Loading</h2>
+        </article>
+        <button aria-busy="true">Please wait…</button>
+      </section>
+
+      <!-- Grid -->
+      <section class="content__full-width pt-max pb-max" id="grid">
+        <h2>grid</h2>
+        <div class="grid is-auto mb-1">
+          <div class="grid__item">
+            <p>auto</p>
+          </div>
+          <div class="grid__item">
+            <p>auto</p>
+          </div>
+          <div class="grid__item">
+            <p>auto</p>
+          </div>
+          <div class="grid__item">
+            <p>auto</p>
+          </div>
+        </div>
+        <div class="grid mb-1">
+          <div class="grid__item tablet:col-12">
+            <p>full</p>
+          </div>
+        </div>
+        <div class="grid mb-1">
+          <div class="grid__item tablet:col-3/4">
+            <p>3 / 4</p>
+          </div>
+          <div class="grid__item tablet:col-2">
+            <p>2 / 12</p>
+          </div>
+          <div class="grid__item">
+            <p>1</p>
+          </div>
+        </div>
+        <div class="grid mb-1">
+          <div class="grid__item tablet:col-2/3">
+            <p>2 / 3</p>
+          </div>
+          <div class="grid__item tablet:col-2">
+            <p>2 / 12</p>
+          </div>
+          <div class="grid__item tablet:col-2">
+            <p>2 / 12</p>
+          </div>
+        </div>
+        <div class="grid mb-1">
+          <div class="grid__item tablet:col-1/2">
+            <p>half</p>
+          </div>
+          <div class="grid__item tablet:col-1/4">
+            <p>1/4</p>
+          </div>
+          <div class="grid__item tablet:col-1/4">
+            <p>1/4</p>
+          </div>
+        </div>
+        <div class="grid mb-1">
+          <div class="grid__item tablet:col-1/3">
+            <p>1/3</p>
+          </div>
+          <div class="grid__item tablet:col-1/3">
+            <p>1/3</p>
+          </div>
+          <div class="grid__item tablet:col-1/3">
+            <p>1/3</p>
+          </div>
+        </div>
+        <div class="grid mb-1">
+          <div class="grid__item tablet:col-1/4">
+            <p>1/4</p>
+          </div>
+          <div class="grid__item tablet:col-1/3">
+            <p>1/3</p>
+          </div>
+          <div class="grid__item tablet:col-5">
+            <p>5/12</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Modals -->
+      <dialog class="modal" id="modal-default">
+        <div class="modal__base">
+          <header>
+            <h2 class="modal__title">Съешь же ещё этих мягких французских булок да выпей чаю</h2>
+          </header>
+          <div class="modal__body">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, sapiente libero itaque officiis minus illo sit magnam, deserunt, ea quos hic consectetur? Placeat porro unde quasi ducimus accusantium incidunt! Totam!</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, placeat atque perferendis distinctio quisquam aperiam! Porro perferendis facere voluptatum vel mollitia facilis illo. Recusandae minus, at error illum doloribus neque!</p>
+            <p>Non nam cupiditate nobis placeat, maxime, architecto omnis odio labore ab aut officiis iure, dolore est cumque quasi magni maiores! Amet magnam voluptatibus voluptatem tempore quisquam consectetur illo consequuntur corporis.</p>
+            <p>Qui, dolor, perspiciatis voluptas quisquam iste expedita suscipit accusantium cupiditate ducimus recusandae a eveniet quas minus beatae! Doloribus hic, in enim dolor facere voluptatibus ut odit rem, dicta eligendi quaerat!</p>
+            <p>Odio quos ad, sunt cupiditate blanditiis perferendis aut enim at reiciendis consectetur, molestias quo tenetur dignissimos odit officia accusantium nostrum, quis distinctio eveniet? Aliquam voluptatem maiores suscipit quae nam quidem!</p>
+            <p>Similique iure quia, eligendi nostrum unde beatae, quod et, officiis fugit ipsa amet error qui magni ipsum nihil ducimus sunt quam deserunt. A est, pariatur ex corporis eaque quia laborum?</p>
+            <p>Quidem rem beatae officia aliquid, id delectus provident consequatur ut deleniti ad perferendis necessitatibus minus expedita, quos enim harum laborum, impedit in iste doloribus. Consequatur, aut. Accusantium similique quis ab.</p>
+            <p>Suscipit quas quo quisquam fuga, aut consectetur incidunt nihil quam, repellat pariatur debitis praesentium deleniti illum? Deserunt nam error ab amet nisi non eius necessitatibus illum sapiente. Hic, assumenda officia! Развязка</p>
+            <p>Конец.</p>
+          </div>
+          <footer>
+            <button type="button" data-role="close-modal">
+              <span>Отмена</span>
+            </button>
+            <button type="submit">
+              <svg class="icon tablet:d-none" aria-hidden="true" focusable="false">
+                <use href="/assets/img/components/icon/sprite.svg#icon-checkmark"></use>
+              </svg>
+              <span class="d-none tablet:d-inline">Submit</span>
+            </button>
+          </footer>
+        </div>
+      </dialog>
+
+      <dialog class="modal" id="modal-brief">
+        <div class="modal__base">
+          <header>
+            <h2 class="modal__title">Съешь же ещё этих мягких французских булок да выпей чаю</h2>
+          </header>
+          <div class="modal__body">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, sapiente libero itaque officiis minus illo sit magnam, deserunt, ea quos hic consectetur? Placeat porro unde quasi ducimus accusantium incidunt! Totam!</p>
+          </div>
+          <footer>
+            <button type="button" data-role="close-modal">
+              <span>Отмена</span>
+            </button>
+            <button type="submit">
+              <svg class="icon tablet:d-none" aria-hidden="true" focusable="false">
+                <use href="/assets/img/components/icon/sprite.svg#icon-checkmark"></use>
+              </svg>
+              <span class="d-none tablet:d-inline">Submit</span>
+            </button>
+          </footer>
+        </div>
+      </dialog>
+
+      <dialog class="modal is-lg" id="modal-lg">
+        <div class="modal__base">
+          <header>
+            <h2 class="modal__title">Съешь же ещё этих мягких французских булок да выпей чаю</h2>
+          </header>
+          <div class="modal__body">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, sapiente libero itaque officiis minus illo sit magnam, deserunt, ea quos hic consectetur? Placeat porro unde quasi ducimus accusantium incidunt! Totam!</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, placeat atque perferendis distinctio quisquam aperiam! Porro perferendis facere voluptatum vel mollitia facilis illo. Recusandae minus, at error illum doloribus neque!</p>
+            <p>Non nam cupiditate nobis placeat, maxime, architecto omnis odio labore ab aut officiis iure, dolore est cumque quasi magni maiores! Amet magnam voluptatibus voluptatem tempore quisquam consectetur illo consequuntur corporis.</p>
+            <p>Qui, dolor, perspiciatis voluptas quisquam iste expedita suscipit accusantium cupiditate ducimus recusandae a eveniet quas minus beatae! Doloribus hic, in enim dolor facere voluptatibus ut odit rem, dicta eligendi quaerat!</p>
+            <p>Odio quos ad, sunt cupiditate blanditiis perferendis aut enim at reiciendis consectetur, molestias quo tenetur dignissimos odit officia accusantium nostrum, quis distinctio eveniet? Aliquam voluptatem maiores suscipit quae nam quidem!</p>
+            <p>Similique iure quia, eligendi nostrum unde beatae, quod et, officiis fugit ipsa amet error qui magni ipsum nihil ducimus sunt quam deserunt. A est, pariatur ex corporis eaque quia laborum?</p>
+            <p>Quidem rem beatae officia aliquid, id delectus provident consequatur ut deleniti ad perferendis necessitatibus minus expedita, quos enim harum laborum, impedit in iste doloribus. Consequatur, aut. Accusantium similique quis ab.</p>
+            <p>Suscipit quas quo quisquam fuga, aut consectetur incidunt nihil quam, repellat pariatur debitis praesentium deleniti illum? Deserunt nam error ab amet nisi non eius necessitatibus illum sapiente. Hic, assumenda officia! Развязка</p>
+            <p>Конец.</p>
+          </div>
+          <footer>
+            <button type="button" data-role="close-modal">
+              <span>Отмена</span>
+            </button>
+            <button type="submit">
+              <svg class="icon tablet:d-none" aria-hidden="true" focusable="false">
+                <use href="/assets/img/components/icon/sprite.svg#icon-checkmark"></use>
+              </svg>
+              <span class="d-none tablet:d-inline">Submit</span>
+            </button>
+          </footer>
+        </div>
+      </dialog>
+
+      <dialog class="modal is-sm" id="modal-sm">
+        <div class="modal__base">
+          <header>
+            <h2 class="modal__title">Съешь же ещё этих мягких французских булок да выпей чаю</h2>
+          </header>
+          <div class="modal__body">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, sapiente libero itaque officiis minus illo sit magnam, deserunt, ea quos hic consectetur? Placeat porro unde quasi ducimus accusantium incidunt! Totam!</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, placeat atque perferendis distinctio quisquam aperiam! Porro perferendis facere voluptatum vel mollitia facilis illo. Recusandae minus, at error illum doloribus neque!</p>
+            <p>Non nam cupiditate nobis placeat, maxime, architecto omnis odio labore ab aut officiis iure, dolore est cumque quasi magni maiores! Amet magnam voluptatibus voluptatem tempore quisquam consectetur illo consequuntur corporis.</p>
+            <p>Qui, dolor, perspiciatis voluptas quisquam iste expedita suscipit accusantium cupiditate ducimus recusandae a eveniet quas minus beatae! Doloribus hic, in enim dolor facere voluptatibus ut odit rem, dicta eligendi quaerat!</p>
+            <p>Odio quos ad, sunt cupiditate blanditiis perferendis aut enim at reiciendis consectetur, molestias quo tenetur dignissimos odit officia accusantium nostrum, quis distinctio eveniet? Aliquam voluptatem maiores suscipit quae nam quidem!</p>
+            <p>Similique iure quia, eligendi nostrum unde beatae, quod et, officiis fugit ipsa amet error qui magni ipsum nihil ducimus sunt quam deserunt. A est, pariatur ex corporis eaque quia laborum?</p>
+            <p>Quidem rem beatae officia aliquid, id delectus provident consequatur ut deleniti ad perferendis necessitatibus minus expedita, quos enim harum laborum, impedit in iste doloribus. Consequatur, aut. Accusantium similique quis ab.</p>
+            <p>Suscipit quas quo quisquam fuga, aut consectetur incidunt nihil quam, repellat pariatur debitis praesentium deleniti illum? Deserunt nam error ab amet nisi non eius necessitatibus illum sapiente. Hic, assumenda officia! Развязка</p>
+            <p>Конец.</p>
+          </div>
+          <footer>
+            <button type="button" data-role="close-modal">
+              <span>Отмена</span>
+            </button>
+            <button type="submit" autofocus>
+              <svg class="icon tablet:d-none" aria-hidden="true" focusable="false">
+                <use href="/assets/img/components/icon/sprite.svg#icon-checkmark"></use>
+              </svg>
+              <span class="d-none tablet:d-inline">Submit</span>
+            </button>
+          </footer>
+        </div>
+      </dialog>
+
+      <dialog class="modal is-lg" id="modal-external">
+        <div class="modal__base">
+          <button class="btn is-close" type="button" data-role="close-modal" aria-label="Close">
+            <svg class="icon" aria-hidden="true" focusable="false">
+              <use href="/assets/img/components/icon/sprite.svg#icon-x-mark"></use>
+            </svg>
+          </button>
+          <div class="modal__content"></div>
+        </div>
+      </dialog>
+
+      <dialog class="modal" id="modal-headerless">
+        <div class="modal__base">
+          <div class="modal__body">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, sapiente libero itaque officiis minus illo sit magnam, deserunt, ea quos hic consectetur? Placeat porro unde quasi ducimus accusantium incidunt! Totam!</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, placeat atque perferendis distinctio quisquam aperiam! Porro perferendis facere voluptatum vel mollitia facilis illo. Recusandae minus, at error illum doloribus neque!</p>
+            <p>Non nam cupiditate nobis placeat, maxime, architecto omnis odio labore ab aut officiis iure, dolore est cumque quasi magni maiores! Amet magnam voluptatibus voluptatem tempore quisquam consectetur illo consequuntur corporis.</p>
+            <p>Qui, dolor, perspiciatis voluptas quisquam iste expedita suscipit accusantium cupiditate ducimus recusandae a eveniet quas minus beatae! Doloribus hic, in enim dolor facere voluptatibus ut odit rem, dicta eligendi quaerat!</p>
+            <p>Odio quos ad, sunt cupiditate blanditiis perferendis aut enim at reiciendis consectetur, molestias quo tenetur dignissimos odit officia accusantium nostrum, quis distinctio eveniet? Aliquam voluptatem maiores suscipit quae nam quidem!</p>
+            <p>Similique iure quia, eligendi nostrum unde beatae, quod et, officiis fugit ipsa amet error qui magni ipsum nihil ducimus sunt quam deserunt. A est, pariatur ex corporis eaque quia laborum?</p>
+            <p>Quidem rem beatae officia aliquid, id delectus provident consequatur ut deleniti ad perferendis necessitatibus minus expedita, quos enim harum laborum, impedit in iste doloribus. Consequatur, aut. Accusantium similique quis ab.</p>
+            <p>Suscipit quas quo quisquam fuga, aut consectetur incidunt nihil quam, repellat pariatur debitis praesentium deleniti illum? Deserunt nam error ab amet nisi non eius necessitatibus illum sapiente. Hic, assumenda officia! Развязка</p>
+            <p>Конец.</p>
+          </div>
+          <footer>
+            <button type="button" data-role="close-modal">
+              <span>Отмена</span>
+            </button>
+            <button type="submit">
+              <svg class="icon tablet:d-none" aria-hidden="true" focusable="false">
+                <use href="/assets/img/components/icon/sprite.svg#icon-checkmark"></use>
+              </svg>
+              <span class="d-none tablet:d-inline">Submit</span>
+            </button>
+          </footer>
+        </div>
+      </dialog>
+
+      <dialog class="modal" id="modal-footerless">
+        <div class="modal__base">
+          <button class="btn is-close" type="button" data-role="close-modal" aria-label="Close">
+            <svg class="icon" aria-hidden="true" focusable="false">
+              <use href="/assets/img/components/icon/sprite.svg#icon-x-mark"></use>
+            </svg>
+          </button>
+          <header>
+            <h2 class="modal__title">Съешь же ещё этих мягких французских булок да выпей чаю</h2>
+          </header>
+          <div class="modal__body">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, sapiente libero itaque officiis minus illo sit magnam, deserunt, ea quos hic consectetur? Placeat porro unde quasi ducimus accusantium incidunt! Totam!</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, placeat atque perferendis distinctio quisquam aperiam! Porro perferendis facere voluptatum vel mollitia facilis illo. Recusandae minus, at error illum doloribus neque!</p>
+            <p>Non nam cupiditate nobis placeat, maxime, architecto omnis odio labore ab aut officiis iure, dolore est cumque quasi magni maiores! Amet magnam voluptatibus voluptatem tempore quisquam consectetur illo consequuntur corporis.</p>
+            <p>Qui, dolor, perspiciatis voluptas quisquam iste expedita suscipit accusantium cupiditate ducimus recusandae a eveniet quas minus beatae! Doloribus hic, in enim dolor facere voluptatibus ut odit rem, dicta eligendi quaerat!</p>
+            <p>Odio quos ad, sunt cupiditate blanditiis perferendis aut enim at reiciendis consectetur, molestias quo tenetur dignissimos odit officia accusantium nostrum, quis distinctio eveniet? Aliquam voluptatem maiores suscipit quae nam quidem!</p>
+            <p>Similique iure quia, eligendi nostrum unde beatae, quod et, officiis fugit ipsa amet error qui magni ipsum nihil ducimus sunt quam deserunt. A est, pariatur ex corporis eaque quia laborum?</p>
+            <p>Quidem rem beatae officia aliquid, id delectus provident consequatur ut deleniti ad perferendis necessitatibus minus expedita, quos enim harum laborum, impedit in iste doloribus. Consequatur, aut. Accusantium similique quis ab.</p>
+            <p>Suscipit quas quo quisquam fuga, aut consectetur incidunt nihil quam, repellat pariatur debitis praesentium deleniti illum? Deserunt nam error ab amet nisi non eius necessitatibus illum sapiente. Hic, assumenda officia! Развязка</p>
+            <p>Конец.</p>
+          </div>
+        </div>
+      </dialog>
+
+      <dialog class="modal" id="modal-just-body">
+        <div class="modal__base">
+          <div class="modal__body">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, sapiente libero itaque officiis minus illo sit magnam, deserunt, ea quos hic consectetur? Placeat porro unde quasi ducimus accusantium incidunt! Totam!</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, placeat atque perferendis distinctio quisquam aperiam! Porro perferendis facere voluptatum vel mollitia facilis illo. Recusandae minus, at error illum doloribus neque!</p>
+            <p>Non nam cupiditate nobis placeat, maxime, architecto omnis odio labore ab aut officiis iure, dolore est cumque quasi magni maiores! Amet magnam voluptatibus voluptatem tempore quisquam consectetur illo consequuntur corporis.</p>
+            <p>Qui, dolor, perspiciatis voluptas quisquam iste expedita suscipit accusantium cupiditate ducimus recusandae a eveniet quas minus beatae! Doloribus hic, in enim dolor facere voluptatibus ut odit rem, dicta eligendi quaerat!</p>
+            <p>Odio quos ad, sunt cupiditate blanditiis perferendis aut enim at reiciendis consectetur, molestias quo tenetur dignissimos odit officia accusantium nostrum, quis distinctio eveniet? Aliquam voluptatem maiores suscipit quae nam quidem!</p>
+            <p>Similique iure quia, eligendi nostrum unde beatae, quod et, officiis fugit ipsa amet error qui magni ipsum nihil ducimus sunt quam deserunt. A est, pariatur ex corporis eaque quia laborum?</p>
+            <p>Quidem rem beatae officia aliquid, id delectus provident consequatur ut deleniti ad perferendis necessitatibus minus expedita, quos enim harum laborum, impedit in iste doloribus. Consequatur, aut. Accusantium similique quis ab.</p>
+            <p>Suscipit quas quo quisquam fuga, aut consectetur incidunt nihil quam, repellat pariatur debitis praesentium deleniti illum? Deserunt nam error ab amet nisi non eius necessitatibus illum sapiente. Hic, assumenda officia! Развязка</p>
+            <p>Конец.</p>
+          </div>
+        </div>
+      </dialog>
+    </main>
+
+    <nav class="navbar" aria-label="Main">
+      <a class="logo navbar__logo" href="/">
+        <img class="logo__logomark" src="/assets/img/base/graphics/logomark.svg" width="48" height="48" alt="01-boilerplate — Logo">
+        <span class="logo__text">
+          <span class="logo__logotype"> 01<span class="d-none desktop:d-inline">-</span>boilerplate </span>
+          <span class="logo__tagline">
+            <span class="d-none desktop:d-inline">CSS-</span>
+            framework
+          </span>
+        </span>
+      </a>
+      <ul class="menu tablet:mt-2" id="main-menu">
+        <li>
+          <a class="menu__link" href="#">
+            <svg class="icon" aria-hidden="true" focusable="false">
+              <use href="/assets/img/components/icon/sprite.svg#icon-success"></use>
+            </svg>
+            <span class="label">Home</span>
+          </a>
+        </li>
+        <li>
+          <a class="menu__link" href="#">
+            <svg class="icon" aria-hidden="true" focusable="false">
+              <use href="/assets/img/components/icon/sprite.svg#icon-success"></use>
+            </svg>
+            <span class="label">2nd Item</span>
+            <span class="badge" role="status" aria-label="Check these 4 must-have items">4</span>
+          </a>
+        </li>
+        <li>
+          <a class="menu__link" href="#">
+            <svg class="icon" aria-hidden="true" focusable="false">
+              <use href="/assets/img/components/icon/sprite.svg#icon-success"></use>
+            </svg>
+            <span class="label">3d Item</span>
+          </a>
+        </li>
+        <li class="menu__item is-more">
+          <details class="popover" data-role="popover">
+            <summary class="menu__link">
+              <svg class="icon" aria-hidden="true" focusable="false">
+                <use href="/assets/img/components/icon/sprite.svg#icon-more"></use>
+              </svg>
+              <span class="label">More</span>
+            </summary>
+            <ul class="popover__body menu">
+              <li>
+                <a class="menu__link" href="#">
+                  <svg class="icon" aria-hidden="true" focusable="false">
+                    <use href="/assets/img/components/icon/sprite.svg#icon-success"></use>
+                  </svg>
+                  <span class="label">Overflow Menu Item</span>
+                </a>
+              </li>
+              <li>
+                <a class="menu__link" href="#">
+                  <svg class="icon" aria-hidden="true" focusable="false">
+                    <use href="/assets/img/components/icon/sprite.svg#icon-success"></use>
+                  </svg>
+                  <span class="label">Overflow Menu Item</span>
+                </a>
+              </li>
+              <li>
+                <a class="menu__link" href="#">
+                  <svg class="icon" aria-hidden="true" focusable="false">
+                    <use href="/assets/img/components/icon/sprite.svg#icon-success"></use>
+                  </svg>
+                  <span class="label">Very Looooooooong Overflow Menu Item</span>
+                </a>
+              </li>
+            </ul>
+          </details>
+        </li>
+      </ul>
+      <a class="btn navbar__footer has-tooltip is-right" href="https://super-mark.ru/" target="_blank" rel="noopener noreferrer" aria-label="Developed by super-mark.ru">
+        ©️
+        <span class="d-none desktop:d-inline"> &nbsp;SumerMark </span>
+      </a>
+    </nav>
+
+    <footer class="footer">
+      <p class="footer__copyright">
+        © 2024 Владимир Никишин,&nbsp;
+        <a href="https://super-mark.ru/" target="_blank" rel="noopener noreferrer"> SuperMark </a>.
+      </p>
+    </footer>
+  </body>
+</html>

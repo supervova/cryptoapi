@@ -1,0 +1,26 @@
+@use 'abstracts' as *;
+
+.e-icon {
+  display: inline-block;
+
+  // Prevent the icon from shrinking inside a flex container.
+  flex-shrink: 0;
+  overflow: hidden;
+  transition:
+    fill var(--duration-50),
+    opacity var(--duration-50);
+  vertical-align: middle;
+
+  width: var(--size-icon);
+  height: var(--size-icon);
+
+  @media (--retina) {
+    --icon-stroke-width: 1.5;
+  }
+
+  // Remove black fill in the FF
+  // stylelint-disable-next-line at-rule-no-vendor-prefix
+  @-moz-document url-prefix() {
+    fill: transparent;
+  }
+}

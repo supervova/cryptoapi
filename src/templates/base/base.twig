@@ -1,0 +1,76 @@
+{# Don't treat the config as an include. Twig won't understand #}
+{% block config %}
+  {% set now = "now"|date('Y-m-d H:i:s') %}
+  {% set current_year = "now"|date('Y') %}
+  {% set timestamp = "now"|date('U') %}
+{% endblock %}
+
+{% set lang = page.lang|default(site.lang) %}
+
+{% set page_title = page.title|default(site.title.en) %}
+{% set page_desc = page.desc|default(site.desc.en) %}
+{% set page_img = page.img|default(site.img) %}
+{% set body_classes = page.body_classes ? page.body_classes : 'page' %}
+
+<!DOCTYPE html>
+<html lang="{{ lang }}" prefix="og: http://ogp.me/ns#">
+<head>
+{% block head %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>{{ page_title }}</title>
+  <meta name="description" content="{{ page_desc }}">
+
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:description" content="{{ page_desc }}">
+  <meta property="og:type" content="website">
+  {% if page.link is defined %}
+    <meta property="og:url" content="{{ page.link }}">
+    <link rel="canonical" href="{{ page.link }}">
+  {% endif %}
+  <meta property="og:image" content="{{ page_img }}">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/assets/img/components/icon/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/img/components/icon/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  {% if site.fonts.google is defined %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family={{ site.fonts.google }}">
+  {% endif %}
+
+  <link rel="stylesheet" href="{{ site.css }}?{{ timestamp }}">
+{% endblock %}
+</head>
+
+<body class="{{ body_classes }}">
+  {% if site.google_tag_manager is defined %}
+    {# Google Tag Manager (noscript) #}
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ site.google_tag_manager }}"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  {% endif %}
+
+  {# HEADER ----------------------------------------------------------------- #}
+  {% block header %}
+    {% include "components/header.twig" %}
+  {% endblock %}
+
+  {# CONTENT ---------------------------------------------------------------- #}
+  <main class="e-main">
+  {% block content %}
+  {% endblock %}
+  </main>
+
+  {# FOOTER ----------------------------------------------------------------- #}
+  {% block footer %}
+    {% include "components/footer.twig" %}
+  {% endblock %}
+
+  {% block body_suffix %}
+    {% include "base/body-suffix.twig" %}
+  {% endblock %}
+</body>
+</html>

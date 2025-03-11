@@ -1,0 +1,116 @@
+@use 'sass:math';
+@use 'abstracts' as *;
+
+// -----------------------------------------------------------------------------
+// BASE
+// -----------------------------------------------------------------------------
+// #region
+.e-card {
+  background-color: var(--color-bg-layer-01);
+  border-radius: var(--border-radius-lg);
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding-block: var(--size-3);
+  padding-inline: var(--size-3);
+}
+
+.e-card__copy {
+  padding: var(--padding-x-box);
+}
+
+// Title
+.e-card__title {
+  @include text-format(base);
+  font-family: var(--font-family-titles);
+  font-weight: var(--font-weight-titles);
+  letter-spacing: 0.4px;
+  margin-bottom: 0;
+}
+
+.e-card__title.e-h3 {
+  @include text-format(h3);
+}
+
+// Summary
+.e-card__desc {
+  color: var(--color-ink-2ry);
+}
+
+// Image
+.e-card__img {
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+}
+
+.e-card__spot-icon {
+  --icon-stroke: var(--color-alpha-light-900);
+
+  background-color: var(--color-brand-primary);
+  border-radius: var(--border-radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-6);
+  height: var(--size-6);
+}
+
+.e-card.is-featured {
+  --card-bg-image:
+    image-set(
+      url('/assets/img/pages/home/featured-feature.jpg') 1x,
+      url('/assets/img/pages/home/featured-feature@2x.jpg') 2x
+    );
+
+  background:
+    linear-gradient(hsl(var(--h) var(--s-min) 18% / 0.86), hsl(var(--h) var(--s-min) 18% / 0.86)),
+    linear-gradient(hsl(var(--h) var(--s-min) 18%), hsl(var(--h) var(--s-min) 18%)),
+    var(--card-bg-image);
+  background-blend-mode: normal, color, normal;
+  background-size: auto, auto, cover;
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// VARIANTS
+// -----------------------------------------------------------------------------
+// #region
+:where(.e-section.has-scroller-row) .e-card,
+:where(.e-section.has-scroller-row-reverse) .e-card {
+  width: 100%;
+  max-width: rem(260);
+
+  @media (--tablet) {
+    max-width: rem(284);
+  }
+
+  @media (--tablet-l) {
+    max-width: rem(298);
+  }
+
+  @media (--laptop) {
+    max-width: rem(290);
+  }
+}
+
+:where(.e-section.is-features) .e-card {
+  background-image:
+    radial-gradient(
+      circle farthest-corner at 0% 100%,
+      hsl(var(--h-green) var(--s) 83% / 0.1),
+      hsl(var(--h-green) var(--s) 83% / 0.05) 33.33%,
+      hsl(var(--h-green) var(--s) 83% / 0)
+    );
+  height: rem(408);
+
+  .e-card__base {
+    margin-top: auto;
+    min-height: rem(136);
+  }
+
+  .e-card__desc {
+    margin-bottom: 0;
+  }
+}
+// #endregion

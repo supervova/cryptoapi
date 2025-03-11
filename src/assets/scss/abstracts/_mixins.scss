@@ -1,0 +1,583 @@
+// -----------------------------------------------------------------------------
+// Table of contents
+// -----------------------------------------------------------------------------
+// grid-base                - Base grid layout with default column, row, and gap settings
+// multi-grid               - Grid layout with specific settings
+// grid-auto                - Grid with automatic columns based on a minimum width
+// grid                     - Responsive grid layout combining base and 12-column layouts
+// grid-columns             - Generates column classes for grid with custom breakpoints
+// flex-base                - Base flex layout with default settings
+// flex-grid                - It can be a row or a 2-dimensional flex layout. Use this one within media query.
+// container                - Centers content with a max-width and auto margins
+// centering-max-width      - Centers elements with a maximum width and customizable margins
+// heading-base             - Basic styles for headings including font and color
+// text-format              - Sets font size, line height, and padding for text elements
+// label                    - Styles for labels with optional uppercase transformation
+// text-truncate            - Single line text truncation with ellipsis
+// multiline-truncate       - Multi-line text truncation with ellipsis
+// multiline-truncate-reset - Resets multi-line truncation
+// text-inline-block        - Text with inline-block display
+// ol                       - Ordered list styles
+// border                   - Adds a border overlay with flex display and overflow handling
+// chevron-down             - Adds a chevron down icon with specific positioning and styles
+// utility-classes          - Generates utility classes based on provided properties
+// visually-hidden          - Hides elements visually but keeps them accessible
+// state-disabled           - Uses visual cues to indicate that the button is disabled
+// state-focus              - Adds a focus ring for accessibility
+// state-hover-a            - Adds a :hover underscore to links
+// menu-item                - Styles for menu items with padding, alignment, and focus behavior
+// button-base              - Base styles for buttons including alignment, cursor, and touch-action
+// button                   - Comprehensive button styles with customizable properties
+// button-primary           - Styles for primary buttons with specific background, color, and shadow
+// scrollbar                - Styles for scrollbars with customizable properties
+// -----------------------------------------------------------------------------
+
+@use 'sass:map';
+@use 'sass:math';
+@use 'functions' as *;
+@use 'config' as *;
+
+// -----------------------------------------------------------------------------
+// LAYOUT
+// -----------------------------------------------------------------------------
+// #region
+
+@mixin grid-base($gap: var(--size-2)) {
+  display: grid;
+  gap: var(--grid-gap, $gap);
+  grid-template-columns: var(--grid-columns, 1fr);
+  grid-template-rows: var(--grid-rows, auto);
+
+  // HACK for grid and flex direct children in overflow
+  // https://stackoverflow.com/questions/36247140/why-dont-flex-items-shrink-past-content-size
+  & > * {
+    min-width: 0;
+    min-height: 0;
+  }
+}
+
+// Multi-column grid
+@mixin multi-grid($columns: 12) {
+  --grid-columns: repeat(#{$columns}, minmax(0, 1fr));
+}
+
+// Auto grid
+@mixin grid-auto($min-width: rem(280)) {
+  --grid-columns: repeat(auto-fit, minmax(#{$min-width}, 1fr));
+}
+
+// Adaptive grid with automatic switching to 12 columns
+@mixin grid($mobile-columns: 1fr, $desktop-columns: 12) {
+  @include grid-base();
+
+  --grid-columns: #{$mobile-columns};
+
+  @media (--tablet) {
+    @include multi-grid($desktop-columns);
+  }
+}
+
+@mixin grid-columns($columns: 12, $screens: $mq-breakpoints-lg) {
+  @each $screen in $screens {
+    @media (--#{$screen}) {
+      $class-base: null;
+
+      // Classes aliases
+      @if $screen != all {
+        @for $i from 1 through $columns {
+          // Create aliases for halves, thirds and fourths
+
+          // stylelint-disable max-nesting-depth
+          @if math.div($columns, $i) == 4 {
+            $class-base: 1\/4;
+          } @else if math.div($columns, $i) == 3 {
+            $class-base: 1\/3;
+          } @else if math.div($columns, $i) == 2 {
+            $class-base: 1\/2;
+          } @else if $i == 8 {
+            $class-base: 2\/3;
+          } @else if $i == 9 {
+            $class-base: 3\/4;
+          } @else if $i == 12 {
+            $class-base: 1\/1;
+          } @else {
+            $class-base: $i;
+          }
+
+          // Prefixed classes
+          @if $class-base != $i {
+            .#{$screen}\:col-#{$class-base},
+            .#{$screen}\:col-#{$i} {
+              grid-column: auto / span $i;
+            }
+          } @else {
+            .#{$screen}\:col-#{$class-base} {
+              grid-column: auto / span $i;
+            }
+          }
+        }
+        // stylelint-enable max-nesting-depth
+
+        // Offsets / Start position
+        @for $i from 1 through ($columns - 1) {
+          .#{$screen}\:col-start-#{$i} {
+            grid-column-start: $i;
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin flex-base() {
+  --columns: 1;
+  --gap: var(--size-2);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+// Use this one within media query. Use $columns to define base layout
+@mixin flex-grid($columns: 2, $gap: var(--size-3), $let-flex: false) {
+  --gap: #{$gap};
+  --columns: #{$columns};
+
+  @if $let-flex {
+    display: flex;
+  }
+
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  > * {
+    width: calc(
+      100% / var(--columns) - var(--gap) * (var(--columns) - 1) / var(--columns)
+    );
+  }
+}
+
+@mixin container($width: var(--width-container)) {
+  margin-inline: auto;
+  padding-inline: var(--padding-x-container);
+  position: relative;
+  width: 100%;
+  max-width: $width;
+}
+
+@mixin centering-max-width(
+  $width: var(--width-container),
+  $margin: var(--size-2p5)
+) {
+  margin-inline: max($margin, calc(50% - $width / 2));
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// TYPOGRAPHY
+// -----------------------------------------------------------------------------
+// #region
+
+@mixin heading-base() {
+  color: var(--color-ink-text);
+
+  // OpenType kerning
+  font-family: var(--font-family-title);
+  font-feature-settings:
+    'kern' 1,
+    'liga' 1;
+}
+
+@mixin text-format($level) {
+  font-size: var(--font-size-#{$level});
+  line-height: var(--line-height-#{$level});
+  padding-top: var(--padding-top-#{$level});
+  padding-bottom: var(--padding-bottom-#{$level});
+}
+
+@mixin label($uppercase: true) {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-label);
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  line-height: var(--line-height, var(--line-height-label));
+
+  @if $uppercase {
+    text-transform: uppercase;
+  }
+}
+
+@mixin text-truncate() {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@mixin multiline-truncate($lines: 4, $line-height: rem(24), $padding-top: 0) {
+  // All old stuff is required
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+
+  line-clamp: $lines;
+  overflow: hidden;
+  max-height: $lines * $line-height + $padding-top;
+}
+
+@mixin multiline-truncate-reset() {
+  -webkit-box-orient: auto;
+  -webkit-line-clamp: none;
+  display: block;
+  line-clamp: none;
+  overflow: visible;
+  max-height: none;
+}
+
+@mixin text-inline-block {
+  display: inline-block;
+  margin-block: -1 * rem(1);
+  padding: rem(1) var(--size-1);
+  vertical-align: baseline;
+}
+
+@mixin ol($counter: counter(list-item) '.') {
+  --start-counter: 1;
+
+  list-style: none;
+  padding-inline: 0;
+
+  > li {
+    counter-increment: list-item var(--start-counter);
+    position: relative;
+    padding-left: 2em;
+
+    &::before {
+      color: var(--color-ink-2ry);
+      content: $counter;
+      position: absolute;
+      left: 0;
+      text-align: right;
+    }
+  }
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// GRAPHICS
+// -----------------------------------------------------------------------------
+// #region
+
+@mixin border() {
+  border-radius: var(--border-radius-base);
+
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  max-width: max-content;
+
+  // Border
+  &::after {
+    border-radius: var(--border-radius-base);
+    box-shadow: inset 0 0 0 1px var(--color-ink-border-neutral);
+    content: '';
+    display: block;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  &:empty {
+    display: none;
+  }
+}
+
+@mixin chevron-down($icon-size: var(--size-icon)) {
+  background-color: transparent;
+  background-image: var(--icon-chevron-down);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: $icon-size;
+  content: '';
+  display: block;
+  position: absolute;
+  top: var(--chevron-top, var(--size-2));
+  inset-inline-end: var(--chevron-end, var(--size-2));
+  transition: transform var(--duration-50) var(--easing-base);
+  width: $icon-size;
+  height: $icon-size;
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// UTILITIES / HELPERS
+// -----------------------------------------------------------------------------
+// #region
+
+@mixin utility-classes($props) {
+  // Generate classes for all breakpoints
+  @each $property, $property-map in $props {
+    $class-base: map.get($property-map, class-base);
+    $values: map.get($property-map, values);
+
+    @each $key, $value in $values {
+      .#{$class-base}-#{$key} {
+        #{$property}: $value;
+      }
+    }
+  }
+
+  // Generate adaptive classes for all media queries
+  @each $screen in $mq-breakpoints {
+    @media (--#{$screen}) {
+      @each $property, $property-map in $props {
+        $class-base: map.get($property-map, class-base);
+        $values: map.get($property-map, values);
+
+        @each $key, $value in $values {
+          .#{$screen}\:#{$class-base}-#{$key} {
+            #{$property}: $value;
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin visually-hidden() {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+  height: 1px;
+}
+
+@mixin state-disabled() {
+  cursor: not-allowed;
+  filter: grayscale(100%);
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+@mixin state-focus(
+  $size: rem(3),
+  $offset: rem(2),
+  $color: var(--color-brand-primary)
+) {
+  outline: $size solid $color;
+  outline-offset: $offset;
+}
+
+@mixin state-hover-a {
+  text-decoration-skip-ink: auto;
+  text-decoration: underline;
+  text-decoration-thickness: max(0.08em, 1px);
+  text-underline-offset: 0.125em;
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// ELEMENTS
+// -----------------------------------------------------------------------------
+// #region
+
+@mixin menu-item() {
+  --button-height: auto;
+  border: 0;
+  border-radius: var(--border-radius-sm);
+  background-color: transparent;
+  color: var(--menu-color, var(--color-ink-2ry));
+  display: flex;
+  align-items: center;
+  gap: var(--size-1);
+  justify-content: flex-start;
+  font-size: inherit;
+  font-weight: inherit;
+  text-align: left;
+  text-decoration: none;
+  text-transform: none;
+  padding: var(--menu-item-padding, var(--size-1) var(--size-2));
+  position: relative;
+  outline: 0;
+  user-select: none;
+  transition:
+    background var(--duration-50),
+    color var(--duration-50);
+  width: 100%;
+
+  > * {
+    min-width: 0;
+  }
+
+  &:focus-visible {
+    @include state-focus();
+  }
+
+  &:is(:active, :focus-visible) {
+    background-color: var(--color-ink-min);
+    text-decoration: none;
+  }
+}
+
+// BUTTONS
+/* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
+
+// Base button properties (structural)
+@mixin button-base() {
+  appearance: button;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: var(--button-gap, var(--size-1p5));
+  justify-content: center;
+  font-family: inherit;
+  text-align: center;
+  text-decoration: none;
+  outline: 0;
+  overflow: visible; // Fix for Edge
+  position: relative;
+  touch-action: manipulation; // Disable gestures like 'double-tap to zoom'
+  transition:
+    background var(--duration-50) var(--easing-base),
+    box-shadow var(--duration-50) var(--easing-base),
+    filter var(--duration-50) var(--easing-base),
+    transform var(--duration-50) var(--easing-base);
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+  max-width: 100%;
+  min-width: 0; // Позволяет кнопке сжиматься меньше, чем ее контент
+
+  &:focus-visible {
+    outline: var(--focus-outline, 2px solid var(--color-focus));
+    outline-offset: var(--focus-outline-offset, 2px);
+  }
+}
+
+// Main button styling (visual)
+@mixin button($btn-font: 'label') {
+  // _vars* level: --button-bg, --button-color, --button-height
+  --button-border: 0;
+  --button-radius: var(--border-radius-base);
+  --button-shadow: none;
+  --button-font-size: var(--font-size-#{$btn-font});
+  --button-font-weight: 500;
+  --button-letter-spacing: var(--letter-spacing-#{$btn-font});
+  --button-padding-x: var(--size-2p5);
+
+  --button-hover:
+    radial-gradient(
+      100% 50% at 50% 100%,
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.19) 2%,
+      rgba(255, 255, 255, 0.16) 10%,
+      rgba(255, 255, 255, 0.12) 21%,
+      rgba(255, 255, 255, 0.08) 36%,
+      rgba(255, 255, 255, 0.04) 54%,
+      rgba(255, 255, 255, 0.01) 76%,
+      rgba(255, 255, 255, 0)
+    ),
+    var(--button-bg);
+  --button-hover-filter: var(--filter-brightness-up);
+  --button-shadow-hover: inherit;
+
+  @include button-base();
+
+  // Visual properties
+  background: var(--button-bg);
+  border: var(--button-border);
+  border-radius: var(--button-radius);
+  box-shadow: var(--button-shadow);
+  color: var(--button-color);
+
+  // Typography
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  letter-spacing: var(--button-letter-spacing);
+  line-height: var(--button-height);
+  text-transform: none;
+
+  // Spacing
+  padding-block: 0;
+  padding-inline: var(--button-padding-x);
+  height: var(--button-height);
+
+  // Handle text truncation in child spans
+  > span {
+    @include text-truncate();
+  }
+
+  // Button states
+  &:active {
+    filter: var(--filter-brightness-down);
+    transform: scale(0.99);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    filter: grayscale(100%);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  @media (any-hover: hover) and (pointer: fine) {
+    &:hover {
+      background: var(--button-hover);
+      box-shadow: var(--button-shadow-hover);
+      filter: var(--button-hover-filter);
+      text-decoration: none;
+    }
+  }
+}
+
+// Variant: Primary button
+@mixin button-primary($use-base-styles: false) {
+  @if $use-base-styles {
+    @include button;
+  }
+
+  & {
+    --button-bg: var(--color-gradient-brand);
+    --button-color: var(--button-color-primary);
+    --icon-stroke: var(--color-light-max);
+
+    text-shadow: 0 1px 0 var(--color-alpha-light-400);
+  }
+}
+
+@mixin scrollbar(
+  $size: var(--size-1),
+  $thumb-bg: var(--color-scroll-thumb),
+  $track-bg: var(--color-scroll-track)
+) {
+  scrollbar-color: $thumb-bg $track-bg;
+  scrollbar-width: thin;
+
+  // Previous webkit browsers
+  &::-webkit-scrollbar {
+    width: $size;
+    height: $size;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $track-bg;
+    border: none;
+    box-shadow: none;
+  }
+
+  // Handle
+  &::-webkit-scrollbar-thumb {
+    background-color: $thumb-bg;
+    border-radius: var(--border-radius-pill);
+    border: var(--size-half) solid transparent;
+  }
+}
+
+// #endregion

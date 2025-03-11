@@ -1,0 +1,79 @@
+@use '../abstracts' as *;
+
+// -----------------------------------------------------------------------------
+// BASE STYLES FOR HEADINGS
+// -----------------------------------------------------------------------------
+// prettier-ignore
+
+h1, .e-h1,
+h2, .e-h2,
+h3, .e-h3,
+h4, .e-h4,
+h5, h6 {
+  text-rendering: optimizeLegibility;
+  text-wrap: balance;
+  margin-top: 0;
+  margin-bottom: var(--size-2);
+}
+
+// -----------------------------------------------------------------------------
+// EYEBROW
+// -----------------------------------------------------------------------------
+
+.e-eyebrow {
+  @include text-format(caption);
+  color: var(--eyebrow-color, var(--color-brand-accent));
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+// -----------------------------------------------------------------------------
+// H1
+// -----------------------------------------------------------------------------
+
+h1, .e-h1 {
+  @include text-format(title);
+  font-weight: var(--font-weight-titles, bold);
+  letter-spacing: var(--letter-spacing-title, normal);
+}
+
+// -----------------------------------------------------------------------------
+// H2
+// -----------------------------------------------------------------------------
+
+h2, .e-h2 {
+  @include text-format(h2);
+  font-weight: var(--font-weight-h2, bold);
+  letter-spacing: var(--letter-spacing-h2, normal);
+}
+
+// -----------------------------------------------------------------------------
+// H3
+// -----------------------------------------------------------------------------
+
+h3, .e-h3 {
+  @include text-format(h3);
+  font-weight: var(--font-weight-h3, bold);
+  letter-spacing: var(--letter-spacing-h3);
+}
+
+// -----------------------------------------------------------------------------
+// H4, H5, H6
+// -----------------------------------------------------------------------------
+
+h4, .e-h4,
+h5, h6 {
+  @include text-format(base);
+  font-weight: var(--font-weight-h4, bold);
+  letter-spacing: var(--letter-spacing-base);
+}
+
+// -----------------------------------------------------------------------------
+// ADDITIONAL STYLES
+// -----------------------------------------------------------------------------
+
+:where(address, blockquote, div, dl, figure, form, ol, p, pre, table, ul)
+  + :is(h2, h3, h4, h5, h6) {
+  margin-top: var(--margin-top-subhead, var(--size-line));
+}

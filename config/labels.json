@@ -1,0 +1,17 @@
+{
+  "tagline": {
+    "mobile": {
+      "ru": "ИИ для крипторынка",
+      "en": "AI for Crypto Market"
+    },
+    "tablet": {
+      "ru": "для крипторынка",
+      "en": "for trading"
+    },
+    "laptop": {
+      "ru": "ИИ-криптоаналитика и сигналы",
+      "en": "AI Crypto Analytics and Signals"
+    }
+  },
+  "sign_in": {"ru": "Вход", "en": "Sign In"}
+}

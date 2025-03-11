@@ -1,0 +1,55 @@
+@use 'sass:math';
+@use '../abstracts' as *;
+
+// -----------------------------------------------------------------------------
+// BORDER FOR MEDIA ELEMENTS
+// -----------------------------------------------------------------------------
+
+.e-border {
+  @include border;
+
+  > :is(iframe, img) {
+    margin-bottom: 0;
+    width: 100%;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// FIGURES AND IFRAMES
+// -----------------------------------------------------------------------------
+
+iframe {
+  border-style: none; // Убирает границу для iframe во всех браузерах
+}
+
+figure,
+iframe {
+  margin-top: 0;
+  margin-bottom: var(--media-margin-bottom, 1rem); // Универсальный отступ снизу
+}
+
+figcaption {
+  color: var(--color-ink-2ry);
+  padding-top: var(--padding-top-base);
+  padding-bottom: var(--padding-bottom-base);
+}
+
+// -----------------------------------------------------------------------------
+// IMAGES, VIDEO, SVG
+// -----------------------------------------------------------------------------
+
+img,
+video {
+  border-style: none;
+  max-width: 100%; // Ограничивает ширину изображений и видео
+  height: auto;    // Сохраняет пропорции при изменении размеров
+}
+
+img:not([class]),
+figure img {
+  display: block; // Изображения блоками, чтобы избежать пробелов
+}
+
+svg:not(:root) {
+  overflow: hidden; // Скрывает переполнение для SVG в IE
+}
