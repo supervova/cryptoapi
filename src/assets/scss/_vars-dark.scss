@@ -106,10 +106,13 @@
   --color-ink-text-warning: hsl(var(--h-yellow) var(--s) 43%);
   --color-ink-2ry-warning:  hsl(var(--h-yellow) var(--s) 34%);
 
-  --color-base-success:     var(--color-brand-accent);
-  --color-bg-success:       var(--color-bg-brand-accent);
-  --color-ink-text-success: var(--color-ink-text-brand-accent);
-  --color-ink-2ry-success:  var(--color-ink-2ry-brand-accent);
+  --color-base-success:     hsl(var(--h-green) var(--s) 37%);
+  --color-bg-success:
+    hsl(var(--h-green) var(--s) 32% / 0.24),
+    hsl(var(--h-green) var(--s) 32% / 0.12) 33.33%,
+    hsl(var(--h-green) var(--s) 32% / 0);
+  --color-ink-text-success: hsl(var(--h-green) var(--s) 38%);
+  --color-ink-2ry-success:  hsl(var(--h-green) var(--s) 31%);
 
   // Optional - code: number, property, string, variable, tag, function, operator
   // #endregion

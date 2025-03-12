@@ -1,15 +1,6 @@
 @use '../abstracts' as *;
 @use '../abstracts/custom';
 
-// FEATURES
-.e-section.is-testimonials .e-card.is-featured {
-  --card-bg-image:
-    image-set(
-      url('/assets/img/pages/home/featured--testimonial.jpg') 1x,
-      url('/assets/img/pages/home/featured--testimonial@2x.jpg') 2x
-    );
-}
-
 // MARKETS
 .e-section.is-markets {}
 :where(.e-section.is-markets) .e-section__keypoints {}
@@ -64,31 +55,61 @@
 :where(.e-section.is-agent-price) .e-section__image {}
 
 // TESTIMONIALS
-
-.e-section.is-testimonials {}
-:where(.e-section.is-testimonials) .e-section__card {
-  // background: ;
-  // border-radius: ;
-  // border: ;
-  flex: 0 0 auto;
-  // padding: ;
-  // width: ;
+.e-section.is-testimonials .e-card.is-featured {
+  --card-bg-image:
+    image-set(
+      url('/assets/img/pages/home/featured-testimonial.jpg') 1x,
+      url('/assets/img/pages/home/featured-testimonial@2x.jpg') 2x
+    );
 }
-:where(.e-section.is-testimonials) .e-section__hgroup {}
 
 // FAQ
-.e-section.is-faq {}
+.e-section.is-faq {
+  border-radius: var(--border-radius-lg);
+  background-color: var(--color-bg-layer-01);
+  background-blend-mode: screen;
+  overflow: hidden;
+  position: relative;
+  margin-inline: auto;
+  padding-top: var(--size-5);
+  padding-bottom: var(--size-4);
+  padding-inline: var(--size-2p5);
 
-// ACCORDION
-// _accordion.scss
+  &::before {
+    background-image:
+      radial-gradient(
+        24% 120% at 50% 0,
+        hsl(var(--h) var(--s) 99% / 0.22),
+        hsl(var(--h) var(--s) 99% / 0.21) 2%,
+        hsl(var(--h) var(--s) 99% / 0.18) 10%,
+        hsl(var(--h) var(--s) 99% / 0.14) 21%,
+        hsl(var(--h) var(--s) 99% / 0.08) 36%,
+        hsl(var(--h) var(--s) 99% / 0.04) 54%,
+        hsl(var(--h) var(--s) 99% / 0.01) 76%,
+        hsl(var(--h) var(--s) 99% / 0)
+      );
+    position: absolute;
+    top: rem(-40);
+    left: var(--size-7);
+    rotate: -12deg;
+    content: '';
+    width: 100%;
+    height: 100%;
+  }
 
-// -----------------------------------------------------------------------------
-// CTA
-// -----------------------------------------------------------------------------
-// #region
-.e-cta {}
-.e-cta__title {}
-.e-cta__desc {}
-// #endregion
+  @media (--tablet) {
+    padding-inline: var(--size-5);
+  }
 
+  @media (--tablet-l) {
+    max-width: rem(622);
+  }
 
+  @media (--laptop) {
+    max-width: rem(604);
+  }
+}
+
+.e-section.is-faq h2 {
+  margin-bottom: var(--size-3);
+}

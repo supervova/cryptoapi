@@ -122,7 +122,7 @@
 
   --font-size-body-sm:      #{rem(15)};
   --line-height-body-sm:    #{math.div(20, 15)};
-  --letter-spacing-body-sm: 0;
+  --letter-spacing-body-sm: #{rem(0.1)};
   --padding-top-body-sm:    #{rem(1)};
   --padding-bottom-body-sm: #{rem(3)};
 

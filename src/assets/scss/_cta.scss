@@ -1,0 +1,46 @@
+@use 'sass:math';
+@use 'abstracts' as *;
+
+.e-cta {
+  background:
+    radial-gradient(
+      circle 200px at 50% 0,
+      var(--color-gradient-brand-radial)
+    );
+  text-align: center;
+  margin-inline: auto;
+  padding-top: rem(72);
+  padding-bottom: var(--size-5);
+  padding-inline: var(--padding-x-container);
+  position: relative;
+
+  // Decorative ball
+  &::before {
+    background: var(--color-gradient-brand);
+    border-radius: var(--border-radius-pill);
+    content: '';
+    display: block;
+    position: absolute;
+    top: calc(-1 * var(--size-3));
+    left: 50%;
+    translate: -50% 0;
+    width: var(--size-6);
+    height: var(--size-6);
+  }
+
+  @media (--tablet-l) {
+    max-width: rem(702);
+  }
+
+  @media (--laptop) {
+    max-width: rem(732);
+  }
+}
+
+.e-cta h2 {
+  margin-bottom: 0;
+}
+
+.e-cta p {
+  margin-bottom: var(--size-3);
+}

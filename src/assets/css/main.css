@@ -114,7 +114,7 @@
   --padding-bottom-base: 0.125rem;
   --font-size-body-sm: 0.9375rem;
   --line-height-body-sm: 1.3333333333;
-  --letter-spacing-body-sm: 0;
+  --letter-spacing-body-sm: 0.00625rem;
   --padding-top-body-sm: 0.0625rem;
   --padding-bottom-body-sm: 0.1875rem;
   --font-size-label: 0.9375rem;
@@ -348,10 +348,13 @@
     hsl(var(--h-yellow) var(--s) 36% / 0);
   --color-ink-text-warning: hsl(var(--h-yellow) var(--s) 43%);
   --color-ink-2ry-warning: hsl(var(--h-yellow) var(--s) 34%);
-  --color-base-success: var(--color-brand-accent);
-  --color-bg-success: var(--color-bg-brand-accent);
-  --color-ink-text-success: var(--color-ink-text-brand-accent);
-  --color-ink-2ry-success: var(--color-ink-2ry-brand-accent);
+  --color-base-success: hsl(var(--h-green) var(--s) 37%);
+  --color-bg-success:
+    hsl(var(--h-green) var(--s) 32% / 0.24),
+    hsl(var(--h-green) var(--s) 32% / 0.12) 33.33%,
+    hsl(var(--h-green) var(--s) 32% / 0);
+  --color-ink-text-success: hsl(var(--h-green) var(--s) 38%);
+  --color-ink-2ry-success: hsl(var(--h-green) var(--s) 31%);
   --shadow-ring: 0.1;
   --shadow-opacity-low: 0.2;
   --shadow-opacity-hi: 0.4;
@@ -868,6 +871,10 @@
       fill: transparent;
     }
   }
+  .e-icon.is-sm {
+    width: var(--size-icon-sm);
+    height: var(--size-icon-sm);
+  }
   /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
   .e-btn,
   button,
@@ -1325,7 +1332,6 @@
   }
   :where(.e-section.is-features) .e-card {
     background-image: radial-gradient(circle farthest-corner at 0% 100%, hsl(var(--h-green), var(--s), 83%, 0.1), hsl(var(--h-green), var(--s), 83%, 0.05) 33.33%, hsl(var(--h-green), var(--s), 83%, 0));
-    height: 25.5rem;
   }
   :where(.e-section.is-features) .e-card .e-card__base {
     margin-top: auto;
@@ -1333,6 +1339,10 @@
   }
   :where(.e-section.is-features) .e-card .e-card__desc {
     margin-bottom: 0;
+  }
+  :where(.e-section.is-features) .e-card,
+  :where(.e-section.is-testimonials) .e-card {
+    height: 25.5rem;
   }
   /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
   .e-navbar {
@@ -1896,76 +1906,81 @@
   .e-section__title {
     color: var(--color-ink-text);
   }
-  .e-section.has-scroller-row .e-section__scroller,
-  .e-section.has-scroller-row-reverse .e-section__scroller {
+  /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
+  .e-scroller-row {
+    cursor: grab;
     display: flex;
     flex-direction: row;
     gap: var(--size-2);
     overflow-x: auto;
+    overflow-y: hidden;
     scroll-behavior: smooth;
     padding-bottom: var(--size-1);
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  .e-section.has-scroller-row .e-section__scroller::-webkit-scrollbar,
-  .e-section.has-scroller-row-reverse .e-section__scroller::-webkit-scrollbar {
+  .e-scroller-row::-webkit-scrollbar {
     display: none;
   }
-  .e-section.has-scroller-row .e-section__scroller:hover,
-  .e-section.has-scroller-row-reverse .e-section__scroller:hover {
+  .e-scroller-row:hover {
     scrollbar-width: thin;
     scrollbar-color: var(--color-ink-border) transparent;
   }
-  .e-section.has-scroller-row .e-section__scroller:hover::-webkit-scrollbar,
-  .e-section.has-scroller-row-reverse .e-section__scroller:hover::-webkit-scrollbar {
+  .e-scroller-row:hover::-webkit-scrollbar {
     display: block;
     height: var(--size-1);
   }
-  .e-section.has-scroller-row .e-section__scroller:hover::-webkit-scrollbar-track,
-  .e-section.has-scroller-row-reverse .e-section__scroller:hover::-webkit-scrollbar-track {
+  .e-scroller-row:hover::-webkit-scrollbar-track {
     background: transparent;
   }
-  .e-section.has-scroller-row .e-section__scroller:hover::-webkit-scrollbar-thumb,
-  .e-section.has-scroller-row-reverse .e-section__scroller:hover::-webkit-scrollbar-thumb {
+  .e-scroller-row:hover::-webkit-scrollbar-thumb {
     background: var(--color-ink-border);
     border-radius: var(--size-half);
   }
-  .e-section.has-scroller-row .e-section__scroller > *,
-  .e-section.has-scroller-row-reverse .e-section__scroller > * {
+  .e-scroller-row.is-active {
+    cursor: grabbing;
+    user-select: none;
+  }
+  .e-scroller-row > * {
     flex: 0 0 auto;
   }
-  .e-section.has-scroller-row,
-  .e-section.has-scroller-row-reverse {
+  .has-scroller-row,
+  .has-scroller-row-reverse {
     --section-header-width: 33.33%;
     position: relative;
   }
-  .e-section.has-scroller-row .e-section__header,
-  .e-section.has-scroller-row .e-section__scroller,
-  .e-section.has-scroller-row-reverse .e-section__header,
-  .e-section.has-scroller-row-reverse .e-section__scroller {
+  .has-scroller-row .e-section__header,
+  .has-scroller-row .e-scroller-row,
+  .has-scroller-row-reverse .e-section__header,
+  .has-scroller-row-reverse .e-scroller-row {
     padding-inline: var(--padding-x-container);
   }
   @media (--tablet-l) {
-    .e-section.has-scroller-row .e-section__header,
-    .e-section.has-scroller-row-reverse .e-section__header {
+    .has-scroller-row .e-section__header,
+    .has-scroller-row-reverse .e-section__header {
       position: absolute;
       top: var(--size-6);
       width: var(--section-header-width);
       z-index: -1;
     }
+    .has-scroller-row .e-scroller-row,
+    .has-scroller-row-reverse .e-scroller-row {
+      padding-inline-start: calc(var(--padding-x-container) + var(--section-header-width));
+    }
   }
   @media (--laptop) {
-    .e-section.has-scroller-row,
-    .e-section.has-scroller-row-reverse {
+    .has-scroller-row,
+    .has-scroller-row-reverse {
       --section-header-width: 19.625rem;
+    }
+    .has-scroller-row .e-scroller-row,
+    .has-scroller-row-reverse .e-scroller-row {
+      padding-inline-start: calc((100% - var(--width-container)) / 2 + var(--section-header-width));
     }
   }
   @media (--tablet-l) {
     .e-section.has-scroller-row .e-section__header {
       inset-inline-start: 0;
-    }
-    .e-section.has-scroller-row .e-section__scroller {
-      padding-inline-start: calc(var(--padding-x-container) + var(--section-header-width));
     }
   }
   @media (--laptop) {
@@ -1973,18 +1988,24 @@
       padding-inline-end: var(--size-5);
       inset-inline-start: calc((100% - var(--width-container)) / 2);
     }
-    .e-section.has-scroller-row .e-section__scroller {
-      padding-inline-start: calc((100% - var(--width-container)) / 2 + var(--section-header-width));
+  }
+  @media (--tablet-l) {
+    .e-section.has-scroller-row-reverse .e-section__header {
+      inset-inline-end: 0;
+    }
+    .e-section.has-scroller-row-reverse .e-scroller-row {
+      direction: rtl;
     }
   }
-  @media (max-width: 1360px) {
-    .e-section.has-scroller-row {
-      padding-inline-start: 0;
+  @media (--laptop) {
+    .e-section.has-scroller-row-reverse .e-section__header {
+      padding-inline-start: var(--size-5);
+      inset-inline-end: calc((100% - var(--width-container)) / 2);
     }
   }
-  :where(.e-section.is-features) .e-section__scroller,
-  :where(.e-section.is-testimonials) .e-section__scroller {
-    min-height: 27rem;
+  :where(.e-section.is-features) .e-scroller-row,
+  :where(.e-section.is-testimonials) .e-scroller-row {
+    height: 27rem;
   }
   .e-section.has-scroller-row .e-section__header,
   .e-section.has-scroller-row-reverse .e-section__header {
@@ -2028,6 +2049,49 @@
     .e-section.has-scroller-row-reverse .e-section__header::before {
       translate: var(--padding-x-container) 0;
     }
+  }
+  @media (--laptop) {
+    .e-section.has-scroller-row-reverse .e-section__header::after, .e-section.has-scroller-row-reverse .e-section__header::before {
+      translate: var(--size-5) 0;
+    }
+  }
+  /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
+  .e-cta {
+    background: radial-gradient(circle 200px at 50% 0, var(--color-gradient-brand-radial));
+    text-align: center;
+    margin-inline: auto;
+    padding-top: 4.5rem;
+    padding-bottom: var(--size-5);
+    padding-inline: var(--padding-x-container);
+    position: relative;
+  }
+  .e-cta::before {
+    background: var(--color-gradient-brand);
+    border-radius: var(--border-radius-pill);
+    content: "";
+    display: block;
+    position: absolute;
+    top: calc(-1 * var(--size-3));
+    left: 50%;
+    translate: -50% 0;
+    width: var(--size-6);
+    height: var(--size-6);
+  }
+  @media (--tablet-l) {
+    .e-cta {
+      max-width: 43.875rem;
+    }
+  }
+  @media (--laptop) {
+    .e-cta {
+      max-width: 45.75rem;
+    }
+  }
+  .e-cta h2 {
+    margin-bottom: 0;
+  }
+  .e-cta p {
+    margin-bottom: var(--size-3);
   }
   /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
   .e-menu {
@@ -2166,75 +2230,148 @@
     color: var(--color-ink-text);
   }
   /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
+  .e-testimonial {
+    direction: ltr;
+    gap: var(--size-2);
+    position: relative;
+  }
+  .e-testimonial::before {
+    content: "“";
+    position: absolute;
+    top: 5.375rem;
+    left: 0.625rem;
+  }
+  :lang(es) .e-testimonial::before, :lang(fr) .e-testimonial::before, :lang(no) .e-testimonial::before, :lang(pt) .e-testimonial::before, :lang(ru) .e-testimonial::before {
+    content: "«";
+  }
+  .e-testimonial__avatar {
+    border-radius: var(--border-radius-pill);
+    width: var(--size-6);
+    height: var(--size-6);
+  }
+  .e-testimonial__base {
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
+    padding-top: var(--padding-top-body-sm);
+    padding-bottom: var(--padding-bottom-body-sm);
+    -webkit-line-clamp: 11;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    line-clamp: 11;
+    overflow: hidden;
+    max-height: 13.8125rem;
+    min-height: 13.8125rem;
+  }
+  .e-testimonial__base :first-child {
+    padding-top: 0;
+  }
+  .e-testimonial__base :last-child {
+    padding-bottom: 0;
+  }
+  .e-testimonial__author {
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
+    padding-top: var(--padding-top-body-sm);
+    padding-bottom: var(--padding-bottom-body-sm);
+    color: var(--color-ink-2ry);
+    margin-top: 0.1875rem;
+  }
+  .e-testimonial__author strong {
+    color: var(--color-ink-text-success);
+    display: block;
+    font-weight: 400;
+  }
+  /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
+  blockquote {
+    position: relative;
+  }
+  blockquote:has(:not(p))::before,
+  blockquote p:first-child::before {
+    content: "“";
+    position: absolute;
+    inset-inline-start: -0.8em;
+  }
+  blockquote:has(:not(p))::after,
+  blockquote p:last-of-type::after {
+    content: "”";
+  }
+  :lang(es) blockquote:has(:not(p))::before,
+  :lang(es) blockquote p:first-child::before,
+  :lang(fr) blockquote:has(:not(p))::before,
+  :lang(fr) blockquote p:first-child::before,
+  :lang(no) blockquote:has(:not(p))::before,
+  :lang(no) blockquote p:first-child::before,
+  :lang(pt) blockquote:has(:not(p))::before,
+  :lang(pt) blockquote p:first-child::before,
+  :lang(ru) blockquote:has(:not(p))::before,
+  :lang(ru) blockquote p:first-child::before {
+    content: "«";
+  }
+  :lang(es) blockquote:has(:not(p))::after,
+  :lang(es) blockquote p:last-of-type::after,
+  :lang(fr) blockquote:has(:not(p))::after,
+  :lang(fr) blockquote p:last-of-type::after,
+  :lang(no) blockquote:has(:not(p))::after,
+  :lang(no) blockquote p:last-of-type::after,
+  :lang(pt) blockquote:has(:not(p))::after,
+  :lang(pt) blockquote p:last-of-type::after,
+  :lang(ru) blockquote:has(:not(p))::after,
+  :lang(ru) blockquote p:last-of-type::after {
+    content: "»";
+  }
+  /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
   /* details */
   .e-accordion {
-    --accordion-border-radius: var(--border-radius-sm);
-    --summary-background: var(--color-bg-brand);
     --summary-color: var(--color-ink-text);
-    --summary-color-active: var(--color-ink-text-brand);
-    --summary-font-weight: bolder;
-    --summary-padding-top: var(--size-2);
-    --summary-padding-bottom: var(--size-2);
-    --summary-padding-left: var(--padding-x-box);
+    --summary-padding-y: var(--size-3);
     --summary-padding-right: var(--size-5);
-    border-radius: var(--accordion-border-radius);
-    box-shadow: inset 0 0 0 1px var(--summary-background);
+    border-top: 1px solid var(--color-ink-border);
     display: block;
     overflow: hidden;
   }
   .e-accordion summary {
-    background-color: var(--summary-background);
-    border-radius: var(--accordion-border-radius);
     color: var(--summary-color);
     cursor: pointer;
-    font-weight: var(--summary-font-weight);
-    padding: var(--summary-padding-top) var(--summary-padding-right) var(--summary-padding-bottom) var(--summary-padding-left);
+    font-weight: 500;
+    padding-top: calc(var(--summary-padding-y) - 0.0625rem);
+    padding-inline-end: var(--summary-padding-right);
+    padding-bottom: var(--summary-padding-y);
     position: relative;
     transition: color var(--duration-50) var(--easing-base);
     width: 100%;
   }
-  .e-accordion summary::after {
-    background-color: transparent;
-    background-image: var(--icon-chevron-down);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: var(--size-icon);
-    content: "";
-    display: block;
-    position: absolute;
-    top: var(--chevron-top, var(--size-2));
-    inset-inline-end: var(--chevron-end, var(--size-2));
-    transition: transform var(--duration-50) var(--easing-base);
-    width: var(--size-icon);
-    height: var(--size-icon);
-  }
   .e-accordion summary:focus-visible {
     outline: 0.1875rem solid var(--color-brand-primary);
     outline-offset: 0.125rem;
-    color: var(--summary-color-active);
   }
   .e-accordion::details-content {
-    height: 0;
+    color: var(--color-ink-2ry);
     transition: content-visibility var(--duration-200) var(--easing-base), height var(--duration-200) var(--easing-base);
     transition-behavior: allow-discrete;
+    height: 0;
   }
-  .e-accordion > div {
-    padding: var(--size-2) var(--padding-x-box);
-  }
-  .e-accordion[open] > summary {
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-    color: var(--summary-color-active);
-    margin-bottom: 0;
-  }
-  .e-accordion[open] > summary::after {
-    transform: rotate(180deg);
+  .e-accordion[open] .e-accordion__marker {
+    --icon-stroke: var(--color-bg-layer-01);
+    background-color: var(--color-ink-3ry);
+    rotate: 180deg;
   }
   .e-accordion[open]::details-content {
     height: auto;
   }
-  .e-accordion + .e-accordion {
-    margin-top: var(--size-line);
+  .e-accordion__marker {
+    background-color: transparent;
+    border: 1px solid var(--color-ink-border);
+    border-radius: var(--border-radius-pill);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0.125rem;
+    position: absolute;
+    top: var(--size-2p5);
+    inset-inline-end: 0;
+    transition: rotate var(--duration-50) var(--easing-base), background-color var(--duration-50) var(--easing-base);
+    width: var(--size-4);
+    height: var(--size-4);
   }
   .e-accordion + :not(.e-accordion) {
     margin-top: var(--size-line);

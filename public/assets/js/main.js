@@ -197,142 +197,75 @@ function initPopovers() {
   });
 }
 
-// src/assets/js/scroller-row.js
-function initHorizontalScroll(selector, options = {}) {
-  const settings = {
-    wheelScroll: true,
-    showIndicators: false,
-    scrollAmount: 300,
-    ...options
-  };
-  let containers = [];
-  if (typeof selector === "string") {
-    containers = Array.from(document.querySelectorAll(selector));
-  } else if (selector instanceof Element) {
-    containers = [selector];
-  } else if (selector instanceof NodeList || Array.isArray(selector)) {
-    containers = Array.from(selector);
-  }
-  if (containers.length === 0) return [];
-  const controllers = [];
-  containers.forEach((scrollContainer, index) => {
-    if (!scrollContainer.id) {
-      scrollContainer.id = `horizontal-scroll-${index}`;
-    }
-    if (settings.wheelScroll) {
-      scrollContainer.addEventListener("wheel", (event) => {
-        if (scrollContainer.scrollWidth > scrollContainer.clientWidth) {
-          event.preventDefault();
-          scrollContainer.scrollLeft += event.deltaY;
-        }
-      });
-    }
-    let checkScrollIndicators;
-    if (settings.showIndicators) {
-      const parentContainer = scrollContainer.parentElement;
-      parentContainer.style.position = "relative";
-      checkScrollIndicators = () => {
-        const canScroll = scrollContainer.scrollWidth > scrollContainer.clientWidth;
-        const indicatorsSelector = `.scroll-indicators[data-for="${scrollContainer.id}"]`;
-        const existingIndicators = parentContainer.querySelector(indicatorsSelector);
-        if (existingIndicators) {
-          parentContainer.removeChild(existingIndicators);
-        }
-        if (canScroll) {
-          const indicators = document.createElement("div");
-          indicators.className = "scroll-indicators";
-          indicators.setAttribute("data-for", scrollContainer.id);
-          const leftIndicator = document.createElement("button");
-          leftIndicator.className = "scroll-indicator scroll-left";
-          leftIndicator.setAttribute("aria-label", "\u041F\u0440\u043E\u043A\u0440\u0443\u0442\u0438\u0442\u044C \u0432\u043B\u0435\u0432\u043E");
-          leftIndicator.innerHTML = "&larr;";
-          leftIndicator.addEventListener("click", () => {
-            scrollContainer.scrollBy({
-              left: -settings.scrollAmount,
-              behavior: "smooth"
-            });
-          });
-          const rightIndicator = document.createElement("button");
-          rightIndicator.className = "scroll-indicator scroll-right";
-          rightIndicator.setAttribute("aria-label", "\u041F\u0440\u043E\u043A\u0440\u0443\u0442\u0438\u0442\u044C \u0432\u043F\u0440\u0430\u0432\u043E");
-          rightIndicator.innerHTML = "&rarr;";
-          rightIndicator.addEventListener("click", () => {
-            scrollContainer.scrollBy({
-              left: settings.scrollAmount,
-              behavior: "smooth"
-            });
-          });
-          indicators.appendChild(leftIndicator);
-          indicators.appendChild(rightIndicator);
-          parentContainer.appendChild(indicators);
-          const updateIndicators = () => {
-            const leftBtn = parentContainer.querySelector(
-              `${indicatorsSelector} .scroll-left`
-            );
-            const rightBtn = parentContainer.querySelector(
-              `${indicatorsSelector} .scroll-right`
-            );
-            if (leftBtn && rightBtn) {
-              const isAtLeftEdge = scrollContainer.scrollLeft <= 10;
-              leftBtn.style.opacity = isAtLeftEdge ? "0.5" : "1";
-              leftBtn.disabled = isAtLeftEdge;
-              const isAtRightEdge = scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth - 10;
-              rightBtn.style.opacity = isAtRightEdge ? "0.5" : "1";
-              rightBtn.disabled = isAtRightEdge;
-            }
-          };
-          scrollContainer.addEventListener("scroll", updateIndicators);
-          updateIndicators();
-        }
-      };
-      checkScrollIndicators();
-      if (window.ResizeObserver) {
-        const resizeObserver = new ResizeObserver(() => {
-          checkScrollIndicators();
-        });
-        resizeObserver.observe(scrollContainer);
+// src/assets/js/drag-scroll.js
+function initDragToScroll() {
+  const isMouseDevice = window.matchMedia(
+    "(any-hover: hover) and (pointer: fine)"
+  ).matches;
+  if (!isMouseDevice) return;
+  const scrollers = document.querySelectorAll('[data-role="draggable-scroll"]');
+  scrollers.forEach((element) => {
+    const scroller = element;
+    const state = {
+      isDown: false,
+      startX: 0,
+      scrollLeft: 0
+    };
+    const onMouseDown = (e) => {
+      state.isDown = true;
+      scroller.classList.add("is-active");
+      state.startX = e.pageX - scroller.offsetLeft;
+      state.scrollLeft = scroller.scrollLeft;
+    };
+    const onMouseUp = () => {
+      state.isDown = false;
+      scroller.classList.remove("is-active");
+    };
+    const onMouseLeave = () => {
+      state.isDown = false;
+      scroller.classList.remove("is-active");
+    };
+    const onMouseMove = (e) => {
+      if (!state.isDown) return;
+      const currentX = e.pageX - scroller.offsetLeft;
+      const walk = (currentX - state.startX) * 1.5;
+      const isReverseScroller = scroller.closest(".has-scroller-row-reverse") !== null;
+      if (isReverseScroller) {
+        const newScrollLeft = state.scrollLeft + walk;
+        scroller.scrollLeft = newScrollLeft;
       } else {
-        window.addEventListener("resize", checkScrollIndicators);
-      }
-    }
-    const controller = {
-      element: scrollContainer,
-      scrollLeft: (amount) => {
-        scrollContainer.scrollBy({ left: -amount, behavior: "smooth" });
-      },
-      scrollRight: (amount) => {
-        scrollContainer.scrollBy({ left: amount, behavior: "smooth" });
-      },
-      scrollToIndex: (itemIndex) => {
-        const { children } = scrollContainer;
-        if (itemIndex >= 0 && itemIndex < children.length) {
-          children[itemIndex].scrollIntoView({
-            behavior: "smooth",
-            block: "nearest"
-          });
-        }
-      },
-      refreshIndicators: () => {
-        if (settings.showIndicators && checkScrollIndicators) {
-          checkScrollIndicators();
-        }
+        const newScrollLeft = state.scrollLeft - walk;
+        scroller.scrollLeft = newScrollLeft;
       }
     };
-    controllers.push(controller);
+    scroller.addEventListener("mousedown", onMouseDown);
+    scroller.addEventListener("mouseleave", onMouseLeave);
+    scroller.addEventListener("mouseup", onMouseUp);
+    scroller.addEventListener("mousemove", onMouseMove);
   });
-  return controllers;
 }
+function handleResize() {
+  const scrollers = document.querySelectorAll('[data-role="draggable-scroll"]');
+  scrollers.forEach((scroller) => {
+    scroller.removeEventListener("mousedown", scroller.onMouseDown);
+    scroller.removeEventListener("mouseleave", scroller.onMouseLeave);
+    scroller.removeEventListener("mouseup", scroller.onMouseUp);
+    scroller.removeEventListener("mousemove", scroller.onMouseMove);
+    scroller.removeEventListener("touchstart", scroller.onTouchStart);
+    scroller.removeEventListener("touchend", scroller.onTouchEnd);
+    scroller.removeEventListener("touchcancel", scroller.onTouchCancel);
+    scroller.removeEventListener("touchmove", scroller.onTouchMove);
+    scroller.classList.remove("is-active");
+  });
+  initDragToScroll();
+}
+document.addEventListener("DOMContentLoaded", initDragToScroll);
+window.addEventListener("resize", handleResize);
+var drag_scroll_default = initDragToScroll;
 
 // src/assets/js/main.js
 document.addEventListener("DOMContentLoaded", () => {
   initPopovers();
   modal_default();
-  initHorizontalScroll(".e-section__scroller", {
-    wheelScroll: true,
-    // Включаем прокрутку колесиком мыши
-    showIndicators: false,
-    // Показываем индикаторы прокрутки
-    scrollAmount: 300
-    // Величина прокрутки в пикселях
-  });
+  drag_scroll_default();
 });

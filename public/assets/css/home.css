@@ -1,15 +1,3 @@
-.e-section.is-testimonials .e-card.is-featured{
-  --card-bg-image:url("/assets/img/pages/home/featured--testimonial.jpg");
-  --card-bg-image:image-set(
-      url("/assets/img/pages/home/featured--testimonial.jpg") 1x,
-      url("/assets/img/pages/home/featured--testimonial@2x.jpg") 2x
-    );
-}
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi){
-.e-section.is-testimonials .e-card.is-featured{
-  --card-bg-image:url("/assets/img/pages/home/featured--testimonial@2x.jpg");
-}}
-
 :where(.e-section.is-markets) .e-section__grid{
   display:grid;
   grid-template-columns:1fr;
@@ -51,8 +39,55 @@
 .e-plan__features ul{
   list-style:none;
 }
-:where(.e-section.is-testimonials) .e-section__card{
-  -webkit-box-flex:0;
-  -ms-flex:0 0 auto;
-  flex:0 0 auto;
+.e-section.is-testimonials .e-card.is-featured{
+  --card-bg-image:url("/assets/img/pages/home/featured-testimonial.jpg");
+  --card-bg-image:image-set(
+      url("/assets/img/pages/home/featured-testimonial.jpg") 1x,
+      url("/assets/img/pages/home/featured-testimonial@2x.jpg") 2x
+    );
+}
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi){
+.e-section.is-testimonials .e-card.is-featured{
+  --card-bg-image:url("/assets/img/pages/home/featured-testimonial@2x.jpg");
+}}
+
+.e-section.is-faq{
+  border-radius:var(--border-radius-lg);
+  background-color:var(--color-bg-layer-01);
+  background-blend-mode:screen;
+  overflow:hidden;
+  position:relative;
+  margin-inline:auto;
+  padding-top:var(--size-5);
+  padding-bottom:var(--size-4);
+  padding-inline:var(--size-2p5);
+}
+.e-section.is-faq::before{
+  background-image:radial-gradient(24% 120% at 50% 0, hsl(var(--h), var(--s), 99%, 0.22), hsl(var(--h), var(--s), 99%, 0.21) 2%, hsl(var(--h), var(--s), 99%, 0.18) 10%, hsl(var(--h), var(--s), 99%, 0.14) 21%, hsl(var(--h), var(--s), 99%, 0.08) 36%, hsl(var(--h), var(--s), 99%, 0.04) 54%, hsl(var(--h), var(--s), 99%, 0.01) 76%, hsl(var(--h), var(--s), 99%, 0));
+  position:absolute;
+  top:-2.5rem;
+  left:var(--size-7);
+  rotate:-12deg;
+  content:"";
+  width:100%;
+  height:100%;
+}
+@media only screen and (min-width: 768px) and (min-height: 361px){
+  .e-section.is-faq{
+    padding-inline:var(--size-5);
+  }
+}
+@media only screen and (min-width: 1024px) and (min-height: 361px){
+  .e-section.is-faq{
+    max-width:38.875rem;
+  }
+}
+@media only screen and (min-width: 1360px) and (min-height: 361px){
+  .e-section.is-faq{
+    max-width:37.75rem;
+  }
+}
+
+.e-section.is-faq h2{
+  margin-bottom:var(--size-3);
 }

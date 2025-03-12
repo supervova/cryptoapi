@@ -102,7 +102,6 @@
       hsl(var(--h-green) var(--s) 83% / 0.05) 33.33%,
       hsl(var(--h-green) var(--s) 83% / 0)
     );
-  height: rem(408);
 
   .e-card__base {
     margin-top: auto;
@@ -112,5 +111,10 @@
   .e-card__desc {
     margin-bottom: 0;
   }
+}
+
+:where(.e-section.is-features) .e-card,
+:where(.e-section.is-testimonials) .e-card {
+  height: rem(408);
 }
 // #endregion

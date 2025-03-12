@@ -1,0 +1,36 @@
+@use 'abstracts' as *;
+
+blockquote {
+  position: relative;
+}
+
+// Opening quotes for the first line in a quote
+blockquote:has(:not(p))::before,
+blockquote p:first-child::before {
+  content: '“';
+  position: absolute;
+  inset-inline-start: -0.8em;
+}
+
+// Closing quotes for the last line in a quote
+blockquote:has(:not(p))::after,
+blockquote p:last-of-type::after {
+  content: '”';
+}
+
+// Localization
+:lang(es),
+:lang(fr),
+:lang(no),
+:lang(pt),
+:lang(ru) {
+  blockquote:has(:not(p))::before,
+  blockquote p:first-child::before {
+    content: '«';
+  }
+
+  blockquote:has(:not(p))::after,
+  blockquote p:last-of-type::after {
+    content: '»';
+  }
+}

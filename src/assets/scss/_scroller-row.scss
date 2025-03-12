@@ -1,0 +1,191 @@
+@use 'abstracts' as *;
+
+// Horizontal scrolling container with hidden scrollbar by default and visible on hover
+
+// -----------------------------------------------------------------------------
+// BASE
+// -----------------------------------------------------------------------------
+// #region
+.e-scroller-row {
+  cursor: grab;
+  display: flex;
+  flex-direction: row;
+  gap: var(--size-2);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  padding-bottom: var(--size-1);
+
+  // Hide scrollbar by default
+  -ms-overflow-style: none; // Edge
+  scrollbar-width: none; // Firefox
+  &::-webkit-scrollbar {
+    display: none; // WebKit browsers
+  }
+
+  // Show scrollbar on hover
+  &:hover {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-ink-border) transparent;
+    &::-webkit-scrollbar {
+      display: block;
+      height: var(--size-1);
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-ink-border);
+      border-radius: var(--size-half);
+    }
+  }
+
+  // Active scrolling state
+  &.is-active {
+    cursor: grabbing;
+    user-select: none;
+  }
+
+  // Prevent resizing of child elements
+  > * {
+    flex: 0 0 auto;
+  }
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// ENVIRONMENT
+// -----------------------------------------------------------------------------
+// #region
+// Classes for sections with a scroller, managing header and container positioning
+.has-scroller-row,
+.has-scroller-row-reverse {
+  --section-header-width: 33.33%;
+  position: relative;
+
+  .e-section__header,
+  .e-scroller-row {
+    padding-inline: var(--padding-x-container);
+  }
+
+  // Adjustments for tablets (tablet-l and up)
+  @media (--tablet-l) {
+    .e-section__header {
+      position: absolute;
+      top: var(--size-6);
+      width: var(--section-header-width);
+      z-index: -1;
+    }
+    .e-scroller-row {
+      padding-inline-start: calc(var(--padding-x-container) + var(--section-header-width));
+    }
+  }
+
+  // Adjustments for laptops (laptop and up)
+  @media (--laptop) {
+    --section-header-width: #{rem(314)};
+    .e-scroller-row {
+      padding-inline-start: calc((100% - var(--width-container)) / 2 + var(--section-header-width));
+    }
+  }
+}
+
+// Specific styles for regular direction
+.e-section.has-scroller-row {
+  @media (--tablet-l) {
+    .e-section__header {
+      inset-inline-start: 0;
+    }
+  }
+  @media (--laptop) {
+    .e-section__header {
+      padding-inline-end: var(--size-5);
+      inset-inline-start: calc((100% - var(--width-container)) / 2);
+    }
+  }
+}
+
+// Specific styles for reverse direction
+.e-section.has-scroller-row-reverse {
+  @media (--tablet-l) {
+    .e-section__header {
+      inset-inline-end: 0;
+    }
+    .e-scroller-row {
+      direction: rtl;
+    }
+  }
+  @media (--laptop) {
+    .e-section__header {
+      padding-inline-start: var(--size-5);
+      inset-inline-end: calc((100% - var(--width-container)) / 2);
+    }
+  }
+}
+
+// Set minimum height for scroller in features and testimonials sections
+:where(.e-section.is-features) .e-scroller-row,
+:where(.e-section.is-testimonials) .e-scroller-row {
+  height: rem(432);
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// HIGHLIGHTED HEADER
+// -----------------------------------------------------------------------------
+// #region
+// Styles for headers in sections with a scroller, adding decorative elements
+.e-section.has-scroller-row .e-section__header,
+.e-section.has-scroller-row-reverse .e-section__header {
+  position: relative;
+  padding-top: rem(72);
+  padding-bottom: var(--size-line);
+
+  &::after,
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    translate: calc(var(--padding-x-container) + var(--size-3)) 0;
+  }
+
+  // Decorative ball
+  &::before {
+    background: var(--color-gradient-brand);
+    border-radius: var(--border-radius-pill);
+    top: calc(-1 * var(--size-3));
+    left: 0;
+    width: var(--size-6);
+    height: var(--size-6);
+  }
+
+  // Gradient background
+  &::after {
+    background-image: radial-gradient(circle 256px at 50% 0, var(--color-gradient-brand-radial));
+    top: 0;
+    left: rem(-256);
+    width: rem(512);
+    height: rem(256);
+    z-index: -1;
+  }
+
+  // Adjustments for tablets (tablet-l and up)
+  @media (--tablet-l) {
+    position: absolute;
+    &::after,
+    &::before {
+      translate: var(--padding-x-container) 0;
+    }
+  }
+}
+
+// Adjustments for reverse direction on laptops
+.e-section.has-scroller-row-reverse .e-section__header {
+  @media (--laptop) {
+    &::after,
+    &::before {
+      translate: var(--size-5) 0;
+    }
+  }
+}
+// #endregion

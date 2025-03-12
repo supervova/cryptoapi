@@ -24,3 +24,8 @@
     fill: transparent;
   }
 }
+
+.e-icon.is-sm {
+  width: var(--size-icon-sm);
+  height: var(--size-icon-sm);
+}

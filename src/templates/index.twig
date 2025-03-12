@@ -24,18 +24,16 @@
   <header class="e-hero">
     <div class="e-container">
       <figure class="e-hero__image">
-        <img
-          src="/assets/img/pages/home/hero.png"
-          srcset="/assets/img/pages/home/hero.png 1x, /assets/img/pages/home/hero@2x.png 2x"
-          alt="Cryptoapi.ai"
-        >
+        <img src="/assets/img/pages/home/hero.png" srcset="/assets/img/pages/home/hero.png 1x, /assets/img/pages/home/hero@2x.png 2x" alt="Cryptoapi.ai">
       </figure>
       <div class="e-hero__copy">
-        <h1><strong>Торгуй ИИ</strong> всё получится</h1>
+        <h1>
+          <strong>Торгуй ИИ</strong>
+          всё получится</h1>
         <p>Аналитика. Автоматизация. Прогнозирование. CRYPTOAPI.AI — инновационная платформа для трейдеров и инвесторов, предоставляющая передовые API и интеллектуальный анализ криптовалютного рынка.</p>
         <div class="e-buttons">
-          <a class="e-btn is-primary" href="">Попробовать</a>
-          <a class="e-btn" href="">Документация API</a>
+          <a class="e-btn is-primary" href="#">Попробовать</a>
+          <a class="e-btn" href="{{ page.lang }}/docs">Документация API</a>
         </div>
       </div>
     </div>
@@ -47,91 +45,104 @@
       <span class="e-eyebrow">Три продукта</span>
       <h2 class="e-section__title">Торговый агент, ИИ-консультант интеграции API</h2>
     </header>
-    <div class="e-section__scroller">
-      {% for card in data_features %}
-        <div class="e-card{% if card.featured %} is-featured{% endif %}">
-          <figure class="e-card__spot-icon">{{ icon(card.icon) }}</figure>
-          <div class="e-card__base">
-            <span class="e-eyebrow">{{ card.eyebrow }}</span>
-            <h3 class="e-card__title">{{ card.title }}</h3>
-            <p class="e-card__desc">{{ card.description }}</p>
-          </div>
-        </div>
+    <div class="e-scroller-row" data-role="draggable-scroll">
+      {% for feature in data_features %}
+        {% include 'components/feature.twig' with {'feature': feature} only %}
       {% endfor %}
     </div>
   </section>
 
   {# TESTIMONIALS #}
-  <section class="e-section has-scroller-row-reverse is-features">
+  <section class="e-section has-scroller-row-reverse is-testimonials">
     <header class="e-section__header">
-      <span class="e-eyebrow">Три продукта</span>
-      <h2 class="e-section__title">Торговый агент, ИИ-консультант интеграции API</h2>
+      <span class="e-eyebrow">Отзывы</span>
+      <h2 class="e-section__title">Клиент всегда прав</h2>
     </header>
-    <div class="e-section__scroller">
-      <div class="e-card">
-        <figure class="e-card__spot-icon">{{ icon('robot') }}</figure>
-
-        <div class="e-card__base">
-          <span class="e-eyebrow">01. Торговый агент</span>
-          <h3 class="e-card__title">Подключение торговых ботов</h3>
-          <p class="e-card__desc">Автоматизация сделок.</p>
-        </div>
-      </div>
-
-      <div class="e-card">
-        <figure class="e-card__spot-icon">{{ icon('candles') }}</figure>
-        <div class="e-card__base">
-          <span class="e-eyebrow">02. ИИ-консультант</span>
-          <h3 class="e-card__title">Генерация торговых сигналов</h3>
-          <p class="e-card__desc">Прогнозирование и рекомендации.</p>
-        </div>
-      </div>
-
-      <div class="e-card is-featured">
-        <figure class="e-card__spot-icon">{{ icon('plug') }}</figure>
-        <div class="e-card__base">
-          <span class="e-eyebrow">03. Интеграции API</span>
-          <h3 class="e-card__title">API-интерфейсы</h3>
-          <p class="e-card__desc">Подключение к рынку, получение данных, сигналы.</p>
-        </div>
-      </div>
-
-      <div class="e-card">
-        <figure class="e-card__spot-icon">{{ icon('award') }}</figure>
-        <div class="e-card__base">
-          <span class="e-eyebrow">Кроме того</span>
-          <h3 class="e-card__title">Рейтинги активов</h3>
-          <p class="e-card__desc">Индексы риска TRIndx.</p>
-        </div>
-      </div>
-
-      <div class="e-card">
-        <figure class="e-card__spot-icon">{{ icon('speed') }}</figure>
-        <div class="e-card__base">
-          <span class="e-eyebrow">Кроме того</span>
-          <h3 class="e-card__title">Графики и индикаторы</h3>
-          <p class="e-card__desc">RSI, индекс страха и жадности.</p>
-        </div>
-      </div>
-
-      <div class="e-card">
-        <figure class="e-card__spot-icon">{{ icon('bitcoin') }}</figure>
-        <div class="e-card__base">
-          <span class="e-eyebrow">Кроме того</span>
-          <h3 class="e-card__title">Встраиваемые виджеты</h3>
-          <p class="e-card__desc">Курсы криптовалют и аналитика.</p>
-        </div>
-      </div>
-
-      <div class="e-card">
-        <figure class="e-card__spot-icon">{{ icon('news') }}</figure>
-        <div class="e-card__base">
-          <span class="e-eyebrow">Кроме того</span>
-          <h3 class="e-card__title">Агрегация новостей и AI-анализ</h3>
-          <p class="e-card__desc">Оценка влияния новостей на рынок.</p>
-        </div>
-      </div>
+    <div class="e-scroller-row" data-role="draggable-scroll">
+      {% for testimonial in data_testimonials %}
+        {% include 'components/testimonial.twig' with {'testimonial': testimonial} only %}
+      {% endfor %}
     </div>
+  </section>
+
+  {# FAQ #}
+  <div class="e-container">
+    <section class="e-section is-faq">
+      <h2>Часто задаваемые вопросы</h2>
+      <details class="e-accordion">
+        <summary>
+          Как работает искусственный интеллект для прогнозирования рыночных трендов?
+          <span class="e-accordion__marker">
+            {{ icon('sm-chevron-down', 'is-sm') }}
+          </span>
+        </summary>
+        <div class="e-accordion__body">
+          <p>ИИ анализирует исторические данные, графики цен, объемы торгов, рыночные индикаторы и новости, чтобы выявлять закономерности и предсказывать вероятные движения рынка. Используются алгоритмы машинного обучения, включая нейронные сети и модели временных рядов.</p>
+        </div>
+      </details>
+      <details class="e-accordion">
+        <summary>
+          Какие данные используются для обучения модели и насколько они достоверны?
+          <span class="e-accordion__marker">
+            {{ icon('sm-chevron-down', 'is-sm') }}
+          </span>
+        </summary>
+        <div class="e-accordion__body">
+          <p>Мы используем данные с ведущих криптобирж, включая исторические котировки, торговые объемы и ликвидность. Также учитываются новости, социальные сети и макроэкономические показатели. Достоверность обеспечивается за счет обработки данных из проверенных источников и применения механизмов фильтрации шума.</p>
+        </div>
+      </details>
+      <details class="e-accordion">
+        <summary>
+          Какие криптовалюты покрываются аналитической платформой?
+          <span class="e-accordion__marker">
+            {{ icon('sm-chevron-down', 'is-sm') }}
+          </span>
+        </summary>
+        <div class="e-accordion__body">
+          <p>Платформа анализирует основные криптовалюты, такие как Bitcoin (BTC), Ethereum (ETH) и другие популярные альткоины. Полный список доступных активов можно найти в разделе «Рынки».</p>
+        </div>
+      </details>
+      <details class="e-accordion">
+        <summary>
+          Как часто обновляются сигналы и прогнозы?
+          <span class="e-accordion__marker">
+            {{ icon('sm-chevron-down', 'is-sm') }}
+          </span>
+        </summary>
+        <div class="e-accordion__body">
+          <p>Обновления происходят в режиме реального времени или с определенной периодичностью в зависимости от типа стратегии: краткосрочные сигналы — каждые 5 мин, среднесрочные и долгосрочные прогнозы — раз в день и раз в неделю.</p>
+        </div>
+      </details>
+      <details class="e-accordion">
+        <summary>
+          Сколько стоит подписка на сервис?
+          <span class="e-accordion__marker">
+            {{ icon('sm-chevron-down', 'is-sm') }}
+          </span>
+        </summary>
+        <div class="e-accordion__body">
+          <p>Подписка на наш сервис стоит 29$ в месяц при ежемесячной оплате или 299$ в год (что позволяет сэкономить 15% при ежегодной подписке).</p>
+        </div>
+      </details>
+      <details class="e-accordion">
+        <summary>
+          Как отменить подписку?
+          <span class="e-accordion__marker">
+            {{ icon('sm-chevron-down', 'is-sm') }}
+          </span>
+        </summary>
+        <div class="e-accordion__body">
+          <p>Вы можете отменить подписку в настройках аккаунта. Если у вас возникли сложности, обратитесь в службу поддержки. Подписка действует до конца оплаченного периода.</p>
+        </div>
+      </details>
+    </section>
+  </div>
+
+  {# CTA #}
+  <section class="e-section e-cta">
+    <h2>Торгуйте криптовалютой с точностью искусственного интеллекта</h2>
+    <p>Получите точные торговые сигналы на основе ИИ и опережайте рынок криптовалют.</p>
+    <a class="e-btn is-primary" href="#">Попробовать</a>
   </section>
 
 

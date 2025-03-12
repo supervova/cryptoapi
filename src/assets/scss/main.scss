@@ -62,6 +62,8 @@
   @include meta.load-css('footer');
   @include meta.load-css('hero');
   @include meta.load-css('section');
+  @include meta.load-css('scroller-row');
+  @include meta.load-css('cta');
   // @include meta.load-css('header');
   // @include meta.load-css('scroller');
   // @include meta.load-css('snippet');
@@ -73,8 +75,9 @@
 
 
   // Content
+  @include meta.load-css('testimonial');
+  @include meta.load-css('content/blockquote');
   // @include meta.load-css('badge');
-  // @include meta.load-css('content/blockquote');
   // @include meta.load-css('content/callout');
   // @include meta.load-css('content/code');
   // @include meta.load-css('content/table');
