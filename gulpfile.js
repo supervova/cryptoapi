@@ -276,6 +276,7 @@ const pages = (done) => {
   const dataTestimonials = JSON.parse(
     readFileSync('./config/home/testimonials.json', 'utf8')
   );
+  const dataFaq = JSON.parse(readFileSync('./config/home/faq.json', 'utf8'));
 
   src(paths.markup.src.twig, { base: './src/templates' })
     .pipe(
@@ -296,6 +297,7 @@ const pages = (done) => {
           data_labels: dataLabels, // Надписи в UI-компонентах
           data_features: dataFeatures, // Главная: функциональность
           data_testimonials: dataTestimonials, // Главная: отзывы
+          data_faq: dataFaq, // Главная: FAQ
         },
         filters: [
           {

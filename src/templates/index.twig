@@ -69,72 +69,9 @@
   <div class="e-container">
     <section class="e-section is-faq">
       <h2>Часто задаваемые вопросы</h2>
-      <details class="e-accordion">
-        <summary>
-          Как работает искусственный интеллект для прогнозирования рыночных трендов?
-          <span class="e-accordion__marker">
-            {{ icon('sm-chevron-down', 'is-sm') }}
-          </span>
-        </summary>
-        <div class="e-accordion__body">
-          <p>ИИ анализирует исторические данные, графики цен, объемы торгов, рыночные индикаторы и новости, чтобы выявлять закономерности и предсказывать вероятные движения рынка. Используются алгоритмы машинного обучения, включая нейронные сети и модели временных рядов.</p>
-        </div>
-      </details>
-      <details class="e-accordion">
-        <summary>
-          Какие данные используются для обучения модели и насколько они достоверны?
-          <span class="e-accordion__marker">
-            {{ icon('sm-chevron-down', 'is-sm') }}
-          </span>
-        </summary>
-        <div class="e-accordion__body">
-          <p>Мы используем данные с ведущих криптобирж, включая исторические котировки, торговые объемы и ликвидность. Также учитываются новости, социальные сети и макроэкономические показатели. Достоверность обеспечивается за счет обработки данных из проверенных источников и применения механизмов фильтрации шума.</p>
-        </div>
-      </details>
-      <details class="e-accordion">
-        <summary>
-          Какие криптовалюты покрываются аналитической платформой?
-          <span class="e-accordion__marker">
-            {{ icon('sm-chevron-down', 'is-sm') }}
-          </span>
-        </summary>
-        <div class="e-accordion__body">
-          <p>Платформа анализирует основные криптовалюты, такие как Bitcoin (BTC), Ethereum (ETH) и другие популярные альткоины. Полный список доступных активов можно найти в разделе «Рынки».</p>
-        </div>
-      </details>
-      <details class="e-accordion">
-        <summary>
-          Как часто обновляются сигналы и прогнозы?
-          <span class="e-accordion__marker">
-            {{ icon('sm-chevron-down', 'is-sm') }}
-          </span>
-        </summary>
-        <div class="e-accordion__body">
-          <p>Обновления происходят в режиме реального времени или с определенной периодичностью в зависимости от типа стратегии: краткосрочные сигналы — каждые 5 мин, среднесрочные и долгосрочные прогнозы — раз в день и раз в неделю.</p>
-        </div>
-      </details>
-      <details class="e-accordion">
-        <summary>
-          Сколько стоит подписка на сервис?
-          <span class="e-accordion__marker">
-            {{ icon('sm-chevron-down', 'is-sm') }}
-          </span>
-        </summary>
-        <div class="e-accordion__body">
-          <p>Подписка на наш сервис стоит 29$ в месяц при ежемесячной оплате или 299$ в год (что позволяет сэкономить 15% при ежегодной подписке).</p>
-        </div>
-      </details>
-      <details class="e-accordion">
-        <summary>
-          Как отменить подписку?
-          <span class="e-accordion__marker">
-            {{ icon('sm-chevron-down', 'is-sm') }}
-          </span>
-        </summary>
-        <div class="e-accordion__body">
-          <p>Вы можете отменить подписку в настройках аккаунта. Если у вас возникли сложности, обратитесь в службу поддержки. Подписка действует до конца оплаченного периода.</p>
-        </div>
-      </details>
+      {% for faq in data_faq %}
+        {% include 'components/faq-item.twig' with {'faq': faq} only %}
+      {% endfor %}
     </section>
   </div>
 

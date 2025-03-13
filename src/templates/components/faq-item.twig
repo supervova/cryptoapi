@@ -1,0 +1,13 @@
+{% from "base/macros.twig" import icon %}
+
+<details class="e-accordion">
+  <summary>
+    {{ faq.question }}
+    <span class="e-accordion__marker">
+      {{ icon('sm-chevron-down', 'is-sm') }}
+    </span>
+  </summary>
+  <div class="e-accordion__body">
+    <p>{{ faq.answer }}</p>
+  </div>
+</details>
