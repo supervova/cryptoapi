@@ -22,7 +22,7 @@
 
   --color-gradient-brand:
     radial-gradient(
-      circle 3rem at 0% 100%,
+      circle farthest-corner at 0% 100%,
       rgb(255 255 255 / 0.8),
       rgb(255 255 255 / 0.76) 2%,
       rgb(255 255 255 / 0.64) 10%,
@@ -33,19 +33,19 @@
       rgb(255 255 255 / 0)
     ),
     radial-gradient(
-      circle 5rem at 100% 0%,
+      circle farthest-side at 100% 0%,
       #fff,
-      rgb(255 255 255 / 0.95) 2%,
-      rgb(255 255 255 / 0.8) 10%,
-      rgb(255 255 255 / 0.61) 21%,
-      rgb(255 255 255 / 0.39) 36%,
-      rgb(255 255 255 / 0.2) 54%,
-      rgb(255 255 255 / 0.05) 76%,
+      rgb(255 255 255 / 0.75) 2%,
+      rgb(255 255 255 / 0.6) 10%,
+      rgb(255 255 255 / 0.41) 21%,
+      rgb(255 255 255 / 0.19) 36%,
+      rgb(255 255 255 / 0) 54%,
+      rgb(255 255 255 / 0) 76%,
       rgb(255 255 255 / 0)
     ),
     linear-gradient(to bottom right, var(--color-brand-primary), var(--color-brand-accent));
 
-  // @use background: radial-gradient(circle 100px at 50% 0, var(--color-gradient-brand-radial)), var(--color-bg-layer-01);
+  // @use background: radial-gradient(circle 100px at 50% 0, var(--color-gradient-brand-radial)), var(--color-bg-level-01);
   --color-gradient-brand-radial:
     hsl(var(--h-green) var(--s) 80% / 0.35) 0%,
     hsl(var(--h) var(--s) 78% / 0.25) 32%,
@@ -56,12 +56,12 @@
 
   --color-bg-base:       hsl(var(--h) var(--s-min) 14%);
   --color-bg-base-alpha: hsl(from var(--color-bg-base) h s l / 0.7);
-  --color-bg-2ry:        var(--color-bg-layer-03);
-  --color-bg-2ry-alpha:  hsl(from var(--color-bg-layer-03) h s l / 0.7);
+  --color-bg-2ry:        var(--color-bg-level-03);
+  --color-bg-2ry-alpha:  hsl(from var(--color-bg-level-03) h s l / 0.7);
   --color-bg-inverse:    hsl(var(--h) var(--s-min) 78%);
-  --color-bg-layer-01:   hsl(var(--h) var(--s-min) 18%);
-  --color-bg-layer-02:   hsl(var(--h) var(--s-min) 21%);
-  --color-bg-layer-03:   hsl(var(--h) var(--s-min) 24%);
+  --color-bg-level-01:   hsl(var(--h) var(--s-min) 18%);
+  --color-bg-level-02:   hsl(var(--h) var(--s-min) 21%);
+  --color-bg-level-03:   hsl(var(--h) var(--s-min) 24%);
 
   --color-bg-scrim:   var(--color-alpha-dark-400);
 
@@ -72,7 +72,7 @@
   --color-ink-icon:   var(--color-ink-3ry);
   --color-ink-border: var(--color-alpha-light-100);
   --color-ink-min:    var(--color-alpha-light-min);
-  --color-ink-link:   var(--color-ink-text-brand);
+  --color-ink-link:   hsl(var(--h) var(--s) 91%);
 
   --color-ink-text-inverse:   hsl(var(--h) var(--s-min) 14%);
   --color-ink-2ry-inverse:    hsl(var(--h) var(--s-min) 47%);

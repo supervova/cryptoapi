@@ -24,7 +24,7 @@
   <header class="e-hero">
     <div class="e-container">
       <figure class="e-hero__image">
-        <img src="/assets/img/pages/home/hero.png" srcset="/assets/img/pages/home/hero.png 1x, /assets/img/pages/home/hero@2x.png 2x" alt="Cryptoapi.ai">
+        <img src="/assets/img/pages/home/hero.jpg" srcset="/assets/img/pages/home/hero.jpg 1x, /assets/img/pages/home/hero@2x.jpg 2x" alt="Cryptoapi.ai">
       </figure>
       <div class="e-hero__copy">
         <h1>
@@ -49,6 +49,43 @@
       {% for feature in data_features %}
         {% include 'components/feature.twig' with {'feature': feature} only %}
       {% endfor %}
+    </div>
+  </section>
+
+  {# PLANS #}
+  <section class="e-section is-plans">
+    <div class="e-container">
+      <header class="e-section__header is-centered">
+        <span class="e-eyebrow">ИИ-консультант и интеграции API</span>
+        <h2 class="e-section__title">Тарифы и цены</h2>
+        <p>Два продукта CryptoAI — ИИ-консультант и интеграции API — доступны по подписке. Но вы можете начать пользоваться ими <a href="#">совершенно бесплатно</a>. Зарегистрировавшись, вы получаете доступ к базовым возможностям нашей ИИ-аналитики для главных криптовалют — Bitcoin и Ethereum. Каждый день система будет отправлять вам один торговый сигнал и предоставлять доступ к общей ленте прогнозов с часовой задержкой. Этого достаточно, чтобы оценить точность наших ИИ-алгоритмов и сделать первые шаги в мире криптотрейдинга с искусственным интеллектом.</p>
+        <div class="e-segmented-control d-none tablet:d-flex">
+          <button class="e-segmented-control__item" id="billing-monthly" type="button">Помесячная оплата</button>
+          <button class="e-segmented-control__item is-active" id="billing-annual" type="button">Оплата за год (скидка 15%)</button>
+        </div>
+      </header>
+      <div class="e-plans">
+        <div class="e-plans">
+          {% for plan in data_plans %}
+            {% include 'components/plan.twig' with {'plan': plan} only %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# AGENT PRICE #}
+  <section class="e-section is-agent-price">
+    <div class="e-container">
+      <div class="e-section__image">
+        <img src="/assets/img/components/agent-price.jpg" srcset="/assets/img/components/agent-price.jpg 1x, /assets/img/components/agent-price@2x.jpg 2x" alt="Цена торгового агента">
+      </div>
+      <div class="e-section__body">
+        <h2>Цена торгового агента</h2>
+        <p>Услуги ИИ-агента, торгующего автономно,оплачиваются по другой схеме.</p>
+        <p class="text-success">Вы платите 10% с каждой прибыльной сделки, не меньше $1.</p>
+        <a class="e-btn" href="#">Выбрать</a>
+      </div>
     </div>
   </section>
 
@@ -81,6 +118,5 @@
     <p>Получите точные торговые сигналы на основе ИИ и опережайте рынок криптовалют.</p>
     <a class="e-btn is-primary" href="#">Попробовать</a>
   </section>
-
 
 {% endblock %}

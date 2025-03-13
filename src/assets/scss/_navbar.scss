@@ -56,7 +56,7 @@ $navbar-dot-size: var(--size-1);
     height: $navbar-height-desktop;
 
     &:before {
-      background-color: var(--color-bg-layer-03);
+      background-color: var(--color-bg-level-03);
       border-radius: var(--border-radius-pill);
       content: '';
       position: absolute;
@@ -101,7 +101,7 @@ $navbar-dot-size: var(--size-1);
       radial-gradient(
         circle 216px at 50% 48px, var(--color-gradient-brand-radial)
       ),
-      var(--color-bg-layer-01);
+      var(--color-bg-level-01);
     align-items: stretch;
     flex-direction: column;
     padding-block: var(--size-4);
@@ -198,7 +198,7 @@ $navbar-dot-size: var(--size-1);
 // #region
 
 .e-navbar__menu {
-  background: var(--color-bg-layer-01);
+  background: var(--color-bg-level-01);
   display: flex;
   align-items: stretch;
   padding-top: var(--size-half);

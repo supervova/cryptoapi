@@ -14,6 +14,7 @@
 
   --s-base: 88%;
   --s-2ry:  80%; // desaturate the base by 4-10% for dark theme
+  --s-3ry:  50%;
   --s-min:  11%; // for dark theme backgrounds
 
   --h:  254;
@@ -323,7 +324,8 @@
     --padding-bottom-h2: #{rem(7)};
 
     --font-size-h3:      #{rem(23)};
-    --font-weight-h3:    var(--font-weight-titles);
+    --font-weight-h3:    var(--font-weight-titles-lighter);
+    --letter-spacing-h3: #{rem(0.3)};
     --line-height-h3:    #{math.div(32, 23)};
     --padding-top-h3:    #{rem(1)};
     --padding-bottom-h3: #{rem(7)};

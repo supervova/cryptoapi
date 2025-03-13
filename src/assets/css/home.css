@@ -39,14 +39,6 @@
   }
 }
 
-.e-plan {
-  flex: 1;
-  padding: 0;
-}
-
-.e-plan__features ul {
-  list-style: none;
-}
 .e-section.is-testimonials .e-card.is-featured {
   --card-bg-image:
     image-set(
@@ -57,7 +49,7 @@
 
 .e-section.is-faq {
   border-radius: var(--border-radius-lg);
-  background-color: var(--color-bg-layer-01);
+  background-color: var(--color-bg-level-01);
   background-blend-mode: screen;
   overflow: hidden;
   position: relative;

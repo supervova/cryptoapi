@@ -19,10 +19,10 @@
   --color-bg-base:         hsl(var(--h) var(--s-min) 99%);
   --color-bg-2ry:          hsl(var(--h) var(--s-min) 97%);
   --color-bg-inverse:      hsl(var(--h) var(--s-min) 24%);
-  --color-bg-layer-01:     var(--color-bg-base);
-  --color-bg-layer-02:     hsl(from var(--color-bg-base) / 0.88);
-  --color-bg-2ry-layer-02: hsl(from var(--color-bg-2ry) / 0.88);
-  --color-bg-layer-03:     var(--color-bg-layer-02);
+  --color-bg-level-01:     var(--color-bg-base);
+  --color-bg-level-02:     hsl(from var(--color-bg-base) / 0.88);
+  --color-bg-2ry-level-02: hsl(from var(--color-bg-2ry) / 0.88);
+  --color-bg-level-03:     var(--color-bg-level-02);
 
   --color-bg-scrim:        var(--color-alpha-dark-400);
 

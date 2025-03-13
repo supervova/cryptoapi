@@ -270,6 +270,7 @@ const pages = (done) => {
   const dataNavbar = JSON.parse(readFileSync('./config/navbar.json', 'utf8'));
   const dataFooter = JSON.parse(readFileSync('./config/footer.json', 'utf8'));
   const dataLabels = JSON.parse(readFileSync('./config/labels.json', 'utf8'));
+  const dataPlans = JSON.parse(readFileSync('./config/plans.json', 'utf8'));
   const dataFeatures = JSON.parse(
     readFileSync('./config/home/features.json', 'utf8')
   );
@@ -298,6 +299,7 @@ const pages = (done) => {
           data_features: dataFeatures, // Главная: функциональность
           data_testimonials: dataTestimonials, // Главная: отзывы
           data_faq: dataFaq, // Главная: FAQ
+          data_plans: dataPlans, // Тарифы
         },
         filters: [
           {

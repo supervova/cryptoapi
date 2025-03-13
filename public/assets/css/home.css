@@ -29,16 +29,6 @@
   }
 }
 
-.e-plan{
-  -webkit-box-flex:1;
-  -ms-flex:1;
-  flex:1;
-  padding:0;
-}
-
-.e-plan__features ul{
-  list-style:none;
-}
 .e-section.is-testimonials .e-card.is-featured{
   --card-bg-image:url("/assets/img/pages/home/featured-testimonial.jpg");
   --card-bg-image:image-set(
@@ -46,14 +36,16 @@
       url("/assets/img/pages/home/featured-testimonial@2x.jpg") 2x
     );
 }
+
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi){
+
 .e-section.is-testimonials .e-card.is-featured{
   --card-bg-image:url("/assets/img/pages/home/featured-testimonial@2x.jpg");
 }}
 
 .e-section.is-faq{
   border-radius:var(--border-radius-lg);
-  background-color:var(--color-bg-layer-01);
+  background-color:var(--color-bg-level-01);
   background-blend-mode:screen;
   overflow:hidden;
   position:relative;

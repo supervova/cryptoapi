@@ -45,6 +45,10 @@
   .tablet\:d-inline {
     display: inline;
   }
+
+  .tablet\:d-flex {
+    display: flex;
+  }
 }
 
 @media (--tablet-l) {
@@ -68,6 +72,7 @@
 .text-2ry { color: var(--color-ink-2ry); }
 .text-center { text-align: center; }
 .text-highlight { color: var(--color-ink-text-info); }
+.text-success { color: var(--color-ink-text-success); }
 
 // MISC
 
