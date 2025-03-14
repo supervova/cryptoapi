@@ -1,0 +1,21 @@
+@use 'sass:math';
+@use '../abstracts' as *;
+
+.e-assets ul {
+  list-style: none;
+  padding: 0;
+}
+
+.e-assets__item {
+  border-bottom: 1px solid var(--color-ink-border);
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.e-assets__item.is-positive {
+  color: var(--color-ink-text-success);
+}
+.e-assets__item.is-negative {
+  color: var(--color-ink-text-error);
+}

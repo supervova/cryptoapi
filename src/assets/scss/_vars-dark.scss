@@ -142,6 +142,14 @@
   --button-bg: hsl(var(--h) var(--s-min) 99% / 0.08);
   --button-color: var(--color-brand-primary);
   --button-color-primary: hsl(var(--h) var(--s-min) 11% / 0.7);
+
+  --gauge-stroke: hsl(var(--h) var(--s-min) 99% / 0.12);
+  --gauge-stroke-on: #fff; // var(--color-ink-2ry);
+  --gauge-stroke-extreme-fear: var(--color-ink-2ry-error);
+  --gauge-stroke-fear: hsl(26 var(--s) 46%);
+  --gauge-stroke-neutral: var(--color-ink-2ry-warning);
+  --gauge-stroke-greed: hsl(107 var(--s) 33%);
+  --gauge-stroke-extreme-greed: var(--color-ink-2ry-success);
   // #endregion
 
 }

@@ -2,7 +2,7 @@
 // и удобная прокрутка по двум осям:
 // https://www.taniarascia.com/horizontal-scroll-fixed-headers-table/
 
-@use 'abstracts' as *;
+@use '../abstracts' as *;
 
 table {
   --table-border-color: var(--color-ink-border);

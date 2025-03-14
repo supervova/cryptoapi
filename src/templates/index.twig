@@ -8,6 +8,7 @@
     lang: 'ru',
 
     desc: site.desc.ru,
+    fgi: 68,
     body_classes: 'e-page is-home'
   } %}
 {% endblock %}
@@ -49,6 +50,195 @@
       {% for feature in data_features %}
         {% include 'components/feature.twig' with {'feature': feature} only %}
       {% endfor %}
+    </div>
+  </section>
+
+  {# MARKETS #}
+  <section class="e-section is-markets">
+    <div class="e-container">
+      <header class="e-section__header is-centered">
+        <h2 class="e-section__title">Рынок криптовалют прямо сейчас</h2>
+        <p>Каждый день, каждый час, каждый миг появляются новые шансы.</p>
+      </header>
+
+      {# Metrics #}
+      <div class="e-flex">
+        <!-- Top Loser -->
+        <article class="e-card is-album-metric">
+          <img class="e-card__logo" src="/assets/img/cryptologos/sui.svg" alt="Логотип Sui">
+
+          <div class="e-card__content">
+            <h3 class="e-eyebrow">Лидер падения</h3>
+            <div class="e-card__row">
+              <p class="e-card__ticker">SUI-USD</p>
+              <p class="e-card__price">2,6530</p>
+            </div>
+            <div class="e-card__row">
+              <p class="e-card__name">Sui</p>
+              <p class="e-card__change text-error" aria-label="Минус 17,78 процентов">-17,78%</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Top Gainer -->
+        <article class="e-card is-album-metric is-top-gainer">
+          <img class="e-card__logo" src="/assets/img/cryptologos/story.svg" alt="Логотип Story Protocol">
+
+          <div class="e-card__content">
+            <h3 class="e-eyebrow">Лидер роста</h3>
+            <div class="e-card__row">
+              <p class="e-card__ticker">IP-USD</p>
+              <p class="e-card__price">4,96</p>
+            </div>
+            <div class="e-card__row">
+              <p class="e-card__name">Story Protocol</p>
+              <p class="e-card__change text-success" aria-label="Плюс 26,69 процентов">+26,69%</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Greed-n-Fear -->
+        <article class="e-card is-album-metric is-greed-fear">
+          <figure class="e-card__gauge" id="fgi-gauge" data-fgi="{{ page.fgi }}">
+            <svg class="e-card__gauge-base" width="128" height="64" viewBox="0 0 128 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path id="fgi-5" d="M1.36621 53.4943L4.32928 53.9636" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-10" d="M3.78711 43.7474L6.64028 44.6744" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-15" d="M7.70215 34.4991L10.3752 35.8611" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-20" d="M13.0176 25.9772L15.4446 27.7406" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-25" d="M19.5996 18.3915L21.7209 20.5129" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-30" d="M27.2871 11.929L29.0505 14.3561" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-35" d="M35.8906 6.74872L37.2526 9.42174" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-40" d="M45.1992 2.97809L46.1263 5.83126" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-45" d="M54.9834 0.709961L55.4527 3.67303" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-50" d="M65.001 0.000366211L65.001 3.00037" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-55" d="M75.0074 0.866699L74.5381 3.82977" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-60" d="M84.7542 3.28754L83.8271 6.14071" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-65" d="M94.0026 7.20343L92.6406 9.87645" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-70" d="M102.524 12.5179L100.761 14.9449" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-75" d="M110.11 19.1L107.988 21.2214" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-80" d="M116.573 26.7877L114.146 28.551" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-85" d="M121.752 35.3917L119.079 36.7536" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-90" d="M125.524 44.7001L122.671 45.6272" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-95" d="M127.791 54.4838L124.828 54.9531" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-extreme-fear" d="M10.7412 60.1536C11.3756 48.0521 16.0313 37.0158 23.3972 28.3561" stroke="var(--gauge-stroke-extreme-fear)" stroke-width="5" stroke-linecap="round"></path>
+              <path id="fgi-fear" d="M28.6602 22.9804C34.4477 17.8417 41.3576 13.9394 48.976 11.6875" stroke="var(--gauge-stroke-fear)" stroke-width="5" stroke-linecap="round"></path>
+              <path id="fgi-neutral" d="M56.2891 10.0759C58.8599 9.69652 61.4904 9.5 64.1667 9.5C67.1911 9.5 70.157 9.75097 73.0445 10.2332" stroke="var(--gauge-stroke-neutral)" stroke-width="5" stroke-linecap="round"></path>
+              <path id="fgi-greed" d="M100.247 23.4972C94.5719 18.3106 87.775 14.3307 80.2627 11.9637" stroke="var(--gauge-stroke-greed)" stroke-width="5" stroke-linecap="round"></path>
+              <path id="fgi-extreme-greed" d="M117.595 60.22C116.986 48.3289 112.495 37.4633 105.364 28.8661" stroke="var(--gauge-stroke-extreme-greed)" stroke-width="5" stroke-linecap="round"></path>
+            </svg>
+            <img class="e-card__gauge-pointer" src="/assets/img/components/gauge-pointer.svg" alt="">
+          </figure>
+          <div class="e-card__content">
+            <h3 class="e-card__status">
+                {% if page.fgi < 41 %}
+                  <span class="text-error">Страх: {{ page.fgi }}</span>
+                {% elseif page.fgi < 61 %}
+                  Спокойствие: {{ page.fgi }}
+                {% else %}
+                  <span class="text-success">Жадность: {{ page.fgi }}</span>
+                {% endif %}
+            </h3>
+            <p class="e-card__description">Настроение рынка</p>
+          </div>
+          <script>
+            document.addEventListener('DOMContentLoaded', () => {
+              const gaugeWidget = document.getElementById('fgi-gauge');
+              const index = gaugeWidget ? parseInt(gaugeWidget.dataset.fgi, 10) || 0 : 0;
+
+              const rootStyle = getComputedStyle(document.documentElement);
+              const gaugeOnColor = rootStyle.getPropertyValue('--gauge-stroke-on').trim();
+              const colors = {
+                extremeFear: rootStyle
+                  .getPropertyValue('--gauge-stroke-extreme-fear')
+                  .trim(),
+                fear: rootStyle.getPropertyValue('--gauge-stroke-fear').trim(),
+                neutral: rootStyle.getPropertyValue('--gauge-stroke-neutral').trim(),
+                greed: rootStyle.getPropertyValue('--gauge-stroke-greed').trim(),
+                extremeGreed: rootStyle
+                  .getPropertyValue('--gauge-stroke-extreme-greed')
+                  .trim(),
+              };
+
+              // Обновляем цвет делений основной шкалы с накопительным эффектом
+              for (let i = 5; i <= 95; i += 5) {
+                const segment = document.getElementById(`fgi-${i}`);
+                if (segment) {
+                  segment.style.stroke = index >= i ? gaugeOnColor : '';
+                }
+              }
+
+              // Обновляем цвет вспомогательной шкалы с цепным эффектом
+              if (index >= 0) {
+                document
+                  .getElementById('fgi-extreme-fear')
+                  ?.style.setProperty('stroke', colors.extremeFear);
+              }
+              if (index >= 26) {
+                document
+                  .getElementById('fgi-fear')
+                  ?.style.setProperty('stroke', colors.fear);
+              }
+              if (index >= 41) {
+                document
+                  .getElementById('fgi-neutral')
+                  ?.style.setProperty('stroke', colors.neutral);
+              }
+              if (index >= 61) {
+                document
+                  .getElementById('fgi-greed')
+                  ?.style.setProperty('stroke', colors.greed);
+              }
+              if (index >= 76) {
+                document
+                  .getElementById('fgi-extreme-greed')
+                  ?.style.setProperty('stroke', colors.extremeGreed);
+              }
+
+              // Поворот стрелки
+              const pointer = document.querySelector('.e-card__gauge-pointer');
+              if (pointer) {
+                const angle = index * 1.8; // 1 пункт = 1.8°
+                pointer.style.transform = `rotate(${angle}deg)`;
+              }
+            });
+          </script>
+        </article>
+      </div>
+
+      {# Base #}
+      <div class="e-section__grid">
+        <article class="e-asset">
+          <header class="e-asset__header">
+            <img class="e-asset__icon" src="/assets/img/cryptologos/bitcoin.svg" alt="Bitcoin">
+            <div class="e-asset__summary">
+              <div class="e-row">
+                <h2 class="e-asset__symbol">BTC-USD</h2>
+                <div class="e-asset__price">96 762,86 <small class="e-asset__price-change is-positive">+0,61%</small></div>
+              </div>
+              <div class="e-row">
+                <p class="e-asset__title">Bitcoin</p>
+                <div class="e-asset__stats">
+                  <span>O: 96 117,07</span>
+                  <span>Макс: 96 844,94</span>
+                  <span>Мин: 95 781,32</span>
+              </div>
+              </div>
+            </div>
+          </header>
+          <figure id="markets-chart"></figure>
+        </article>
+        <div class="e-assets">
+          <h2>Топ-валюты</h2>
+          <ul>
+            <li class="e-assets__item is-positive">BTC-USD <span>96 762,86</span> <span>+0,61%</span></li>
+            <li class="e-assets__item is-negative">ETH-USD <span>2 495,33</span> <span>-8,67%</span></li>
+            <li class="e-assets__item ">USDT-USD <span>1,0000</span> <span>0%</span></li>
+            <li class="e-assets__item is-positive">XRP-USD <span>2,2519</span> <span>+0,05%</span></li>
+            <li class="e-assets__item is-negative">BNB-USD <span>607,71</span> <span>-5,63%</span></li>
+            <li class="e-assets__item is-negative">SOL-USD <span>138,22</span> <span>-14,37%</span></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -119,4 +309,84 @@
     <a class="e-btn is-primary" href="#">Попробовать</a>
   </section>
 
+{% endblock %}
+
+{% block body_suffix %}
+  {{ parent() }}
+  <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.0.1/dist/lightweight-charts.standalone.production.min.js"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  const chartContainer = document.getElementById('markets-chart');
+
+  const chart = LightweightCharts.createChart(chartContainer, {
+    width: chartContainer.clientWidth,
+    height: chartContainer.clientHeight,
+    layout: {
+      background: { type: 'solid', color: 'transparent' },
+      textColor: 'rgb(255 255 255 / 0.6)',
+    },
+    grid: {
+      vertLines: { color: 'rgb(255 255 255 / 0.08)' },
+      horzLines: { color: 'rgb(255 255 255 / 0.08)' },
+    },
+    timeScale: {
+      timeVisible: true, // Показываем время
+      secondsVisible: false, // Не показываем секунды
+      borderColor: 'rgb(255 255 255 / 0.08)',
+      barSpacing: 10, // Устанавливаем расстояние между точками для внутридневных данных
+    },
+  });
+
+  const lineSeries = chart.addLineSeries({
+    color: '#ad96f8',
+    lineWidth: 2,
+    lastValueVisible: true,
+    priceLineVisible: true,
+    priceLineWidth: 1,
+    priceLineColor: '#ad96f8',
+  });
+
+  const bitcoinData = [
+    { time: '2025-03-13 00:00', value: 72450 },
+    { time: '2025-03-13 02:00', value: 72780 },
+    { time: '2025-03-13 04:00', value: 72590 },
+    { time: '2025-03-13 06:00', value: 73100 },
+    { time: '2025-03-13 08:00', value: 73450 },
+    { time: '2025-03-13 10:00', value: 73290 },
+    { time: '2025-03-13 12:00', value: 73800 },
+    { time: '2025-03-13 14:00', value: 74250 },
+    { time: '2025-03-13 16:00', value: 74400 },
+    { time: '2025-03-13 18:00', value: 74100 },
+    { time: '2025-03-13 20:00', value: 74350 },
+    { time: '2025-03-13 22:00', value: 74780 },
+  ];
+
+  // Преобразуем данные в UNIX timestamp (в секундах)
+  const formattedData = bitcoinData.map((item) => {
+    const [date, time] = item.time.split(' ');
+    const [year, month, day] = date.split('-').map(Number);
+    const [hours, minutes] = time.split(':').map(Number);
+    const dateObj = new Date(year, month - 1, day, hours, minutes); // month - 1, так как месяцы в Date начинаются с 0
+    const timestamp = Math.floor(dateObj.getTime() / 1000); // Преобразуем в секунды
+    return {
+      time: timestamp,
+      value: item.value,
+    };
+  });
+
+  // Логируем данные для отладки
+  console.log('Formatted Data:', formattedData);
+
+  lineSeries.setData(formattedData);
+
+  function handleResize() {
+    chart.applyOptions({
+      width: chartContainer.clientWidth,
+    });
+  }
+
+  window.addEventListener('resize', handleResize);
+  chart.timeScale().fitContent(); // Автоматически подгоняем шкалу времени под данные
+});
+  </script>
 {% endblock %}

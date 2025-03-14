@@ -1,0 +1,124 @@
+@use 'sass:math';
+@use '../abstracts' as *;
+
+// -----------------------------------------------------------------------------
+// BASE
+// -----------------------------------------------------------------------------
+// #region
+.e-card.is-album-metric {
+  background:
+    radial-gradient(
+      circle farthest-corner at 0% 100%,
+      rgb(255 255 255 / 0.1),
+      rgb(255 255 255 / 0.09) 2%,
+      rgb(255 255 255 / 0.08) 10%,
+      rgb(255 255 255 / 0.06) 21%,
+      rgb(255 255 255 / 0.04) 36%,
+      rgb(255 255 255 / 0.02) 54%,
+      rgb(255 255 255 / 0)
+    ),
+    radial-gradient(
+      circle farthest-side at 100% 0%,
+      rgb(255 255 255 / 0.2),
+      rgb(255 255 255 / 0.19) 2%,
+      rgb(255 255 255 / 0.16) 10%,
+      rgb(255 255 255 / 0.12) 21%,
+      rgb(255 255 255 / 0.08) 36%,
+      rgb(255 255 255 / 0.04) 54%,
+      rgb(255 255 255 / 0.01) 75%,
+      rgb(255 255 255 / 0)
+    ),
+    var(--color-bg-level-01);
+  background-blend-mode: screen, screen, normal;
+  border-radius: var(--border-radius-lg);
+  gap: var(--size-line);
+
+  @media (--laptop) {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+:where(.e-card.is-album-metric) {
+  .e-card__logo {
+    width: var(--size-6);
+    height: var(--size-6);
+  }
+
+  .e-card__content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    p,
+    .e-eyebrow {
+      margin-bottom: 0;
+    }
+  }
+
+  .e-card__row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .e-card__ticker,
+  .e-card__name,
+  .e-card__description {
+    color: var(--color-ink-2ry);
+  }
+
+  .e-card__ticker,
+  .e-card__price {
+    font-weight: 600;
+  }
+
+  .e-card__change,
+  .e-card__name,
+  .e-card__description {
+    @include text-format('body-sm');
+  }
+
+  .e-card__status {
+    @include text-format('base');
+    font-weight: 600;
+    margin-bottom: 0;
+  }
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// GREED-N-FEAR
+// -----------------------------------------------------------------------------
+// #region
+
+.e-card.is-greed-fear {
+  @media (--tablet-p-only) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    .e-card__content {
+      flex-grow: 0;
+    }
+  }
+}
+
+.e-card__gauge {
+  flex-shrink: 0;
+  position: relative;
+  width: max-content;
+}
+
+.e-card__gauge-base path {
+  stroke: var(--gauge-stroke);
+  transition: stroke var(--duration-100) var(--easing-base);
+}
+
+.e-card__gauge-pointer {
+  position: absolute;
+  bottom: rem(-6);
+  left: 50%;
+  translate: -50% 0;
+}
+// #endregion

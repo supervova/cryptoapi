@@ -1,0 +1,56 @@
+@use 'sass:math';
+@use '../abstracts' as *;
+
+.e-asset__header {
+  display: flex;
+  gap: var(--size-3);
+  padding-bottom: var(--size-3);
+}
+
+.e-asset__icon {
+  width: var(--size-5);
+  height: var(--size-5);
+}
+
+.e-asset__summary {
+  flex-grow: 1;
+  padding-inline-end: rem(78);
+}
+
+:where(.e-asset) .e-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.e-asset__symbol,
+.e-asset__price {
+  @include text-format('h2');
+  margin-bottom: 0;
+}
+
+.e-asset__header p {
+  margin-bottom: 0;
+}
+
+.e-asset__price-change {
+  @include text-format('h3');
+
+  &.is-positive {
+    color: var(--color-ink-text-success);
+  }
+
+  &.is-negative {
+    color: var(--color-ink-text-change);
+  }
+}
+
+.e-asset__title,
+.e-asset__stats span {
+  @include text-format('body-sm');
+  color: var(--color-ink-2ry);
+}
+
+.e-asset__stats {
+  display: flex;
+  gap: var(--size-1);
+}

@@ -1,38 +1,76 @@
 @use '../abstracts' as *;
 @use '../abstracts/custom';
 
-// MARKETS
-.e-section.is-markets {}
-:where(.e-section.is-markets) .e-section__keypoints {}
-:where(.e-section.is-markets) .e-section__grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
+// MARKETS METRICS
+:where(.e-section.is-markets) .e-flex {
+  padding-bottom: var(--spacer);
 
-  @media (--tablet) {
-    grid-template-columns: 1fr 1fr;
+  @media (--tablet-l) {
+    --columns: 3;
   }
 }
 
-:where(.e-section.is-markets) .e-section__chart-header {}
-:where(.e-section.is-markets) .e-section__list-header {}
-:where(.e-section.is-markets) .e-section__chart {}
-:where(.e-section.is-markets) .e-section__list {}
-
-// PLANS
-.e-section.is-plans {}
-:where(.e-section.is-plans) .e-section__hgroup {}
-:where(.e-section.is-plans) .e-section__desc {}
-:where(.e-section.is-plans) .e-section__controls {} // + segmented-control
-
-:where(.e-section.is-plans) .e-section__base {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  @media (--tablet) {
-    flex-direction: row;
+:where(.e-section.is-markets) .is-top-gainer {
+  @media (--tablet-l) {
+    order: 3;
   }
+}
+
+:where(.e-section.is-markets) .is-greed-fear {
+  flex-grow: 2;
+
+  @media (--tablet-l) {
+    flex-grow: 0;
+    order: 2;
+  }
+}
+
+// MARKETS OVERVIEW
+
+// :where(.e-section.is-markets) .e-section__grid {
+//   display: grid;
+//   grid-template-columns: 1fr;
+//   gap: 1rem;
+
+//   @media (--tablet) {
+//     grid-template-columns: 1fr 1fr;
+//   }
+// }
+
+:where(.e-section.is-markets) {
+  .e-section__grid {
+    display: flex;
+    gap: var(--size-2p5);
+  }
+
+  .e-asset {
+    flex: 1;
+
+    @media (--tablet-l) {
+      padding-inline-end: var(--size-2);
+    }
+  }
+
+  .e-assets {
+    --columns: 3;
+    --gap: var(--size-3);
+
+    @media (--tablet-l) {
+      width: calc(
+        100% / var(--columns) - var(--gap) * (var(--columns) - 1) / var(--columns)
+      );
+    }
+
+    @media (--laptop) {
+      --columns: 4;
+    }
+  }
+}
+
+[id='markets-chart'] {
+  overflow: hidden;
+  width: 100%;
+  height: rem(288);
 }
 
 // TESTIMONIALS
