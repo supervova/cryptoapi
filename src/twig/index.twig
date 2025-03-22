@@ -1,0 +1,552 @@
+{% extends "partials/clean_page.twig" %}
+
+{% block config %}
+  {{ parent() }}
+
+  {% set ExtraData = ExtraData|merge(
+    {
+      body_classes: 'e-page is-home',
+      desc: '',
+      fgi: 68
+    }
+  ) %}
+{% endblock %}
+
+{% block head %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ ExtraData.assets_prefix }}/assets/css/home.css?{{ "now"|date('U') }}">
+{% endblock %}
+
+{# MAIN CONTENT ------------------------------------------------------------- #}
+{% block content %}
+  {% set data_plans = [
+    {
+      "title": "Трейдер",
+      "icon": "user",
+      "price": 29,
+      "subtitle": "Идеально подходит начинающим активным трейдерам",
+      "link": "#",
+      "features": [
+        "AI-анализ топ-20 криптовалют",
+        "До 10 торговых сигналов в день",
+        "Реал-тайм уведомления о сигналах",
+        "Базовые индикаторы настроения рынка",
+        "Интеграция с основными криптобиржами",
+        "Недельные отчеты и прогнозы",
+        "Приоритетная техподдержка через чат"
+      ]
+    },
+    {
+      "title": "Эксперт",
+      "icon": "star",
+      "price": 79,
+      "subtitle": "Оптимальный выбор для профессиональных трейдеров",
+      "link": "#",
+      "features": [
+        "Всё, что есть в плане «Трейдер»",
+        "AI-анализ более 100 криптовалют",
+        "Неограниченное количество сигналов",
+        "Расширенная аналитика рыночных трендов",
+        "Персонализированные торговые стратегии",
+        "Глубокий анализ настроений рынка",
+        "API доступ",
+        "Уведомления в Telegram и Email",
+        "Экспорт данных в CSV/Excel",
+        "Доступ к историческим данным",
+        "Техподдержка 24/7"
+      ],
+      "isFeatured": true
+    },
+    {
+      "title": "Премиум",
+      "icon": "crown",
+      "price": 199,
+      "subtitle": "Разработан для профессиональных команд и крипто-фондов",
+      "link": "#",
+      "features": [
+        "Всё, что есть в плане «Эксперт»",
+        "Полный анализ всех торгуемых криптовалют",
+        "ИИ-ассистент для персональных консультаций",
+        "Предиктивная аналитика будущих трендов",
+        "Автоматическая торговля через API",
+        "Кастомизация торговых стратегий",
+        "Детальный анализ on-chain метрик",
+        "Корреляционный анализ с традиционными рынками",
+        "Приватные исследования и отчеты",
+        "VIP-поддержка с персональным менеджером",
+        "Ранний доступ к новым функциям",
+        "Групповые онлайн-консультации с экспертами"
+      ]
+    }
+  ] %}
+
+  {% set data_features = [
+    {
+      "icon": "robot",
+      "eyebrow": "01. Торговый агент",
+      "title": "Подключение торговых ботов",
+      "description": "Автоматизация сделок."
+    },
+    {
+      "icon": "candles",
+      "eyebrow": "02. ИИ-консультант",
+      "title": "Генерация торговых сигналов",
+      "description": "Прогнозирование и рекомендации."
+    },
+    {
+      "icon": "plug",
+      "eyebrow": "03. Интеграции API",
+      "title": "API-интерфейсы",
+      "description": "Подключение к рынку, получение данных, сигналы.",
+      "isFeatured": true
+    },
+    {
+      "icon": "award",
+      "eyebrow": "Кроме того",
+      "title": "Рейтинги активов",
+      "description": "Индексы риска TRIndx."
+    },
+    {
+      "icon": "speed",
+      "eyebrow": "Кроме того",
+      "title": "Графики и индикаторы",
+      "description": "RSI, индекс страха и жадности."
+    },
+    {
+      "icon": "bitcoin",
+      "eyebrow": "Кроме того",
+      "title": "Встраиваемые виджеты",
+      "description": "Курсы криптовалют и аналитика."
+    },
+    {
+      "icon": "news",
+      "eyebrow": "Кроме того",
+      "title": "Агрегация новостей и AI-анализ",
+      "description": "Оценка влияния новостей на рынок."
+    }
+  ] %}
+
+  {% set data_testimonials = [
+    {
+      "avatar": "/assets/img/placeholders/avatars/male-01.jpg",
+      "quote": "Пользуюсь сервисом уже полгода, и за это время ИИ-сигналы неоднократно помогали мне принимать взвешенные решения. Благодаря четким рекомендациям я смог избежать резких падений рынка и значительно увеличить прибыль от инвестиций в криптовалюты.",
+      "author": "Максим Кузнецов",
+      "company": "СигмаОмниМэн"
+    },
+    {
+      "avatar": "/assets/img/placeholders/avatars/male-02.jpg",
+      "quote": "CryptoAPI стал для меня настоящим открытием в деле криптоаналитики — интуитивно понятный интерфейс и своевременные сигналы позволяют легко ориентироваться в постоянно меняющемся рынке. Я особенно ценю прозрачность алгоритмов и регулярные обновления, которые гарантируют актуальность данных.",
+      "author": "Виктор Ощенко",
+      "company": "Foobar Systems"
+    },
+    {
+      "avatar": "/assets/img/placeholders/avatars/female-01.jpg",
+      "quote": "Я была скептически настроена к использованию ИИ для прогнозирования, но после нескольких успешных сделок с помощью этого сервиса мои сомнения исчезли. Рекомендации ИИ оказались удивительно точными, а поддержка всегда оперативно отвечает на любые вопросы",
+      "author": "Анна Шелест",
+      "company": "Альфа-банк",
+      "isFeatured": true
+    },
+    {
+      "avatar": "/assets/img/placeholders/avatars/female-02.jpg",
+      "quote": "CryptoAPI полностью оправдал мои ожидания. С помощью сервиса я смогла оптимизировать свой портфель, своевременно реагировать на изменения рынка и находить новые возможности для инвестирования, что принесло стабильный доход.",
+      "author": "Антонина Арно",
+      "company": "Весна-Весна"
+    },
+    {
+      "avatar": "/assets/img/placeholders/avatars/male-03.jpg",
+      "quote": "Использую CryptoAPI для ежедневного мониторинга рынка криптовалют, и он стал незаменимым инструментом в моем арсенале инвестора. Прогнозы ИИ помогают не только понять текущую ситуацию, но и предвидеть возможные рыночные тренды, что дает мне уверенность в завтрашнем дне",
+      "author": "Михаил Векслер",
+      "company": "Мосэнергоголь"
+    },
+    {
+      "avatar": "/assets/img/placeholders/avatars/male-04.jpg",
+      "quote": "После подписки на CryptoAPI я ощутил реальное преимущество в торговле криптовалютами — аналитика и сигналы, генерируемые искусственным интеллектом, позволяют принимать решения на основе объективных данных. Это значительно снизило риск необдуманных шагов и повысило общую эффективность моих инвестиций",
+      "author": "Александр Лавочкин",
+      "company": "Kfdjxrby & Co"
+    }
+  ] %}
+
+  {% set data_faq = [
+    {
+      "question": "Как работает искусственный интеллект для прогнозирования рыночных трендов?",
+      "answer": "ИИ анализирует исторические данные, графики цен, объемы торгов, рыночные индикаторы и новости, чтобы выявлять закономерности и предсказывать вероятные движения рынка. Используются алгоритмы машинного обучения, включая нейронные сети и модели временных рядов."
+    },
+    {
+      "question": "Какие данные используются для обучения модели и насколько они достоверны?",
+      "answer": "Мы используем данные с ведущих криптобирж, включая исторические котировки, торговые объемы и ликвидность. Также учитываются новости, социальные сети и макроэкономические показатели. Достоверность обеспечивается за счет обработки данных из проверенных источников и применения механизмов фильтрации шума."
+    },
+    {
+      "question": "Какие криптовалюты покрываются аналитической платформой?",
+      "answer": "Платформа анализирует основные криптовалюты, такие как Bitcoin (BTC), Ethereum (ETH) и другие популярные альткоины. Полный список доступных активов можно найти в разделе «Рынки»."
+    },
+    {
+      "question": "Как часто обновляются сигналы и прогнозы?",
+      "answer": "Обновления происходят в режиме реального времени или с определенной периодичностью в зависимости от типа стратегии: краткосрочные сигналы — каждые 5 мин, среднесрочные и долгосрочные прогнозы — раз в день и раз в неделю."
+    },
+    {
+      "question": "Сколько стоит подписка на сервис?",
+      "answer": "Подписка на наш сервис стоит 29$ в месяц при ежемесячной оплате или 299$ в год (что позволяет сэкономить 15% при ежегодной подписке)."
+    },
+    {
+      "question": "Как отменить подписку?",
+      "answer": "Вы можете отменить подписку в настройках аккаунта. Если у вас возникли сложности, обратитесь в службу поддержки. Подписка действует до конца оплаченного периода."
+    }
+  ] %}
+
+  {# HERO #}
+  <header class="e-hero">
+    <div class="e-container">
+      <figure class="e-hero__image">
+        <img src="{{ ExtraData.assets_prefix }}/assets/img/pages/home/hero.jpg" srcset="{{ ExtraData.assets_prefix }}/assets/img/pages/home/hero.jpg 1x, {{ ExtraData.assets_prefix }}/assets/img/pages/home/hero@2x.jpg 2x" alt="Cryptoapi.ai">
+      </figure>
+      <div class="e-hero__copy">
+        <h1>
+          <strong>{{ 'Trade AI'|trans|raw }}</strong>
+          {{ 'Make It Work'|trans|raw }}
+        </h1>
+        <p>{{ 'Analytics. Automation. Forecasting. CRYPTOAPI.AI is an innovative platform for traders and investors, providing advanced APIs and intelligent cryptocurrency market analysis.'|trans|raw }}</p>
+        <div class="e-buttons">
+          <a class="e-btn is-primary" href="#">{{ 'Try Now'|trans|raw }}</a>
+          <a class="e-btn" href="{{ lng_html }}/docs">{{ 'API Documentation'|trans|raw }}</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {# FEATURES #}
+  <section class="e-section has-scroller-row is-features">
+    <header class="e-section__header">
+      <span class="e-eyebrow">Три продукта</span>
+      <h2 class="e-section__title">Торговый агент, ИИ-консультант интеграции API</h2>
+    </header>
+    <div class="e-scroller-row" data-role="draggable-scroll">
+      {% for feature in data_features %}
+        {% include 'partials/feature.twig' with {'feature': feature, 'ExtraData': ExtraData} only %}
+      {% endfor %}
+    </div>
+  </section>
+
+  {# MARKETS #}
+  <section class="e-section is-markets">
+    <div class="e-container">
+      <header class="e-section__header is-centered">
+        <h2 class="e-section__title">Рынок криптовалют прямо сейчас</h2>
+        <p>Каждый день, каждый час, каждый миг появляются новые шансы.</p>
+      </header>
+
+      {# Metrics #}
+      <div class="e-flex">
+        <!-- Top Loser -->
+        <article class="e-card is-album-metric">
+          <img class="e-card__logo" src="{{ ExtraData.assets_prefix }}/assets/img/cryptologos/sui.svg" alt="Логотип Sui">
+
+          <div class="e-card__content">
+            <h3 class="e-eyebrow">Лидер падения</h3>
+            <div class="e-card__row">
+              <p class="e-card__ticker">SUI-USD</p>
+              <p class="e-card__price">2,6530</p>
+            </div>
+            <div class="e-card__row">
+              <p class="e-card__name">Sui</p>
+              <p class="e-card__change text-error">-17,78%</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Top Gainer -->
+        <article class="e-card is-album-metric is-top-gainer">
+          <img class="e-card__logo" src="{{ ExtraData.assets_prefix }}/assets/img/cryptologos/story.svg" alt="Логотип Story Protocol">
+
+          <div class="e-card__content">
+            <h3 class="e-eyebrow">Лидер роста</h3>
+            <div class="e-card__row">
+              <p class="e-card__ticker">IP-USD</p>
+              <p class="e-card__price">4,96</p>
+            </div>
+            <div class="e-card__row">
+              <p class="e-card__name">Story Protocol</p>
+              <p class="e-card__change text-success">+26,69%</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Greed-n-Fear -->
+        <article class="e-card is-album-metric is-greed-fear">
+          <figure class="e-card__gauge" id="fgi-gauge" data-fgi="{{ ExtraData.fgi }}">
+            <svg class="e-card__gauge-base" width="128" height="64" viewBox="0 0 128 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path id="fgi-5" d="M1.36621 53.4943L4.32928 53.9636" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-10" d="M3.78711 43.7474L6.64028 44.6744" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-15" d="M7.70215 34.4991L10.3752 35.8611" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-20" d="M13.0176 25.9772L15.4446 27.7406" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-25" d="M19.5996 18.3915L21.7209 20.5129" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-30" d="M27.2871 11.929L29.0505 14.3561" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-35" d="M35.8906 6.74872L37.2526 9.42174" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-40" d="M45.1992 2.97809L46.1263 5.83126" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-45" d="M54.9834 0.709961L55.4527 3.67303" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-50" d="M65.001 0.000366211L65.001 3.00037" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-55" d="M75.0074 0.866699L74.5381 3.82977" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-60" d="M84.7542 3.28754L83.8271 6.14071" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-65" d="M94.0026 7.20343L92.6406 9.87645" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-70" d="M102.524 12.5179L100.761 14.9449" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-75" d="M110.11 19.1L107.988 21.2214" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-80" d="M116.573 26.7877L114.146 28.551" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-85" d="M121.752 35.3917L119.079 36.7536" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-90" d="M125.524 44.7001L122.671 45.6272" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-95" d="M127.791 54.4838L124.828 54.9531" stroke="var(--gauge-stroke)"></path>
+              <path id="fgi-extreme-fear" d="M10.7412 60.1536C11.3756 48.0521 16.0313 37.0158 23.3972 28.3561" stroke="var(--gauge-stroke-extreme-fear)" stroke-width="5" stroke-linecap="round"></path>
+              <path id="fgi-fear" d="M28.6602 22.9804C34.4477 17.8417 41.3576 13.9394 48.976 11.6875" stroke="var(--gauge-stroke-fear)" stroke-width="5" stroke-linecap="round"></path>
+              <path id="fgi-neutral" d="M56.2891 10.0759C58.8599 9.69652 61.4904 9.5 64.1667 9.5C67.1911 9.5 70.157 9.75097 73.0445 10.2332" stroke="var(--gauge-stroke-neutral)" stroke-width="5" stroke-linecap="round"></path>
+              <path id="fgi-greed" d="M100.247 23.4972C94.5719 18.3106 87.775 14.3307 80.2627 11.9637" stroke="var(--gauge-stroke-greed)" stroke-width="5" stroke-linecap="round"></path>
+              <path id="fgi-extreme-greed" d="M117.595 60.22C116.986 48.3289 112.495 37.4633 105.364 28.8661" stroke="var(--gauge-stroke-extreme-greed)" stroke-width="5" stroke-linecap="round"></path>
+            </svg>
+            <img class="e-card__gauge-pointer" src="{{ ExtraData.assets_prefix }}/assets/img/components/gauge-pointer.svg" alt="">
+          </figure>
+          <div class="e-card__content">
+            <h3 class="e-card__status">
+                {% if page.fgi < 41 %}
+                  <span class="text-error">Страх: {{ ExtraData.fgi }}</span>
+                {% elseif page.fgi < 61 %}
+                  Спокойствие: {{ ExtraData.fgi }}
+                {% else %}
+                  <span class="text-success">Жадность: {{ ExtraData.fgi }}</span>
+                {% endif %}
+            </h3>
+            <p class="e-card__description">Настроение рынка</p>
+          </div>
+          <script>
+            document.addEventListener('DOMContentLoaded', () => {
+              const gaugeWidget = document.getElementById('fgi-gauge');
+              const index = gaugeWidget ? parseInt(gaugeWidget.dataset.fgi, 10) || 0 : 0;
+
+              const rootStyle = getComputedStyle(document.documentElement);
+              const gaugeOnColor = rootStyle.getPropertyValue('--gauge-stroke-on').trim();
+              const colors = {
+                extremeFear: rootStyle
+                  .getPropertyValue('--gauge-stroke-extreme-fear')
+                  .trim(),
+                fear: rootStyle.getPropertyValue('--gauge-stroke-fear').trim(),
+                neutral: rootStyle.getPropertyValue('--gauge-stroke-neutral').trim(),
+                greed: rootStyle.getPropertyValue('--gauge-stroke-greed').trim(),
+                extremeGreed: rootStyle
+                  .getPropertyValue('--gauge-stroke-extreme-greed')
+                  .trim(),
+              };
+
+              // Обновляем цвет делений основной шкалы с накопительным эффектом
+              for (let i = 5; i <= 95; i += 5) {
+                const segment = document.getElementById(`fgi-${i}`);
+                if (segment) {
+                  segment.style.stroke = index >= i ? gaugeOnColor : '';
+                }
+              }
+
+              // Обновляем цвет вспомогательной шкалы с цепным эффектом
+              if (index >= 0) {
+                document
+                  .getElementById('fgi-extreme-fear')
+                  ?.style.setProperty('stroke', colors.extremeFear);
+              }
+              if (index >= 26) {
+                document
+                  .getElementById('fgi-fear')
+                  ?.style.setProperty('stroke', colors.fear);
+              }
+              if (index >= 41) {
+                document
+                  .getElementById('fgi-neutral')
+                  ?.style.setProperty('stroke', colors.neutral);
+              }
+              if (index >= 61) {
+                document
+                  .getElementById('fgi-greed')
+                  ?.style.setProperty('stroke', colors.greed);
+              }
+              if (index >= 76) {
+                document
+                  .getElementById('fgi-extreme-greed')
+                  ?.style.setProperty('stroke', colors.extremeGreed);
+              }
+
+              // Поворот стрелки
+              const pointer = document.querySelector('.e-card__gauge-pointer');
+              if (pointer) {
+                const angle = index * 1.8; // 1 пункт = 1.8°
+                pointer.style.transform = `rotate(${angle}deg)`;
+              }
+            });
+          </script>
+        </article>
+      </div>
+
+      {# Base #}
+      <h2 class="tablet-l:d-none">Топ-валюты</h2>
+      <div class="e-section__grid">
+        <article class="e-asset">
+          <header class="e-asset__header">
+            <img class="e-asset__icon" src="{{ ExtraData.assets_prefix }}/assets/img/cryptologos/bitcoin.svg" alt="Bitcoin">
+            <div class="e-asset__summary">
+              <div class="e-row">
+                <p class="e-asset__title tablet:d-none" aria-hidden="true">Bitcoin</p>
+                <h2 class="e-asset__symbol">BTC-USD</h2>
+                <div class="e-asset__price">96 762,86 <small class="e-asset__price-change is-positive">+0,61%</small></div>
+              </div>
+              <div class="e-row">
+                <p class="e-asset__title d-none tablet:d-block" aria-hidden="true">Bitcoin</p>
+                <div class="e-asset__stats">
+                  <span>O: <span class="nobr">96 117,07</span></span>
+                  <span>Макс: <span class="nobr">96 844,94</span></span>
+                  <span>Мин: <span class="nobr">95 781,32</span></span>
+              </div>
+              </div>
+            </div>
+          </header>
+          <figure class="e-chart">
+            <canvas id="markets-chart"></canvas>
+            <button class="e-btn is-period" type="button" data-role="chart-period">1Д</button>
+            <div class="e-chart__loader" id="chart-loader">Загрузка графика...</div>
+            <div class="e-chart__error" id="chart-error" style="display: none;">Не удалось загрузить данные графика</div>
+          </figure>
+        </article>
+        <div class="e-assets">
+          <h2 class="d-none tablet-l:d-block" aria-hidden="true">Топ-валюты</h2>
+          <table class="e-assets__table">
+            <colgroup>
+              <col class="e-assets__symbols">
+              <col>
+              <col>
+            </colgroup>
+            <tbody>
+              <tr aria-current="true">
+                <th scope="row">
+                  <div class="e-assets__symbol">BTC-USD</div>
+                  <div class="e-assets__name">Bitcoin</div>
+                </th>
+                <td class="e-assets__price">96 762,<small>86</small></td>
+                <td class="e-assets__change is-positive">+0,61%</td>
+              </tr>
+
+              <tr>
+                <th scope="row">
+                  <div class="e-assets__symbol">ETH-USD</div>
+                  <div class="e-assets__name">Ethereum</div>
+                </th>
+                <td class="e-assets__price">2 495,<small>33</small></td>
+                <td class="e-assets__change is-negative">-8,67%</td>
+              </tr>
+
+              <tr>
+                <th scope="row">
+                  <div class="e-assets__symbol">USDT-USD</div>
+                  <div class="e-assets__name">Tether USDT</div>
+                </th>
+                <td class="e-assets__price">1,<small>0000</small></td>
+                <td class="e-assets__change">0%</td>
+              </tr>
+
+              <tr>
+                <th scope="row">
+                  <div class="e-assets__symbol">XRP-USD</div>
+                  <div class="e-assets__name">XRP Network</div>
+                </th>
+                <td class="e-assets__price">2,<small>2519</small></td>
+                <td class="e-assets__change is-positive">+0,05%</td>
+              </tr>
+
+              <tr>
+                <th scope="row">
+                  <div class="e-assets__symbol">BNB-USD</div>
+                  <div class="e-assets__name">Binance Coin</div>
+                </th>
+                <td class="e-assets__price">607,<small>71</small></td>
+                <td class="e-assets__change is-negative">-5,63%</td>
+              </tr>
+
+              <tr>
+                <th scope="row">
+                  <div class="e-assets__symbol">SOL-USD</div>
+                  <div class="e-assets__name">Solana</div>
+                </th>
+                <td class="e-assets__price">138,<small>22</small></td>
+                <td class="e-assets__change is-negative">-14,37%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# PLANS #}
+  <section class="e-section is-plans">
+    <div class="e-container">
+      <header class="e-section__header is-centered">
+        <span class="e-eyebrow">ИИ-консультант и интеграции API</span>
+        <h2 class="e-section__title">Тарифы и цены</h2>
+        <p>Два продукта CryptoAI — ИИ-консультант и интеграции API — доступны по подписке. Но вы можете начать пользоваться ими <a href="#">совершенно бесплатно</a>. Зарегистрировавшись, вы получаете доступ к базовым возможностям нашей ИИ-аналитики для главных криптовалют — Bitcoin и Ethereum. Каждый день система будет отправлять вам один торговый сигнал и предоставлять доступ к общей ленте прогнозов с часовой задержкой. Этого достаточно, чтобы оценить точность наших ИИ-алгоритмов и сделать первые шаги в мире криптотрейдинга с искусственным интеллектом.</p>
+        <div class="e-segmented-control d-none tablet:d-flex">
+          <button class="e-segmented-control__item" id="billing-monthly" type="button">Помесячная оплата</button>
+          <button class="e-segmented-control__item is-active" id="billing-annual" type="button">Оплата за год (скидка 15%)</button>
+        </div>
+      </header>
+      <div class="e-plans">
+        <div class="e-plans">
+          {% for plan in data_plans %}
+            {% include 'partials/plan.twig' with {'plan': plan, 'ExtraData': ExtraData} only %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# AGENT PRICE #}
+  <section class="e-section is-agent-price">
+    <div class="e-container">
+      <div class="e-section__image">
+        <img src="{{ ExtraData.assets_prefix }}/assets/img/components/agent-price.jpg" srcset="{{ ExtraData.assets_prefix }}/assets/img/components/agent-price.jpg 1x, /assets/img/components/agent-price@2x.jpg 2x" alt="Цена торгового агента">
+      </div>
+      <div class="e-section__body">
+        <h2>Цена торгового агента</h2>
+        <p>Услуги ИИ-агента, торгующего автономно,оплачиваются по другой схеме.</p>
+        <p class="text-success">Вы платите 10% с каждой прибыльной сделки, не меньше $1.</p>
+        <a class="e-btn" href="#">Выбрать</a>
+      </div>
+    </div>
+  </section>
+
+  {# TESTIMONIALS #}
+  <section class="e-section has-scroller-row-reverse is-testimonials">
+    <header class="e-section__header">
+      <span class="e-eyebrow">Отзывы</span>
+      <h2 class="e-section__title">Клиент всегда прав</h2>
+    </header>
+    <div class="e-scroller-row" data-role="draggable-scroll">
+      {% for testimonial in data_testimonials %}
+        {% include 'partials/testimonial.twig' with {'testimonial': testimonial, 'ExtraData': ExtraData} only %}
+      {% endfor %}
+    </div>
+  </section>
+
+  {# FAQ #}
+  <div class="e-container">
+    <section class="e-section is-faq">
+      <h2>Часто задаваемые вопросы</h2>
+      {% for faq in data_faq %}
+        {% include 'partials/faq-item.twig' with {'faq': faq, 'ExtraData': ExtraData} only %}
+      {% endfor %}
+    </section>
+  </div>
+
+  {# CTA #}
+  <section class="e-section e-cta">
+    <h2>Торгуйте криптовалютой с точностью искусственного интеллекта</h2>
+    <p>Получите точные торговые сигналы на основе ИИ и опережайте рынок криптовалют.</p>
+    <a class="e-btn is-primary" href="#">Попробовать</a>
+  </section>
+
+{% endblock %}
+
+{% block body_suffix %}
+  {{ parent() }}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{{ ExtraData.assets_prefix }}/assets/js/asset-chart.js"></script>
+{% endblock %}

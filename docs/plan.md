@@ -24,7 +24,6 @@ src/
     base/
       base.twig
       body-suffix.twig
-      macros.twig
     components/
       header.twig
       # etc

@@ -1,0 +1,10 @@
+{#
+{% include 'partials/icon.twig' with { name: 'search' } %}
+{% include 'partials/icon.twig' with { name: feature.icon } %}
+{% include 'partials/icon.twig' with { name: 'sm-chevron-down', classes: 'is-sm' } %}
+{% include 'partials/icon.twig' with { name: 'flag-russia-ru', classes: 'me-1', file: 'flags' } %}
+#}
+
+<svg class="e-icon is-{{ name }}{% if classes %} {{ classes }}{% endif %}" aria-hidden="true" focusable="false">
+  <use xlink:href="{{ ExtraData.assets_prefix }}/assets/img/icons/{{ file|default('sprite') }}.svg#icon-{{ name }}"></use>
+</svg>

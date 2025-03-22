@@ -78,17 +78,16 @@ const paths = {
   markup: {
     src: {
       twig: [
-        `${srcBase}/templates/**/*.twig`,
-        `!${srcBase}/templates/base/*.twig`,
-        `!${srcBase}/templates/components/**/*.twig`,
+        `${srcBase}/twig/**/*.twig`,
+        `!${srcBase}/twig/partials/*.twig`,
+        `!${srcBase}/twig/data/**/*.twig`,
       ],
     },
-    watch: [
-      `${srcBase}/templates/**/*.twig`,
-      `${destAssets}/css/home.css`,
-      './config/*.json',
-    ],
-    dest: `${root.dest.dev}`,
+    watch: [`${srcBase}/twig/**/*.twig`, `${destAssets}/css/home.css`],
+    dest: {
+      dev: `${root.dest.dev}`,
+      prod: `${root.dest.prod}/twig`,
+    },
   },
   img: {
     src: [
@@ -109,6 +108,7 @@ const paths = {
     src: `${srcBase}/assets/js`, // папка с исходниками
     entry: {
       main: `${srcBase}/assets/js/main.js`, // основная точка входа
+      'asset-chart': `${srcBase}/assets/js/asset-chart.js`,
       // home: `${srcBase}/assets/js/home.js`,
     },
     watch: `${srcBase}/assets/js/*.js`,
@@ -121,6 +121,18 @@ const paths = {
   fonts: {
     src: `${srcBase}/assets/fonts/**/*.{woff2,ttf}`,
     dest: `${destAssets}/fonts/`,
+  },
+  data: {
+    src: `${srcBase}/assets/data/**/*.json`,
+    dest: `${destAssets}/data/`,
+  },
+  engine: {
+    src: `${srcBase}/engine/**/*`,
+    dest: `${root.dest.prod}/engine`,
+  },
+  l10n: {
+    src: `${srcBase}/translate/**/*`,
+    dest: `${root.dest.prod}/translate`,
   },
 };
 
@@ -138,9 +150,12 @@ const cleanDist = () =>
     `${paths.css.dest}/**/*.css`,
     `${paths.js.dest}/**/*.js`,
     `${paths.img.dest}/**/*`,
+    `${destAssets}/data/**/*`,
+    `${root.dest.prod}/engine/*.php`,
+    `${root.dest.prod}/twig/**/*`,
   ]);
 
-const cleanPages = () => deleteAsync([`${paths.markup.dest}/**/*.html`]);
+const cleanPages = () => deleteAsync([`${paths.markup.dest.dev}/**/*.html`]);
 
 const cleanSrc = () => deleteAsync([`${srcBase}/**/*.css`]);
 
@@ -209,10 +224,31 @@ const copyFonts = () =>
     .pipe(changed(paths.fonts.dest))
     .pipe(dest(paths.fonts.dest));
 
-// const copyConfig = () =>
-//   src('./config/*.json').pipe(dest('./dist')).pipe(bsInstance.stream());
+// Тестовые данные
+const copyData = () =>
+  src(paths.data.src, { encoding: false })
+    .pipe(changed(paths.data.dest))
+    .pipe(dest(paths.data.dest))
+    .pipe(bsInstance.stream());
 
-// const copy = parallel(copyFonts, copyVideo);
+// Engine
+const copyEngine = () =>
+  src(paths.engine.src, { encoding: false })
+    .pipe(changed(paths.engine.dest))
+    .pipe(dest(paths.engine.dest));
+
+// Переводы
+const copyLocales = () =>
+  src(paths.l10n.src, { encoding: false })
+    .pipe(changed(paths.l10n.dest))
+    .pipe(dest(paths.l10n.dest));
+
+const copyTwig = () =>
+  src(`${srcBase}/twig/**/*.twig`, { encoding: false })
+    .pipe(changed(paths.markup.dest.prod))
+    .pipe(dest(paths.markup.dest.prod));
+
+const copy = parallel(copyFonts, copyEngine, copyData, copyTwig, copyLocales);
 // #endregion
 
 /**
@@ -265,21 +301,45 @@ const img = (done) => {
  */
 // #region
 
-const pages = (done) => {
-  const dataConfig = JSON.parse(readFileSync('./config/site.json', 'utf8'));
-  const dataNavbar = JSON.parse(readFileSync('./config/navbar.json', 'utf8'));
-  const dataFooter = JSON.parse(readFileSync('./config/footer.json', 'utf8'));
-  const dataLabels = JSON.parse(readFileSync('./config/labels.json', 'utf8'));
-  const dataPlans = JSON.parse(readFileSync('./config/plans.json', 'utf8'));
-  const dataFeatures = JSON.parse(
-    readFileSync('./config/home/features.json', 'utf8')
-  );
-  const dataTestimonials = JSON.parse(
-    readFileSync('./config/home/testimonials.json', 'utf8')
-  );
-  const dataFaq = JSON.parse(readFileSync('./config/home/faq.json', 'utf8'));
+// Загрузка данных из мок-файла для PHP-переменных
+const loadPhpMockData = () => {
+  try {
+    // Проверяем наличие файла с мок-данными для PHP-переменных
+    if (existsSync(`${srcBase}/assets/data/fixtures/global-vars.json`)) {
+      return JSON.parse(
+        readFileSync(`${srcBase}/assets/data/fixtures/global-vars.json`, 'utf8')
+      );
+    }
+    // Если файла нет, возвращаем объект с базовыми значениями
+    return {
+      meta_title: 'Site Title (Mock)',
+      meta_description: 'Site Description (Mock)',
+      meta_ogimage: '/assets/img/ogimage.jpg',
+      thispageurl: 'http://localhost:9000',
+      main_href: 'http://localhost:9000',
+      base_href: '/',
+      lng_html: 'en',
+      ogtype: '<meta property="og:type" content="website"/>',
+      canonical: '<link rel="canonical" href="http://localhost:9000"/>',
+      schemaorg: '',
+      thispagecss: '',
+      thispagejs: '',
+      loginform: '',
+      project_name: 'Project Name',
+      'theme-color': '#4a86e8',
+      page_content_html: '<p>Default content</p>',
+    };
+  } catch (error) {
+    console.error('Error loading PHP mock data:', error);
+    return {};
+  }
+};
 
-  src(paths.markup.src.twig, { base: './src/templates' })
+const pages = (done) => {
+  // Загружаем мок-данные для PHP-переменных
+  const phpMockData = loadPhpMockData();
+
+  src(paths.markup.src.twig, { base: './src/twig' })
     .pipe(
       plumber({
         handleError(err) {
@@ -288,18 +348,14 @@ const pages = (done) => {
         },
       })
     )
+    // НЕ заменяем {$variable} на {{variable}} до компиляции Twig
+    // Вместо этого, компилируем Twig как обычно
     .pipe(
       twig({
-        base: './src/templates',
+        base: './src/twig',
         data: {
-          site: dataConfig, // Общие значения из site.json
-          data_navbar: dataNavbar, // Main menu
-          data_footer: dataFooter,
-          data_labels: dataLabels, // Надписи в UI-компонентах
-          data_features: dataFeatures, // Главная: функциональность
-          data_testimonials: dataTestimonials, // Главная: отзывы
-          data_faq: dataFaq, // Главная: FAQ
-          data_plans: dataPlans, // Тарифы
+          // Добавляем все PHP-переменные как обычные переменные Twig
+          ...phpMockData,
         },
         filters: [
           {
@@ -315,12 +371,23 @@ const pages = (done) => {
       process.stderr.write(`${err.message}\n`);
       this.emit('end');
     })
-    .pipe(replace(/\{\$(.*?)\}/g, ''))
+    // После компиляции Twig заменяем {$variable} на соответствующие значения из phpMockData
+    .pipe(
+      replace(/\{\$([\w\-.]+)\}/g, (match, varName) => {
+        // Если переменная есть в phpMockData, возвращаем ее значение
+        if (phpMockData[varName] !== undefined) {
+          return phpMockData[varName];
+        }
+        // Иначе возвращаем пустую строку
+        console.warn(`Warning: PHP variable ${varName} not found in mock data`);
+        return '';
+      })
+    )
     .pipe(prettify({ printWidth: 40000, bracketSameLine: true }))
     .pipe(replace(/ (\s*<style>\n)\s*@charset "UTF-8";/g, '$1'))
     .pipe(replace(/\s\/>/g, '>'))
     .pipe(size({ title: 'html' }))
-    .pipe(dest(paths.markup.dest))
+    .pipe(dest(paths.markup.dest.dev))
     .pipe(bsInstance.stream());
   done();
 };
@@ -472,7 +539,10 @@ const watchFiles = () => {
   watch(paths.js.watch, series(js));
   watch([paths.svg.src.base, paths.svg.src.flags], series(sprite, reload));
   watch(paths.img.src, series(img, reload));
-  watch([...paths.markup.watch, './config/*.json'], series(pages));
+  watch(paths.engine.src, series(copyEngine));
+  watch(`${srcBase}/twig/**/*.twig`, series(copyTwig));
+  watch(paths.l10n.src, series(copyLocales));
+  watch([...paths.markup.watch], series(pages));
 };
 
 const serve = (done) => {
@@ -489,6 +559,15 @@ const serve = (done) => {
 
     // Extensionless URLs
     middleware: [
+      // Обработка префикса /projects/cryptoapi.ai/ в путях
+      (req, res, next) => {
+        // Удаляем префикс /projects/cryptoapi.ai/ из URL для локального сервера
+        if (req.url.startsWith('/projects/cryptoapi.ai/')) {
+          req.url = req.url.replace('/projects/cryptoapi.ai', '');
+        }
+        next();
+      },
+      // Обработка файлов без расширения
       (req, res, next) => {
         const baseDir = root.dest.dev;
 
@@ -530,7 +609,13 @@ const serve = (done) => {
 const build = series(
   clean,
   parallel(svgBase, svgFlags),
-  parallel(img, css, js)
+  parallel(img, css, js, copy)
+);
+
+const buildProd = series(
+  clean,
+  parallel(svgBase, svgFlags),
+  parallel(img, css, js, copy)
 );
 
 const dev = series(build, pages, serve);
@@ -543,7 +628,8 @@ const dev = series(build, pages, serve);
  */
 export {
   clean,
-  copyFonts,
+  copy,
+  copyTwig,
   pages,
   sprite,
   img,
@@ -552,6 +638,7 @@ export {
   dev,
   serve,
   watchFiles as w,
+  buildProd,
 };
 
 export default build;

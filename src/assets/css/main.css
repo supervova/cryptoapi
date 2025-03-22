@@ -23,7 +23,7 @@
   font-style: normal;
   font-weight: 100 900;
   font-stretch: 75% 125%;
-  src: url("/src/assets/fonts/Inter-VariableFont_slnt,wght.ttf") format("truetype");
+  src: url("/projects/cryptoapi.ai/assets/fonts/Inter-VariableFont_slnt,wght.ttf") format("truetype");
 }
 :root {
   --h-blue: 223;
@@ -1346,8 +1346,8 @@
   .e-card.is-featured {
     --card-bg-image:
       image-set(
-        url("/assets/img/pages/home/featured-feature.jpg") 1x,
-        url("/assets/img/pages/home/featured-feature@2x.jpg") 2x
+        url("/projects/cryptoapi.ai/assets/img/pages/home/featured-feature.jpg") 1x,
+        url("/projects/cryptoapi.ai/assets/img/pages/home/featured-feature@2x.jpg") 2x
       );
     background: linear-gradient(hsl(var(--h), var(--s-min), 18%, 0.86), hsl(var(--h), var(--s-min), 18%, 0.86)), linear-gradient(hsl(var(--h), var(--s-min), 18%), hsl(var(--h), var(--s-min), 18%)), var(--card-bg-image);
     background-blend-mode: normal, color, normal;
@@ -2223,7 +2223,7 @@
     padding-left: var(--size-4);
   }
   .e-plan__features li::before {
-    background: url("/assets/img/components/plan-feature-marker.svg") no-repeat center/contain;
+    background: url("/projects/cryptoapi.ai/assets/img/components/plan-feature-marker.svg") no-repeat center/contain;
     content: "";
     position: absolute;
     top: var(--padding-top-base);
@@ -2513,22 +2513,89 @@
     content: "»";
   }
   /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
+  table {
+    --table-border-color: var(--color-ink-border);
+    --table-border-width: var(--border-width);
+    --cell-padding-x: var(--size-2);
+    --cell-padding-y: var(--size-1p5);
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-variant-numeric: lining-nums tabular-nums;
+    text-indent: 0;
+    margin-top: var(--size-line);
+    margin-bottom: var(--size-line);
+    width: 100%;
+  }
+  caption {
+    font-weight: 700;
+    text-align: left;
+    padding-top: var(--padding-top-base);
+    padding-bottom: var(--padding-bottom-base);
+  }
+  th,
+  td {
+    border-top: var(--table-border-width) solid var(--table-border-color);
+    text-align: left;
+    padding: calc(var(--cell-padding-y) - 1px) var(--cell-padding-x) var(--cell-padding-y);
+    vertical-align: top;
+  }
+  thead th {
+    color: var(--color-ink-2ry);
+    position: relative;
+    padding-top: var(--cell-padding-y);
+    vertical-align: bottom;
+  }
+  thead th[colspan] {
+    text-align: center;
+  }
+  thead td, thead th,
+  table:not(:has(thead)) > tbody > tr:first-child td,
+  table:not(:has(thead)) > tbody > tr:first-child th {
+    border-top: 0;
+  }
+  tfoot th,
+  tfoot td {
+    border-bottom: 0;
+  }
+  .e-scroller table {
+    margin: 0;
+    width: auto;
+    max-width: none;
+    min-width: 100%;
+  }
+  .e-scroller td,
+  .e-scroller th {
+    scroll-snap-align: start;
+  }
+  /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
   .e-asset__header {
     display: flex;
     gap: var(--size-3);
     padding-bottom: var(--size-3);
   }
   .e-asset__icon {
-    width: var(--size-5);
-    height: var(--size-5);
+    display: none;
+  }
+  @media (--tablet) {
+    .e-asset__icon {
+      display: block;
+      width: var(--size-5);
+      height: var(--size-5);
+    }
   }
   .e-asset__summary {
     flex-grow: 1;
-    padding-inline-end: 4.875rem;
+    padding-inline-end: var(--size-2);
   }
   :where(.e-asset) .e-row {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+  }
+  @media (--tablet) {
+    :where(.e-asset) .e-row {
+      flex-direction: row;
+      justify-content: space-between;
+    }
   }
   .e-asset__symbol,
   .e-asset__price {
@@ -2536,7 +2603,25 @@
     line-height: var(--line-height-h2);
     padding-top: var(--padding-top-h2);
     padding-bottom: var(--padding-bottom-h2);
+  }
+  .e-asset__symbol {
+    margin-top: var(--size-1);
     margin-bottom: 0;
+  }
+  @media (--tablet) {
+    .e-asset__symbol {
+      margin-top: 0;
+    }
+  }
+  .e-asset__price {
+    font-weight: var(--font-weight-titles-max);
+    margin-top: 0;
+    margin-bottom: var(--size-1);
+  }
+  @media (--tablet) {
+    .e-asset__price {
+      margin-bottom: 0;
+    }
   }
   .e-asset__header p {
     margin-bottom: 0;
@@ -2551,7 +2636,7 @@
     color: var(--color-ink-text-success);
   }
   .e-asset__price-change.is-negative {
-    color: var(--color-ink-text-change);
+    color: var(--color-ink-text-error);
   }
   .e-asset__title,
   .e-asset__stats span {
@@ -2565,22 +2650,137 @@
     display: flex;
     gap: var(--size-1);
   }
-  /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
-  .e-assets ul {
-    list-style: none;
-    padding: 0;
+  .e-chart {
+    position: relative;
+    width: 100%;
+    height: 288px;
   }
-  .e-assets__item {
-    border-bottom: 1px solid var(--color-ink-border);
+  .e-chart canvas {
+    width: 100%;
+    height: 100%;
+  }
+  .e-chart__loader,
+  .e-chart__error {
+    background-color: var(--color-bg-level-01);
+    border-radius: var(--border-radius-lg);
+    color: rgba(255, 255, 255, 0.7);
     display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
+    align-items: center;
+    justify-content: center;
+    padding: var(--size-3);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
   }
-  .e-assets__item.is-positive {
+  .e-chart__loader {
+    background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-info));
+  }
+  .e-chart__error {
+    color: var(--color-ink-text-error);
+    background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-error));
+  }
+  .e-btn.is-period {
+    --button-height: var(--size-5);
+    background: var(--color-bg-level-01);
+    box-shadow: inset 0 0 8px 2px rgba(255, 255, 255, 0.08), var(--box-shadow-level-02);
+    position: absolute;
+    bottom: var(--size-4);
+    left: 50%;
+    translate: -50% 0;
+    z-index: 1;
+  }
+  /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
+  .e-assets__table {
+    margin: 0;
+  }
+  .e-assets__symbols {
+    width: 100%;
+  }
+  .e-assets tr {
+    cursor: pointer;
+    position: relative;
+  }
+  .e-assets tr:not(:last-child)::after {
+    border-bottom: 1px solid var(--color-ink-border);
+    content: "";
+    position: absolute;
+    bottom: 0;
+    inset-inline: var(--size-1p5);
+    height: 0;
+  }
+  .e-assets tr:hover {
+    background: radial-gradient(50% 12px at 50% 0%, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.14) 2%, rgba(255, 255, 255, 0.12) 10%, rgba(255, 255, 255, 0.09) 21%, rgba(255, 255, 255, 0.06) 36%, rgba(255, 255, 255, 0.03) 54%, rgba(255, 255, 255, 0));
+  }
+  .e-assets tr[aria-current] {
+    background-color: var(--color-ink-min);
+    cursor: default;
+    pointer-events: none;
+  }
+  .e-assets tr[aria-current] th {
+    border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+  }
+  .e-assets tr[aria-current] td:last-child {
+    border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+  }
+  @media (--tablet-l) {
+    .e-assets tr[aria-current] th {
+      border-radius: 0;
+    }
+    .e-assets tr[aria-current] th::before {
+      content: url("/projects/cryptoapi.ai/assets/img/components/current-asset-tip.svg");
+      position: absolute;
+      top: 0;
+      left: -1.5rem;
+      width: var(--size-3);
+    }
+  }
+  .e-assets th,
+  .e-assets td {
+    border: 0;
+    font-weight: 400;
+    vertical-align: middle;
+    padding-block: var(--size-1p5);
+    white-space: nowrap;
+  }
+  .e-assets th {
+    font-weight: 400;
+    padding-inline: var(--size-1p5);
+    position: relative;
+  }
+  .e-assets td {
+    font-weight: 400;
+    padding-inline: 0 var(--size-1p5);
+  }
+  .e-assets__symbol,
+  .e-assets__price,
+  .e-assets__change {
+    font-size: var(--font-size-body-sm);
+    line-height: var(--font-size-body-sm);
+  }
+  .e-assets__price,
+  .e-assets__change {
+    text-align: right;
+  }
+  .e-assets__change.is-positive {
     color: var(--color-ink-text-success);
   }
-  .e-assets__item.is-negative {
+  .e-assets__change.is-negative {
     color: var(--color-ink-text-error);
+  }
+  .e-assets__price small,
+  .e-assets__name {
+    font-size: var(--font-size-caption);
+    line-height: var(--font-size-caption);
+  }
+  .e-assets__name {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: var(--color-ink-2ry);
+    padding-top: var(--size-half);
   }
   /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
   .e-card.is-album-metric {
@@ -2883,10 +3083,16 @@
     .tablet\:d-flex {
       display: flex;
     }
+    .tablet\:d-block {
+      display: flex;
+    }
   }
   @media (--tablet-l) {
     .tablet-l\:d-none {
       display: none;
+    }
+    .tablet-l\:d-block {
+      display: block;
     }
     .tablet-l\:d-inline {
       display: inline;
@@ -2911,6 +3117,9 @@
   }
   .text-error {
     color: var(--color-ink-text-error);
+  }
+  .nobr {
+    white-space: nowrap;
   }
   .visually-hidden {
     border: 0;

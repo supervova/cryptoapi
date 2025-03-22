@@ -38,11 +38,6 @@
 // }
 
 :where(.e-section.is-markets) {
-  .e-section__grid {
-    display: flex;
-    gap: var(--size-2p5);
-  }
-
   .e-asset {
     flex: 1;
 
@@ -67,6 +62,16 @@
   }
 }
 
+:where(.e-section.is-markets) .e-section__grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-2p5);
+
+  @media (--tablet-l) {
+    flex-direction: row;
+  }
+}
+
 [id='markets-chart'] {
   overflow: hidden;
   width: 100%;
@@ -77,8 +82,8 @@
 .e-section.is-testimonials .e-card.is-featured {
   --card-bg-image:
     image-set(
-      url('/assets/img/pages/home/featured-testimonial.jpg') 1x,
-      url('/assets/img/pages/home/featured-testimonial@2x.jpg') 2x
+      url('#{$assets-prefix}/assets/img/pages/home/featured-testimonial.jpg') 1x,
+      url('#{$assets-prefix}/assets/img/pages/home/featured-testimonial@2x.jpg') 2x
     );
 }
 

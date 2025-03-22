@@ -78,10 +78,10 @@
   // Content
   @include meta.load-css('testimonial');
   @include meta.load-css('content/blockquote');
+  @include meta.load-css('content/table');
   // @include meta.load-css('badge');
   // @include meta.load-css('content/callout');
   // @include meta.load-css('content/code');
-  // @include meta.load-css('content/table');
   // @include meta.load-css('content/tag');
 
   // Markets

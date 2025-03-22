@@ -14,7 +14,8 @@
     <file>public</file>
     <file>tests</file>
 
-    <!-- Exclude vendor directory -->
+    <!-- Exclude -->
+    <exclude-pattern>../backup/*</exclude-pattern>
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <exclude-pattern>*/cache/*</exclude-pattern>
     <exclude-pattern>*/logs/*</exclude-pattern>

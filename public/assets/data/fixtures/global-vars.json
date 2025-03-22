@@ -1,0 +1,18 @@
+{
+  "base_href": "",
+  "canonical": "<link rel=\"canonical\" href=\"http://localhost:9000\"/>",
+  "lng_html": "ru",
+  "loginform": "",
+  "main_href": "http://localhost:9000",
+  "meta_description": "Надежный API для криптовалютных бирж и блокчейн-сервисов",
+  "meta_ogimage": "/assets/img/ogimage.jpg",
+  "meta_title": "CryptoAPI - Инструменты для криптовалютных разработчиков",
+  "ogtype": "<meta property=\"og:type\" content=\"website\"/>",
+  "page_content_html": "<div class=\"container\"><p>Содержимое страницы по умолчанию</p></div>",
+  "project_name": "CryptoAPI",
+  "schemaorg": "",
+  "theme-color": "#4a86e8",
+  "thispagecss": "",
+  "thispagejs": "",
+  "thispageurl": "http://localhost:9000"
+}

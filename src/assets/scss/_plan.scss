@@ -83,7 +83,7 @@
     padding-left: var(--size-4);
 
     &::before {
-      background: url('/assets/img/components/plan-feature-marker.svg') no-repeat center / contain;
+      background: url('#{$assets-prefix}/assets/img/components/plan-feature-marker.svg') no-repeat center / contain;
       content: '';
       position: absolute;
       top: var(--padding-top-base);

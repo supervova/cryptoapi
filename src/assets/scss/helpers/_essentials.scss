@@ -49,11 +49,19 @@
   .tablet\:d-flex {
     display: flex;
   }
+
+  .tablet\:d-block {
+    display: flex;
+  }
 }
 
 @media (--tablet-l) {
   .tablet-l\:d-none {
     display: none;
+  }
+
+  .tablet-l\:d-block {
+    display: block;
   }
 
   .tablet-l\:d-inline {
@@ -74,6 +82,7 @@
 .text-highlight { color: var(--color-ink-text-info); }
 .text-success { color: var(--color-ink-text-success); }
 .text-error { color: var(--color-ink-text-error); }
+.nobr { white-space: nowrap; }
 
 // MISC
 

@@ -1,0 +1,10 @@
+<div class="e-card{{ feature.isFeatured ? ' is-featured' : '' }}">
+  <figure class="e-card__spot-icon">
+    {% include 'partials/icon.twig' with { name: feature.icon } %}
+  </figure>
+  <div class="e-card__base">
+    <span class="e-eyebrow">{{ feature.eyebrow }}</span>
+    <h3 class="e-card__title">{{ feature.title }}</h3>
+    <p class="e-card__desc">{{ feature.description }}</p>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<details class="e-accordion">
+  <summary>
+    {{ faq.question }}
+    <span class="e-accordion__marker">
+      {% include 'partials/icon.twig' with { name: 'sm-chevron-down', classes: 'is-sm' } %}
+    </span>
+  </summary>
+  <div class="e-accordion__body">
+    <p>{{ faq.answer }}</p>
+  </div>
+</details>

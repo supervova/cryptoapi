@@ -59,8 +59,8 @@
 .e-card.is-featured {
   --card-bg-image:
     image-set(
-      url('/assets/img/pages/home/featured-feature.jpg') 1x,
-      url('/assets/img/pages/home/featured-feature@2x.jpg') 2x
+      url('#{$assets-prefix}/assets/img/pages/home/featured-feature.jpg') 1x,
+      url('#{$assets-prefix}/assets/img/pages/home/featured-feature@2x.jpg') 2x
     );
 
   background:
