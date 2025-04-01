@@ -1,0 +1,13 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+# ------------------------------------------------------------------------------
+# Meta
+# ------------------------------------------------------------------------------
+msgid "Secure Sign In or Sign Up | CryptoAPI.ai - AI-Powered Crypto Trading"
+msgstr "Вход или Регистрация | CryptoAPI.ai - Торговля криптовалютой с ИИ"
+
+msgid "Log in to your CryptoAPI.ai account or create a new one. Access advanced trading tools, real-time market insights, and automated strategies powered by cutting-edge AI technology."
+msgstr "Войдите в свой аккаунт CryptoAPI.ai или создайте новый. Получите доступ к передовым инструментам для торговли, актуальным рыночным данным и автоматизированным стратегиям на основе передовых ИИ-технологий."

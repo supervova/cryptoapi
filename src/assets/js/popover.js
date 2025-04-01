@@ -19,7 +19,6 @@ export default function initPopovers() {
         if (!summary.hasAttribute('tabindex')) {
           summary.setAttribute('tabindex', '0');
         }
-        body.setAttribute('role', 'region');
         body.setAttribute('aria-hidden', 'true');
       }
     }

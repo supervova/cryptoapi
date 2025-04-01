@@ -109,7 +109,6 @@ function initPopovers() {
         if (!summary.hasAttribute("tabindex")) {
           summary.setAttribute("tabindex", "0");
         }
-        body.setAttribute("role", "region");
         body.setAttribute("aria-hidden", "true");
       }
     }
@@ -263,9 +262,31 @@ document.addEventListener("DOMContentLoaded", initDragToScroll);
 window.addEventListener("resize", handleResize);
 var drag_scroll_default = initDragToScroll;
 
+// src/assets/js/form.js
+function initPasswordToggles() {
+  document.querySelectorAll('input[data-role="password"]').forEach((passwordInput) => {
+    const wrapper = passwordInput.parentElement;
+    const toggleButton = wrapper.querySelector(
+      '[data-role="password-toggle"]'
+    );
+    if (!toggleButton) return;
+    const icons = toggleButton.querySelectorAll("svg");
+    toggleButton.addEventListener("click", () => {
+      const input = passwordInput;
+      const isPassword = input.type === "password";
+      input.type = isPassword ? "text" : "password";
+      icons[0].classList.toggle("d-none", isPassword);
+      icons[0].classList.toggle("d-block", !isPassword);
+      icons[1].classList.toggle("d-none", !isPassword);
+      icons[1].classList.toggle("d-block", isPassword);
+    });
+  });
+}
+
 // src/assets/js/main.js
 document.addEventListener("DOMContentLoaded", () => {
   initPopovers();
   modal_default();
   drag_scroll_default();
+  initPasswordToggles();
 });

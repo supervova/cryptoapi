@@ -1,14 +1,14 @@
 {% set data_footer = {
   "contacts": {
-    "label": {"ru": "Контакты", "en": "Contacts"},
+    "label": "Contact Us",
     "href": "/contact-us"
   },
   "privacy": {
-    "label": {"ru": "Конфиденциальность", "en": "Privacy"},
+    "label": "Privacy",
     "href": "/privacy"
   },
   "legal": {
-    "label": {"ru": "Документы", "en": "Legal"},
+    "label": "Legal",
     "href": "/legal"
   }
 } %}
@@ -16,27 +16,27 @@
 <footer class="e-footer">
   <div class="e-container">
 
-    <small class="e-footer__copy">© {{ "now"|date('Y-m-d H:i:s') }}. CryptoAPI</small>
+    <small class="e-footer__copy">© {{ "now"|date('Y') }}. CryptoAPI</small>
     <ul class="e-footer__menu">
       {% for item in data_footer %}
-        <li><a href="/{{ lng_html }}{{ item.href }}">{{ item.label[ExtraData.lang] }}</a></li>
+        <li><a href="/{{ lng_html }}{{ item.href }}">{{ item.label|trans }}</a></li>
       {% endfor %}
     </ul>
     <details class="e-popover e-footer__languages" data-role="popover">
       <summary class="has-chevron">
-        {% include 'partials/icon.twig' with { name: 'flag-russia-ru', classes: 'me-1', file: 'flags' } %}
+        {% include 'partials/icon.twig' with {name: 'flag-russia-ru', classes: 'me-1', file: 'flags'} %}
         Русский
       </summary>
       <ul class="e-popover__body e-menu">
         <li class="e-menu__item">
           <a href="/ru" aria-current="true">
-            {% include 'partials/icon.twig' with { name: 'flag-russia-ru', file: 'flags' } %}
+            {% include 'partials/icon.twig' with {name: 'flag-russia-ru', file: 'flags'} %}
             Русский
           </a>
         </li>
         <li class="e-menu__item" >
           <a href="/en">
-            {% include 'partials/icon.twig' with { name: 'flag-britain-en', file: 'flags' } %}
+            {% include 'partials/icon.twig' with {name: 'flag-britain-en', file: 'flags'} %}
             English
           </a>
         </li>

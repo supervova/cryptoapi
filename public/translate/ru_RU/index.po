@@ -1,70 +1,20 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: taix\n"
-"POT-Creation-Date: 2025-03-21 13:24:27+0300\n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: Qwerty\n"
-"Language: ru\n"
-"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Taix app\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Poedit-KeywordsList: trans\n"
-"X-Poedit-Basepath: ../..\n"
-"X-Poedit-SearchPath-0: language\n"
-"X-Poedit-SearchPath-1: Console\n"
-"X-Poedit-SearchPathExcluded-0: twig/*.twig\n"
-
-# Navbar: Tagline
-
-msgid "AI for Crypto Market"
-msgstr "ИИ для крипторынка"
-
-msgid "for trading"
-msgstr "для крипторынка"
-
-msgid "AI Crypto Analytics and Signals"
-msgstr "ИИ-криптоаналитика и сигналы"
 
 # ------------------------------------------------------------------------------
-# Navbar: Main menu
+# Meta
 # ------------------------------------------------------------------------------
-msgid "Home"
-msgstr "Главная"
+msgid "CRYPTOAPI.AI – Advanced APIs for Crypto Traders and Market Analytics"
+msgstr "CryptoAPI.ai - Торговля криптовалютой с ИИ"
 
-msgid "Products"
-msgstr "Продукты"
-
-msgid "Markets"
-msgstr "Рынки"
-
-#  msgid "main_menu.products"
-#  msgstr "Продукты"
-
-#  msgid "main_menu.markets"
-#  msgstr "Рынки"
-
-msgid "More"
-msgstr "Ещё"
-
-msgid "Pricing"
-msgstr "Тарифы"
-
-msgid "Support"
-msgstr "Поддержка"
-
-msgid "Blog"
-msgstr "Блог"
-
-msgid "Sign In"
-msgstr "Вход"
+msgid "Unlock the power of advanced APIs designed for crypto traders and analysts. Access real-time market insights, trading signals, custom indices, and automated tools to boost your trading performance."
+msgstr "Инновационная аналитическая платформа для трейдеров и инвесторов. Получайте точные торговые сигналы, прогнозы и автоматизируйте сделки с ИИ. API-интеграции, графики, индикаторы и аналитика в реальном времени."
 
 # ------------------------------------------------------------------------------
 # Hero
 # ------------------------------------------------------------------------------
-
 msgid "Trade AI"
 msgstr "Торгуй ИИ"
 
@@ -83,7 +33,6 @@ msgstr "Документация API"
 # ------------------------------------------------------------------------------
 # Features
 # ------------------------------------------------------------------------------
-
 msgid "Three Products"
 msgstr "Три продукта"
 
@@ -91,7 +40,6 @@ msgid "Trading Agent, AI Consultant, API Integrations"
 msgstr "Торговый агент, ИИ-консультант интеграции API"
 
 # 01 Feature
-
 msgid "01. Trading Agent"
 msgstr "01. Торговый агент"
 
@@ -102,7 +50,6 @@ msgid "Automating transactions."
 msgstr "Автоматизация сделок."
 
 # 02 Feature
-
 msgid "02. AI Consultant"
 msgstr "02. ИИ-консультант"
 
@@ -113,7 +60,6 @@ msgid "Forecasting and recommendations."
 msgstr "Прогнозирование и рекомендации."
 
 # 03 Feature
-
 msgid "03. API Integrations"
 msgstr "03. Интеграции API"
 
@@ -124,7 +70,6 @@ msgid "Market connection, data retrieval, signals."
 msgstr "Подключение к рынку, получение данных, сигналы."
 
 # 04 Feature
-
 msgid "Additionally"
 msgstr "Кроме того"
 
@@ -135,7 +80,6 @@ msgid "TRIndx risk indexes."
 msgstr "Индексы риска TRIndx."
 
 # 05 Feature
-
 msgid "Charts and indicators"
 msgstr "Графики и индикаторы"
 
@@ -143,7 +87,6 @@ msgid "RSI, Fear & Greed Index."
 msgstr "RSI, индекс страха и жадности."
 
 # 06 Feature
-
 msgid "Embeddable widgets"
 msgstr "Встраиваемые виджеты"
 
@@ -151,7 +94,6 @@ msgid "Cryptocurrency rates and analytics."
 msgstr "Курсы криптовалют и аналитика."
 
 # 07 Feature
-
 msgid "News aggregation and AI analysis"
 msgstr "Агрегация новостей и AI-анализ"
 
@@ -161,8 +103,7 @@ msgstr "Оценка влияния новостей на рынок."
 # ------------------------------------------------------------------------------
 # Markets
 # ------------------------------------------------------------------------------
-
-msgid "Cryptocurrency Market Right Now""
+msgid "Cryptocurrency Market Right Now"
 msgstr "Рынок криптовалют прямо сейчас"
 
 msgid "Every day, every hour, every moment presents new opportunities."
@@ -176,6 +117,9 @@ msgstr "Лидер роста"
 
 msgid "Fear"
 msgstr "Страх"
+
+msgid "Neutral"
+msgstr "Спокойствие"
 
 msgid "Greed"
 msgstr "Жадность"
@@ -193,14 +137,12 @@ msgid "Min:"
 msgstr "Мин:"
 
 # Assets
-
 msgid "Top Currencies"
 msgstr "Топ-валюты"
 
 # ------------------------------------------------------------------------------
 # Plans
 # ------------------------------------------------------------------------------
-
 msgid "Plans & Pricing"
 msgstr "Тарифы и цены"
 
@@ -210,8 +152,16 @@ msgstr "ИИ-консультант и интеграции API"
 msgid "Two CryptoAI products — AI Consultant and API Integrations — are available by subscription. However, you can start using them completely free. By signing up, you gain access to basic AI analytics features for major cryptocurrencies — Bitcoin and Ethereum. Each day, the system will send you one trading signal and provide access to the general forecast feed with a one-hour delay. This is enough to evaluate the accuracy of our AI algorithms and take your first steps into crypto trading with artificial intelligence."
 msgstr "Два продукта CryptoAI — ИИ-консультант и интеграции API — доступны по подписке. Но вы можете начать пользоваться ими совершенно бесплатно. Зарегистрировавшись, вы получаете доступ к базовым возможностям нашей ИИ-аналитики для главных криптовалют — Bitcoin и Ethereum. Каждый день система будет отправлять вам один торговый сигнал и предоставлять доступ к общей ленте прогнозов с часовой задержкой. Этого достаточно, чтобы оценить точность наших ИИ-алгоритмов и сделать первые шаги в мире криптотрейдинга с искусственным интеллектом."
 
-# Trader
+msgid "Monthly Payment"
+msgstr "Помесячная оплата"
 
+msgid "Annual Payment (15% Discount)"
+msgstr "Оплата за год (скидка 15%)"
+
+msgid "Choose a Plan"
+msgstr "Выбрать план"
+
+# Trader
 msgid "Trader"
 msgstr "Трейдер"
 
@@ -240,7 +190,6 @@ msgid "Priority chat support"
 msgstr "Приоритетная техподдержка через чат"
 
 # Expert
-
 msgid "Expert"
 msgstr "Эксперт"
 
@@ -281,7 +230,6 @@ msgid "24/7 support"
 msgstr "Техподдержка 24/7"
 
 # Premium
-
 msgid "Premium"
 msgstr "Премиум"
 
@@ -325,7 +273,6 @@ msgid "Group online consultations with experts"
 msgstr "Групповые онлайн-консультации с экспертами"
 
 # Trading Agent
-
 msgid "Trading Agent Pricing"
 msgstr "Цена торгового агента"
 
@@ -335,10 +282,12 @@ msgstr "Услуги ИИ-агента, торгующего автономно,
 msgid "You pay 10% on each profitable trade, with a minimum of $1."
 msgstr "Вы платите 10% с каждой прибыльной сделки, не меньше $1."
 
+msgid "Choose This One"
+msgstr "Выбрать"
+
 # ------------------------------------------------------------------------------
 # Testimonials
 # ------------------------------------------------------------------------------
-
 msgid "Testimonials"
 msgstr "Отзывы"
 
@@ -364,7 +313,7 @@ msgid "Foobar Systems"
 msgstr "Foobar Systems"
 
 msgid "I was skeptical about using AI for forecasting, but after several successful trades with this service, my doubts disappeared. The AI recommendations turned out to be surprisingly accurate, and the support team is always responsive to any questions."
-msgstr "Я была скептически настроена к использованию ИИ для прогнозирования, но после нескольких успешных сделок с помощью этого сервиса мои сомнения исчезли. Рекомендации ИИ оказались удивительно точными, а поддержка всегда оперативно отвечает на любые вопросы"
+msgstr "Я была скептически настроена к использованию ИИ для прогнозирования, но после нескольких успешных сделок с помощью этого сервиса мои сомнения исчезли. Рекомендации ИИ оказались удивительно точными, а поддержка всегда оперативно отвечает на любые вопросы."
 
 msgid "Anna Shelest"
 msgstr "Анна Шелест"
@@ -382,7 +331,7 @@ msgid "Vesna-Vesna"
 msgstr "Весна-Весна"
 
 msgid "I use CryptoAPI for daily cryptocurrency market monitoring, and it has become an indispensable tool in my investor toolkit. AI forecasts not only help understand the current situation but also anticipate potential market trends, giving me confidence in the future."
-msgstr "Использую CryptoAPI для ежедневного мониторинга рынка криптовалют, и он стал незаменимым инструментом в моем арсенале инвестора. Прогнозы ИИ помогают не только понять текущую ситуацию, но и предвидеть возможные рыночные тренды, что дает мне уверенность в завтрашнем дне"
+msgstr "Использую CryptoAPI для ежедневного мониторинга рынка криптовалют, и он стал незаменимым инструментом в моем арсенале инвестора. Прогнозы ИИ помогают не только понять текущую ситуацию, но и предвидеть возможные рыночные тренды, что дает мне уверенность в завтрашнем дне."
 
 msgid "Mikhail Veksler"
 msgstr "Михаил Векслер"
@@ -391,7 +340,7 @@ msgid "MosenergoGold"
 msgstr "Мосэнергоголь"
 
 msgid "After subscribing to CryptoAPI, I experienced a real advantage in crypto trading — AI-generated analytics and signals enable decisions based on objective data. This has significantly reduced the risk of impulsive actions and improved the overall efficiency of my investments."
-msgstr "После подписки на CryptoAPI я ощутил реальное преимущество в торговле криптовалютами — аналитика и сигналы, генерируемые искусственным интеллектом, позволяют принимать решения на основе объективных данных. Это значительно снизило риск необдуманных шагов и повысило общую эффективность моих инвестиций"
+msgstr "После подписки на CryptoAPI я ощутил реальное преимущество в торговле криптовалютами — аналитика и сигналы, генерируемые искусственным интеллектом, позволяют принимать решения на основе объективных данных. Это значительно снизило риск необдуманных шагов и повысило общую эффективность моих инвестиций."
 
 msgid "Alexander Lavochkin"
 msgstr "Александр Лавочкин"
@@ -402,8 +351,7 @@ msgstr "Kfdjxrby & Co"
 # ------------------------------------------------------------------------------
 # FAQ
 # ------------------------------------------------------------------------------
-
-msgid "Frequently Asked Questions""
+msgid "Frequently Asked Questions"
 msgstr "Часто задаваемые вопросы"
 
 msgid "How does artificial intelligence work for market trend forecasting?"
@@ -421,7 +369,7 @@ msgstr "Мы используем данные с ведущих криптоб�
 msgid "Which cryptocurrencies are covered by the analytics platform?"
 msgstr "Какие криптовалюты покрываются аналитической платформой?"
 
-msgid "The platform analyzes major cryptocurrencies such as Bitcoin (BTC), Ethereum (ETH), and other popular altcoins. A full list of available assets can be found in the &quote;Markets&quote; section."
+msgid "The platform analyzes major cryptocurrencies such as Bitcoin (BTC), Ethereum (ETH), and other popular altcoins. A full list of available assets can be found in the “Markets” section."
 msgstr "Платформа анализирует основные криптовалюты, такие как Bitcoin (BTC), Ethereum (ETH) и другие популярные альткоины. Полный список доступных активов можно найти в разделе «Рынки»."
 
 msgid "How often are signals and forecasts updated?"
@@ -443,14 +391,11 @@ msgid "You can cancel your subscription in your account settings. If you encount
 msgstr "Вы можете отменить подписку в настройках аккаунта. Если у вас возникли сложности, обратитесь в службу поддержки. Подписка действует до конца оплаченного периода."
 
 # ------------------------------------------------------------------------------
-# Footer Menu
+# CTA
 # ------------------------------------------------------------------------------
 
-msgid "Contacts"
-msgstr "Контакты"
+msgid "Trade Cryptocurrency with AI Precision"
+msgstr "Торгуйте криптовалютой с точностью искусственного интеллекта"
 
-msgid "Privacy"
-msgstr "Конфиденциальность"
-
-msgid "Legal"
-msgstr "Документы"
+msgid "Get accurate AI-powered trading signals and stay ahead of the crypto market."
+msgstr "Получите точные торговые сигналы на основе ИИ и опережайте рынок криптовалют."

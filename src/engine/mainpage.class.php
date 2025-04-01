@@ -1,26 +1,27 @@
+
 <?php
+// Парсинг маршрута из URL
+$pageths = explode('/', $_REQUEST['routestring'] ?? '');
 
-$meta_title = $blog_name;
-$meta_description = $blog_description;
-//include_once(ROOTDIR."projects/".$config['project_path']."/engine/payments_receiver.class.php");
-
-$pageths = explode('/', $_REQUEST['routestring']);
-
+// Определение текущей страницы
 if (!empty($pageths[1])) {
     $pageths = $pageths[1];
 } else {
     $pageths = 'mainpage';
 }
 
-$data_objects['UserId'] = $user_id;
-
+// Заполнение массива данных для шаблона
+$data_objects = [];
+$data_objects['UserId'] = $user_id ?? null;
+$data_objects['Page'] = $pageths; // Добавляем текущую страницу в данные
 $data_objects['ExtraData'] = [
+    'title' => $blog_name ?? '',
+    'desc' => $blog_description ?? '',
     'assets_prefix' => '/projects/cryptoapi.ai',
     'body_classes' => 'e-page is-home',
     'lang' => $lng_html,
-    'fgi' => 68,
-    'fonts_google' => ['Inter:wght@300;400;500'],
+    'fgi' => 68
 ];
 
-//var_dump($pageths);exit;
-$final_html = get_template("index.twig");
+// Получение и отображение шаблона
+$final_html = get_template("index.twig", $data_objects);

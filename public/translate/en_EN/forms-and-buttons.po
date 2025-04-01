@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+# ------------------------------------------------------------------------------
+# Validation
+# ------------------------------------------------------------------------------
+# JS
+msgid "alert.error"
+msgstr "Error: %type%: %errorMessage%"
+
+msgid "alert.request"
+msgstr "Request error."
+
+msgid "alert.auth"
+msgstr "Authorization error."
+
+msgid "alert.agreement"
+msgstr "Please agree to the terms of service."
+
+msgid "alert.timeout"
+msgstr "Timeout expired. Try requesting the code again."
+
+msgid "alert.login_cancelled"
+msgstr "Login canceled."
+
+msgid "alert.get_code"
+msgstr "Failed to retrieve the verification code."

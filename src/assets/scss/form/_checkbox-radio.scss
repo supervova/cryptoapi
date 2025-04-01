@@ -79,9 +79,11 @@ input:is([type='checkbox'], [type='radio']) {
 .e-form__option,
 label:has(> [type='checkbox'], > [type='radio']) {
   color: var(--color-ink-2ry);
+  display: block;
   margin: 0 var(--size-1) 0 0;
   font-size: var(--font-size-base);
   line-height: var(--line-height-base);
+  text-align: left;
   padding-top: var(--padding-top-base);
   padding-bottom: var(--padding-bottom-base);
   padding-left: var(--size-3);
@@ -89,7 +91,7 @@ label:has(> [type='checkbox'], > [type='radio']) {
   [type='checkbox'],
   [type='radio'] {
     position: absolute;
-    top: rem(11);
+    top: rem(10);
     left: 0;
   }
 }
@@ -97,6 +99,7 @@ label:has(> [type='checkbox'], > [type='radio']) {
 :not(fieldset) > .e-form__option,
 :not(fieldset) > label:has(> [type='checkbox'], > [type='radio']) {
   padding-bottom: var(--size-2p5);
+  position: relative;
 }
 
 // -----------------------------------------------------------------------------

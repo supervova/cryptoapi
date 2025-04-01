@@ -1,12 +1,12 @@
 <figure class="e-card e-testimonial{{ testimonial.isFeatured ? ' is-featured' : '' }}">
-  <img class="e-testimonial__avatar" src="{{ ExtraData.assets_prefix }}{{ testimonial.avatar }}" alt="{{ testimonial.author }}">
+  <img class="e-testimonial__avatar" src="{{ ExtraData.assets_prefix }}{{ testimonial.avatar }}" alt="{{ testimonial.author|trans }}">
 
   <blockquote class="e-testimonial__base">
-    <p>{{ testimonial.quote }}</p>
+    <p>{{ testimonial.quote|trans }}</p>
   </blockquote>
 
   <figcaption class="e-testimonial__author">
-    <strong>{{ testimonial.author }}</strong>
-    {{ testimonial.company }}
+    <strong>{{ testimonial.author|trans }}</strong>
+    {{ testimonial.company|trans }}
   </figcaption>
 </figure>

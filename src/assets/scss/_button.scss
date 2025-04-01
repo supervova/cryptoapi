@@ -50,7 +50,7 @@ a[role='button'] {
 }
 
 .e-btn.is-outline {
-  border: var(--button-border-outline);
+  border: 1px solid var(--color-ink-border);
 }
 
 // Link: use instead a(href='#') and a(href='javascript:void(0)')
@@ -59,6 +59,7 @@ a[role='button'] {
   background: transparent;
   border-radius: 0;
   color: var(--color-ink-link);
+  gap: 0;
   font: inherit;
   letter-spacing: inherit;
   text-align: inherit;

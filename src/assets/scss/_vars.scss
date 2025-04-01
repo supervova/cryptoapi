@@ -42,6 +42,16 @@
 
   --color-shadow: var(--h) var(--s-min) 11%;
 
+  --color-bg-base-patch:
+    var(--color-bg-base),
+    hsl(from var(--color-bg-base) h s l / 0.9) 16%,
+    hsl(from var(--color-bg-base) h s l / 0.8) 32%,
+    hsl(from var(--color-bg-base) h s l / 0.6) 48%,
+    hsl(from var(--color-bg-base) h s l / 0.4) 56%,
+    hsl(from var(--color-bg-base) h s l / 0.2) 72%,
+    hsl(from var(--color-bg-base) h s l / 0.05) 80%,
+    hsl(from var(--color-bg-base) h s l / 0);
+
   --color-bg-base-alpha:      hsl(from var(--color-bg-base) h s l / 0.8);
   --backdrop-filter-elevated: saturate(180%) blur(20px);
   --backdrop-filter-blur:     blur(20px);
@@ -178,7 +188,7 @@
   --button-height: var(--size-6);
 
   --padding-x-input:     var(--size-2);
-  --padding-y-input:     #{rem(5)};
+  --padding-y-input:     var(--size-2);
 
   --size-icon:           #{rem(24)};
   --size-icon-sm:        #{rem(20)};
@@ -354,10 +364,5 @@
   // 💻 LAPTOP OVERRIDES
   @media (--laptop) {
     --padding-x-container:  var(--size-8);
-  }
-
-  //Animate to height: auto; (and other intrinsic sizing keywords)
-  @supports (interpolate-size: allow-keywords) {
-    interpolate-size: allow-keywords;
   }
 }

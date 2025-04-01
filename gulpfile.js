@@ -70,6 +70,7 @@ const paths = {
     src: {
       main: `${srcBase}/assets/scss/main.scss`,
       home: `${srcBase}/assets/scss/pages/home.scss`,
+      auth: `${srcBase}/assets/scss/pages/auth.scss`,
     },
     watch: `${srcBase}/assets/scss/**/*.scss`,
     tmp: `${srcBase}/assets/css/`,
@@ -83,7 +84,11 @@ const paths = {
         `!${srcBase}/twig/data/**/*.twig`,
       ],
     },
-    watch: [`${srcBase}/twig/**/*.twig`, `${destAssets}/css/home.css`],
+    watch: [
+      `${srcBase}/twig/**/*.twig`,
+      `${destAssets}/css/home.css`,
+      `${destAssets}/css/auth.css`,
+    ],
     dest: {
       dev: `${root.dest.dev}`,
       prod: `${root.dest.prod}/twig`,
@@ -328,6 +333,10 @@ const loadPhpMockData = () => {
       project_name: 'Project Name',
       'theme-color': '#4a86e8',
       page_content_html: '<p>Default content</p>',
+      hello_cookie: '',
+      unloggedid: '',
+      authhost: 'localhost:9000',
+      thispageurlencoded: '',
     };
   } catch (error) {
     console.error('Error loading PHP mock data:', error);
@@ -481,12 +490,17 @@ const cssHome = (done) => {
   done();
 };
 
+const cssAuth = (done) => {
+  processStyles(paths.css.src.auth, 'auth', paths.css.dest);
+  done();
+};
+
 // const cssPricing = (done) => {
 //   processStyles(paths.css.src.pricing, 'pricing', paths.css.dest);
 //   done();
 // };
 
-const css = series(cssBase, cssHome);
+const css = series(cssBase, cssHome, cssAuth);
 // #endregion
 
 /**

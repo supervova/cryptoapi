@@ -33,6 +33,10 @@
   display: none;
 }
 
+.d-block {
+  display: block;
+}
+
 .d-flex {
   display: flex;
 }
@@ -74,6 +78,9 @@
     display: none;
   }
 }
+
+// FLEX AND GRID
+.justify-center { justify-content: center; }
 
 // TYPOOGRAPHY
 

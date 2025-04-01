@@ -1,0 +1,44 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+# Navbar: Logo and Tagline
+msgid "CryptoAPI.ai Logo"
+msgstr "Логотип CryptoAPI.ai"
+
+msgid "AI for Crypto Market"
+msgstr "ИИ для крипторынка"
+
+msgid "for trading"
+msgstr "для крипторынка"
+
+msgid "AI Crypto Analytics and Signals"
+msgstr "ИИ-криптоаналитика и сигналы"
+
+# ------------------------------------------------------------------------------
+# Navbar: Main menu
+# ------------------------------------------------------------------------------
+msgid "Home"
+msgstr "Главная"
+
+msgid "Products"
+msgstr "Продукты"
+
+msgid "Markets"
+msgstr "Рынки"
+
+msgid "More"
+msgstr "Ещё"
+
+msgid "Pricing"
+msgstr "Тарифы"
+
+msgid "Support"
+msgstr "Поддержка"
+
+msgid "Blog"
+msgstr "Блог"
+
+msgid "Sign In"
+msgstr "Вход"

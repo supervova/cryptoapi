@@ -1,0 +1,139 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+# ------------------------------------------------------------------------------
+# Tabs
+# ------------------------------------------------------------------------------
+
+msgid "Sign Up"
+msgstr "Pегистрация"
+
+msgid "Forgot your password?"
+msgstr "Забыли пароль?"
+
+# ------------------------------------------------------------------------------
+# Buttons
+# ------------------------------------------------------------------------------
+msgid "Close"
+msgstr "Закрыть"
+
+msgid "Cancel"
+msgstr "Отмена"
+
+msgid "Show/Hide Password"
+msgstr "Показать/скрыть пароль"
+
+# ------------------------------------------------------------------------------
+# Inputs
+# ------------------------------------------------------------------------------
+msgid "Password"
+msgstr "Пароль"
+
+msgid "First Name"
+msgstr "Имя"
+
+msgid "Second Name"
+msgstr "Фамилия"
+
+msgid "Birthdate"
+msgstr "Дата рождения"
+
+# ------------------------------------------------------------------------------
+# Sign In / Sign Up
+# ------------------------------------------------------------------------------
+msgid "AI-Powered Crypto Trading"
+msgstr "Торговля криптовалютой с ИИ"
+
+msgid "Create an account to get started"
+msgstr "Для начала создайте личный кабинет"
+
+msgid "Already registered?"
+msgstr "Уже зарегистрированы?"
+
+msgid "Reset Password"
+msgstr "Сброс пароля"
+
+msgid "Get Reset Link"
+msgstr "Ссылка для сброса пароля"
+
+msgid "Generate password"
+msgstr "Сгенерировать надежный"
+
+msgid "Login via Telegram"
+msgstr "Авторизация через Telegram"
+
+msgid "You should connect to the bot using this link:"
+msgstr "Откройте нашего бота, открыв эту ссылку:"
+
+msgid "And send a message"
+msgstr "И отправьте в чат сообщение:"
+
+msgid "The code is valid"
+msgstr "Код будет действителен"
+
+msgid "sec."
+msgstr "сек."
+
+msgid "Please pay attention!"
+msgstr "Обратите внимание"
+
+msgstr "We sent you a link to verify your email address. Don’t forget to check your Spam folder."
+msgstr "Мы выслали вам ссылку для подтверждения email-адреса. Если ссылка не пришла, проверьте папку спама."
+
+msgstr "If this attempt fails, use a different email address."
+msgstr "Если ссылка не нашлась, используйте другой адрес электронной почты."
+
+msgstr "Send via another server"
+msgstr "Отправка через другой сервер"
+
+# ------------------------------------------------------------------------------
+# Validation
+# ------------------------------------------------------------------------------
+msgid "Invalid credentials. If you forgot your password, reset it here."
+msgstr "Неверные учетные данные. Если забыли пароль, восстановите его."
+
+msgid "Enter a valid email address."
+msgstr "Введите корректный адрес электронной почты."
+
+msgid "Password is required. Must include at least one digit, one letter, and be at least 8 characters long."
+msgstr "Пароль обязателен. Как минимум: одна цифра, одна буква и не меньше 8 символов."
+
+# JS
+msgid "alert.error"
+msgstr "Error: %type%: %errorMessage%"
+
+msgid "alert.request"
+msgstr "Ошибка при выполнении запроса."
+
+msgid "alert.auth"
+msgstr "Ошибка при авторизации."
+
+msgid "alert.agreement"
+msgstr "Пожалуйста, согласитесь с пользовательским соглашением."
+
+msgid "alert.timeout"
+msgstr "Время ожидания истекло. Попробуйте запросить код снова."
+
+msgid "alert.login_cancelled"
+msgstr "Вход отменен."
+
+msgid "alert.get_code"
+msgstr "Не удалось получить код подтверждения."
+
+# ------------------------------------------------------------------------------
+# Helpers
+# ------------------------------------------------------------------------------
+msgid "or"
+msgstr "или"
+
+msgid "Your data is safe…"
+msgstr "Ваши данные в безопасности…"
+
+msgid "Form data is pre-encrypted and transmitted over a secure SSL connection. We do not store your passwords, only their hash values (SHA-512/256), and we never share any data with third parties."
+msgstr "Данные формы предварительно шифруются и передаются через защищенное SSL-соединение. Мы не храним ваши пароли, а только их хеш-значения (SHA-512/256) и никогда не передаем данные третьим сторонам."
+
+msgid "Loading..."
+msgstr "Загрузка..."
+

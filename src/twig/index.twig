@@ -6,7 +6,6 @@
   {% set ExtraData = ExtraData|merge(
     {
       body_classes: 'e-page is-home',
-      desc: '',
       fgi: 68
     }
   ) %}
@@ -19,179 +18,6 @@
 
 {# MAIN CONTENT ------------------------------------------------------------- #}
 {% block content %}
-  {% set data_plans = [
-    {
-      "title": "Трейдер",
-      "icon": "user",
-      "price": 29,
-      "subtitle": "Идеально подходит начинающим активным трейдерам",
-      "link": "#",
-      "features": [
-        "AI-анализ топ-20 криптовалют",
-        "До 10 торговых сигналов в день",
-        "Реал-тайм уведомления о сигналах",
-        "Базовые индикаторы настроения рынка",
-        "Интеграция с основными криптобиржами",
-        "Недельные отчеты и прогнозы",
-        "Приоритетная техподдержка через чат"
-      ]
-    },
-    {
-      "title": "Эксперт",
-      "icon": "star",
-      "price": 79,
-      "subtitle": "Оптимальный выбор для профессиональных трейдеров",
-      "link": "#",
-      "features": [
-        "Всё, что есть в плане «Трейдер»",
-        "AI-анализ более 100 криптовалют",
-        "Неограниченное количество сигналов",
-        "Расширенная аналитика рыночных трендов",
-        "Персонализированные торговые стратегии",
-        "Глубокий анализ настроений рынка",
-        "API доступ",
-        "Уведомления в Telegram и Email",
-        "Экспорт данных в CSV/Excel",
-        "Доступ к историческим данным",
-        "Техподдержка 24/7"
-      ],
-      "isFeatured": true
-    },
-    {
-      "title": "Премиум",
-      "icon": "crown",
-      "price": 199,
-      "subtitle": "Разработан для профессиональных команд и крипто-фондов",
-      "link": "#",
-      "features": [
-        "Всё, что есть в плане «Эксперт»",
-        "Полный анализ всех торгуемых криптовалют",
-        "ИИ-ассистент для персональных консультаций",
-        "Предиктивная аналитика будущих трендов",
-        "Автоматическая торговля через API",
-        "Кастомизация торговых стратегий",
-        "Детальный анализ on-chain метрик",
-        "Корреляционный анализ с традиционными рынками",
-        "Приватные исследования и отчеты",
-        "VIP-поддержка с персональным менеджером",
-        "Ранний доступ к новым функциям",
-        "Групповые онлайн-консультации с экспертами"
-      ]
-    }
-  ] %}
-
-  {% set data_features = [
-    {
-      "icon": "robot",
-      "eyebrow": "01. Торговый агент",
-      "title": "Подключение торговых ботов",
-      "description": "Автоматизация сделок."
-    },
-    {
-      "icon": "candles",
-      "eyebrow": "02. ИИ-консультант",
-      "title": "Генерация торговых сигналов",
-      "description": "Прогнозирование и рекомендации."
-    },
-    {
-      "icon": "plug",
-      "eyebrow": "03. Интеграции API",
-      "title": "API-интерфейсы",
-      "description": "Подключение к рынку, получение данных, сигналы.",
-      "isFeatured": true
-    },
-    {
-      "icon": "award",
-      "eyebrow": "Кроме того",
-      "title": "Рейтинги активов",
-      "description": "Индексы риска TRIndx."
-    },
-    {
-      "icon": "speed",
-      "eyebrow": "Кроме того",
-      "title": "Графики и индикаторы",
-      "description": "RSI, индекс страха и жадности."
-    },
-    {
-      "icon": "bitcoin",
-      "eyebrow": "Кроме того",
-      "title": "Встраиваемые виджеты",
-      "description": "Курсы криптовалют и аналитика."
-    },
-    {
-      "icon": "news",
-      "eyebrow": "Кроме того",
-      "title": "Агрегация новостей и AI-анализ",
-      "description": "Оценка влияния новостей на рынок."
-    }
-  ] %}
-
-  {% set data_testimonials = [
-    {
-      "avatar": "/assets/img/placeholders/avatars/male-01.jpg",
-      "quote": "Пользуюсь сервисом уже полгода, и за это время ИИ-сигналы неоднократно помогали мне принимать взвешенные решения. Благодаря четким рекомендациям я смог избежать резких падений рынка и значительно увеличить прибыль от инвестиций в криптовалюты.",
-      "author": "Максим Кузнецов",
-      "company": "СигмаОмниМэн"
-    },
-    {
-      "avatar": "/assets/img/placeholders/avatars/male-02.jpg",
-      "quote": "CryptoAPI стал для меня настоящим открытием в деле криптоаналитики — интуитивно понятный интерфейс и своевременные сигналы позволяют легко ориентироваться в постоянно меняющемся рынке. Я особенно ценю прозрачность алгоритмов и регулярные обновления, которые гарантируют актуальность данных.",
-      "author": "Виктор Ощенко",
-      "company": "Foobar Systems"
-    },
-    {
-      "avatar": "/assets/img/placeholders/avatars/female-01.jpg",
-      "quote": "Я была скептически настроена к использованию ИИ для прогнозирования, но после нескольких успешных сделок с помощью этого сервиса мои сомнения исчезли. Рекомендации ИИ оказались удивительно точными, а поддержка всегда оперативно отвечает на любые вопросы",
-      "author": "Анна Шелест",
-      "company": "Альфа-банк",
-      "isFeatured": true
-    },
-    {
-      "avatar": "/assets/img/placeholders/avatars/female-02.jpg",
-      "quote": "CryptoAPI полностью оправдал мои ожидания. С помощью сервиса я смогла оптимизировать свой портфель, своевременно реагировать на изменения рынка и находить новые возможности для инвестирования, что принесло стабильный доход.",
-      "author": "Антонина Арно",
-      "company": "Весна-Весна"
-    },
-    {
-      "avatar": "/assets/img/placeholders/avatars/male-03.jpg",
-      "quote": "Использую CryptoAPI для ежедневного мониторинга рынка криптовалют, и он стал незаменимым инструментом в моем арсенале инвестора. Прогнозы ИИ помогают не только понять текущую ситуацию, но и предвидеть возможные рыночные тренды, что дает мне уверенность в завтрашнем дне",
-      "author": "Михаил Векслер",
-      "company": "Мосэнергоголь"
-    },
-    {
-      "avatar": "/assets/img/placeholders/avatars/male-04.jpg",
-      "quote": "После подписки на CryptoAPI я ощутил реальное преимущество в торговле криптовалютами — аналитика и сигналы, генерируемые искусственным интеллектом, позволяют принимать решения на основе объективных данных. Это значительно снизило риск необдуманных шагов и повысило общую эффективность моих инвестиций",
-      "author": "Александр Лавочкин",
-      "company": "Kfdjxrby & Co"
-    }
-  ] %}
-
-  {% set data_faq = [
-    {
-      "question": "Как работает искусственный интеллект для прогнозирования рыночных трендов?",
-      "answer": "ИИ анализирует исторические данные, графики цен, объемы торгов, рыночные индикаторы и новости, чтобы выявлять закономерности и предсказывать вероятные движения рынка. Используются алгоритмы машинного обучения, включая нейронные сети и модели временных рядов."
-    },
-    {
-      "question": "Какие данные используются для обучения модели и насколько они достоверны?",
-      "answer": "Мы используем данные с ведущих криптобирж, включая исторические котировки, торговые объемы и ликвидность. Также учитываются новости, социальные сети и макроэкономические показатели. Достоверность обеспечивается за счет обработки данных из проверенных источников и применения механизмов фильтрации шума."
-    },
-    {
-      "question": "Какие криптовалюты покрываются аналитической платформой?",
-      "answer": "Платформа анализирует основные криптовалюты, такие как Bitcoin (BTC), Ethereum (ETH) и другие популярные альткоины. Полный список доступных активов можно найти в разделе «Рынки»."
-    },
-    {
-      "question": "Как часто обновляются сигналы и прогнозы?",
-      "answer": "Обновления происходят в режиме реального времени или с определенной периодичностью в зависимости от типа стратегии: краткосрочные сигналы — каждые 5 мин, среднесрочные и долгосрочные прогнозы — раз в день и раз в неделю."
-    },
-    {
-      "question": "Сколько стоит подписка на сервис?",
-      "answer": "Подписка на наш сервис стоит 29$ в месяц при ежемесячной оплате или 299$ в год (что позволяет сэкономить 15% при ежегодной подписке)."
-    },
-    {
-      "question": "Как отменить подписку?",
-      "answer": "Вы можете отменить подписку в настройках аккаунта. Если у вас возникли сложности, обратитесь в службу поддержки. Подписка действует до конца оплаченного периода."
-    }
-  ] %}
 
   {# HERO #}
   <header class="e-hero">
@@ -201,23 +27,68 @@
       </figure>
       <div class="e-hero__copy">
         <h1>
-          <strong>{{ 'Trade AI'|trans|raw }}</strong>
-          {{ 'Make It Work'|trans|raw }}
+          <strong>{{ 'Trade AI'|trans }}</strong>
+          {{ 'Make It Work'|trans }}
         </h1>
-        <p>{{ 'Analytics. Automation. Forecasting. CRYPTOAPI.AI is an innovative platform for traders and investors, providing advanced APIs and intelligent cryptocurrency market analysis.'|trans|raw }}</p>
+        <p>{{ 'Analytics. Automation. Forecasting. CRYPTOAPI.AI is an innovative platform for traders and investors, providing advanced APIs and intelligent cryptocurrency market analysis.'|trans }}</p>
         <div class="e-buttons">
-          <a class="e-btn is-primary" href="#">{{ 'Try Now'|trans|raw }}</a>
-          <a class="e-btn" href="{{ lng_html }}/docs">{{ 'API Documentation'|trans|raw }}</a>
+          <a class="e-btn is-primary" href="#">{{ 'Try Now'|trans }}</a>
+          <a class="e-btn" href="{{ lng_html }}/docs">{{ 'API Documentation'|trans }}</a>
         </div>
       </div>
     </div>
   </header>
 
   {# FEATURES #}
+  {% set data_features = [
+    {
+      "icon": "robot",
+      "eyebrow": "01. Trading Agent",
+      "title": "Connecting trading bots",
+      "description": "Automating transactions. "
+    },
+    {
+      "icon": "candles",
+      "eyebrow": "02. AI Consultant",
+      "title": "Generating trading signals",
+      "description": "Forecasting and recommendations."
+    },
+    {
+      "icon": "plug",
+      "eyebrow": "03. API Integrations",
+      "title": "API interfaces",
+      "description": "Market connection, data retrieval, signals.",
+      "isFeatured": true
+    },
+    {
+      "icon": "award",
+      "eyebrow": "Additionally",
+      "title": "Asset ratings",
+      "description": "TRIndx risk indexes."
+    },
+    {
+      "icon": "speed",
+      "eyebrow": "Additionally",
+      "title": "Charts and indicators",
+      "description": "RSI, Fear & Greed Index."
+    },
+    {
+      "icon": "bitcoin",
+      "eyebrow": "Additionally",
+      "title": "Embeddable widgets",
+      "description": "Cryptocurrency rates and analytics."
+    },
+    {
+      "icon": "news",
+      "eyebrow": "Additionally",
+      "title": "News aggregation and AI analysis",
+      "description": "Assessing news impact on the market."
+    }
+  ] %}
   <section class="e-section has-scroller-row is-features">
     <header class="e-section__header">
-      <span class="e-eyebrow">Три продукта</span>
-      <h2 class="e-section__title">Торговый агент, ИИ-консультант интеграции API</h2>
+      <span class="e-eyebrow">{{ 'Three Products'|trans }}</span>
+      <h2 class="e-section__title">{{ 'Trading Agent, AI Consultant, API Integrations'|trans }}</h2>
     </header>
     <div class="e-scroller-row" data-role="draggable-scroll">
       {% for feature in data_features %}
@@ -230,8 +101,8 @@
   <section class="e-section is-markets">
     <div class="e-container">
       <header class="e-section__header is-centered">
-        <h2 class="e-section__title">Рынок криптовалют прямо сейчас</h2>
-        <p>Каждый день, каждый час, каждый миг появляются новые шансы.</p>
+        <h2 class="e-section__title">{{ 'Cryptocurrency Market Right Now'|trans }}</h2>
+        <p>{{ 'Every day, every hour, every moment presents new opportunities.'|trans }}</p>
       </header>
 
       {# Metrics #}
@@ -241,7 +112,7 @@
           <img class="e-card__logo" src="{{ ExtraData.assets_prefix }}/assets/img/cryptologos/sui.svg" alt="Логотип Sui">
 
           <div class="e-card__content">
-            <h3 class="e-eyebrow">Лидер падения</h3>
+            <h3 class="e-eyebrow">{{ 'Top Loser'|trans }}</h3>
             <div class="e-card__row">
               <p class="e-card__ticker">SUI-USD</p>
               <p class="e-card__price">2,6530</p>
@@ -258,7 +129,7 @@
           <img class="e-card__logo" src="{{ ExtraData.assets_prefix }}/assets/img/cryptologos/story.svg" alt="Логотип Story Protocol">
 
           <div class="e-card__content">
-            <h3 class="e-eyebrow">Лидер роста</h3>
+            <h3 class="e-eyebrow">{{ 'Top Gainer'|trans }}</h3>
             <div class="e-card__row">
               <p class="e-card__ticker">IP-USD</p>
               <p class="e-card__price">4,96</p>
@@ -304,14 +175,14 @@
           <div class="e-card__content">
             <h3 class="e-card__status">
                 {% if page.fgi < 41 %}
-                  <span class="text-error">Страх: {{ ExtraData.fgi }}</span>
+                  <span class="text-error">{{ 'Fear'|trans }}: {{ ExtraData.fgi }}</span>
                 {% elseif page.fgi < 61 %}
-                  Спокойствие: {{ ExtraData.fgi }}
+                  {{ 'Neutral'|trans }}: {{ ExtraData.fgi }}
                 {% else %}
-                  <span class="text-success">Жадность: {{ ExtraData.fgi }}</span>
+                  <span class="text-success">{{ 'Greed'|trans }}: {{ ExtraData.fgi }}</span>
                 {% endif %}
             </h3>
-            <p class="e-card__description">Настроение рынка</p>
+            <p class="e-card__description">{{ 'Market Sentiment'|trans }}</p>
           </div>
           <script>
             document.addEventListener('DOMContentLoaded', () => {
@@ -379,7 +250,7 @@
       </div>
 
       {# Base #}
-      <h2 class="tablet-l:d-none">Топ-валюты</h2>
+      <h2 class="tablet-l:d-none">{{ 'Top Currencies'|trans }}</h2>
       <div class="e-section__grid">
         <article class="e-asset">
           <header class="e-asset__header">
@@ -393,9 +264,9 @@
               <div class="e-row">
                 <p class="e-asset__title d-none tablet:d-block" aria-hidden="true">Bitcoin</p>
                 <div class="e-asset__stats">
-                  <span>O: <span class="nobr">96 117,07</span></span>
-                  <span>Макс: <span class="nobr">96 844,94</span></span>
-                  <span>Мин: <span class="nobr">95 781,32</span></span>
+                  <span>{{ 'O:'|trans }} <span class="nobr">96 117,07</span></span>
+                  <span>{{ 'Max:'|trans }} <span class="nobr">96 844,94</span></span>
+                  <span>{{ 'Min:'|trans }} <span class="nobr">95 781,32</span></span>
               </div>
               </div>
             </div>
@@ -408,7 +279,7 @@
           </figure>
         </article>
         <div class="e-assets">
-          <h2 class="d-none tablet-l:d-block" aria-hidden="true">Топ-валюты</h2>
+          <h2 class="d-none tablet-l:d-block" aria-hidden="true">{{ 'Top Currencies'|trans }}</h2>
           <table class="e-assets__table">
             <colgroup>
               <col class="e-assets__symbols">
@@ -477,15 +348,75 @@
   </section>
 
   {# PLANS #}
+  {% set data_plans = [
+    {
+      "title": "Trader",
+      "icon": "user",
+      "price": 29,
+      "subtitle": "Perfect for beginner active traders",
+      "link": "#",
+      "features": [
+        "AI analysis of the top 20 cryptocurrencies",
+        "Up to 10 trading signals per day",
+        "Real-time signal notifications",
+        "Basic market sentiment indicators",
+        "Integration with major crypto exchanges",
+        "Weekly reports and forecasts",
+        "Priority chat support"
+      ]
+    },
+    {
+      "title": "Expert",
+      "icon": "star",
+      "price": 79,
+      "subtitle": "Optimal choice for professional traders",
+      "link": "#",
+      "features": [
+        "Everything in the &quot;Trader&quot; plan",
+        "AI analysis of over 100 cryptocurrencies",
+        "Unlimited number of signals",
+        "Advanced market trend analytics",
+        "Personalized trading strategies",
+        "In-depth market sentiment analysis",
+        "API access",
+        "Telegram and Email notification",
+        "Data export in CSV/Excel",
+        "Access to historical data",
+        "24/7 support"
+      ],
+      "isFeatured": true
+    },
+    {
+      "title": "Premium",
+      "icon": "crown",
+      "price": 199,
+      "subtitle": "Designed for professional teams and crypto funds",
+      "link": "#",
+      "features": [
+        "Everything in the &quot;Expert&quot; plan",
+        "Full analysis of all tradable cryptocurrencies",
+        "AI assistant for personal consultations",
+        "Predictive analytics of future trends",
+        "Automated trading via API",
+        "Customizable trading strategies",
+        "Detailed on-chain metrics analysis",
+        "Correlation analysis with traditional markets",
+        "Private research and reports",
+        "VIP support with a personal manager",
+        "Early access to new features",
+        "Group online consultations with experts"
+      ]
+    }
+  ] %}
   <section class="e-section is-plans">
     <div class="e-container">
       <header class="e-section__header is-centered">
-        <span class="e-eyebrow">ИИ-консультант и интеграции API</span>
-        <h2 class="e-section__title">Тарифы и цены</h2>
-        <p>Два продукта CryptoAI — ИИ-консультант и интеграции API — доступны по подписке. Но вы можете начать пользоваться ими <a href="#">совершенно бесплатно</a>. Зарегистрировавшись, вы получаете доступ к базовым возможностям нашей ИИ-аналитики для главных криптовалют — Bitcoin и Ethereum. Каждый день система будет отправлять вам один торговый сигнал и предоставлять доступ к общей ленте прогнозов с часовой задержкой. Этого достаточно, чтобы оценить точность наших ИИ-алгоритмов и сделать первые шаги в мире криптотрейдинга с искусственным интеллектом.</p>
+        <span class="e-eyebrow">{{ 'AI Consultant and API Integrations'|trans }}</span>
+        <h2 class="e-section__title">{{ 'Plans & Pricing'|trans }}</h2>
+        <p>{{ 'Two CryptoAI products — AI Consultant and API Integrations — are available by subscription. However, you can start using them completely free. By signing up, you gain access to basic AI analytics features for major cryptocurrencies — Bitcoin and Ethereum. Each day, the system will send you one trading signal and provide access to the general forecast feed with a one-hour delay. This is enough to evaluate the accuracy of our AI algorithms and take your first steps into crypto trading with artificial intelligence.'|trans }}</p>
         <div class="e-segmented-control d-none tablet:d-flex">
-          <button class="e-segmented-control__item" id="billing-monthly" type="button">Помесячная оплата</button>
-          <button class="e-segmented-control__item is-active" id="billing-annual" type="button">Оплата за год (скидка 15%)</button>
+          <button class="e-segmented-control__item" id="billing-monthly" type="button">{{ 'Monthly Payment'|trans }}</button>
+          <button class="e-segmented-control__item is-active" id="billing-annual" type="button">{{ 'Annual Payment (15% Discount)'|trans }}</button>
         </div>
       </header>
       <div class="e-plans">
@@ -502,22 +433,61 @@
   <section class="e-section is-agent-price">
     <div class="e-container">
       <div class="e-section__image">
-        <img src="{{ ExtraData.assets_prefix }}/assets/img/components/agent-price.jpg" srcset="{{ ExtraData.assets_prefix }}/assets/img/components/agent-price.jpg 1x, /assets/img/components/agent-price@2x.jpg 2x" alt="Цена торгового агента">
+        <img src="{{ ExtraData.assets_prefix }}/assets/img/components/agent-price.jpg" srcset="{{ ExtraData.assets_prefix }}/assets/img/components/agent-price.jpg 1x, {{ ExtraData.assets_prefix }}/assets/img/components/agent-price@2x.jpg 2x" alt="Цена торгового агента">
       </div>
       <div class="e-section__body">
-        <h2>Цена торгового агента</h2>
-        <p>Услуги ИИ-агента, торгующего автономно,оплачиваются по другой схеме.</p>
-        <p class="text-success">Вы платите 10% с каждой прибыльной сделки, не меньше $1.</p>
-        <a class="e-btn" href="#">Выбрать</a>
+        <h2>{{ 'Trading Agent Pricing'|trans }}</h2>
+        <p>{{ 'The AI trading agent’s services are paid on a different basis.'|trans }}</p>
+        <p class="text-success">{{ 'You pay 10% on each profitable trade, with a minimum of $1.'|trans }}</p>
+        <a class="e-btn" href="#">{{ 'Choose This One'|trans }}</a>
       </div>
     </div>
   </section>
 
   {# TESTIMONIALS #}
+  {% set data_testimonials = [
+    {
+      "avatar": "/assets/img/placeholders/avatars/male-01.jpg",
+      "quote": "I have been using the service for six months, and during this time, AI signals have repeatedly helped me make well-informed decisions. Thanks to clear recommendations, I managed to avoid sharp market drops and significantly increase my cryptocurrency investment profits.",
+      "author": "Maxim Kuznetsov",
+      "company": "SigmaOmniMan"
+    },
+    {
+      "avatar": "/assets/img/placeholders/avatars/male-02.jpg",
+      "quote": "CryptoAPI was a real discovery for me in crypto analytics — an intuitive interface and timely signals make it easy to navigate the ever-changing market. I especially appreciate the transparency of algorithms and regular updates that ensure data relevance.",
+      "author": "Viktor Oshchenko",
+      "company": "Foobar Systems"
+    },
+    {
+      "avatar": "/assets/img/placeholders/avatars/female-01.jpg",
+      "quote": "I was skeptical about using AI for forecasting, but after several successful trades with this service, my doubts disappeared. The AI recommendations turned out to be surprisingly accurate, and the support team is always responsive to any questions.",
+      "author": "Anna Shelest",
+      "company": "Alfa-Bank",
+      "isFeatured": true
+    },
+    {
+      "avatar": "/assets/img/placeholders/avatars/female-02.jpg",
+      "quote": "CryptoAPI completely met my expectations. Thanks to the service, I was able to optimize my portfolio, respond to market changes in time, and find new investment opportunities, which brought a stable income.",
+      "author": "Antonina Arno",
+      "company": "Vesna-Vesna"
+    },
+    {
+      "avatar": "/assets/img/placeholders/avatars/male-03.jpg",
+      "quote": "I use CryptoAPI for daily cryptocurrency market monitoring, and it has become an indispensable tool in my investor toolkit. AI forecasts not only help understand the current situation but also anticipate potential market trends, giving me confidence in the future.",
+      "author": "Mikhail Veksler",
+      "company": "MosenergoGold"
+    },
+    {
+      "avatar": "/assets/img/placeholders/avatars/male-04.jpg",
+      "quote": "After subscribing to CryptoAPI, I experienced a real advantage in crypto trading — AI-generated analytics and signals enable decisions based on objective data. This has significantly reduced the risk of impulsive actions and improved the overall efficiency of my investments.",
+      "author": "Alexander Lavochkin",
+      "company": "Kfdjxrby & Co"
+    }
+  ] %}
   <section class="e-section has-scroller-row-reverse is-testimonials">
     <header class="e-section__header">
-      <span class="e-eyebrow">Отзывы</span>
-      <h2 class="e-section__title">Клиент всегда прав</h2>
+      <span class="e-eyebrow">{{ 'Testimonials'|trans }}</span>
+      <h2 class="e-section__title">{{ 'The Customer Is Always Right'|trans }}</h2>
     </header>
     <div class="e-scroller-row" data-role="draggable-scroll">
       {% for testimonial in data_testimonials %}
@@ -527,9 +497,35 @@
   </section>
 
   {# FAQ #}
+  {% set data_faq = [
+    {
+      "question": "How does artificial intelligence work for market trend forecasting?",
+      "answer": "AI analyzes historical data, price charts, trading volumes, market indicators, and news to identify patterns and predict probable market movements. Machine learning algorithms, including neural networks and time-series models, are used."
+    },
+    {
+      "question": "What data is used to train the model, and how reliable is it?",
+      "answer": "We use data from leading crypto exchanges, including historical quotes, trading volumes, and liquidity. News, social media, and macroeconomic indicators are also considered. Data reliability is ensured through processing from verified sources and noise-filtering mechanisms."
+    },
+    {
+      "question": "Which cryptocurrencies are covered by the analytics platform?",
+      "answer": "The platform analyzes major cryptocurrencies such as Bitcoin (BTC), Ethereum (ETH), and other popular altcoins. A full list of available assets can be found in the “Markets” section."
+    },
+    {
+      "question": "How often are signals and forecasts updated?",
+      "answer": "Updates occur in real-time or at specific intervals depending on the strategy type: short-term signals — every 5 minutes, mediumand long-term forecasts — daily and weekly."
+    },
+    {
+      "question": "How much does a service subscription cost?",
+      "answer": "Our service subscription costs $29 per month for monthly payments or $299 per year (saving 15% with an annual subscription)."
+    },
+    {
+      "question": "How do I cancel my subscription?",
+      "answer": "ou can cancel your subscription in your account settings. If you encounter any difficulties, contact customer support. The subscription remains active until the end of the paid period."
+    }
+  ] %}
   <div class="e-container">
     <section class="e-section is-faq">
-      <h2>Часто задаваемые вопросы</h2>
+      <h2>{{ 'Frequently Asked Questions'|trans }}</h2>
       {% for faq in data_faq %}
         {% include 'partials/faq-item.twig' with {'faq': faq, 'ExtraData': ExtraData} only %}
       {% endfor %}
@@ -538,9 +534,9 @@
 
   {# CTA #}
   <section class="e-section e-cta">
-    <h2>Торгуйте криптовалютой с точностью искусственного интеллекта</h2>
-    <p>Получите точные торговые сигналы на основе ИИ и опережайте рынок криптовалют.</p>
-    <a class="e-btn is-primary" href="#">Попробовать</a>
+    <h2>{{ 'Trade Cryptocurrency with AI Precision'|trans }}</h2>
+    <p>{{ 'Get accurate AI-powered trading signals and stay ahead of the crypto market.'|trans }}</p>
+    <a class="e-btn is-primary" href="#">{{ 'Try Now'|trans }}</a>
   </section>
 
 {% endblock %}

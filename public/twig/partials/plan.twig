@@ -1,7 +1,7 @@
 <div class="e-plan{{ plan.isFeatured ? ' is-featured' : '' }}">
   <header class="e-plan__header">
     <h3 class="e-plan_title">
-      {{ plan.title }}
+      {{ plan.title|trans }}
       <span class="e-plan_icon">
         {% include 'partials/icon.twig' with { name: plan.icon } %}
       </span>
@@ -12,13 +12,13 @@
       <small>/ мес.</small>
     </p>
     <p class="e-plan__subtitle">
-      {{ plan.subtitle }}
+      {{ plan.subtitle|trans }}
     </p>
-    <a class="e-btn" href="{{ plan.link }}">Выбрать план</a>
+    <a class="e-btn" href="{{ plan.link }}">{{ 'Choose a Plan'|trans }}</a>
   </header>
   <ul class="e-plan__features">
     {% for feature in plan.features %}
-      <li>{{ feature }}</li>
+      <li>{{ feature|trans }}</li>
     {% endfor %}
   </ul>
 </div>

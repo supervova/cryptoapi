@@ -3,20 +3,8 @@
   {% if ExtraData is not defined %}
     {% set ExtraData = {
       "assets_prefix": "",
-      "desc": {
-        "en": "CryptoAPI.ai description", "ru": "CryptoAPI.ai description"
-      },
       "fonts_google": "Inter:wght@300;400;600",
-      "lang": "ru",
-      "title": {
-        "en": "CryptoAPI.ai - Cryptocurrency Trading with AI",
-        "ru": "CryptoAPI.ai - Торговля криптовалютой с ИИ"
-      },
-      "title_short": {
-        "en": "CryptoAPI.ai",
-        "ru": "CryptoAPI.ai"
-      },
-      "url": "https://www.cryptoapi.ai"
+      "lang": "ru"
     } %}
   {% endif %}
 {% endblock %}
@@ -27,12 +15,12 @@
   {% block head %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>{$meta_title}</title>
-  <meta name="description" content="{$meta_description}">
+  <title>{{ ExtraData.title|trans }}</title>
+  <meta name="description" content="{{ ExtraData.desc|trans }}">
 
   <meta property="og:locale" content="{$lng_html}">
-  <meta property="og:title" content="{$meta_title}">
-  <meta property="og:description" content="{$meta_description}">
+  <meta property="og:title" content="{{ ExtraData.title|trans }}">
+  <meta property="og:description" content="{{ ExtraData.desc|trans }}">
   {$ogtype}
   <meta property="og:image" content="{$meta_ogimage}">
   <meta property="og:url" content="{$thispageurl}">
@@ -52,11 +40,9 @@
   <script src="{{ ExtraData.assets_prefix }}/assets/js/main.js" type="module"></script>
   {$thispagejs}
 
-  {% if ExtraData.fonts_google is defined %}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family={{ ExtraData.fonts.google }}">
-  {% endif %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Inter:wght@300;400;500">
   <link rel="stylesheet" href="{{ ExtraData.assets_prefix }}/assets/css/main.css?{{ "now"|date('U') }}">
 {% endblock %}
 </head>

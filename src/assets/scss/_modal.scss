@@ -1,4 +1,3 @@
-@use 'sass:map';
 @use 'abstracts' as *;
 
 // -----------------------------------------------------------------------------
@@ -11,6 +10,7 @@
   --modal-background: var(--color-bg-base);
   --modal-border-radius: var(--border-radius-lg);
   --modal-padding-x: var(--padding-x-box);
+  --modal-padding-y: var(--size-line);
   --modal-overlay-background-color: var(--color-bg-scrim);
 
   background-color: var(--modal-overlay-background-color);
@@ -24,6 +24,7 @@
   inset: 0;
   transition: opacity var(--duration-500) var(--easing-base);
   opacity: 1;
+  // Trick. When using viewport units, the dialog is not stretched to the full screen
   width: inherit;
   min-width: 100%;
   height: inherit;
@@ -54,41 +55,59 @@
 
 .e-modal__base {
   background: var(--modal-background);
-  border: var(--size-1) solid transparent;
-  border-radius: var(--modal-border-radius);
+  border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
   box-shadow: var(--box-shadow-level-03);
   color: var(--color-ink-text);
   display: flex;
   flex-direction: column;
   margin: auto;
-  padding: 0;
-  overflow-y: auto;
+  padding-top: var(--border-radius-md);
+  padding-bottom: var(--size-line);
+  padding-inline: var(--size-1);
   position: fixed;
-  inset: 0;
+  inset: auto 0 0;
   transition:
     translate var(--duration-500) var(--easing-base),
     opacity var(--duration-500) var(--easing-base);
   translate: 0;
-  width: min(100%, var(--width-xl));
+  width: 100%;
+  max-width: var(--modal-max-width, var(--width-xl));
   max-height: calc(100% - var(--size-5));
 
   @starting-style {
     translate: 0 50%;
   }
 
-  @media (pointer: coarse) {
-    scrollbar-gutter: stable both-edges;
-  }
-
-  @media (pointer: fine) {
-    @include scrollbar($track-bg: transparent);
-  }
-
   @media (--tablet) {
+    --modal-patch-offset: var(--size-line);
+
     border-radius: var(--modal-border-radius);
-    padding-block: var(--size-line);
+    padding-block: var(--modal-padding-x);
+    inset: 0;
     height: max-content;
     max-height: calc(100vh - var(--size-8));
+
+    // Gradient content patches
+    &::after,
+    &::before {
+      content: '';
+      display: block;
+      pointer-events: none;
+      position: absolute;
+      inset-inline: var(--modal-padding-x);
+      height: var(--size-4);
+      z-index: 1;
+    }
+
+    &::before {
+      background-image: linear-gradient(var(--color-bg-base-patch));
+      top: var(--modal-patch-offset);
+    }
+
+    &::after {
+      background-image: linear-gradient(to top, var(--color-bg-base-patch));
+      bottom: var(--modal-patch-offset)
+    }
 
     @starting-style {
       translate: 0 -50%;
@@ -112,35 +131,73 @@
 // -----------------------------------------------------------------------------
 // #region
 
-/* Basic padding for modal content */
-.e-modal__body,
-.e-modal__content {
-  padding-inline: var(--modal-padding-x);
-}
+.e-modal__body {
+  padding-inline: calc(var(--modal-padding-x) - var(--size-1));
+  overflow-y: auto;
+  scrollbar-gutter: stable both-edges;
 
+  &.e-form {
+    // Add some padding for focus outline
+    padding-inline: var(--modal-padding-x);
+    padding-block: var(--size-1);
+  }
+
+  @media (pointer: fine) {
+    @include scrollbar();
+
+    clip-path: inset(0 var(--size-2));
+    transition: clip-path var(--duration-500) var(--easing-base);
+
+    &:hover {
+      clip-path: inset(0);
+    }
+  }
+}
 // #endregion
 
-// -----------------------------------------------------------------------------
-// HEADER
-// -----------------------------------------------------------------------------
-// #region
-
-.e-modal__base > header {
-  padding-inline: var(--modal-padding-x);
+.e-modal__tabs {
   position: relative;
 }
 
-.e-modal__base .e-btn.is-close {
-  margin-inline-start: auto;
-  // Compensate ::after to prevent x-scroll
-  margin-inline-end: rem(2);
-  margin-bottom: calc(-1 * var(--size-2));
-  position: sticky;
-  top: var(--size-2);
+.e-modal__tab {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
+  transition:
+    translate var(--duration-500) var(--easing-base),
+    opacity var(--duration-500) var(--easing-base);
+  min-height: 100%;
+}
 
-  @media (--tablet) {
-    margin-inline-end: var(--size-3);
-    top: 0;
+.e-modal__tab ~ .e-modal__tab {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.e-modal__tab.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  translate: var(--size-3) 0;
+  visibility: hidden;
+}
+
+// -----------------------------------------------------------------------------
+// HEADER AND CLOSE BUTTON
+// -----------------------------------------------------------------------------
+// #region
+
+.e-modal__base .e-btn.is-close {
+  background: transparent;
+  position: absolute;
+  top: var(--size-2);
+  right: var(--size-2);
+
+  &:hover {
+    --icon-stroke: var(--color-ink-text);
+    background-color: var(--color-ink-min);
   }
 }
 
@@ -166,53 +223,13 @@
 // #endregion
 
 // -----------------------------------------------------------------------------
-// LOWER UI LOCK
+// DISABLING PAGE SCROLL UNDER A MODAL WINDOW
 // -----------------------------------------------------------------------------
 // #region
 
-/* Disable scroll on the html root when the modal is open */
+// To prevent layout shift of fixed elements, such as a navbar, use a
+// width of 100vw
 html:has(dialog[open]) {
-  overflow: hidden;
-
-  .e-modal {
-    pointer-events: auto;
-    touch-action: auto;
-  }
-}
-
-// #endregion
-
-// -----------------------------------------------------------------------------
-// SCRIMS
-// -----------------------------------------------------------------------------
-// #region
-/* Optional: Scrims (faded areas) at the top and bottom of the modal */
-.e-modal::before,
-.e-modal::after {
-  display: block;
-  content: '';
-  position: sticky;
-  right: 0;
-  left: 0;
-  height: var(--size-4);
-  z-index: 1;
-}
-
-.e-modal::before {
-  background-image: linear-gradient(
-    var(--modal-background) 1%,
-    transparent 33.33%,
-    transparent
-  );
-  top: 0;
-}
-
-.e-modal::after {
-  background-image: linear-gradient(
-    transparent,
-    transparent 66.67%,
-    var(--modal-background)
-  );
-  bottom: 0;
+  overflow: clip;
 }
 // #endregion

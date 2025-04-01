@@ -5,9 +5,9 @@
 - Для моментального обновления вёрстки на «боевом» сервере надо в браузере отключить куки — см. инструкции в notes/projects
 - Чтобы в путях вложенных файлов, добавлялся префикс /projects/cryptoapi.ai, а в head добавлялись веб-шрифты, нужно в PHP-контроллере каждого шаблона добавлять соответствующие значения в ExtraData.
 - Макросы не получают переменную префикса пути `assets_prefix` из ExtraData, поэтому вынужден использовать только инклюды.
-- А в инклюды, содержащие вложеннын инключды с переменными из ExtraData, — главным образом блоки с иконками — надо явно передавать ExtraData, потому что у них нет доступа по умолчанию.
+- А в инклюды, содержащие вложенные инклюды с переменными из ExtraData, — главным образом блоки с иконками — надо явно передавать ExtraData, потому что у них нет доступа по умолчанию.
 `{% include 'partials/x.twig' with {'x': x, 'ExtraData': ExtraData} only %}`
-- В PHP-окружении не всегда можно передать данные из одного блока в другого: например,из config в content. Можно только через переменную определенную в контроллере — типа, ExtraData — но и то, с опасностью ошибок. Поэтому, самый простой вариант — определять данные для блока content в самом блоке:
+- В PHP-окружении не всегда можно передать данные из одного блока в другого: например,из `config` в `content`. Можно только через переменную определенную в контроллере — типа, `ExtraData` — но и то, с опасностью ошибок. Поэтому, самый простой вариант — определять данные для блока `content` в самом блоке:
 
 ```twig
 {% block content %}
@@ -33,25 +33,11 @@
 ```po
 msgid ""
 msgstr ""
-"Project-Id-Version: taix\n"
-"POT-Creation-Date: 2025-05-04 20:10:26+0300\n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: Qwerty\n"
-"Language: ru\n"
-"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Taix app\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Poedit-KeywordsList: trans\n"
-"X-Poedit-Basepath: ../..\n"
-"X-Poedit-SearchPath-0: language\n"
-"X-Poedit-SearchPath-1: Console\n"
-"X-Poedit-SearchPathExcluded-0: twig/*.twig\n"
 ```
 
-Далее следуте пары строк:
+Далее следуют пары строк:
 
 - msgid — строка на английском, одновременно используется, как id
 - msgstr — перевод
@@ -64,6 +50,31 @@ msgstr "Добавить показатели"
 Каждая пара, включая первую, отбивается сверху пустой строкой.
 
 В `en_EN` переводы не нужны, достаточно только `шапки`.
+
+При сборке циклами, в ассоциативных массивах записываются англоязычные термины, а в `for` к ним уже применяется фильтры `trans` и `row`.
+
+```twig
+{% set data_menu = {
+  "home": {
+    "label": "Home",
+    "href": "/",
+    "icon": "home",
+    "classes": "tablet:d-none"
+  },
+  {# etc #}
+} %}
+
+<ul>
+  {% for key, item in data_menu %}
+    <li class="e-navbar__menu-item is-{{ key }}">
+      <a href="{{ item.href }}">
+        {% include 'partials/icon.twig' with { name: item.icon } %}
+        {{ item.label|trans|raw }}
+      </a>
+    </li>
+  {% endfor %}
+</ul>
+```
 
 ## Структура папок
 

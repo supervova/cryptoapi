@@ -1,0 +1,10 @@
+{% macro modal(id, content, classes) %}
+<dialog class="e-modal{% if classes %} {{ classes }}{% endif %}" id="{{ id }}">
+  <div class="e-modal__base">
+    {{ content|raw }}
+    <button class="e-btn is-close" type="button" data-role="close-modal" aria-label="{{ 'Close'|trans }}">
+      {% include 'partials/icon.twig' with {name: 'sm-x-mark', classes: 'is-sm'} %}
+    </button>
+  </div>
+</dialog>
+{% endmacro %}

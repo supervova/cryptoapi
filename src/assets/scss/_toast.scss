@@ -1,0 +1,102 @@
+@use 'abstracts' as *;
+
+// Container. It can contains multiple items
+.e-toast {
+  --toast-padding: var(--size-2p5);
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: var(--size-2);
+  padding-inline: var(--size-2p5);
+  pointer-events: none;
+  position: fixed;
+  // Navbar height + margin
+  bottom: calc(#{rem(88)} + env(safe-area-inset-bottom));
+  left: 50%;
+  translate: -50% 0;
+
+  width: 100%;
+
+  z-index: var(--zindex-fixed);
+
+  @media (--tablet) {
+    --toast-padding: var(--size-4);
+
+    align-items: flex-end;
+    top: var(--size-line);
+    right: var(--size-line);
+    bottom: auto;
+    left: auto;
+  }
+}
+
+// Box
+.e-toast__base {
+  background-color: var(--color-bg-level-01);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--box-shadow-level-02);
+  color: var(--toast-text-color);
+  display: flex;
+  align-items: center;
+  gap: var(--size-2);
+  justify-content: space-between;
+  padding: var(--toast-padding);
+  opacity: 0;
+  pointer-events: auto;
+  translate: 0 var(--size-2);
+  transform: translateY(10px);
+  transition:
+    opacity var(--toast-animation-duration) ease,
+    transform var(--toast-animation-duration) ease;
+  width: 100%;
+  max-width: var(--width-base);
+}
+
+// Open
+.e-toast__base[popover]:popover-open {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+// Semantic colors
+.e-toast__base.is-success {
+  background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-success));
+  color: var(--color-ink-text-success);
+}
+
+.e-toast__base.is-error {
+  background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-error));
+  color: var(--color-ink-text-error);
+}
+
+.e-toast__base.is-warning {
+  background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-warning));
+  color: var(--color-ink-text-warning);
+}
+
+.e-toast__base.is-info {
+  background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-info));
+  color: var(--color-ink-text-info);
+}
+
+// Content
+.e-toast__content {
+  flex-grow: 1;
+  word-break: break-word;
+}
+
+// Close button
+.e-toast .e-btn.is-close {
+  --button-height: var(--size-4);
+
+  background: transparent;
+  position: absolute;
+  top: var(--size-2);
+  right: var(--size-2);
+
+  &:hover {
+    --icon-stroke: var(--color-ink-text);
+    background-color: var(--color-ink-min);
+  }
+}
