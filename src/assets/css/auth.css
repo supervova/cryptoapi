@@ -17,10 +17,13 @@
   (min-resolution: 120dpi);
 @custom-selector :--text-field select, textarea, .e-form__text-input, input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="url"], input[type="tel"], input[type="date"];
 @custom-selector :--text-field-blur :where(input:not([type="checkbox"]):not([type="radio"]), select, textarea):not(:focus);
+html {
+  scrollbar-gutter: unset;
+}
+
 body {
   align-items: center;
   justify-content: center;
-  transition-behavior: allow-discrete;
 }
 @media (--tablet) {
   body {
@@ -29,25 +32,25 @@ body {
     background-size: cover;
     background-position: 100% 0;
   }
-  @supports not (interpolate-size: allow-keywords) {
-    body {
-      background: none;
-    }
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url("/assets/img/pages/bg-auth.jpg") no-repeat center/cover;
-      background-position: 100% 0;
-      z-index: -1;
-    }
-  }
 }
 @media (--tablet-l) {
   body {
+    overflow: hidden;
+  }
+}
+
+.e-main {
+  padding: 0;
+}
+@media (--tablet) {
+  .e-main {
+    display: flex;
+    align-items: center;
+    padding-block: var(--size-5);
+  }
+}
+@media (--tablet-l) {
+  .e-main {
     display: grid;
     align-items: center;
     grid-gap: 0;
@@ -55,15 +58,16 @@ body {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr;
     padding: var(--size-5);
+    overflow-y: auto;
+    position: absolute;
+    inset: 0;
+    scrollbar-color: rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.04);
+    scrollbar-gutter: stable;
   }
 }
 
-.e-main {
-  flex: 0;
-  padding: 0;
-}
-@media (--tablet) {
-  .e-main {
+@media (--tablet-l) {
+  article {
     grid-area: main;
   }
 }
@@ -155,6 +159,10 @@ body {
   padding-top: calc(var(--padding-top-body-sm) + var(--size-5));
 }
 
+.e-buttons > * {
+  flex: 1;
+}
+
 [id=signup] .e-tabs__footer {
   justify-content: center;
 }
@@ -178,6 +186,13 @@ body {
 }
 .e-footnote .e-icon {
   margin-top: -0.25rem;
+}
+
+.e-modal__base {
+  max-width: var(--width-md);
+}
+.e-modal__base::before, .e-modal__base::after {
+  display: none;
 }
 
 [id=loader] {

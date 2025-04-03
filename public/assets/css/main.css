@@ -3685,15 +3685,15 @@
     --icon-stroke:var(--color-ink-text);
     background-color:var(--color-ink-min);
   }
-  :is(:where(input:not([type="checkbox"]):not([type="radio"]), select, textarea):not(:focus)):user-invalid{
+  :is(:where(input:not([type="checkbox"]):not([type="radio"]), select, textarea):not(:focus)):user-invalid,:is(:where(input:not([type="checkbox"]):not([type="radio"]), select, textarea):not(:focus)).is-invalid{
     -webkit-box-shadow:0 0 0 0.125rem var(--color-base-error);
     box-shadow:0 0 0 0.125rem var(--color-base-error);
   }
-  :is(:where(input:not([type="checkbox"]):not([type="radio"]), select, textarea):not(:focus)):user-invalid ~ .e-form__error{
+  :is(:where(input:not([type="checkbox"]):not([type="radio"]), select, textarea):not(:focus)):user-invalid ~ .e-form__error,:is(:where(input:not([type="checkbox"]):not([type="radio"]), select, textarea):not(:focus)).is-invalid ~ .e-form__error{
     opacity:1;
     height:auto;
   }
-  :is(:where(input:not([type="checkbox"]):not([type="radio"]), select, textarea):not(:focus)):user-invalid ~ small{
+  :is(:where(input:not([type="checkbox"]):not([type="radio"]), select, textarea):not(:focus)):user-invalid ~ small,:is(:where(input:not([type="checkbox"]):not([type="radio"]), select, textarea):not(:focus)).is-invalid ~ small{
     display:none;
   }
   .e-form__error{
@@ -3736,13 +3736,14 @@
     width:100%;
     height:0;
   }
-  .e-form__error-box.is-visible{
+  .e-form__error-box:not(:empty){
     display:block;
     opacity:1;
     height:auto;
+    margin-bottom:var(--size-line);
   }
   @starting-style{
-    .e-form__error-box.is-visible{
+    .e-form__error-box:not(:empty){
       height:0;
       opacity:0;
     }

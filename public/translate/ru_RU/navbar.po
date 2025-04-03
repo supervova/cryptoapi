@@ -42,3 +42,6 @@ msgstr "Блог"
 
 msgid "Sign In"
 msgstr "Вход"
+
+msgid "Sign Out"
+msgstr "Выход"

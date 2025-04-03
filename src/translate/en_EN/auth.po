@@ -4,9 +4,8 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 # ------------------------------------------------------------------------------
-# Validation
+# JS Validation
 # ------------------------------------------------------------------------------
-# JS
 msgid "alert.error"
 msgstr "Error: %type%: %errorMessage%"
 
@@ -27,3 +26,6 @@ msgstr "Login canceled."
 
 msgid "alert.get_code"
 msgstr "Failed to retrieve the verification code."
+
+msgid "alert.required"
+msgstr "Please fill all required fields correctly."

@@ -94,25 +94,44 @@ function initPopovers() {
   const popovers = Array.from(
     document.querySelectorAll('[data-role="popover"]')
   );
-  popovers.forEach((popover) => {
-    if (popover.tagName.toLowerCase() !== "details") {
-      const summary = popover.querySelector('[data-role="popover-summary"]');
-      const body = popover.querySelector(".e-popover__body");
-      if (summary && body) {
-        if (!body.id) {
-          body.id = `popover-content-${Math.random().toString(36).substring(2, 10)}`;
+  function isMainNavPopover(popover) {
+    return popover.closest(".e-navbar__menu") !== null;
+  }
+  function isMobileScreen() {
+    return window.innerWidth < 768;
+  }
+  function updateAriaAttributes() {
+    popovers.forEach((popover) => {
+      if (popover.tagName.toLowerCase() !== "details") {
+        const summary = popover.querySelector('[data-role="popover-summary"]');
+        const body = popover.querySelector(".e-popover__body");
+        if (summary && body) {
+          if (!body.id) {
+            body.id = `popover-content-${Math.random().toString(36).substring(2, 10)}`;
+          }
+          summary.setAttribute("aria-haspopup", "true");
+          summary.setAttribute(
+            "aria-expanded",
+            popover.classList.contains("is-open").toString()
+          );
+          summary.setAttribute("aria-controls", body.id);
+          summary.setAttribute("role", "button");
+          if (!summary.hasAttribute("tabindex")) {
+            summary.setAttribute("tabindex", "0");
+          }
+          if (isMainNavPopover(popover) && !isMobileScreen()) {
+            body.setAttribute("aria-hidden", "false");
+          } else {
+            body.setAttribute(
+              "aria-hidden",
+              !popover.classList.contains("is-open").toString()
+            );
+          }
         }
-        summary.setAttribute("aria-haspopup", "true");
-        summary.setAttribute("aria-expanded", "false");
-        summary.setAttribute("aria-controls", body.id);
-        summary.setAttribute("role", "button");
-        if (!summary.hasAttribute("tabindex")) {
-          summary.setAttribute("tabindex", "0");
-        }
-        body.setAttribute("aria-hidden", "true");
       }
-    }
-  });
+    });
+  }
+  updateAriaAttributes();
   function closeAllPopovers(exclude = null) {
     popovers.forEach((el) => {
       if (el !== exclude) {
@@ -123,7 +142,11 @@ function initPopovers() {
           const summary = el.querySelector('[data-role="popover-summary"]');
           const body = el.querySelector(".e-popover__body");
           if (summary && body) {
-            body.setAttribute("aria-hidden", "true");
+            if (isMainNavPopover(el) && !isMobileScreen()) {
+              body.setAttribute("aria-hidden", "false");
+            } else {
+              body.setAttribute("aria-hidden", "true");
+            }
             summary.setAttribute("aria-expanded", "false");
           }
         }
@@ -146,7 +169,11 @@ function initPopovers() {
             popover.classList.remove("is-open");
             const body = popover.querySelector(".e-popover__body");
             if (body) {
-              body.setAttribute("aria-hidden", "true");
+              if (isMainNavPopover(popover) && !isMobileScreen()) {
+                body.setAttribute("aria-hidden", "false");
+              } else {
+                body.setAttribute("aria-hidden", "true");
+              }
               summary.setAttribute("aria-expanded", "false");
             }
           } else {
@@ -173,16 +200,20 @@ function initPopovers() {
   document.addEventListener("click", (event) => {
     popovers.forEach((popover) => {
       const popoverBody = popover.querySelector(".e-popover__body");
-      if (!popover.contains(event.target) || popoverBody && !popoverBody.contains(event.target) && !popover.querySelector('[data-role="popover-summary"], summary').contains(event.target)) {
+      const summary = popover.querySelector(
+        '[data-role="popover-summary"], summary'
+      );
+      if (!popover.contains(event.target) || popoverBody && !popoverBody.contains(event.target) && !summary.contains(event.target)) {
         if (popover.tagName.toLowerCase() === "details") {
           popover.removeAttribute("open");
         } else {
           popover.classList.remove("is-open");
-          const summary = popover.querySelector(
-            '[data-role="popover-summary"]'
-          );
           if (summary && popoverBody) {
-            popoverBody.setAttribute("aria-hidden", "true");
+            if (isMainNavPopover(popover) && !isMobileScreen()) {
+              popoverBody.setAttribute("aria-hidden", "false");
+            } else {
+              popoverBody.setAttribute("aria-hidden", "true");
+            }
             summary.setAttribute("aria-expanded", "false");
           }
         }
@@ -194,6 +225,7 @@ function initPopovers() {
       closeAllPopovers();
     }
   });
+  window.addEventListener("resize", updateAriaAttributes);
 }
 
 // src/assets/js/drag-scroll.js

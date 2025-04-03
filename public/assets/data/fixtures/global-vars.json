@@ -28,5 +28,7 @@
   "hello_cookie": "",
   "unloggedid": "",
   "authhost": "localhost:9000",
-  "thispageurlencoded": ""
+  "thispageurlencoded": "",
+  "user_id": 0,
+  "userid": 1
 }

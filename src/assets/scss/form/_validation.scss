@@ -7,7 +7,8 @@
 // -----------------------------------------------------------------------------
 // #region
 
-:--text-field-blur:user-invalid {
+:--text-field-blur:user-invalid,
+:--text-field-blur.is-invalid {
   box-shadow: 0 0 0 rem(2) var(--color-base-error);
 
   // Show error message
@@ -81,10 +82,11 @@
   width: 100%;
   height: 0;
 
-  &.is-visible {
+  &:not(:empty) {
     display: block;
     opacity: 1;
     height: auto;
+    margin-bottom: var(--size-line);
 
     @starting-style {
       height: 0;

@@ -11,7 +11,7 @@ import initDragToScroll from './drag-scroll.js';
 import { initPasswordToggles } from './form.js';
 
 // eslint-disable-next-line no-unused-vars
-import { showToast, hideToast } from './toast.js';
+import { showToast /* , hideToast */ } from './toast.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initpopovers();

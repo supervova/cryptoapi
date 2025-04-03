@@ -6,5 +6,5 @@
 #}
 
 <svg class="e-icon is-{{ name }}{% if classes %} {{ classes }}{% endif %}" aria-hidden="true" focusable="false">
-  <use xlink:href="{{ ExtraData.assets_prefix }}/assets/img/icons/{{ file|default('sprite') }}.svg#icon-{{ name }}"></use>
+  <use xlink:href="{{ assets_prefix|default(ExtraData.assets_prefix) }}/assets/img/icons/{{ file|default('sprite') }}.svg#icon-{{ name }}"></use>
 </svg>

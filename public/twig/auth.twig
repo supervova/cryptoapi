@@ -19,176 +19,178 @@
 
 {% block content %}
 
-  <h1 class="visually-hidden">{{ 'Secure Authorization Center'|trans }}</h1>
+  <article>
+    <h1 class="visually-hidden">{{ 'Secure Authorization Center'|trans }}</h1>
 
-  <div class="e-card is-panel">
+    <div class="e-card is-panel">
 
-    <img class="e-modal__logo" src="{{ ExtraData.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-tablet.svg" alt="{{ 'CryptoAPI.ai Logo'|trans }}">
+      <img class="e-modal__logo" src="{{ ExtraData.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-tablet.svg" alt="{{ 'CryptoAPI.ai Logo'|trans }}">
 
-    <div class="e-tabs">
-      <!-- Sign In -->
-      <section class="e-tabs__panel is-open" id="signin" role="tabpanel">
-        <form id="loginform" novalidate>
-          <header>
-            <h2>{{ 'Sign In'|trans }}</h2>
-            <p class="text-2ry">{{ 'AI-Powered Crypto Trading'|trans }}</p>
-          </header>
+      <div class="e-tabs">
+        <!-- Sign In -->
+        <section class="e-tabs__panel is-open" id="signin" role="tabpanel">
+          <form id="loginform" novalidate>
+            <header>
+              <h2>{{ 'Sign In'|trans }}</h2>
+              <p class="text-2ry">{{ 'AI-Powered Crypto Trading'|trans }}</p>
+            </header>
 
-          <div class="e-form__error-box" id="messagelogin" role="alert" aria-live="assertive"></div>
+            <div class="e-form__error-box" id="messagelogin" role="alert" aria-live="assertive"></div>
 
-          <p class="e-form__text-field">
-            <input id="loginemaillf" name="loginemaillf" value="{$setemail}" type="email" autocomplete="email" aria-describedby="error-email" required placeholder="Email">
-            <label for="loginemaillf">Email</label>
-            <span class="e-form__error" id="error-email" role="alert" aria-live="polite">
-              <small>{{ 'Enter a valid email address.'|trans }}</small>
-            </span>
-          </p>
+            <p class="e-form__text-field">
+              <input id="loginemaillf" name="loginemaillf" value="{$setemail}" type="email" autocomplete="email" aria-describedby="error-email" required placeholder="Email">
+              <label for="loginemaillf">Email</label>
+              <span class="e-form__error" id="error-email" role="alert" aria-live="polite">
+                <small>{{ 'Enter a valid email address.'|trans }}</small>
+              </span>
+            </p>
 
-          <p class="e-form__text-field">
-            <input id="loginpasswordlf" name="loginpasswordlf" type="password" data-role="password" autocomplete="current-password" aria-describedby="error-password-login" required placeholder="{{ 'Password'|trans }}">
-            <label for="loginpasswordlf">{{ 'Password'|trans }}</label>
-            <button class="e-form__password-toggle e-btn is-icon" type="button" data-role="password-toggle" title="{{ 'Show/Hide Password'|trans }}">
-              {% include 'partials/icon.twig' with {name: 'eye'} %}
-              {% include 'partials/icon.twig' with {name: 'eye-slash', classes: 'd-none'} %}
+            <p class="e-form__text-field">
+              <input id="loginpasswordlf" name="loginpasswordlf" type="password" data-role="password" autocomplete="current-password" aria-describedby="error-password-login" required placeholder="{{ 'Password'|trans }}">
+              <label for="loginpasswordlf">{{ 'Password'|trans }}</label>
+              <button class="e-form__password-toggle e-btn is-icon" type="button" data-role="password-toggle" title="{{ 'Show/Hide Password'|trans }}">
+                {% include 'partials/icon.twig' with {name: 'eye'} %}
+                {% include 'partials/icon.twig' with {name: 'eye-slash', classes: 'd-none'} %}
+              </button>
+              <span class="e-form__error" id="error-password-login" role="alert" aria-live="polite">
+                <small>{{ 'Password is required. Must include at least one digit, one letter, and be at least 8 characters long.'|trans }}</small>
+              </span>
+            </p>
+
+            <label class="e-form__option">
+              <input type="checkbox" data-role="user-agreement" checked required>
+              {{ 'By continuing, you agree to <a href="https://{$this_http_host}/useragreement" target="_blank">our terms</a>.'|trans|raw }}
+            </label>
+
+            <button class="e-btn is-primary w-100" data-action="submit-auth-form">
+              <span>{{ 'Sign In'|trans }}</span>
             </button>
-            <span class="e-form__error" id="error-password-login" role="alert" aria-live="polite">
-              <small>{{ 'Password is required. Must include at least one digit, one letter, and be at least 8 characters long.'|trans }}</small>
-            </span>
-          </p>
 
-          <label class="e-form__option">
-            <input type="checkbox" id="useragreement" checked required>
-            By continuing, you agree to <a href="https://{$this_http_host}/useragreement" target="_blank">our terms</a>.
-          </label>
+            <!-- Кнопки входа через соцсети -->
+            {% include 'partials/oauth-buttons.twig' %}
 
-          <button class="e-btn is-primary w-100">
-            <span>{{ 'Sign In'|trans }}</span>
-          </button>
+          </form>
 
-          <!-- Кнопки входа через соцсети -->
-          {% include 'partials/oauth-buttons.twig' %}
+          <footer class="e-tabs__footer">
+            <button class="e-btn is-link" type="button" data-target="resetpwd">{{ 'Forgot your password?'|trans }}</button>
+            <button class="e-btn is-link" type="button" data-target="signup"><b>{{ 'Sign Up'|trans }}</b></button>
+          </footer>
 
-        </form>
+        </section>
 
-        <footer class="e-tabs__footer">
-          <button class="e-btn is-link" type="button" data-target="resetpwd">{{ 'Forgot your password?'|trans }}</button>
-          <button class="e-btn is-link" type="button" data-target="signup"><b>{{ 'Sign Up'|trans }}</b></button>
-        </footer>
+        <!-- Sign Up -->
+        <section class="e-tabs__panel" id="signup" role="tabpanel">
+          <form id="regform" novalidate>
+            <header>
+              <h2>{{ 'Sign Up'|trans }}</h2>
+              <p class="text-2ry">{{ 'Create an account to get started'|trans }}</p>
+            </header>
 
-      </section>
+            <div class="e-form__error-box" id="messagereg" role="alert" aria-live="assertive"></div>
 
-      <!-- Sign Up -->
-      <section class="e-tabs__panel" id="signup" role="tabpanel">
-        <form id="regform" novalidate>
-          <header>
-            <h2>{{ 'Sign Up'|trans }}</h2>
-            <p class="text-2ry">{{ 'Create an account to get started'|trans }}</p>
-          </header>
+            <p class="e-form__text-field">
+              <input id="yournamelf" name="yournamelf" type="text" required placeholder="{{ 'First Name'|trans }}">
+              <label for="yournamelf">{{ 'First Name'|trans }}</label>
+            </p>
 
-          <div class="e-form__error-box" id="messagereg" role="alert" aria-live="assertive"></div>
+            <p class="e-form__text-field">
+              <input id="surnamelf" name="surnamelf" type="text" required placeholder="{{ 'Second Name'|trans }}">
+              <label for="surnamelf">{{ 'Second Name'|trans }}</label>
+            </p>
 
-          <p class="e-form__text-field">
-            <input id="yournamelf" name="yournamelf" type="text" required placeholder="{{ 'First Name'|trans }}">
-            <label for="yournamelf">{{ 'First Name'|trans }}</label>
-          </p>
+            <p class="e-form__text-field">
+              <input id="birthdate" name="birthdate" type="date" required>
+              <label for="birthdate">{{ 'Birthdate'|trans }}</label>
+            </p>
 
-          <p class="e-form__text-field">
-            <input id="surnamelf" name="surnamelf" type="text" required placeholder="{{ 'Second Name'|trans }}">
-            <label for="surnamelf">{{ 'Second Name'|trans }}</label>
-          </p>
+            <p class="e-form__text-field">
+              <input id="emaillf" name="emaillf" type="email" autocomplete="email" aria-describedby="error-email-signup" required placeholder="Email">
+              <label for="emaillf">Email</label>
+              <span class="e-form__error" id="error-email-signup" role="alert" aria-live="polite">
+                <small>{{ 'Enter a valid email address.'|trans }}</small>
+              </span>
+            </p>
 
-          <p class="e-form__text-field">
-            <input id="birthdate" name="birthdate" type="date" required>
-            <label for="birthdate">{{ 'Birthdate'|trans }}</label>
-          </p>
+            <p class="e-form__text-field">
+              <input id="passwordlf" name="passwordlf" type="password" data-role="password" required placeholder="{{ 'Password'|trans }}">
+              <label for="passwordlf">{{ 'Password'|trans }}</label>
+              <button class="e-form__password-toggle e-btn is-icon" type="button" data-role="password-toggle" title="{{ 'Show/Hide Password'|trans }}">
+                {% include 'partials/icon.twig' with {name: 'eye'} %}
+                {% include 'partials/icon.twig' with {name: 'eye-slash', classes: 'd-none'} %}
+              </button>
+              <span class="e-form__error" id="error-password" role="alert" aria-live="polite">
+                <small>{{ 'Password is required. Must include at least one digit, one letter, and be at least 8 characters long.'|trans }}</small>
+              </span>
+              <button class="e-btn is-link e-form__generate" data-action="generatepassword">
+                {{ 'Generate password'|trans }}
+              </button>
+            </p>
 
-          <p class="e-form__text-field">
-            <input id="emaillf" name="emaillf" type="email" autocomplete="email" aria-describedby="error-email-signup" required placeholder="Email">
-            <label for="emaillf">Email</label>
-            <span class="e-form__error" id="error-email-signup" role="alert" aria-live="polite">
-              <small>{{ 'Enter a valid email address.'|trans }}</small>
-            </span>
-          </p>
+            <label class="e-form__option">
+              <input type="checkbox" data-role="user-agreement" checked required>
+              By continuing, you agree to <a href="https://{$this_http_host}/useragreement" target="_blank">our terms</a>.
+            </label>
 
-          <p class="e-form__text-field">
-            <input id="passwordlf" name="passwordlf" type="password" data-role="password" required placeholder="{{ 'Password'|trans }}">
-            <label for="passwordlf">{{ 'Password'|trans }}</label>
-            <button class="e-form__password-toggle e-btn is-icon" type="button" data-role="password-toggle" title="{{ 'Show/Hide Password'|trans }}">
-              {% include 'partials/icon.twig' with {name: 'eye'} %}
-              {% include 'partials/icon.twig' with {name: 'eye-slash', classes: 'd-none'} %}
+            <button class="e-btn is-primary w-100" data-action="submit-auth-form">
+              <span>{{ 'Sign Up'|trans }}</span>
             </button>
-            <span class="e-form__error" id="error-password" role="alert" aria-live="polite">
-              <small>{{ 'Password is required. Must include at least one digit, one letter, and be at least 8 characters long.'|trans }}</small>
-            </span>
-            <button class="e-btn is-link e-form__generate" data-action="generatepassword">
-              {{ 'Generate password'|trans }}
-            </button>
-          </p>
 
-          <label class="e-form__option">
-            <input type="checkbox" id="useragreement" checked required>
-            By continuing, you agree to <a href="https://{$this_http_host}/useragreement" target="_blank">our terms</a>.
-          </label>
+            <!-- Кнопки входа через соцсети -->
+            {% include 'partials/oauth-buttons.twig' %}
 
-          <button class="e-btn is-primary w-100">
-            <span>{{ 'Sign Up'|trans }}</span>
-          </button>
-
-          <!-- Кнопки входа через соцсети -->
-          {% include 'partials/oauth-buttons.twig' %}
-
-        </form>
-
-        <footer class="e-tabs__footer">
-          <button class="e-btn is-link" type="button" data-target="signin">
-            {% include 'partials/icon.twig' with {name: 'sm-chevron-left'} %}
-            {{ 'Already registered?'|trans }}&nbsp;<b>{{ 'Sign In'|trans }}</b>
-          </button>
-        </footer>
-
-      </section>
-
-      <!-- Reset Password -->
-      <section class="e-tabs__panel" id="resetpwd" role="tabpanel">
-        <form id="lostpwd" novalidate>
-          <header>
-            <h2>{{ 'Reset Password'|trans }}</h2>
-            <p class="text-2ry">{{ 'Enter your email to receive reset instructions'|trans }}</p>
-          </header>
-
-          <div class="e-form__error-box" id="messagelost" role="alert" aria-live="assertive"></div>
-
-          <p class="e-form__text-field">
-            <input id="rememberemailf" name="rememberemailf" value="{$setemail}" type="email"  autocomplete="email" aria-describedby="error-email-restore" required placeholder="Email">
-            <label for="rememberemailf">Email</label>
-            <span class="e-form__error" id="error-email-restore" role="alert" aria-live="polite">
-              <small>{{ 'Enter a valid email address.'|trans }}</small>
-            </span>
-          </p>
-
-          <button class="e-btn is-primary w-100">
-            <span>{{ 'Get Reset Link'|trans }}</span>
-          </button>
+          </form>
 
           <footer class="e-tabs__footer">
             <button class="e-btn is-link" type="button" data-target="signin">
-              {{ 'Sign In'|trans }}
-            </button>
-            <button class="e-btn is-link" type="button" data-target="signup">
-              <b>{{ 'Sign Up'|trans }}</b>
+              {% include 'partials/icon.twig' with {name: 'sm-chevron-left'} %}
+              {{ 'Already registered?'|trans }}&nbsp;<b>{{ 'Sign In'|trans }}</b>
             </button>
           </footer>
 
-        </form>
-      </section>
+        </section>
+
+        <!-- Reset Password -->
+        <section class="e-tabs__panel" id="resetpwd" role="tabpanel">
+          <form id="lostpwd" novalidate>
+            <header>
+              <h2>{{ 'Reset Password'|trans }}</h2>
+              <p class="text-2ry">{{ 'Enter your email to receive reset instructions'|trans }}</p>
+            </header>
+
+            <div class="e-form__error-box" id="messagelost" role="alert" aria-live="assertive"></div>
+
+            <p class="e-form__text-field">
+              <input id="rememberemailf" name="rememberemailf" value="{$setemail}" type="email"  autocomplete="email" aria-describedby="error-email-restore" required placeholder="Email">
+              <label for="rememberemailf">Email</label>
+              <span class="e-form__error" id="error-email-restore" role="alert" aria-live="polite">
+                <small>{{ 'Enter a valid email address.'|trans }}</small>
+              </span>
+            </p>
+
+            <button class="e-btn is-primary w-100" data-action="submit-auth-form">
+              <span>{{ 'Get Reset Link'|trans }}</span>
+            </button>
+
+            <footer class="e-tabs__footer">
+              <button class="e-btn is-link" type="button" data-target="signin">
+                {{ 'Sign In'|trans }}
+              </button>
+              <button class="e-btn is-link" type="button" data-target="signup">
+                <b>{{ 'Sign Up'|trans }}</b>
+              </button>
+            </footer>
+
+          </form>
+        </section>
+      </div>
+
     </div>
 
-  </div>
-
-  <footer class="e-footnote has-tooltip" aria-label="{{ 'Form data is pre-encrypted and transmitted over a secure SSL connection. We do not store your passwords, only their hash values (SHA-512/256), and we never share any data with third parties.'|trans }}">
-    {% include 'partials/icon.twig' with {name: 'sm-lock', classes: 'is-sm'} %}
-    {{ 'Your data is safe…'|trans }}
-  </footer>
+    <footer class="e-footnote has-tooltip" aria-label="{{ 'Form data is pre-encrypted and transmitted over a secure SSL connection. We do not store your passwords, only their hash values (SHA-512/256), and we never share any data with third parties.'|trans }}">
+      {% include 'partials/icon.twig' with {name: 'sm-lock', classes: 'is-sm'} %}
+      {{ 'Your data is safe…'|trans }}
+    </footer>
+  </article>
 
 {% endblock %}
 
@@ -199,708 +201,926 @@
 
   <!-- Telegram -->
   {% set modal_telegram %}
-  <div id="telegramdiv" style="display:none;">
+  <div class="e-modal__body">
     <h2>{{ 'Login via Telegram'|trans }}</h2>
     <p>{{ 'You should connect to the bot using this link:'|trans }} <a href="https://t.me/{$config[TelegramBot]}" target="_blank">@QwertyAIbot</a></p>
+    <p>
+      {{ 'And send a message'|trans }} <strong id="msgcode">A</strong><br>
+      {{ 'The code is valid'|trans }} <strong id="msgsec">300</strong> {{ 'sec.'|trans }}
+    </p>
+    <button class="e-btn" type="button" data-action="cancelauth">{{ 'Cancel'|trans }}</button>
   </div>
-  <p>
-    {{ 'And send a message'|trans }} <strong id="msgcode">A</strong>
-    {{ 'The code is valid'|trans }} <strong id="msgsec">300</strong> {{ 'sec.'|trans }}
-  </p>
-  <button class="e-btn" type="button" data-action="cancelauth">{{ 'Cancel'|trans }}</button>
   {% endset %}
 
-  {{ macros.modal('loginmsgwin', modal_telegram) }}
+  {{ macros.modal('loginmsgwin', modal_telegram, ExtraData.assets_prefix) }}
 
   <!-- Modal window for sending emails -->
   {% set modal_email %}
-  <h2>{{ 'Please pay attention!'|trans }}</h2>
-  <p>{{ 'We sent you a link to verify your email address. Don’t forget to check your Spam folder.'|trans }}</p>
-  <p id="waitsend"><b>Please, wait <span id="waitsec"></span> {{ 'sec.'|trans }}</b></p>
-  <p id="difemail" style="display:none;">
-    {{ 'If this attempt fails, use a different email address.'|trans }}
-  </p>
-  <div id="resend">
-    <button class="e-btn" type="button" data-action="resend"> {{ 'Send via another server'|trans }}</button>
+  <div class="e-modal__body">
+    <h2>{{ 'Please pay attention!'|trans }}</h2>
+    <p>{{ 'We sent you a link to verify your email address. Don’t forget to check your Spam folder.'|trans }}</p>
+    <p id="waitsend"><b>{{ 'Please, wait'|trans }} <span id="waitsec"></span> {{ 'sec.'|trans }}</b></p>
+    <p id="difemail" style="display:none;">
+      {{ 'If this attempt fails, use a different email address.'|trans }}
+    </p>
+    <div id="resend">
+      <button class="e-btn" type="button" data-action="resend"> {{ 'Send via another server'|trans }}</button>
+    </div>
   </div>
   {% endset %}
 
-  {{ macros.modal('sended', modal_email) }}
+  {{ macros.modal('sended', modal_email, ExtraData.assets_prefix) }}
 
-  <!-- Индикатор загрузки -->
+  <!-- Объявление о загрузке -->
   <div id="loader">{{ 'Loading...'|trans }}</div>
 
-  <script>
-    /**
-    * i18n
-    */
-    function t(key, params = {}) {
-      // Предполагаем, что window.translations уже определен где-то выше
-      let translation = window.translations[key] || key;
-      Object.keys(params).forEach((param) => {
-        translation = translation.replace(`%${param}%`, params[param]);
-      });
-      return translation;
+<script>
+/**
+ * i18n
+ */
+function t(key, params = {}) {
+  // Предполагаем, что window.translations уже определен где-то выше
+  let translation = window.translations[key] || key;
+  Object.keys(params).forEach((param) => {
+    translation = translation.replace(`%${param}%`, params[param]);
+  });
+  return translation;
+}
+
+// Если не будут переводиться сообщения из po, переводить их в скрипте
+window.translations = {
+  'alert.request': '{{ "Request error."|trans|e("js") }}',
+  'alert.agreement':
+    '{{ "Please agree to the terms of service."|trans|e("js") }}',
+  'alert.timeout':
+    '{{ "Timeout expired. Try requesting the code again."|trans|e("js") }}',
+  'alert.error': '{{ "Error: %type%: %errorMessage%"|trans|e("js") }}',
+  'alert.login_cancelled': '{{ "Login canceled."|trans|e("js") }}',
+  'alert.get_code':
+    '{{ "Failed to retrieve the verification code."|trans|e("js") }}',
+  'alert.required':
+    '{{ "Please fill all required fields correctly."|trans|e("js") }}',
+};
+
+/**
+ * Модуль управления аутентификацией и регистрацией
+ * @module AuthModule
+ */
+const AuthModule = (() => {
+  /**
+   * ------------------------------------------------------------------------
+   * ПЕРЕМЕННЫЕ
+   * ------------------------------------------------------------------------
+   */
+
+  const SELECTORS = {
+    tabs: {
+      signin: 'signin',
+      signup: 'signup',
+      resetpwd: 'resetpwd',
+    },
+    buttons: {
+      submitAuthForm: '[data-action="submit-auth-form"]',
+      generatePassword: '[data-action="generatepassword"]',
+      closeMail: '[data-action="closeMail"]', // Для модалки #sended
+      cancelAuth: '[data-action="cancelauth"]', // Для модалки #loginmsgwin
+    },
+    oauth: {
+      google: '[data-oauth="google"]',
+    },
+    messengers: {
+      telegram: '[data-msg="telegram"]',
+    },
+    elements: {
+      loader: '#loader', // Используем ID
+      userAgreement: '[data-role="user-agreement"]', // Используем ID
+      message: {
+        login: '#messagelogin',
+        reg: '#messagereg',
+        lost: '#messagelost',
+      },
+      modals: {
+        sendStatus: '#sended', // Селектор для <dialog>
+        loginMsgWindow: '#loginmsgwin', // Селектор для <dialog>
+      },
+      messengerCode: '#msgcode', // Элемент для отображения кода
+      messengerTimer: '#msgsec', // Элемент для отображения таймера
+    },
+    forms: {
+      login: '#loginform',
+      register: '#regform',
+      reset: '#lostpwd',
+    },
+  };
+
+  // Интервал опроса статуса мессенджера (3 секунды)
+  const POLLING_INTERVAL_MS = 3000;
+  // Общий таймаут для входа через мессенджер (5 минут)
+  const POLLING_TIMEOUT_MS = 300000;
+
+  // Код для входа через мессенджер
+  let msgcode = null;
+  // ID интервала опроса
+  let msgPollingInterval = null;
+  // ID таймаута опроса
+  let msgPollingTimeout = null;
+  // Флаг активности опроса
+  let msgPollingActive = false;
+  // Смещение часового пояса
+  const currentClientTimeZoneOffset = -new Date().getTimezoneOffset() / 60;
+
+  /**
+   * ------------------------------------------------------------------------
+   * ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+   * ------------------------------------------------------------------------
+   */
+
+  /**
+   * Показ/скрытие индикатора загрузки
+   * @param {boolean} show - true для показа, false для скрытия
+   */
+  const toggleLoader = (show) => {
+    const loader = document.querySelector(SELECTORS.elements.loader);
+    if (loader) {
+      loader.style.display = show ? 'flex' : 'none'; // Или 'block', зависит от CSS
+    }
+  };
+
+  /**
+   * Переключение вкладок
+   * @param {string} tabId - ID вкладки (signin, signup, resetpwd)
+   */
+  function switchTab(tabId) {
+    document
+      .querySelectorAll('.e-tabs__panel[role="tabpanel"]')
+      .forEach((panel) => panel.classList.remove('is-open'));
+    const activePanel = document.getElementById(tabId);
+
+    if (activePanel) activePanel.classList.add('is-open');
+
+    // Прокрутка к верху контейнера
+    const container = activePanel?.closest('.e-card') || document.body;
+    container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /**
+   * Таймер обратного отсчета для отправки почты
+   * @param {number} seconds - Количество секунд
+   */
+  function mailCountdown(seconds) {
+    const waitSecEl = document.getElementById('waitsec'); // Предполагаем, что ID остается
+    const waitSendEl = document.getElementById('waitsend');
+    const resendEl = document.getElementById('resend');
+    const difEmailEl = document.getElementById('difemail'); // Элемент для другого email
+
+    if (!waitSecEl || !waitSendEl || !resendEl || !difEmailEl) {
+      console.warn('Email countdown elements not found.');
+      return;
     }
 
-    // Пример объекта translations (должен быть заполнен реальными переводами)
-    window.translations = {
-      'alert.request': '{{ "Request error."|trans|e("js") }}',
-      'alert.agreement':
-        '{{ "Please agree to the terms of service."|trans|e("js") }}',
-      'alert.timeout': '{{ "Timeout expired. Try requesting the code again."|trans|e("js") }}',
-      'alert.error': '{{ "Error: %type%: %errorMessage%"|trans|e("js") }}',
-      'alert.login_cancelled': '{{ "Login canceled."|trans|e("js") }}',
-      'alert.get_code': '{{ "Failed to retrieve the verification code."|trans|e("js") }}',
+    let timeLeft = seconds;
+    let mailRetryCount = 1; // Счетчик попыток для показа сообщения о другом email
+
+    waitSendEl.style.display = 'block';
+    resendEl.style.display = 'none';
+    difEmailEl.style.display = 'none';
+
+    const updateTimer = () => {
+      waitSecEl.textContent = timeLeft;
     };
 
-   /**
-    * Модуль управления аутентификацией и регистрацией
-    * @module AuthModule
-    */
-    const AuthModule = (() => {
-      // --- Приватные переменные модуля ---
-      const SELECTORS = {
-        tabs: {
-          signin: 'signin',
-          signup: 'signup',
-          resetpwd: 'resetpwd',
-        },
-        buttons: {
-          loginButton: '#loginbutton', // Используем ID для основной кнопки
-          cancelLogin: '#cancellogin', // Используем ID для кнопки отмены
-          generatePassword: '[data-action="generatepassword"]',
-          closeMail: '[data-action="closeMail"]', // Для модалки #sended
-          cancelAuth: '[data-action="cancelauth"]', // Для модалки #loginmsgwin
-        },
-        oauth: {
-          google: '[data-oauth="google"]',
-        },
-        messengers: {
-          telegram: '[data-msg="telegram"]',
-        },
-        elements: {
-          loader: '#loader', // Используем ID
-          userAgreement: '#useragreement', // Используем ID
-          message: {
-            login: '#messagelogin',
-            reg: '#messagereg',
-            lost: '#messagelost',
-          },
-          modals: {
-            sendStatus: '#sended', // Селектор для <dialog>
-            loginMsgWindow: '#loginmsgwin', // Селектор для <dialog>
-          },
-          messengerCode: '#msgcode', // Элемент для отображения кода
-          messengerTimer: '#msgsec', // Элемент для отображения таймера
-          telegramDiv: '#telegramdiv', // Div внутри loginMsgWindow
-        },
-        forms: {
-          login: '#loginform',
-          register: '#regform',
-          reset: '#lostpwd',
-        },
-      };
+    updateTimer(); // Инициализация
 
-      const POLLING_INTERVAL_MS = 3000; // Интервал опроса статуса мессенджера (3 секунды)
-      const POLLING_TIMEOUT_MS = 300000; // Общий таймаут для входа через мессенджер (5 минут)
+    const interval = setInterval(() => {
+      timeLeft -= 1;
+      updateTimer();
 
-      let msgcode = null; // Код для входа через мессенджер
-      let msgPollingInterval = null; // ID интервала опроса
-      let msgPollingTimeout = null; // ID таймаута опроса
-      let msgPollingActive = false; // Флаг активности опроса
-      let currentClientTimeZoneOffset = -new Date().getTimezoneOffset() / 60; // Смещение часового пояса
-
-      // --- Приватные функции ---
-
-     /**
-      * Показ/скрытие индикатора загрузки
-      * @param {boolean} show - true для показа, false для скрытия
-      */
-      const toggleLoader = (show) => {
-        const loader = document.querySelector(SELECTORS.elements.loader);
-        if (loader) {
-          loader.style.display = show ? 'flex' : 'none'; // Или 'block', зависит от CSS
+      if (timeLeft <= 0) {
+        clearInterval(interval);
+        waitSendEl.style.display = 'none';
+        resendEl.style.display = 'block';
+        // Показываем сообщение о другом email после первой неудачной попытки
+        if (mailRetryCount > 1) {
+          difEmailEl.style.display = 'block';
         }
-      };
+        // Здесь можно добавить логику увеличения mailRetryCount при клике на resend
+      }
+    }, 1000);
 
-     /**
-      * Выполнение HTTP-запроса (async/await)
-      * @param {string} url - URL для запроса
-      * @param {Object} data - Данные для отправки
-      * @returns {Promise<string|Object>} Промис с результатом запроса (текст или JSON)
-      */
-      const makeRequest = async (url, data, responseType = 'text') => {
+    // Добавим слушатель на кнопку resend, чтобы увеличить счетчик
+    const resendButton = resendEl.querySelector('button.btn-info'); // Конкретизируем кнопку
+    if (resendButton) {
+      const resendHandler = () => {
+        mailRetryCount += 1;
+
+        resendButton.removeEventListener('click', resendHandler); // Удаляем слушатель после клика
+      };
+      resendButton.addEventListener('click', resendHandler);
+    }
+  }
+
+  /**
+   * ------------------------------------------------------------------------
+   * ОСНОВНЫЕ ФУНКЦИИ
+   * ------------------------------------------------------------------------
+   */
+
+  /**
+   * Выполнение HTTP-запроса (async/await)
+   * @param {string} url - URL для запроса
+   * @param {Object} data - Данные для отправки
+   * @returns {Promise<string|Object>} Промис с результатом запроса (текст или JSON)
+   */
+  const makeRequest = async (url, data, responseType = 'text') => {
+    toggleLoader(true);
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams(data),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      if (responseType === 'json') {
+        return await response.json();
+      }
+      return await response.text();
+    } catch (error) {
+      console.error('Request failed:', error);
+      showToast(t('alert.request'), 'error');
+      throw error; // Пробрасываем ошибку дальше
+    } finally {
+      toggleLoader(false);
+    }
+  };
+
+  /**
+   * ------------------------------------------------------------------------
+   * ВХОД / РЕГИСТРАЦИЯ / ВОССТАНОВЛЕНИЯ
+   * @param {'signin'|'signup'|'resetpwd'} type - Тип операции
+   * ------------------------------------------------------------------------
+   */
+  async function performAuthAction(type) {
+    const configMap = {
+      signin: {
+        formSelector: SELECTORS.forms.login, // Селектор формы входа
+        url: 'register.php', // URL для логина (может быть другим)
+        data: (form) => ({
+          loginemail: form.querySelector('#loginemaillf').value,
+          loginpassword: form.querySelector('#loginpasswordlf').value,
+        }),
+        // Элемент для сообщений об ошибках входа
+        messageEl: SELECTORS.elements.message.login,
+        successAction: () => {
+          // Перенаправление при успехе
+          window.location.href = '{$returl}';
+        },
+      },
+
+      signup: {
+        // Селектор формы регистрации
+        formSelector: SELECTORS.forms.register,
+        // URL для регистрации
+        url: 'register.php',
+        data: (form) => ({
+          email: form.querySelector('#emaillf').value,
+          password: form.querySelector('#passwordlf').value,
+          yourname: form.querySelector('#yournamelf').value,
+          surname: form.querySelector('#surnamelf').value,
+          birthdate: form.querySelector('#birthdate').value,
+          blogname: 'registrationonly', // Как в оригинале
+          mailretry: 0,
+          // Добавляем недостающие поля, ожидаемые register.php для регистрации
+          // Или получаем реальные значения, если есть поле
+          gender: 'not chosen',
+          nickname: '',
+          country: '',
+          city: '',
+        }),
+        // Элемент для сообщений об ошибках регистрации
+        messageEl: SELECTORS.elements.message.reg,
+        successAction: () => {
+          const dialog = document.querySelector(
+            SELECTORS.elements.modals.sendStatus
+          );
+          if (dialog) {
+            if (!dialog.open) dialog.showModal();
+            mailCountdown(60);
+          }
+        },
+      },
+
+      resetpwd: {
+        // Селектор формы сброса пароля
+        formSelector: SELECTORS.forms.reset,
+        // URL для сброса пароля
+        url: 'register.php',
+        data: (form) => ({
+          rememberemail: form.querySelector('#rememberemailf').value,
+        }),
+        // Элемент для сообщений об ошибках сброса
+        messageEl: SELECTORS.elements.message.lost,
+        successAction: () => {
+          const dialog = document.querySelector(
+            SELECTORS.elements.modals.sendStatus
+          );
+          if (dialog) {
+            if (!dialog.open) dialog.showModal();
+            mailCountdown(60);
+          }
+        },
+      },
+    };
+
+    const config = configMap[type];
+
+    const formElement = document.querySelector(config.formSelector);
+    const messageElement = document.querySelector(config.messageEl);
+    if (!formElement || !messageElement) {
+      console.error('Form or message element not found for action:', type);
+      return;
+    }
+
+    // Простая валидация формы (можно улучшить)
+    let isValid = true;
+    const requiredInputs = formElement.querySelectorAll('input[required]');
+    requiredInputs.forEach((input) => {
+      if (!input.value.trim()) {
+        isValid = false;
+        // Можно добавить визуальное выделение ошибки для поля input
+        input.classList.add('is-invalid');
+        // Убираем подсветку при вводе
+        input.addEventListener(
+          'input',
+          () => input.classList.remove('is-invalid'),
+          { once: true }
+        );
+      } else {
+        input.classList.remove('is-invalid');
+      }
+      // Доп. валидация для email
+      if (
+        input.type === 'email' &&
+        input.value.trim() &&
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)
+      ) {
+        isValid = false;
+        input.classList.add('is-invalid');
+        input.addEventListener(
+          'input',
+          () => input.classList.remove('is-invalid'),
+          { once: true }
+        );
+        // Можно добавить специфичное сообщение под полем
+      }
+      // Доп. валидация для пароля (пример)
+      if (
+        input.type === 'password' &&
+        input.matches('#passwordlf') &&
+        input.value.trim() &&
+        !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(input.value)
+      ) {
+        isValid = false;
+        input.classList.add('is-invalid');
+        input.addEventListener(
+          'input',
+          () => input.classList.remove('is-invalid'),
+          { once: true }
+        );
+        // Можно добавить специфичное сообщение под полем
+      }
+    });
+
+    if (!isValid) {
+      messageElement.innerHTML = `${t('alert.required')}`; // Общее сообщение
+      // Прокрутка к первому невалидному полю (опционально)
+      const firstInvalid = formElement.querySelector('.is-invalid');
+      firstInvalid?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      firstInvalid?.focus();
+      return; // Прерываем отправку
+    }
+
+    // Очистка предыдущих сообщений об ошибках
+    messageElement.innerHTML = '';
+    toggleLoader(true); // Показываем лоадер перед запросом
+
+    try {
+      // Данные, общие для всех запросов к register.php
+      const requestBaseData = {
+        thisprojectid: '{$thisprojectid}',
+        this_http_host: '{$this_http_host}',
+        checkID: '{$startruntime}',
+        userUTC: currentClientTimeZoneOffset,
+        lng: '{$user_lng}',
+        // Добавляем returnurl для всех типов
+        returnurl: '{$returl}',
+      };
+      // Специфичные данные для текущего действия
+      const specificData = config.data(formElement);
+      // Объединяем базовые и специфичные данные
+      const requestData = { ...requestBaseData, ...specificData };
+
+      // Делаем запрос (ожидаем текст по умолчанию)
+      const result = await makeRequest(config.url, requestData);
+
+      if (result === 'OK') {
+        config.successAction(); // Выполняем действие при успехе
+      } else {
+        // Отображаем текстовый ответ от сервера как ошибку
+        messageElement.innerHTML = `${result || t('alert.request')}`;
+      }
+    } catch (error) {
+      // Ошибка сети или HTTP уже обработана в makeRequest и показана через showToast
+      // Дополнительно показываем сообщение в блоке формы
+      messageElement.innerHTML = `${t('alert.request')}`;
+      // Ошибка будет также видна в консоли из makeRequest
+    } finally {
+      toggleLoader(false); // Скрываем лоадер после завершения запроса (успех или ошибка)
+    }
+  }
+
+  /**
+   * ------------------------------------------------------------------------
+   * ВХОД ЧЕРЕЗ МЕССЕНДЖЕР
+   * ------------------------------------------------------------------------
+   */
+
+  /**
+   * Очистка всех состояний и таймеров, связанных с опросом мессенджера.
+   * @param {boolean} cancelledByUser - Указывает, была ли отмена инициирована пользователем.
+   * @param {boolean} [notifyServer=false] - Отправлять ли запрос отмены на сервер.
+   */
+  const stopMessengerPolling = async (
+    cancelledByUser = false,
+    notifyServer = false
+  ) => {
+    // Нечего останавливать
+    if (!msgPollingActive) return;
+
+    clearInterval(msgPollingInterval);
+    clearTimeout(msgPollingTimeout);
+    msgPollingInterval = null;
+    msgPollingTimeout = null;
+    msgPollingActive = false;
+
+    const dialog = document.querySelector(
+      SELECTORS.elements.modals.loginMsgWindow
+    );
+    if (dialog && dialog.open) {
+      // Закрываем диалог <dialog>
+      dialog.close();
+    }
+
+    if (cancelledByUser) {
+      showToast(t('alert.login.cancelled'), 'info');
+      if (notifyServer && msgcode) {
         toggleLoader(true);
         try {
-          const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams(data),
+          // Отправляем запрос на сервер для отмены кода
+          await makeRequest('./initmsgreg.php', {
+            cancelinit: msgcode,
+            thisprojectid: '{$thisprojectid}',
           });
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-
-          if (responseType === 'json') {
-            return await response.json();
-          } else {
-            return await response.text();
-          }
+          console.log(
+            'Messenger login cancellation request sent for code:',
+            msgcode
+          );
         } catch (error) {
-          console.error('Request failed:', error);
-          showToast(t('alert.request'), 'error');
-          throw error; // Пробрасываем ошибку дальше
+          console.error('Failed to send cancellation request:', error);
         } finally {
           toggleLoader(false);
+          // Сбрасываем код после отмены
+          msgcode = null;
         }
-      };
-
-      /**
-      * Отображение уведомления (заглушка, замените реальной реализацией)
-      * @param {string} message - Сообщение
-      * @param {'info'|'success'|'warning'|'error'} type - Тип уведомления
-      */
-      const showToast = (message, type = 'info') => {
-        console.log(`[${type.toUpperCase()}] Toast: ${message}`);
-        // Здесь должна быть реальная реализация показа toast-уведомлений
-        // Например, с использованием библиотеки или вашего кастомного решения
-        alert(`[${type.toUpperCase()}]: ${message}`); // Простая заглушка
-      };
-
-      /**
-      * Переключение вкладок
-      * @param {string} tabId - ID вкладки (signin, signup, resetpwd)
-      */
-      function switchTab(tabId) {
-        document.querySelectorAll('.e-tabs__panel[role="tabpanel"]').forEach((panel) => panel.classList.remove('is-open'));
-        const activePanel = document.getElementById(tabId);
-        // const activeTabButton = document.getElementById(`${tabId}tab`); // Если есть кнопки
-
-        if (activePanel) activePanel.classList.add('is-open');
-        // if (activeTabButton) activeTabButton.setAttribute('aria-selected', 'true');
-
-        // Скролл к верху формы или контейнера
-        const container = activePanel?.closest('.e-card') || document.body;
-        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        // Сбрасываем код
+        msgcode = null;
       }
+    }
+  };
 
-     /**
-      * Таймер обратного отсчета для отправки почты
-      * @param {number} seconds - Количество секунд
-      */
-      function mailCountdown(seconds) {
-        const waitSecEl = document.getElementById('waitsec'); // Предполагаем, что ID остается
-        const waitSendEl = document.getElementById('waitsend');
-        const resendEl = document.getElementById('resend');
-        const difEmailEl = document.getElementById('difemail'); // Элемент для другого email
+  /**
+   * Запускает процесс опроса сервера для подтверждения входа через мессенджер.
+   * @param {string} code - Уникальный код для подтверждения.
+   * @param {number} durationSeconds - Длительность действия кода в секундах.
+   */
+  const startMessengerPolling = (code, durationSeconds) => {
+    if (msgPollingActive) {
+      console.warn('Polling is already active.');
+      return;
+    }
 
-        if (!waitSecEl || !waitSendEl || !resendEl || !difEmailEl) {
-          console.warn('Email countdown elements not found.');
-          return;
-        }
+    msgcode = code;
+    msgPollingActive = true;
+    let timeLeft = durationSeconds;
 
-        let timeLeft = seconds;
-        let mailRetryCount = 1; // Счетчик попыток для показа сообщения о другом email
+    const codeEl = document.querySelector(SELECTORS.elements.messengerCode);
+    const timerEl = document.querySelector(SELECTORS.elements.messengerTimer);
+    const dialog = document.querySelector(
+      SELECTORS.elements.modals.loginMsgWindow
+    );
 
-        waitSendEl.style.display = 'block';
-        resendEl.style.display = 'none';
-        difEmailEl.style.display = 'none';
+    if (!codeEl || !timerEl || !dialog) {
+      console.error('Messenger polling UI elements not found!');
+      msgPollingActive = false;
+      return;
+    }
 
-        const updateTimer = () => {
-          waitSecEl.textContent = timeLeft;
-        };
+    // Отображаем код
+    codeEl.textContent = code;
 
-        updateTimer(); // Инициализация
+    const updateTimerDisplay = () => {
+      timerEl.textContent = timeLeft;
+    };
 
-        const interval = setInterval(() => {
-          timeLeft -= 1;
-          updateTimer();
+    // Первоначальное отображение
+    updateTimerDisplay();
 
-          if (timeLeft <= 0) {
-            clearInterval(interval);
-            waitSendEl.style.display = 'none';
-            resendEl.style.display = 'block';
-            // Показываем сообщение о другом email после первой неудачной попытки
-            if (mailRetryCount > 1) {
-              difEmailEl.style.display = 'block';
-            }
-            // Здесь можно добавить логику увеличения mailRetryCount при клике на resend
-          }
-        }, 1000);
+    // Показываем модальное окно <dialog>
+    if (!dialog.open) {
+      dialog.showModal();
+    }
 
-        // Добавим слушатель на кнопку resend, чтобы увеличить счетчик
-        const resendButton = resendEl.querySelector('button.btn-info'); // Конкретизируем кнопку
-        if (resendButton) {
-          const resendHandler = () => {
-            mailRetryCount++;
-            // Здесь должен быть код повторной отправки, например:
-            // performAuthAction(currentActionForResend); // Нужна переменная для хранения текущего действия
-            // После успешной отправки снова запустить mailCountdown
-            resendButton.removeEventListener('click', resendHandler); // Удаляем слушатель после клика
-          };
-          resendButton.addEventListener('click', resendHandler);
-        }
-      }
+    // Основная функция опроса
+    const poll = async () => {
+      // Проверка на случай остановки между вызовами
+      if (!msgPollingActive) return;
+      console.log('Polling messenger status for code:', msgcode);
 
-     /**
-      * Очищает все состояния и таймеры, связанные с опросом мессенджера.
-      * @param {boolean} cancelledByUser - Указывает, была ли отмена инициирована пользователем.
-      * @param {boolean} [notifyServer=false] - Отправлять ли запрос отмены на сервер.
-      */
-      const stopMessengerPolling = async (cancelledByUser = false, notifyServer = false) => {
-        if (!msgPollingActive) return; // Нечего останавливать
-
-        clearInterval(msgPollingInterval);
-        clearTimeout(msgPollingTimeout);
-        msgPollingInterval = null;
-        msgPollingTimeout = null;
-        msgPollingActive = false;
-
-        const dialog = document.querySelector(SELECTORS.elements.modals.loginMsgWindow);
-        if (dialog && dialog.open) {
-          dialog.close(); // Закрываем диалог <dialog>
-        }
-
-        if (cancelledByUser) {
-          showToast(t('alert.login.cancelled'), 'info');
-          if (notifyServer && msgcode) {
-            toggleLoader(true);
-            try {
-              // Отправляем запрос на сервер для отмены кода
-              await makeRequest('./initmsgreg.php', {
-                cancelinit: msgcode,
-                thisprojectid: '{$thisprojectid}', // Убедитесь, что эта переменная доступна
-              });
-              console.log('Messenger login cancellation request sent for code:', msgcode);
-            } catch (error) {
-              console.error('Failed to send cancellation request:', error);
-            } finally {
-              toggleLoader(false);
-              msgcode = null; // Сбрасываем код после отмены
-            }
-          } else {
-            msgcode = null; // Сбрасываем код
-          }
-        }
-      };
-
-     /**
-      * Запускает процесс опроса сервера для подтверждения входа через мессенджер.
-      * @param {string} code - Уникальный код для подтверждения.
-      * @param {number} durationSeconds - Длительность действия кода в секундах.
-      */
-      const startMessengerPolling = (code, durationSeconds) => {
-        if (msgPollingActive) {
-          console.warn('Polling is already active.');
-          return;
-        }
-
-        msgcode = code;
-        msgPollingActive = true;
-        let timeLeft = durationSeconds;
-
-        const codeEl = document.querySelector(SELECTORS.elements.messengerCode);
-        const timerEl = document.querySelector(SELECTORS.elements.messengerTimer);
-        const dialog = document.querySelector(SELECTORS.elements.modals.loginMsgWindow);
-
-        if (!codeEl || !timerEl || !dialog) {
-          console.error('Messenger polling UI elements not found!');
-          msgPollingActive = false;
-          return;
-        }
-
-        // Показываем нужный div (Telegram) и скрываем остальные, если есть
-        const telegramDiv = dialog.querySelector(SELECTORS.elements.telegramDiv);
-        // const viberDiv = dialog.querySelector('#viberdiv'); // Если бы он был
-        if (telegramDiv) telegramDiv.style.display = 'block';
-        // if (viberDiv) viberDiv.style.display = 'none';
-
-        codeEl.textContent = code; // Отображаем код
-
-        const updateTimerDisplay = () => {
-          timerEl.textContent = timeLeft;
-        };
-
-        updateTimerDisplay(); // Первоначальное отображение
-
-        // Показываем модальное окно <dialog>
-        if (!dialog.open) {
-          dialog.showModal();
-        }
-
-        // Основная функция опроса
-        const poll = async () => {
-          if (!msgPollingActive) return; // Проверка на случай остановки между вызовами
-
-          console.log('Polling messenger status for code:', msgcode);
-
-          try {
-            const response = await makeRequest(
-              './initmsgreg.php',
-              {
-                checkinit: msgcode,
-                thisprojectid: '{$thisprojectid}', // Убедитесь, что эта переменная доступна
-              },
-              'json'
-            ); // Ожидаем JSON
-
-            if (!msgPollingActive) return; // Проверка после асинхронного запроса
-
-            // response должен быть массивом ['STATUS', data]
-            if (Array.isArray(response) && response.length > 0) {
-              const status = response[0];
-              if (status === 'LOG') {
-                // Успешный вход
-                stopMessengerPolling();
-                window.location.href = '{$returl}'; // Перенаправление при успехе
-              } else if (status !== 'OK') {
-                // Ошибка от сервера
-                stopMessengerPolling();
-                showToast(t('alert.error', { errorMessage: response[0] }), 'error');
-              } else {
-                // Статус 'OK' - продолжаем опрос, если таймер не истек
-                console.log('Polling status: OK, continue polling.');
-              }
-            } else {
-              console.warn('Unexpected response format during polling:', response);
-              // Можно добавить обработку или просто продолжить опрос
-            }
-          } catch (error) {
-            console.error('Polling request failed:', error);
-            // Не останавливаем опрос из-за временной ошибки сети,
-            // таймаут в итоге прервет процесс
-          }
-        };
-
-        // Запускаем интервал опроса и таймер обратного отсчета
-        msgPollingInterval = setInterval(() => {
-          timeLeft--;
-          updateTimerDisplay();
-
-          if (timeLeft <= 0) {
-            stopMessengerPolling(); // Время вышло
-            showToast(t('alert.timeout'), 'warning');
-            return;
-          }
-
-          // Опрашиваем сервер каждые POLLING_INTERVAL_MS, но не чаще чем раз в секунду
-          if (timeLeft % (POLLING_INTERVAL_MS / 1000) === 0) {
-            poll();
-          }
-        }, 1000); // Таймер обновляется каждую секунду
-
-        // Устанавливаем общий таймаут на весь процесс
-        msgPollingTimeout = setTimeout(() => {
-          if (msgPollingActive) {
-            // Если все еще активно
-            stopMessengerPolling();
-            showToast(t('alert.timeout'), 'warning');
-          }
-        }, POLLING_TIMEOUT_MS);
-
-        // Первоначальный опрос сразу после старта
-        poll();
-      };
-
-      /**
-      * Выполнение операций входа/регистрации/восстановления
-      * @param {'login'|'signup'|'resetpwd'} type - Тип операции
-      */
-      async function performAuthAction(type) {
-        const configMap = {
-          login: {
-            formSelector: SELECTORS.forms.login,
-            url: 'register.php', // Или другой URL для логина
-            data: (form) => ({
-              loginemail: form.querySelector('#loginemaillf').value,
-              loginpassword: form.querySelector('#loginpasswordlf').value, // Пароль отправляется как есть
-            }),
-            messageEl: SELECTORS.elements.message.login,
-            successAction: () => {
-              window.location.href = '{$returl}';
-            }, // Перенаправление
-          },
-          signup: {
-            formSelector: SELECTORS.forms.register,
-            url: 'register.php',
-            data: (form) => ({
-              email: form.querySelector('#emaillf').value,
-              password: form.querySelector('#passwordlf').value,
-              yourname: form.querySelector('#yournamelf').value,
-              surname: form.querySelector('#surnamelf').value,
-              birthdate: form.querySelector('#birthdate').value, // Убедитесь, что ID правильный
-              blogname: 'registrationonly', // Как в оригинале
-              mailretry: 0, // Или передать реальный счетчик, если нужно
-            }),
-            messageEl: SELECTORS.elements.message.reg,
-            successAction: () => {
-              const dialog = document.querySelector(SELECTORS.elements.modals.sendStatus);
-              if (dialog) {
-                if (!dialog.open) dialog.showModal(); // Показываем <dialog>
-                mailCountdown(60); // Запускаем таймер
-              }
-            },
-          },
-          resetpwd: {
-            formSelector: SELECTORS.forms.reset,
-            url: 'register.php',
-            data: (form) => ({
-              rememberemail: form.querySelector('#rememberemailf').value,
-            }),
-            messageEl: SELECTORS.elements.message.lost,
-            successAction: () => {
-              const dialog = document.querySelector(SELECTORS.elements.modals.sendStatus);
-              if (dialog) {
-                if (!dialog.open) dialog.showModal(); // Показываем <dialog>
-                mailCountdown(60); // Запускаем таймер
-              }
-            },
-          },
-        };
-
-        const config = configMap[type];
-        if (!config) {
-          console.error('Invalid auth action type:', type);
-          return;
-        }
-
-        const formElement = document.querySelector(config.formSelector);
-        const messageElement = document.querySelector(config.messageEl);
-        if (!formElement || !messageElement) {
-          console.error('Form or message element not found for action:', type);
-          return;
-        }
-
-        // Простая валидация (можно расширить)
-        const emailField = formElement.querySelector('input[type="email"]');
-        if (emailField && !emailField.value) {
-          messageElement.innerHTML = `<small style="color:red;">Email is required.</small>`;
-          emailField.focus();
-          return;
-        }
-        // Можно добавить валидацию пароля, имени и т.д.
-
-        // Очистка предыдущих сообщений об ошибках
-        messageElement.innerHTML = '';
-
-        try {
-          const requestBaseData = {
+      try {
+        const response = await makeRequest(
+          './initmsgreg.php',
+          {
+            checkinit: msgcode,
             thisprojectid: '{$thisprojectid}',
-            this_http_host: '{$this_http_host}',
-            checkID: '{$startruntime}',
-            userUTC: currentClientTimeZoneOffset,
-            lng: '{$user_lng}',
-            returnurl: '{$returl}', // Добавим returnurl для signup
-          };
-          const specificData = config.data(formElement);
-          const requestData = { ...requestBaseData, ...specificData };
+          },
+          'json'
+        );
 
-          const result = await makeRequest(config.url, requestData); // Ожидаем текст по умолчанию
+        // Проверка после асинхронного запроса
+        if (!msgPollingActive) return;
 
-          if (result === 'OK') {
-            config.successAction(); // Выполняем действие при успехе
+        // response должен быть массивом ['STATUS', data]
+        if (Array.isArray(response) && response.length > 0) {
+          const status = response[0];
+          if (status === 'LOG') {
+            // Успешный вход
+            stopMessengerPolling();
+            // Перенаправление при успехе
+            window.location.href = '{$returl}';
+          } else if (status !== 'OK') {
+            // Ошибка от сервера
+            stopMessengerPolling();
+            showToast(t('alert.error', { errorMessage: response[0] }), 'error');
           } else {
-            messageElement.innerHTML = `<small style="color:red;">${result || 'Unknown error'}</small>`;
+            // Статус 'OK' - продолжаем опрос, если таймер не истек
+            console.log('Polling status: OK, continue polling.');
+          }
+        } else {
+          console.warn('Unexpected response format during polling:', response);
+          // Можно добавить обработку или просто продолжить опрос
+        }
+      } catch (error) {
+        console.error('Polling request failed:', error);
+        // Не останавливаем опрос из-за временной ошибки сети,
+        // таймаут в итоге прервет процесс
+      }
+    };
+
+    // Запускаем интервал опроса и таймер обратного отсчета
+    msgPollingInterval = setInterval(() => {
+      timeLeft -= 1;
+      updateTimerDisplay();
+
+      if (timeLeft <= 0) {
+        stopMessengerPolling(); // Время вышло
+        showToast(t('alert.timeout'), 'warning');
+        return;
+      }
+
+      // Опрашиваем сервер каждые POLLING_INTERVAL_MS, но не чаще чем раз в секунду
+      if (timeLeft % (POLLING_INTERVAL_MS / 1000) === 0) {
+        poll();
+      }
+    }, 1000); // Таймер обновляется каждую секунду
+
+    // Устанавливаем общий таймаут на весь процесс
+    msgPollingTimeout = setTimeout(() => {
+      if (msgPollingActive) {
+        // Если все еще активно
+        stopMessengerPolling();
+        showToast(t('alert.timeout'), 'warning');
+      }
+    }, POLLING_TIMEOUT_MS);
+
+    // Первоначальный опрос сразу после старта
+    poll();
+  };
+
+  /**
+   * ------------------------------------------------------------------------
+   * Инициализация обработчиков событий
+   * ------------------------------------------------------------------------
+   */
+  function initEventListeners() {
+    const rootElement = document.body; // Делегирование от body
+
+    rootElement.addEventListener('click', async (event) => {
+      const { target } = event;
+
+      // Переключение вкладок по data-target
+      // Делаем это ДО проверок кнопок, т.к. кнопки переключения вкладок тоже могут быть внутри форм
+      const tabTargetButton = target.closest('[data-target]');
+      if (tabTargetButton && SELECTORS.tabs[tabTargetButton.dataset.target]) {
+        event.preventDefault();
+        switchTab(tabTargetButton.dataset.target);
+        return; // Вкладка переключена, выходим
+      }
+
+      // Обработка ОСНОВНЫХ КНОПОК ФОРМ (Sign In / Sign Up / Reset)
+      const submitButton = target.closest(SELECTORS.buttons.submitAuthForm); // Используем новый селектор
+      if (submitButton) {
+        event.preventDefault(); // Предотвращаем стандартную отправку
+        const activeTabPanel = submitButton.closest('.e-tabs__panel.is-open');
+        if (activeTabPanel) {
+          const action = activeTabPanel.id; // 'signin', 'signup', 'resetpwd'
+          if (action && typeof performAuthAction === 'function') {
+            // Проверка соглашения пользователя (только для Sign In и Sign Up)
+            if (action === 'signin' || action === 'signup') {
+              const agreementCheckbox = activeTabPanel.querySelector(
+                '[data-role="user-agreement"]'
+              ); // Ищем чекбокс внутри активной панели
+              if (agreementCheckbox && !agreementCheckbox.checked) {
+                showToast(t('alert.agreement'), 'warning');
+                agreementCheckbox?.focus(); // Ставим фокус на чекбокс
+                return; // Прерываем действие, если не согласен
+              }
+            }
+
+            await performAuthAction(action); // Вызываем асинхронно
+          } else {
+            console.error(
+              'Не удалось определить активное действие или performAuthAction не определена'
+            );
+          }
+        }
+        return; // Действие отправки формы обработано
+      }
+
+      // OAuth Google
+      const googleButton = target.closest(SELECTORS.oauth.google);
+      if (googleButton) {
+        event.preventDefault();
+        // Проверяем соглашение (чекбокс может быть на любой из видимых панелей)
+        const agreementCheckboxSignIn = document.querySelector(
+          '#signin [data-role="user-agreement"]'
+        );
+        const agreementCheckboxSignUp = document.querySelector(
+          '#signup [data-role="user-agreement"]'
+        );
+
+        // Проверяем, видна ли панель и не отмечен ли чекбокс
+        let agreementRequired = false;
+        let checkboxToFocus = null;
+
+        if (
+          document.getElementById('signin').classList.contains('is-open') &&
+          agreementCheckboxSignIn &&
+          !agreementCheckboxSignIn.checked
+        ) {
+          agreementRequired = true;
+          checkboxToFocus = agreementCheckboxSignIn;
+        } else if (
+          document.getElementById('signup').classList.contains('is-open') &&
+          agreementCheckboxSignUp &&
+          !agreementCheckboxSignUp.checked
+        ) {
+          agreementRequired = true;
+          checkboxToFocus = agreementCheckboxSignUp;
+        }
+
+        if (agreementRequired) {
+          showToast(t('alert.agreement'), 'warning');
+          checkboxToFocus?.focus();
+          return;
+        }
+
+        // Если соглашение принято, переходим к Google
+        const googleUrl = '{$googleurl}';
+        if (googleUrl) {
+          // Убедимся, что URL существует
+          window.location.href = `${googleUrl}|${currentClientTimeZoneOffset}`; // Добавляем таймзону
+        } else {
+          console.error('Google OAuth URL is not defined.');
+          showToast('Google login is unavailable.', 'error'); // Сообщение для пользователя
+        }
+        return; // Действие Google OAuth обработано
+      }
+
+      // Вход через Telegram
+      const telegramButton = target.closest(SELECTORS.messengers.telegram);
+      if (telegramButton) {
+        event.preventDefault();
+        // Проверяем соглашение (аналогично Google)
+        const agreementCheckboxSignIn = document.querySelector(
+          '#signin [data-role="user-agreement"]'
+        );
+        const agreementCheckboxSignUp = document.querySelector(
+          '#signup [data-role="user-agreement"]'
+        );
+
+        let agreementRequired = false;
+        let checkboxToFocus = null;
+
+        if (
+          document.getElementById('signin').classList.contains('is-open') &&
+          agreementCheckboxSignIn &&
+          !agreementCheckboxSignIn.checked
+        ) {
+          agreementRequired = true;
+          checkboxToFocus = agreementCheckboxSignIn;
+        } else if (
+          document.getElementById('signup').classList.contains('is-open') &&
+          agreementCheckboxSignUp &&
+          !agreementCheckboxSignUp.checked
+        ) {
+          agreementRequired = true;
+          checkboxToFocus = agreementCheckboxSignUp;
+        }
+
+        if (agreementRequired) {
+          showToast(t('alert.agreement'), 'warning');
+          checkboxToFocus?.focus();
+          return;
+        }
+
+        // Если соглашение принято, начинаем процесс Telegram
+        toggleLoader(true);
+        try {
+          const response = await makeRequest(
+            './initmsgreg.php',
+            {
+              initsec: '{$hello_cookie}{$unloggedid}',
+              thisprojectid: '{$thisprojectid}',
+            },
+            'json'
+          );
+
+          toggleLoader(false);
+
+          if (Array.isArray(response) && response.length > 1) {
+            const status = response[0];
+            if (status === 'LOG') {
+              window.location.reload();
+            } else if (status === 'OK') {
+              const code = response[1];
+              const duration = 300;
+              startMessengerPolling(`A${code}`, duration);
+            } else {
+              showToast(
+                t('alert.error', { errorMessage: response[0] }),
+                'error'
+              );
+            }
+          } else {
+            console.error(
+              'Invalid response format from initmsgreg.php:',
+              response
+            );
+            showToast(t('error.get_code'), 'error');
           }
         } catch (error) {
-          // Ошибка уже обработана в makeRequest и показана через showToast
-          messageElement.innerHTML = `<small style="color:red;">${t('alert.request')}</small>`;
+          toggleLoader(false);
+          console.error('Failed to initiate Telegram login:', error);
         }
+        return; // Действие Telegram обработано
       }
 
-      /**
-      * Инициализация обработчиков событий
-      */
-      function initEventListeners() {
-        const rootElement = document.body; // Делегирование от body
-
-        rootElement.addEventListener('click', async (event) => {
-          const target = event.target;
-          const agreementCheckbox = document.querySelector(SELECTORS.elements.userAgreement);
-
-          // Проверка соглашения перед действиями, требующими его
-          const needsAgreement = (el) => el.matches(`${SELECTORS.buttons.loginButton}, ${SELECTORS.oauth.google}, ${SELECTORS.messengers.telegram}`);
-
-          if (needsAgreement(target) && (!agreementCheckbox || !agreementCheckbox.checked)) {
-            event.preventDefault();
-            showToast(t('alert.agreement'), 'warning');
-            agreementCheckbox?.focus();
-            return;
-          }
-
-          // --- Переключение вкладок по data-target ---
-          const tabTarget = target.closest('[data-target]');
-          if (tabTarget && SELECTORS.tabs[tabTarget.dataset.target]) {
-            event.preventDefault();
-            switchTab(tabTarget.dataset.target);
-            return; // Выходим, чтобы не обрабатывать другие клики
-          }
-
-          // --- Основная кнопка действия (Next/Sign In/Sign Up/Reset) ---
-          if (target.matches(SELECTORS.buttons.loginButton)) {
-            const activeTabPanel = document.querySelector('.e-tabs__panel.is-open');
-            if (activeTabPanel) {
-              const action = activeTabPanel.id; // 'signin', 'signup', 'resetpwd'
-              if (action && typeof performAuthAction === 'function') {
-                await performAuthAction(action); // Вызываем асинхронно
-              } else {
-                console.error('Could not determine active action or performAuthAction is undefined');
-              }
-            }
-            return;
-          }
-
-          // --- OAuth Google ---
-          if (target.closest(SELECTORS.oauth.google)) {
-            // Используем closest для иконок внутри ссылки
-            event.preventDefault();
-            const googleUrl = '{$googleurl}'; // Замените на реальную переменную
-            window.location.href = `${googleUrl}|${currentClientTimeZoneOffset}`; // Добавляем таймзону
-            return;
-          }
-
-          // --- Вход через Telegram ---
-          if (target.closest(SELECTORS.messengers.telegram)) {
-            event.preventDefault();
-            if (msgPollingActive) return; // Предотвращаем повторный запуск
-
-            toggleLoader(true);
-            try {
-              // 1. Запрашиваем код с сервера
-              const response = await makeRequest(
-                './initmsgreg.php',
-                {
-                  initsec: '{$hello_cookie}{$unloggedid}', // Убедитесь, что переменные доступны
-                  thisprojectid: '{$thisprojectid}',
-                },
-                'json'
-              ); // Ожидаем JSON
-
-              toggleLoader(false); // Скрываем лоадер после получения ответа
-
-              // response должен быть массивом ['STATUS', data]
-              if (Array.isArray(response) && response.length > 1) {
-                const status = response[0];
-                if (status === 'LOG') {
-                  // Пользователь уже залогинен?
-                  window.location.reload();
-                } else if (status === 'OK') {
-                  const code = response[1];
-                  const duration = 300; // Длительность кода в секундах (как в оригинале)
-                  startMessengerPolling(`A${code}`, duration); // Начинаем опрос, добавляем префикс 'A'
-                } else {
-                  // Ошибка от сервера при получении кода
-                  showToast(t('alert.error', { errorMessage: response[0] }), 'error');
-                }
-              } else {
-                console.error('Invalid response format from initmsgreg.php:', response);
-                showToast(t('error.get_code'), 'error');
-              }
-            } catch (error) {
-              toggleLoader(false); // Убедимся, что лоадер скрыт при ошибке
-              // Ошибка уже должна быть показана через showToast в makeRequest
-              console.error('Failed to initiate Telegram login:', error);
-            }
-            return;
-          }
-
-          // --- Отмена входа через мессенджер (кнопка в диалоге) ---
-          if (target.matches(SELECTORS.buttons.cancelAuth)) {
-            stopMessengerPolling(true, true); // Отменено пользователем, уведомить сервер
-            return;
-          }
-
-          // --- Закрытие диалога email-подтверждения ---
-          if (target.matches(SELECTORS.buttons.closeMail)) {
-            const dialog = document.querySelector(SELECTORS.elements.modals.sendStatus);
-            if (dialog && dialog.open) {
-              dialog.close();
-            }
-            // Возможно, здесь нужно остановить таймер mailCountdown, если он еще работает
-            return;
-          }
-
-          // --- Генерация пароля ---
-          if (target.matches(SELECTORS.buttons.generatePassword)) {
-            event.preventDefault(); // Если это ссылка
-            try {
-              const generatedPassword = await makeRequest('index.php', { genpwd: 10 });
-              const pwdField = document.getElementById('passwordlf'); // Для формы регистрации
-              const showPwdCheckbox = document.getElementById('showpasswordlf'); // Если такой чекбокс есть
-              if (pwdField) {
-                pwdField.type = 'text';
-                pwdField.value = generatedPassword;
-                if (showPwdCheckbox) showPwdCheckbox.checked = true;
-              }
-            } catch (error) {
-              console.error('Failed to generate password:', error);
-            }
-            return;
-          }
-
-          // --- Кнопка отмены всего процесса ---
-          if (target.matches(SELECTORS.buttons.cancelLogin)) {
-            window.location.href = '{$returl}'; // Переход на URL возврата
-            return;
-          }
-
-          // --- Переключатель видимости пароля ---
-          const passwordToggle = target.closest('[data-role="password-toggle"]');
-          if (passwordToggle) {
-            const passwordInput = passwordToggle.previousElementSibling; // Находим input перед кнопкой
-            const eyeIcon = passwordToggle.querySelector('[name="eye"]');
-            const eyeSlashIcon = passwordToggle.querySelector('[name="eye-slash"]');
-
-            if (passwordInput && passwordInput.type === 'password') {
-              passwordInput.type = 'text';
-              eyeIcon?.classList.add('d-none');
-              eyeSlashIcon?.classList.remove('d-none');
-            } else if (passwordInput) {
-              passwordInput.type = 'password';
-              eyeIcon?.classList.remove('d-none');
-              eyeSlashIcon?.classList.add('d-none');
-            }
-          }
-        });
-
-        // --- Обработка закрытия диалога мессенджера через ESC или клик вне ---
-        const msgDialog = document.querySelector(SELECTORS.elements.modals.loginMsgWindow);
-        if (msgDialog) {
-          msgDialog.addEventListener('close', (event) => {
-            // Событие 'close' срабатывает при dialog.close() или нажатии ESC
-            // Если закрытие было не через нашу логику (например, ESC), останавливаем опрос
-            if (msgPollingActive) {
-              console.log('Messenger dialog closed externally (e.g., ESC). Stopping polling.');
-              stopMessengerPolling(true, true); // Считаем отменой пользователя, уведомляем сервер
-            }
-          });
-        }
+      // Отмена входа через мессенджер (кнопка в диалоге)
+      const cancelAuthButton = target.closest(SELECTORS.buttons.cancelAuth);
+      if (cancelAuthButton) {
+        stopMessengerPolling(true, true); // Отменено пользователем, уведомить сервер
+        // Закрытие диалога <dialog> внутри stopMessengerPolling почему-то не срабатывает
+        document
+          .querySelector(SELECTORS.elements.modals.loginMsgWindow)
+          .close();
+        return; // Действие отмены обработано
       }
 
-      // --- Публичный интерфейс модуля ---
-      return {
-        init() {
-          // Устанавливаем начальную вкладку (например, по хэшу URL или по умолчанию 'signin')
-          const hash = window.location.hash.substring(1);
-          const initialTab = SELECTORS.tabs[hash] ? hash : 'signin';
-          switchTab(initialTab);
+      // Закрытие диалога email-подтверждения
+      const closeMailButton = target.closest(SELECTORS.buttons.closeMail);
+      if (closeMailButton) {
+        const dialog = closeMailButton.closest('dialog'); // Находим родительский диалог
+        if (dialog && dialog.open) {
+          dialog.close();
+        }
+        // Возможно, здесь нужно остановить таймер mailCountdown, если он еще работает
+        return; // Действие закрытия обработано
+      }
 
-          // Инициализируем слушатели событий после загрузки DOM
-          document.addEventListener('DOMContentLoaded', initEventListeners);
-        },
-        // Можно добавить другие публичные методы при необходимости
-        getCurrentTab() {
-          const activePanel = document.querySelector('.e-tabs__panel.is-open');
-          return activePanel ? activePanel.id : null;
-        },
-      };
-    })();
+      // Генерация пароля
+      const generatePasswordButton = target.closest(
+        SELECTORS.buttons.generatePassword
+      );
+      if (generatePasswordButton) {
+        event.preventDefault(); // Если это ссылка или кнопка в форме
+        try {
+          toggleLoader(true); // Показываем загрузчик
+          const generatedPassword = await makeRequest('index.php', {
+            genpwd: 10,
+          }); // Предполагаем, что index.php может генерировать пароль
+          toggleLoader(false); // Скрываем загрузчик
 
-    // Инициализация модуля
-    AuthModule.init();
-  </script>
+          const pwdField = document.getElementById('passwordlf'); // Пароль в форме регистрации
+          const pwdFieldContainer = pwdField?.closest('.e-form__text-field'); // Родительский контейнер
+          const toggleButton = pwdFieldContainer?.querySelector(
+            '[data-role="password-toggle"]'
+          );
+          const eyeIcon = toggleButton?.querySelector('[name="eye"]');
+          const eyeSlashIcon =
+            toggleButton?.querySelector('[name="eye-slash"]');
+
+          if (pwdField) {
+            pwdField.type = 'text'; // Показываем пароль
+            pwdField.value = generatedPassword;
+            pwdFieldContainer?.classList.add('is-active', 'is-filled'); // Обновляем стили поля
+
+            // Обновляем иконки глаза
+            eyeIcon?.classList.add('d-none');
+            eyeSlashIcon?.classList.remove('d-none');
+          } else {
+            console.warn(
+              'Password field #passwordlf not found for generation.'
+            );
+          }
+        } catch (error) {
+          toggleLoader(false); // Убедимся, что загрузчик скрыт при ошибке
+          console.error('Failed to generate password:', error);
+          showToast('Failed to generate password.', 'error'); // Сообщение пользователю
+        }
+        return; // Действие генерации обработано
+      }
+
+      // Переключатель видимости пароля
+      const passwordToggleButton = target.closest(
+        '[data-role="password-toggle"]'
+      );
+      if (passwordToggleButton) {
+        // Ищем input ПЕРЕД кнопкой внутри общего родителя .e-form__text-field
+        const fieldContainer = passwordToggleButton.closest(
+          '.e-form__text-field'
+        );
+        const passwordInput = fieldContainer?.querySelector(
+          'input[data-role="password"]'
+        ); // Используем data-role="password" для надежности
+
+        const eyeIcon = passwordToggleButton.querySelector('[name="eye"]');
+        const eyeSlashIcon =
+          passwordToggleButton.querySelector('[name="eye-slash"]');
+
+        if (passwordInput && passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          eyeIcon?.classList.add('d-none');
+          eyeSlashIcon?.classList.remove('d-none');
+        } else if (passwordInput) {
+          passwordInput.type = 'password';
+          eyeIcon?.classList.remove('d-none');
+          eyeSlashIcon?.classList.add('d-none');
+        }
+        // Действие переключения обработано
+      }
+    });
+  }
+
+  /**
+   * ------------------------------------------------------------------------
+   * Публичный интерфейс модуля
+   * ------------------------------------------------------------------------
+   */
+  return {
+    init() {
+      // Устанавливаем начальную вкладку (например, по хэшу URL или по умолчанию 'signin')
+      const hash = window.location.hash.substring(1);
+      const initialTab = SELECTORS.tabs[hash] ? hash : 'signin';
+      switchTab(initialTab);
+
+      // Инициализируем слушатели событий после загрузки DOM
+      document.addEventListener('DOMContentLoaded', initEventListeners);
+    },
+    // Можно добавить другие публичные методы при необходимости
+    getCurrentTab() {
+      const activePanel = document.querySelector('.e-tabs__panel.is-open');
+      return activePanel ? activePanel.id : null;
+    },
+  };
+})();
+
+// Инициализация модуля
+AuthModule.init();
+</script>
 {% endblock %}

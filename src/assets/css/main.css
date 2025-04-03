@@ -3108,14 +3108,17 @@
     background-color: var(--color-ink-min);
   }
   /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
-  :--text-field-blur:user-invalid {
+  :--text-field-blur:user-invalid,
+  :--text-field-blur.is-invalid {
     box-shadow: 0 0 0 0.125rem var(--color-base-error);
   }
-  :--text-field-blur:user-invalid ~ .e-form__error {
+  :--text-field-blur:user-invalid ~ .e-form__error,
+  :--text-field-blur.is-invalid ~ .e-form__error {
     opacity: 1;
     height: auto;
   }
-  :--text-field-blur:user-invalid ~ small {
+  :--text-field-blur:user-invalid ~ small,
+  :--text-field-blur.is-invalid ~ small {
     display: none;
   }
   /* span */
@@ -3157,13 +3160,14 @@
     width: 100%;
     height: 0;
   }
-  .e-form__error-box.is-visible {
+  .e-form__error-box:not(:empty) {
     display: block;
     opacity: 1;
     height: auto;
+    margin-bottom: var(--size-line);
   }
   @starting-style {
-    .e-form__error-box.is-visible {
+    .e-form__error-box:not(:empty) {
       height: 0;
       opacity: 0;
     }

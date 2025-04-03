@@ -91,10 +91,18 @@
       {% endfor %}
     </ul>
 
-    <a class="e-btn e-navbar__sign-in" href="https://{$authhost}/auth?returl={$thispageurlencoded}" aria-label="{{ 'Sign In'|trans }}" >
-      {% include 'partials/icon.twig' with {name: 'user'} %}
-      <span class="e-navbar__menu-label d-none tablet:d-inline">{{ 'Sign In'|trans }}</span>
-    </a>
+
+    {% if ExtraData.user_id > 0 %}
+      <a class="e-btn e-navbar__sign-in" href="/?action=logout" aria-label="{{ 'Sign Out'|trans }}">
+        {% include 'partials/icon.twig' with {name: 'exit'} %}
+        <span class="e-navbar__menu-label d-none tablet:d-inline">{{ 'Sign Out'|trans }}</span>
+      </a>
+    {% else %}
+      <a class="e-btn e-navbar__sign-in" href="https://{$authhost}/auth?returl={$thispageurlencoded}" aria-label="{{ 'Sign In'|trans }}">
+        {% include 'partials/icon.twig' with {name: 'user'} %}
+        <span class="e-navbar__menu-label d-none tablet:d-inline">{{ 'Sign In'|trans }}</span>
+      </a>
+    {% endif %}
 
     {# <form class="e-navbar__search" role="search">
       <input type="search" placeholder="Поиск" />

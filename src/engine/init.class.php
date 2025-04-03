@@ -19,4 +19,5 @@ $data_objects['ExtraData'] = [
   'lang' => $lng_html,
   'powered_by' => '@qwertynetworks',
   'section' => "/" . $thispath[1],
+  'user_id' => $user_id
 ];

@@ -98,7 +98,8 @@ $data_objects['ExtraData'] = [
     'setemail' => $setemail,
     'this_http_host' => $this_http_host,
     'thisprojectid' => $thisprojectid,
-    'unloggedid' => $unloggedid
+    'unloggedid' => $unloggedid,
+    'user_id' => $user_id
 ];
 
 // Рендеринг шаблона

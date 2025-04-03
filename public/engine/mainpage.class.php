@@ -20,7 +20,8 @@ $data_objects['ExtraData'] = [
     'assets_prefix' => '/projects/cryptoapi.ai',
     'body_classes' => 'e-page is-home',
     'lang' => $lng_html,
-    'fgi' => 68
+    'fgi' => 68,
+    'user_id' => $user_id
 ];
 
 // Получение и отображение шаблона
