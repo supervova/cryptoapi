@@ -18,7 +18,7 @@
   }
 
   // Hide hint
-  ~ small {
+  ~ .e-form__hint {
     display: none;
   }
 }
@@ -47,8 +47,8 @@
 .e-form__error > span,
 .e-form__error > small {
   display: block;
-  padding-top: calc(var(--padding-top-caption) + var(--size-half));
-  padding-bottom: var(--padding-bottom-caption);
+  margin-top: var(--size-half);
+  padding-block: var(--padding-top-caption);
   padding-inline: var(--size-2);
 }
 

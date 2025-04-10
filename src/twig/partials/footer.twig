@@ -1,25 +1,22 @@
-{% set data_footer = {
-  "contacts": {
+{% set data_footer = [
+  {
     "label": "Contact Us",
     "href": "/contact-us"
-  },
-  "privacy": {
+  }, {
     "label": "Privacy",
     "href": "/privacy"
-  },
-  "legal": {
+  }, {
     "label": "Legal",
     "href": "/legal"
   }
-} %}
+] %}
 
 <footer class="e-footer">
   <div class="e-container">
-
     <small class="e-footer__copy">© {{ "now"|date('Y') }}. CryptoAPI</small>
     <ul class="e-footer__menu">
       {% for item in data_footer %}
-        <li><a href="/{{ lng_html }}{{ item.href }}">{{ item.label|trans }}</a></li>
+        <li><a href="/{{ lng_html }}{{ item.href }}">{{ item.label|trans|raw }}</a></li>
       {% endfor %}
     </ul>
     <details class="e-popover e-footer__languages" data-role="popover">

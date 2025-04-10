@@ -114,6 +114,7 @@ const paths = {
     entry: {
       main: `${srcBase}/assets/js/main.js`, // основная точка входа
       'asset-chart': `${srcBase}/assets/js/asset-chart.js`,
+      toast: `${srcBase}/assets/js/toast.js`,
       // home: `${srcBase}/assets/js/home.js`,
     },
     watch: `${srcBase}/assets/js/*.js`,

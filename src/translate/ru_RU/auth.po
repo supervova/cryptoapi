@@ -15,7 +15,6 @@ msgstr "Войдите в свой аккаунт CryptoAPI.ai или созда
 # ------------------------------------------------------------------------------
 # Tabs
 # ------------------------------------------------------------------------------
-
 msgid "Sign In"
 msgstr "Вход"
 
@@ -64,7 +63,6 @@ msgstr "Показать/скрыть пароль"
 # ------------------------------------------------------------------------------
 # Helpers
 # ------------------------------------------------------------------------------
-
 msgid "Already registered?"
 msgstr "Уже зарегистрированы?"
 
@@ -92,16 +90,16 @@ msgstr "Код будет действителен"
 msgid "sec."
 msgstr "сек."
 
-msgid "Please pay attention!"
-msgstr "Обратите внимание"
+msgid "We have sent you a link to verify your email address"
+msgstr "Мы выслали вам ссылку для подтверждения email-адреса"
 
-msgstr "We sent you a link to verify your email address. Don’t forget to check your Spam folder."
-msgstr "Мы выслали вам ссылку для подтверждения email-адреса. Если ссылка не пришла, проверьте папку спама."
+msgid "Don’t forget to check your Spam folder."
+msgstr "Если ссылка не пришла, проверьте папку спама."
 
-msgstr "If this attempt fails, use a different email address."
+msgid "If this attempt fails, use a different email address."
 msgstr "Если ссылка не нашлась, используйте другой адрес электронной почты."
 
-msgstr "Send via another server"
+msgid "Send via another server"
 msgstr "Отправка через другой сервер"
 
 msgid "or"
@@ -134,32 +132,53 @@ msgstr "Неверные учетные данные. Если забыли па
 msgid "Enter a valid email address."
 msgstr "Введите корректный адрес электронной почты."
 
-msgid "Password is required. Must include at least one digit, one letter, and be at least 8 characters long."
-msgstr "Пароль обязателен. Как минимум: одна цифра, одна буква и не меньше 8 символов."
+msgid "Password is required."
+msgstr "Пароль обязателен."
+
+msgid "Must include at least one digit, one letter, and be at least 8 characters long."
+msgstr "Как минимум: одна цифра, одна прописная буква и не меньше 8 символов."
 
 # ------------------------------------------------------------------------------
 # JS Validation
 # ------------------------------------------------------------------------------
-msgid "alert.error"
-msgstr "Error: %type%: %errorMessage%"
+msgid "Error:"
+msgstr "Ошибка:"
 
-msgid "alert.request"
+msgid "Request error."
 msgstr "Ошибка при выполнении запроса."
 
-msgid "alert.auth"
+msgid "Authorization error."
 msgstr "Ошибка при авторизации."
 
-msgid "alert.agreement"
+msgid "Please agree to the terms of service."
 msgstr "Пожалуйста, согласитесь с пользовательским соглашением."
 
-msgid "alert.timeout"
+msgid "Timeout expired. Try requesting the code again."
 msgstr "Время ожидания истекло. Попробуйте запросить код снова."
 
-msgid "alert.login_cancelled"
+msgid "Login canceled."
 msgstr "Вход отменен."
 
-msgid "alert.get_code"
+msgid "Failed to retrieve the verification code."
 msgstr "Не удалось получить код подтверждения."
 
-msgid "alert.required"
+msgid "Please fill all required fields correctly."
 msgstr "Заполните обязательные поля надлежащим образом."
+
+msgid "Could not determine action to retry."
+msgstr "Не удалось определить действие для повторной попытки."
+
+msgid "Failed to generate password."
+msgstr "Не удалось сгенерировать пароль."
+
+msgid "UI elements not found, please try again."
+msgstr "Элементы интерфейса не найдены, пожалуйста, попробуйте снова."
+
+msgid "Unexpected server response format"
+msgstr "Неожиданный формат ответа сервера."
+
+msgid "Google login is unavailable."
+msgstr "Вход через Google недоступен."
+
+msgid "Failed to send cancellation request:"
+msgstr "Не удалось отправить запрос на отмену:"

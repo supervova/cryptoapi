@@ -35,7 +35,7 @@ export function showToast(message, type = 'info', duration = 5000) {
   // Создаем элемент toast
   const toast = document.createElement('div');
   toast.id = toastId;
-  toast.className = `e-toast is-${type}`;
+  toast.className = `e-toast__base is-${type}`;
   toast.setAttribute('popover', 'manual');
   toast.setAttribute('role', 'alert');
   toast.setAttribute('aria-live', 'polite');
@@ -44,8 +44,8 @@ export function showToast(message, type = 'info', duration = 5000) {
   toast.innerHTML = `
     <div class="e-toast__content">${message}</div>
     <button class="e-btn is-close" aria-label="Close">
-      <svg class="e-icon is-candles" aria-hidden="true" focusable="false">
-        <use xlink:href="/assets/img/icons/sprite.svg#icon-sm-x-mark"></use>
+      <svg class="e-icon is-candles is-sm" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+        <path d="M15 5L5 15M5 5L15 15" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
   `;

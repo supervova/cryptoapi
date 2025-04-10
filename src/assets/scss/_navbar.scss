@@ -378,4 +378,43 @@ $navbar-dot-size: var(--size-1);
     }
   }
 }
+
+.e-avatar.e-navbar__avatar {
+  width: var(--size-5);
+  height: var(--size-5);
+}
+
+.e-navbar__user-menu {
+  .e-popover__body {
+    left: auto;
+    right: 0;
+  }
+
+
+  @media (--tablet-p-only) {
+    margin-inline: auto;
+
+    summary {
+      translate: 0 0;
+    }
+
+    summary::after {
+      display: none;
+    }
+
+    .e-popover__body {
+      top: auto;
+      right: auto;
+      bottom: calc(100% + var(--size-1));
+      left: 0;
+    }
+  }
+
+  @media (--tablet-l) {
+
+    summary {
+      translate: 0 var(--size-half);
+    }
+  }
+}
 // #endregion

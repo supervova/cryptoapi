@@ -1254,11 +1254,15 @@
     pointer-events: none;
     opacity: 0.5;
   }
-  form small {
-    color: var(--color-ink-2ry);
-    margin-top: var(--size-1);
-    max-width: var(--width-readable);
+  /* small */
+  .e-form__hint {
     display: block;
+    color: var(--color-ink-2ry);
+    text-align: left;
+    margin-top: var(--size-half);
+    padding-block: var(--padding-top-caption);
+    padding-inline: var(--size-2);
+    max-width: var(--width-readable);
   }
   .e-form__disclaimer {
     margin-block: var(--size-line);
@@ -1292,10 +1296,10 @@
     pointer-events: none;
   }
   /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
+  /* p */
   .e-form__text-field {
     position: relative;
   }
-  /* p */
   .e-form__text-field label {
     display: block;
     color: var(--color-ink-2ry);
@@ -1307,6 +1311,12 @@
     left: var(--padding-x-input);
     top: var(--size-2);
     transition: all var(--duration-200) var(--easing-base);
+  }
+  .e-form__text-field:has(input:-webkit-autofill) {
+    --icon-stroke: var(--color-ink-2ry-brand);
+  }
+  .e-form__text-field:has(input:-webkit-autofill:not(:focus)) label {
+    color: transparent;
   }
   .e-form__text-field input::placeholder {
     color: transparent;
@@ -1945,6 +1955,36 @@
     }
     .e-navbar__sign-in .e-navbar__menu-label {
       color: var(--color-brand-primary);
+    }
+  }
+  .e-avatar.e-navbar__avatar {
+    width: var(--size-5);
+    height: var(--size-5);
+  }
+  .e-navbar__user-menu .e-popover__body {
+    left: auto;
+    right: 0;
+  }
+  @media (--tablet-p-only) {
+    .e-navbar__user-menu {
+      margin-inline: auto;
+    }
+    .e-navbar__user-menu summary {
+      translate: 0 0;
+    }
+    .e-navbar__user-menu summary::after {
+      display: none;
+    }
+    .e-navbar__user-menu .e-popover__body {
+      top: auto;
+      right: auto;
+      bottom: calc(100% + var(--size-1));
+      left: 0;
+    }
+  }
+  @media (--tablet-l) {
+    .e-navbar__user-menu summary {
+      translate: 0 var(--size-half);
     }
   }
   /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
@@ -2589,6 +2629,21 @@
     color: var(--color-ink-text);
   }
   /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
+  .e-avatar {
+    border-radius: var(--border-radius-pill);
+    width: var(--size-6);
+    height: var(--size-6);
+  }
+  .e-avatar.is-empty {
+    background: var(--color-gradient-brand);
+    color: var(--button-color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    text-shadow: 0 1px 0 var(--color-alpha-light-400);
+  }
+  /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
   .e-testimonial {
     direction: ltr;
     gap: var(--size-2);
@@ -2602,11 +2657,6 @@
   }
   :lang(es) .e-testimonial::before, :lang(fr) .e-testimonial::before, :lang(no) .e-testimonial::before, :lang(pt) .e-testimonial::before, :lang(ru) .e-testimonial::before {
     content: "«";
-  }
-  .e-testimonial__avatar {
-    border-radius: var(--border-radius-pill);
-    width: var(--size-6);
-    height: var(--size-6);
   }
   .e-testimonial__base {
     font-size: var(--font-size-body-sm);
@@ -3031,31 +3081,16 @@
   /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
   .e-toast {
     --toast-padding: var(--size-2p5);
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: var(--size-2);
-    padding-inline: var(--size-2p5);
-    pointer-events: none;
-    position: fixed;
-    bottom: calc(5.5rem + env(safe-area-inset-bottom));
-    left: 50%;
-    translate: -50% 0;
     width: 100%;
-    z-index: var(--zindex-fixed);
   }
   @media (--tablet) {
     .e-toast {
       --toast-padding: var(--size-4);
-      align-items: flex-end;
-      top: var(--size-line);
-      right: var(--size-line);
-      bottom: auto;
-      left: auto;
     }
   }
   .e-toast__base {
-    background-color: var(--color-bg-level-01);
+    background-color: var(--color-bg-2ry);
+    border: 0;
     border-radius: var(--border-radius-md);
     box-shadow: var(--box-shadow-level-02);
     color: var(--toast-text-color);
@@ -3066,11 +3101,24 @@
     padding: var(--toast-padding);
     opacity: 0;
     pointer-events: auto;
-    translate: 0 var(--size-2);
-    transform: translateY(10px);
+    position: fixed;
+    bottom: calc(5.5rem + env(safe-area-inset-bottom));
+    left: 50%;
+    translate: -50% 0;
     transition: opacity var(--toast-animation-duration) ease, transform var(--toast-animation-duration) ease;
     width: 100%;
     max-width: var(--width-base);
+    z-index: var(--zindex-fixed);
+  }
+  @media (--tablet) {
+    .e-toast__base {
+      --toast-padding: var(--size-4);
+      top: var(--size-line);
+      right: var(--size-line);
+      bottom: auto;
+      left: auto;
+      translate: 0 0;
+    }
   }
   .e-toast__base[popover]:popover-open {
     opacity: 1;
@@ -3117,8 +3165,8 @@
     opacity: 1;
     height: auto;
   }
-  :--text-field-blur:user-invalid ~ small,
-  :--text-field-blur.is-invalid ~ small {
+  :--text-field-blur:user-invalid ~ .e-form__hint,
+  :--text-field-blur.is-invalid ~ .e-form__hint {
     display: none;
   }
   /* span */
@@ -3136,8 +3184,8 @@
   .e-form__error > span,
   .e-form__error > small {
     display: block;
-    padding-top: calc(var(--padding-top-caption) + var(--size-half));
-    padding-bottom: var(--padding-bottom-caption);
+    margin-top: var(--size-half);
+    padding-block: var(--padding-top-caption);
     padding-inline: var(--size-2);
   }
   .e-grid.has-error + .e-form__error {

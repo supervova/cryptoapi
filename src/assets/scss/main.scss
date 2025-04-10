@@ -77,6 +77,7 @@
   // @include meta.load-css('pagination');
 
   // Content
+  @include meta.load-css('avatar');
   @include meta.load-css('testimonial');
   @include meta.load-css('content/blockquote');
   @include meta.load-css('content/table');

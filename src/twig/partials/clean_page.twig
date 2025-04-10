@@ -44,11 +44,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Inter:wght@300;400;500">
+  {% block css %}
   <link rel="stylesheet" href="{{ ExtraData.assets_prefix }}/assets/css/main.css?{{ "now"|date('U') }}">
+  {% endblock %}
 {% endblock %}
 </head>
 
 <body class="{{ ExtraData.body_classes }}">
+
   {# HEADER ----------------------------------------------------------------- #}
   {% block header %}
     {% include "partials/header.twig" %}
@@ -62,7 +65,50 @@
 
   {# FOOTER ----------------------------------------------------------------- #}
   {% block footer %}
-    {% include "partials/footer.twig" %}
+    {# {% include "partials/footer.twig" %} #}
+    {% set data_footer = [
+      {
+        "label": "Contact Us",
+        "href": "/contact-us"
+      }, {
+        "label": "Privacy",
+        "href": "/privacy"
+      }, {
+        "label": "Legal",
+        "href": "/legal"
+      }
+    ] %}
+
+    <footer class="e-footer">
+      <div class="e-container">
+        <small class="e-footer__copy">© {{ "now"|date('Y') }}. CryptoAPI</small>
+        <ul class="e-footer__menu">
+          {% for item in data_footer %}
+            <li><a href="/{{ lng_html }}{{ item.href }}">{{ item.label|trans|raw }}</a></li>
+          {% endfor %}
+        </ul>
+        <details class="e-popover e-footer__languages" data-role="popover">
+          <summary class="has-chevron">
+            {% include 'partials/icon.twig' with {name: 'flag-russia-ru', classes: 'me-1', file: 'flags'} %}
+            Русский
+          </summary>
+          <ul class="e-popover__body e-menu">
+            <li class="e-menu__item">
+              <a href="/ru" aria-current="true">
+                {% include 'partials/icon.twig' with {name: 'flag-russia-ru', file: 'flags'} %}
+                Русский
+              </a>
+            </li>
+            <li class="e-menu__item" >
+              <a href="/en">
+                {% include 'partials/icon.twig' with {name: 'flag-britain-en', file: 'flags'} %}
+                English
+              </a>
+            </li>
+          </ul>
+        </details>
+      </div>
+    </footer>
   {% endblock %}
 
   {% block body_suffix %}

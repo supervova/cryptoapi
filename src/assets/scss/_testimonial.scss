@@ -21,12 +21,6 @@
   }
 }
 
-.e-testimonial__avatar {
-  border-radius: var(--border-radius-pill);
-  width: var(--size-6);
-  height: var(--size-6);
-}
-
 .e-testimonial__base {
   @include text-format(body-sm);
   @include multiline-truncate($lines: 11, $line-height: rem(20), $padding-top: rem(1));

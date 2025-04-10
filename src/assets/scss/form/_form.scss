@@ -111,6 +111,17 @@ textarea {
   padding-inline-end: var(--padding-x-input-lg);
 }
 
+// Override default styles for an autofill
+// input {
+//   &:-webkit-autofill,
+//   &:-webkit-autofill:hover,
+//   &:-webkit-autofill:focus,
+//   &:-webkit-autofill:active {
+//     -webkit-text-fill-color: var(--color-ink-text) !important;
+//     box-shadow: 0 0 0 1000px  var(--color-bg-2ry) inset !important;
+//   }
+// }
+
 // -----------------------------------------------------------------------------
 // SPECIFIC
 // -----------------------------------------------------------------------------
@@ -134,11 +145,14 @@ textarea:not([rows]) {
 // HINTS
 // -----------------------------------------------------------------------------
 
-form small {
-  color: var(--color-ink-2ry);
-  margin-top: var(--size-1);
-  max-width: var(--width-readable);
+/* small */.e-form__hint {
   display: block;
+  color: var(--color-ink-2ry);
+  text-align: left;
+  margin-top: var(--size-half);
+  padding-block: var(--padding-top-caption);
+  padding-inline: var(--size-2);
+  max-width: var(--width-readable);
 }
 
 .e-form__disclaimer {

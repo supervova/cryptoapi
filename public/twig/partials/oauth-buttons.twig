@@ -3,7 +3,7 @@
 </div>
 
 {% if ExtraData.lang == 'ru' %}
-  <button class="e-btn is-outline w-100" type="button" data-role="open-modal" data-target="loginmsgwin">
+  <button class="e-btn is-outline w-100" type="button" data-msg="telegram" data-role="open-modal" data-target="loginmsgwin">
     {% include 'partials/icon.twig' with {name: 'brand-telegram'} %}
     <span>Вход с Telegram</span>
   </button>
@@ -13,7 +13,7 @@
       {% include 'partials/icon.twig' with {name: 'brand-google'} %}
       <span>Google</span>
     </button>
-    <button class="e-btn is-outline" type="button" data-role="open-modal" data-target="loginmsgwin">
+    <button class="e-btn is-outline" type="button" data-msg="telegram" data-role="open-modal" data-target="loginmsgwin">
       {% include 'partials/icon.twig' with {name: 'brand-telegram'} %}
       <span>Telegram</span>
     </button>

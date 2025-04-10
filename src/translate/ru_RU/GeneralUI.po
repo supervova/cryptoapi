@@ -3,7 +3,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-# Navbar: Logo and Tagline
 msgid "CryptoAPI.ai Logo"
 msgstr "Логотип CryptoAPI.ai"
 
@@ -16,9 +15,6 @@ msgstr "для крипторынка"
 msgid "AI Crypto Analytics and Signals"
 msgstr "ИИ-криптоаналитика и сигналы"
 
-# ------------------------------------------------------------------------------
-# Navbar: Main menu
-# ------------------------------------------------------------------------------
 msgid "Home"
 msgstr "Главная"
 
@@ -45,3 +41,27 @@ msgstr "Вход"
 
 msgid "Sign Out"
 msgstr "Выход"
+
+msgid "My page"
+msgstr "Моя страница"
+
+msgid "Notifications"
+msgstr "Уведомления"
+
+msgid "Messages"
+msgstr "Сообщения"
+
+msgid "Finances"
+msgstr "Деньги"
+
+msgid "Profile Settings"
+msgstr "Настройки профиля"
+
+msgid "Contacts"
+msgstr "Контакты"
+
+msgid "Privacy"
+msgstr "Конфиденциальность"
+
+msgid "Legal"
+msgstr "Документы"

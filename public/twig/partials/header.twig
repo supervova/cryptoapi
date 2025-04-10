@@ -91,12 +91,53 @@
       {% endfor %}
     </ul>
 
-
     {% if ExtraData.user_id > 0 %}
-      <a class="e-btn e-navbar__sign-in" href="/?action=logout" aria-label="{{ 'Sign Out'|trans }}">
-        {% include 'partials/icon.twig' with {name: 'exit'} %}
-        <span class="e-navbar__menu-label d-none tablet:d-inline">{{ 'Sign Out'|trans }}</span>
-      </a>
+      {% set data_user_menu = [
+        {
+          "label": "My page",
+          "href": "user/" ~ ExtraData.user_id,
+          "icon": "user"
+        }, {
+          "label": "Notifications",
+          "href": "notifications",
+          "icon": "bell"
+        }, {
+          "label": "Messages",
+          "href": "communicator",
+          "icon": "mail"
+        }, {
+          "label": "Finances",
+          "href": "finance",
+          "icon": "money"
+        }, {
+          "label": "Profile Settings",
+          "href": "profile",
+          "icon": "settings"
+        }, {
+          "label": "Sign Out",
+          "href": "?action=logout",
+          "icon": "exit"
+        }
+      ] %}
+      <details class="e-popover e-navbar__user-menu" data-role="popover">
+        <summary class="has-chevron">
+          {% if ExtraData.user_avatar and ExtraData.user_avatar != './images/profile_nophoto.jpg' %}
+            <img class="e-avatar e-navbar__avatar" src="{{ ExtraData.user_avatar }}" alt="{{ ExtraData.user_name }}">
+          {% else %}
+            <span class="e-avatar e-navbar__avatar is-empty" aria-label="{{ ExtraData.user_name }}">{{ ExtraData.user_name|slice(0, 1) }}</span>
+          {% endif %}
+        </summary>
+        <ul class="e-popover__body e-menu">
+          {% for item in data_user_menu %}
+            <li class="e-menu__item">
+              <a href="/{{ lng_html }}{{ item.href }}">
+                {% include 'partials/icon.twig' with {name: item.icon} %}
+                {{ item.label|trans }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </details>
     {% else %}
       <a class="e-btn e-navbar__sign-in" href="https://{$authhost}/auth?returl={$thispageurlencoded}" aria-label="{{ 'Sign In'|trans }}">
         {% include 'partials/icon.twig' with {name: 'user'} %}
@@ -110,3 +151,6 @@
     </form> #}
   </div>
 </nav>
+
+{{ 'Home'|trans }}
+{{ 'Pricing'|trans({}, 'messages') }}

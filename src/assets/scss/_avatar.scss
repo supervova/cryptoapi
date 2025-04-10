@@ -1,0 +1,17 @@
+@use 'abstracts' as *;
+
+.e-avatar {
+  border-radius: var(--border-radius-pill);
+  width: var(--size-6);
+  height: var(--size-6);
+}
+
+.e-avatar.is-empty {
+  background: var(--color-gradient-brand);
+  color: var(--button-color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  text-shadow: 0 1px 0 var(--color-alpha-light-400);
+}

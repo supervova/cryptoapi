@@ -1,20 +1,30 @@
 @use 'abstracts' as *;
 
-.e-form__text-field {
+/* p */.e-form__text-field {
   position: relative;
-}
 
-/* p */.e-form__text-field label {
-  display: block;
-  color: var(--color-ink-2ry);
-  font-size: inherit;
-  line-height: inherit;
-  margin: 0;
-  pointer-events: none;
-  position: absolute;
-  left: var(--padding-x-input);
-  top: var(--size-2);
-  transition: all var(--duration-200) var(--easing-base);
+  label {
+    display: block;
+    color: var(--color-ink-2ry);
+    font-size: inherit;
+    line-height: inherit;
+    margin: 0;
+    pointer-events: none;
+    position: absolute;
+    left: var(--padding-x-input);
+    top: var(--size-2);
+    transition: all var(--duration-200) var(--easing-base);
+  }
+
+  &:has(input:-webkit-autofill) {
+    --icon-stroke: var(--color-ink-2ry-brand);
+  }
+
+  &:has(input:-webkit-autofill:not(:focus)) {
+    label {
+      color: transparent
+    }
+  }
 }
 
 .e-form__text-field input {
