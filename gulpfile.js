@@ -250,7 +250,9 @@ const copyLocales = () =>
     .pipe(dest(paths.l10n.dest));
 
 const copyTwig = () =>
-  src(`${srcBase}/twig/**/*.twig`, { encoding: false })
+  src([`${srcBase}/twig/**/*.twig`, `${srcBase}/twig/readme.md`], {
+    encoding: false,
+  })
     .pipe(changed(paths.markup.dest.prod))
     .pipe(dest(paths.markup.dest.prod));
 
@@ -555,7 +557,10 @@ const watchFiles = () => {
   watch([paths.svg.src.base, paths.svg.src.flags], series(sprite, reload));
   watch(paths.img.src, series(img, reload));
   watch(paths.engine.src, series(copyEngine));
-  watch(`${srcBase}/twig/**/*.twig`, series(copyTwig));
+  watch(
+    [`${srcBase}/twig/**/*.twig`, `${srcBase}/twig/readme.md`],
+    series(copyTwig)
+  );
   watch(paths.l10n.src, series(copyLocales));
   watch([...paths.markup.watch], series(pages));
 };

@@ -12,12 +12,16 @@ if (!empty($pageths[1])) {
 //var_dump();exit;
 $data_objects['UserId'] = $user_id;
 $data_objects['ExtraData'] = [
+  'title' => $blog_name ?? '',
+  'desc' => $blog_description ?? '',
+  'domain' => $host,
   'assets_prefix' => '/projects/cryptoapi.ai',
-  'body_classes' => false,
-  'domain' => 'cryptoapi.ai',
-  'fonts_google' => ['Inter:wght@300;400;500'],
+  'body_classes' =>  false,
   'lang' => $lng_html,
-  'powered_by' => '@qwertynetworks',
-  'section' => "/" . $thispath[1],
-  'user_id' => $user_id
+  'user_id' => $user_id,
+  'user_name' => $username ?? '',
+  'user_avatar' => $userdata['avatarbox'] ?? ''
 ];
+
+// Получение и отображение шаблона
+// $final_html = get_template("new-template.twig");

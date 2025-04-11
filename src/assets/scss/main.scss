@@ -9,14 +9,15 @@
 @use 'vars';
 @use 'vars-dark';
 
-// Uncomment everything else needed
-// @use 'styles/vars-dark';
+@include meta.load-css('doc');
+@include meta.load-css('navbar');
+@include meta.load-css('footer');
+@include meta.load-css('overrides');
 
 @layer base, components, pages, helpers, print;
 
 @layer base {
   @include meta.load-css('reset');
-  @include meta.load-css('doc');
   @include meta.load-css('content/headings');
   @include meta.load-css('content/copy');
   @include meta.load-css('content/media');
@@ -60,8 +61,6 @@
 // Structures
 @layer components {
   @include meta.load-css('card');
-  @include meta.load-css('navbar');
-  @include meta.load-css('footer');
   @include meta.load-css('hero');
   @include meta.load-css('section');
   @include meta.load-css('scroller-row');

@@ -1,0 +1,6 @@
+@use 'abstracts/mixins' as *;
+
+// Bootstrap reset: summary { display: block}
+:where(.e-popover) .has-chevron {
+  display: flex;
+}

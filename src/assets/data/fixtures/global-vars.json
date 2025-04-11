@@ -30,5 +30,16 @@
   "authhost": "localhost:9000",
   "thispageurlencoded": "",
   "user_id": 0,
-  "userid": 1
+  "userid": 1,
+
+  "btn_cancel": "",
+  "btn_close": "",
+  "btn_no": "",
+  "btn_ok": "",
+  "btn_yes": "",
+  "phrasecancel": "Cancel",
+  "phraseclose": "Close",
+  "phraseno": "No",
+  "phraseok": "OK",
+  "phraseyes": "Yes"
 }
