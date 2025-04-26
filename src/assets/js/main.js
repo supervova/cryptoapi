@@ -10,9 +10,13 @@ import initDragToScroll from './drag-scroll.js';
 // Toggle password input visibility
 import { initPasswordToggles } from './form.js';
 
+// Toggle search input in header
+import initSearchToggleHeader from './search-toggle.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   initpopovers();
   initModals();
   initDragToScroll();
   initPasswordToggles();
+  initSearchToggleHeader();
 });

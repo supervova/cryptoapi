@@ -5,7 +5,7 @@
       "assets_prefix": "",
       "fonts_google": "Inter:wght@300;400;600",
       "lang": "ru",
-      "user_id": 0
+      "user_id": 1
     } %}
   {% endif %}
 {% endblock %}
@@ -16,18 +16,20 @@
   {% block head %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>{{ ExtraData.title|trans }}</title>
-  <meta name="description" content="{{ ExtraData.desc|trans }}">
+  <title>{{ ExtraData.title ?? '{$blog_name}' ?? 'CryptoAPI.ai – Advanced APIs for Crypto Traders and Market Analytics' | trans }}</title>
+  <meta name="description" content="{{ ExtraData.desc ?? '{$blog_description}' ?? 'Unlock the power of advanced APIs designed for crypto traders and analysts. Access real-time market insights, trading signals, custom indices, and automated tools to boost your trading performance.' | trans }}">
 
   <meta property="og:locale" content="{$lng_html}">
-  <meta property="og:title" content="{{ ExtraData.title|trans }}">
-  <meta property="og:description" content="{{ ExtraData.desc|trans }}">
+  <meta property="og:title" content="{{ ExtraData.title ?? '{$blog_name}' ?? 'CryptoAPI.ai – Advanced APIs for Crypto Traders and Market Analytics' | trans }}">
+  <meta property="og:description" content="{{ ExtraData.desc ?? '{$blog_description}' ?? 'Unlock the power of advanced APIs designed for crypto traders and analysts. Access real-time market insights, trading signals, custom indices, and automated tools to boost your trading performance.' | trans }}">
   {$ogtype}
   <meta property="og:image" content="{$meta_ogimage}">
   <meta property="og:url" content="{$thispageurl}">
   <meta property="og:site_name" content="{$meta_title}">
   <meta property="og:see_also" content="{$main_href}">
   <meta name="twitter:card" content="summary_large_image">
+
+  <meta name="user-id" content="{$user_id}">
 
   {# {$canonical} #}
   {$schemaorg}
@@ -38,26 +40,43 @@
   <link rel="apple-touch-icon" href="{{ ExtraData.assets_prefix }}/assets/img/icons/icon-192.png">
   <link rel="manifest" href="{{ ExtraData.assets_prefix }}/manifest.json">
 
+  {% block assets %}
   <script src="{{ ExtraData.assets_prefix }}/assets/js/main.js" type="module"></script>
   {$thispagejs}
+  {% endblock %}
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Inter:wght@300;400;500">
   {% block css %}
   <link rel="stylesheet" href="{{ ExtraData.assets_prefix }}/assets/css/main.css?{{ "now"|date('U') }}">
+  {% if ExtraData.page_styles %}
+    <link rel="stylesheet" href="{{ ExtraData.assets_prefix }}/assets/css/{{ ExtraData.page_styles }}?{{ "now"|date('U') }}">
+  {% endif %}
   {% endblock %}
 {% endblock %}
 </head>
 
-<body class="{{ ExtraData.body_classes }}">
+{% set slug = "{$pageths}" %}
+<body
+  class="
+  e-page is-{{ slug }}
+  {% if ExtraData.app %} is-app{% else %} is-site{% endif %}
+  {% if ExtraData.body_classes %} {{ ExtraData.body_classes }}{% endif %}
+  "
+>
 
-  {# HEADER ----------------------------------------------------------------- #}
-  {% block header %}
-    {% include "partials/header.twig" %}
+  {# NAVBAR ----------------------------------------------------------------- #}
+  {% block navbar %}
+    {% include "partials/navbar.twig" %}
   {% endblock %}
 
   {# CONTENT ---------------------------------------------------------------- #}
+  {# Content Header (Search & Stats) #}
+  {% if ExtraData.app %}
+    {% include "partials/header.twig" %}
+  {% endif %}
+
   <main class="e-main">
   {% block content %}
   {% endblock %}
@@ -65,50 +84,7 @@
 
   {# FOOTER ----------------------------------------------------------------- #}
   {% block footer %}
-    {# {% include "partials/footer.twig" %} #}
-    {% set data_footer = [
-      {
-        "label": "Contact Us",
-        "href": "/contact-us"
-      }, {
-        "label": "Privacy",
-        "href": "/privacy"
-      }, {
-        "label": "Legal",
-        "href": "/legal"
-      }
-    ] %}
-
-    <footer class="e-footer">
-      <div class="e-container">
-        <small class="e-footer__copy">© {{ "now"|date('Y') }}. CryptoAPI</small>
-        <ul class="e-footer__menu">
-          {% for item in data_footer %}
-            <li><a href="/{{ lng_html }}{{ item.href }}">{{ item.label|trans|raw }}</a></li>
-          {% endfor %}
-        </ul>
-        <details class="e-popover e-footer__languages" data-role="popover">
-          <summary class="has-chevron">
-            {% include 'partials/icon.twig' with {name: 'flag-russia-ru', classes: 'me-1', file: 'flags'} %}
-            Русский
-          </summary>
-          <ul class="e-popover__body e-menu">
-            <li class="e-menu__item">
-              <a href="/ru" aria-current="true">
-                {% include 'partials/icon.twig' with {name: 'flag-russia-ru', file: 'flags'} %}
-                Русский
-              </a>
-            </li>
-            <li class="e-menu__item" >
-              <a href="/en">
-                {% include 'partials/icon.twig' with {name: 'flag-britain-en', file: 'flags'} %}
-                English
-              </a>
-            </li>
-          </ul>
-        </details>
-      </div>
-    </footer>
+    {% include "partials/footer.twig" %}
   {% endblock %}
 
   {% block body_suffix %}

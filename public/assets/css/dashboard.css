@@ -1,0 +1,314 @@
+.e-content{
+  --column-third:calc((100% - var(--size-4) * 2) / 3);
+  display:grid;
+  grid-template-columns:1fr;
+  grid-gap:var(--size-line);
+  gap:var(--size-line);
+  padding-bottom:var(--size-3);
+}
+@media only screen and (min-width: 768px) and (min-height: 361px){
+  .e-content{
+    grid-template-columns:1fr 1fr;
+    -webkit-box-align:stretch;
+    -ms-flex-align:stretch;
+    align-items:stretch;
+    padding-bottom:var(--size-line);
+  }
+}
+@media only screen and (min-width: 1024px) and (min-height: 361px){
+  .e-content{
+    gap:var(--size-4);
+    padding-bottom:var(--size-4);
+  }
+}
+@media only screen and (min-width: 1360px) and (min-height: 361px){
+  .e-content{
+    grid-template-columns:1fr var(--column-third);
+  }
+}
+
+.e-content__base{
+  display:grid;
+  grid-template-columns:1fr;
+  grid-gap:var(--size-line);
+  gap:var(--size-line);
+  -webkit-box-ordinal-group:2;
+  -ms-flex-order:1;
+  order:1;
+}
+@media only screen and (min-width: 768px) and (min-height: 361px){
+  .e-content__base{
+    -webkit-box-ordinal-group:1;
+    -ms-flex-order:0;
+    order:0;
+  }
+}
+@media only screen and (min-width: 1360px) and (min-height: 361px){
+  .e-content__base{
+    gap:var(--size-4);
+    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+.e-assets{
+  -webkit-box-ordinal-group:1;
+  -ms-flex-order:0;
+  order:0;
+}
+@media only screen and (min-width: 768px) and (min-height: 361px){
+  .e-assets{
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+    -ms-flex-direction:column;
+    flex-direction:column;
+    padding-bottom:var(--size-3);
+    position:relative;
+    -webkit-box-ordinal-group:2;
+    -ms-flex-order:1;
+    order:1;
+    height:100%;
+  }
+}
+@media only screen and (min-width: 1024px) and (min-height: 361px){
+  .e-assets{
+    padding-bottom:var(--size-4);
+  }
+}
+
+@media only screen and (min-width: 768px) and (min-height: 361px){
+  .e-assets__sticky{
+    position:sticky;
+    top:0;
+    padding-bottom:4.5rem;
+  }
+}
+@media only screen and (min-width: 1024px) and (min-height: 361px){
+  .e-assets__sticky{
+    padding-bottom:5rem;
+  }
+}
+
+:where(.e-content) .e-eyebrow.has-chevron{
+  margin-bottom:var(--size-1);
+}
+:where(.e-content) .e-card__list{
+  list-style:none;
+  margin:0 0 var(--size-2);
+  padding:0;
+}
+:where(.e-content) .e-card__details span,
+:where(.e-content) .e-card__details strong{
+  display:block;
+  padding-top:var(--padding-top-base);
+  padding-bottom:var(--padding-bottom-base);
+}
+:where(.e-content) .e-card__details strong{
+  font-weight:500;
+  margin-bottom:-0.5rem;
+}
+@media only screen and (min-width: 768px) and (min-height: 361px){
+  :where(.e-content) .e-btn.is-main-action{
+    -ms-flex-item-align:start;
+    align-self:start;
+    margin-top:auto;
+  }
+}
+
+:where(.e-card.is-watchlist) .e-eyebrow,
+:where(.e-card.is-watchlist) .e-card__total{
+  margin-bottom:0;
+}
+:where(.e-card.is-watchlist) .e-eyebrow a{
+  color:var(--color-ink-2ry);
+}
+:where(.e-card.is-watchlist) .e-card__total{
+  --font-size-h3:1.4375rem;
+  --line-height-h3:1.3913043478;
+  --padding-top-h3:0.0625rem;
+  --padding-bottom-h3:0.4375rem;
+}
+:where(.e-card.is-watchlist) .e-card__row + .e-card__row{
+  -webkit-box-align:center;
+  -ms-flex-align:center;
+  align-items:center;
+  margin-top:var(--size-1);
+}
+:where(.e-card.is-watchlist) .e-card__period{
+  font-size:var(--font-size-caption);
+  line-height:var(--line-height-caption);
+  padding-top:var(--padding-top-caption);
+  padding-bottom:var(--padding-bottom-caption);
+}
+:where(.e-card.is-watchlist) .e-card__value{
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
+}
+
+.e-card.is-featured{
+  --card-bg-image:url("/projects/cryptoapi.ai/assets/img/pages/featured-dashboard.jpg");
+  --card-bg-image:image-set(
+      url("/projects/cryptoapi.ai/assets/img/pages/featured-dashboard.jpg") 1x,
+      url("/projects/cryptoapi.ai/assets/img/pages/featured-dashboard@2x.jpg") 2x
+    );
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi){
+
+.e-card.is-featured{
+  --card-bg-image:url("/projects/cryptoapi.ai/assets/img/pages/featured-dashboard@2x.jpg");
+}}
+
+:where(.e-card.is-signals) .e-card__li{
+  border-bottom:1px solid var(--color-ink-border);
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+  gap:var(--size-1p5);
+  padding-block:var(--size-1);
+}
+:where(.e-card.is-signals) .e-card__li:last-child{
+  border-bottom:none;
+}
+:where(.e-card.is-signals) .e-card__li .e-icon{
+  margin-top:var(--size-1);
+}
+
+:where(.e-card.is-tips) .e-card__li{
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+  -webkit-box-pack:justify;
+  -ms-flex-pack:justify;
+  justify-content:space-between;
+}
+:where(.e-card.is-tips) .e-card__key{
+  color:var(--color-ink-2ry);
+  font-weight:500;
+}
+:where(.e-card.is-tips) .e-card__action{
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
+}
+:where(.e-card.is-tips) hr{
+  --margin:var(--size-1p5);
+}
+:where(.e-card.is-tips) .e-card__footnote{
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+  gap:var(--size-1p5);
+  padding-bottom:var(--size-1);
+}
+:where(.e-card.is-tips) .e-card__footnote .e-icon{
+  margin-top:var(--size-1);
+}
+:where(.e-card.is-tips) .e-card__footnote.is-personal .e-icon{
+  --icon-stroke:var(--color-ink-text-warning);
+}
+
+:where(.e-card.is-reports) .e-card__li{
+  border-bottom:1px solid var(--color-ink-border);
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+  -webkit-box-pack:justify;
+  -ms-flex-pack:justify;
+  justify-content:space-between;
+  padding:var(--size-1) 0;
+}
+:where(.e-card.is-reports) .e-card__li:last-child{
+  border-bottom:none;
+}
+:where(.e-card.is-reports) .e-card__li .e-icon{
+  margin-top:var(--size-1);
+}
+:where(.e-card.is-reports) .e-card__li .e-icon.is-success{
+  --icon-stroke:var(--color-ink-2ry-success);
+}
+:where(.e-card.is-reports) .e-card__li .e-icon.is-error{
+  --icon-stroke:var(--color-ink-2ry-error);
+}
+
+:where(.e-card.is-trading) .e-card__li{
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+  gap:var(--size-2);
+  -webkit-box-pack:justify;
+  -ms-flex-pack:justify;
+  justify-content:space-between;
+  padding:0;
+}
+:where(.e-card.is-trading) .e-card__lead{
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+  gap:var(--size-1p5);
+}
+:where(.e-card.is-trading) .e-card__lead strong{
+  display:block;
+  -webkit-box-flex:1;
+  -ms-flex-positive:1;
+  flex-grow:1;
+  padding-top:var(--padding-top-base);
+  padding-bottom:var(--padding-bottom-base);
+}
+:where(.e-card.is-trading) .e-card__strong{
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+  gap:var(--size-1p5);
+}
+:where(.e-card.is-trading) .e-card__details{
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+  gap:var(--size-1p5);
+  -webkit-box-flex:1;
+  -ms-flex-positive:1;
+  flex-grow:1;
+}
+:where(.e-card.is-trading) .e-card__details .e-icon{
+  --icon-stroke:var(--color-ink-2ry-brand);
+  margin-top:0.3125rem;
+}
+:where(.e-card.is-trading) .e-btn.is-icon.is-ghost{
+  margin-top:-0.3125rem;
+  -webkit-margin-end:-0.5rem;
+  margin-inline-end:-0.5rem;
+}
+:where(.e-card.is-trading) strong + .e-btn.is-icon.is-ghost{
+  -webkit-margin-end:-1rem;
+  margin-inline-end:-1rem;
+}
+
+@media only screen and (min-width: 1024px) and (min-height: 361px){
+  .e-flex.is-featured-assets{
+    --gap:var(--size-4);
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) and (min-height: 361px){
+  .e-card.is-trending{
+    -webkit-box-align:center;
+    -ms-flex-align:center;
+    align-items:center;
+    -webkit-box-orient:horizontal;
+    -webkit-box-direction:normal;
+    -ms-flex-direction:row;
+    flex-direction:row;
+    -webkit-box-pack:center;
+    -ms-flex-pack:center;
+    justify-content:center;
+  }
+  .e-card.is-trending .e-card__content{
+    -webkit-box-flex:0;
+    -ms-flex:none;
+    flex:none;
+  }
+}

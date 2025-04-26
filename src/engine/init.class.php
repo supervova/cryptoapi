@@ -8,6 +8,9 @@ if (!empty($pageths[1])) {
     $pageths = 'home';
 }
 
+// Получение окружения приложения (development/production) из переменной окружения APP_ENV
+$data_objects['ENV'] = getenv('APP_ENV') ?: 'production';
+
 //var_dump($pageths);exit;
 //var_dump();exit;
 $data_objects['UserId'] = $user_id;

@@ -5,32 +5,13 @@
 // -----------------------------------------------------------------------------
 // #region
 .e-card.is-album-metric {
-  background:
-    radial-gradient(
-      circle farthest-corner at 0% 100%,
-      rgb(255 255 255 / 0.1),
-      rgb(255 255 255 / 0.09) 2%,
-      rgb(255 255 255 / 0.08) 10%,
-      rgb(255 255 255 / 0.06) 21%,
-      rgb(255 255 255 / 0.04) 36%,
-      rgb(255 255 255 / 0.02) 54%,
-      rgb(255 255 255 / 0)
-    ),
-    radial-gradient(
-      circle farthest-side at 100% 0%,
-      rgb(255 255 255 / 0.2),
-      rgb(255 255 255 / 0.19) 2%,
-      rgb(255 255 255 / 0.16) 10%,
-      rgb(255 255 255 / 0.12) 21%,
-      rgb(255 255 255 / 0.08) 36%,
-      rgb(255 255 255 / 0.04) 54%,
-      rgb(255 255 255 / 0.01) 75%,
-      rgb(255 255 255 / 0)
-    ),
-    var(--color-bg-level-01);
-  background-blend-mode: screen, screen, normal;
+  // gradients are set in _card.scss
   border-radius: var(--border-radius-lg);
   gap: var(--size-line);
+
+  &:hover {
+    text-decoration: none;
+  }
 
   @media (--laptop) {
     flex-direction: row;
@@ -53,11 +34,6 @@
     .e-eyebrow {
       margin-bottom: 0;
     }
-  }
-
-  .e-card__row {
-    display: flex;
-    justify-content: space-between;
   }
 
   .e-card__ticker,
@@ -120,4 +96,37 @@
   left: 50%;
   translate: -50% 0;
 }
+// #endregion
+
+
+// -----------------------------------------------------------------------------
+// FEATURED ASSETS
+// -----------------------------------------------------------------------------
+// #region
+.e-flex.is-featured-assets,
+:where(.e-section.is-markets) .e-flex {
+  padding-bottom: var(--spacer);
+
+  @media (--tablet-l) {
+    --columns: 3;
+  }
+}
+
+:where(.e-flex.is-featured-assets) .is-top-gainer,
+:where(.e-section.is-markets) .is-top-gainer {
+  @media (--tablet-l) {
+    order: 3;
+  }
+}
+
+:where(.e-flex.is-featured-assets) .is-trending,
+:where(.e-section.is-markets) .is-greed-fear {
+  flex-grow: 2;
+
+  @media (--tablet-l) {
+    flex-grow: 0;
+    order: 2;
+  }
+}
+
 // #endregion

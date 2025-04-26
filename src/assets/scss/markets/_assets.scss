@@ -36,33 +36,7 @@
   }
 }
 
-.e-assets tr[aria-current] {
-  background-color: var(--color-ink-min);
-  cursor: default;
-  pointer-events: none;
-
-  th {
-    border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
-  }
-
-  td:last-child {
-    border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
-  }
-
-  @media (--tablet-l) {
-    th {
-      border-radius: 0;
-
-      &::before {
-        content: url('#{$assets-prefix}/assets/img/components/current-asset-tip.svg');
-        position: absolute;
-        top: 0;
-        left: rem(-24);
-        width: var(--size-3);
-      }
-    }
-  }
-}
+// .e-assets tr[aria-current] set on home.scss
 
 .e-assets th,
 .e-assets td {

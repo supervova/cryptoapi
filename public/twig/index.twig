@@ -1,11 +1,11 @@
-{% extends "partials/clean_page.twig" %}
+{% extends "partials/base.twig" %}
 
 {% block config %}
   {{ parent() }}
 
   {% set ExtraData = ExtraData|merge(
     {
-      body_classes: 'e-page is-home',
+      body_classes: 'is-home',
       fgi: 68
     }
   ) %}

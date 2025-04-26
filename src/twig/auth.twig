@@ -1,11 +1,11 @@
-{% extends "partials/clean_page.twig" %}
+{% extends "partials/base.twig" %}
 {% import 'partials/macros.twig' as macros %}
 
 {% block config %}
   {{ parent() }}
   {% set ExtraData = ExtraData|merge(
     {
-      body_classes: 'e-page is-auth'
+      body_classes: 'is-auth'
     }
   ) %}
 {% endblock %}
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="{{ ExtraData.assets_prefix }}/assets/css/auth.css?{{ "now"|date('U') }}">
 {% endblock %}
 
-{% block header %}{% endblock %}
+{% block navbar %}{% endblock %}
 
 {% block content %}
 
@@ -54,7 +54,8 @@
                 {% include 'partials/icon.twig' with {name: 'eye-slash', classes: 'd-none'} %}
               </button>
               <span class="e-form__error" id="error-password-login" role="alert" aria-live="polite">
-                <small>{{ 'Password is required.'|trans }} {{ 'Must include at least one digit, one letter, and be at least 8 characters long.'|trans }}</small>
+                <small>{{ 'Password is required.'|trans }}
+                  {{ 'Must include at least one digit, one letter, and be at least 8 characters long.'|trans }}</small>
               </span>
             </p>
 
@@ -114,8 +115,7 @@
               </span>
             </p>
 
-            <p
-              class="e-form__text-field">
+            <p class="e-form__text-field">
               <input id="passwordlf" name="passwordlf" type="password" data-role="password" required placeholder="{{ 'Password'|trans }}" pattern="(?=.*[A-Za-z])(?=.*\d).{8,}" title="{{ 'Password must be at least 8 characters long and include at least one letter and one number.'|trans }}">
               <label for="passwordlf">{{ 'Password'|trans }}</label>
               <button class="e-form__password-toggle e-btn is-icon" type="button" data-role="password-toggle" title="{{ 'Show/Hide Password'|trans }}">
@@ -126,7 +126,8 @@
                 {{ 'Must include at least one digit, one letter, and be at least 8 characters long.'|trans }}
               </small>
               <span class="e-form__error" id="error-password" role="alert" aria-live="polite">
-                <small>{{ 'Password is required.'|trans }} {{ 'Must include at least one digit, one letter, and be at least 8 characters long.'|trans }}</small>
+                <small>{{ 'Password is required.'|trans }}
+                  {{ 'Must include at least one digit, one letter, and be at least 8 characters long.'|trans }}</small>
               </span>
               <button class="e-btn is-link e-form__generate" type="button" data-action="generatepassword">
                 {{ 'Generate password'|trans }}
@@ -159,8 +160,7 @@
         </section>
 
         <!-- Reset Password -->
-        <section
-          class="e-tabs__panel" id="resetpwd" role="tabpanel">
+        <section class="e-tabs__panel" id="resetpwd" role="tabpanel">
           <form id="lostpwd" novalidate>
             <header>
               <h2>{{ 'Reset Password'|trans }}</h2>
@@ -169,7 +169,8 @@
 
             <div class="e-form__error-box" id="messagelost" role="alert" aria-live="assertive"></div>
 
-            <p class="e-form__text-field">
+            <p
+              class="e-form__text-field">
               {# Use type="email" for native validation #}
               <input id="rememberemailf" name="rememberemailf" value="{$setemail}" type="email" autocomplete="email" required placeholder="Email">
               <label for="rememberemailf">Email</label>
@@ -255,25 +256,22 @@
   <div id="loader">{{ 'Loading...'|trans }}</div>
 
   <script type="module">
-    import { showToast } from '{{ ExtraData.assets_prefix }}/assets/js/toast.js';
+    import {showToast} from '{{ ExtraData.assets_prefix }}/assets/js/toast.js';
 
    /**
     * Переключение на вкладку восстановления пароля.
     * Функция добавлена только потому, что сервер возвращает строку с ее вызовом.
     */
     function forgotform() {
-      document
-        .querySelectorAll('.e-tabs__panel[role="tabpanel"]')
-        .forEach((panel) => panel.classList.remove('is-open'));
+      document.querySelectorAll('.e-tabs__panel[role="tabpanel"]').forEach((panel) => panel.classList.remove('is-open'));
       const activePanel = document.getElementById('resetpwd');
 
       if (activePanel) {
         activePanel.classList.add('is-open');
         // Прокрутка к началу формы
         const container = activePanel.closest('.e-card') || document.body;
-        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } else {
-        // console.warn('Reset password panel (#resetpwd) not found.');
+        container.scrollIntoView({behavior: 'smooth', block: 'start'});
+      } else { // console.warn('Reset password panel (#resetpwd) not found.');
       }
     }
 
@@ -293,8 +291,7 @@
     * Модуль управления аутентификацией и регистрацией
     * @module AuthModule
     */
-    const AuthModule = (() => {
-     /**
+    const AuthModule = (() => { /**
       * ------------------------------------------------------------------------
       * ПЕРЕМЕННЫЕ
       * ------------------------------------------------------------------------
@@ -303,7 +300,7 @@
         tabs: {
           signin: 'signin',
           signup: 'signup',
-          resetpwd: 'resetpwd',
+          resetpwd: 'resetpwd'
         },
         buttons: {
           submitAuthForm: '[data-action="submit-auth-form"]',
@@ -313,10 +310,10 @@
           passwordToggle: '[data-role="password-toggle"]', // More specific
         },
         oauth: {
-          google: '[data-oauth="google"]',
+          google: '[data-oauth="google"]'
         },
         messengers: {
-          telegram: '[data-msg="telegram"]',
+          telegram: '[data-msg="telegram"]'
         },
         elements: {
           loader: '#loader',
@@ -324,11 +321,11 @@
           message: {
             login: '#messagelogin',
             reg: '#messagereg',
-            lost: '#messagelost',
+            lost: '#messagelost'
           },
           modals: {
             sendStatus: '#sended',
-            loginMsgWindow: '#loginmsgwin',
+            loginMsgWindow: '#loginmsgwin'
           },
           messengerCode: '#msgcode',
           messengerTimer: '#msgsec',
@@ -336,12 +333,12 @@
           mailWaitSec: '#waitsec',
           mailWaitSend: '#waitsend',
           mailResend: '#resend',
-          mailDifEmail: '#difemail',
+          mailDifEmail: '#difemail'
         },
         forms: {
           login: '#loginform',
           register: '#regform',
-          reset: '#lostpwd',
+          reset: '#lostpwd'
         },
         inputs: {
           // Specific input IDs used in performAuthAction
@@ -356,7 +353,7 @@
           passwordField: '[data-role="password"]', // Selector for password fields for toggle
         },
         tabPanel: '.e-tabs__panel',
-        tabPanelOpen: '.e-tabs__panel.is-open',
+        tabPanelOpen: '.e-tabs__panel.is-open'
       };
 
       const POLLING_INTERVAL_MS = 3000;
@@ -387,19 +384,17 @@
       * Переключение вкладок
       */
       function switchTab(tabId) {
-        document
-          .querySelectorAll(SELECTORS.tabPanel)
-          .forEach((panel) => panel.classList.remove('is-open'));
+        document.querySelectorAll(SELECTORS.tabPanel).forEach((panel) => panel.classList.remove('is-open'));
         const activePanel = document.getElementById(tabId);
 
         if (activePanel) {
           activePanel.classList.add('is-open');
           const container = activePanel.closest('.e-card') || document.body;
-          container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          container.scrollIntoView({behavior: 'smooth', block: 'start'});
         }
 
         // else {
-        //   console.warn(`Tab panel with ID "${tabId}" not found.`);
+        // console.warn(`Tab panel with ID "${tabId}" not found.`);
         // }
       }
 
@@ -407,8 +402,7 @@
       * Таймер обратного отсчета для отправки почты
       * @param {number} seconds - Количество секунд
       */
-      function mailCountdown(seconds) {
-        // Очистка предыдущего таймера, если он существует
+      function mailCountdown(seconds) { // Очистка предыдущего таймера, если он существует
         if (mailCountdownInterval) {
           clearInterval(mailCountdownInterval);
           mailCountdownInterval = null;
@@ -419,8 +413,7 @@
         const resendEl = document.querySelector(SELECTORS.elements.mailResend);
         const difEmailEl = document.querySelector(SELECTORS.elements.mailDifEmail);
 
-        if (!waitSecEl || !waitSendEl || !resendEl || !difEmailEl) {
-          // console.warn('Email countdown elements not found.');
+        if (! waitSecEl || ! waitSendEl || ! resendEl || ! difEmailEl) { // console.warn('Email countdown elements not found.');
           return;
         }
 
@@ -462,18 +455,23 @@
           const response = await fetch(url, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
+              'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: new URLSearchParams(data),
+            body: new URLSearchParams(data)
           });
 
-          if (!response.ok) {
-            let errorText = `HTTP error! status: ${response.status}`;
+          if (! response.ok) {
+            let errorText = `HTTP error! status: ${
+              response.status
+            }`;
             try {
               const bodyText = await response.text();
-              if (bodyText) errorText += ` - ${bodyText.substring(0, 100)}`;
-            } catch (e) {
-              /* Ignore if body can't be read */
+              if (bodyText)
+                errorText += ` - ${
+                  bodyText.substring(0, 100)
+                }`;
+
+            } catch (e) { /* Ignore if body can't be read */
             }
             throw new Error(errorText);
           }
@@ -482,8 +480,7 @@
             return await response.json();
           }
           return await response.text();
-        } catch (error) {
-          // console.error('Request failed:', error);
+        } catch (error) { // console.error('Request failed:', error);
           showToast('{{ "Request error."|trans|e("js") }}', 'error');
           throw error;
         } finally {
@@ -500,67 +497,71 @@
         signin: {
           formSelector: SELECTORS.forms.login,
           url: 'register.php',
-          data: (form) => ({
-            loginemail: form.querySelector(SELECTORS.inputs.loginEmail).value,
-            loginpassword: strRot13(
-              form.querySelector(SELECTORS.inputs.loginPassword).value
-            ),
-          }),
+          data: (form) => (
+            {
+              loginemail: form.querySelector(SELECTORS.inputs.loginEmail).value,
+              loginpassword: strRot13(form.querySelector(SELECTORS.inputs.loginPassword).value)
+            }
+          ),
           messageEl: SELECTORS.elements.message.login,
           successAction: () => {
             window.location.href = '{$returl}';
-          },
+          }
         },
         signup: {
           formSelector: SELECTORS.forms.register,
           url: 'register.php',
-          data: (form) => ({
-            email: form.querySelector(SELECTORS.inputs.regEmail).value,
-            password: form.querySelector(SELECTORS.inputs.regPassword).value,
-            yourname: form.querySelector(SELECTORS.inputs.regName).value,
-            surname: form.querySelector(SELECTORS.inputs.regSurname).value,
-            birthdate: form.querySelector(SELECTORS.inputs.regBirthdate).value,
-            blogname: 'registrationonly',
-            mailretry: mailRetryCount,
-            // На всякий случай
-            gender: 'not chosen',
-            nickname: '',
-            country: '',
-            city: '',
-          }),
+          data: (form) => (
+            {
+              email: form.querySelector(SELECTORS.inputs.regEmail).value,
+              password: form.querySelector(SELECTORS.inputs.regPassword).value,
+              yourname: form.querySelector(SELECTORS.inputs.regName).value,
+              surname: form.querySelector(SELECTORS.inputs.regSurname).value,
+              birthdate: form.querySelector(SELECTORS.inputs.regBirthdate).value,
+              blogname: 'registrationonly',
+              mailretry: mailRetryCount,
+              // На всякий случай
+              gender: 'not chosen',
+              nickname: '',
+              country: '',
+              city: ''
+            }
+          ),
           messageEl: SELECTORS.elements.message.reg,
           successAction: () => {
             mailRetryCount = 0;
-            const dialog = document.querySelector(
-              SELECTORS.elements.modals.sendStatus
-            );
+            const dialog = document.querySelector(SELECTORS.elements.modals.sendStatus);
             if (dialog) {
-              if (!dialog.open) dialog.showModal();
+              if (! dialog.open)
+                dialog.showModal();
+
 
               mailCountdown(60);
             }
-          },
+          }
         },
         resetpwd: {
           formSelector: SELECTORS.forms.reset,
           url: 'register.php',
-          data: (form) => ({
-            rememberemail: form.querySelector(SELECTORS.inputs.resetEmail).value,
-            mailretry: mailRetryCount,
-          }),
+          data: (form) => (
+            {
+              rememberemail: form.querySelector(SELECTORS.inputs.resetEmail).value,
+              mailretry: mailRetryCount
+            }
+          ),
           messageEl: SELECTORS.elements.message.lost,
           successAction: () => {
             mailRetryCount = 0;
-            const dialog = document.querySelector(
-              SELECTORS.elements.modals.sendStatus
-            );
+            const dialog = document.querySelector(SELECTORS.elements.modals.sendStatus);
             if (dialog) {
-              if (!dialog.open) dialog.showModal();
+              if (! dialog.open)
+                dialog.showModal();
+
 
               mailCountdown(60);
             }
-          },
-        },
+          }
+        }
       };
 
      /**
@@ -569,26 +570,23 @@
       */
       async function performAuthAction(type) {
         const config = configMap[type];
-        if (!config) {
-          // console.error('Invalid auth action type:', type);
+        if (! config) { // console.error('Invalid auth action type:', type);
           return;
         }
 
         const formElement = document.querySelector(config.formSelector);
         const messageElement = document.querySelector(config.messageEl);
 
-        if (!formElement || !messageElement) {
-          // console.error('Form or message element not found for action:', type);
+        if (! formElement || ! messageElement) { // console.error('Form or message element not found for action:', type);
           return;
         }
 
         messageElement.innerHTML = '';
 
-        if (!formElement.checkValidity()) {
-          messageElement.innerHTML =
-            '{{ "Please fix the errors in the form before submitting."|trans|e("js") }}';
+        if (! formElement.checkValidity()) {
+          messageElement.innerHTML = '{{ "Please fix the errors in the form before submitting."|trans|e("js") }}';
           const firstInvalid = formElement.querySelector(':user-invalid');
-          firstInvalid?.focus();
+          firstInvalid ?. focus();
           return;
         }
 
@@ -601,21 +599,22 @@
             checkID: '{$startruntime}',
             userUTC: currentClientTimeZoneOffset,
             lng: '{$user_lng}',
-            returnurl: '{$returl}',
+            returnurl: '{$returl}'
           };
           const specificData = config.data(formElement);
           const requestData = {
-            ...requestBaseData,
-            ...specificData,
+            ... requestBaseData,
+            ... specificData
           };
 
           const result = await makeRequest(config.url, requestData);
 
           if (result === 'OK') {
             config.successAction();
-          } else {
-            // Показать сообщение об ошибке, предоставленное сервером
-            messageElement.innerHTML = `${result || '{{ "Request error."|trans|e("js") }}'}`;
+          } else { // Показать сообщение об ошибке, предоставленное сервером
+            messageElement.innerHTML = `${
+              result || '{{ "Request error."|trans|e("js") }}'
+            }`;
             // Если попытка отправки почты была неудачной, обновим счетчик
             if (type === 'signup' || type === 'resetpwd') {
               mailRetryCount += 1;
@@ -636,11 +635,10 @@
       * ВХОД ЧЕРЕЗ МЕССЕНДЖЕР (Logic largely unchanged, just formatting)
       * ------------------------------------------------------------------------
       */
-      const stopMessengerPolling = async (
-        cancelledByUser = false,
-        notifyServer = false
-      ) => {
-        if (!msgPollingActive) return;
+      const stopMessengerPolling = async (cancelledByUser = false, notifyServer = false) => {
+        if (! msgPollingActive)
+          return;
+
 
         clearInterval(msgPollingInterval);
         clearTimeout(msgPollingTimeout);
@@ -648,9 +646,7 @@
         msgPollingTimeout = null;
         msgPollingActive = false;
 
-        const dialog = document.querySelector(
-          SELECTORS.elements.modals.loginMsgWindow
-        );
+        const dialog = document.querySelector(SELECTORS.elements.modals.loginMsgWindow);
         if (dialog && dialog.open) {
           dialog.close();
         }
@@ -662,13 +658,10 @@
             try {
               await makeRequest('./initmsgreg.php', {
                 cancelinit: msgcode,
-                thisprojectid: '{$thisprojectid}',
+                thisprojectid: '{$thisprojectid}'
               });
             } catch (error) {
-              showToast(
-                `{{ "Failed to send cancellation request:"|trans|e("js") }} ${error}`,
-                'error'
-              );
+              showToast (`{{ "Failed to send cancellation request:"|trans|e("js") }} ${error}`, 'error');
             } finally {
               toggleLoader(false);
               msgcode = null;
@@ -680,8 +673,7 @@
       };
 
       const startMessengerPolling = (code, durationSeconds) => {
-        if (msgPollingActive) {
-          // console.warn('Polling is already active.');
+        if (msgPollingActive) { // console.warn('Polling is already active.');
           return;
         }
 
@@ -691,18 +683,12 @@
 
         const codeEl = document.querySelector(SELECTORS.elements.messengerCode);
         const timerEl = document.querySelector(SELECTORS.elements.messengerTimer);
-        const dialog = document.querySelector(
-          SELECTORS.elements.modals.loginMsgWindow
-        );
+        const dialog = document.querySelector(SELECTORS.elements.modals.loginMsgWindow);
 
-        if (!codeEl || !timerEl || !dialog) {
-          // console.error('Messenger polling UI elements not found!');
+        if (! codeEl || ! timerEl || ! dialog) { // console.error('Messenger polling UI elements not found!');
           msgPollingActive = false;
           msgcode = null;
-          showToast(
-            '{{ "UI elements not found, please try again."|trans|e("js") }}',
-            'error'
-          );
+          showToast('{{ "UI elements not found, please try again."|trans|e("js") }}', 'error');
           return;
         }
 
@@ -712,28 +698,28 @@
         };
         updateTimerDisplay();
 
-        if (!dialog.open) {
+        if (! dialog.open) {
           dialog.showModal();
         }
 
         const poll = async () => {
-          if (!msgPollingActive) return;
+          if (! msgPollingActive)
+            return;
+
 
           // console.log('Polling messenger status for code:', msgcode);
 
           try {
-            const response = await makeRequest(
-              './initmsgreg.php',
-              {
-                checkinit: msgcode,
-                thisprojectid: '{$thisprojectid}',
-              },
-              'json'
-            );
+            const response = await makeRequest('./initmsgreg.php', {
+              checkinit: msgcode,
+              thisprojectid: '{$thisprojectid}'
+            }, 'json');
 
             console.log('Poll response:', response);
 
-            if (!msgPollingActive) return;
+            if (! msgPollingActive)
+              return;
+
 
             if (Array.isArray(response) && response.length > 0) {
               const status = response[0];
@@ -750,15 +736,10 @@
                 // Показываем ошибку, но не останавливаем опрос
                 showToast(status, 'warning');
               }
-            } else {
-              // console.warn('Unexpected response format:', response);
-              showToast(
-                '{{ "Unexpected server response format"|trans|e("js") }}',
-                'error'
-              );
+            } else { // console.warn('Unexpected response format:', response);
+              showToast('{{ "Unexpected server response format"|trans|e("js") }}', 'error');
             }
-          } catch (error) {
-            // console.error('Polling request failed:', error);
+          } catch (error) { // console.error('Polling request failed:', error);
             showToast('{{ "Request error."|trans|e("js") }}', 'error');
           }
         };
@@ -769,10 +750,7 @@
 
           if (timeLeft <= 0) {
             stopMessengerPolling();
-            showToast(
-              '{{ "Timeout expired. Try requesting the code again."|trans|e("js") }}',
-              'warning'
-            );
+            showToast('{{ "Timeout expired. Try requesting the code again."|trans|e("js") }}', 'warning');
             return;
           }
 
@@ -784,10 +762,7 @@
         msgPollingTimeout = setTimeout(() => {
           if (msgPollingActive) {
             stopMessengerPolling();
-            showToast(
-              '{{ "Timeout expired. Try requesting the code again."|trans|e("js") }}',
-              'warning'
-            );
+            showToast('{{ "Timeout expired. Try requesting the code again."|trans|e("js") }}', 'warning');
           }
         }, POLLING_TIMEOUT_MS);
         // Первый опрос начнётся через POLLING_INTERVAL_MS (3 секунды)
@@ -799,20 +774,12 @@
       */
       function isUserAgreementChecked() {
         const openPanel = document.querySelector(SELECTORS.tabPanelOpen);
-        if (
-          !openPanel ||
-          (openPanel.id !== 'signin' && openPanel.id !== 'signup')
-        ) {
+        if (! openPanel || (openPanel.id !== 'signin' && openPanel.id !== 'signup')) {
           return true;
         }
-        const agreementCheckbox = openPanel.querySelector(
-          SELECTORS.elements.userAgreement
-        );
-        if (agreementCheckbox && !agreementCheckbox.checked) {
-          showToast(
-            '{{ "Please agree to the terms of service."|trans|e("js") }}',
-            'warning'
-          );
+        const agreementCheckbox = openPanel.querySelector(SELECTORS.elements.userAgreement);
+        if (agreementCheckbox && ! agreementCheckbox.checked) {
+          showToast('{{ "Please agree to the terms of service."|trans|e("js") }}', 'warning');
           agreementCheckbox.focus();
           return false;
         }
@@ -828,7 +795,7 @@
         const rootElement = document.body;
 
         rootElement.addEventListener('click', async (event) => {
-          const { target } = event;
+          const {target} = event;
 
           // Переключение вкладок
           const tabTargetButton = target.closest('[data-target]');
@@ -843,14 +810,16 @@
           if (submitButton) {
             event.preventDefault();
             const form = submitButton.closest('form');
-            const activeTabPanel = form?.closest(SELECTORS.tabPanelOpen);
+            const activeTabPanel = form ?. closest(SELECTORS.tabPanelOpen);
             if (form && activeTabPanel) {
               const action = activeTabPanel.id;
               // 'signin', 'signup', 'resetpwd'
 
               // Проверка согласия с пользовательским соглашением
               if (action === 'signin' || action === 'signup') {
-                if (!isUserAgreementChecked()) return;
+                if (! isUserAgreementChecked())
+                  return;
+
               }
 
               if (action && configMap[action]) {
@@ -858,17 +827,17 @@
               }
 
               // else {
-              //   console.error(
+              // console.error(
               //     'Could not determine auth action for form in panel:',
               //     activeTabPanel.id
-              //   );
+              // );
               // }
             }
 
             // else {
-            //   console.error(
+            // console.error(
             //     'Submit button clicked outside of an active form/tab panel.'
-            //   );
+            // );
             // }
             return;
           }
@@ -877,39 +846,33 @@
           const googleButton = target.closest(SELECTORS.oauth.google);
           if (googleButton) {
             event.preventDefault();
-            if (!isUserAgreementChecked()) return;
+            if (! isUserAgreementChecked())
+              return;
+
 
             const googleUrl = '{$googleurl}';
             if (googleUrl) {
               window.location.href = `${googleUrl}|${currentClientTimeZoneOffset}`;
-            } else {
-              // console.error('Google OAuth URL is not defined.');
-              showToast(
-                '{{ "Google login is unavailable."|trans|e("js") }}',
-                'error'
-              );
+            } else { // console.error('Google OAuth URL is not defined.');
+              showToast('{{ "Google login is unavailable."|trans|e("js") }}', 'error');
             }
             return;
           }
 
           // Telegram
           const telegramButton = target.closest(SELECTORS.messengers.telegram);
-          if (telegramButton) {
-            // console.log('Telegram button clicked');
+          if (telegramButton) { // console.log('Telegram button clicked');
             event.preventDefault();
-            if (!isUserAgreementChecked()) return;
+            if (! isUserAgreementChecked())
+              return;
+
 
             toggleLoader(true);
-            try {
-              // console.log('Sending request to initmsgreg.php');
-              const response = await makeRequest(
-                './initmsgreg.php',
-                {
-                  initsec: '{$hello_cookie}{$unloggedid}',
-                  thisprojectid: '{$thisprojectid}',
-                },
-                'json'
-              );
+            try { // console.log('Sending request to initmsgreg.php');
+              const response = await makeRequest('./initmsgreg.php', {
+                initsec: '{$hello_cookie}{$unloggedid}',
+                thisprojectid: '{$thisprojectid}'
+              }, 'json');
               // console.log('Response received:', response);
 
               if (Array.isArray(response) && response.length > 0) {
@@ -919,15 +882,14 @@
                 } else if (status === 'OK') {
                   const code = response[1] * 1;
                   const duration = 300;
-                  startMessengerPolling(`A${code}`, duration);
+                  startMessengerPolling (`A${code}`, duration);
                 } else {
-                  showToast(`{{ "Error:"|trans|e("js") }} ${response[0]}`, 'error');
+                  showToast (`{{ "Error:"|trans|e("js") }} ${
+                    response[0]
+                  }`, 'error');
                 }
               } else {
-                showToast(
-                  '{{ "Failed to retrieve the verification code."|trans|e("js") }}',
-                  'error'
-                );
+                showToast('{{ "Failed to retrieve the verification code."|trans|e("js") }}', 'error');
               }
             } catch (error) {
               showToast('{{ "Request error."|trans|e("js") }}', 'error');
@@ -948,101 +910,78 @@
           const resendButton = target.closest(SELECTORS.buttons.resendMail);
           if (resendButton) {
             let lastAction = null;
-            if (document.querySelector(SELECTORS.elements.message.reg)?.innerHTML)
+            if (document.querySelector(SELECTORS.elements.message.reg) ?. innerHTML)
               lastAction = 'signup';
-            else if (
-              document.querySelector(SELECTORS.elements.message.lost)?.innerHTML
-            )
+             else if (document.querySelector(SELECTORS.elements.message.lost) ?. innerHTML)
               lastAction = 'resetpwd';
+
 
             if (lastAction) {
               mailRetryCount += 1;
-              const resendEl = document.querySelector(
-                SELECTORS.elements.mailResend
-              );
-              const waitSendEl = document.querySelector(
-                SELECTORS.elements.mailWaitSend
-              );
-              const difEmailEl = document.querySelector(
-                SELECTORS.elements.mailDifEmail
-              );
-              if (resendEl) resendEl.style.display = 'none';
+              const resendEl = document.querySelector(SELECTORS.elements.mailResend);
+              const waitSendEl = document.querySelector(SELECTORS.elements.mailWaitSend);
+              const difEmailEl = document.querySelector(SELECTORS.elements.mailDifEmail);
+              if (resendEl)
+                resendEl.style.display = 'none';
 
-              if (waitSendEl) waitSendEl.style.display = 'block';
 
-              if (difEmailEl) difEmailEl.style.display = 'block';
+              if (waitSendEl)
+                waitSendEl.style.display = 'block';
+
+
+              if (difEmailEl)
+                difEmailEl.style.display = 'block';
+
               mailCountdown(60);
 
               await performAuthAction(lastAction);
             } else {
-              showToast(
-                '{{ "Could not determine action to retry."|trans|e("js") }}',
-                'warning'
-              );
+              showToast('{{ "Could not determine action to retry."|trans|e("js") }}', 'warning');
             }
             return;
           }
 
           // Генерация пароля
-          const generatePasswordButton = target.closest(
-            SELECTORS.buttons.generatePassword
-          );
+          const generatePasswordButton = target.closest(SELECTORS.buttons.generatePassword);
           if (generatePasswordButton) {
             event.preventDefault();
             try {
-              const generatedPassword = await makeRequest('index.php', {
-                genpwd: 10,
-              });
+              const generatedPassword = await makeRequest('index.php', {genpwd: 10});
 
-              const pwdField = document.getElementById(
-                SELECTORS.inputs.regPassword.substring(1)
-              );
-              const pwdFieldContainer = pwdField?.closest('.e-form__text-field');
-              const toggleButton = pwdFieldContainer?.querySelector(
-                SELECTORS.buttons.passwordToggle
-              );
-              const eyeIcon = toggleButton?.querySelector('[name="eye"]');
-              const eyeSlashIcon =
-                toggleButton?.querySelector('[name="eye-slash"]');
+              const pwdField = document.getElementById(SELECTORS.inputs.regPassword.substring(1));
+              const pwdFieldContainer = pwdField ?. closest('.e-form__text-field');
+              const toggleButton = pwdFieldContainer ?. querySelector(SELECTORS.buttons.passwordToggle);
+              const eyeIcon = toggleButton ?. querySelector('[name="eye"]');
+              const eyeSlashIcon = toggleButton ?. querySelector('[name="eye-slash"]');
 
               if (pwdField) {
                 pwdField.type = 'text';
                 pwdField.value = generatedPassword;
-                pwdFieldContainer?.classList.add('is-active', 'is-filled');
-                eyeIcon?.classList.add('d-none');
-                eyeSlashIcon?.classList.remove('d-none');
-                pwdField.dispatchEvent(new Event('input', { bubbles: true }));
+                pwdFieldContainer ?. classList.add('is-active', 'is-filled');
+                eyeIcon ?. classList.add('d-none');
+                eyeSlashIcon ?. classList.remove('d-none');
+                pwdField.dispatchEvent(new Event('input', {bubbles: true}));
               }
 
               // else {
-              //   console.warn(
+              // console.warn(
               //     'Password field #passwordlf not found for generation.'
-              //   );
+              // );
               // }
             } catch (error) {
-              showToast(
-                '{{ "Failed to generate password."|trans|e("js") }}',
-                'error'
-              );
+              showToast('{{ "Failed to generate password."|trans|e("js") }}', 'error');
             }
             return;
           }
 
           // Переключение видимости пароля
-          const passwordToggleButton = target.closest(
-            SELECTORS.buttons.passwordToggle
-          );
+          const passwordToggleButton = target.closest(SELECTORS.buttons.passwordToggle);
           if (passwordToggleButton) {
-            const fieldContainer = passwordToggleButton.closest(
-              '.e-form__text-field'
-            );
-            const passwordInput = fieldContainer?.querySelector(
-              SELECTORS.inputs.passwordField
-            );
+            const fieldContainer = passwordToggleButton.closest('.e-form__text-field');
+            const passwordInput = fieldContainer ?. querySelector(SELECTORS.inputs.passwordField);
 
             const eyeIcon = passwordToggleButton.querySelector('[name="eye"]');
-            const eyeSlashIcon =
-              passwordToggleButton.querySelector('[name="eye-slash"]');
+            const eyeSlashIcon = passwordToggleButton.querySelector('[name="eye-slash"]');
 
             if (passwordInput && eyeIcon && eyeSlashIcon) {
               if (passwordInput.type === 'password') {
@@ -1063,12 +1002,26 @@
       * ------------------------------------------------------------------------
       * Публичный интерфейс модуля
       * ------------------------------------------------------------------------
+      * Чтобы перенаправить на вкладку авторизации с другой страницы, используй
+      * if (userId === 0) { // или {$user_id} === 0
+      *   window.location.href = '/auth?tab=signin';
+      * }
       */
       return {
         init() {
-          const hash = window.location.hash.substring(1);
-          const initialTab = SELECTORS.tabs[hash] ? hash : 'signin';
-          requestAnimationFrame(() => switchTab(initialTab));
+          const userId = parseInt(document.querySelector(SELECTORS.userIdMeta) ?. content || '0', 10);
+
+          // Перенаправление на страницу авторизации, если пользователь не авторизован
+          const urlParams = new URLSearchParams(window.location.search);
+          const redirectTab = urlParams.get('tab');
+
+          if (userId === 0 && redirectTab && SELECTORS.tabs[redirectTab]) {
+            requestAnimationFrame(() => switchTab(redirectTab));
+          } else {
+            const hash = window.location.hash.substring(1);
+            const initialTab = SELECTORS.tabs[hash] ? hash : 'signin';
+            requestAnimationFrame(() => switchTab(initialTab));
+          }
 
           if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initEventListeners);
@@ -1079,12 +1032,11 @@
         getCurrentTab() {
           const activePanel = document.querySelector(SELECTORS.tabPanelOpen);
           return activePanel ? activePanel.id : null;
-        },
+        }
       };
     })();
 
     // Инициализация модуля
     AuthModule.init();
-
   </script>
 {% endblock %}

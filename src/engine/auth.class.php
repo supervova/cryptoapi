@@ -81,6 +81,9 @@ $hello_cookie = md5("helloADeJhl4yqawkZFxmAF8bDyaqr7dECsn0" . $_SERVER['HTTP_USE
 // Формирование URL для авторизации через Google
 $googleurl = 'https://accounts.google.com/o/oauth2/auth?' . urldecode(http_build_query($params ?? []));
 
+// Получение окружения приложения (development/production) из переменной окружения APP_ENV
+$data_objects['ENV'] = getenv('APP_ENV') ?: 'production';
+
 // Заполнение массива данных для шаблона
 $data_objects = [];
 $data_objects['UserId'] = $user_id ?? null;
@@ -89,7 +92,7 @@ $data_objects['ExtraData'] = [
     'title' => 'Secure Sign In or Sign Up | CryptoAPI.ai - AI-Powered Crypto Trading',
     'desc' => 'Log in to your CryptoAPI.ai account or create a new one. Access advanced trading tools, real-time market insights, and automated strategies powered by cutting-edge AI technology.',
     'assets_prefix' => '/projects/cryptoapi.ai',
-    'body_classes' => 'e-page is-auth',
+    'body_classes' => 'is-auth',
     'googleurl' => $googleurl,
     'hello_cookie' => $hello_cookie,
     'hello' => $_COOKIE[$hello_cookie] ?? '',

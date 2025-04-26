@@ -45,6 +45,9 @@ msgstr "Выход"
 msgid "My page"
 msgstr "Моя страница"
 
+msgid "Dashboard"
+msgstr "Сводка"
+
 msgid "Notifications"
 msgstr "Уведомления"
 
@@ -65,3 +68,159 @@ msgstr "Конфиденциальность"
 
 msgid "Legal"
 msgstr "Документы"
+
+msgid "Logo –"
+msgstr "Логотип –"
+
+msgid "Day"
+msgstr "За день"
+
+msgid "Total"
+msgstr "За всё время"
+
+# ------------------------------------------------------------------------------
+# BUTTONS
+# ------------------------------------------------------------------------------
+
+msgid "Add API"
+msgstr "Добавить API"
+
+msgid "Add New Currency"
+msgstr "Добавить новую валюту"
+
+msgid "Add API"
+msgstr "Add Signal"
+
+msgid "Settings"
+msgstr "Настройки"
+
+msgid "Revoke API Key"
+msgstr "Сбросить ключ API"
+
+msgid "View"
+msgstr "Показать"
+
+msgid "View all"
+msgstr "Все"
+
+msgid "Cancel"
+msgstr "Отмена"
+
+# ------------------------------------------------------------------------------
+# HEADER
+# ------------------------------------------------------------------------------
+
+msgid "Search coins"
+msgstr "Поиск монет"
+
+msgid "Cap.:"
+msgstr "Кап.:"
+
+msgid "Market Cap"
+msgstr "Капитализация рынка"
+
+msgid "24h Vol.:"
+msgstr "Сут. об.:"
+
+msgid "24h Volume"
+msgstr "Суточный объем"
+
+msgid "Fear and Greed Index"
+msgstr "Индекс страха-жадности"
+
+msgid "Fear:"
+msgstr "Страх:"
+
+msgid "Neutral:"
+msgstr "Нейтр.:"
+
+msgid "Greed:"
+msgstr "Жадн.:"
+
+
+# ------------------------------------------------------------------------------
+# Trading
+# ------------------------------------------------------------------------------
+
+# msgid "verb.imperative.Buy" msgstr "Купи"
+msgid "verb.perfective.Buy"
+msgstr "Купить"
+
+msgid "verb.infinitive.Buy"
+msgstr "Покупать"
+
+msgid "noun.Buy"
+msgstr "Покупка"
+
+msgid "verb.perfective.Sell"
+msgstr "Продать"
+
+msgid "verb.infinitive.Sell"
+msgstr "Продавать"
+
+msgid "noun.Sell"
+msgstr "Продажа"
+
+msgid "verb.Hedge"
+msgstr "Хеджировать"
+
+msgid "noun.Hedge"
+msgstr "Хеджирование"
+
+# Signals
+msgid "Price Trigger"
+msgstr "Триггер по цене"
+
+msgid "Volume Trigger"
+msgstr "Триггер по объему"
+
+msgid "AI Forecast Trigger"
+msgstr "Триггер по прогнозу ИИ"
+
+msgid "Price below"
+msgstr "Цена ниже"
+
+msgid "Price above"
+msgstr "Цена выше"
+
+msgid "Volume below"
+msgstr "Цена ниже"
+
+msgid "Volume above"
+msgstr "Цена выше"
+
+# Trends
+
+msgid "AI Trend:"
+msgstr "AI тренд:"
+
+msgid "AI Trend:"
+msgstr "AI тренд:"
+
+msgid "Uptrend -"
+msgstr "Рост -"
+
+msgid "Rally -"
+msgstr "Отскок -"
+
+msgid "Downtrend -"
+msgstr "Снижение -"
+
+msgid "Correction -"
+msgstr "Коррекция -"
+
+msgid "Sideways -"
+msgstr "Боковое движение -"
+
+# Statuses
+
+msgid "Active"
+msgstr "Активный"
+
+msgid "Inactive"
+msgstr "Неактивный"
+
+msgid "Pending"
+msgstr "Ожидание"
+
+

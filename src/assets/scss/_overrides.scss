@@ -1,6 +1,405 @@
-@use 'abstracts/mixins' as *;
+// stylelint-disable declaration-no-important
+@use 'abstracts' as *;
 
-// Bootstrap reset: summary { display: block}
-:where(.e-popover) .has-chevron {
-  display: flex;
+// -----------------------------------------------------------------------------
+// BASE
+// -----------------------------------------------------------------------------
+// #region
+.btn-default {
+  @include button;
 }
+
+.btn-info {
+  background-image: radial-gradient(100% 50% at 50% 100%, var(--color-bg-info));
+}
+
+.btn-warning {
+  background-image: radial-gradient(
+    100% 50% at 50% 100%,
+    var(--color-bg-warning)
+  );
+  color: var(--color-ink-2ry);
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// CONTENT
+// -----------------------------------------------------------------------------
+// #region
+.table th,
+.table thead td {
+  color: var(--color-ink-2ry);
+}
+
+.table th,
+.table strong {
+  font-weight: 500;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: var(--color-ink-min);
+}
+
+.hljs {
+  background: transparent !important;
+  color: inherit !important;
+}
+
+.hljs-attr {
+  color: var(--color-ink-text-info) !important;
+}
+
+.hljs-punctuation {
+  color: var(--color-ink-2ry) !important;
+}
+
+.hljs-string {
+  color: var(--color-ink-text-success) !important;
+}
+
+.hljs-number {
+  color: var(--color-ink-text-warning) !important;
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// FORM
+// -----------------------------------------------------------------------------
+// #region
+
+.form-control {
+  box-shadow: none;
+  border-radius: var(--border-radius-base);
+  background-color: var(--color-bg-2ry);
+  border: 0;
+  color: color;
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  height: auto;
+}
+
+.input-group-addon {
+  @include text-format(base);
+
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  color: var(--color-unk-2ry);
+  text-align: left;
+}
+
+.typeahead__query {
+  display: block;
+  position: relative;
+}
+
+.typeahead__field {
+  font-size: inherit !important;
+}
+
+.typeahead__field input,
+.typeahead__field textarea,
+.typeahead__field [contenteditable],
+.typeahead__field .typeahead__hint {
+  border-radius: var(--border-radius-base) !important;
+  background-color: var(--color-bg-2ry) !important;
+  border: 0 !important;
+  line-height: var(--line-height-base) !important;
+  padding-block: var(--padding-y-input) !important;
+  padding-inline: var(--padding-x-input) !important;
+  min-height: calc(var(--size-line) * 2) !important;
+}
+
+.typeahead__cancel-button {
+  font-size: var(--size-line);
+  color: var(--color-ink-3ry);
+  position: absolute;
+  right: var(--size-2);
+  top: 50%;
+  translate: 0 -50%;
+  user-select: none;
+  z-index: 10;
+}
+// #endregion
+
+
+// -----------------------------------------------------------------------------
+// WIDGETS
+// -----------------------------------------------------------------------------
+// #region
+.e-loader,
+.e-filter.is-row {
+  border-radius: var(--border-radius-base);
+  display: inline-flex;
+  margin-bottom: var(--size-line);
+  padding: var(--padding-x-box);
+}
+
+.e-loader {
+  background-color: var(--color-ink-min);
+  flex-direction: column;
+
+  a {
+    @include text-format(caption);
+  }
+}
+
+.e-filter.is-row {
+  background-color: var(--color-bg-2ry);
+  flex-wrap: wrap;
+  gap: var(--size-1p5);
+
+  label {
+    padding-bottom: var(--padding-bottom-base);
+  }
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// MODALS
+// -----------------------------------------------------------------------------
+// #region
+
+.modal-dialog {
+  // color: var(--bs-color, var(--color-alpha-dark-900));
+
+  margin: var(--size-4) auto;
+}
+
+.modal-content {
+  background-color: var(--color-bg-2ry);
+  border: 0;
+  border-radius: var(--border-radius-md);
+}
+
+.modal-header,
+.modal-body,
+.modal-footer {
+  border: 0;
+  padding-inline: var(--padding-x-box);
+}
+
+.modal-header {
+  padding-block: var(--padding-x-box) 0;
+}
+
+.bootpopup-button.close {
+  background: transparent;
+  color: var(--color-ink-2ry);
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.modal-footer {
+  padding-block: 0 var(--padding-x-box);
+}
+
+.modal-backdrop.in {
+  background-color: var(--color-bg-scrim);
+  backdrop-filter: blur(var(--size-2p5));
+  opacity: 1;
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// TABS
+// -----------------------------------------------------------------------------
+// #region
+
+.tab-content > .tab-pane,
+.tab-content > .active {
+  background-color: transparent;
+  padding-block: var(--size-2);
+  padding-inline: 0;
+}
+
+.nav-tabs {
+  border-bottom: 1px solid var(--color-ink-border);
+}
+
+.nav-tabs > li {
+  padding: 0;
+}
+
+.nav-tabs > li > a {
+  border: 0;
+  border-radius: var(--border-radius-base) var(--border-radius-base) 0 0;
+  background-color: transparent;
+  margin-right: 1px;
+  padding: var(--size-2) var(--size-2p5);
+
+  &:hover {
+    text-decoration: none;
+    background-color: var(--color-ink-min);
+  }
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  background-color: var(--color-ink-min);
+  border: 0;
+  color: var(--color-ink-base);
+  cursor: default;
+  pointer-events: none;
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// PAGES
+// -----------------------------------------------------------------------------
+// #region
+// Put it into separate files, if Max doesn’t mind.
+
+// PROFILE
+
+[id='Generalsettings'] {
+  padding-inline: 0;
+
+  [id='profilephoto'] {
+    object-fit: cover;
+    width: rem(218);
+    height: rem(218);
+    max-width: none !important;
+    max-height: none !important;
+
+    &[src$='profile_nophoto.jpg'] {
+      opacity: 0;
+    }
+  }
+
+  :has(> [id='profilephoto']) {
+    background-color: var(--color-bg-2ry);
+    border-radius: var(--border-radius-base);
+    overflow: hidden;
+    margin: 0 0 var(--size-line) !important;
+    position: relative;
+  }
+
+  :has(> [id='profilephoto'][src$='profile_nophoto.jpg']) {
+    &::after {
+      background: var(--color-gradient-brand);
+      border-radius: var(--border-radius-pill);
+      color: var(--button-color-primary);
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      width: var(--size-8);
+      height: var(--size-8);
+    }
+  }
+
+  :has(> [id='profilephotosmall']) {
+    display: none !important;
+  }
+
+  [id='selectfile'] {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--size-2);
+  }
+
+  h3 {
+    margin-top: var(--size-6);
+
+    .file-field + & {
+      margin-bottom: rem(-16);
+    }
+  }
+
+  .input-group {
+    margin-top: var(--size-3) !important;
+  }
+
+  cite,
+  .input-group {
+    width: 100%;
+
+    @media (--tablet-l) {
+      width: calc(50% - var(--size-3));
+    }
+  }
+
+  .input-group-addon {
+    margin-bottom: var(--size-1);
+  }
+
+  cite,
+  .checkbox,
+  .input-group-addon {
+    display: block;
+    color: var(--color-ink-2ry);
+    font-style: normal;
+  }
+
+  cite {
+    @include text-format(caption);
+    margin-top: var(--size-1);
+    padding-inline: var(--size-1p5);
+  }
+
+  .form-control {
+    float: none;
+  }
+
+  :has(> [id='changemaillink']),
+  :has(> [id='changephonelink']) {
+    display: flex;
+    align-items: end;
+    gap: var(--size-2);
+  }
+
+  :has(> [id='changephonelink']) {
+    flex-wrap: wrap;
+  }
+
+  [id='enterconfirmcode'] {
+    width: 100%;
+  }
+
+  [id='enterconfirmcode'] + div {
+    background: linear-gradient(rgba(43, 41, 51, 0.86), rgba(43, 41, 51, 0.86)),
+      linear-gradient(var(--color-bg-2ry), var(--color-bg-2ry)),
+      url('#{$assets-prefix}/assets/img/components/agent-price.jpg'),
+      var(--color-bg-2ry) !important;
+    background-blend-mode: normal, color, normal, normal;
+    background-size: cover !important;
+    border-radius: var(--border-radius-lg);
+    padding: var(--size-5) !important;
+    width: 100%;
+
+    h2 {
+      text-align: left !important;
+      margin-top: var(--size-4) !important;
+      margin-bottom: var(--size-3) !important;
+    }
+  }
+
+  [id='changemaillink'],
+  [id='changephonelink'] {
+    margin-bottom: var(--size-half);
+  }
+}
+
+[id='notvs'] h3 {
+  margin-bottom: 0;
+}
+
+// NOTIFICATIONS
+
+:where(.e-page.is-notifications) {
+  h1 {
+    margin-bottom: 0;
+  }
+
+  .notifymsg small {
+    color: var(--color-ink-2ry) !important;
+  }
+}
+
+// #endregion

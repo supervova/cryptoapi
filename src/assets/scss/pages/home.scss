@@ -1,30 +1,6 @@
 @use '../abstracts' as *;
 @use '../abstracts/custom';
 
-// MARKETS METRICS
-:where(.e-section.is-markets) .e-flex {
-  padding-bottom: var(--spacer);
-
-  @media (--tablet-l) {
-    --columns: 3;
-  }
-}
-
-:where(.e-section.is-markets) .is-top-gainer {
-  @media (--tablet-l) {
-    order: 3;
-  }
-}
-
-:where(.e-section.is-markets) .is-greed-fear {
-  flex-grow: 2;
-
-  @media (--tablet-l) {
-    flex-grow: 0;
-    order: 2;
-  }
-}
-
 // MARKETS OVERVIEW
 
 // :where(.e-section.is-markets) .e-section__grid {
@@ -69,6 +45,36 @@
 
   @media (--tablet-l) {
     flex-direction: row;
+  }
+}
+
+
+// Arrow-head row
+.e-assets tr[aria-current] {
+  background-color: var(--color-ink-min);
+  cursor: default;
+  pointer-events: none;
+
+  th {
+    border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+  }
+
+  td:last-child {
+    border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+  }
+
+  @media (--tablet-l) {
+    th {
+      border-radius: 0;
+
+      &::before {
+        content: url('#{$assets-prefix}/assets/img/components/current-asset-tip.svg');
+        position: absolute;
+        top: 0;
+        left: rem(-24);
+        width: var(--size-3);
+      }
+    }
   }
 }
 

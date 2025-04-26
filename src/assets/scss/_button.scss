@@ -11,6 +11,7 @@ input[type='submit'],
 input[type='button'],
 input[type='reset'],
 a[role='button'] {
+  // --icon-stroke: var(--color-ink-2ry-brand);
   @include button;
 }
 

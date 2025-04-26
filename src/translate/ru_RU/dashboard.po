@@ -1,0 +1,41 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+# ------------------------------------------------------------------------------
+# Meta
+# ------------------------------------------------------------------------------
+msgid "AI Crypto Trading Dashboard | Smart Agents & Market Insights – CryptoAPI.ai"
+msgstr "Панель криптотрейдинга с ИИ | Умные агенты и рыночная аналитика – CryptoAPI.ai"
+
+msgid "Monitor the crypto market in real time, get trading signals, and manage AI-powered agents for smarter, faster trading decisions."
+msgstr "Следите за рынком криптовалют в реальном времени, получайте торговые сигналы и управляйте ИИ-агентами для более быстрых и точных решений."
+
+# ------------------------------------------------------------------------------
+# Overview
+# ------------------------------------------------------------------------------
+msgid "Signals:"
+msgstr "Сигналы:"
+
+msgid "My watchlist:"
+msgstr "Моя коллекция:"
+
+msgid "Tips"
+msgstr "Советы"
+
+msgid "Trading"
+msgstr "Трейдинг"
+
+msgid "Reports"
+msgstr "Отчёты"
+
+msgid "Trending"
+msgstr "Повышенный спрос"
+
+msgid "My API key"
+msgstr "Мой ключ API"
+
+msgid "Connected APIs"
+msgstr "Подключенные API"
+

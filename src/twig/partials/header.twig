@@ -1,153 +1,49 @@
-{% set data_menu = {
-  "home": {
-    "label": "Home",
-    "href": "/",
-    "icon": "home",
-    "classes": "tablet:d-none"
-  },
-  "products": {
-    "label": "Products",
-    "href": "/products",
-    "icon": "grid-4x4"
-  },
-  "markets": {
-    "label": "Markets",
-    "href": "/markets",
-    "icon": "chart-line"
-  },
-  "more": {
-    "label": "More",
-    "icon": "more",
-    "children": {
-      "pricing": {
-        "label": "Pricing",
-        "href": "/pricing",
-        "icon": "money"
-      },
-      "support": {
-        "label": "Support",
-        "href": "/support",
-        "icon": "support"
-      },
-      "blog": {
-        "label": "Blog",
-        "href": "/blog",
-        "icon": "news"
-      }
-    }
-  }
-} %}
-
-<nav class="e-navbar">
+<header class="e-header" id="header-app">
   <div class="e-container">
-    <a class="e-navbar__logo" href="/">
-      <picture>
-        <source media="(max-width: 767px)" srcset="{{ ExtraData.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-mobile.svg" type="image/svg+xml">
-        <source media="(max-width: 1023px)" srcset="{{ ExtraData.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-tablet.svg" type="image/svg+xml">
-        <img src="{{ ExtraData.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-desktop.svg" alt="{{ 'CryptoAPI.ai Logo'|trans }}">
-      </picture>
-      <span class="e-navbar__tagline">
-        <span class="tablet:d-none">{{ 'AI for Crypto Market'|trans }}</span>
-        <span class="d-none tablet:d-inline tablet-l:d-none">{{ 'for trading'|trans }}</span>
-        <span class="d-none tablet-l:d-inline">{{ 'AI Crypto Analytics and Signals'|trans }}</span>
-      </span>
-    </a>
+    <form class="e-header__search" role="search">
+      <label for="header-search" class="visually-hidden">{{ 'Search coins'|trans }}</label>
+      {% include 'partials/icon.twig' with {name: 'search'} %}
+      <input type="search" id="header-search" placeholder="{{ 'Search coins'|trans }}">
+    </form>
 
-    <ul class="e-navbar__menu">
-      {% for key, item in data_menu %}
-        {% if item.children is not defined %}
-          <li class="e-navbar__menu-item is-{{ key }}{% if item.classes %} {{ item.classes }}{% endif %}">
-            <a href="{% if key != 'home' %}{{ lng_html }}{% endif %}{{ item.href }}">
-              {% include 'partials/icon.twig' with {name: item.icon} %}
-              <span class="e-navbar__menu-label">
-                {{ item.label|trans }}
-              </span>
-            </a>
-          </li>
-        {% else %}
-          <li class="e-navbar__menu-item is-{{ key }}">
-            <div class="e-popover" data-role="popover">
-              <div data-role="popover-summary">
-                {% include 'partials/icon.twig' with {name: item.icon} %}
-                <span class="e-navbar__menu-label" id="navbar-more-title">
-                  {{ item.label|trans }}
-                </span>
-              </div>
-              <ul class="e-popover__body e-menu" aria-labelledby="navbar-more-title">
-                {% for sub_key, sub_item in item.children %}
-                  <li class="e-menu__item is-{{ sub_key }}">
-                    <a href="{{ sub_item.href }}">
-                      {% include 'partials/icon.twig' with {name: sub_item.icon} %}
-                      <span class="e-menu__label">
-                        {{ sub_item.label|trans }}
-                      </span>
-                    </a>
-                  </li>
-                {% endfor %}
-              </ul>
-            </div>
-          </li>
-        {% endif %}
-      {% endfor %}
-    </ul>
+    <div class="e-header__stats">
+      {# Market Cap #}
+      {% set value = header_stats[0] %}
+      {% set class = value > 0 ? 'is-success' : (value < 0 ? 'is-error' : 'text-2ry') %}
+      <div class="e-header__stat-item has-tooltip is-bottom" aria-label="{{ 'Market Cap'|trans }}">
+        {{ 'Cap.:'|trans }}
+        <span class="e-header__stat-value {{ class }}">{{ value ~ '%' }}</span>
+      </div>
 
-    {% if ExtraData.user_id > 0 %}
-      {% set data_user_menu = [
-        {
-          "label": "My page",
-          "href": "user/" ~ ExtraData.user_id,
-          "icon": "user"
-        }, {
-          "label": "Notifications",
-          "href": "notifications",
-          "icon": "bell"
-        }, {
-          "label": "Messages",
-          "href": "communicator",
-          "icon": "mail"
-        }, {
-          "label": "Finances",
-          "href": "finance",
-          "icon": "money"
-        }, {
-          "label": "Profile Settings",
-          "href": "profile",
-          "icon": "settings"
-        }, {
-          "label": "Sign Out",
-          "href": "?action=logout",
-          "icon": "exit"
-        }
-      ] %}
-      <details class="e-popover e-navbar__user-menu" data-role="popover">
-        <summary class="has-chevron">
-          {% if ExtraData.user_avatar and ExtraData.user_avatar != './images/profile_nophoto.jpg' %}
-            <img class="e-avatar e-navbar__avatar" src="{{ ExtraData.user_avatar }}" alt="{{ ExtraData.user_name }}">
-          {% else %}
-            <span class="e-avatar e-navbar__avatar is-empty" aria-label="{{ ExtraData.user_name }}">{{ ExtraData.user_name|slice(0, 1) }}</span>
-          {% endif %}
-        </summary>
-        <ul class="e-popover__body e-menu">
-          {% for item in data_user_menu %}
-            <li class="e-menu__item">
-              <a href="/{{ lng_html }}{{ item.href }}">
-                {% include 'partials/icon.twig' with {name: item.icon} %}
-                {{ item.label|trans }}
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
-      </details>
-    {% else %}
-      <a class="e-btn e-navbar__sign-in" href="https://{$authhost}/auth?returl={$thispageurlencoded}" aria-label="{{ 'Sign In'|trans }}">
-        {% include 'partials/icon.twig' with {name: 'user'} %}
-        <span class="e-navbar__menu-label d-none tablet:d-inline">{{ 'Sign In'|trans }}</span>
-      </a>
-    {% endif %}
+      {# 24h Volume #}
+      {% set value = header_stats[1] %}
+      {% set class = value > 0 ? 'is-success' : (value < 0 ? 'is-error' : 'text-2ry') %}
+      <div class="e-header__stat-item has-tooltip is-bottom" aria-label="{{ '24h Volume'|trans }}">
+        {{ '24h Vol.:'|trans }}
+        <span class="e-header__stat-value {{ class }}">{{ value ~ '%' }}</span>
+      </div>
 
-    {# <form class="e-navbar__search" role="search">
-      <input type="search" placeholder="Поиск" />
-      <button type="submit">Найти</button>
-    </form> #}
+      {# Fear and Greed Index #}
+      {% set fgi = ExtraData.fgi %}
+      {% if fgi < 41 %}
+        {% set label = 'Fear:' %}
+        {% set class = 'is-error' %}
+      {% elseif fgi < 61 %}
+        {% set label = 'Neutral:' %}
+        {% set class = '' %}
+      {% else %}
+        {% set label = 'Greed:' %}
+        {% set class = 'is-success' %}
+      {% endif %}
+
+      <div class="e-header__stat-item has-tooltip is-bottom" aria-label="{{ 'Fear and Greed Index'|trans }}">
+        {{ label|trans }}
+        <span class="e-header__stat-value {{ class }}">{{ fgi }} <span class="text-2ry">/ 100</span></span>
+      </div>
+    </div>
+
+    <button class="e-header__cancel e-btn is-ghost tablet:d-none" id="navbar-header-cancel" type="button">
+      {{ 'Cancel'|trans }}
+    </button>
   </div>
-</nav>
+</header>

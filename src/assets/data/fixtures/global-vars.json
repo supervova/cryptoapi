@@ -1,4 +1,6 @@
 {
+  "blog_name": "CryptoAPI",
+  "blog_description": "CryptoAPI - Инструменты для криптовалютных разработчиков",
   "base_href": "",
   "canonical": "<link rel=\"canonical\" href=\"http://localhost:9000\"/>",
   "lng_html": "ru",
@@ -29,7 +31,7 @@
   "unloggedid": "",
   "authhost": "localhost:9000",
   "thispageurlencoded": "",
-  "user_id": 0,
+  "user_id": 1,
   "userid": 1,
 
   "btn_cancel": "",
@@ -41,5 +43,7 @@
   "phraseclose": "Close",
   "phraseno": "No",
   "phraseok": "OK",
-  "phraseyes": "Yes"
+  "phraseyes": "Yes",
+  "pageths": "local",
+  "simpleuri": "local"
 }

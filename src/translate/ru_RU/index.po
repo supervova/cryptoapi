@@ -4,28 +4,9 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 # ------------------------------------------------------------------------------
-# Google Translate Fixes: It Does not Work
-# ------------------------------------------------------------------------------
-
-msgid "Products"
-msgstr "Продукты"
-
-msgid "Finances"
-msgstr "Деньги"
-
-msgid "Pricing"
-msgstr "Тарифы"
-
-msgid "Contacts"
-msgstr "Контакты"
-
-msgid "Legal"
-msgstr "Документы"
-
-# ------------------------------------------------------------------------------
 # Meta
 # ------------------------------------------------------------------------------
-msgid "CRYPTOAPI.AI – Advanced APIs for Crypto Traders and Market Analytics"
+msgid "CryptoAPI.ai – Advanced APIs for Crypto Traders and Market Analytics"
 msgstr "CryptoAPI.ai - Торговля криптовалютой с ИИ"
 
 msgid "Unlock the power of advanced APIs designed for crypto traders and analysts. Access real-time market insights, trading signals, custom indices, and automated tools to boost your trading performance."

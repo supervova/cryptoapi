@@ -12,6 +12,11 @@
   text-align: left;
   padding-block: var(--size-3);
   padding-inline: var(--size-3);
+
+  @media (--tablet-l) {
+    padding-block: var(--size-4);
+    padding-inline: var(--size-4);
+  }
 }
 
 .e-card__copy {
@@ -34,6 +39,22 @@
 // Summary
 .e-card__desc {
   color: var(--color-ink-2ry);
+}
+
+.e-card__content {
+  flex-grow: 1;
+}
+
+.e-card__row {
+  display: flex;
+  gap: var(--size-1p5);
+  justify-content: space-between;
+}
+
+.e-card__change {
+  display: flex;
+  align-items: center;
+  gap: var(--size-1p5);
 }
 
 // Image
@@ -69,6 +90,46 @@
   background-blend-mode: normal, color, normal;
   background-size: auto, auto, cover;
 }
+
+.e-card.is-highlight,
+.e-card.is-album-metric {
+  background:
+    radial-gradient(
+      circle farthest-corner at 0% 100%,
+      rgb(255 255 255 / 0.1),
+      rgb(255 255 255 / 0.09) 2%,
+      rgb(255 255 255 / 0.08) 10%,
+      rgb(255 255 255 / 0.06) 21%,
+      rgb(255 255 255 / 0.04) 36%,
+      rgb(255 255 255 / 0.02) 54%,
+      rgb(255 255 255 / 0)
+    ),
+    radial-gradient(
+      circle farthest-side at 100% 0%,
+      rgb(255 255 255 / 0.2),
+      rgb(255 255 255 / 0.19) 2%,
+      rgb(255 255 255 / 0.16) 10%,
+      rgb(255 255 255 / 0.12) 21%,
+      rgb(255 255 255 / 0.08) 36%,
+      rgb(255 255 255 / 0.04) 54%,
+      rgb(255 255 255 / 0.01) 75%,
+      rgb(255 255 255 / 0)
+    ),
+    var(--color-bg-level-01);
+  background-blend-mode: screen, screen, normal;
+}
+
+// Gemini add-ons
+.e-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #eee; /* Separator */
+  padding-bottom: 0.75rem;
+}
+
+
 // #endregion
 
 // -----------------------------------------------------------------------------

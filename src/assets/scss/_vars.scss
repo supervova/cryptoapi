@@ -322,7 +322,7 @@
     --padding-bottom-display: #{rem(7)};
 
     --font-size-title:      #{rem(40)};
-    --font-weight-titles:    var(--font-weight-titles);
+    --font-weight-title:    var(--font-weight-titles);
     --line-height-title:    #{math.div(48, 40)};
     --padding-top-title:    #{rem(1)};
     --padding-bottom-title: #{rem(7)};
@@ -334,7 +334,7 @@
     --padding-bottom-h2: #{rem(7)};
 
     --font-size-h3:      #{rem(23)};
-    --font-weight-h3:    var(--font-weight-titles-lighter);
+    // --font-weight-h3:    var(--font-weight-titles-lighter);
     --letter-spacing-h3: #{rem(0.3)};
     --line-height-h3:    #{math.div(32, 23)};
     --padding-top-h3:    #{rem(1)};
@@ -354,11 +354,6 @@
     --padding-x-container:  var(--size-5);
 
     --navbar-area:          #{rem(96)};
-  }
-
-  // 📟 LANDSCAPE TABLET OVERRIDES
-  @media (--tablet-l) {
-    --navbar-area: #{rem(144)};
   }
 
   // 💻 LAPTOP OVERRIDES

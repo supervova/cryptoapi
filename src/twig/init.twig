@@ -1,10 +1,10 @@
-{% extends "partials/clean_page.twig" %}
+{% extends "partials/base.twig" %}
 
 {% block config %}
   {{ parent() }}
   {% set ExtraData = ExtraData|merge(
     {
-      body_classes: 'e-page is-home'
+      body_classes: 'is-home'
     }
   ) %}
 {% endblock %}
@@ -22,8 +22,8 @@
 {% endblock %} #}
 
 
-{# Расскоментируй строку ниже, если не нужна шапка #}
-{# {% block header %}{% endblock %} #}
+{# Расскоментируй строку ниже, если не нужна панель навигации #}
+{# {% block navbar %}{% endblock %} #}
 
 {% block content %}
 
@@ -32,5 +32,5 @@
 
 {% endblock %}
 
-{# Расскоментируй строку ниже, если не нужна шапка #}
+{# Расскоментируй строку ниже, если не нужна подвал #}
 {# {% block footer %}{% endblock %} #}

@@ -66,7 +66,7 @@
   @include meta.load-css('scroller-row');
   @include meta.load-css('cta');
   @include meta.load-css('plan');
-  // @include meta.load-css('header');
+  @include meta.load-css('header');
   // @include meta.load-css('scroller');
   // @include meta.load-css('snippet');
 
@@ -80,9 +80,9 @@
   @include meta.load-css('testimonial');
   @include meta.load-css('content/blockquote');
   @include meta.load-css('content/table');
+  @include meta.load-css('content/code');
   // @include meta.load-css('badge');
   // @include meta.load-css('content/callout');
-  // @include meta.load-css('content/code');
   // @include meta.load-css('content/tag');
 
   // Markets

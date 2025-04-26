@@ -1,0 +1,7 @@
+@use 'sass:meta';
+
+@layer legacy {
+  @include meta.load-css('bootstrap');
+  @include meta.load-css('modal');
+  @include meta.load-css('toast');
+}

@@ -1,0 +1,31 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+# ------------------------------------------------------------------------------
+# Trading
+# ------------------------------------------------------------------------------
+msgid "verb.perfective.Buy"
+msgstr "Buy"
+
+msgid "verb.infinitive.Buy"
+msgstr "Buy"
+
+msgid "noun.Buy"
+msgstr "Buy"
+
+msgid "verb.perfective.Sell"
+msgstr "Sell"
+
+msgid "verb.infinitive.Sell"
+msgstr "Sell"
+
+msgid "noun.Sell"
+msgstr "Sell"
+
+msgid "verb.Hedge"
+msgstr "Hedge"
+
+msgid "noun.Hedge"
+msgstr "Hedge"

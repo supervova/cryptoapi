@@ -1,0 +1,31 @@
+/* stylelint-disable declaration-no-important */
+@use '../abstracts' as *;
+@use '../abstracts/custom';
+
+// .header-h1,
+// [id='apidoc'],
+// div:has(.btn-info):has(.btn-warning) {
+//   margin-inline: auto !important;
+//   width: min(100%, var(--width-readable));
+// }
+
+[id='apidoc'] {
+  padding: 0 !important;
+
+  h3,h4 {
+    color: var(--color-ink-2ry);
+    margin-top: var(--size-6);
+  }
+}
+
+div:has(> .btn-info):has(> .btn-warning) {
+  // display: flex;
+  // gap: var(--size-2);
+  padding-bottom: calc(var(--size-6) - #{rem(10)});
+}
+
+[id='apidoc'] h3 {
+  @include text-format(base);
+
+  font-weight: var(--font-weight-titles);
+}

@@ -26,6 +26,7 @@ import notify from 'gulp-notify';
 import plumber from 'gulp-plumber';
 import postcss from 'gulp-postcss';
 import prettify from 'gulp-prettier';
+import rename from 'gulp-rename';
 import replace from 'gulp-replace';
 import size from 'gulp-size';
 // import sourcemaps from 'gulp-sourcemaps';
@@ -69,12 +70,15 @@ const paths = {
   css: {
     src: {
       main: `${srcBase}/assets/scss/main.scss`,
-      home: `${srcBase}/assets/scss/pages/home.scss`,
-      auth: `${srcBase}/assets/scss/pages/auth.scss`,
+      pages: `${srcBase}/assets/scss/pages/*.scss`,
+      legacy: `${srcBase}/assets/scss/legacy/index.scss`,
     },
     watch: `${srcBase}/assets/scss/**/*.scss`,
     tmp: `${srcBase}/assets/css/`,
-    dest: `${destAssets}/css/`,
+    dest: {
+      base: `${destAssets}/css/`,
+      legacy: `${root.dest.dev}/css/`,
+    },
   },
   markup: {
     src: {
@@ -83,15 +87,21 @@ const paths = {
         `!${srcBase}/twig/partials/*.twig`,
         `!${srcBase}/twig/data/**/*.twig`,
       ],
+      tpl: [`${srcBase}/templates/*.tpl`, `!${srcBase}/templates/*~.tpl`],
     },
     watch: [
       `${srcBase}/twig/**/*.twig`,
-      `${destAssets}/css/home.css`,
-      `${destAssets}/css/auth.css`,
+      `${destAssets}/css/*.css`,
+      `${root.dest.dev}/css/*.css`,
+      `!${destAssets}/css/main.css`,
+      `!${root.dest.dev}/css/bootstrap.css`,
+      `!${root.dest.dev}/css/jquery.toast.min.css`,
+      `!${root.dest.dev}/css/main_modal.css`,
     ],
     dest: {
       dev: `${root.dest.dev}`,
       prod: `${root.dest.prod}/twig`,
+      prodTpl: `${root.dest.prod}/templates`,
     },
   },
   img: {
@@ -153,7 +163,7 @@ const paths = {
 const cleanDist = () =>
   deleteAsync([
     `${root.dest.dev}/**/*`, // Очищаем dist
-    `${paths.css.dest}/**/*.css`,
+    `${paths.css.dest.base}/**/*.css`,
     `${paths.js.dest}/**/*.js`,
     `${paths.img.dest}/**/*`,
     `${destAssets}/data/**/*`,
@@ -250,13 +260,34 @@ const copyLocales = () =>
     .pipe(dest(paths.l10n.dest));
 
 const copyTwig = () =>
-  src([`${srcBase}/twig/**/*.twig`, `${srcBase}/twig/readme.md`], {
-    encoding: false,
-  })
+  src(
+    [
+      `${srcBase}/twig/**/*.twig`,
+      `${srcBase}/twig/readme.md`,
+      `!${srcBase}/twig/wip/*.twig`,
+    ],
+    {
+      encoding: false,
+    }
+  )
     .pipe(changed(paths.markup.dest.prod))
     .pipe(dest(paths.markup.dest.prod));
 
-const copy = parallel(copyFonts, copyEngine, copyData, copyTwig, copyLocales);
+const copyTpl = () =>
+  src(paths.markup.src.tpl, {
+    encoding: false,
+  })
+    .pipe(changed(paths.markup.dest.prodTpl))
+    .pipe(dest(paths.markup.dest.prodTpl));
+
+const copy = parallel(
+  copyData,
+  copyEngine,
+  copyFonts,
+  copyLocales,
+  copyTpl,
+  copyTwig
+);
 // #endregion
 
 /**
@@ -368,6 +399,7 @@ const pages = (done) => {
         data: {
           // Добавляем все PHP-переменные как обычные переменные Twig
           ...phpMockData,
+          ENV: process.env.NODE_ENV || 'production',
         },
         filters: [
           {
@@ -416,7 +448,8 @@ const pages = (done) => {
 const processStyles = (
   source,
   subtitle,
-  destination
+  destination,
+  outputName = null
   // purgeContent,
   // forceProduction = false
 ) =>
@@ -474,6 +507,7 @@ const processStyles = (
     )
     // .pipe(gulpif(!(PRODUCTION || forceProduction), sourcemaps.write()))
     .pipe(size({ title: `styles: ${subtitle}` }))
+    .pipe(outputName ? rename(outputName) : rename((path) => path))
     .pipe(dest(destination))
     .pipe(bsInstance.stream());
 
@@ -481,29 +515,31 @@ const cssBase = (done) => {
   processStyles(
     paths.css.src.main,
     'main',
-    paths.css.dest
+    paths.css.dest.base
     // [`${srcBase}/pages/uncss/**/*.html`],
     // true // Force production mode
   );
   done();
 };
 
-const cssHome = (done) => {
-  processStyles(paths.css.src.home, 'home', paths.css.dest);
+const cssPages = (done) => {
+  processStyles(paths.css.src.pages, 'pages', paths.css.dest.base);
   done();
 };
 
-const cssAuth = (done) => {
-  processStyles(paths.css.src.auth, 'auth', paths.css.dest);
+const cssLegacy = (done) => {
+  processStyles(
+    paths.css.src.legacy,
+    'legacy',
+    paths.css.dest.base,
+    'legacy.css'
+  ); // Добавляем имя файла
   done();
 };
 
-// const cssPricing = (done) => {
-//   processStyles(paths.css.src.pricing, 'pricing', paths.css.dest);
-//   done();
-// };
+// export { cssLegacy as cssp };
 
-const css = series(cssBase, cssHome, cssAuth);
+const css = series(cssBase, cssPages, cssLegacy);
 // #endregion
 
 /**
@@ -561,6 +597,7 @@ const watchFiles = () => {
     [`${srcBase}/twig/**/*.twig`, `${srcBase}/twig/readme.md`],
     series(copyTwig)
   );
+  watch(paths.markup.src.tpl, series(copyTpl));
   watch(paths.l10n.src, series(copyLocales));
   watch([...paths.markup.watch], series(pages));
 };

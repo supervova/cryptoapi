@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Основной контроллер для обработки запросов и рендеринга Twig-шаблонов
+ * Контроллер главной таницы сайта для обработки запросов и рендеринга Twig-шаблонов
  *
  * Файл обрабатывает входящие запросы, настраивает конфигурацию CMS,
  * подготавливает данные для шаблонов и рендерит страницу.
@@ -83,6 +83,9 @@ try {
     die('Error initializing system: ' . $e->getMessage());
 }
 
+// Получение окружения приложения (development/production) из переменной окружения APP_ENV
+$data_objects['ENV'] = getenv('APP_ENV') ?: 'production';
+
 // Инициализация и заполнение массива данных для шаблона
 global $data_objects;
 $data_objects = $data_objects ?? [];
@@ -93,7 +96,7 @@ $data_objects['ExtraData'] = [
     'desc' => $blog_description ?? '',
     'domain' => $host,
     'assets_prefix' => '/projects/cryptoapi.ai',
-    'body_classes' => 'e-page is-home',
+    'body_classes' => 'is-home',
     'lang' => $lng_html,
     'fgi' => 68,
     'user_id' => $user_id,

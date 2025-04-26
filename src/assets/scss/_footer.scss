@@ -1,5 +1,18 @@
 @use 'abstracts' as *;
 
+:where(.e-page.is-app) .e-footer {
+  @media (--tablet) {
+    // Make room for navbar...
+    padding-inline-start: var(--navbar-area);
+  }
+
+  @media (--tablet-l) {
+    :where(.e-page:not(.is-app)) & {
+      padding-inline-start: 0;
+    }
+  }
+}
+
 .e-footer > .e-container {
   border-top: 1px solid var(--color-ink-border);
   display: flex;
@@ -10,13 +23,11 @@
   padding-bottom: rem(96);
 
   @media (--tablet) {
-    padding-inline-start: var(--navbar-area);
     padding-bottom: rem(34);
   }
 
   @media (--tablet-l) {
     flex-direction: row;
-    padding-inline-start: var(--padding-x-container);
     padding-bottom: var(--size-6);
   }
 }
@@ -85,4 +96,19 @@
     right: 0;
     transform: none;
   }
+}
+
+:where(.e-footer__languages summary) {
+  span { display: none; }
+}
+
+[data-lang^='ru'] .e-footer__ru { display: inline; }
+[data-lang^='en'] .e-footer__en { display: inline; }
+
+
+[data-lang^='ru'] .e-menu__item.is-ru,
+[data-lang^='en'] .e-menu__item.is-en {
+  background-color: var(--menu-current-bg, hsl(0 0 100% / 0.04));
+  cursor: default;
+  pointer-events: none;
 }

@@ -1,0 +1,39 @@
+/* stylelint-disable declaration-no-important */
+/* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
+@custom-media --phone only screen and (width < 768px);
+@custom-media --phone-p only screen and (width < 568px);
+@custom-media --phone-l only screen and (width >= 568px);
+@custom-media --phone-l-height only screen and (max-height: 360px);
+@custom-media --tablet only screen and (width >= 768px) and (min-height: 361px);
+@custom-media --tablet-p-only only screen and (768px <= width <= 1023px) and (min-height: 361px);
+@custom-media --tablet-l-down only screen and (width < 1024px);
+@custom-media --tablet-l only screen and (width >= 1024px) and (min-height: 361px);
+@custom-media --tablet-only only screen and (768px <= width <= 1360px) and (min-height: 361px);
+@custom-media --laptop-down only screen and (width < 1360px);
+@custom-media --laptop only screen and (width >= 1360px) and (min-height: 361px);
+@custom-media --desktop only screen and (width >= 1920px) and (min-height: 361px);
+@custom-media --retina print,
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 1.25dppx),
+  (min-resolution: 120dpi);
+@custom-selector :--text-field select, textarea, .e-form__text-input, input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="url"], input[type="tel"], input[type="date"];
+@custom-selector :--text-field-blur :where(input:not([type="checkbox"]):not([type="radio"]), select, textarea):not(:focus);
+[id=apidoc] {
+  padding: 0 !important;
+}
+[id=apidoc] h3, [id=apidoc] h4 {
+  color: var(--color-ink-2ry);
+  margin-top: var(--size-6);
+}
+
+div:has(> .btn-info):has(> .btn-warning) {
+  padding-bottom: calc(var(--size-6) - 0.625rem);
+}
+
+[id=apidoc] h3 {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  padding-top: var(--padding-top-base);
+  padding-bottom: var(--padding-bottom-base);
+  font-weight: var(--font-weight-titles);
+}
