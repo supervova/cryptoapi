@@ -34,6 +34,9 @@ $twig = new \Twig\Environment($loader, [
 $twig->addGlobal('ExtraData', [
     'domain' => $host,
     'lang' => $lng_html,
+    // Лучше добавить всё, что используется в шаблонах и общее для всех
+    // пользователей: данные для Open Graph, js, стили, контент. Но хотя
+    // бы эти две
 ]);
 ```
 
