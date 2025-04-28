@@ -32,7 +32,6 @@ $twig = new \Twig\Environment($loader, [
 
 // Добавляем это:
 $twig->addGlobal('ExtraData', [
-    'assets_prefix' => '/projects/cryptoapi.ai',
     'domain' => $host,
     'lang' => $lng_html,
 ]);
