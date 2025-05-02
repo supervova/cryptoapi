@@ -28,8 +28,10 @@ include_once(ROOTDIR."projects/".$config['project_path']."/engine/cleanpage.clas
 
 $final_html = get_template("clean_page.twig");
 
-
 $tpl = array(
   '{$page_content_html}' => $page_content_html,
 );
+
+$data_objects['page']['type'] = 'website';
+
 $final_html = strtr($final_html, $tpl);

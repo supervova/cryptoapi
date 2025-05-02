@@ -3,16 +3,17 @@
 
 {% block config %}
   {{ parent() }}
-  {% set ExtraData = ExtraData|merge(
-    {
-      body_classes: 'is-auth'
-    }
-  ) %}
+
+  {% if ENV == 'development' %}
+    {% set page = page|merge(
+      {classes: 'is-auth'}
+    ) %}
+  {% endif %}
 {% endblock %}
 
 {% block head %}
   {{ parent() }}
-  <link rel="stylesheet" href="{{ ExtraData.assets_prefix }}/assets/css/auth.css?{{ "now"|date('U') }}">
+  <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/auth.css?{{ "now"|date('U') }}">
 {% endblock %}
 
 {% block navbar %}{% endblock %}
@@ -24,7 +25,7 @@
 
     <div class="e-card is-panel">
 
-      <img class="e-modal__logo" src="{{ ExtraData.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-tablet.svg" alt="{{ 'CryptoAPI.ai Logo'|trans }}">
+      <img class="e-modal__logo" src="{{ site.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-tablet.svg" alt="{{ 'CryptoAPI.ai Logo'|trans }}">
 
       <div
         class="e-tabs">
@@ -74,7 +75,7 @@
           </form>
 
           <footer class="e-tabs__footer">
-            <button class="e-btn is-link" type="button" onclick="forgotform()">{{ 'Forgot your password?'|trans }}</button>
+            <button class="e-btn is-link" type="button" data-action="forgot-password">{{ 'Forgot your password?'|trans }}</button>
             <button class="e-btn is-link" type="button" data-target="signup">
               <b>{{ 'Sign Up'|trans }}</b>
             </button>
@@ -152,7 +153,7 @@
           <footer class="e-tabs__footer">
             <button class="e-btn is-link" type="button" data-target="signin">
               {% include 'partials/icon.twig' with {name: 'sm-chevron-left'} %}
-              {{ 'Already registered?'|trans }}
+              {{ 'Already registered?'|trans }}&nbsp;
               <b>{{ 'Sign In'|trans }}</b>
             </button>
           </footer>
@@ -228,7 +229,7 @@
     <button class="e-btn" type="button" data-action="cancelauth">{{ 'Cancel'|trans }}</button>
   </div>
   {% endset %}
-  {{ macros.modal('loginmsgwin', modal_telegram, ExtraData.assets_prefix) }}
+  {{ macros.modal('loginmsgwin', modal_telegram, site.assets_prefix) }}
 
   <!-- Email Sent Modal -->
   {% set modal_email %}
@@ -250,15 +251,15 @@
     </div>
   </div>
   {% endset %}
-  {{ macros.modal('sended', modal_email, ExtraData.assets_prefix) }}
+  {{ macros.modal('sended', modal_email, site.assets_prefix) }}
 
   <!-- Loader -->
   <div id="loader">{{ 'Loading...'|trans }}</div>
 
   <script type="module">
-    import {showToast} from '{{ ExtraData.assets_prefix }}/assets/js/toast.js';
+    import {showToast} from '{{ site.assets_prefix }}/assets/js/toast.js';
 
-   /**
+    /**
     * Переключение на вкладку восстановления пароля.
     * Функция добавлена только потому, что сервер возвращает строку с ее вызовом.
     */
@@ -275,7 +276,7 @@
       }
     }
 
-   /**
+    /**
     * Шифрование ROT13 (сервер принимает в таком виде)
     */
     function strRot13(str) {
@@ -287,7 +288,7 @@
       });
     }
 
-   /**
+    /**
     * Модуль управления аутентификацией и регистрацией
     * @module AuthModule
     */
@@ -308,6 +309,7 @@
           cancelAuth: '[data-action="cancelauth"]', // For modal #loginmsgwin
           resendMail: '[data-action="resend"]', // For modal #sended
           passwordToggle: '[data-role="password-toggle"]', // More specific
+          forgotPassword: '[data-action="forgot-password"]'
         },
         oauth: {
           google: '[data-oauth="google"]'
@@ -367,7 +369,7 @@
       let mailCountdownInterval = null; // Store interval ID for mail countdown
       let mailRetryCount = 0;
 
-     /**
+      /**
       * ------------------------------------------------------------------------
       * ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
       * ------------------------------------------------------------------------
@@ -380,7 +382,7 @@
         }
       };
 
-     /**
+      /**
       * Переключение вкладок
       */
       function switchTab(tabId) {
@@ -398,7 +400,7 @@
         // }
       }
 
-     /**
+      /**
       * Таймер обратного отсчета для отправки почты
       * @param {number} seconds - Количество секунд
       */
@@ -443,7 +445,7 @@
         }, 1000);
       }
 
-     /**
+      /**
       * ------------------------------------------------------------------------
       * ОСНОВНЫЕ ФУНКЦИИ
       * ------------------------------------------------------------------------
@@ -468,8 +470,9 @@
               const bodyText = await response.text();
               if (bodyText)
                 errorText += ` - ${
-                  bodyText.substring(0, 100)
-                }`;
+                 bodyText.substring(0, 100)
+              }
+              `;
 
             } catch (e) { /* Ignore if body can't be read */
             }
@@ -612,9 +615,10 @@
           if (result === 'OK') {
             config.successAction();
           } else { // Показать сообщение об ошибке, предоставленное сервером
-            messageElement.innerHTML = `${
-              result || '{{ "Request error."|trans|e("js") }}'
-            }`;
+            messageElement.innerHTML = ` $ {
+                result || '{{ "Request error."|trans|e("js") }}'
+              }
+              `;
             // Если попытка отправки почты была неудачной, обновим счетчик
             if (type === 'signup' || type === 'resetpwd') {
               mailRetryCount += 1;
@@ -661,7 +665,11 @@
                 thisprojectid: '{$thisprojectid}'
               });
             } catch (error) {
-              showToast (`{{ "Failed to send cancellation request:"|trans|e("js") }} ${error}`, 'error');
+              showToast (` {{ "Failed to send cancellation request:"|trans|e("js") }}
+              $ {
+                error
+              }
+              `, 'error');
             } finally {
               toggleLoader(false);
               msgcode = null;
@@ -805,6 +813,14 @@
             return;
           }
 
+          // Восстановление пароля
+          const forgotPasswordButton = target.closest(SELECTORS.buttons.forgotPassword);
+          if (forgotPasswordButton) {
+            event.preventDefault();
+            switchTab('resetpwd');
+            return;
+          }
+
           // Отправка формы
           const submitButton = target.closest(SELECTORS.buttons.submitAuthForm);
           if (submitButton) {
@@ -852,7 +868,12 @@
 
             const googleUrl = '{$googleurl}';
             if (googleUrl) {
-              window.location.href = `${googleUrl}|${currentClientTimeZoneOffset}`;
+              window.location.href = ` $ {
+                googleUrl
+              } | $ {
+                currentClientTimeZoneOffset
+              }
+              `;
             } else { // console.error('Google OAuth URL is not defined.');
               showToast('{{ "Google login is unavailable."|trans|e("js") }}', 'error');
             }
@@ -882,11 +903,16 @@
                 } else if (status === 'OK') {
                   const code = response[1] * 1;
                   const duration = 300;
-                  startMessengerPolling (`A${code}`, duration);
+                  startMessengerPolling (` A$ {
+                code
+              }
+              `, duration);
                 } else {
-                  showToast (`{{ "Error:"|trans|e("js") }} ${
-                    response[0]
-                  }`, 'error');
+                  showToast (` {{ "Error:"|trans|e("js") }}
+              $ {
+                response[0]
+              }
+              `, 'error');
                 }
               } else {
                 showToast('{{ "Failed to retrieve the verification code."|trans|e("js") }}', 'error');

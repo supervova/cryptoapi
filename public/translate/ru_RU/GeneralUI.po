@@ -48,6 +48,15 @@ msgstr "Моя страница"
 msgid "Dashboard"
 msgstr "Сводка"
 
+msgid "Watchlist"
+msgstr "Коллекция"
+
+msgid "Signals"
+msgstr "Сигналы"
+
+msgid "Trading"
+msgstr "Трейдинг"
+
 msgid "Notifications"
 msgstr "Уведомления"
 
@@ -142,29 +151,32 @@ msgstr "Жадн.:"
 # Trading
 # ------------------------------------------------------------------------------
 
+msgid "Cryptocurrency asset"
+msgstr "Криптовалютный актив"
+
 # msgid "verb.imperative.Buy" msgstr "Купи"
-msgid "verb.perfective.Buy"
+msgid "[*verb.perfective*]Buy"
 msgstr "Купить"
 
-msgid "verb.infinitive.Buy"
+msgid "[*verb.infinitive*]Buy"
 msgstr "Покупать"
 
-msgid "noun.Buy"
+msgid "[*noun*]Buy"
 msgstr "Покупка"
 
-msgid "verb.perfective.Sell"
+msgid "[*verb.perfective*]Sell"
 msgstr "Продать"
 
-msgid "verb.infinitive.Sell"
+msgid "[*verb.infinitive*]Sell"
 msgstr "Продавать"
 
-msgid "noun.Sell"
+msgid "[*noun*]Sell"
 msgstr "Продажа"
 
-msgid "verb.Hedge"
+msgid "[*verb*]Hedge"
 msgstr "Хеджировать"
 
-msgid "noun.Hedge"
+msgid "[*noun*]Hedge"
 msgstr "Хеджирование"
 
 # Signals
@@ -223,4 +235,15 @@ msgstr "Неактивный"
 msgid "Pending"
 msgstr "Ожидание"
 
+msgid "Completed"
+msgstr "Выполнено"
 
+# ------------------------------------------------------------------------------
+# Markets
+# ------------------------------------------------------------------------------
+
+msgid "Top Loser"
+msgstr "Лидер падения"
+
+msgid "Top Gainer"
+msgstr "Лидер роста"

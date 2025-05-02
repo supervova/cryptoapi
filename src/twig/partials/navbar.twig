@@ -72,7 +72,7 @@
   }
  } %}
 
-{% if ExtraData.user_id > 0 %}
+{% if user.id > 0 %}
   {% set data_menu = data_menu_user %}
 {% else %}
   {% set data_menu = data_menu_guest %}
@@ -98,13 +98,13 @@
   <div class="e-container">
     <a class="e-navbar__logo" href="/">
       <picture>
-        <source media="(max-width: 767px)" srcset="{{ ExtraData.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-mobile.svg" type="image/svg+xml">
+        <source media="(max-width: 767px)" srcset="{{ site.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-mobile.svg" type="image/svg+xml">
 
-        {% if not ExtraData.app %}
-          <source media="(max-width: 1023px)" srcset="{{ ExtraData.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-tablet.svg" type="image/svg+xml">
-          <img src="{{ ExtraData.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-desktop.svg" alt="{{ 'CryptoAPI.ai Logo'|trans }}">
+        {% if not page.app %}
+          <source media="(max-width: 1023px)" srcset="{{ site.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-tablet.svg" type="image/svg+xml">
+          <img src="{{ site.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-desktop.svg" alt="{{ 'CryptoAPI.ai Logo'|trans }}">
         {% else %}
-          <img src="{{ ExtraData.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-tablet.svg" alt="{{ 'CryptoAPI.ai Logo'|trans }}">
+          <img src="{{ site.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-tablet.svg" alt="{{ 'CryptoAPI.ai Logo'|trans }}">
         {% endif %}
       </picture>
       <span class="e-navbar__tagline">
@@ -152,10 +152,10 @@
       {% endfor %}
     </ul>
 
-    {% if ExtraData.user_id > 0 %}
+    {% if user.id > 0 %}
 
       {# Search Toggle - Only on mobiles #}
-      {% if ExtraData.app %}
+      {% if page.app %}
         <button class="e-navbar__search-toggle e-btn is-icon is-ghost tablet:d-none" id="navbar-header-toggle" type="button" aria-label="{{ 'Search coins'|trans }}">
           {% include 'partials/icon.twig' with {name: 'search'} %}
         </button>
@@ -163,10 +163,10 @@
 
       <details class="e-popover e-navbar__user-menu" data-role="popover">
         <summary class="has-chevron">
-          {% if ExtraData.user_avatar and ExtraData.user_avatar != './images/profile_nophoto.jpg' %}
-            <img class="e-avatar e-navbar__avatar" src="{{ ExtraData.user_avatar }}" alt="{{ ExtraData.user_name }}">
+          {% if user.avatar and user.avatar != './images/profile_nophoto.jpg' %}
+            <img class="e-avatar e-navbar__avatar" src="{{ user.avatar }}" alt="{{ user.name }}">
           {% else %}
-            <span class="e-avatar e-navbar__avatar is-empty" aria-label="{{ ExtraData.user_name }}">{{ ExtraData.user_name|slice(0, 1) }}</span>
+            <span class="e-avatar e-navbar__avatar is-empty" aria-label="{{ user.name }}">{{ user.name|slice(0, 1) }}</span>
           {% endif %}
         </summary>
         <ul class="e-popover__body e-menu">

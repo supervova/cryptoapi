@@ -1,70 +1,115 @@
-{# Don't treat the config as an include. Twig won't understand #}
 {% block config %}
-  {% if ExtraData is not defined %}
-    {% set ExtraData = {
+  {% if site is not defined %}
+    {% set site = {
       "assets_prefix": "",
+      "domain": "cryptoapi.ai",
+      "desc": "Unlock the power of advanced APIs designed for crypto traders and analysts. Access real-time market insights, trading signals, custom indices, and automated tools to boost your trading performance.",
       "fonts_google": "Inter:wght@300;400;600",
-      "lang": "ru",
-      "user_id": 1
+      "languages": ["en", "ru"],
+      "title": "CryptoAPI.ai – Advanced APIs for Crypto Traders and Market Analytics"
+    } %}
+  {% endif %}
+
+  {% if page is not defined %}
+    {% set page = {
+      "lang": "ru"
+    } %}
+  {% endif %}
+
+  {% if user is not defined %}
+    {% set user = {
+      "id": 1
     } %}
   {% endif %}
 {% endblock %}
 
 <!doctype html>
-<html lang="{$lng_html}" prefix="og: http://ogp.me/ns#">
+<html lang="{{ page.lang }}" dir="{{ page.dir|default('ltr') }}" prefix="og: http://ogp.me/ns#">
 <head>
   {% block head %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>{{ ExtraData.title ?? '{$blog_name}' ?? 'CryptoAPI.ai – Advanced APIs for Crypto Traders and Market Analytics' | trans }}</title>
-  <meta name="description" content="{{ ExtraData.desc ?? '{$blog_description}' ?? 'Unlock the power of advanced APIs designed for crypto traders and analysts. Access real-time market insights, trading signals, custom indices, and automated tools to boost your trading performance.' | trans }}">
+  <title>{{ page.title|default(site.title)|trans }}</title>
+  <meta name="description" content="{{ page.desc|default(site.desc)|trans }}">
 
-  <meta property="og:locale" content="{$lng_html}">
-  <meta property="og:title" content="{{ ExtraData.title ?? '{$blog_name}' ?? 'CryptoAPI.ai – Advanced APIs for Crypto Traders and Market Analytics' | trans }}">
-  <meta property="og:description" content="{{ ExtraData.desc ?? '{$blog_description}' ?? 'Unlock the power of advanced APIs designed for crypto traders and analysts. Access real-time market insights, trading signals, custom indices, and automated tools to boost your trading performance.' | trans }}">
-  {$ogtype}
-  <meta property="og:image" content="{$meta_ogimage}">
-  <meta property="og:url" content="{$thispageurl}">
-  <meta property="og:site_name" content="{$meta_title}">
-  <meta property="og:see_also" content="{$main_href}">
+  <meta property="og:title" content="{{ page.title|default(site.title)|trans }}">
+  <meta property="og:description" content="{{ page.desc|default(site.desc)|trans }}">
+  <meta property="og:type" content="{{ page.type }}">
+  <meta property="og:url" content="https://{{ site.domain }}{% if not page.index or page.lang != 'ru' %}/{{ page.lang }}/{{ page.slug }}{% else %}/{% endif %}">
+  <meta property="og:image" content="{{ page.image|default('https://' ~ site.domain ~ site.assets_prefix ~ '/img/cover.png') }}">
   <meta name="twitter:card" content="summary_large_image">
 
-  <meta name="user-id" content="{$user_id}">
+  <link rel="canonical" href="https://{{ site.domain }}{% if not page.index or page.lang != 'ru' %}/{{ page.lang }}/{{ page.slug }}{% else %}/{% endif %}">
 
-  {# {$canonical} #}
-  {$schemaorg}
+  {% for lang in site.languages %}
+    <link rel="alternate" hreflang="{{ lang }}" href="https://{{ site.domain }}{% if not page.index or lang != 'ru' %}/{{ lang }}/{{ page.slug }}{% else %}/{% endif %}">
+  {% endfor %}
+  <link rel="alternate" hreflang="x-default" href="https://{{ site.domain }}/en{% if not page.index %}/{{ page.slug }}{% endif %}">
 
-  <base href="{$base_href}">
-  <link rel="icon" href="{{ ExtraData.assets_prefix }}/favicon.ico" sizes="32x32">
-  <link rel="icon" href="{{ ExtraData.assets_prefix }}/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="{{ ExtraData.assets_prefix }}/assets/img/icons/icon-192.png">
-  <link rel="manifest" href="{{ ExtraData.assets_prefix }}/manifest.json">
+  {% if ENV == 'production' %}
+    <base href="https://{{ site.domain }}">
+  {% endif %}
+  <link rel="icon" href="{{ site.assets_prefix }}/favicon.ico" sizes="32x32">
+  <link rel="icon" href="{{ site.assets_prefix }}/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{{ site.assets_prefix }}/assets/img/icons/icon-192.png">
+  <link rel="manifest" href="{{ site.assets_prefix }}/manifest.json">
+
+  <meta name="user-id" content="{{ user.id }}">
 
   {% block assets %}
-  <script src="{{ ExtraData.assets_prefix }}/assets/js/main.js" type="module"></script>
-  {$thispagejs}
+  <script src="{{ site.assets_prefix }}/assets/js/main.js" type="module"></script>
+  {{ page.legacy_js }}
   {% endblock %}
+
+  {% set schema_type =
+    page.schema_type|default(
+      page.index ? 'WebSite' : (page.slug starts with 'quote-' ? 'Product' : 'WebPage')
+  ) %}
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "{{ schema_type }}",
+    "name": "{{ page.title|default('CryptoAPI.ai') }}",
+    "url": "https://{{ site.domain }}{% if not page.index %}/{{ page.lang }}/{{ page.slug }}{% endif %}",
+    {% if schema_type == 'WebSite' %}
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://{{ site.domain }}/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    {% elseif schema_type == 'WebPage' %}
+      "description": "{{ page.desc|default(site.desc) }}",
+      "inLanguage": "{{ page.lang }}"
+    {% elseif schema_type == 'Product' %}
+      "description": "{{ page.desc|default('Cryptocurrency asset')|trans }}",
+      "brand": {
+        "@type": "Brand",
+        "name": "{{ page.asset_brand|default(page.title|trans) }}"
+      },
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "{{ page.asset_currency|default('USD') }}",
+        "price": "{{ page.asset_price|default('0.00') }}",
+        "availability": "https://schema.org/InStock"
+      }
+    {% endif %}
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Inter:wght@300;400;500">
   {% block css %}
-  <link rel="stylesheet" href="{{ ExtraData.assets_prefix }}/assets/css/main.css?{{ "now"|date('U') }}">
-  {% if ExtraData.page_styles %}
-    <link rel="stylesheet" href="{{ ExtraData.assets_prefix }}/assets/css/{{ ExtraData.page_styles }}?{{ "now"|date('U') }}">
+  <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/main.css?{{ "now"|date('U') }}">
+  {% if page.styles %}
+    <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/{{ page.styles }}?{{ "now"|date('U') }}">
   {% endif %}
   {% endblock %}
 {% endblock %}
 </head>
 
-{% set slug = "{$pageths}" %}
-<body
-  class="
-  e-page is-{{ slug }}
-  {% if ExtraData.app %} is-app{% else %} is-site{% endif %}
-  {% if ExtraData.body_classes %} {{ ExtraData.body_classes }}{% endif %}
-  "
->
+<body class="e-page{% if page.slug != '' %} is-{{ page.slug }}{% endif %}{% if page.app %} is-app{% else %} is-site{% endif %}{% if page.classes %} {{ page.classes }}{% endif %}">
 
   {# NAVBAR ----------------------------------------------------------------- #}
   {% block navbar %}
@@ -73,7 +118,7 @@
 
   {# CONTENT ---------------------------------------------------------------- #}
   {# Content Header (Search & Stats) #}
-  {% if ExtraData.app %}
+  {% if page.app %}
     {% include "partials/header.twig" %}
   {% endif %}
 

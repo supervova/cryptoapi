@@ -22,14 +22,14 @@
 {% endblock %}
 
 {% block css %}
-  <link rel="stylesheet" href="{{ ExtraData.assets_prefix }}/assets/css/legacy.css">
+  <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/legacy.css">
   {{ parent() }}
 {% endblock %}
 
 {% block content %}
 
   <div class="e-container mt-half-max">
-    {{ content|raw }}
+    {{ page.content|raw }}
   </div>
 
 {% endblock %}

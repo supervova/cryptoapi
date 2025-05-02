@@ -4,65 +4,70 @@
   {{ parent() }}
 
   {% if ENV == 'development' %}
-    {% set ExtraData = ExtraData|merge(
+    {% set site = site|merge(
+      {fgi: 27}
+    ) %}
+
+    {% set page = page|merge(
       {
-        body_classes: 'is-dashboard',
-        page_styles: 'dashboard.css',
-        user_id: 1,
         app: true,
-        fgi: 27,
-
-        watchlist: {
-          total_value: "980 641,14",
-
-          change_trend: "error",
-          change_usd: "-$19,04",
-          change_percent: "0%",
-
-          all_time_trend: "success",
-          all_time_change_usd: "+$261 733,12",
-          all_time_change_percent: "26,69%",
-
-          assets: [
-            { symbol: "TRX", fullname: "TRON", value: "0,25", change: "+3,37%", trend: "positive" },
-            { symbol: "LTC", fullname: "Litecoin", value: "79,64", change: "+1,31%", trend: "positive" },
-            { symbol: "USDT", fullname: "Tether USDt", value: "1,0000", change: "0%", trend: "neutral" },
-            { symbol: "ADA", fullname: "Cardano", value: "0,66", change: "-0,43%", trend: "negative" },
-            { symbol: "BTC", fullname: "Bitcoin", value: "84 642,59", change: "-0,77%", trend: "negative" },
-            { symbol: "ETH", fullname: "Ethereum", value: "1 628,11", change: "-0,97%", trend: "negative" }
-          ]
-        },
-
-        signals: [
-          { trigger: "Price below", volume: "30 000USD", type: "Price Trigger" },
-          { trigger: "AI Trend:", price_direction: "Uptrend -", asset: "BTC", type: "AI Forecast Trigger" },
-          { trigger: "Volume above", volume: "50ETH", type: "Volume Trigger" }
-        ],
-
-        advices: [
-          { asset: "ETH", action: "verb.infinitive.sell", type: "sell" },
-          { asset: "BTC", action: "verb.infinitive.Buy", type: "buy" },
-          { asset: "SOL", action: "verb.Hedge", type: "hedge" },
-          { asset: "BTC", action: "Uptrend -", type: "uptrend", trend: true }
-        ],
-
-        reports: [
-          { action: "noun.Buy", asset: "BTC", time: "15:24", status: "pending" },
-          { action: "noun.Sell", asset: "ETH", time: "14:47", status: "success" },
-          { action: "noun.Buy", asset: "LTC", time: "13:03", status: "error" },
-          { action: "noun.Sell", asset: "BTC", time: "11:18", status: "success" }
-        ],
-
-        apis: [
-          { name: "BTC Bungavy Bot", status: "Active", status: "active" },
-          { name: "ETH Grid Bot", status: "Inactive", status: "inactive" }
-        ]
+        classes: 'is-dashboard',
+        styles: 'dashboard.css',
       }
+    ) %}
+
+    {% set user = user|merge(
+      {id: 1}
     ) %}
 
     {% set header_stats = [3.78, -25.3] %}
 
-    {# Featured Assets #}
+    {% set watchlist = {
+      total_value: "980 641,14",
+
+      change_trend: "error",
+      change_usd: "-$19,04",
+      change_percent: "0%",
+
+      all_time_trend: "success",
+      all_time_change_usd: "+$261 733,12",
+      all_time_change_percent: "26,69%",
+
+      assets: [
+        {symbol: "TRX", fullname: "TRON", value: "0,25", change: "+3,37%", trend: "positive"},
+        {symbol: "LTC", fullname: "Litecoin", value: "79,64", change: "+1,31%", trend: "positive"},
+        {symbol: "USDT", fullname: "Tether USDt", value: "1,0000", change: "0%", trend: "neutral"},
+        {symbol: "ADA", fullname: "Cardano", value: "0,66", change: "-0,43%", trend: "negative"},
+        {symbol: "BTC", fullname: "Bitcoin", value: "84 642,59", change: "-0,77%", trend: "negative"},
+        {symbol: "ETH", fullname: "Ethereum", value: "1 628,11", change: "-0,97%", trend: "negative"}
+      ]
+    } %}
+
+    {% set signals = [
+      {trigger: "Price below", volume: "30 000USD", type: "Price Trigger"},
+      {trigger: "AI Trend:", price_direction: "Uptrend -", asset: "BTC", type: "AI Forecast Trigger"},
+      {trigger: "Volume above", volume: "50ETH", type: "Volume Trigger"}
+    ] %}
+
+    {% set advices = [
+      {asset: "ETH", action: "verb.infinitive.sell", type: "sell"},
+      {asset: "BTC", action: "verb.infinitive.Buy", type: "buy"},
+      {asset: "SOL", action: "verb.Hedge", type: "hedge"},
+      {asset: "BTC", action: "Uptrend -", type: "uptrend", trend: true}
+    ] %}
+
+    {% set reports = [
+      {action: "noun.Buy", asset: "BTC", time: "15:24", status: "pending"},
+      {action: "noun.Sell", asset: "ETH", time: "14:47", status: "success"},
+      {action: "noun.Buy", asset: "LTC", time: "13:03", status: "error"},
+      {action: "noun.Sell", asset: "BTC", time: "11:18", status: "success"}
+    ] %}
+
+    {% set apis = [
+      {name: "BTC Bungavy Bot", status: "Active", status: "active"},
+      {name: "ETH Grid Bot", status: "Inactive", status: "inactive"}
+    ] %}
+
     {% set featured_assets = [
       {
         logo: "sui",
@@ -102,14 +107,15 @@
 {% endblock %} #}
 
 {% block content %}
-  <div class="e-container">
+  <div
+    class="e-container">
 
     {# Overview and sidebar #}
     <div class="e-content">
+      <!-- 16:57 -->
 
       {# Watchlist #}
-      <section class="e-assets">
-        <div class="e-assets__sticky">
+        <section class="e-assets"> <div class="e-assets__sticky">
           <header class="e-card is-watchlist is-highlight">
 
             <div class="e-card__row">
@@ -117,12 +123,12 @@
                 <h2 class="e-eyebrow">
                   <a href="/{{ lng_html }}watchlist">
                     {{ 'My watchlist:'|trans }}
-                    {{ ExtraData.watchlist.assets|length }}
+                    {{ watchlist.assets|length }}
                   </a>
                 </h2>
                 <h3 class="e-card__total">
                   <span class="text-2ry">$</span>
-                  {{ ExtraData.watchlist.total_value }}
+                  {{ watchlist.total_value }}
                 </h3>
               </hgroup>
               <a class="e-btn is-icon" href="/{{ lng_html }}watchlist">
@@ -133,18 +139,18 @@
 
             <div class="e-card__row">
               <span class="e-card__period">{{ 'Day'|trans }}</span>
-              <span class="e-card__value text-{{ ExtraData.watchlist.change_trend }}">
-                {{ ExtraData.watchlist.change_usd }}
+              <span class="e-card__value text-{{ watchlist.change_trend }}">
+                {{ watchlist.change_usd }}
                 •
-                {{ ExtraData.watchlist.change_percent }}
+                {{ watchlist.change_percent }}
               </span>
             </div>
             <div class="e-card__row">
               <span class="e-card__period">{{ 'Total'|trans }}</span>
-              <span class="e-card__value text-{{ ExtraData.watchlist.all_time_trend }}">
-                {{ ExtraData.watchlist.all_time_change_usd }}
+              <span class="e-card__value text-{{ watchlist.all_time_trend }}">
+                {{ watchlist.all_time_change_usd }}
                 •
-                {{ ExtraData.watchlist.all_time_change_percent }}
+                {{ watchlist.all_time_change_percent }}
               </span>
             </div>
           </header>
@@ -156,7 +162,7 @@
               <col>
             </colgroup>
             <tbody>
-              {% for asset in ExtraData.watchlist.assets|slice(0, 6) %}
+              {% for asset in watchlist.assets|slice(0, 6) %}
                 <tr {% if loop.first %} aria-current="true" {% endif %}>
                   <th scope="row">
                     <div class="e-assets__symbol">{{ asset.symbol }}-USD</div>
@@ -164,7 +170,10 @@
                   </th>
                   <td class="e-assets__price">
                     {% set parts = asset.value|split(',') %}
-                    {{ parts[0] }},{% if parts[1] is defined %}<small>{{ parts[1] }}</small>{% endif %}
+                    {{ parts[0] }},
+                    {% if parts[1] is defined %}
+                      <small>{{ parts[1] }}</small>
+                    {% endif %}
                   </td>
                   <td class="e-assets__change is-{{ asset.trend }}">{{ asset.change }}</td>
                 </tr>
@@ -180,27 +189,31 @@
         </button>
       </section>
 
-      <div class="e-content__base">
+      <div
+        class="e-content__base">
         {# Signals #}
         <section class="e-card is-signals is-featured">
 
           <h2 class="e-eyebrow has-chevron">
             <a href="/{{ lng_html }}signals">
               {{ 'Signals:'|trans }}
-              {{ ExtraData.signals|length }}
+              {{ signals|length }}
             </a>
             {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
           </h2>
 
           <ul class="e-card__list">
-            {% for signal in ExtraData.signals|slice(0, 4) %}
+            {% for signal in signals|slice(0, 4) %}
               <li class="e-card__li">
                 {% include 'partials/icon.twig' with {name: 'bell'} %}
                 <div class="e-card__details">
                   {% if signal.type == 'AI Forecast Trigger' %}
-                  <strong>{{ signal.trigger|trans }} {{ signal.price_direction|trans }} {{ signal.asset|trans }}</strong>
+                    <strong>{{ signal.trigger|trans }}
+                      {{ signal.price_direction|trans }}
+                      {{ signal.asset|trans }}</strong>
                   {% else %}
-                  <strong>{{ signal.trigger|trans }} {{ price_direction.volume }}</strong>
+                    <strong>{{ signal.trigger|trans }}
+                      {{ price_direction.volume }}</strong>
                   {% endif %}
                   <span class="text-2ry">{{ signal.type|trans }}</span>
                 </div>
@@ -224,7 +237,7 @@
           </h2>
 
           <ul class="e-card__list">
-            {% for advice in ExtraData.advices %}
+            {% for advice in advices %}
               <li class="e-card__li">
                 {% set action_class =
                   advice.type == 'buy' or advice.type == 'uptrend' ? 'text-success' :
@@ -233,11 +246,12 @@
                   ''
                 %}
                 {% if advice.trend %}
-                <span class="e-card__key">{{ 'Trend'|trans }}</span>
-                <span class="e-card__action {{ action_class }}">{{ advice.action }} {{ advice.asset }}</span>
+                  <span class="e-card__key">{{ 'Trend'|trans }}</span>
+                  <span class="e-card__action {{ action_class }}">{{ advice.action }}
+                    {{ advice.asset }}</span>
                 {% else %}
-                <span class="e-card__key">{{ advice.asset }}</span>
-                <span class="e-card__action {{ action_class }}">{{ advice.action }}</span>
+                  <span class="e-card__key">{{ advice.asset }}</span>
+                  <span class="e-card__action {{ action_class }}">{{ advice.action }}</span>
                 {% endif %}
               </li>
             {% endfor %}
@@ -268,23 +282,24 @@
             </a>
             {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
           </h2>
-            <ul class="e-card__list">
-              {% for report in ExtraData.reports|slice(0, 4) %}
-                {% set report_icon =
+          <ul class="e-card__list">
+            {% for report in reports|slice(0, 4) %}
+              {% set report_icon =
                   report.status == 'success' ? 'success' :
                   report.status == 'error' ? 'error' :
                   report.status == 'pending' ? 'time' :
                   ''
                 %}
-                <li class="e-card__li">
-                  <div class="e-card__details">
-                    <strong>{{ report.action }} {{ report.asset }}</strong>
-                    <span class="text-2ry">{{ report.time }}</span>
-                  </div>
-                  {% include 'partials/icon.twig' with { name: report_icon } %}
-                </li>
-              {% endfor %}
-            </ul>
+              <li class="e-card__li">
+                <div class="e-card__details">
+                  <strong>{{ report.action }}
+                    {{ report.asset }}</strong>
+                  <span class="text-2ry">{{ report.time }}</span>
+                </div>
+                {% include 'partials/icon.twig' with { name: report_icon } %}
+              </li>
+            {% endfor %}
+          </ul>
         </section>
 
         {# Trading / APIs #}
@@ -314,7 +329,7 @@
           </h3>
 
           <ul class="e-card__list">
-            {% for api in ExtraData.apis|slice(0, 2) %}
+            {% for api in apis|slice(0, 2) %}
               <li class="e-card__li">
                 <div class="e-card__details">
                   {% include 'partials/icon.twig' with { name: 'robot' } %}
@@ -330,7 +345,7 @@
             {% endfor %}
           </ul>
 
-          <button  class="e-btn has-start-icon is-main-action" type="button">
+          <button class="e-btn has-start-icon is-main-action" type="button">
             {% include 'partials/icon.twig' with {name: 'add'} %}
             {{ 'Add API'|trans }}
           </button>
@@ -341,7 +356,7 @@
     <div class="e-flex is-featured-assets">
       {% for asset in featured_assets %}
         <a class="e-card is-album-metric {{ asset.card_class }}" href="/{{ lng_html }}markets">
-          <img class="e-card__logo" src="{{ ExtraData.assets_prefix }}/assets/img/cryptologos/{{ asset.logo }}.svg" alt="{{ 'Logo –'|trans }} {{ asset.name }}">
+          <img class="e-card__logo" src="{{ site.assets_prefix }}/assets/img/cryptologos/{{ asset.logo }}.svg" alt="{{ 'Logo –'|trans }} {{ asset.name }}">
 
           <div class="e-card__content">
             <h3 class="e-eyebrow">{{ asset.label|trans }}</h3>

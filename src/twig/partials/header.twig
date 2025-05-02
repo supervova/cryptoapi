@@ -24,7 +24,7 @@
       </div>
 
       {# Fear and Greed Index #}
-      {% set fgi = ExtraData.fgi %}
+      {% set fgi = site.fgi %}
       {% if fgi < 41 %}
         {% set label = 'Fear:' %}
         {% set class = 'is-error' %}

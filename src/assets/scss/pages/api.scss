@@ -19,8 +19,9 @@
 }
 
 div:has(> .btn-info):has(> .btn-warning) {
-  // display: flex;
-  // gap: var(--size-2);
+  display: flex;
+  gap: var(--size-2);
+  margin: 0 !important;
   padding-bottom: calc(var(--size-6) - #{rem(10)});
 }
 

@@ -13,23 +13,24 @@
 Я разрабатываю сайт на PHP/Twig. Мне нужно интегрировать legacy-код на Smarty, jQuery, Bootstrap. Полностью переписать на современных технологиях и перенести в Twig по ряду причин нельзя. Но можно заменить в tpl jQuery и Bootstrap на «ванильный» JS и стили. А также вынести CSS из строковых стилей во внешний файл.
 
 .e-content {
-  display: flex;
-  align-items: stretch; // важно: элементы растягиваются по высоте самого высокого
-  gap: var(--size-gap);
+display: flex;
+align-items: stretch; // важно: элементы растягиваются по высоте самого высокого
+gap: var(--size-gap);
 }
 
 .e-assets {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  height: 100%; // тянется на высоту соседнего блока
+display: flex;
+flex-direction: column;
+position: relative;
+height: 100%; // тянется на высоту соседнего блока
 }
 
-.e-assets__sticky {
-  position: sticky;
-  top: 0;
+.e-assets\_\_sticky {
+position: sticky;
+top: 0;
 }
 
-.e-assets__footer {
-  margin-top: auto; // ключевая строка: отправляет кнопку вниз
+.e-assets\_\_footer {
+margin-top: auto; // ключевая строка: отправляет кнопку вниз
 }
+```

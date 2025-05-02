@@ -1,5 +1,5 @@
-{# Передаем объект ExtraData в параметр, чтобы инклюд иконки получил assets_prefix #}
-{# {{ macros.modal('my-modal', '<p>Lorem ipsum dolor sit amet.</p>', ExtraData.assets_prefix) }} #}
+{# Передаем объект site в параметр, чтобы инклюд иконки получил assets_prefix #}
+{# {{ macros.modal('my-modal', '<p>Lorem ipsum dolor sit amet.</p>', site.assets_prefix) }} #}
 
 {% macro modal(id, content, assets_prefix, classes) %}
 <dialog class="e-modal{% if classes %} {{ classes }}{% endif %}" id="{{ id }}">

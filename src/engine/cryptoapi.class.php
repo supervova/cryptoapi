@@ -26,20 +26,15 @@ $page_content_html = get_template("cryptoapi");
 $data_objects['ENV'] = getenv('APP_ENV') ?: 'production';
 
 // Подготовка массива данных
-global $data_objects;
-$data_objects = $data_objects ?? [];
-$data_objects['ExtraData'] = [
-    'title' => $blog_name,
-    'desc' => $blog_description,
-    'domain' => $host,
-    'assets_prefix' => '/projects/cryptoapi.ai',
-    'lang' => $lng_html,
-    'page_styles' => 'api.css',
-    'user_id' => $user_id,
-    'user_name' => $username ?? '',
-    'user_avatar' => $userdata['avatarbox'] ?? ''
-];
-$data_objects['content'] = $page_content_html;
+$data_objects['page'] = array_merge(
+    $data_objects['page'] ?? [],
+    [
+      'content' => $page_content_html,
+      'desc' => $blog_description,
+      'styles' => 'api.css',
+      'title' => $blog_name,
+    ]
+);
 
 // Рендер страницы
 $final_html = get_template("legacy.twig");

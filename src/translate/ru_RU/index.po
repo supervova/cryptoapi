@@ -109,12 +109,6 @@ msgstr "Рынок криптовалют прямо сейчас"
 msgid "Every day, every hour, every moment presents new opportunities."
 msgstr "Каждый день, каждый час, каждый миг появляются новые шансы."
 
-msgid "Top Loser"
-msgstr "Лидер падения"
-
-msgid "Top Gainer"
-msgstr "Лидер роста"
-
 msgid "Fear"
 msgstr "Страх"
 

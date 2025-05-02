@@ -1,5 +1,8 @@
 <?php
 
+define('ENGINEDIR', __DIR__ . '/');
+define('ROOTDIR', dirname(__DIR__));
+
 // Парсинг маршрута из URL
 $pageths = explode('/', $_REQUEST['routestring'] ?? '');
 
@@ -13,8 +16,11 @@ if ($anybot && $thispath[1] != 'userapi') {
 $returl = '';
 if (isset($_GET['returl'])) {
     $returl = urldecode($_GET['returl']);
-} elseif (strpos($_SERVER['HTTP_REFERER'] ?? '', "http") !== false && strpos($_SERVER['HTTP_REFERER'] ?? '', '/auth') === false) {
-    $returl = $_SERVER['HTTP_REFERER'];
+} elseif (isset($_SERVER['HTTP_REFERER'])) {
+    $referer = $_SERVER['HTTP_REFERER'];
+    if (strpos($referer, "http") !== false && strpos($referer, '/auth') === false) {
+        $returl = $referer;
+    }
 } elseif (isset($_COOKIE['returl'])) {
     $returl = urldecode($_COOKIE['returl']);
 }
@@ -79,31 +85,35 @@ if (empty($unloggedid)) {
 $hello_cookie = md5("helloADeJhl4yqawkZFxmAF8bDyaqr7dECsn0" . $_SERVER['HTTP_USER_AGENT']);
 
 // Формирование URL для авторизации через Google
-$googleurl = 'https://accounts.google.com/o/oauth2/auth?' . urldecode(http_build_query($params ?? []));
+$googleurl = 'https://accounts.google.com/o/oauth2/auth?' .
+    urldecode(http_build_query($params ?? []));
 
 // Получение окружения приложения (development/production) из переменной окружения APP_ENV
 $data_objects['ENV'] = getenv('APP_ENV') ?: 'production';
 
 // Заполнение массива данных для шаблона
-$data_objects = [];
-$data_objects['UserId'] = $user_id ?? null;
-$data_objects['Page'] = $pageths;
-$data_objects['ExtraData'] = [
+$data_objects['page'] = array_merge(
+    $data_objects['page'] ?? [],
+    [
+    'classes' => 'is-auth',
+    'desc' => 'Log in to your CryptoAPI.ai account or create a new one. ' .
+        'Access advanced trading tools, real-time market insights, and ' .
+        'automated strategies powered by cutting-edge AI technology.',
     'title' => 'Secure Sign In or Sign Up | CryptoAPI.ai - AI-Powered Crypto Trading',
-    'desc' => 'Log in to your CryptoAPI.ai account or create a new one. Access advanced trading tools, real-time market insights, and automated strategies powered by cutting-edge AI technology.',
-    'assets_prefix' => '/projects/cryptoapi.ai',
-    'body_classes' => 'is-auth',
-    'googleurl' => $googleurl,
-    'hello_cookie' => $hello_cookie,
+    'type' => 'website',
+
+    // TODO: заменить этими переменными Smarty в auth.twig
     'hello' => $_COOKIE[$hello_cookie] ?? '',
-    'lang' => $lng_html ?? '',
+    'hello_cookie' => $hello_cookie,
+    'oauth_google' => $googleurl,
     'returl' => $returl,
     'setemail' => $setemail,
     'this_http_host' => $this_http_host,
-    'thisprojectid' => $thisprojectid,
-    'unloggedid' => $unloggedid,
-    'user_id' => $user_id
-];
+    ]
+);
+// auth.css is hardcoded in template
+
+$data_objects['user']['unloggedid'] = $unloggedid;
 
 // Рендеринг шаблона
 $final_html = get_template("auth.twig", $data_objects);

@@ -4,307 +4,70 @@
   {{ parent() }}
 
   {% if ENV == 'development' %}
-    {% set ExtraData = ExtraData|merge(
+    {% set site = site|merge(
+      {fgi: 27}
+    ) %}
+
+    {% set page = page|merge(
       {
-        body_classes: 'is-dashboard',
-        page_styles: 'dashboard.css',
-        user_id: 1,
         app: true,
-        fgi: 27,
-
-        watchlist: {
-          total_value: "980 641,14",
-
-          change_trend: "error",
-          change_usd: "-$19,04",
-          change_percent: "0%",
-
-          all_time_trend: "success",
-          all_time_change_usd: "+$261 733,12",
-          all_time_change_percent: "26,69%",
-
-          assets: [
-            { symbol: "TRX", fullname: "TRON", value: "0,25", change: "+3,37%", trend: "positive" },
-            { symbol: "LTC", fullname: "Litecoin", value: "79,64", change: "+1,31%", trend: "positive" },
-            { symbol: "USDT", fullname: "Tether USDt", value: "1,0000", change: "0%", trend: "neutral" },
-            { symbol: "ADA", fullname: "Cardano", value: "0,66", change: "-0,43%", trend: "negative" },
-            { symbol: "BTC", fullname: "Bitcoin", value: "84 642,59", change: "-0,77%", trend: "negative" },
-            { symbol: "ETH", fullname: "Ethereum", value: "1 628,11", change: "-0,97%", trend: "negative" }
-          ]
-        },
-
-        signals: [
-          { trigger: "Price below", volume: "30 000USD", type: "Price Trigger" },
-          { trigger: "AI Trend:", price_direction: "Uptrend -", asset: "BTC", type: "AI Forecast Trigger" },
-          { trigger: "Volume above", volume: "50ETH", type: "Volume Trigger" }
-        ],
-
-        advices: [
-          { asset: "ETH", action: "verb.infinitive.sell", type: "sell" },
-          { asset: "BTC", action: "verb.infinitive.Buy", type: "buy" },
-          { asset: "SOL", action: "verb.Hedge", type: "hedge" },
-          { asset: "BTC", action: "Uptrend -", type: "uptrend", trend: true }
-        ],
-
-        reports: [
-          { action: "noun.Buy", asset: "BTC", time: "15:24", status: "pending" },
-          { action: "noun.Sell", asset: "ETH", time: "14:47", status: "success" },
-          { action: "noun.Buy", asset: "LTC", time: "13:03", status: "error" },
-          { action: "noun.Sell", asset: "BTC", time: "11:18", status: "success" }
-        ],
-
-        apis: [
-          { name: "BTC Bungavy Bot", status: "Active", status: "active" },
-          { name: "ETH Grid Bot", status: "Inactive", status: "inactive" }
-        ]
+        classes: 'is-dashboard',
+        styles: 'dashboard.css',
       }
     ) %}
 
+    {% set user = user|merge(
+      {id: 1}
+    ) %}
+
     {% set header_stats = [3.78, -25.3] %}
-  {% endif %}
-{% endblock %}
 
-{# {% block head %}
-{% endblock %} #}
+    {% set watchlist = {
+      total_value: "980 641,14",
 
-{% block content %}
-  <div class="e-container">
+      change_trend: "error",
+      change_usd: "-$19,04",
+      change_percent: "0%",
 
-    {# Overview and sidebar #}
-    <div class="e-content">
+      all_time_trend: "success",
+      all_time_change_usd: "+$261 733,12",
+      all_time_change_percent: "26,69%",
 
-      {# Watchlist #}
-      <section class="e-assets">
-        <div class="e-assets__sticky">
-          <header class="e-card is-watchlist is-highlight">
+      assets: [
+        {symbol: "TRX", fullname: "TRON", value: "0,25", change: "+3,37%", trend: "positive"},
+        {symbol: "LTC", fullname: "Litecoin", value: "79,64", change: "+1,31%", trend: "positive"},
+        {symbol: "USDT", fullname: "Tether USDt", value: "1,0000", change: "0%", trend: "neutral"},
+        {symbol: "ADA", fullname: "Cardano", value: "0,66", change: "-0,43%", trend: "negative"},
+        {symbol: "BTC", fullname: "Bitcoin", value: "84 642,59", change: "-0,77%", trend: "negative"},
+        {symbol: "ETH", fullname: "Ethereum", value: "1 628,11", change: "-0,97%", trend: "negative"}
+      ]
+    } %}
 
-            <div class="e-card__row">
-              <hgroup>
-                <h2 class="e-eyebrow">
-                  <a href="/{{ lng_html }}/watchlist">
-                    {{ 'My watchlist:'|trans }}
-                    {{ ExtraData.watchlist.assets|length }}
-                  </a>
-                </h2>
-                <h3 class="e-card__total">
-                  <span class="text-2ry">$</span>
-                  {{ ExtraData.watchlist.total_value }}
-                </h3>
-              </hgroup>
-              <a class="e-btn is-icon" href="/{{ lng_html }}/watchlist">
-                <span class="visually-hidden">{{ 'View all'|trans }}</span>
-                {% include 'partials/icon.twig' with {name: 'chevron-right'} %}
-              </a>
-            </div>
+    {% set signals = [
+      {trigger: "Price below", volume: "30 000USD", type: "Price Trigger"},
+      {trigger: "AI Trend:", price_direction: "Uptrend -", asset: "BTC", type: "AI Forecast Trigger"},
+      {trigger: "Volume above", volume: "50ETH", type: "Volume Trigger"}
+    ] %}
 
-            <div class="e-card__row">
-              <span class="e-card__period">{{ 'Day'|trans }}</span>
-              <span class="e-card__value text-{{ ExtraData.watchlist.change_trend }}">
-                {{ ExtraData.watchlist.change_usd }}
-                •
-                {{ ExtraData.watchlist.change_percent }}
-              </span>
-            </div>
-            <div class="e-card__row">
-              <span class="e-card__period">{{ 'Total'|trans }}</span>
-              <span class="e-card__value text-{{ ExtraData.watchlist.all_time_trend }}">
-                {{ ExtraData.watchlist.all_time_change_usd }}
-                •
-                {{ ExtraData.watchlist.all_time_change_percent }}
-              </span>
-            </div>
-          </header>
+    {% set advices = [
+      {asset: "ETH", action: "verb.infinitive.sell", type: "sell"},
+      {asset: "BTC", action: "verb.infinitive.Buy", type: "buy"},
+      {asset: "SOL", action: "verb.Hedge", type: "hedge"},
+      {asset: "BTC", action: "Uptrend -", type: "uptrend", trend: true}
+    ] %}
 
-          <table class="e-assets__table mt-1l">
-            <colgroup>
-              <col class="e-assets__symbols">
-              <col>
-              <col>
-            </colgroup>
-            <tbody>
-              {% for asset in ExtraData.watchlist.assets|slice(0, 6) %}
-                <tr {% if loop.first %} aria-current="true" {% endif %}>
-                  <th scope="row">
-                    <div class="e-assets__symbol">{{ asset.symbol }}-USD</div>
-                    <div class="e-assets__name">{{ asset.fullname }}</div>
-                  </th>
-                  <td class="e-assets__price">
-                    {% set parts = asset.value|split(',') %}
-                    {{ parts[0] }},{% if parts[1] is defined %}<small>{{ parts[1] }}</small>{% endif %}
-                  </td>
-                  <td class="e-assets__change is-{{ asset.trend }}">{{ asset.change }}</td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
+    {% set reports = [
+      {action: "noun.Buy", asset: "BTC", time: "15:24", status: "pending"},
+      {action: "noun.Sell", asset: "ETH", time: "14:47", status: "success"},
+      {action: "noun.Buy", asset: "LTC", time: "13:03", status: "error"},
+      {action: "noun.Sell", asset: "BTC", time: "11:18", status: "success"}
+    ] %}
 
+    {% set apis = [
+      {name: "BTC Bungavy Bot", status: "Active", status: "active"},
+      {name: "ETH Grid Bot", status: "Inactive", status: "inactive"}
+    ] %}
 
-        <button class="e-btn has-start-icon is-main-action" type="button">
-          {% include 'partials/icon.twig' with {name: 'add'} %}
-          {{ 'Add New Currency'|trans }}
-        </button>
-      </section>
-
-      <div class="e-content__base">
-        {# Signals #}
-        <section class="e-card is-signals is-featured">
-
-          <h2 class="e-eyebrow has-chevron">
-            <a href="/{{ lng_html }}/signals">
-              {{ 'Signals:'|trans }}
-              {{ ExtraData.signals|length }}
-            </a>
-            {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
-          </h2>
-
-          <ul class="e-card__list">
-            {% for signal in ExtraData.signals|slice(0, 4) %}
-              <li class="e-card__li">
-                {% include 'partials/icon.twig' with {name: 'bell'} %}
-                <div class="e-card__details">
-                  {% if signal.type == 'AI Forecast Trigger' %}
-                  <strong>{{ signal.trigger|trans }} {{ signal.price_direction|trans }} {{ signal.asset|trans }}</strong>
-                  {% else %}
-                  <strong>{{ signal.trigger|trans }} {{ price_direction.volume }}</strong>
-                  {% endif %}
-                  <span class="text-2ry">{{ signal.type|trans }}</span>
-                </div>
-              </li>
-            {% endfor %}
-          </ul>
-
-          <button class="e-btn has-start-icon is-main-action" type="button">
-            {% include 'partials/icon.twig' with {name: 'add'} %}
-            {{ 'Add Signal'|trans }}
-          </button>
-        </section>
-
-        {# Tips #}
-        <section class="e-card is-tips">
-          <h2 class="e-eyebrow has-chevron">
-            <a href="/{{ lng_html }}/signals">
-              {{ 'Tips'|trans }}
-            </a>
-            {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
-          </h2>
-
-          <ul class="e-card__list">
-            {% for advice in ExtraData.advices %}
-              <li class="e-card__li">
-                {% set action_class =
-                  advice.type == 'buy' or advice.type == 'uptrend' ? 'text-success' :
-                  advice.type == 'sell' or advice.type == 'downtrend' ? 'text-error' :
-                  advice.type == 'hedge' or advice.type == 'sideways' ? 'text-warning' :
-                  ''
-                %}
-                {% if advice.trend %}
-                <span class="e-card__key">{{ 'Trend'|trans }}</span>
-                <span class="e-card__action {{ action_class }}">{{ advice.action }} {{ advice.asset }}</span>
-                {% else %}
-                <span class="e-card__key">{{ advice.asset }}</span>
-                <span class="e-card__action {{ action_class }}">{{ advice.action }}</span>
-                {% endif %}
-              </li>
-            {% endfor %}
-          </ul>
-          <hr>
-          <div class="e-card__footnote">
-            {% include 'partials/icon.twig' with {name: 'rain'} %}
-            {# Example icon #}
-            <div class="e-card__details">
-              <strong>Прогноз риска и волатильности:</strong>
-              <span class="text-2ry">Умеренный риск</span>
-            </div>
-          </div>
-          <div class="e-card__footnote is-personal">
-            {% include 'partials/icon.twig' with {name: 'bulb'} %}
-            <div class="e-card__details">
-              <strong>Персональный совет:</strong>
-              <span class="text-2ry">Ужесточите стоп-лоссы</span>
-            </div>
-          </div>
-        </section>
-
-        {# Reports #}
-        <section class="e-card is-reports">
-          <h2 class="e-eyebrow has-chevron">
-            <a href="/{{ lng_html }}/trading">
-              {{ 'Reports'|trans }}
-            </a>
-            {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
-          </h2>
-            <ul class="e-card__list">
-              {% for report in ExtraData.reports|slice(0, 4) %}
-                {% set report_icon =
-                  report.status == 'success' ? 'success' :
-                  report.status == 'error' ? 'error' :
-                  report.status == 'pending' ? 'time' :
-                  ''
-                %}
-                <li class="e-card__li">
-                  <div class="e-card__details">
-                    <strong>{{ report.action }} {{ report.asset }}</strong>
-                    <span class="text-2ry">{{ report.time }}</span>
-                  </div>
-                  {% include 'partials/icon.twig' with { name: report_icon } %}
-                </li>
-              {% endfor %}
-            </ul>
-        </section>
-
-        {# Trading / APIs #}
-        <section class="e-card is-trading">
-          <h2 class="e-eyebrow has-chevron">
-            <a href="/{{ lng_html }}/trading">
-              {{ 'Trading'|trans }}
-            </a>
-            {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
-          </h2>
-
-          <div class="e-card__lead">
-            <strong>{{ 'My API key'|trans }}</strong>
-            <button class="e-btn is-icon is-ghost" type="button" title="{{ 'Revoke API Key'|trans }}">
-              {% include 'partials/icon.twig' with {name: 'key-slash'} %}
-            </button>
-            <button class="e-btn is-icon is-ghost" type="button" title="{{ 'View'|trans }}">
-              {% include 'partials/icon.twig' with {name: 'eye'} %}
-            </button>
-          </div>
-
-          <h3 class="e-eyebrow has-chevron">
-            <a href="/{{ lng_html }}/trading">
-              {{ 'Connected APIs'|trans }}
-            </a>
-            {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
-          </h3>
-
-          <ul class="e-card__list">
-            {% for api in ExtraData.apis|slice(0, 2) %}
-              <li class="e-card__li">
-                <div class="e-card__details">
-                  {% include 'partials/icon.twig' with { name: 'robot' } %}
-                  <div>
-                    <strong>{{ api.name }}</strong>
-                    <span class="text-2ry">{{ api.status }}</span>
-                  </div>
-                </div>
-                <button class="e-btn is-icon is-ghost" type="button" title="{{ 'Settings'|trans }}">
-                  {% include 'partials/icon.twig' with {name: 'settings'} %}
-                </button>
-              </li>
-            {% endfor %}
-          </ul>
-
-          <button  class="e-btn has-start-icon is-main-action" type="button">
-            {% include 'partials/icon.twig' with {name: 'add'} %}
-            {{ 'Add API'|trans }}
-          </button>
-        </section>
-      </div>
-    </div>
-
-    {# Featured Assets #}
     {% set featured_assets = [
       {
         logo: "sui",
@@ -337,11 +100,263 @@
         card_class: "is-trending"
       }
     ] %}
+  {% endif %}
+{% endblock %}
+
+{# {% block head %}
+{% endblock %} #}
+
+{% block content %}
+  <div
+    class="e-container">
+
+    {# Overview and sidebar #}
+    <div class="e-content">
+      <!-- 16:57 -->
+
+      {# Watchlist #}
+        <section class="e-assets"> <div class="e-assets__sticky">
+          <header class="e-card is-watchlist is-highlight">
+
+            <div class="e-card__row">
+              <hgroup>
+                <h2 class="e-eyebrow">
+                  <a href="/{{ lng_html }}watchlist">
+                    {{ 'My watchlist:'|trans }}
+                    {{ watchlist.assets|length }}
+                  </a>
+                </h2>
+                <h3 class="e-card__total">
+                  <span class="text-2ry">$</span>
+                  {{ watchlist.total_value }}
+                </h3>
+              </hgroup>
+              <a class="e-btn is-icon" href="/{{ lng_html }}watchlist">
+                <span class="visually-hidden">{{ 'View all'|trans }}</span>
+                {% include 'partials/icon.twig' with {name: 'chevron-right'} %}
+              </a>
+            </div>
+
+            <div class="e-card__row">
+              <span class="e-card__period">{{ 'Day'|trans }}</span>
+              <span class="e-card__value text-{{ watchlist.change_trend }}">
+                {{ watchlist.change_usd }}
+                •
+                {{ watchlist.change_percent }}
+              </span>
+            </div>
+            <div class="e-card__row">
+              <span class="e-card__period">{{ 'Total'|trans }}</span>
+              <span class="e-card__value text-{{ watchlist.all_time_trend }}">
+                {{ watchlist.all_time_change_usd }}
+                •
+                {{ watchlist.all_time_change_percent }}
+              </span>
+            </div>
+          </header>
+
+          <table class="e-assets__table mt-1l">
+            <colgroup>
+              <col class="e-assets__symbols">
+              <col>
+              <col>
+            </colgroup>
+            <tbody>
+              {% for asset in watchlist.assets|slice(0, 6) %}
+                <tr {% if loop.first %} aria-current="true" {% endif %}>
+                  <th scope="row">
+                    <div class="e-assets__symbol">{{ asset.symbol }}-USD</div>
+                    <div class="e-assets__name">{{ asset.fullname }}</div>
+                  </th>
+                  <td class="e-assets__price">
+                    {% set parts = asset.value|split(',') %}
+                    {{ parts[0] }},
+                    {% if parts[1] is defined %}
+                      <small>{{ parts[1] }}</small>
+                    {% endif %}
+                  </td>
+                  <td class="e-assets__change is-{{ asset.trend }}">{{ asset.change }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+
+        <button class="e-btn has-start-icon is-main-action" type="button">
+          {% include 'partials/icon.twig' with {name: 'add'} %}
+          {{ 'Add New Currency'|trans }}
+        </button>
+      </section>
+
+      <div
+        class="e-content__base">
+        {# Signals #}
+        <section class="e-card is-signals is-featured">
+
+          <h2 class="e-eyebrow has-chevron">
+            <a href="/{{ lng_html }}signals">
+              {{ 'Signals:'|trans }}
+              {{ signals|length }}
+            </a>
+            {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
+          </h2>
+
+          <ul class="e-card__list">
+            {% for signal in signals|slice(0, 4) %}
+              <li class="e-card__li">
+                {% include 'partials/icon.twig' with {name: 'bell'} %}
+                <div class="e-card__details">
+                  {% if signal.type == 'AI Forecast Trigger' %}
+                    <strong>{{ signal.trigger|trans }}
+                      {{ signal.price_direction|trans }}
+                      {{ signal.asset|trans }}</strong>
+                  {% else %}
+                    <strong>{{ signal.trigger|trans }}
+                      {{ price_direction.volume }}</strong>
+                  {% endif %}
+                  <span class="text-2ry">{{ signal.type|trans }}</span>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+
+          <button class="e-btn has-start-icon is-main-action" type="button">
+            {% include 'partials/icon.twig' with {name: 'add'} %}
+            {{ 'Add Signal'|trans }}
+          </button>
+        </section>
+
+        {# Tips #}
+        <section class="e-card is-tips">
+          <h2 class="e-eyebrow has-chevron">
+            <a href="/{{ lng_html }}signals">
+              {{ 'Tips'|trans }}
+            </a>
+            {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
+          </h2>
+
+          <ul class="e-card__list">
+            {% for advice in advices %}
+              <li class="e-card__li">
+                {% set action_class =
+                  advice.type == 'buy' or advice.type == 'uptrend' ? 'text-success' :
+                  advice.type == 'sell' or advice.type == 'downtrend' ? 'text-error' :
+                  advice.type == 'hedge' or advice.type == 'sideways' ? 'text-warning' :
+                  ''
+                %}
+                {% if advice.trend %}
+                  <span class="e-card__key">{{ 'Trend'|trans }}</span>
+                  <span class="e-card__action {{ action_class }}">{{ advice.action }}
+                    {{ advice.asset }}</span>
+                {% else %}
+                  <span class="e-card__key">{{ advice.asset }}</span>
+                  <span class="e-card__action {{ action_class }}">{{ advice.action }}</span>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+          <hr>
+          <div class="e-card__footnote">
+            {% include 'partials/icon.twig' with {name: 'rain'} %}
+            {# Example icon #}
+            <div class="e-card__details">
+              <strong>Прогноз риска и волатильности:</strong>
+              <span class="text-2ry">Умеренный риск</span>
+            </div>
+          </div>
+          <div class="e-card__footnote is-personal">
+            {% include 'partials/icon.twig' with {name: 'bulb'} %}
+            <div class="e-card__details">
+              <strong>Персональный совет:</strong>
+              <span class="text-2ry">Ужесточите стоп-лоссы</span>
+            </div>
+          </div>
+        </section>
+
+        {# Reports #}
+        <section class="e-card is-reports">
+          <h2 class="e-eyebrow has-chevron">
+            <a href="/{{ lng_html }}trading">
+              {{ 'Reports'|trans }}
+            </a>
+            {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
+          </h2>
+          <ul class="e-card__list">
+            {% for report in reports|slice(0, 4) %}
+              {% set report_icon =
+                  report.status == 'success' ? 'success' :
+                  report.status == 'error' ? 'error' :
+                  report.status == 'pending' ? 'time' :
+                  ''
+                %}
+              <li class="e-card__li">
+                <div class="e-card__details">
+                  <strong>{{ report.action }}
+                    {{ report.asset }}</strong>
+                  <span class="text-2ry">{{ report.time }}</span>
+                </div>
+                {% include 'partials/icon.twig' with { name: report_icon } %}
+              </li>
+            {% endfor %}
+          </ul>
+        </section>
+
+        {# Trading / APIs #}
+        <section class="e-card is-trading">
+          <h2 class="e-eyebrow has-chevron">
+            <a href="/{{ lng_html }}trading">
+              {{ 'Trading'|trans }}
+            </a>
+            {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
+          </h2>
+
+          <div class="e-card__lead">
+            <strong>{{ 'My API key'|trans }}</strong>
+            <button class="e-btn is-icon is-ghost" type="button" title="{{ 'Revoke API Key'|trans }}">
+              {% include 'partials/icon.twig' with {name: 'key-slash'} %}
+            </button>
+            <button class="e-btn is-icon is-ghost" type="button" title="{{ 'View'|trans }}">
+              {% include 'partials/icon.twig' with {name: 'eye'} %}
+            </button>
+          </div>
+
+          <h3 class="e-eyebrow has-chevron">
+            <a href="/{{ lng_html }}trading">
+              {{ 'Connected APIs'|trans }}
+            </a>
+            {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
+          </h3>
+
+          <ul class="e-card__list">
+            {% for api in apis|slice(0, 2) %}
+              <li class="e-card__li">
+                <div class="e-card__details">
+                  {% include 'partials/icon.twig' with { name: 'robot' } %}
+                  <div>
+                    <strong>{{ api.name }}</strong>
+                    <span class="text-2ry">{{ api.status }}</span>
+                  </div>
+                </div>
+                <button class="e-btn is-icon is-ghost" type="button" title="{{ 'Settings'|trans }}">
+                  {% include 'partials/icon.twig' with {name: 'settings'} %}
+                </button>
+              </li>
+            {% endfor %}
+          </ul>
+
+          <button class="e-btn has-start-icon is-main-action" type="button">
+            {% include 'partials/icon.twig' with {name: 'add'} %}
+            {{ 'Add API'|trans }}
+          </button>
+        </section>
+      </div>
+    </div>
 
     <div class="e-flex is-featured-assets">
       {% for asset in featured_assets %}
-        <a class="e-card is-album-metric {{ asset.card_class }}" href="/{{ lng_html }}/markets">
-          <img class="e-card__logo" src="{{ ExtraData.assets_prefix }}/assets/img/cryptologos/{{ asset.logo }}.svg" alt="{{ 'Logo –'|trans }} {{ asset.name }}">
+        <a class="e-card is-album-metric {{ asset.card_class }}" href="/{{ lng_html }}markets">
+          <img class="e-card__logo" src="{{ site.assets_prefix }}/assets/img/cryptologos/{{ asset.logo }}.svg" alt="{{ 'Logo –'|trans }} {{ asset.name }}">
 
           <div class="e-card__content">
             <h3 class="e-eyebrow">{{ asset.label|trans }}</h3>

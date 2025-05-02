@@ -2,11 +2,14 @@
 
 {% block config %}
   {{ parent() }}
-  {% set ExtraData = ExtraData|merge(
-    {
-      body_classes: 'is-home'
-    }
-  ) %}
+
+  {% if ENV == 'development' %}
+    {% set page = page|merge(
+      {
+        classes: false
+      }
+    ) %}
+  {% endif %}
 {% endblock %}
 
 {# Если нужно что-то добавить в head, добавляй в одноименный блок #}
