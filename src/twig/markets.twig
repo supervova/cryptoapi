@@ -147,82 +147,90 @@
   <dialog class="e-drawer is-end" id="drawer-filter">
     <div class="e-drawer__header">
       <h2 class="e-h3">{{ 'Filters'|trans }}</h2>
-      <button class="e-btn is-close" type="button" data-role="close-drawer" aria-label="{{ 'Close'|trans }}">
-        {% include 'partials/icon.twig' with {name: 'sm-x-mark', classes: 'is-sm', assets_prefix: assets_prefix} %}
-      </button>
     </div>
 
     <div class="e-drawer__content">
-      <form class="e-form" id="filter-rating" method="get">
+      <form class="e-form" id="filters-form">
         {# Диапазон цены #}
-        <div class="e-form__row phone:2-columns">
-          <div>
-            <label class="e-label" for="filter-price-min">{{ 'Price from:'|trans }}</label>
-            <input id="filter-price-min" name="filter-price-min" type="number" step="any">
+        <fieldset>
+          <legend class="e-label mb-xs">{{ 'Price'|trans }}:</legend>
+          <div class="e-form__row phone:2-columns">
+            <div>
+              <label class="e-label visually-hidden" for="filter-price-min">{{ 'From'|trans }}</label>
+              <input id="filter-price-min" name="filter-price-min" type="number" step="any" min="0" placeholder="{{ 'From'|trans }}">
+            </div>
+            <div>
+              <label class="e-label visually-hidden" for="filter-price-max">{{ 'To'|trans }}</label>
+              <input id="filter-price-max" name="filter-price-max" type="number" step="any" min="0" placeholder="{{ 'To'|trans }}">
+            </div>
           </div>
-          <div>
-            <label class="e-label" for="filter-price-max">{{ 'Price to:'|trans }}</label>
-            <input id="filter-price-max" name="filter-price-max" type="number" step="any">
-          </div>
-        </div>
+        </fieldset>
 
         {# RSI (7 дней) #}
-        <div class="e-form__row phone:2-columns">
-          <div>
-            <label class="e-label" for="filter-rsi-min">RSI {{ 'from:'|trans }}</label>
-            <input id="filter-rsi-min" name="filter-rsi-min" type="number">
+        <fieldset>
+          <legend class="e-label mb-xs">{{ 'RSI (7D)'|trans }}:</legend>
+          <div class="e-form__row phone:2-columns">
+            <div>
+              <label class="e-label visually-hidden" for="filter-rsi-min">RSI {{ 'From'|trans }}</label>
+              <input id="filter-rsi-min" name="filter-rsi-min" type="number" min="0" max="100" placeholder="{{ 'From'|trans }}">
+            </div>
+            <div>
+              <label class="e-label visually-hidden" for="filter-rsi-max">RSI {{ 'To'|trans }}</label>
+              <input id="filter-rsi-max" name="filter-rsi-max" type="number" min="0" max="100" placeholder="{{ 'To'|trans }}">
+            </div>
           </div>
-          <div>
-            <label class="e-label" for="filter-rsi-max">RSI {{ 'to:'|trans }}</label>
-            <input id="filter-rsi-max" name="filter-rsi-max" type="number">
-          </div>
+        </fieldset>
+
+        {# Рейтинг #}
+        <div class="mb-2">
+          <label class="e-label" for="filter-rating-max">{{ 'Rating (lower is better):'|trans }}</label> {# Изменено для ясности "до X" #}
+          <input class="w-full" id="filter-rating-max" name="filter-rating-max" type="number" min="1" placeholder="{{ 'E.g.,'|trans }} 50">
+          {# Убрал ошибку, т.к. валидация будет в JS или на сервере #}
         </div>
 
-        {# Рейтинг (чем ниже, тем лучше) #}
-        <p>
-          <label class="e-label" for="filter-rating-max">{{ 'Rating'|trans }} {{ 'from:'|trans }}</label>
-          <input class="w-1/2" id="filter-rating-max" name="filter-rating-max" type="number" min="1" max="369">
-          <span class="e-form__error" id="error-email" role="alert" aria-live="polite">
-            <small>{{ 'Enter a number from 1 to 369.'|trans }}</small>
-          </span>
-        </p>
-
         {# Риск #}
-        <p>
-          <label class="e-label" for="filter-risk">{{ 'Risk'|trans }} {{ 'from:'|trans }}</label>
-          <select id="filter-risk" name="filter-risk">
+        <div class="mb-2">
+          <label class="e-label" for="filter-risk">{{ 'Risk Level'|trans }}</label>
+          <select id="filter-risk" name="filter-risk" class="w-full">
             <option value="">{{ 'Any'|trans }}</option>
             <option value="low">{{ 'Low'|trans }}</option>
-            <option value="medium">{{ 'Medium'|trans }}</option>
+            <option value="medium">{{ 'Medium'|trans }}</option> {# Предполагаем, что API "neutral" это medium #}
             <option value="high">{{ 'High'|trans }}</option>
           </select>
-        </p>
+        </div>
 
         {# Columns #}
-        <h3 class="e-h4 mt-2l">{{ 'Columns'|trans }}</h3>
-        <ul class="e-list is-unstyled">
-          <li><label><input type="checkbox" checked disabled>{{ 'Asset'|trans }}</label></li>
-          <li><label><input type="checkbox" checked disabled>{{ 'Price'|trans }}</label></li>
-          <li><label><input type="checkbox" checked>{{ 'Change (24H)'|trans }}</label></li>
-          <li><label><input type="checkbox" checked>{{ 'Rating'|trans }}</label></li>
-          <li><label><input type="checkbox" checked>{{ 'Risk'|trans }}</label></li>
-          <li><label><input type="checkbox" checked>TRIndex</label></li>
-          <li><label><input type="checkbox" checked>{{ 'RSI (7D)'|trans }}</label></li>
-          <li><label><input type="checkbox">{{ 'RSI (1M)'|trans }}</label></li>
-          <li><label><input type="checkbox">{{ 'RSI (3M)'|trans }}</label></li>
-          <li><label><input type="checkbox">{{ 'RSI (6M)'|trans }}</label></li>
-          <li><label><input type="checkbox">{{ 'RSI (1Y)'|trans }}</label></li>
-          <li><label><input type="checkbox">{{ 'RSI (1000D)'|trans }}</label></li>
-        </ul>
-
+        <fieldset>
+            <legend class="e-h4 mt-2l mb-s">{{ 'Columns'|trans }}</legend>
+            <ul class="e-list is-unstyled grid phone:2-columns gap-s" id="filter-columns-list">
+              {# Сюда JS будет вставлять чекбоксы для колонок.
+                 Можно и в Twig, но для динамического управления из JS так проще.
+                 Для примера, как это могло бы выглядеть в Twig:
+              {% for col_conf in default_columns %}
+                {% set fixed_columns = ['asset', 'price'] %}
+                <li>
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="column-{{ col_conf.key }}"
+                      value="{{ col_conf.key }}"
+                      {% if col_conf.key in fixed_columns %}checked disabled{% elseif col_conf.visible is not defined or col_conf.visible %}checked{% endif %}
+                    >
+                    {{ col_conf.label|trans }}
+                  </label>
+                </li>
+              {% endfor %}
+              #}
+            </ul>
+        </fieldset>
       </form>
     </div>
     <div class="e-drawer__footer sticky">
-      <button class="e-btn" type="reset" form="filter-rating">
-        {{ 'Reset'|trans }}
+      <button class="e-btn" type="button" data-role="close-drawer">
+        {{ 'Cancel'|trans }}
       </button>
-      <button class="e-btn is-primary" type="submit" form="filter-rating">
-        {{ 'Submit'|trans }}
+      <button class="e-btn is-primary" type="submit" form="filters-form">
+        {{ 'Apply'|trans }}
       </button>
     </div>
   </dialog>
@@ -247,83 +255,6 @@
 
       // Количество строк сверху/снизу от видимой области для рендера
       const VISIBLE_BUFFER = 5;
-
-      // Конфигурация колонок (соответствует default_columns в Twig)
-      // Добавляем 'apiField' для связи с данными API и 'formatter' для отображения,
-      const columnsConfig = [
-        {
-          key: 'watchlist',
-          type: 'action',
-          label: '{{ "Watchlist"|trans|escape("js") }}',
-          sortable: false,
-          visible: false, // Скрыта — до тех пор, пока не будет готов Watchlist
-        },
-        {
-          key: 'asset',
-          type: 'text',
-          label: '{{ "Asset"|trans|escape("js") }}',
-          sortable: true,
-          apiField: 'symbol', // Сортировка будет по symbol или name
-        },
-        {
-          key: 'price',
-          type: 'num',
-          label: '{{ "Price, $"|trans|escape("js") }}',
-          sortable: true,
-          apiField: 'price.current',
-          formatter: formatPrice,
-        },
-        {
-          key: 'change_24h',
-          type: 'num',
-          label: '{{ "Chg (24H), %"|trans|escape("js") }}',
-          sortable: true,
-          apiField: 'price',
-          formatter: formatChange24h,
-        },
-        {
-          key: 'rating',
-          type: 'num',
-          label: '{{ "Rating"|trans|escape("js") }}',
-          sortable: true,
-          apiField: 'rating',
-          formatter: formatNullable,
-        },
-        {
-          key: 'risk',
-          type: 'icon',
-          label: '{{ "Risk"|trans|escape("js") }}',
-          sortable: false,
-          apiField: 'risk',
-          formatter: formatRisk,
-        },
-        {
-          key: 'trindex',
-          type: 'num',
-          label: '{{ "TRIndex"|trans|escape("js") }}',
-          sortable: true,
-          apiField: 'TRINDX',
-          formatter: formatNullable,
-        },
-        {
-          key: 'rsi',
-          type: 'num',
-          label: '{{ "RSI (7D)"|trans|escape("js") }}',
-          sortable: true,
-          apiField: 'RSI7',
-          formatter: formatNullable,
-        },
-        {
-          key: 'chart',
-          type: 'action',
-          label: '{{ "Asset Chart"|trans|escape("js") }}',
-          sortable: false,
-          visible: false, // Скрыта — до тех пор, пока не будет готов Chart
-        },
-      ];
-
-      const visibleColumns = columnsConfig.filter((c) => c.visible !== false);
-      const visibleColumnsCount = visibleColumns.length;
 
       // Метаданные для криптовалют (Названия, пути к иконкам)
       // Загружаются из внешнего файла. Ключ - символ в ВЕРХНЕМ РЕГИСТРЕ
@@ -351,24 +282,197 @@
         });
 
       // -----------------------------------------------------------------------
+      // КОНФИГУРАЦИЯ КОЛОНОК (Добавляем все возможные из API)
+      // -----------------------------------------------------------------------
+      // `apiField` - ключ в данных API. `visible` - начальное состояние.
+      // `canHide` - можно ли скрыть колонку.
+      // `label` будет браться из этой конфигурации для генерации чекбоксов
+      const ALL_COLUMNS_CONFIG = [
+        {
+          key: 'watchlist',
+          type: 'action',
+          label: '{{ "Watchlist"|trans|escape("js") }}',
+          sortable: false,
+          visible: false,
+          canHide: true,
+          apiField: 'watchlist',
+        },
+        {
+          key: 'asset',
+          type: 'text',
+          label: '{{ "Asset"|trans|escape("js") }}',
+          sortable: true,
+          apiField: 'symbol',
+          visible: true,
+          canHide: false,
+        },
+        {
+          key: 'price',
+          type: 'num',
+          label: '{{ "Price, $"|trans|escape("js") }}',
+          sortable: true,
+          apiField: 'price.current',
+          formatter: formatPrice,
+          visible: true,
+          canHide: false,
+        },
+        {
+          key: 'change_24h',
+          type: 'num',
+          label: '{{ "Chg (24H), %"|trans|escape("js") }}',
+          sortable: true,
+          apiField: 'price',
+          formatter: formatChange24h,
+          visible: true,
+          canHide: true,
+        },
+        {
+          key: 'rating',
+          type: 'num',
+          label: '{{ "Rating"|trans|escape("js") }}',
+          sortable: true,
+          apiField: 'rating',
+          formatter: formatNullable,
+          visible: true,
+          canHide: true,
+        },
+        {
+          key: 'risk',
+          type: 'icon',
+          label: '{{ "Risk"|trans|escape("js") }}',
+          sortable: false,
+          apiField: 'risk',
+          formatter: formatRisk,
+          visible: true,
+          canHide: true,
+        },
+        {
+          key: 'trindex',
+          type: 'num',
+          label: '{{ "TRIndex"|trans|escape("js") }}',
+          sortable: true,
+          apiField: 'TRINDX',
+          formatter: formatNullable,
+          visible: true,
+          canHide: true,
+        },
+        {
+          key: 'rsi_7d',
+          type: 'num',
+          label: '{{ "RSI (7D)"|trans|escape("js") }}',
+          sortable: true,
+          apiField: 'RSI7',
+          formatter: formatNullable,
+          visible: true,
+          canHide: true,
+        }, // Изменил key для уникальности
+        {
+          key: 'rsi_30d',
+          type: 'num',
+          label: '{{ "RSI (30D)"|trans|escape("js") }}',
+          sortable: true,
+          apiField: 'RSI30',
+          formatter: formatNullable,
+          visible: false,
+          canHide: true,
+        },
+        {
+          key: 'rsi_91d',
+          type: 'num',
+          label: '{{ "RSI (91D)"|trans|escape("js") }}',
+          sortable: true,
+          apiField: 'RSI91',
+          formatter: formatNullable,
+          visible: false,
+          canHide: true,
+        },
+        {
+          key: 'rsi_182d',
+          type: 'num',
+          label: '{{ "RSI (182D)"|trans|escape("js") }}',
+          sortable: true,
+          apiField: 'RSI182',
+          formatter: formatNullable,
+          visible: false,
+          canHide: true,
+        },
+        {
+          key: 'rsi_365d',
+          type: 'num',
+          label: '{{ "RSI (365D)"|trans|escape("js") }}',
+          sortable: true,
+          apiField: 'RSI365',
+          formatter: formatNullable,
+          visible: false,
+          canHide: true,
+        },
+        {
+          key: 'rsi_1000d',
+          type: 'num',
+          label: '{{ "RSI (1000D)"|trans|escape("js") }}',
+          sortable: true,
+          apiField: 'RSI1000',
+          formatter: formatNullable,
+          visible: false,
+          canHide: true,
+        },
+        {
+          key: 'market',
+          type: 'text',
+          label: '{{ "Market"|trans|escape("js") }}',
+          sortable: true,
+          apiField: 'market',
+          formatter: formatNullable,
+          visible: false,
+          canHide: true,
+        },
+        {
+          key: 'chart',
+          type: 'action',
+          label: '{{ "Chart"|trans|escape("js") }}',
+          sortable: false,
+          visible: false,
+          canHide: true,
+          apiField: 'chart_data',
+        },
+      ];
+
+      // Текущая конфигурация колонок, которая будет меняться
+      let columnsConfig = ALL_COLUMNS_CONFIG.map(col => ({ ...col }));
+
+      // Динамически обновляемые переменные на основе columnsConfig
+      let visibleColumns = columnsConfig.filter((c) => c.visible);
+      let visibleColumnsCount = visibleColumns.length;
+
+      // -----------------------------------------------------------------------
       // СОСТОЯНИЕ
       // -----------------------------------------------------------------------
-      // Полный массив данных [{symbol: 'BTC', name: 'Bitcoin', icon: '...', ...apiData}]
       let allAssets = [];
 
       // Отсортированный массив для рендеринга
       let sortedFilteredAssets = [];
       const sortState = {
-        // Начальное поле сортировки из Twig
         field: '{{ initial_sort_field|escape("js") }}',
-
-        // Начальное направление из Twig
         direction: '{{ initial_sort_direction|escape("js") }}',
       };
+
+      // Начальное состояние фильтров
+      const initialFilterState = {
+        priceMin: null,
+        priceMax: null,
+        rsiMin: null, // Для RSI7
+        rsiMax: null, // Для RSI7
+        ratingMax: null, // "до X", т.е. значение <= X
+        risk: '', // 'low', 'medium', 'high' или '' для всех
+        // visibleColumnKeys будет заполнено из columnsConfig в initFilters
+      };
+      let currentFilterState = JSON.parse(JSON.stringify(initialFilterState));
+      currentFilterState.visibleColumnKeys = columnsConfig
+        .filter((c) => c.visible)
+        .map((c) => c.key);
+
       let updateIntervalId = null;
       let isLoading = true;
-
-      // Для отмены предыдущего запроса fetch
       let currentRequestController = null;
 
       // -----------------------------------------------------------------------
@@ -376,13 +480,22 @@
       // -----------------------------------------------------------------------
       const scrollContainer = document.getElementById('virtual-scroll-container');
       const table = document.getElementById('crypto-table');
+
+      // Добавим ссылку на thead
+      const tableHead = table.querySelector('thead');
       const tableBody = document.getElementById('crypto-table-body');
       const loadingRow = document.getElementById('loading-row');
-      const sortButtons = table.querySelectorAll(
-        'thead th button[data-sort-field]'
-      );
+
+      // sortButtons будет переопределен в generateTableHeadHtml
+      let sortButtons = [];
       const screenReaderAnnouncer = document.getElementById(
         'screen-reader-announcement'
+      );
+      const drawerFilter = document.getElementById('drawer-filter');
+      const filtersForm = document.getElementById('filters-form');
+      const filterColumnsList = document.getElementById('filter-columns-list');
+      const filterToggleButton = document.querySelector(
+        '[data-target="drawer-filter"]'
       );
 
       // -----------------------------------------------------------------------
@@ -550,7 +663,8 @@
 
           announceUpdate('{{ "Table data updated."|trans|escape("js") }}');
         } catch (error) {
-          cleanup(); // Stop polling on critical errors
+          // Stop polling on critical errors
+          cleanup();
           if (error.name === 'AbortError') {
             if (IS_DEVELOPMENT) {
               console.log('Fetch aborted');
@@ -724,12 +838,12 @@
       */
       function displayErrorState(message) {
         tableBody.innerHTML = `
-          <tr>
-            <td class="table__cell is-empty-state is-error-state" colspan="${visibleColumnsCount}">
-              <p>${message}</p>
-              <button class="e-btn is-text" onclick="location.reload()">{{ "Retry"|trans|escape("js") }}</button>
-            </td>
-          </tr>`;
+              <tr>
+                <td class="table__cell is-empty-state is-error-state" colspan="${visibleColumnsCount}">
+                  <p>${message}</p>
+                  <button class="e-btn is-text" onclick="location.reload()">{{ "Retry"|trans|escape("js") }}</button>
+                </td>
+              </tr>`;
         // Снимаем состояние занятости при ошибке
         table.setAttribute('aria-busy', 'false');
         // Скрываем строку загрузки если она еще есть
@@ -737,6 +851,213 @@
 
         // Считаем загрузку завершенной (с ошибкой)
         isLoading = false;
+      }
+
+      // -----------------------------------------------------------------------
+      // ФИЛЬТРЫ И КОЛОНКИ
+      // -----------------------------------------------------------------------
+      function populateColumnCheckboxes() {
+        filterColumnsList.innerHTML = '';
+        columnsConfig.forEach((col) => {
+          const listItem = document.createElement('li');
+          const label = document.createElement('label');
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.name = 'column-filter';
+          checkbox.value = col.key;
+          checkbox.checked = col.visible;
+          if (!col.canHide) {
+            checkbox.disabled = true;
+          }
+          checkbox.addEventListener('change', handleColumnVisibilityChange);
+
+          label.appendChild(checkbox);
+          label.appendChild(document.createTextNode(` ${col.label}`));
+          listItem.appendChild(label);
+          filterColumnsList.appendChild(listItem);
+        });
+      }
+
+      function handleColumnVisibilityChange(event) {
+        const changedKey = event.target.value;
+        const isVisible = event.target.checked;
+
+        const columnIndex = columnsConfig.findIndex((c) => c.key === changedKey);
+        if (columnIndex > -1) {
+          columnsConfig[columnIndex].visible = isVisible;
+        }
+
+        // Обновляем производные переменные
+        visibleColumns = columnsConfig.filter((c) => c.visible);
+        visibleColumnsCount = visibleColumns.length;
+        currentFilterState.visibleColumnKeys = visibleColumns.map((c) => c.key);
+
+        // Немедленно перерисовываем заголовок и таблицу
+        generateTableHeadHtml();
+        applySortAndFilter(false);
+        updateFilterCountBadge();
+      }
+
+      function applyFiltersAndDraw() {
+        // 1. Прочитать значения из формы в currentFilterState
+        currentFilterState.priceMin =
+          parseFloat(filtersForm.elements['filter-price-min'].value) || null;
+        currentFilterState.priceMax =
+          parseFloat(filtersForm.elements['filter-price-max'].value) || null;
+        currentFilterState.rsiMin =
+          parseFloat(filtersForm.elements['filter-rsi-min'].value) || null;
+        currentFilterState.rsiMax =
+          parseFloat(filtersForm.elements['filter-rsi-max'].value) || null;
+        currentFilterState.ratingMax =
+          parseFloat(filtersForm.elements['filter-rating-max'].value) || null;
+        currentFilterState.risk = filtersForm.elements['filter-risk'].value || '';
+
+        // Валидация: если min > max, поменять их местами или обнулить max
+        if (
+          currentFilterState.priceMin &&
+          currentFilterState.priceMax &&
+          currentFilterState.priceMin > currentFilterState.priceMax
+        ) {
+          [currentFilterState.priceMin, currentFilterState.priceMax] = [
+            currentFilterState.priceMax,
+            currentFilterState.priceMin,
+          ];
+          // Обновить поля в UI
+          filtersForm.elements['filter-price-min'].value =
+            currentFilterState.priceMin;
+          filtersForm.elements['filter-price-max'].value =
+            currentFilterState.priceMax;
+        }
+        if (
+          currentFilterState.rsiMin &&
+          currentFilterState.rsiMax &&
+          currentFilterState.rsiMin > currentFilterState.rsiMax
+        ) {
+          [currentFilterState.rsiMin, currentFilterState.rsiMax] = [
+            currentFilterState.rsiMax,
+            currentFilterState.rsiMin,
+          ];
+          filtersForm.elements['filter-rsi-min'].value = currentFilterState.rsiMin;
+          filtersForm.elements['filter-rsi-max'].value = currentFilterState.rsiMax;
+        }
+
+        // 2. Применить фильтры и сортировку
+        applySortAndFilter(true);
+
+        // 3. Обновить значок счетчика
+        updateFilterCountBadge();
+
+        // 4. Закрыть панель
+        if (drawerFilter.close) drawerFilter.close();
+      }
+
+      function resetFiltersAndDraw() {
+        // Сбрасываем поля формы
+        filtersForm.reset();
+        currentFilterState = JSON.parse(JSON.stringify(initialFilterState));
+
+        // Сбросить видимость колонок к начальному состоянию
+        columnsConfig = ALL_COLUMNS_CONFIG.map(col => ({ ...col }));
+
+        visibleColumns = columnsConfig.filter((c) => c.visible);
+        visibleColumnsCount = visibleColumns.length;
+        currentFilterState.visibleColumnKeys = visibleColumns.map((c) => c.key);
+
+        // Обновить чекбоксы в UI, заголовок таблицы
+        populateColumnCheckboxes();
+        generateTableHeadHtml();
+        applySortAndFilter(true);
+        updateFilterCountBadge();
+        if (drawerFilter.close) drawerFilter.close();
+      }
+
+      function updateFilterCountBadge() {
+        let count = 0;
+        if (
+          currentFilterState.priceMin !== null ||
+          currentFilterState.priceMax !== null
+        )
+          count += 1;
+        if (
+          currentFilterState.rsiMin !== null ||
+          currentFilterState.rsiMax !== null
+        )
+          count += 1;
+        if (currentFilterState.ratingMax !== null) count += 1;
+        if (currentFilterState.risk) count += 1;
+
+        // Считаем не дефолтные видимые колонки
+        const defaultVisibleKeys = ALL_COLUMNS_CONFIG.filter((c) => c.visible).map(
+          (c) => c.key
+        );
+        const currentVisibleKeys = columnsConfig
+          .filter((c) => c.visible)
+          .map((c) => c.key);
+        if (
+          JSON.stringify(defaultVisibleKeys.sort()) !==
+          JSON.stringify(currentVisibleKeys.sort())
+        ) {
+          count += 1;
+        }
+
+        filterToggleButton.innerHTML = `
+              {% include 'partials/icon.twig' with {name: 'filter'} %}
+              {{ 'Filters'|trans }} ${count}
+            `;
+      }
+
+      filtersForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        applyFiltersAndDraw();
+      });
+
+      // -----------------------------------------------------------------------
+      // ГЕНЕРАЦИЯ ЗАГОЛОВКА ТАБЛИЦЫ
+      // -----------------------------------------------------------------------
+      function generateTableHeadHtml() {
+        let headHtml = '<tr>';
+        visibleColumns.forEach((col) => {
+          const { label } = col;
+          const thClasses = `table__cell is-${col.type}${col.key === 'watchlist' || col.key === 'chart' ? ' is-action' : ''}`;
+          let thContent = label;
+          let ariaLabelAttr =
+            col.type === 'action' || col.type === 'icon'
+              ? `aria-label="${label}"`
+              : '';
+
+          if (col.sortable) {
+            const isActive = sortState.field === col.key;
+            const isDesc = isActive && sortState.direction === 'desc';
+            let ariaSort = 'none';
+            if (isActive) {
+              ariaSort = sortState.direction === 'asc' ? 'ascending' : 'descending';
+            }
+            thContent = `
+                  <button
+                    class="e-btn is-sort ${isActive ? 'is-active' : ''} ${isDesc ? 'is-desc' : ''}"
+                    type="button"
+                    data-sort-field="${col.key}"
+                    aria-label="{{ 'Sort by this column'|trans|escape('js') }}"
+                    aria-sort="${ariaSort}"
+                  >
+                    ${label}
+                    {% include 'partials/icon.twig' with {name: 'up'} %}
+                  </button>`;
+            // aria-label на кнопке, а не на th
+            ariaLabelAttr = '';
+          }
+          headHtml += `<th class="${thClasses}" scope="col" ${ariaLabelAttr}>${thContent}</th>`;
+        });
+        headHtml += '</tr>';
+        tableHead.innerHTML = headHtml;
+
+        // Переназначаем обработчики на новые кнопки сортировки
+        sortButtons = tableHead.querySelectorAll(
+          'thead th button[data-sort-field]'
+        );
+        sortButtons.forEach((button) => {
+          button.addEventListener('click', handleSortClick);
+        });
       }
 
       // -----------------------------------------------------------------------
@@ -770,7 +1091,8 @@
           }
         });
 
-        applySortAndFilter(); // Пересортировать и перерисовать
+        // Пересортировать и перерисовать
+        applySortAndFilter();
         announceUpdate(
           // eslint-disable-next-line prefer-template
           '{{ "Table sorted by"|trans|escape("js") }} ' +
@@ -781,56 +1103,144 @@
         );
       }
 
-      /** Функция для получения значения по вложенному пути */
-      function applySortAndFilter() {
+      /**
+      * Применяет текущие фильтры и сортировку к allAssets, обновляет sortedFilteredAssets и перерисовывает таблицу.
+      * @param {boolean} [resetScroll=true] - Сбрасывать ли позицию скролла.
+      */
+      function applySortAndFilter(resetScroll = true) {
         if (!Array.isArray(allAssets)) {
-          if (IS_DEVELOPMENT) {
-            console.error('allAssets is not an array');
-          }
+          if (IS_DEVELOPMENT) console.error('allAssets is not an array');
           return;
         }
 
-        // Пока фильтрации нет, просто копируем и сортируем
-        const dataToSort = [...allAssets];
+        // 1. Фильтрация
+        const filteredData = allAssets.filter((asset) => {
+          // Цена
+          if (
+            currentFilterState.priceMin !== null &&
+            (asset.price?.current === null ||
+              asset.price.current < currentFilterState.priceMin)
+          )
+            return false;
+          if (
+            currentFilterState.priceMax !== null &&
+            (asset.price?.current === null ||
+              asset.price.current > currentFilterState.priceMax)
+          )
+            return false;
+
+          // RSI (7D) - используем apiField из columnsConfig для rsi_7d
+          const rsi7dConfig = columnsConfig.find((c) => c.key === 'rsi_7d');
+          const rsiValue = rsi7dConfig
+            ? getNestedValue(asset, rsi7dConfig.apiField)
+            : null;
+
+          if (
+            currentFilterState.rsiMin !== null &&
+            (rsiValue === null || parseFloat(rsiValue) < currentFilterState.rsiMin)
+          )
+            return false;
+          if (
+            currentFilterState.rsiMax !== null &&
+            (rsiValue === null || parseFloat(rsiValue) > currentFilterState.rsiMax)
+          )
+            return false;
+
+          // Рейтинг (меньше или равно)
+          if (
+            currentFilterState.ratingMax !== null &&
+            (asset.rating === null || asset.rating > currentFilterState.ratingMax)
+          )
+            return false;
+
+          // Риск
+          if (currentFilterState.risk) {
+            let assetRisk = (asset.risk || '').toLowerCase();
+            // API может вернуть "neutral", который мы считаем "medium"
+            if (assetRisk === 'neutral') assetRisk = 'medium';
+            if (assetRisk !== currentFilterState.risk) return false;
+          }
+          return true;
+        });
+
+        // 2. Сортировка (применяется к filteredData)
+        // Копируем отфильтрованные данные для сортировки
+        const dataToSort = [...filteredData];
         const sortConfig = columnsConfig.find((c) => c.key === sortState.field);
-        const apiField = sortConfig?.apiField || sortState.field; // Поле API для сортировки
+
+        // Если текущее поле сортировки было скрыто, сбрасываем на 'asset'
+        if (sortConfig && !sortConfig.visible) {
+          sortState.field = 'asset';
+          sortState.direction = 'asc';
+          // Обновить кнопки сортировки в UI (сбросить активное состояние)
+           // Это перерисует заголовки с правильными активными состояниями
+          generateTableHeadHtml();
+        }
+        // Повторно получаем sortConfig на случай, если он изменился
+        const currentSortConfig = columnsConfig.find(
+          (c) => c.key === sortState.field
+        );
+        const apiField = currentSortConfig?.apiField || sortState.field;
+
         dataToSort.sort((a, b) => {
+          // ... (существующая логика сортировки из вашего applySortAndFilter, но valA/valB берутся из apiField)
+          // ... (убедитесь, что getNestedValue(a, apiField) используется правильно)
           let valA = getNestedValue(a, apiField);
           let valB = getNestedValue(b, apiField);
 
-          // Специальная обработка для 'asset' (сортировка по имени)
           if (sortState.field === 'asset') {
-            valA = a.name.toLowerCase();
-            valB = b.name.toLowerCase();
-          }
-
-          // Специальная обработка для 'change_24h'
-          else if (sortState.field === 'change_24h') {
+            valA = a.name?.toLowerCase() || '';
+            valB = b.name?.toLowerCase() || '';
+          } else if (sortState.field === 'change_24h') {
             const changeA = calculateChange24hValue(a.price);
             const changeB = calculateChange24hValue(b.price);
-            valA = changeA === null ? -Infinity : changeA; // null/undefined в начало/конец в зависимости от направления
-            valB = changeB === null ? -Infinity : changeB;
+            valA = (() => {
+              if (changeA === null) {
+                return sortState.direction === 'asc' ? Infinity : -Infinity;
+              }
+              return changeA;
+            })();
+            valB =
+              changeB === null
+                ? (sortState.direction === 'asc' ? 1 : -1) * Infinity
+                : changeB;
           } else {
-            // Преобразуем к числам, если возможно, для корректной числовой сортировки
             const numA = parseFloat(valA);
             const numB = parseFloat(valB);
             if (!Number.isNaN(numA) && !Number.isNaN(numB)) {
               valA = numA;
               valB = numB;
             } else if (typeof valA === 'string' && typeof valB === 'string') {
-              // Строковое сравнение
               valA = valA.toLowerCase();
               valB = valB.toLowerCase();
             }
           }
 
-          // Обработка null/undefined - помещаем их в конец при asc, в начало при desc
-          const aIsNull = valA === null || valA === undefined || valA === -Infinity;
-          const bIsNull = valB === null || valB === undefined || valB === -Infinity;
+          const aIsNull =
+            valA === null ||
+            valA === undefined ||
+            valA === Infinity ||
+            valA === -Infinity;
+          const bIsNull =
+            valB === null ||
+            valB === undefined ||
+            valB === Infinity ||
+            valB === -Infinity;
 
           if (aIsNull && bIsNull) return 0;
-          if (aIsNull) return sortState.direction === 'asc' ? 1 : -1;
-          if (bIsNull) return sortState.direction === 'asc' ? -1 : 1;
+          // Для числовых полей, null/undefined значения идут в конец при asc, в начало при desc
+          // Для строковых, они уже обработаны toLowerCase() или как пустые строки
+          if (
+            typeof valA === 'number' ||
+            typeof valB === 'number' ||
+            valA === Infinity ||
+            valA === -Infinity ||
+            valB === Infinity ||
+            valB === -Infinity
+          ) {
+            if (aIsNull) return sortState.direction === 'asc' ? 1 : -1;
+            if (bIsNull) return sortState.direction === 'asc' ? -1 : 1;
+          }
 
           if (valA < valB) return sortState.direction === 'asc' ? -1 : 1;
           if (valA > valB) return sortState.direction === 'asc' ? 1 : -1;
@@ -839,9 +1249,12 @@
 
         sortedFilteredAssets = dataToSort;
 
-        // Сбрасываем скролл при сортировке, чтобы видеть верхние элементы
-        scrollContainer.scrollTop = 0;
-        renderTable(); // Перерисовать таблицу с новыми данными/порядком
+        if (resetScroll) {
+          scrollContainer.scrollTop = 0;
+        }
+
+        // Перерисовать таблицу с отфильтрованными и отсортированными данными
+        renderTable();
       }
 
       // Вспомогательная функция для получения числового значения изменения 24ч
@@ -875,11 +1288,11 @@
 
         if (totalItems === 0) {
           tableBody.innerHTML = `
-            <tr>
-              <td class="table__cell is-empty-state" colspan="${visibleColumnsCount}">
-                <p>{{ "No data available"|trans|escape("js") }}</p>
-              </td>
-            </tr>`;
+                <tr>
+                  <td class="table__cell is-empty-state" colspan="${visibleColumnsCount}">
+                    <p>{{ "No data available"|trans|escape("js") }}</p>
+                  </td>
+                </tr>`;
           return;
         }
 
@@ -909,10 +1322,10 @@
 
         // Обновляем содержимое tbody
         tableBody.innerHTML = `
-          <tr style="height: ${topSpacerHeight}px;"><td colspan="${visibleColumnsCount}" style="padding:0; border:0;"></td></tr>
-          ${visibleRowsHtml}
-          <tr style="height: ${bottomSpacerHeight}px;"><td colspan="${visibleColumnsCount}" style="padding:0; border:0;"></td></tr>
-        `;
+              <tr style="height: ${topSpacerHeight}px;"><td colspan="${visibleColumnsCount}" style="padding:0; border:0;"></td></tr>
+              ${visibleRowsHtml}
+              <tr style="height: ${bottomSpacerHeight}px;"><td colspan="${visibleColumnsCount}" style="padding:0; border:0;"></td></tr>
+            `;
 
         // Restore focus to table if it was previously focused
         const focusedElement = document.activeElement;
@@ -929,7 +1342,8 @@
           return '';
         }
 
-        const rowId = `asset-row-${asset.symbol}`; // Уникальный ID для строки
+        // Уникальный ID для строки
+        const rowId = `asset-row-${asset.symbol}`;
         let cellsHtml = '';
         visibleColumns.forEach((col) => {
           let cellContent = '';
@@ -943,17 +1357,21 @@
               break;
             case 'asset': {
               const iconPath = asset.icon;
-              const fallbackIcon = `<span class="e-asset__icon-fallback" aria-hidden="true">${asset.symbol.substring(0, 3)}</span>`; // Фолбэк иконка
-              const imgTag = `<img class="e-asset__icon" src="${iconPath}" alt="" loading="lazy" width="32" height="32" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">`; // onerror для показа фоллбэка
+
+              // Фолбэк иконка
+              const fallbackIcon = `<span class="e-asset__icon-fallback" aria-hidden="true">${asset.symbol.substring(0, 3)}</span>`;
+
+              // onerror для показа фоллбэка
+              const imgTag = `<img class="e-asset__icon" src="${iconPath}" alt="" loading="lazy" width="32" height="32" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">`;
               cellContent = `
-                <div class="e-asset">
-                    <div class="e-asset__copy">
-                        <span class="e-asset__name">${asset.name}</span>
-                        <span class="e-asset__symbol">${asset.symbol}</span>
-                    </div>
-                    ${iconPath ? imgTag : ''}
-                    ${fallbackIcon}
-                </div>`;
+                    <div class="e-asset">
+                        <div class="e-asset__copy">
+                            <span class="e-asset__name">${asset.name}</span>
+                            <span class="e-asset__symbol">${asset.symbol}</span>
+                        </div>
+                        ${iconPath ? imgTag : ''}
+                        ${fallbackIcon}
+                    </div>`;
               cellClasses += ' is-2-liner';
               break;
             }
@@ -974,6 +1392,18 @@
               break;
             default: {
               const value = getNestedValue(asset, col.apiField);
+              // --- DEBUGGING START ---
+              if (!col.formatter) {
+                console.error('Formatter is missing for column:', JSON.stringify(col));
+                console.error('Asset data for this row:', JSON.stringify(asset));
+                console.error('Value obtained by getNestedValue:', JSON.stringify(value));
+              } else if (typeof col.formatter !== 'function') {
+                console.error('col.formatter is not a function for column:', JSON.stringify(col));
+                console.error('Type of col.formatter:', typeof col.formatter);
+                console.error('Asset data for this row:', JSON.stringify(asset));
+                console.error('Value obtained by getNestedValue:', JSON.stringify(value));
+              }
+              // --- DEBUGGING END ---
               cellContent = col.formatter
                 ? col.formatter(value)
                 : formatNullable(value);
@@ -1040,35 +1470,28 @@
       // -----------------------------------------------------------------------
       const init = () => {
         try {
-          if (!table || !scrollContainer || !tableBody) {
+          if (!table || !scrollContainer || !tableBody || !tableHead) {
+            // Добавлена проверка tableHead
             throw new Error('Required DOM elements not found');
           }
 
-          sortButtons.forEach((button) => {
-            button.addEventListener('click', handleSortClick);
-          });
+          // Заполнить чекбоксы колонок
+          populateColumnCheckboxes();
+
+          // Сгенерировать заголовки таблицы на основе видимых колонок
+          generateTableHeadHtml();
+
+          // sortButtons назначаются в generateTableHeadHtml, обработчики там же
 
           const throttledRender = throttle(renderTable, 100);
           scrollContainer.addEventListener('scroll', throttledRender);
 
+          // Это вызовет processData -> applySortAndFilter -> renderTable
           fetchData();
           updateIntervalId = setInterval(fetchData, REFRESH_INTERVAL_MS);
 
-          const initialSortButton = table.querySelector(
-            `thead th button[data-sort-field="${sortState.field}"]`
-          );
-
-          if (initialSortButton) {
-            initialSortButton.classList.add('is-active');
-            initialSortButton.classList.toggle(
-              'is-desc',
-              sortState.direction === 'desc'
-            );
-            initialSortButton.setAttribute(
-              'aria-sort',
-              sortState.direction === 'asc' ? 'ascending' : 'descending'
-            );
-          }
+          // Инициализировать счетчик фильтров
+          updateFilterCountBadge();
 
           announceUpdate('{{ "Table loading."|trans|escape("js") }}');
         } catch (error) {
@@ -1085,4 +1508,3 @@
     })();
   </script>
 {% endblock %}
-

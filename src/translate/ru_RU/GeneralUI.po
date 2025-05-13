@@ -3,16 +3,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-# ТЕСТ
-
-msgid "JS: Asset"
-msgstr "JS: Валюта"
-
-msgid "Twig: Asset"
-msgstr "JS: Валюта"
-
-# / ТЕСТ
-
 msgid "CryptoAPI.ai Logo"
 msgstr "Логотип CryptoAPI.ai"
 
@@ -24,6 +14,10 @@ msgstr "для крипторынка"
 
 msgid "AI Crypto Analytics and Signals"
 msgstr "ИИ-криптоаналитика и сигналы"
+
+# ------------------------------------------------------------------------------
+# NAVIGATION
+# ------------------------------------------------------------------------------
 
 msgid "Home"
 msgstr "Главная"
@@ -52,8 +46,8 @@ msgstr "Вход"
 msgid "Sign Out"
 msgstr "Выход"
 
-msgid "My page"
-msgstr "Моя страница"
+#  msgid "My page"
+#  msgstr "Моя страница"
 
 msgid "Dashboard"
 msgstr "Сводка"
@@ -87,15 +81,6 @@ msgstr "Конфиденциальность"
 
 msgid "Legal"
 msgstr "Документы"
-
-msgid "Logo –"
-msgstr "Логотип –"
-
-msgid "Day"
-msgstr "За день"
-
-msgid "Total"
-msgstr "За всё время"
 
 # ------------------------------------------------------------------------------
 # BUTTONS
@@ -309,7 +294,6 @@ msgstr "(1 г.)"
 msgid "(1000D)"
 msgstr "(1000 дн.)"
 
-
 msgid "Remove from watchlist"
 msgstr "Удалить из коллекции"
 
@@ -389,17 +373,23 @@ msgid "Columns"
 msgstr "Колонки"
 
 # ------------------------------------------------------------------------------
-# FORMS
+# HELPERS
 # ------------------------------------------------------------------------------
 
-msgid "from:"
-msgstr "от:"
+msgid "Logo –"
+msgstr "Логотип –"
 
-msgid "to:"
-msgstr "до:"
+msgid "Day"
+msgstr "За день"
 
-msgid "Price from:"
-msgstr "Цена от:"
+msgid "Total"
+msgstr "За всё время"
 
-msgid "Price to:"
-msgstr "Цена до:"
+msgid "E.g.,"
+msgstr "За всё время"
+
+msgid "From"
+msgstr "От"
+
+msgid "To"
+msgstr "до"

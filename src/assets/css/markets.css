@@ -87,7 +87,10 @@ label:has(> [type=checkbox]) {
   padding-bottom: 0;
 }
 
-.e-drawer__footer {
+:where([id=drawer-filter]) .e-drawer__header {
+  padding-top: var(--size-6);
+}
+:where([id=drawer-filter]) .e-drawer__footer {
   background-color: var(--color-bg-2ry-alpha);
   backdrop-filter: blur(var(--size-half));
   display: flex;

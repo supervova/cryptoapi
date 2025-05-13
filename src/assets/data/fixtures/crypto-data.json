@@ -1,23 +1,44 @@
-{
-  "BTC": {
-    "price": {"current": "43521.23", "yesterday": {"middle": "42100.50"}},
-    "rating": 8.5,
-    "risk": "low",
-    "TRINDX": 745,
-    "RSI7": 62.3
-  },
-  "ETH": {
-    "price": {"current": "2284.15", "yesterday": {"middle": "2310.75"}},
-    "rating": 7.8,
-    "risk": "medium",
-    "TRINDX": 680,
-    "RSI7": 58.1
-  },
-  "SOL": {
-    "price": {"current": "98.45", "yesterday": {"middle": "95.20"}},
-    "rating": 6.9,
-    "risk": "high",
-    "TRINDX": 590,
-    "RSI7": 71.2
+[
+  "OK",
+  {
+    "BTC": {
+      "price": {"current": "43521.23", "yesterday": {"middle": "42100.50"}},
+      "rating": 8.5,
+      "risk": "low",
+      "TRINDX": 745,
+      "RSI7": "62.3",
+      "RSI30": "55.1",
+      "RSI91": "50.5",
+      "RSI182": "48.2",
+      "RSI365": "52.1",
+      "RSI1000": "58.9",
+      "market": "high"
+    },
+    "ETH": {
+      "price": {"current": "2284.15", "yesterday": {"middle": "2310.75"}},
+      "rating": 7.8,
+      "risk": "medium",
+      "TRINDX": 680,
+      "RSI7": "58.1",
+      "RSI30": "50.0",
+      "RSI91": "45.3",
+      "RSI182": "42.1",
+      "RSI365": "49.5",
+      "RSI1000": "55.2",
+      "market": "middle"
+    },
+    "SOL": {
+      "price": {"current": "98.45", "yesterday": {"middle": "95.20"}},
+      "rating": 6.9,
+      "risk": "high",
+      "TRINDX": 590,
+      "RSI7": "71.2",
+      "RSI30": "68.3",
+      "RSI91": "65.0",
+      "RSI182": "60.1",
+      "RSI365": "63.7",
+      "RSI1000": "N/A",
+      "market": "high"
+    }
   }
-}
+]

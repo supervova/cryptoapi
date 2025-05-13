@@ -86,16 +86,24 @@ label:has(> [type=checkbox]) {
   padding-bottom: 0;
 }
 
-.e-drawer__footer {
-  background-color: var(--color-bg-2ry-alpha);
-  backdrop-filter: blur(var(--size-half));
-  display: flex;
-  gap: var(--size-1p5);
-  justify-content: end;
-  padding-top: var(--size-2);
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
+
+:where([id='drawer-filter']) {
+  .e-drawer__header {
+    padding-top: var(--size-6);
+  }
+
+  .e-drawer__footer {
+    background-color: var(--color-bg-2ry-alpha);
+    backdrop-filter: blur(var(--size-half));
+    display: flex;
+    gap: var(--size-1p5);
+    justify-content: end;
+    padding-top: var(--size-2);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+  }
 }
+
 // #endregion
