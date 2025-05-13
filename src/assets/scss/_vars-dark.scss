@@ -63,7 +63,7 @@
   --color-bg-level-02:   hsl(var(--h) var(--s-min) 21%);
   --color-bg-level-03:   hsl(var(--h) var(--s-min) 24%);
 
-  --color-bg-scrim:   var(--color-alpha-dark-400);
+  --color-bg-scrim:   rgb(0 0 0 / 0.24);
 
   --color-ink-max:    var(--color-alpha-light-max);
   --color-ink-text:   var(--color-alpha-light-900);

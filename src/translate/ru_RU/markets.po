@@ -1,0 +1,46 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "Cryptocurrency Markets | Real-Time Prices, Ratings & Analysis – CryptoAPI.ai"
+msgstr "Криптовалютные рынки | Цены в реальном времени, рейтинги и анализ – CryptoAPI.ai"
+
+msgid "Explore cryptocurrency markets, track asset performance with real-time data, ratings, and risk analysis. Sort and prepare for filtering to find your next investment."
+msgstr "Изучайте криптовалютные рынки, отслеживайте динамику активов с помощью данных в реальном времени, рейтингов и анализа рисков. Сортируйте и готовьте фильтры, чтобы найти свою следующую инвестицию."
+
+msgid "Asset Ranking"
+msgstr "Рейтинг активов"
+
+msgid "A table with up-to-date cryptocurrency data. Refreshed every 10 seconds."
+msgstr "Таблица с актуальными данными о криптовалютах. Обновляется каждые 10 секунд."
+
+msgid "Asset Chart"
+msgstr "График цены"
+
+msgid "Submit"
+msgstr "Применить"
+
+# ------------------------------------------------------------------------------
+# Table
+# ------------------------------------------------------------------------------
+
+msgid "Asset"
+msgstr "Валюта"
+
+msgid "Price, $"
+msgstr "Цена, $"
+
+msgid "Chg (24H), %"
+msgstr "Изм. (24ч), %"
+
+msgid "Rating"
+msgstr "Рейтинг"
+
+msgid "Server sent data in an unexpected format."
+msgstr "Сервер прислал данные в непонятном формате."
+
+msgid "No valid asset data available."
+msgstr "Нет доступных данных об активах."
+
+

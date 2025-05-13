@@ -16,7 +16,8 @@ $data_objects['site'] = [
   'domain' => $thisdomain ?? 'cryptoapi.ai',
   'fgi' => $fgi ?? 44,
   'fonts_google' => 'Inter:wght@300;400;600',
-  'languages' => ['en', 'ru'],
+  'languages' => $languages ?? ['en', 'ru'],
+  'header_stats' => $header_stats ?? [3.78, -25.3],
   'id' => $thisprojectid ?? 43,
   'title' => $blog_title ?? 'CryptoAPI.ai – Advanced APIs for Crypto Traders and Market Analytics'
 ];

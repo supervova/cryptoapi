@@ -1,0 +1,1088 @@
+{# markets.twig.html #}
+{% extends "partials/base.twig" %}
+
+{% block config %}
+  {{ parent() }}
+
+  {% if ENV == 'development' %}
+    {% set page = page|merge(
+      {
+        app: true,
+        classes: 'is-markets',
+        styles: 'markets.css',
+      }
+    ) %}
+    {% set user = user|merge({id: 1}) %}
+
+    {# Начальное поле сортировки #}
+    {% set initial_sort_field = 'rating' %}
+
+    {# Начальное направление #}
+    {% set initial_sort_direction = 'asc' %}
+
+    {% set api_url = '/assets/data/fixtures/crypto-data.json' %}
+  {% else %}
+    {% set api_url = 'https://cryptoapi.ai/json/trindxrating' %}
+  {% endif %}
+
+  {# Определяем колонки здесь, чтобы можно было управлять ими из Twig, если понадобится.
+  JS будет использовать этот же набор по умолчанию, но сможет его переопределить.
+  Первая и последняя колонки скрыты, пока не готов функционал: `visible: false` #}
+
+  {% set default_columns = [
+    {key: 'watchlist', type: 'action', label: 'Watchlist', sortable: false, visible: false},
+    {key: 'asset', type: 'text', label: 'Asset', sortable: true},
+    {key: 'price', type: 'num', label: 'Price, $', sortable: true},
+    {key: 'change_24h', type: 'num', label: 'Chg (24H), %', sortable: true},
+    {key: 'rating', type: 'num', label: 'Rating', sortable: true},
+    {key: 'risk', type: 'icon', label: 'Risk', sortable: false},
+    {key: 'trindex', type: 'num', label: 'TRIndex', sortable: true},
+    {key: 'rsi', type: 'num', label: 'RSI (7D)', sortable: true},
+    {key: 'chart', type: 'action', label: 'Chart', sortable: false, visible: false}
+  ] %}
+
+{% endblock %}
+
+{# {% block head %}
+{% endblock %} #}
+
+{% block search %}
+  <form class="e-header__search" role="search">
+    <label class="visually-hidden" for="header-search">{{ 'Search coins by name or symbol…'|trans }}</label>
+    {% include 'partials/icon.twig' with {name: 'search'} %}
+    <input type="search" id="header-search" placeholder="{{ 'Search coins by name or symbol…'|trans }}">
+  </form>
+{% endblock %}
+
+{% block content %}
+{% set visible_columns_count = 0 %}
+{% for col_def in default_columns %}
+  {% if col_def.visible is not defined or col_def.visible is not same as(false) %}
+    {% set visible_columns_count = visible_columns_count + 1 %}
+  {% endif %}
+{% endfor %}
+
+<div class="e-container">
+
+  <header class="e-main__header">
+    <h1>{{ 'Markets'|trans }}. <span class="text-2ry">{{ 'Asset Ranking'|trans }}</span></h1>
+    {# Фильтры пока не реализованы, но кнопка остается как плейсхолдер #}
+    <div role="status" aria-live="polite">
+      <button class="e-btn is-tag has-start-icon" type="button" data-role="drawer-toggle" data-target="drawer-filter">
+        {% include 'partials/icon.twig' with {name: 'filter'} %}
+        {{ 'Filters'|trans }} 0
+      </button>
+    </div>
+  </header>
+
+  <div class="e-scroller is-2-directions" id="virtual-scroll-container">
+    <table
+      class="table has-hovered-rows has-2-liners"
+      id="crypto-table" data-sort-field="{{ initial_sort_field }}"
+      data-sort-direction="{{ initial_sort_direction }}"
+      aria-live="polite"
+      aria-busy="true"
+    >
+      <caption class="visually-hidden">{{ 'Cryptocurrency Market Data Table'|trans }}</caption>
+      <thead>
+        <tr>
+          {# Генерируем заголовки на основе конфигурации колонок #}
+          {% for col in default_columns %}
+            {% if col.visible is not defined or col.visible is not same as(false) %}
+              {% set label = col.label|trans %}
+              <th class="table__cell is-{{ col.type }}{{ col.key == 'watchlist' or col.key == 'chart' ? ' is-action' : '' }}" scope="col" {% if col.type == 'action' or col.type == 'icon' %} aria-label="{{ label }}" {% endif %}>
+                {% if col.sortable %}
+                  <button
+                    class="e-btn is-sort {{ initial_sort_field == col.key ? 'is-active' : '' }} {{ initial_sort_field == col.key and initial_sort_direction == 'desc' ? 'is-desc' : '' }}"
+                    type="button"
+                    data-sort-field="{{ col.key }}"
+                    aria-label="{{ 'Sort by this column'|trans }}" {# Это общая фраза, переводится нормально #}
+                    aria-sort="{{ initial_sort_field == col.key ? (initial_sort_direction == 'asc' ? 'ascending' : 'descending') : 'none' }}"
+                  >
+                    {{ label }}
+                    {% include 'partials/icon.twig' with {name: 'up'} %}
+                  </button>
+                {% else %}
+                  {# Не сортируемая колонка #}
+                  {{ label }}
+                {% endif %}
+              </th>
+            {% endif %}
+          {% endfor %}
+        </tr>
+      </thead>
+
+      <tbody id="crypto-table-body">
+        {# Начальное состояние - Загрузка #}
+        <tr id="loading-row">
+          <td class="table__cell is-loading-state" colspan="{{ visible_columns_count }}"> {# Теперь visible_columns_count должен быть доступен и равен 7 #}
+            <p>{{ 'Loading data...'|trans }}</p>
+          </td>
+        </tr>
+        {# Сюда JS будет вставлять строки или сообщение "Нет данных" #}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Скрытое уведомление для Screen Readers -->
+  <div class="visually-hidden" aria-live="polite" id="screen-reader-announcement"></div>
+
+</div>
+{% endblock %}
+
+{% block body_suffix %}
+  {# Выдвижная панель графика #}
+  <dialog class="e-drawer is-bottom" id="drawer-chart">
+    <div class="e-drawer__header">
+      <h2>{{ 'Asset Chart'|trans }}</h2>
+      <button class="e-btn is-close" type="button" data-role="close-drawer" aria-label="{{ 'Close'|trans }}">
+        {% include 'partials/icon.twig' with {name: 'sm-x-mark', classes: 'is-sm', assets_prefix: assets_prefix} %}
+      </button>
+    </div>
+    <div class="e-drawer__content">
+      <div class="e-drawer__chart" id="asset-chart"></div>
+    </div>
+  </dialog>
+
+  <dialog class="e-drawer is-end" id="drawer-filter">
+    <div class="e-drawer__header">
+      <h2 class="e-h3">{{ 'Filters'|trans }}</h2>
+      <button class="e-btn is-close" type="button" data-role="close-drawer" aria-label="{{ 'Close'|trans }}">
+        {% include 'partials/icon.twig' with {name: 'sm-x-mark', classes: 'is-sm', assets_prefix: assets_prefix} %}
+      </button>
+    </div>
+
+    <div class="e-drawer__content">
+      <form class="e-form" id="filter-rating" method="get">
+        {# Диапазон цены #}
+        <div class="e-form__row phone:2-columns">
+          <div>
+            <label class="e-label" for="filter-price-min">{{ 'Price from:'|trans }}</label>
+            <input id="filter-price-min" name="filter-price-min" type="number" step="any">
+          </div>
+          <div>
+            <label class="e-label" for="filter-price-max">{{ 'Price to:'|trans }}</label>
+            <input id="filter-price-max" name="filter-price-max" type="number" step="any">
+          </div>
+        </div>
+
+        {# RSI (7 дней) #}
+        <div class="e-form__row phone:2-columns">
+          <div>
+            <label class="e-label" for="filter-rsi-min">RSI {{ 'from:'|trans }}</label>
+            <input id="filter-rsi-min" name="filter-rsi-min" type="number">
+          </div>
+          <div>
+            <label class="e-label" for="filter-rsi-max">RSI {{ 'to:'|trans }}</label>
+            <input id="filter-rsi-max" name="filter-rsi-max" type="number">
+          </div>
+        </div>
+
+        {# Рейтинг (чем ниже, тем лучше) #}
+        <p>
+          <label class="e-label" for="filter-rating-max">{{ 'Rating'|trans }} {{ 'from:'|trans }}</label>
+          <input class="w-1/2" id="filter-rating-max" name="filter-rating-max" type="number" min="1" max="369">
+          <span class="e-form__error" id="error-email" role="alert" aria-live="polite">
+            <small>{{ 'Enter a number from 1 to 369.'|trans }}</small>
+          </span>
+        </p>
+
+        {# Риск #}
+        <p>
+          <label class="e-label" for="filter-risk">{{ 'Risk'|trans }} {{ 'from:'|trans }}</label>
+          <select id="filter-risk" name="filter-risk">
+            <option value="">{{ 'Any'|trans }}</option>
+            <option value="low">{{ 'Low'|trans }}</option>
+            <option value="medium">{{ 'Medium'|trans }}</option>
+            <option value="high">{{ 'High'|trans }}</option>
+          </select>
+        </p>
+
+        {# Columns #}
+        <h3 class="e-h4 mt-2l">{{ 'Columns'|trans }}</h3>
+        <ul class="e-list is-unstyled">
+          <li><label><input type="checkbox" checked disabled>{{ 'Asset'|trans }}</label></li>
+          <li><label><input type="checkbox" checked disabled>{{ 'Price'|trans }}</label></li>
+          <li><label><input type="checkbox" checked>{{ 'Change (24H)'|trans }}</label></li>
+          <li><label><input type="checkbox" checked>{{ 'Rating'|trans }}</label></li>
+          <li><label><input type="checkbox" checked>{{ 'Risk'|trans }}</label></li>
+          <li><label><input type="checkbox" checked>TRIndex</label></li>
+          <li><label><input type="checkbox" checked>{{ 'RSI (7D)'|trans }}</label></li>
+          <li><label><input type="checkbox">{{ 'RSI (1M)'|trans }}</label></li>
+          <li><label><input type="checkbox">{{ 'RSI (3M)'|trans }}</label></li>
+          <li><label><input type="checkbox">{{ 'RSI (6M)'|trans }}</label></li>
+          <li><label><input type="checkbox">{{ 'RSI (1Y)'|trans }}</label></li>
+          <li><label><input type="checkbox">{{ 'RSI (1000D)'|trans }}</label></li>
+        </ul>
+
+      </form>
+    </div>
+    <div class="e-drawer__footer sticky">
+      <button class="e-btn" type="reset" form="filter-rating">
+        {{ 'Reset'|trans }}
+      </button>
+      <button class="e-btn is-primary" type="submit" form="filter-rating">
+        {{ 'Submit'|trans }}
+      </button>
+    </div>
+  </dialog>
+
+  <script>
+    /* eslint-disable no-use-before-define, no-console */
+    (() => {
+      // -----------------------------------------------------------------------
+      // НАСТРОЙКИ
+      // -----------------------------------------------------------------------
+      const API_URL = '{{ api_url|escape("js") }}';
+      const IS_DEVELOPMENT = '{{ ENV }}' === 'development';
+
+      // 10 секунд
+      const REFRESH_INTERVAL_MS = 10000;
+
+      // Переменная в пути к картинкам, стилям и скриптам из Twig
+      const ASSETS_PATH_PREFIX = '{{ site.assets_prefix|escape("js") }}';
+
+      // Высота строки в px для виртуализации
+      const ROW_HEIGHT_ESTIMATE = 56;
+
+      // Количество строк сверху/снизу от видимой области для рендера
+      const VISIBLE_BUFFER = 5;
+
+      // Конфигурация колонок (соответствует default_columns в Twig)
+      // Добавляем 'apiField' для связи с данными API и 'formatter' для отображения,
+      const columnsConfig = [
+        {
+          key: 'watchlist',
+          type: 'action',
+          label: '{{ "Watchlist"|trans|escape("js") }}',
+          sortable: false,
+          visible: false, // Скрыта — до тех пор, пока не будет готов Watchlist
+        },
+        {
+          key: 'asset',
+          type: 'text',
+          label: '{{ "Asset"|trans|escape("js") }}',
+          sortable: true,
+          apiField: 'symbol', // Сортировка будет по symbol или name
+        },
+        {
+          key: 'price',
+          type: 'num',
+          label: '{{ "Price, $"|trans|escape("js") }}',
+          sortable: true,
+          apiField: 'price.current',
+          formatter: formatPrice,
+        },
+        {
+          key: 'change_24h',
+          type: 'num',
+          label: '{{ "Chg (24H), %"|trans|escape("js") }}',
+          sortable: true,
+          apiField: 'price',
+          formatter: formatChange24h,
+        },
+        {
+          key: 'rating',
+          type: 'num',
+          label: '{{ "Rating"|trans|escape("js") }}',
+          sortable: true,
+          apiField: 'rating',
+          formatter: formatNullable,
+        },
+        {
+          key: 'risk',
+          type: 'icon',
+          label: '{{ "Risk"|trans|escape("js") }}',
+          sortable: false,
+          apiField: 'risk',
+          formatter: formatRisk,
+        },
+        {
+          key: 'trindex',
+          type: 'num',
+          label: '{{ "TRIndex"|trans|escape("js") }}',
+          sortable: true,
+          apiField: 'TRINDX',
+          formatter: formatNullable,
+        },
+        {
+          key: 'rsi',
+          type: 'num',
+          label: '{{ "RSI (7D)"|trans|escape("js") }}',
+          sortable: true,
+          apiField: 'RSI7',
+          formatter: formatNullable,
+        },
+        {
+          key: 'chart',
+          type: 'action',
+          label: '{{ "Asset Chart"|trans|escape("js") }}',
+          sortable: false,
+          visible: false, // Скрыта — до тех пор, пока не будет готов Chart
+        },
+      ];
+
+      const visibleColumns = columnsConfig.filter((c) => c.visible !== false);
+      const visibleColumnsCount = visibleColumns.length;
+
+      // Метаданные для криптовалют (Названия, пути к иконкам)
+      // Загружаются из внешнего файла. Ключ - символ в ВЕРХНЕМ РЕГИСТРЕ
+      let cryptoMeta = {};
+
+      fetch(`${ASSETS_PATH_PREFIX}/assets/data/crypto-meta.json`)
+        .then((response) => response.json())
+        .then((data) => {
+          cryptoMeta = data;
+        })
+        .catch((error) => {
+          if (IS_DEVELOPMENT) {
+            console.error('Failed to load crypto metadata:', error);
+          }
+
+          cryptoMeta = {
+            BTC: { name: 'Bitcoin', icon: 'btc.svg' },
+            ETH: { name: 'Ethereum', icon: 'eth.svg' },
+            SOL: { name: 'Solana', icon: 'sol.svg' },
+            AVAX: { name: 'Avalanche', icon: 'avax.svg' },
+            BONK: { name: 'Bonk', icon: 'bonk.svg' },
+            DOGE: { name: 'Dogecoin', icon: 'doge.svg' },
+            BNB: { name: 'BNB', icon: 'bnb.svg' },
+          };
+        });
+
+      // -----------------------------------------------------------------------
+      // СОСТОЯНИЕ
+      // -----------------------------------------------------------------------
+      // Полный массив данных [{symbol: 'BTC', name: 'Bitcoin', icon: '...', ...apiData}]
+      let allAssets = [];
+
+      // Отсортированный массив для рендеринга
+      let sortedFilteredAssets = [];
+      const sortState = {
+        // Начальное поле сортировки из Twig
+        field: '{{ initial_sort_field|escape("js") }}',
+
+        // Начальное направление из Twig
+        direction: '{{ initial_sort_direction|escape("js") }}',
+      };
+      let updateIntervalId = null;
+      let isLoading = true;
+
+      // Для отмены предыдущего запроса fetch
+      let currentRequestController = null;
+
+      // -----------------------------------------------------------------------
+      // DOM ЭЛЕМЕНТЫ
+      // -----------------------------------------------------------------------
+      const scrollContainer = document.getElementById('virtual-scroll-container');
+      const table = document.getElementById('crypto-table');
+      const tableBody = document.getElementById('crypto-table-body');
+      const loadingRow = document.getElementById('loading-row');
+      const sortButtons = table.querySelectorAll(
+        'thead th button[data-sort-field]'
+      );
+      const screenReaderAnnouncer = document.getElementById(
+        'screen-reader-announcement'
+      );
+
+      // -----------------------------------------------------------------------
+      // ФОРМАТИРОВАНИЕ ДАННЫХ
+      // -----------------------------------------------------------------------
+
+      function formatPrice(value) {
+        if (value === null || value === undefined) return '–';
+        const price = parseFloat(value);
+        if (Number.isNaN(price)) return '–';
+        // Для очень маленьких значений используем экспоненциальную запись
+        if (price < 0.00000001 && price > 0) return price.toExponential(2);
+        // Для значений меньше 1 используем до 8 знаков после запятой
+        if (price < 1) {
+          // Находим первую значащую цифру после запятой
+          const sigDigit = (price.toString().split('.')[1] || '').search(/[^0]/);
+          // Используем максимум 8 знаков, но не меньше, чем до первой значащей цифры + 2
+          return price.toFixed(Math.min(8, Math.max(sigDigit + 2, 2)));
+        }
+        // Для больших значений оставляем 2 знака после запятой
+        return price.toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        });
+      }
+
+      function formatChange24h(priceData) {
+        if (
+          !priceData ||
+          priceData.current === undefined ||
+          priceData.yesterday?.middle === undefined
+        )
+          return '–';
+        const current = parseFloat(priceData.current);
+        const yesterdayMiddle = parseFloat(priceData.yesterday.middle);
+        if (
+          Number.isNaN(current) ||
+          Number.isNaN(yesterdayMiddle) ||
+          yesterdayMiddle === 0
+        )
+          return '–';
+        const change = ((current - yesterdayMiddle) / yesterdayMiddle) * 100;
+        const sign = change > 0 ? '+' : '';
+        return `${sign}${change.toFixed(2)}`;
+      }
+
+      function formatRisk(value) {
+        const riskLower = (value || '').toLowerCase();
+        switch (riskLower) {
+          case 'high': {
+            return `<span class="has-tooltip" aria-label="{{ "High risk"|trans|escape("js") }}"><svg class="e-icon is-error" aria-hidden="true" focusable="false"><use xlink:href="${
+              ASSETS_PATH_PREFIX
+            }/assets/img/icons/sprite.svg#icon-error"></use></svg></span>`;
+          }
+          case 'medium': // API may return 'neutral', mapping both to medium
+          case 'neutral': {
+            return `<span class="has-tooltip" aria-label="{{ "Medium risk"|trans|escape("js") }}"><svg class="e-icon is-yin-yang" aria-hidden="true" focusable="false"><use xlink:href="${
+              ASSETS_PATH_PREFIX
+            }/assets/img/icons/sprite.svg#icon-yin-yang"></use></svg></span>`;
+          }
+          case 'low': {
+            return `<span class="has-tooltip" aria-label="{{ "Low risk"|trans|escape("js") }}"><svg class="e-icon is-success" aria-hidden="true" focusable="false"><use xlink:href="${
+              ASSETS_PATH_PREFIX
+            }/assets/img/icons/sprite.svg#icon-success"></use></svg></span>`;
+          }
+          default: {
+            return '<span aria-label="{{ "No risk data"|trans|escape("js") }}">–</span>';
+          }
+        }
+      }
+
+      function formatNullable(value) {
+        return value !== null && value !== undefined ? value : '–';
+      }
+
+      // -----------------------------------------------------------------------
+      // ПОЛУЧЕНИЕ И ОБРАБОТКА ДАННЫХ
+      // -----------------------------------------------------------------------
+
+      // Функция для получения значения из вложенного объекта (например, 'price.current')
+      const getNestedValue = (obj, path) => {
+        if (!obj || !path) return null;
+        return path.split('.').reduce((acc, part) => (acc ? acc[part] : null), obj);
+      };
+
+      // Cleanup function to clear interval
+      const cleanup = () => {
+        if (updateIntervalId) {
+          clearInterval(updateIntervalId);
+          updateIntervalId = null;
+        }
+      };
+
+      /**
+      * Асинхронная функция для получения котировок и индексов криптовалют через API или локальный JSON
+      *
+      * 1. Отменяет предыдущий незавершенный запрос, если он существует
+      * 2. Формирует параметры запроса в зависимости от окружения (development/production)
+      * 3. Определяет язык из URL и формирует полный URL для запроса
+      * 4. Выполняет fetch-запрос и обрабатывает ответ
+      * 5. В случае получения HTML вместо JSON (например, страница авторизации) перенаправляет на страницу входа
+      * 6. Обрабатывает полученные данные через функцию processData
+      * 7. Управляет состоянием загрузки и отображением индикатора
+      * 8. Обрабатывает ошибки и отображает соответствующие сообщения
+      *
+      * @async
+      * @throws {Error} Если запрос завершился с ошибкой или получен неверный формат данных
+      * @returns {Promise<void>}
+      */
+      async function fetchData() {
+        if (currentRequestController) {
+          currentRequestController.abort();
+        }
+
+        currentRequestController = new AbortController();
+
+        try {
+          // В development используем GET для local JSON, в production - POST для API
+          const options = IS_DEVELOPMENT
+            ? { method: 'GET', signal: currentRequestController.signal }
+            : {
+                method: 'POST',
+                body: JSON.stringify({ jsonfather: true }),
+                headers: { 'Content-Type': 'application/json' },
+                // Вместе с запросом отправляем cookies
+                credentials: 'include',
+                signal: currentRequestController.signal,
+              };
+
+          // Получаем текущий язык из URL
+          const currentLang = window.location.pathname
+            .split('/')[1]
+            ?.match(/^[a-z]{2}$/)
+            ? window.location.pathname.split('/')[1]
+            : '';
+
+          // Формируем полный URL с учетом языка
+          const fullApiUrl = IS_DEVELOPMENT
+            ? API_URL
+            : `${window.location.origin}/${currentLang ? `${currentLang}/` : ''}json/trindxrating`;
+
+          const response = await fetch(fullApiUrl, options);
+
+          if (!response.ok) {
+            // Проверяем, не HTML ли получен вместо JSON
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('text/html')) {
+              // Получен HTML вместо JSON - вероятно, страница авторизации
+              window.location.href = `/auth?returl=${encodeURIComponent(window.location.pathname)}`;
+              return;
+            }
+            throw new Error(
+              `{{ "Something went wrong while loading the page."|trans|escape("js") }} status: ${response.status}`
+            );
+          }
+
+          const data = await response.json();
+          processData(data);
+
+          if (isLoading) {
+            isLoading = false;
+            table.setAttribute('aria-busy', 'false');
+            loadingRow?.remove();
+          }
+
+          announceUpdate('{{ "Table data updated."|trans|escape("js") }}');
+        } catch (error) {
+          cleanup(); // Stop polling on critical errors
+          if (error.name === 'AbortError') {
+            if (IS_DEVELOPMENT) {
+              console.log('Fetch aborted');
+            }
+            return;
+          }
+
+          if (IS_DEVELOPMENT) {
+            console.error('Failed to fetch crypto data:', error);
+          }
+          displayErrorState(
+            `{{ "Data couldn’t be loaded. Try again soon."|trans|escape("js") }} ${error.message}`
+          );
+        } finally {
+          currentRequestController = null;
+        }
+      }
+
+      /**
+      * Обрабатывает данные, полученные от API, и подготавливает их для отображения в таблице.
+      *
+      * @param {Object|Array} responseData - Данные, полученные от API. В режиме разработки - объект,
+      *                                     в продакшене - массив [status, data].
+      *
+      * @description
+      * 1. Проверяет формат полученных данных в зависимости от окружения (разработка/продакшн)
+      * 2. Валидирует структуру данных
+      * 3. Преобразует данные в унифицированный формат для каждого криптоактива
+      * 4. Добавляет метаданные (имя, иконку) из cryptoMeta
+      * 5. Обрабатывает случаи с некорректными данными, предоставляя значения по умолчанию
+      * 6. Обновляет UI и состояние загрузки
+      * 7. Применяет сортировку и фильтрацию
+      * 8. Отрисовывает таблицу
+      *
+      * @throws {void} Не выбрасывает исключений, но может вызвать displayErrorState при некорректных данных
+      */
+      const processData = (responseData) => {
+        let apiData;
+
+        if (IS_DEVELOPMENT) {
+          // Для разработки данные уже в нужном формате объекта
+          apiData = responseData;
+        } else {
+          const [status, data] = responseData;
+          if (
+            !Array.isArray(responseData) ||
+            responseData.length < 2 ||
+            status !== 'OK'
+          ) {
+            displayErrorState(
+              '{{ "Server sent data in an unexpected format."|trans|escape("js") }}'
+            );
+            return;
+          }
+          apiData = data;
+        }
+
+        if (!apiData || typeof apiData !== 'object') {
+          if (IS_DEVELOPMENT) {
+            console.error(
+              'apiData is not an object after initial processing:',
+              apiData
+            );
+          }
+          displayErrorState(
+            '{{ "No valid asset data available."|trans|escape("js") }}'
+          );
+          return;
+        }
+
+        const symbols = Object.keys(apiData);
+        allAssets = symbols
+          .map((symbol) => {
+            const upperSymbol = symbol.toUpperCase();
+            const meta = cryptoMeta[upperSymbol] || {
+              name: symbol, // Имя по умолчанию - символ, если нет в cryptoMeta
+              icon: null,
+            };
+            const assetData = apiData[symbol];
+
+            if (typeof assetData !== 'object' || assetData === null) {
+              if (IS_DEVELOPMENT) {
+                console.warn(
+                  `The data for symbol ${symbol} is not an object or is null:`,
+                  assetData
+                );
+              }
+              // Возвращаем объект с полями по умолчанию, чтобы избежать ошибок в renderTable и formatters
+              return {
+                symbol: upperSymbol,
+                name: meta.name,
+                icon: meta.icon
+                  ? `${ASSETS_PATH_PREFIX}/assets/img/cryptologos/${meta.icon}`
+                  : null,
+                watchlist: false, // Стандартное значение по умолчанию
+                chart_data: [], // Стандартное значение по умолчанию
+                id: symbol, // ID актива
+
+                // Поля, которые обычно приходят из assetData, но теперь устанавливаются по умолчанию
+                // Важно, чтобы price был объектом, даже если его поля null,
+                // чтобы функции типа formatPrice(asset.price.current) не вызывали ошибок.
+                price: {
+                  current: null,
+                  yesterday: { middle: null },
+                  // Можно добавить и другие поля из price, если они используются, например 'today'
+                  // today: { min: null, max: null, middle: null }
+                },
+                rating: null,
+                risk: null, // Для formatRisk, который обработает null
+                TRINDX: null,
+                RSI7: null,
+                // Если есть другие поля из 'assetData', которые напрямую используются в formatters
+                // или в generateTableRowHtml, их тоже нужно здесь указать с значением null или подходящим дефолтом.
+                // Например, если бы использовалось поле 'market':
+                // market: null,
+
+                // Поля из API, не используемые в видимых колонках по умолчанию, но могущие быть в assetData:
+                // RSI1000: null,
+                // RSI365: null,
+                // и т.д. - их можно опустить, если они не нужны для рендеринга или сортировки скрытых колонок
+              };
+            }
+
+            // Если assetData - валидный объект, используем его данные
+            return {
+              symbol: upperSymbol,
+              name: meta.name,
+              icon: meta.icon
+                ? `${ASSETS_PATH_PREFIX}/assets/img/cryptologos/${meta.icon}`
+                : null,
+              // Стандартное значение по умолчанию
+              watchlist: false,
+              // Стандартное значение по умолчанию
+              chart_data: [],
+              // ID актива
+              id: symbol,
+              // Распространяем все данные из API для этого символа
+              ...assetData,
+            };
+            // Отфильтровываем возможные некорректные записи (например, если map вернул null)
+          })
+          .filter((asset) => asset && asset.symbol);
+
+        // Если это первая загрузка, обновляем состояние UI сначала
+        if (isLoading) {
+          isLoading = false;
+          table.setAttribute('aria-busy', 'false');
+          loadingRow?.remove();
+          announceUpdate(
+            '{{ "All data has been successfully loaded."|trans|escape("js") }}'
+          );
+        }
+
+        applySortAndFilter();
+        renderTable();
+
+        if (!isLoading) {
+          announceUpdate('{{ "The data has been updated."|trans|escape("js") }}');
+        }
+      };
+
+      /**
+      * Отображает состояние ошибки в таблице
+      * @param {string} message - Сообщение об ошибке для отображения
+      * @description
+      * - Вставляет строку с сообщением об ошибке в тело таблицы
+      * - Добавляет кнопку повторной попытки
+      * - Снимает индикатор загрузки с таблицы
+      * - Скрывает строку загрузки, если она присутствует
+      * - Сбрасывает флаг состояния загрузки
+      */
+      function displayErrorState(message) {
+        tableBody.innerHTML = `
+          <tr>
+            <td class="table__cell is-empty-state is-error-state" colspan="${visibleColumnsCount}">
+              <p>${message}</p>
+              <button class="e-btn is-text" onclick="location.reload()">{{ "Retry"|trans|escape("js") }}</button>
+            </td>
+          </tr>`;
+        // Снимаем состояние занятости при ошибке
+        table.setAttribute('aria-busy', 'false');
+        // Скрываем строку загрузки если она еще есть
+        if (loadingRow) loadingRow.style.display = 'none';
+
+        // Считаем загрузку завершенной (с ошибкой)
+        isLoading = false;
+      }
+
+      // -----------------------------------------------------------------------
+      // СОРТИРОВКА
+      // -----------------------------------------------------------------------
+      function handleSortClick(event) {
+        const button = event.currentTarget;
+        const field = button.dataset.sortField;
+
+        let direction = 'asc';
+        if (sortState.field === field && sortState.direction === 'asc') {
+          direction = 'desc';
+        }
+
+        sortState.field = field;
+        sortState.direction = direction;
+
+        // Обновляем ARIA атрибуты и классы кнопок
+        sortButtons.forEach((btn) => {
+          const btnField = btn.dataset.sortField;
+          if (btnField === field) {
+            btn.classList.add('is-active');
+            btn.classList.toggle('is-desc', direction === 'desc');
+            btn.setAttribute(
+              'aria-sort',
+              direction === 'asc' ? 'ascending' : 'descending'
+            );
+          } else {
+            btn.classList.remove('is-active', 'is-desc');
+            btn.setAttribute('aria-sort', 'none');
+          }
+        });
+
+        applySortAndFilter(); // Пересортировать и перерисовать
+        announceUpdate(
+          // eslint-disable-next-line prefer-template
+          '{{ "Table sorted by"|trans|escape("js") }} ' +
+            (columnsConfig.find((c) => c.key === field)?.label || field) +
+            (direction === 'asc'
+              ? ' {{ "ascending"|trans|escape("js") }}'
+              : ' {{ "descending"|trans|escape("js") }}')
+        );
+      }
+
+      /** Функция для получения значения по вложенному пути */
+      function applySortAndFilter() {
+        if (!Array.isArray(allAssets)) {
+          if (IS_DEVELOPMENT) {
+            console.error('allAssets is not an array');
+          }
+          return;
+        }
+
+        // Пока фильтрации нет, просто копируем и сортируем
+        const dataToSort = [...allAssets];
+        const sortConfig = columnsConfig.find((c) => c.key === sortState.field);
+        const apiField = sortConfig?.apiField || sortState.field; // Поле API для сортировки
+        dataToSort.sort((a, b) => {
+          let valA = getNestedValue(a, apiField);
+          let valB = getNestedValue(b, apiField);
+
+          // Специальная обработка для 'asset' (сортировка по имени)
+          if (sortState.field === 'asset') {
+            valA = a.name.toLowerCase();
+            valB = b.name.toLowerCase();
+          }
+
+          // Специальная обработка для 'change_24h'
+          else if (sortState.field === 'change_24h') {
+            const changeA = calculateChange24hValue(a.price);
+            const changeB = calculateChange24hValue(b.price);
+            valA = changeA === null ? -Infinity : changeA; // null/undefined в начало/конец в зависимости от направления
+            valB = changeB === null ? -Infinity : changeB;
+          } else {
+            // Преобразуем к числам, если возможно, для корректной числовой сортировки
+            const numA = parseFloat(valA);
+            const numB = parseFloat(valB);
+            if (!Number.isNaN(numA) && !Number.isNaN(numB)) {
+              valA = numA;
+              valB = numB;
+            } else if (typeof valA === 'string' && typeof valB === 'string') {
+              // Строковое сравнение
+              valA = valA.toLowerCase();
+              valB = valB.toLowerCase();
+            }
+          }
+
+          // Обработка null/undefined - помещаем их в конец при asc, в начало при desc
+          const aIsNull = valA === null || valA === undefined || valA === -Infinity;
+          const bIsNull = valB === null || valB === undefined || valB === -Infinity;
+
+          if (aIsNull && bIsNull) return 0;
+          if (aIsNull) return sortState.direction === 'asc' ? 1 : -1;
+          if (bIsNull) return sortState.direction === 'asc' ? -1 : 1;
+
+          if (valA < valB) return sortState.direction === 'asc' ? -1 : 1;
+          if (valA > valB) return sortState.direction === 'asc' ? 1 : -1;
+          return 0;
+        });
+
+        sortedFilteredAssets = dataToSort;
+
+        // Сбрасываем скролл при сортировке, чтобы видеть верхние элементы
+        scrollContainer.scrollTop = 0;
+        renderTable(); // Перерисовать таблицу с новыми данными/порядком
+      }
+
+      // Вспомогательная функция для получения числового значения изменения 24ч
+      const calculateChange24hValue = (priceData) => {
+        if (!priceData?.current || !priceData?.yesterday?.middle) {
+          return null;
+        }
+
+        const current = parseFloat(priceData.current);
+        const yesterdayMiddle = parseFloat(priceData.yesterday.middle);
+
+        if (
+          Number.isNaN(current) ||
+          Number.isNaN(yesterdayMiddle) ||
+          yesterdayMiddle === 0
+        ) {
+          return null;
+        }
+
+        return ((current - yesterdayMiddle) / yesterdayMiddle) * 100;
+      };
+
+      // -----------------------------------------------------------------------
+      // РЕНДЕРИНГ (ВИРТУАЛИЗАЦИЯ)
+      // -----------------------------------------------------------------------
+      function renderTable() {
+        // Не рендерим, пока не загрузились данные
+        if (isLoading) return;
+
+        const totalItems = sortedFilteredAssets.length;
+
+        if (totalItems === 0) {
+          tableBody.innerHTML = `
+            <tr>
+              <td class="table__cell is-empty-state" colspan="${visibleColumnsCount}">
+                <p>{{ "No data available"|trans|escape("js") }}</p>
+              </td>
+            </tr>`;
+          return;
+        }
+
+        const { scrollTop } = scrollContainer;
+        const containerHeight = scrollContainer.clientHeight;
+
+        // Рассчитываем индексы видимых элементов
+        const startIndex = Math.max(
+          0,
+          Math.floor(scrollTop / ROW_HEIGHT_ESTIMATE) - VISIBLE_BUFFER
+        );
+        const endIndex = Math.min(
+          totalItems,
+          Math.ceil((scrollTop + containerHeight) / ROW_HEIGHT_ESTIMATE) +
+            VISIBLE_BUFFER
+        );
+
+        // Создаем HTML для видимых строк
+        let visibleRowsHtml = '';
+        for (let i = startIndex; i < endIndex; i++) {
+          visibleRowsHtml += generateTableRowHtml(sortedFilteredAssets[i]);
+        }
+
+        // Рассчитываем высоту верхнего и нижнего спейсеров
+        const topSpacerHeight = startIndex * ROW_HEIGHT_ESTIMATE;
+        const bottomSpacerHeight = (totalItems - endIndex) * ROW_HEIGHT_ESTIMATE;
+
+        // Обновляем содержимое tbody
+        tableBody.innerHTML = `
+          <tr style="height: ${topSpacerHeight}px;"><td colspan="${visibleColumnsCount}" style="padding:0; border:0;"></td></tr>
+          ${visibleRowsHtml}
+          <tr style="height: ${bottomSpacerHeight}px;"><td colspan="${visibleColumnsCount}" style="padding:0; border:0;"></td></tr>
+        `;
+
+        // Restore focus to table if it was previously focused
+        const focusedElement = document.activeElement;
+        if (table.contains(focusedElement)) {
+          table.focus();
+        }
+      }
+
+      function generateTableRowHtml(asset) {
+        if (!asset || typeof asset !== 'object') {
+          if (IS_DEVELOPMENT) {
+            console.error('Invalid asset data');
+          }
+          return '';
+        }
+
+        const rowId = `asset-row-${asset.symbol}`; // Уникальный ID для строки
+        let cellsHtml = '';
+        visibleColumns.forEach((col) => {
+          let cellContent = '';
+          let cellClasses = `table__cell is-${col.type}`;
+          const attributes = '';
+
+          switch (col.key) {
+            case 'watchlist': // Скрыто
+              // cellContent = `<button class="e-btn is-watchlist" type="button" ...></button>`;
+              cellClasses += ' is-action';
+              break;
+            case 'asset': {
+              const iconPath = asset.icon;
+              const fallbackIcon = `<span class="e-asset__icon-fallback" aria-hidden="true">${asset.symbol.substring(0, 3)}</span>`; // Фолбэк иконка
+              const imgTag = `<img class="e-asset__icon" src="${iconPath}" alt="" loading="lazy" width="32" height="32" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">`; // onerror для показа фоллбэка
+              cellContent = `
+                <div class="e-asset">
+                    <div class="e-asset__copy">
+                        <span class="e-asset__name">${asset.name}</span>
+                        <span class="e-asset__symbol">${asset.symbol}</span>
+                    </div>
+                    ${iconPath ? imgTag : ''}
+                    ${fallbackIcon}
+                </div>`;
+              cellClasses += ' is-2-liner';
+              break;
+            }
+            case 'risk':
+              cellContent = col.formatter(getNestedValue(asset, col.apiField));
+              cellClasses += ' is-icon';
+              break;
+            case 'change_24h': {
+              const changeValue = calculateChange24hValue(asset.price);
+              cellContent = formatNullable(changeValue?.toFixed(2));
+              if (changeValue > 0) cellClasses += ' is-positive';
+              else if (changeValue < 0) cellClasses += ' is-negative';
+              break;
+            }
+            case 'chart': // Скрыто
+              // cellContent = `<button class="e-btn is-chart" type="button" ...></button>`;
+              cellClasses += ' is-action';
+              break;
+            default: {
+              const value = getNestedValue(asset, col.apiField);
+              cellContent = col.formatter
+                ? col.formatter(value)
+                : formatNullable(value);
+              break;
+            }
+          }
+
+          cellsHtml += `<td class="${cellClasses}" ${attributes}>${cellContent}</td>`;
+        });
+
+        // Добавляем data-* атрибуты и tabindex к строке
+        return (
+          `<tr data-asset-id="${asset.id}" data-asset-symbol="${
+            asset.symbol
+          }" tabindex="0" aria-label="${asset.name} - ${formatPrice(
+            asset.price?.current
+          )} USD" id="${rowId}">\n` +
+          `    ${cellsHtml}\n` +
+          '</tr>'
+        );
+      }
+
+      // -----------------------------------------------------------------------
+      // УТИЛИТЫ
+      // -----------------------------------------------------------------------
+
+      const throttle = (func, limit) => {
+        let lastFunc;
+        let lastRan;
+
+        return function throttled(...args) {
+          const context = this;
+
+          if (!lastRan) {
+            func.apply(context, args);
+            lastRan = Date.now();
+            return;
+          }
+
+          clearTimeout(lastFunc);
+          lastFunc = setTimeout(
+            () => {
+              if (Date.now() - lastRan >= limit) {
+                func.apply(context, args);
+                lastRan = Date.now();
+              }
+            },
+            limit - (Date.now() - lastRan)
+          );
+        };
+      };
+
+      function announceUpdate(message) {
+        if (screenReaderAnnouncer) {
+          screenReaderAnnouncer.textContent = message;
+        }
+      }
+
+      // Add window unload handler for cleanup
+      window.addEventListener('unload', cleanup);
+
+      // -----------------------------------------------------------------------
+      // ИНИЦИАЛИЗАЦИЯ
+      // -----------------------------------------------------------------------
+      const init = () => {
+        try {
+          if (!table || !scrollContainer || !tableBody) {
+            throw new Error('Required DOM elements not found');
+          }
+
+          sortButtons.forEach((button) => {
+            button.addEventListener('click', handleSortClick);
+          });
+
+          const throttledRender = throttle(renderTable, 100);
+          scrollContainer.addEventListener('scroll', throttledRender);
+
+          fetchData();
+          updateIntervalId = setInterval(fetchData, REFRESH_INTERVAL_MS);
+
+          const initialSortButton = table.querySelector(
+            `thead th button[data-sort-field="${sortState.field}"]`
+          );
+
+          if (initialSortButton) {
+            initialSortButton.classList.add('is-active');
+            initialSortButton.classList.toggle(
+              'is-desc',
+              sortState.direction === 'desc'
+            );
+            initialSortButton.setAttribute(
+              'aria-sort',
+              sortState.direction === 'asc' ? 'ascending' : 'descending'
+            );
+          }
+
+          announceUpdate('{{ "Table loading."|trans|escape("js") }}');
+        } catch (error) {
+          if (IS_DEVELOPMENT) {
+            console.error('Initialization failed:', error);
+          }
+          displayErrorState(
+            '{{ "We couldn’t show the table. Something went wrong during setup."|trans|escape("js") }}'
+          );
+        }
+      };
+
+      document.addEventListener('DOMContentLoaded', init);
+    })();
+  </script>
+{% endblock %}
+

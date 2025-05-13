@@ -39,10 +39,10 @@ $navbar-dot-size: var(--size-1);
 
   @media (any-hover: hover) and (pointer: fine) {
     &:hover {
-      background-color: hsl(0 0% 100% / 0.03);
+      background-color: hsl(0 0% 100% / 0.02);
       background-image:
       radial-gradient(
-        circle 96px at 50% 100%,
+        50% 24px at 50% 100%,
         rgb(255 255 255 / 0.16),
         rgb(255 255 255 / 0.14) 2%,
         rgb(255 255 255 / 0.12) 10%,
@@ -207,11 +207,21 @@ $navbar-dot-size: var(--size-1);
 }
 
 // Current Pages
-:where(.e-page.is-home .e-navbar__menu-item.is-home) > a,
-:where(.e-page.is-dashboard .e-navbar__menu-item.is-dashboard) > a,
-:where(.e-page.is-markets .e-navbar__menu-item.is-markets) > a {
-  background-color: var(--color-ink-min);
-  cursor: default;
+.e-page.is-home .e-navbar__menu-item.is-home > a,
+.e-page.is-dashboard .e-navbar__menu-item.is-dashboard > a,
+.e-page.is-markets .e-menu__item.is-markets > a {
+  background-color: hsl(0 0% 100% / 0.03);
+  background-image:
+    radial-gradient(
+      50% 24px at 50% 100%,
+      rgb(255 255 255 / 0.16),
+      rgb(255 255 255 / 0.14) 2%,
+      rgb(255 255 255 / 0.12) 10%,
+      rgb(255 255 255 / 0.09) 21%,
+      rgb(255 255 255 / 0.06) 36%,
+      rgb(255 255 255 / 0.03) 54%,
+      rgb(255 255 255 / 0)
+    );
 }
 // #endregion
 

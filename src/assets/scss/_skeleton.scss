@@ -1,0 +1,32 @@
+@use 'abstracts' as *;
+
+.skeleton {
+  animation: skeleton-loading 1.5s infinite;
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-2ry) 25%,
+    var(--color-ink-min) 50%,
+    var(--color-bg-2ry) 75%
+  );
+  background-size: 200% 100%;
+  border-radius: var(--border-radius-sm);
+
+  &.is-circle {
+    border-radius: 50%;
+  }
+
+  &.is-text {
+    width: 100%;
+    height: var(--size-1);
+  }
+}
+
+// Skeletons
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "BTC": {
+    "price": {"current": "43521.23", "yesterday": {"middle": "42100.50"}},
+    "rating": 8.5,
+    "risk": "low",
+    "TRINDX": 745,
+    "RSI7": 62.3
+  },
+  "ETH": {
+    "price": {"current": "2284.15", "yesterday": {"middle": "2310.75"}},
+    "rating": 7.8,
+    "risk": "medium",
+    "TRINDX": 680,
+    "RSI7": 58.1
+  },
+  "SOL": {
+    "price": {"current": "98.45", "yesterday": {"middle": "95.20"}},
+    "rating": 6.9,
+    "risk": "high",
+    "TRINDX": 590,
+    "RSI7": 71.2
+  }
+}

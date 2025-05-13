@@ -5,6 +5,8 @@
       "domain": "cryptoapi.ai",
       "desc": "Unlock the power of advanced APIs designed for crypto traders and analysts. Access real-time market insights, trading signals, custom indices, and automated tools to boost your trading performance.",
       "fonts_google": "Inter:wght@300;400;600",
+      "fgi": 44,
+      "header_stats": [3.78, -25.3],
       "languages": ["en", "ru"],
       "title": "CryptoAPI.ai – Advanced APIs for Crypto Traders and Market Analytics"
     } %}
@@ -57,8 +59,8 @@
   <meta name="user-id" content="{{ user.id }}">
 
   {% block assets %}
-  <script src="{{ site.assets_prefix }}/assets/js/main.js" type="module"></script>
-  {{ page.legacy_js }}
+  <script src="{{ site.assets_prefix }}/assets/js/main.js?{{ "now"|date('U') }}" type="module"></script>
+  {% if page.legacy_js %}{{ page.legacy_js }}{% endif %}
   {% endblock %}
 
   {% set schema_type =
@@ -109,17 +111,19 @@
 {% endblock %}
 </head>
 
-<body class="e-page{% if page.slug != '' %} is-{{ page.slug }}{% endif %}{% if page.app %} is-app{% else %} is-site{% endif %}{% if page.classes %} {{ page.classes }}{% endif %}">
+<body class="e-page{% if page.slug is defined and page.slug is not empty %} is-{{ page.slug }}{% endif %}{% if page.app %} is-app{% else %} is-site{% endif %}{% if page.classes %} {{ page.classes }}{% endif %}">
 
   {# NAVBAR ----------------------------------------------------------------- #}
   {% block navbar %}
     {% include "partials/navbar.twig" %}
   {% endblock %}
 
-  {# CONTENT ---------------------------------------------------------------- #}
+  {# CONTENT ----------------------------------------------------------------- #}
   {# Content Header (Search & Stats) #}
   {% if page.app %}
-    {% include "partials/header.twig" %}
+    {% include "partials/header.twig" with {
+      search_content: block('search')|default('')
+    } %}
   {% endif %}
 
   <main class="e-main">

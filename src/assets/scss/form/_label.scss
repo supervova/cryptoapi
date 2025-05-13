@@ -1,5 +1,16 @@
 @use 'abstracts' as *;
 
+:where(.e-form) .e-label {
+  @include text-format('base');
+
+  color: var(--color-ink-2ry);
+  display: block;
+  margin-bottom: var(--size-half);
+}
+
+
+// Placeholder-like
+
 /* p */.e-form__text-field {
   position: relative;
 

@@ -12,6 +12,7 @@
   vertical-align: middle;
 
   width: var(--size-icon);
+  min-width: var(--size-icon);
   height: var(--size-icon);
 
   @media (--retina) {
@@ -27,5 +28,14 @@
 
 .e-icon.is-sm {
   width: var(--size-icon-sm);
+  min-width: var(--size-icon-sm);
   height: var(--size-icon-sm);
+}
+
+.e-icon.is-error {
+  --icon-stroke: var(--color-ink-2ry-error);
+}
+
+.e-icon.is-success {
+  --icon-stroke: var(--color-ink-2ry-success);
 }

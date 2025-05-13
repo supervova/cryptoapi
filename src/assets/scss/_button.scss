@@ -83,7 +83,8 @@ a[role='button'] {
   aspect-ratio: 1;
   width: var(--button-height);
 
-  > .label {
+  > .label,
+  > .e-label {
     @include visually-hidden;
   }
 }
@@ -120,6 +121,19 @@ a[role='button'] {
 
 .e-btn.has-both-icons {
   padding-inline: calc(var(--button-padding-x) - var(--size-half));
+}
+
+// Tag
+.e-btn.is-tag {
+  --button-height: var(--size-4);
+  border-radius: var(--border-radius-pill);
+  color: var(--color-ink-2ry);
+  gap: var(--size-1);
+
+  &.has-start-icon {
+    padding-inline-start: var(--size-1);
+    padding-inline-end: var(--size-1p5);
+  }
 }
 // #endregion
 

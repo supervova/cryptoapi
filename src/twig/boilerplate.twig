@@ -33,6 +33,32 @@
   {# Основное содержание добавляй сюда #}
   <h1>Hello world</h1>
 
+  <button class="e-btn is-tag has-start-icon" type="button" data-role="drawer-toggle" data-target="drawer-filter">
+    {% include 'partials/icon.twig' with {name: 'filter'} %}
+    {{ 'Filters'|trans }} 0
+  </button>
+
+  <dialog class="e-drawer" id="drawer-filter">
+    <div class="e-drawer__header">
+      <h2 class="e-h3">{{ 'Filters'|trans }}</h2>
+      <button class="e-btn is-close" type="button" data-role="close-drawer" aria-label="{{ 'Close'|trans }}">
+        {% include 'partials/icon.twig' with {name: 'sm-x-mark', classes: 'is-sm', assets_prefix: assets_prefix} %}
+      </button>
+    </div>
+
+    <div class="e-drawer__content">
+      <!-- coдержание -->
+    </div>
+    <div class="e-drawer__footer sticky">
+      <button class="e-btn" type="reset" form="filter-rating" data-role="close-drawer">
+        {{ 'Cancel'|trans }}
+      </button>
+      <button class="e-btn is-primary" type="submit" form="filter-rating">
+        {{ 'Submit'|trans }}
+      </button>
+    </div>
+  </dialog>
+
 {% endblock %}
 
 {# Расскоментируй строку ниже, если не нужна подвал #}

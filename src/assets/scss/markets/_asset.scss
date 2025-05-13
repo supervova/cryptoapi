@@ -4,13 +4,13 @@
 // HEADER
 // -----------------------------------------------------------------------------
 // #region
-.e-asset__header {
+.e-asset-details__header {
   display: flex;
   gap: var(--size-3);
   padding-bottom: var(--size-3);
 }
 
-.e-asset__icon {
+.e-asset-details__icon {
   display: none;
 
   @media (--tablet) {
@@ -20,7 +20,7 @@
   }
 }
 
-.e-asset__summary {
+.e-asset-details__summary {
   flex-grow: 1;
   padding-inline-end: var(--size-2);
 }
@@ -36,12 +36,12 @@
 
 }
 
-.e-asset__symbol,
-.e-asset__price {
+.e-asset-details__symbol,
+.e-asset-details__price {
   @include text-format('h2');
 }
 
-.e-asset__symbol {
+.e-asset-details__symbol {
   margin-top: var(--size-1);
   margin-bottom: 0;
 
@@ -50,7 +50,7 @@
   }
 }
 
-.e-asset__price {
+.e-asset-details__price {
   font-weight: var(--font-weight-titles-max);
   margin-top: 0;
   margin-bottom: var(--size-1);
@@ -60,11 +60,11 @@
   }
 }
 
-.e-asset__header p {
+.e-asset-details__header p {
   margin-bottom: 0;
 }
 
-.e-asset__price-change {
+.e-asset-details__price-change {
   @include text-format('h3');
 
   &.is-positive {
@@ -76,13 +76,13 @@
   }
 }
 
-.e-asset__title,
-.e-asset__stats span {
+.e-asset-details__title,
+.e-asset-details__stats span {
   @include text-format('body-sm');
   color: var(--color-ink-2ry);
 }
 
-.e-asset__stats {
+.e-asset-details__stats {
   display: flex;
   gap: var(--size-1);
 }

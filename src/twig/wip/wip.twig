@@ -1,18 +1,15 @@
 {% extends "partials/base.twig" %}
+{% import 'partials/macros.twig' as macros %}
 
 {% block config %}
   {{ parent() }}
 
   {% if ENV == 'development' %}
-    {% set site = site|merge(
-      {fgi: 27}
-    ) %}
-
     {% set page = page|merge(
       {
         app: true,
-        classes: 'is-dashboard',
-        styles: 'dashboard.css',
+        classes: 'is-markets',
+        styles: 'markets.css',
       }
     ) %}
 
@@ -20,86 +17,115 @@
       {id: 1}
     ) %}
 
-    {% set header_stats = [3.78, -25.3] %}
-
-    {% set watchlist = {
-      total_value: "980 641,14",
-
-      change_trend: "error",
-      change_usd: "-$19,04",
-      change_percent: "0%",
-
-      all_time_trend: "success",
-      all_time_change_usd: "+$261 733,12",
-      all_time_change_percent: "26,69%",
-
-      assets: [
-        {symbol: "TRX", fullname: "TRON", value: "0,25", change: "+3,37%", trend: "positive"},
-        {symbol: "LTC", fullname: "Litecoin", value: "79,64", change: "+1,31%", trend: "positive"},
-        {symbol: "USDT", fullname: "Tether USDt", value: "1,0000", change: "0%", trend: "neutral"},
-        {symbol: "ADA", fullname: "Cardano", value: "0,66", change: "-0,43%", trend: "negative"},
-        {symbol: "BTC", fullname: "Bitcoin", value: "84 642,59", change: "-0,77%", trend: "negative"},
-        {symbol: "ETH", fullname: "Ethereum", value: "1 628,11", change: "-0,97%", trend: "negative"}
-      ]
-    } %}
-
-    {% set signals = [
-      {trigger: "Price below", volume: "30 000USD", type: "Price Trigger"},
-      {trigger: "AI Trend:", price_direction: "Uptrend -", asset: "BTC", type: "AI Forecast Trigger"},
-      {trigger: "Volume above", volume: "50ETH", type: "Volume Trigger"}
-    ] %}
-
-    {% set advices = [
-      {asset: "ETH", action: "verb.infinitive.sell", type: "sell"},
-      {asset: "BTC", action: "verb.infinitive.Buy", type: "buy"},
-      {asset: "SOL", action: "verb.Hedge", type: "hedge"},
-      {asset: "BTC", action: "Uptrend -", type: "uptrend", trend: true}
-    ] %}
-
-    {% set reports = [
-      {action: "noun.Buy", asset: "BTC", time: "15:24", status: "pending"},
-      {action: "noun.Sell", asset: "ETH", time: "14:47", status: "success"},
-      {action: "noun.Buy", asset: "LTC", time: "13:03", status: "error"},
-      {action: "noun.Sell", asset: "BTC", time: "11:18", status: "success"}
-    ] %}
-
-    {% set apis = [
-      {name: "BTC Bungavy Bot", status: "Active", status: "active"},
-      {name: "ETH Grid Bot", status: "Inactive", status: "inactive"}
-    ] %}
-
-    {% set featured_assets = [
+    {# Массив криптовалютных активов #}
+    {% set assets = [
       {
-        logo: "sui",
-        label: "Top Loser",
-        ticker: "SUI-USD",
-        price: "2,6530",
-        name: "Sui",
-        change: "-17,78%",
-        change_class: "text-error",
-        card_class: ""
-      },
-      {
-        logo: "story",
-        label: "Top Gainer",
-        ticker: "IP-USD",
-        price: "4,96",
-        name: "Story Protocol",
-        change: "+26,69%",
-        change_class: "text-success",
-        card_class: "is-top-gainer"
-      },
-      {
-        logo: "xrp",
-        label: "Trending",
-        ticker: "XRP-USD",
-        price: "2,1115",
-        name: "XRP",
-        change: "-2,27%",
-        change_class: "text-error",
-        card_class: "is-trending"
+        id: "7",
+        icon: "/assets/img/cryptologos/bonk.svg",
+        name: "Bonk",
+        symbol: "BONK",
+        price: 0.00001942,
+        change_24h: -6.92,
+        rating: 2,
+        risk: "high",
+        trindex: 20,
+        rsi: 44,
+        watchlist: false,
+        chart_data: []
+      }, {
+        id: "1",
+        icon: "/assets/img/cryptologos/btc.svg",
+        name: "Bitcoin",
+        symbol: "BTC",
+        price: 64778,
+        change_24h: -2.12,
+        rating: 17,
+        risk: "low",
+        trindex: 43,
+        rsi: 44,
+        watchlist: true,
+        chart_data: []
+      }, {
+        id: "2",
+        icon: "/assets/img/cryptologos/eth.svg",
+        name: "Ethereum",
+        symbol: "ETH",
+        price: 3148,
+        change_24h: -2.54,
+        rating: 32,
+        risk: "low",
+        trindex: 42,
+        rsi: 44,
+        watchlist: true,
+        chart_data: []
+      }, {
+        id: "5",
+        icon: "/assets/img/cryptologos/avax.svg",
+        name: "Avalanche",
+        symbol: "AVAX",
+        price: 34.12,
+        change_24h: -3.76,
+        rating: 64,
+        risk: "low",
+        trindex: 38,
+        rsi: 44,
+        watchlist: false,
+        chart_data: []
+      }, {
+        id: "6",
+        icon: "/assets/img/cryptologos/doge.svg",
+        name: "Dogecoin",
+        symbol: "DOGE",
+        price: 0.1573,
+        change_24h: -3.13,
+        rating: 86,
+        risk: "medium",
+        trindex: 34,
+        rsi: 44,
+        watchlist: false,
+        chart_data: []
+      }, {
+        id: "3",
+        icon: "/assets/img/cryptologos/bnb.svg",
+        name: "BNB",
+        symbol: "BNB",
+        price: 545,
+        change_24h: -3.12,
+        rating: 117,
+        risk: "low",
+        trindex: 41,
+        rsi: 44,
+        watchlist: false,
+        chart_data: []
+      }, {
+        id: "4",
+        icon: "/assets/img/cryptologos/sol.svg",
+        name: "Solana",
+        symbol: "SOL",
+        price: 136,
+        change_24h: 1.32,
+        rating: 152,
+        risk: "low",
+        trindex: 40,
+        rsi: 44,
+        watchlist: false,
+        chart_data: []
       }
     ] %}
+
+    {# Количество активных фильтров #}
+    {% set filters_count = 0 %}
+
+    {# Текущее поле сортировки ('rating', 'price', etc.) #}
+    {% set sort_field = 'rating' %}
+
+    {# Направление сортировки: по возрастанию ('asc'; естественный порядок:
+        от A до Z, с 0 до 100 etc) или по убыванию ('desc') #}
+    {% set sort_direction = 'asc' %}
+
+    {# Количество колонок управляется через фильтры, а нулевое состояние
+        выводится в ячейке с атрибутом colspan #}
+    {% set columns = 9 %}
   {% endif %}
 {% endblock %}
 
@@ -107,271 +133,170 @@
 {% endblock %} #}
 
 {% block content %}
-  <div
-    class="e-container">
+  <div class="e-container">
 
-    {# Overview and sidebar #}
-    <div class="e-content">
-      <!-- 16:57 -->
+    <header class="e-main__header">
+      <h1>{{ 'Markets'|trans }}.
+        <span class="text-2ry">{{ 'Asset Ranking'|trans }}</span>
+      </h1>
+      <div class="e-tag" role="status" aria-live="polite">
 
-      {# Watchlist #}
-        <section class="e-assets"> <div class="e-assets__sticky">
-          <header class="e-card is-watchlist is-highlight">
-
-            <div class="e-card__row">
-              <hgroup>
-                <h2 class="e-eyebrow">
-                  <a href="/{{ lng_html }}watchlist">
-                    {{ 'My watchlist:'|trans }}
-                    {{ watchlist.assets|length }}
-                  </a>
-                </h2>
-                <h3 class="e-card__total">
-                  <span class="text-2ry">$</span>
-                  {{ watchlist.total_value }}
-                </h3>
-              </hgroup>
-              <a class="e-btn is-icon" href="/{{ lng_html }}watchlist">
-                <span class="visually-hidden">{{ 'View all'|trans }}</span>
-                {% include 'partials/icon.twig' with {name: 'chevron-right'} %}
-              </a>
-            </div>
-
-            <div class="e-card__row">
-              <span class="e-card__period">{{ 'Day'|trans }}</span>
-              <span class="e-card__value text-{{ watchlist.change_trend }}">
-                {{ watchlist.change_usd }}
-                •
-                {{ watchlist.change_percent }}
-              </span>
-            </div>
-            <div class="e-card__row">
-              <span class="e-card__period">{{ 'Total'|trans }}</span>
-              <span class="e-card__value text-{{ watchlist.all_time_trend }}">
-                {{ watchlist.all_time_change_usd }}
-                •
-                {{ watchlist.all_time_change_percent }}
-              </span>
-            </div>
-          </header>
-
-          <table class="e-assets__table mt-1l">
-            <colgroup>
-              <col class="e-assets__symbols">
-              <col>
-              <col>
-            </colgroup>
-            <tbody>
-              {% for asset in watchlist.assets|slice(0, 6) %}
-                <tr {% if loop.first %} aria-current="true" {% endif %}>
-                  <th scope="row">
-                    <div class="e-assets__symbol">{{ asset.symbol }}-USD</div>
-                    <div class="e-assets__name">{{ asset.fullname }}</div>
-                  </th>
-                  <td class="e-assets__price">
-                    {% set parts = asset.value|split(',') %}
-                    {{ parts[0] }},
-                    {% if parts[1] is defined %}
-                      <small>{{ parts[1] }}</small>
-                    {% endif %}
-                  </td>
-                  <td class="e-assets__change is-{{ asset.trend }}">{{ asset.change }}</td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-
-
-        <button class="e-btn has-start-icon is-main-action" type="button">
-          {% include 'partials/icon.twig' with {name: 'add'} %}
-          {{ 'Add New Currency'|trans }}
+        <button class="e-btn is-tag has-start-icon" type="button" data-role="filter-toggle">
+          {% include 'partials/icon.twig' with {name: 'filter'} %}
+          {{ 'Filters'|trans }}
+          {{ filters_count }}
         </button>
-      </section>
-
-      <div
-        class="e-content__base">
-        {# Signals #}
-        <section class="e-card is-signals is-featured">
-
-          <h2 class="e-eyebrow has-chevron">
-            <a href="/{{ lng_html }}signals">
-              {{ 'Signals:'|trans }}
-              {{ signals|length }}
-            </a>
-            {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
-          </h2>
-
-          <ul class="e-card__list">
-            {% for signal in signals|slice(0, 4) %}
-              <li class="e-card__li">
-                {% include 'partials/icon.twig' with {name: 'bell'} %}
-                <div class="e-card__details">
-                  {% if signal.type == 'AI Forecast Trigger' %}
-                    <strong>{{ signal.trigger|trans }}
-                      {{ signal.price_direction|trans }}
-                      {{ signal.asset|trans }}</strong>
-                  {% else %}
-                    <strong>{{ signal.trigger|trans }}
-                      {{ price_direction.volume }}</strong>
-                  {% endif %}
-                  <span class="text-2ry">{{ signal.type|trans }}</span>
-                </div>
-              </li>
-            {% endfor %}
-          </ul>
-
-          <button class="e-btn has-start-icon is-main-action" type="button">
-            {% include 'partials/icon.twig' with {name: 'add'} %}
-            {{ 'Add Signal'|trans }}
-          </button>
-        </section>
-
-        {# Tips #}
-        <section class="e-card is-tips">
-          <h2 class="e-eyebrow has-chevron">
-            <a href="/{{ lng_html }}signals">
-              {{ 'Tips'|trans }}
-            </a>
-            {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
-          </h2>
-
-          <ul class="e-card__list">
-            {% for advice in advices %}
-              <li class="e-card__li">
-                {% set action_class =
-                  advice.type == 'buy' or advice.type == 'uptrend' ? 'text-success' :
-                  advice.type == 'sell' or advice.type == 'downtrend' ? 'text-error' :
-                  advice.type == 'hedge' or advice.type == 'sideways' ? 'text-warning' :
-                  ''
-                %}
-                {% if advice.trend %}
-                  <span class="e-card__key">{{ 'Trend'|trans }}</span>
-                  <span class="e-card__action {{ action_class }}">{{ advice.action }}
-                    {{ advice.asset }}</span>
-                {% else %}
-                  <span class="e-card__key">{{ advice.asset }}</span>
-                  <span class="e-card__action {{ action_class }}">{{ advice.action }}</span>
-                {% endif %}
-              </li>
-            {% endfor %}
-          </ul>
-          <hr>
-          <div class="e-card__footnote">
-            {% include 'partials/icon.twig' with {name: 'rain'} %}
-            {# Example icon #}
-            <div class="e-card__details">
-              <strong>Прогноз риска и волатильности:</strong>
-              <span class="text-2ry">Умеренный риск</span>
-            </div>
-          </div>
-          <div class="e-card__footnote is-personal">
-            {% include 'partials/icon.twig' with {name: 'bulb'} %}
-            <div class="e-card__details">
-              <strong>Персональный совет:</strong>
-              <span class="text-2ry">Ужесточите стоп-лоссы</span>
-            </div>
-          </div>
-        </section>
-
-        {# Reports #}
-        <section class="e-card is-reports">
-          <h2 class="e-eyebrow has-chevron">
-            <a href="/{{ lng_html }}trading">
-              {{ 'Reports'|trans }}
-            </a>
-            {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
-          </h2>
-          <ul class="e-card__list">
-            {% for report in reports|slice(0, 4) %}
-              {% set report_icon =
-                  report.status == 'success' ? 'success' :
-                  report.status == 'error' ? 'error' :
-                  report.status == 'pending' ? 'time' :
-                  ''
-                %}
-              <li class="e-card__li">
-                <div class="e-card__details">
-                  <strong>{{ report.action }}
-                    {{ report.asset }}</strong>
-                  <span class="text-2ry">{{ report.time }}</span>
-                </div>
-                {% include 'partials/icon.twig' with { name: report_icon } %}
-              </li>
-            {% endfor %}
-          </ul>
-        </section>
-
-        {# Trading / APIs #}
-        <section class="e-card is-trading">
-          <h2 class="e-eyebrow has-chevron">
-            <a href="/{{ lng_html }}trading">
-              {{ 'Trading'|trans }}
-            </a>
-            {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
-          </h2>
-
-          <div class="e-card__lead">
-            <strong>{{ 'My API key'|trans }}</strong>
-            <button class="e-btn is-icon is-ghost" type="button" title="{{ 'Revoke API Key'|trans }}">
-              {% include 'partials/icon.twig' with {name: 'key-slash'} %}
-            </button>
-            <button class="e-btn is-icon is-ghost" type="button" title="{{ 'View'|trans }}">
-              {% include 'partials/icon.twig' with {name: 'eye'} %}
-            </button>
-          </div>
-
-          <h3 class="e-eyebrow has-chevron">
-            <a href="/{{ lng_html }}trading">
-              {{ 'Connected APIs'|trans }}
-            </a>
-            {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
-          </h3>
-
-          <ul class="e-card__list">
-            {% for api in apis|slice(0, 2) %}
-              <li class="e-card__li">
-                <div class="e-card__details">
-                  {% include 'partials/icon.twig' with { name: 'robot' } %}
-                  <div>
-                    <strong>{{ api.name }}</strong>
-                    <span class="text-2ry">{{ api.status }}</span>
-                  </div>
-                </div>
-                <button class="e-btn is-icon is-ghost" type="button" title="{{ 'Settings'|trans }}">
-                  {% include 'partials/icon.twig' with {name: 'settings'} %}
-                </button>
-              </li>
-            {% endfor %}
-          </ul>
-
-          <button class="e-btn has-start-icon is-main-action" type="button">
-            {% include 'partials/icon.twig' with {name: 'add'} %}
-            {{ 'Add API'|trans }}
-          </button>
-        </section>
       </div>
+    </header>
+
+    <div class="e-scroller is-2-directions">
+      <table class="table has-hovered-rows has-2-liners" id="crypto-table" data-sort-field="{{ sort_field }}" data-sort-direction="{{ sort_direction }}">
+        <thead>
+          <tr>
+            {# <th class="table__cell is-action" aria-label="{{ 'Watchlist'|trans }}" scope="col"></th> #}
+            <th class="table__cell is-text" scope="col">
+              <button class="e-btn is-sort {{ sort_field == 'asset' ? 'is-active' : '' }} {{ sort_field == 'asset' and sort_direction == 'desc' ? 'is-desc' : '' }}" type="button" data-sort-field="asset" aria-label="{{ 'Sort by asset'|trans }}" aria-sort="{{ sort_field == 'asset' ? (sort_direction == 'asc' ? 'ascending' : 'descending') : 'none' }}">
+                {{ 'Asset'|trans }}
+                {% include 'partials/icon.twig' with {name: 'up'} %}
+              </button>
+            </th>
+            <th class="table__cell is-num" scope="col">
+              <button type="button" class="e-btn is-sort {{ sort_field == 'price' ? 'is-active' : '' }} {{ sort_field == 'price' and sort_direction == 'desc' ? 'is-desc' : '' }}" data-sort-field="price" aria-label="{{ 'Sort by price'|trans }}" aria-sort="{{ sort_field == 'price' ? (sort_direction == 'asc' ? 'ascending' : 'descending') : 'none' }}">
+                {{ 'Price'|trans }}, $
+                {% include 'partials/icon.twig' with {name: 'up'} %}
+              </button>
+            </th>
+            <th class="table__cell is-num" scope="col">
+              <button class="e-btn is-sort {{ sort_field == 'change' ? 'is-active' : '' }} {{ sort_field == 'change' and sort_direction == 'desc' ? 'is-desc' : '' }}" type="button" data-sort-field="change" aria-label="{{ 'Sort by change'|trans }}" aria-sort="{{ sort_field == 'change' ? (sort_direction == 'asc' ? 'ascending' : 'descending') : 'none' }}">
+                {{ 'Chg (24H)'|trans }}, %
+                {% include 'partials/icon.twig' with {name: 'up'} %}
+              </button>
+            </th>
+            <th class="table__cell is-num" scope="col">
+              <button class="e-btn is-sort {{ sort_field == 'rating' ? 'is-active' : '' }} {{ sort_field == 'rating' and sort_direction == 'desc' ? 'is-desc' : '' }}" type="button" data-sort-field="rating" aria-label="{{ 'Sort by rating'|trans }}" aria-sort="{{ sort_field == 'rating' ? (sort_direction == 'asc' ? 'ascending' : 'descending') : 'none' }}">
+                {{ 'Rating'|trans }}
+                {% include 'partials/icon.twig' with {name: 'up'} %}
+              </button>
+            </th>
+            <th class="table__cell is-icon" scope="col">{{ 'Risk'|trans }}</th>
+            <th class="table__cell is-num" scope="col">
+              <button class="e-btn is-sort {{ sort_field == 'trindex' ? 'is-active' : '' }} {{ sort_field == 'trindex' and sort_direction == 'desc' ? 'is-desc' : '' }}" type="button" data-sort-field="trindex" aria-label="{{ 'Sort by TRIndex'|trans }}" aria-sort="{{ sort_field == 'trindex' ? (sort_direction == 'asc' ? 'ascending' : 'descending') : 'none' }}">
+                {{ 'TRIndex'|trans }}
+                {% include 'partials/icon.twig' with {name: 'up'} %}
+              </button>
+            </th>
+            <th class="table__cell is-num" scope="col">
+              <button class="e-btn is-sort {{ sort_field == 'rsi' ? 'is-active' : '' }} {{ sort_field == 'rsi' and sort_direction == 'desc' ? 'is-desc' : '' }}" type="button" data-sort-field="rsi" aria-label="{{ 'Sort by RSI'|trans }}" aria-sort="{{ sort_field == 'rsi' ? (sort_direction == 'asc' ? 'ascending' : 'descending') : 'none' }}">
+                {{ 'RSI (7D)'|trans }}
+                {% include 'partials/icon.twig' with {name: 'up'} %}
+              </button>
+            </th>
+            {# <th class="table__cell is-action" aria-label="{{ 'Chart'|trans }}" scope="col"></th> #}
+          </tr>
+        </thead>
+        <tbody id="crypto-table-body">
+          <tr style="height: 0px">
+            <td colspan="7" style="padding: 0; border: 0"></td>
+          </tr>
+
+                    <tr data-asset-id="SANTOS" data-asset-symbol="SANTOS" tabindex="0" aria-label="Santos FC Fan Token - 2.32 USD" id="asset-row-SANTOS">
+            <td class="table__cell is-text is-2-liner">
+              <div class="e-asset">
+                <div class="e-asset__copy">
+                  <span class="e-asset__name">Santos FC Fan Token Santos FC Fan Token Santos FC Fan Token Santos FC Fan Token Santos FC Fan Token Santos FC Fan Token Santos FC Fan Token Santos FC Fan Token</span>
+                  <span class="e-asset__symbol">SANTOS</span>
+                </div>
+                <img class="e-asset__icon" src="/projects/cryptoapi.ai/assets/img/cryptologos/santos.svg" alt="" loading="lazy" width="32" height="32" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';" style="display: none"/>
+                <span class="e-asset__icon-fallback" aria-hidden="true" style="display: inline-flex">SAN</span>
+              </div>
+            </td>
+            <td class="table__cell is-num">2.32</td>
+            <td class="table__cell is-num is-negative">-2.26</td>
+            <td class="table__cell is-num">1</td>
+            <td class="table__cell is-icon is-icon">
+              <span class="has-tooltip" aria-label="Низкий риск">
+                <svg class="e-icon is-success" aria-hidden="true" focusable="false">
+                  <use xlink:href="/projects/cryptoapi.ai/assets/img/icons/sprite.svg#icon-success"></use>
+                </svg>
+              </span>
+            </td>
+            <td class="table__cell is-num">42</td>
+            <td class="table__cell is-num">13</td>
+          </tr>
+          <tr data-asset-id="RLC" data-asset-symbol="RLC" tabindex="0" aria-label="iExec RLC - 1.06 USD" id="asset-row-RLC">
+            <td class="table__cell is-text is-2-liner">
+              <div class="e-asset">
+                <div class="e-asset__copy">
+                  <span class="e-asset__name">Bitcoin</span>
+                  <span class="e-asset__symbol">btc</span>
+                </div>
+                <img class="e-asset__icon" src="/projects/cryptoapi.ai/assets/img/cryptologos/rlc.svg" alt="" loading="lazy" width="32" height="32" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';" style="display: none"/>
+                <span class="e-asset__icon-fallback" aria-hidden="true" style="display: inline-flex">RLC</span>
+              </div>
+            </td>
+            <td class="table__cell is-num">1.06</td>
+            <td class="table__cell is-num is-negative">-2.13</td>
+            <td class="table__cell is-num">2</td>
+            <td class="table__cell is-icon is-icon">
+              <span class="has-tooltip" aria-label="Низкий риск">
+                <svg class="e-icon is-success" aria-hidden="true" focusable="false">
+                  <use xlink:href="/projects/cryptoapi.ai/assets/img/icons/sprite.svg#icon-success"></use>
+                </svg>
+              </span>
+            </td>
+            <td class="table__cell is-num">43</td>
+            <td class="table__cell is-num">14</td>
+          </tr>
+          <tr data-asset-id="IOTX" data-asset-symbol="IOTX" tabindex="0" aria-label="IoTeX - 0.0170 USD" id="asset-row-IOTX">
+            <td class="table__cell is-text is-2-liner">
+              <div class="e-asset">
+                <div class="e-asset__copy">
+                  <span class="e-asset__name">IoTeX</span>
+                  <span class="e-asset__symbol">IOTX</span>
+                </div>
+                <img class="e-asset__icon" src="/projects/cryptoapi.ai/assets/img/cryptologos/iotx.svg" alt="" loading="lazy" width="32" height="32" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';" style="display: none"/>
+                <span class="e-asset__icon-fallback" aria-hidden="true" style="display: inline-flex">IOT</span>
+              </div>
+            </td>
+            <td class="table__cell is-num">0.0170</td>
+            <td class="table__cell is-num is-negative">-2.59</td>
+            <td class="table__cell is-num">3</td>
+            <td class="table__cell is-icon is-icon">
+              <span class="has-tooltip" aria-label="Низкий риск">
+                <svg class="e-icon is-success" aria-hidden="true" focusable="false">
+                  <use xlink:href="/projects/cryptoapi.ai/assets/img/icons/sprite.svg#icon-success"></use>
+                </svg>
+              </span>
+            </td>
+            <td class="table__cell is-num">44</td>
+            <td class="table__cell is-num">17</td>
+          </tr>
+
+          <tr style="height: 0">
+            <td colspan="7" style="padding: 0; border: 0"></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="e-flex is-featured-assets">
-      {% for asset in featured_assets %}
-        <a class="e-card is-album-metric {{ asset.card_class }}" href="/{{ lng_html }}markets">
-          <img class="e-card__logo" src="{{ site.assets_prefix }}/assets/img/cryptologos/{{ asset.logo }}.svg" alt="{{ 'Logo –'|trans }} {{ asset.name }}">
 
-          <div class="e-card__content">
-            <h3 class="e-eyebrow">{{ asset.label|trans }}</h3>
-            <div class="e-card__row">
-              <p class="e-card__ticker">{{ asset.ticker }}</p>
-              <p class="e-card__price">{{ asset.price }}</p>
-            </div>
-            <div class="e-card__row">
-              <p class="e-card__name">{{ asset.name }}</p>
-              <p class="e-card__change {{ asset.change_class }}">{{ asset.change }}</p>
-            </div>
-          </div>
-        </a>
-      {% endfor %}
-    </div>
+    <!-- Скрытое уведомление для Screen Readers -->
+    <div class="visually-hidden" aria-live="polite" id="screen-reader-announcement"></div>
 
   </div>
+{% endblock %}
+
+{% block body_suffix %}
+  <!-- Выдвижная панель с графиком -->
+  <dialog class="e-drawer is-bottom" id="drawer-chart">
+    <div class="e-drawer__header">
+      <h2>График актива</h2>
+      <button class="e-btn is-close" type="button" data-role="close-drawer" aria-label="{{ 'Close'|trans }}">
+        {% include 'partials/icon.twig' with {name: 'sm-x-mark', classes: 'is-sm', assets_prefix: assets_prefix} %}
+      </button>
+    </div>
+    <div class="e-drawer__content">
+      <div class="e-drawer__chart" id="asset-chart"></div>
+    </div>
+  </dialog>
 {% endblock %}

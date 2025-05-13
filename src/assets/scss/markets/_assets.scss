@@ -1,5 +1,10 @@
 @use '../abstracts' as *;
 
+// -----------------------------------------------------------------------------
+// SIDEBAR TABLES
+// -----------------------------------------------------------------------------
+// #region
+
 .e-assets__table {
   margin: 0;
 }
@@ -91,3 +96,73 @@
   color: var(--color-ink-2ry);
   padding-top: var(--size-half);
 }
+// #endregion
+
+// -----------------------------------------------------------------------------
+// FULL WIDTH TABLES
+// -----------------------------------------------------------------------------
+// #region
+
+.e-asset {
+  display: flex;
+  align-items: center;
+  gap: var(--size-1p5);
+}
+
+.e-asset__icon {
+  // Background for transparent icons
+  background-color: var(--color-bg-2ry);
+  border-radius: 50%;
+  flex-shrink: 0;
+  // Prevents SVG distortion
+  object-fit: contain;
+  order: -1;
+}
+
+.e-asset__copy {
+  display: flex;
+  flex-direction: column;
+}
+
+.e-asset__name {
+  @include text-format(base);
+  @include text-truncate;
+  display: block;
+  max-width: 40vw;
+  min-width: 0;
+
+  @media (--tablet) {
+    max-width: 32vw;
+  }
+
+  @media (--tablet) {
+    max-width: 24vw;
+  }
+}
+
+.e-asset__symbol {
+  @include text-format(caption);
+  color: var(--color-ink-2ry);
+  font-weight: 500;
+  margin-top: rem(-4);
+}
+
+.e-asset__icon-fallback {
+  background: var(--color-gradient-brand);
+  color: var(--button-color-primary);
+  border-radius: 50%;
+  // Shown via JS on img loading error
+  display: none;
+  align-items: center;
+  flex-shrink: 0;
+  justify-content: center;
+  font-size: var(--font-size-caption);
+  font-weight: 500;
+  text-shadow: 0 1px 0 var(--color-alpha-light-400);
+  text-transform: uppercase;
+  padding-top: rem(2);
+  order: -1;
+  width: var(--size-4);
+  height: var(--size-4);
+}
+// #endregion

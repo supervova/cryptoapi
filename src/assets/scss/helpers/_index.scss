@@ -5,6 +5,7 @@
 .mt-1 { margin-top: var(--size-1); }
 .mt-2 { margin-top: var(--size-2); }
 .mt-1l { margin-top: var(--size-line); }
+.mt-2l { margin-top: var(--size-6); }
 .mt-auto { margin-top: auto; }
 .mt-half-max { margin-top: var(--spacer-half-max); }
 .mt-max { margin-top: var(--spacer-max); }
@@ -27,7 +28,10 @@
 
 // SIZE
 .max-w-none	{ max-width: none; }
+.w-1\/2	{ width: calc((100% - var(--gap, 0)) / 2); }
 .w-100	{ width: 100%; }
+// Use with inline-block elements with tooltips
+.w-fit { width: fit-content; }
 
 
 // DISPLAY
@@ -106,5 +110,10 @@
   @include visually-hidden;
 }
 
-// Use with inline-block elements with tooltips
-.w-fit { width: fit-content; }
+.absolute {
+  position: absolute;
+}
+
+.sticky {
+  position: sticky;
+}

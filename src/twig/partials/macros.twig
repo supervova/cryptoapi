@@ -11,3 +11,16 @@
   </div>
 </dialog>
 {% endmacro %}
+
+{# macros.twig #}
+{% macro format_price(price) %}
+  {% if price >= 1 %}
+    {{ price|number_format(2, ',', ' ') }}
+  {% elseif price >= 0.01 %}
+    {{ price|number_format(4, ',', ' ') }}
+  {% elseif price >= 0.0001 %}
+    {{ price|number_format(6, ',', ' ') }}
+  {% else %}
+    {{ price|number_format(8, ',', ' ') }}
+  {% endif %}
+{% endmacro %}

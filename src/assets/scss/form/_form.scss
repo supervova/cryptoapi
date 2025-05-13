@@ -23,6 +23,23 @@ form > div:not([class]) {
   padding: 0;
 }
 
+.e-form__row {
+  display: grid;
+  gap: var(--gap, var(--size-2));
+  grid-template-columns: var(--columns,  1fr);
+  margin-bottom: var(--size-2);
+
+  @media (--tablet) {
+    --columns: repeat(auto-fit, minmax(0%, 1fr));
+  }
+}
+
+.e-form__row.phone\:2-columns {
+  @media (--phone) {
+    --columns: 1fr 1fr;
+  }
+}
+
 legend {
   @include text-format(base);
   display: block;
@@ -67,17 +84,10 @@ textarea {
   letter-spacing: inherit;
 }
 
-input,
-select,
-textarea {
-  background-color: var(--color-bg-base);
-  hanging-punctuation: none;
-}
-
 :--text-field,
 [type='search'] {
   appearance: none;
-  background-color: var(--color-bg-2ry);
+  background-color: hsl(var(--h) var(--s) 90% / 0.05);
   border: 0;
   color: var(--color-ink-text);
   display: block;

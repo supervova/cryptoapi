@@ -4,6 +4,10 @@
 
 @use '../abstracts' as *;
 
+// -----------------------------------------------------------------------------
+// BASE
+// -----------------------------------------------------------------------------
+// #region
 table {
   --table-border-color: var(--color-ink-border);
   --table-border-width: var(--border-width);
@@ -25,7 +29,125 @@ caption {
   padding-top: var(--padding-top-base);
   padding-bottom: var(--padding-bottom-base);
 }
+// #endregion
 
+// -----------------------------------------------------------------------------
+// THEAD
+// -----------------------------------------------------------------------------
+// #region
+thead th {
+  color: var(--color-ink-2ry);
+  cursor: default;
+  font-size:  var(--font-size-label);
+  position: relative;
+  padding-top: var(--cell-padding-y);
+  vertical-align: middle;
+
+  &:not(:first-child)::before {
+    border-left: rem(1) solid var(--color-ink-border);
+    content: '';
+    position: absolute;
+    top: 50%;
+    inset-inline-start: 0;
+    translate: 0 (-50%);
+    height: var(--size-3);
+  }
+}
+
+thead,
+table:not(:has(thead)) > tbody > tr:first-child  {
+  td, th {
+    border-top: 0;
+    height: var(--size-6);
+  }
+}
+
+thead th:not(:has(.e-btn)) {
+  padding-top: rem(1);
+  padding-bottom: 0;
+  font-weight: 500;
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// THEAD SORT CONTROLS
+// -----------------------------------------------------------------------------
+// #region
+.table__cell:has(.e-btn.is-sort) {
+  padding-block: 0;
+}
+
+.e-btn.is-sort {
+  background-color: transparent;
+  border-radius: 0;
+  color: inherit;
+  justify-content: start;
+  padding: 0;
+  width: 100%;
+  transition: color var(--duration-100) var(--easing-base);
+
+  &:hover {
+    --icon-stroke: var(--color-ink-text);
+    background-image: none;
+    color: var(--color-ink-text);
+  }
+
+  .table__cell.is-num & {
+    justify-content: end;
+  }
+}
+
+.e-icon.is-up {
+  :where(.e-btn.is-sort) & {
+    display: none;
+    margin-inline: rem(-8);
+    opacity: 0;
+    transition: all var(--duration-100) var(--easing-base);
+    transition-behavior: allow-discrete;
+    width: 0;
+    min-width: none;
+  }
+
+  :where(.e-btn.is-sort.is-active) > & {
+    display: block;
+    opacity: 1;
+    width: var(--size-icon);
+    min-width: var(--size-icon);
+
+    @starting-style {
+      opacity: 0;
+    }
+  }
+
+  :where(.e-btn.is-sort.is-desc) > & {
+    rotate: -180deg;
+  }
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// ROWS
+// -----------------------------------------------------------------------------
+// #region
+:where(.table.has-hovered-rows tbody) tr {
+  transition: background-color var(--duration-100) var(--easing-base);
+
+  &:hover {
+    background-color: var(--color-ink-min);
+  }
+}
+
+// Focusable rows
+tbody tr[tabindex='0']:focus-visible {
+  @include state-focus($size: rem(2), $offset: rem(-2));
+  background-color: hsl(var(--h) var(--s) var(--l) / 0.08);
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// CELLS
+// -----------------------------------------------------------------------------
+// #region
 th,
 td {
   border-top: var(--table-border-width) solid var(--table-border-color);
@@ -34,39 +156,115 @@ td {
   vertical-align: top;
 }
 
-thead th {
-  color: var(--color-ink-2ry);
-  position: relative;
-  padding-top: var(--cell-padding-y);
-  vertical-align: bottom;
-
-  &[colspan] {
-    text-align: center;
-  }
+.table__cell.is-text,
+.table__cell.is-2-liner {
+  text-align: left;
 }
 
-thead,
-table:not(:has(thead)) > tbody > tr:first-child  {
+.table__cell.is-num {
+  text-align: right;
+}
+
+.table__cell.is-icon,
+.table__cell.is-action {
+  text-align: center;
+  white-space: nowrap;
+  width: 1%;
+}
+
+.table__cell.is-positive {
+  color: var(--color-ink-text-success);
+}
+
+.table__cell.is-negative {
+  color: var(--color-ink-text-error);
+}
+
+.table__cell.is-2-liner {
+  padding-block: var(--size-half);
+  min-width: 12ch;
+}
+
+:where(.table.has-2-liners) {
   td, th {
-    border-top: 0;
+    vertical-align: middle;
   }
 }
+// #endregion
+
+// -----------------------------------------------------------------------------
+// FOOTER
+// -----------------------------------------------------------------------------
+// #region
 
 tfoot th,
 tfoot td {
   border-bottom: 0;
 }
+// #endregion
 
+// -----------------------------------------------------------------------------
+// STATES
+// -----------------------------------------------------------------------------
+// #region
+.table__cell.is-loading-state,
+.table__cell.is-empty-state {
+  background-image: radial-gradient(
+    100% 50% at 50% 100%,
+    var(--color-bg-warning)
+  );
+  text-align: center;
+  color: var(--color-ink-2ry);
+  padding: var(--size-5);
+  vertical-align: middle;
+}
+
+:where(.table__cell.is-loading-state) p {
+  position: relative;
+  padding-bottom: rem(10);
+
+  &::after {
+    animation: loader 2s linear infinite;
+    background: linear-gradient(var(--color-brand-primary) 0 0) 0 100% / 0% 3px no-repeat;
+    content: '';
+    padding-bottom: 8px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+.table__cell.is-error-state {
+  background-image: radial-gradient(
+    100% 50% at 50% 100%,
+    var(--color-bg-error)
+  );
+  color: var(--color-ink-text-error);
+}
+
+.table__cell.is-error-state .e-btn {
+  // Retry Button
+  display: flex;
+  margin-top: var(--size-2);
+  margin-inline: auto;
+}
+// #endregion
+
+// SCROLLER
+// #region
+// Стили для горизонтальной прокрутки таблиц
 .e-scroller {
   table {
     margin: 0;
     width: auto;
     max-width: none;
     min-width: 100%;
-  }
 
-  td,
-  th {
-    scroll-snap-align: start;
+    td,
+    th {
+      scroll-snap-align: start;
+    }
   }
 }
+// #endregion

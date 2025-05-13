@@ -4,10 +4,6 @@
   {{ parent() }}
 
   {% if ENV == 'development' %}
-    {% set site = site|merge(
-      {fgi: 27}
-    ) %}
-
     {% set page = page|merge(
       {
         app: true,
@@ -19,8 +15,6 @@
     {% set user = user|merge(
       {id: 1}
     ) %}
-
-    {% set header_stats = [3.78, -25.3] %}
 
     {% set watchlist = {
       total_value: "980 641,14",
@@ -107,12 +101,10 @@
 {% endblock %} #}
 
 {% block content %}
-  <div
-    class="e-container">
+  <div class="e-container">
 
     {# Overview and sidebar #}
     <div class="e-content">
-      <!-- 16:57 -->
 
       {# Watchlist #}
         <section class="e-assets"> <div class="e-assets__sticky">

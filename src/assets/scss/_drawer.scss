@@ -1,0 +1,156 @@
+@use 'abstracts' as *;
+
+.e-drawer {
+  background-color: var(--color-bg-2ry);
+  border: 0;
+  border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+  box-shadow: var(--box-shadow-level-03);
+  color: var(--color-ink-text);
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  position: fixed;
+  bottom: 0;
+  translate: 0 -100%;
+  transition:
+    display calc(var(--duration-500) * 0.8) var(--easing-disappearance),
+    translate calc(var(--duration-500) * 0.8) var(--easing-disappearance);
+  transition-behavior: allow-discrete;
+  width: 100%;
+  max-height: calc(100vh - var(--size-5));
+  max-height: calc(100dvh - var(--size-5));
+  z-index: var(--zindex-drawer);
+
+  // The backdrop appears only in modal mode when the dialog is opened using
+  // the `showModal` method
+  &::backdrop {
+    background-color: var(--color-bg-scrim);
+  }
+
+  &[open] {
+    display: flex;
+    translate: 0 0;
+    transition:
+      display var(--duration-500) var(--easing-appearance),
+      translate var(--duration-500) var(--easing-appearance);
+
+    @starting-style {
+      translate: 0 -100%;
+    }
+  }
+
+  @media (pointer: fine) {
+    @include scrollbar();
+  }
+
+  // pseudo backdrop
+  @media (--phone) {
+    &::after {
+      background-color: var(--color-bg-scrim);
+      content: '';
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: -1;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Variants
+// -----------------------------------------------------------------------------
+
+.e-drawer.is-bottom {
+  @media (--tablet) {
+    max-width: rem(1184);
+    max-height: 50vh;
+    max-height: 50dvh;
+  }
+}
+
+.e-drawer.is-end {
+  @media (--tablet) {
+    border-radius: 0;
+    top: 0;
+    inset-inline-start: auto;
+    inset-inline-end: 0; /* Прижимаем к правому краю (с учетом gutter) */
+    /* ИСХОДНОЕ ПОЛОЖЕНИЕ (закрыто): сдвигаем на 100% своей ширины вправо */
+    translate: 100% 0;
+    width: var(--width-md);
+    height: 100%;
+    max-height: none;
+
+    &[open] {
+      /* ОТКРЫТОЕ ПОЛОЖЕНИЕ: без сдвига, панель на своем месте */
+      translate: 0 0;
+      transition:
+        display var(--duration-500) var(--easing-appearance), /* display остается, если нужно */
+        translate var(--duration-500) var(--easing-appearance);
+
+      @starting-style {
+        /* Начальное состояние для анимации открытия */
+        translate: 100% 0;
+      }
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Elements
+// -----------------------------------------------------------------------------
+
+.e-drawer__header {
+  padding-top: var(--padding-x-box);
+  padding-inline-start: var(--padding-x-box);
+  padding-inline-end: var(--size-7);
+  position: relative;
+
+  @media (--tablet) {
+    padding-top: var(--size-4);
+    padding-inline-start: var(--size-4);
+  }
+}
+
+.e-drawer .e-btn.is-close {
+  background: transparent;
+  position: absolute;
+  top: var(--size-1);
+  inset-inline-end: var(--size-1);
+
+  &:hover {
+    --icon-stroke: var(--color-ink-text);
+    background-color: var(--color-ink-min);
+  }
+}
+
+.e-drawer__content {
+  flex-grow: 1;
+  padding-bottom: var(--padding-x-box);
+  padding-inline: var(--padding-x-box);
+
+  @media (--tablet) {
+    padding-bottom: var(--size-4);
+    padding-inline: var(--size-4);
+  }
+}
+
+.e-drawer__footer {
+  padding-bottom: var(--padding-x-box);
+  padding-inline: var(--padding-x-box);
+
+  @media (--tablet) {
+    padding-bottom: var(--size-4);
+    padding-inline: var(--size-4);
+  }
+}
+
+.e-drawer__chart {
+  background-color: var(--color-bg-base);
+  border-radius: var(--border-radius-md);
+  width: 100%;
+  height: rem(400);
+}

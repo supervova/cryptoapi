@@ -16,17 +16,6 @@
     hsl(var(--color-shadow) / 0);
   --scroller-patch-bg: var(--color-bg-base);
 
-  // Layout properties
-  display: block;
-  max-width: 100%;
-  margin-block: var(--size-line);
-  padding: 0;
-
-  // Border and scroll behavior
-  border: 1px solid var(--color-ink-border);
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-
   // Shadow gradients
   background:
     linear-gradient(90deg, var(--scroller-patch-bg) 50%, transparent) 0 0,
@@ -42,6 +31,15 @@
     calc(var(--scroller-shadow-size) / 2) 100%,
     calc(var(--scroller-shadow-size) / 2) 100%;
 
+  border-radius: var(--border-radius-base);
+  border: 1px solid var(--color-ink-border);
+  display: block;
+  margin-block: var(--size-line);
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 0;
+  scroll-snap-type: x mandatory;
+
   // Focus state
   &:focus-visible {
     @include state-focus;
@@ -56,4 +54,32 @@
 // Reset table margins inside scroller
 .e-scroller > table {
   margin: 0;
+}
+
+.e-scroller.is-2-directions {
+  background: none;
+  overflow: auto;
+  position: relative;
+  height: 100%;
+  max-height: 100vh;
+
+  table {
+    will-change: transform;
+  }
+
+  thead {
+    background-color: var(--color-bg-base);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    &::after {
+      border-bottom: 1px solid var(--color-ink-border);
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: rem(-1);
+      left: 0;
+    }
+  }
 }

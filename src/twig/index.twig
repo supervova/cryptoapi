@@ -4,10 +4,6 @@
   {{ parent() }}
 
   {% if ENV == 'development' %}
-    {% set site = site|merge(
-      {fgi: 68}
-    ) %}
-
     {% set page = page|merge(
       {
         classes: 'is-home',
@@ -132,7 +128,7 @@
 
         <!-- Top Gainer -->
         <article class="e-card is-album-metric is-top-gainer">
-          <img class="e-card__logo" src="{{ site.assets_prefix }}/assets/img/cryptologos/story.svg" alt="Логотип Story Protocol">
+          <img class="e-card__logo" src="{{ site.assets_prefix }}/assets/img/cryptologos/ip.svg" alt="Логотип Story Protocol">
 
           <div class="e-card__content">
             <h3 class="e-eyebrow">{{ 'Top Gainer'|trans }}</h3>
@@ -258,18 +254,18 @@
       {# Base #}
       <h2 class="tablet-l:d-none">{{ 'Top Currencies'|trans }}</h2>
       <div class="e-section__grid">
-        <article class="e-asset">
-          <header class="e-asset__header">
-            <img class="e-asset__icon" src="{{ site.assets_prefix }}/assets/img/cryptologos/bitcoin.svg" alt="Bitcoin">
-            <div class="e-asset__summary">
+        <article class="e-asset-details">
+          <header class="e-asset-details__header">
+            <img class="e-asset-details__icon" src="{{ site.assets_prefix }}/assets/img/cryptologos/btc.svg" alt="Bitcoin">
+            <div class="e-asset-details__summary">
               <div class="e-row">
-                <p class="e-asset__title tablet:d-none" aria-hidden="true">Bitcoin</p>
-                <h2 class="e-asset__symbol">BTC-USD</h2>
-                <div class="e-asset__price">96 762,86 <small class="e-asset__price-change is-positive">+0,61%</small></div>
+                <p class="e-asset-details__title tablet:d-none" aria-hidden="true">Bitcoin</p>
+                <h2 class="e-asset-details__symbol">BTC-USD</h2>
+                <div class="e-asset-details__price">96 762,86 <small class="e-asset-details__price-change is-positive">+0,61%</small></div>
               </div>
               <div class="e-row">
-                <p class="e-asset__title d-none tablet:d-block" aria-hidden="true">Bitcoin</p>
-                <div class="e-asset__stats">
+                <p class="e-asset-details__title d-none tablet:d-block" aria-hidden="true">Bitcoin</p>
+                <div class="e-asset-details__stats">
                   <span>{{ 'O:'|trans }} <span class="nobr">96 117,07</span></span>
                   <span>{{ 'Max:'|trans }} <span class="nobr">96 844,94</span></span>
                   <span>{{ 'Min:'|trans }} <span class="nobr">95 781,32</span></span>

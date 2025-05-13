@@ -1,0 +1,85 @@
+@use 'abstracts' as *;
+
+// -----------------------------------------------------------------------------
+// BASE ACCORDION
+// -----------------------------------------------------------------------------
+// #region
+
+/* details */.e-accordion {
+  --summary-color: var(--color-ink-text);
+  --summary-padding-y: var(--size-3);
+  --summary-padding-right: var(--size-5);
+
+  border-top: 1px solid var(--color-ink-border);
+  display: block;
+  overflow: hidden;
+
+  summary {
+    color: var(--summary-color);
+    cursor: pointer;
+    font-weight: 500;
+    padding-top: calc(var(--summary-padding-y) - rem(1));
+    padding-inline-end: var(--summary-padding-right);
+    padding-bottom: var(--summary-padding-y);
+    position: relative;
+    transition: color var(--duration-50) var(--easing-base);
+    width: 100%;
+
+    &:focus-visible {
+      @include state-focus;
+    }
+  }
+
+  // Body Animation
+  // stylelint-disable-next-line selector-pseudo-element-no-unknown
+  &::details-content {
+    color: var(--color-ink-2ry);
+    transition:
+      content-visibility var(--duration-200) var(--easing-base),
+      height var(--duration-200) var(--easing-base);
+    transition-behavior: allow-discrete;
+    height: 0;
+  }
+
+  // Open
+  &[open] {
+    .e-accordion__marker {
+      --icon-stroke: var(--color-bg-level-01);
+      background-color: var(--color-ink-3ry);
+      rotate: 180deg;
+    }
+
+    // stylelint-disable-next-line selector-pseudo-element-no-unknown
+    &::details-content {
+      height: auto;
+    }
+  }
+}
+
+.e-accordion__marker {
+  background-color: transparent;
+  border: 1px solid var(--color-ink-border);
+  border-radius: var(--border-radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: rem(2);
+  position: absolute;
+  top: var(--size-2p5);
+  inset-inline-end: 0;
+  transition:
+    rotate var(--duration-50) var(--easing-base),
+    background-color var(--duration-50) var(--easing-base);
+  width: var(--size-4);
+  height: var(--size-4);
+}
+
+.e-accordion + :not(.e-accordion) {
+  margin-top: var(--size-line);
+
+  @media (--tablet) {
+    margin-top: calc(var(--size-line) * 2);
+  }
+}
+
+// #endregion

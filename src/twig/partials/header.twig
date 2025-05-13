@@ -1,14 +1,19 @@
 <header class="e-header" id="header-app">
   <div class="e-container">
-    <form class="e-header__search" role="search">
-      <label for="header-search" class="visually-hidden">{{ 'Search coins'|trans }}</label>
-      {% include 'partials/icon.twig' with {name: 'search'} %}
-      <input type="search" id="header-search" placeholder="{{ 'Search coins'|trans }}">
-    </form>
+
+    {% set default_search %}
+      <form class="e-header__search" role="search">
+        <label for="header-search" class="visually-hidden">{{ 'Search coins'|trans }}</label>
+        {% include 'partials/icon.twig' with {name: 'search'} %}
+        <input type="search" id="header-search" placeholder="{{ 'Search coins'|trans }}">
+      </form>
+    {% endset %}
+
+    {{ search_content|default(default_search) }}
 
     <div class="e-header__stats">
       {# Market Cap #}
-      {% set value = header_stats[0] %}
+      {% set value = site.header_stats[0] %}
       {% set class = value > 0 ? 'is-success' : (value < 0 ? 'is-error' : 'text-2ry') %}
       <div class="e-header__stat-item has-tooltip is-bottom" aria-label="{{ 'Market Cap'|trans }}">
         {{ 'Cap.:'|trans }}
@@ -16,7 +21,7 @@
       </div>
 
       {# 24h Volume #}
-      {% set value = header_stats[1] %}
+      {% set value = site.header_stats[1] %}
       {% set class = value > 0 ? 'is-success' : (value < 0 ? 'is-error' : 'text-2ry') %}
       <div class="e-header__stat-item has-tooltip is-bottom" aria-label="{{ '24h Volume'|trans }}">
         {{ '24h Vol.:'|trans }}

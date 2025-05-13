@@ -3,6 +3,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
+# ТЕСТ
+
+msgid "JS: Asset"
+msgstr "JS: Валюта"
+
+msgid "Twig: Asset"
+msgstr "JS: Валюта"
+
+# / ТЕСТ
+
 msgid "CryptoAPI.ai Logo"
 msgstr "Логотип CryptoAPI.ai"
 
@@ -115,12 +125,18 @@ msgstr "Все"
 msgid "Cancel"
 msgstr "Отмена"
 
+msgid "Close"
+msgstr "Закрыть"
+
+msgid "Retry"
+msgstr "Повторная попытка"
+
 # ------------------------------------------------------------------------------
 # HEADER
 # ------------------------------------------------------------------------------
 
-msgid "Search coins"
-msgstr "Поиск монет"
+msgid "Search coins by name or symbol…"
+msgstr "Поиск монет по названию или символу…"
 
 msgid "Cap.:"
 msgstr "Кап.:"
@@ -247,3 +263,143 @@ msgstr "Лидер падения"
 
 msgid "Top Gainer"
 msgstr "Лидер роста"
+
+msgid "Cryptocurrency Rating "
+msgstr "Рейтинг криптовалют"
+
+msgid "Sort by asset"
+msgstr "Сортировать по активу"
+
+msgid "Filters"
+msgstr "Фильтры"
+
+msgid "Sort by this column"
+msgstr "Сортировать по этой колонке"
+
+msgid "by price"
+msgstr "цене"
+
+msgid "by change"
+msgstr "изменению"
+
+msgid "by TRIndex"
+msgstr "по TRIndex'у"
+
+msgid "by RSI"
+msgstr "по индексу RSI"
+
+msgid "Risk"
+msgstr "Риск"
+
+msgid "RSI (7D)"
+msgstr "RSI (7 дн.)"
+
+msgid "(1М)"
+msgstr "(1 мес.)"
+
+msgid "(3M)"
+msgstr "(3 мес.)"
+
+msgid "(6M)"
+msgstr "(6 мес.)"
+
+msgid "(1Y)"
+msgstr "(1 г.)"
+
+msgid "(1000D)"
+msgstr "(1000 дн.)"
+
+
+msgid "Remove from watchlist"
+msgstr "Удалить из коллекции"
+
+msgid "Add to watchlist"
+msgstr "Добавить в коллекцию"
+
+msgid "Any"
+msgstr "Любой"
+
+msgid "High"
+msgstr "Высокий"
+
+msgid "Medium"
+msgstr "Средний"
+
+msgid "Low"
+msgstr "Низкий"
+
+msgid "High risk"
+msgstr "Высокий риск"
+
+msgid "Medium risk"
+msgstr "Средний риск"
+
+msgid "Low risk"
+msgstr "Низкий риск"
+
+msgid "No risk data"
+msgstr "Нет данных о риске"
+
+msgid "Show chart"
+msgstr "Показать график"
+
+# ------------------------------------------------------------------------------
+# SYSTEM MESSAGES
+# ------------------------------------------------------------------------------
+
+msgid "No data available"
+msgstr "Нет запрашиваемых данных"
+
+# HTTP Error
+msgid "Something went wrong while loading the page."
+msgstr "Что-то пошло не так при загрузке страницы."
+
+msgid "Data couldn’t be loaded. Try again soon."
+msgstr "Данные не загрузились. Попробуйте чуть позже."
+
+msgid "All data has been successfully loaded."
+msgstr "Все данные загружены."
+
+msgid "The data has been updated."
+msgstr "Данные были обновлены."
+
+# ------------------------------------------------------------------------------
+# TABLES
+# ------------------------------------------------------------------------------
+
+msgid "Table sorted by"
+msgstr "Таблица сортирована по"
+
+msgid "ascending"
+msgstr "по возрастанию"
+
+msgid "descending"
+msgstr "по убыванию"
+
+msgid "Table loading."
+msgstr "Таблица загружается"
+
+msgid "Table data updated."
+msgstr "Таблица обновилась."
+
+msgid "We couldn’t show the table. Something went wrong during setup."
+msgstr "Не удалось отобразить таблицу. Что-то пошло не так при её загрузке."
+
+msgid "Columns"
+msgstr "Колонки"
+
+# ------------------------------------------------------------------------------
+# FORMS
+# ------------------------------------------------------------------------------
+
+msgid "from:"
+msgstr "от:"
+
+msgid "to:"
+msgstr "до:"
+
+msgid "Price from:"
+msgstr "Цена от:"
+
+msgid "Price to:"
+msgstr "Цена до:"

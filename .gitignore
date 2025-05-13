@@ -3,7 +3,8 @@
 .obsidian
 /assets
 deploy.sh
-dist
+dist/
+public/
 src/assets/js/_tmp.js
 
 # Drafts

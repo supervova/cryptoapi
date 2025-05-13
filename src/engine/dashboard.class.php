@@ -23,6 +23,7 @@ $page_meta = [
         'and manage AI-powered agents for smarter, faster trading decisions.',
     'styles' => 'dashboard.css',
     'title' => 'AI Crypto Trading Dashboard | Smart Agents & Market Insights – CryptoAPI.ai',
+    'type'  => 'website',
 ];
 
 $data_objects['page'] = array_merge($data_objects['page'] ?? [], $page_meta);
@@ -115,10 +116,6 @@ $data_objects['featured_assets'] = [
         'card_class' => 'is-trending',
     ],
 ];
-
-$data_objects['header_stats'] = [3.78, -25.3];
-
-$data_objects['page']['type'] = 'website';
 
 // Рендер страницы
 $final_html = get_template("dashboard.twig");

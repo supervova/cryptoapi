@@ -13,8 +13,11 @@ import { initPasswordToggles } from './form.js';
 // Toggle search input in header
 import initSearchToggleHeader from './search-toggle.js';
 
+import initDrawer from './drawer.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   initpopovers();
+  initDrawer();
   initModals();
   initDragToScroll();
   initPasswordToggles();
