@@ -20,6 +20,7 @@ $data_objects['ENV'] = getenv('APP_ENV') ?: 'production';
 $page_meta = [
     'app' => true,
     'desc' => 'Explore cryptocurrency markets, track asset performance with real-time data, ratings, and risk analysis. Sort and prepare for filtering to find your next investment.',
+    'search_on_page' => true,
     'styles' => 'markets.css',
     'title' => 'Cryptocurrency Markets | Real-Time Prices, Ratings & Analysis – CryptoAPI.ai',
     'type'  => 'website'
@@ -57,13 +58,13 @@ $data_objects['default_columns'] = [
   [
       'key' => 'price',
       'type' => 'num',
-      'label' => 'Price',         // В Twig к этому добавится ", $"
+      'label' => 'Price, $',
       'sortable' => true
   ],
   [
       'key' => 'change_24h',
       'type' => 'num',
-      'label' => 'Chg (24H)',     // В Twig к этому добавится ", %"
+      'label' => 'Chg (24H), %',
       'sortable' => true
   ],
   [
@@ -95,7 +96,7 @@ $data_objects['default_columns'] = [
       'type' => 'action',
       'label' => 'Chart',
       'sortable' => false,
-      'visible' => false          // Скрыта по умолчанию (функционал будет добавлен позже)
+      'visible' => true
   ]
 ];
 

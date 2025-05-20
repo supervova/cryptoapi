@@ -12,7 +12,6 @@
 </dialog>
 {% endmacro %}
 
-{# macros.twig #}
 {% macro format_price(price) %}
   {% if price >= 1 %}
     {{ price|number_format(2, ',', ' ') }}
@@ -23,4 +22,29 @@
   {% else %}
     {{ price|number_format(8, ',', ' ') }}
   {% endif %}
+{% endmacro %}
+
+{% macro chart_menu(name, options, selected) %}
+<details class="e-popover" data-role="popover">
+  <summary class="has-chevron">
+    {{ selected }}
+  </summary>
+  <ul class="e-popover__body e-menu">
+    {% for opt in options %}
+    <li class="e-menu__item">
+      <label class="e-menu__action{% if opt.disabled %} is-disabled{% endif %}">
+        {{ opt.label|trans }}
+        <input
+          type="radio"
+          name="{{ name }}"
+          value="{{ opt.value }}"
+          data-shortcut="{{ opt.shortcut }}"
+          {% if opt.checked %}checked{% endif %}
+          {% if opt.disabled %}disabled{% endif %}
+        >
+      </label>
+    </li>
+    {% endfor %}
+  </ul>
+</details>
 {% endmacro %}

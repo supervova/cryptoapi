@@ -73,7 +73,7 @@ msgstr "Деньги"
 msgid "Profile Settings"
 msgstr "Настройки профиля"
 
-msgid "Contacts"
+msgid "Contact Us"
 msgstr "Контакты"
 
 msgid "Privacy"
@@ -279,6 +279,21 @@ msgstr "Риск"
 msgid "RSI (7D)"
 msgstr "RSI (7 дн.)"
 
+msgid "RSI (30D)"
+msgstr "RSI (1 мес.)"
+
+msgid "RSI (91D)"
+msgstr "RSI (3 мес.)"
+
+msgid "RSI (182D)"
+msgstr "RSI (6 мес.)"
+
+msgid "RSI (365D)"
+msgstr "RSI (1 г.)"
+
+msgid "RSI (1000D)"
+msgstr "RSI (1000 дн.)"
+
 msgid "(1М)"
 msgstr "(1 мес.)"
 
@@ -323,9 +338,6 @@ msgstr "Низкий риск"
 
 msgid "No risk data"
 msgstr "Нет данных о риске"
-
-msgid "Show chart"
-msgstr "Показать график"
 
 # ------------------------------------------------------------------------------
 # SYSTEM MESSAGES
@@ -386,10 +398,101 @@ msgid "Total"
 msgstr "За всё время"
 
 msgid "E.g.,"
-msgstr "За всё время"
+msgstr "Например,"
 
 msgid "From"
 msgstr "От"
 
 msgid "To"
 msgstr "до"
+
+# ------------------------------------------------------------------------------
+# CHARTS
+# ------------------------------------------------------------------------------
+
+msgid "Chart"
+msgstr "График"
+
+msgid "Show chart"
+msgstr "Показать график"
+
+msgid "1 Day"
+msgstr "1 день"
+
+msgid "48–24h Ago"
+msgstr "Предыдущие сутки"
+
+msgid "1 Month"
+msgstr "1 месяц"
+
+msgid "60–30d Ago"
+msgstr "Предыдущие 30 дней"
+
+msgid "1 Year"
+msgstr "1 год"
+
+msgid "730–365d Ago"
+msgstr "Предыдущий год"
+
+msgid "1 Minute"
+msgstr "1 минута"
+
+msgid "5 Minutes"
+msgstr "5 минут"
+
+msgid "15 Minutes"
+msgstr "15 минут"
+
+msgid "1 Hour"
+msgstr "1 час"
+
+msgid "4 Hours"
+msgstr "4 часа"
+
+msgid "12 Hours"
+msgstr "12 часов"
+
+msgid "1D"
+msgstr "1 д."
+
+msgid "D-2"
+msgstr "Д.-2"
+
+msgid "1M"
+msgstr "1 мес."
+
+msgid "M-2"
+msgstr "Мес.-2"
+
+msgid "1Y"
+msgstr "1 г."
+
+msgid "Y-2"
+msgstr "Г.-2"
+
+msgid "1M"
+msgstr "1 мин."
+
+msgid "5M"
+msgstr "5 мин."
+
+msgid "15M"
+msgstr "15 мин."
+
+msgid "1H"
+msgstr "1 ч."
+
+msgid "4H"
+msgstr "4 ч."
+
+msgid "12H"
+msgstr "12 ч."
+
+msgid "Asset data not found."
+msgstr "Цена и изменения котировки этой валюты не найдены."
+
+msgid "Unable to load chart data. Please go to the ‘Contact Us’ section and report the issue to support."
+msgstr "Невозможно загрузить данные графика. Перейдите в раздел «Контакты» и сообщите о проблеме в службу поддержки."
+
+msgid "Loading chart data"
+msgstr "Загрузка данных графика..."

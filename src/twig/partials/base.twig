@@ -121,9 +121,7 @@
   {# CONTENT ----------------------------------------------------------------- #}
   {# Content Header (Search & Stats) #}
   {% if page.app %}
-    {% include "partials/header.twig" with {
-      search_content: block('search')|default('')
-    } %}
+    {% include "partials/header.twig" %}
   {% endif %}
 
   <main class="e-main">

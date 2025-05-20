@@ -269,7 +269,7 @@
                   <span>{{ 'O:'|trans }} <span class="nobr">96 117,07</span></span>
                   <span>{{ 'Max:'|trans }} <span class="nobr">96 844,94</span></span>
                   <span>{{ 'Min:'|trans }} <span class="nobr">95 781,32</span></span>
-              </div>
+                </div>
               </div>
             </div>
           </header>
@@ -545,6 +545,6 @@
 
 {% block body_suffix %}
   {{ parent() }}
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
   <script src="{{ site.assets_prefix }}/assets/js/asset-chart.js"></script>
 {% endblock %}

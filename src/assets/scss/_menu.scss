@@ -32,11 +32,14 @@
   }
 
   // Link's moved to overrides
-  > a {
+  > a,
+  > .e-label {
     @include menu-item;
 
-    &:hover {
-      background-color: var(--menu-current-bg);
+    @media (any-hover: hover) {
+      &:hover {
+        background-color: var(--menu-current-bg);
+      }
     }
 
     &[aria-current] {
@@ -47,6 +50,70 @@
   }
 }
 
+/* button */.e-menu__action {
+  @include text-format('label');
+
+  background: transparent;
+  border-radius: var(--button-radius, var(--border-radius-base));
+  color: var(--button-color, var(--color-brand-primary));
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: var(--button-gap, var(--size-1p5));
+  justify-content: start;
+  padding-block: 0;
+  padding-inline: var(--button-padding-x, var(--size-2p5));
+  outline: 0;
+  touch-action: manipulation;
+  transition: background var(--duration-50) var(--easing-base);
+  user-select: none;
+  white-space: nowrap;
+  width: 100%;
+  min-width: 0;
+  height: var(--button-height, var(--size-6));
+
+  &.is-disabled {
+    cursor: default;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      background-color: var(--menu-current-bg);
+    }
+  }
+}
+
+.e-menu__action [type='radio'] {
+  appearance: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  top: 50%;
+  translate: 0 (-50%);
+  inset-inline: auto var(--size-2);
+  width: var(--size-icon);
+  height: var(--size-icon);
+
+  &::after {
+    background-color: var(--color-ink-3ry);
+    content: '';
+    mask: url('/assets/img/icons/icon-checkmark.svg') no-repeat center / contain;
+    opacity: 0;
+    position: absolute;
+    inset: 0;
+    transition: opacity var(--duration-50) var(--easing-base);
+  }
+
+  &:checked::after {
+    opacity: 1;
+  }
+}
 
 /* Subtitle styles */
 .e-menu__subtitle {

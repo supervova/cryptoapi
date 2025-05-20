@@ -1,15 +1,16 @@
 <header class="e-header" id="header-app">
   <div class="e-container">
 
-    {% set default_search %}
-      <form class="e-header__search" role="search">
-        <label for="header-search" class="visually-hidden">{{ 'Search coins'|trans }}</label>
-        {% include 'partials/icon.twig' with {name: 'search'} %}
-        <input type="search" id="header-search" placeholder="{{ 'Search coins'|trans }}">
-      </form>
-    {% endset %}
-
-    {{ search_content|default(default_search) }}
+    <form class="e-header__search" role="search">
+      <label class="visually-hidden" for="header-search">{{ 'Search coins by name or symbol…'|trans }}</label>
+      {% include 'partials/icon.twig' with {name: 'search'} %}
+      {% if search_on_page %}
+        {# TODO: develop on page search #}
+        <input type="search" id="header-search" placeholder="{{ 'Search coins by name or symbol…'|trans }}">
+      {% else %}
+        <input type="search" id="header-search" placeholder="{{ 'Search coins by name or symbol…'|trans }}">
+      {% endif %}
+    </form>
 
     <div class="e-header__stats">
       {# Market Cap #}

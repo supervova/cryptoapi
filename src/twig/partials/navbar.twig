@@ -98,10 +98,14 @@
   <div class="e-container">
     <a class="e-navbar__logo" href="/">
       <picture>
+        {# Всегда при высоте экрана до 360px — приоритетный источник #}
+        <source media="(max-height: 360px)" srcset="{{ site.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-mobile.svg" type="image/svg+xml">
+
+        {# При ширине до 767px — используется, если условие по высоте не сработало #}
         <source media="(max-width: 767px)" srcset="{{ site.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-mobile.svg" type="image/svg+xml">
 
         {% if not page.app %}
-          <source media="(max-width: 1023px)" srcset="{{ site.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-tablet.svg" type="image/svg+xml">
+          <source media="(max-width: 1023px) and (min-height: 361px)" srcset="{{ site.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-tablet.svg" type="image/svg+xml">
           <img src="{{ site.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-desktop.svg" alt="{{ 'CryptoAPI.ai Logo'|trans }}">
         {% else %}
           <img src="{{ site.assets_prefix }}/assets/img/components/logo/cryptoapi-logo-tablet.svg" alt="{{ 'CryptoAPI.ai Logo'|trans }}">

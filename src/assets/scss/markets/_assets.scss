@@ -125,9 +125,10 @@
 }
 
 .e-asset__name {
-  @include text-format(base);
   @include text-truncate;
   display: block;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
   max-width: 40vw;
   min-width: 0;
 
@@ -141,8 +142,9 @@
 }
 
 .e-asset__symbol {
-  @include text-format(caption);
   color: var(--color-ink-2ry);
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-caption);
   font-weight: 500;
   margin-top: rem(-4);
 }

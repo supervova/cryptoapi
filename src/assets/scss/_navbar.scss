@@ -168,6 +168,7 @@ $navbar-dot-size: var(--size-1);
   background: var(--color-bg-level-01);
   display: flex;
   align-items: stretch;
+  justify-content: space-around;
   padding-top: var(--size-half);
   padding-bottom: calc(var(--size-half) + env(safe-area-inset-bottom));
   padding-inline: var(--size-1);

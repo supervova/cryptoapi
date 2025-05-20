@@ -1,5 +1,6 @@
 {# markets.twig.html #}
 {% extends "partials/base.twig" %}
+{% import 'partials/macros.twig' as macros %}
 
 {% block config %}
   {{ parent() }}
@@ -9,6 +10,7 @@
       {
         app: true,
         classes: 'is-markets',
+        search_on_page: true,
         styles: 'markets.css',
       }
     ) %}
@@ -38,109 +40,141 @@
     {key: 'risk', type: 'icon', label: 'Risk', sortable: false},
     {key: 'trindex', type: 'num', label: 'TRIndex', sortable: true},
     {key: 'rsi', type: 'num', label: 'RSI (7D)', sortable: true},
-    {key: 'chart', type: 'action', label: 'Chart', sortable: false, visible: false}
+    {key: 'chart', type: 'action', label: 'Chart', sortable: false, visible: true}
   ] %}
 
 {% endblock %}
 
-{# {% block head %}
-{% endblock %} #}
-
-{% block search %}
-  <form class="e-header__search" role="search">
-    <label class="visually-hidden" for="header-search">{{ 'Search coins by name or symbol…'|trans }}</label>
-    {% include 'partials/icon.twig' with {name: 'search'} %}
-    <input type="search" id="header-search" placeholder="{{ 'Search coins by name or symbol…'|trans }}">
-  </form>
-{% endblock %}
+{# {% block head %}{% endblock %} #}
 
 {% block content %}
-{% set visible_columns_count = 0 %}
-{% for col_def in default_columns %}
-  {% if col_def.visible is not defined or col_def.visible is not same as(false) %}
-    {% set visible_columns_count = visible_columns_count + 1 %}
-  {% endif %}
-{% endfor %}
+  {% set visible_columns_count = 0 %}
+  {% for col_def in default_columns %}
+    {% if col_def.visible is not defined or col_def.visible is not same as(false) %}
+      {% set visible_columns_count = visible_columns_count + 1 %}
+    {% endif %}
+  {% endfor %}
 
-<div class="e-container">
+  <div class="e-container">
 
-  <header class="e-main__header">
-    <h1>{{ 'Markets'|trans }}. <span class="text-2ry">{{ 'Asset Ranking'|trans }}</span></h1>
-    {# Фильтры пока не реализованы, но кнопка остается как плейсхолдер #}
-    <div role="status" aria-live="polite">
-      <button class="e-btn is-tag has-start-icon" type="button" data-role="drawer-toggle" data-target="drawer-filter">
-        {% include 'partials/icon.twig' with {name: 'filter'} %}
-        {{ 'Filters'|trans }} 0
-      </button>
-    </div>
-  </header>
+    <header class="e-main__header">
+      <h1>{{ 'Markets'|trans }}. <span class="text-2ry">{{ 'Asset Ranking'|trans }}</span></h1>
+      {# Фильтры пока не реализованы, но кнопка остается как плейсхолдер #}
+      <div role="status" aria-live="polite">
+        <button class="e-btn is-tag has-start-icon" type="button" data-role="drawer-toggle" data-target="drawer-filter">
+          {% include 'partials/icon.twig' with {name: 'filter'} %}
+          {{ 'Filters'|trans }} 0
+        </button>
+      </div>
+    </header>
 
-  <div class="e-scroller is-2-directions" id="virtual-scroll-container">
-    <table
-      class="table has-hovered-rows has-2-liners"
-      id="crypto-table" data-sort-field="{{ initial_sort_field }}"
-      data-sort-direction="{{ initial_sort_direction }}"
-      aria-live="polite"
-      aria-busy="true"
-    >
-      <caption class="visually-hidden">{{ 'Cryptocurrency Market Data Table'|trans }}</caption>
-      <thead>
-        <tr>
-          {# Генерируем заголовки на основе конфигурации колонок #}
-          {% for col in default_columns %}
-            {% if col.visible is not defined or col.visible is not same as(false) %}
-              {% set label = col.label|trans %}
-              <th class="table__cell is-{{ col.type }}{{ col.key == 'watchlist' or col.key == 'chart' ? ' is-action' : '' }}" scope="col" {% if col.type == 'action' or col.type == 'icon' %} aria-label="{{ label }}" {% endif %}>
-                {% if col.sortable %}
-                  <button
-                    class="e-btn is-sort {{ initial_sort_field == col.key ? 'is-active' : '' }} {{ initial_sort_field == col.key and initial_sort_direction == 'desc' ? 'is-desc' : '' }}"
-                    type="button"
-                    data-sort-field="{{ col.key }}"
-                    aria-label="{{ 'Sort by this column'|trans }}" {# Это общая фраза, переводится нормально #}
-                    aria-sort="{{ initial_sort_field == col.key ? (initial_sort_direction == 'asc' ? 'ascending' : 'descending') : 'none' }}"
-                  >
+    <div class="e-scroller is-2-directions" id="virtual-scroll-container">
+      <table
+        class="table has-hovered-rows has-2-liners"
+        id="crypto-table" data-sort-field="{{ initial_sort_field }}"
+        data-sort-direction="{{ initial_sort_direction }}"
+        aria-live="polite"
+        aria-busy="true"
+      >
+        <caption class="visually-hidden">{{ 'Cryptocurrency Market Data Table'|trans }}</caption>
+        <thead>
+          <tr>
+            {# Генерируем заголовки на основе конфигурации колонок #}
+            {% for col in default_columns %}
+              {% if col.visible is not defined or col.visible is not same as(false) %}
+                {% set label = col.label|trans %}
+                <th class="table__cell is-{{ col.type }}{{ col.key == 'watchlist' or col.key == 'chart' ? ' is-action' : '' }}" scope="col" {% if col.type == 'action' or col.type == 'icon' %} aria-label="{{ label }}" {% endif %}>
+                  {% if col.sortable %}
+                    <button
+                      class="e-btn is-sort {{ initial_sort_field == col.key ? 'is-active' : '' }} {{ initial_sort_field == col.key and initial_sort_direction == 'desc' ? 'is-desc' : '' }}"
+                      type="button"
+                      data-sort-field="{{ col.key }}"
+                      aria-label="{{ 'Sort by this column'|trans }}" {# Это общая фраза, переводится нормально #}
+                      aria-sort="{{ initial_sort_field == col.key ? (initial_sort_direction == 'asc' ? 'ascending' : 'descending') : 'none' }}"
+                    >
+                      {{ label }}
+                      {% include 'partials/icon.twig' with {name: 'up'} %}
+                    </button>
+                  {% else %}
+                    {# Не сортируемая колонка #}
                     {{ label }}
-                    {% include 'partials/icon.twig' with {name: 'up'} %}
-                  </button>
-                {% else %}
-                  {# Не сортируемая колонка #}
-                  {{ label }}
-                {% endif %}
-              </th>
-            {% endif %}
-          {% endfor %}
-        </tr>
-      </thead>
+                  {% endif %}
+                </th>
+              {% endif %}
+            {% endfor %}
+          </tr>
+        </thead>
 
-      <tbody id="crypto-table-body">
-        {# Начальное состояние - Загрузка #}
-        <tr id="loading-row">
-          <td class="table__cell is-loading-state" colspan="{{ visible_columns_count }}"> {# Теперь visible_columns_count должен быть доступен и равен 7 #}
-            <p>{{ 'Loading data...'|trans }}</p>
-          </td>
-        </tr>
-        {# Сюда JS будет вставлять строки или сообщение "Нет данных" #}
-      </tbody>
-    </table>
+        <tbody id="crypto-table-body">
+          {# Начальное состояние - Загрузка #}
+          <tr id="loading-row">
+            <td class="table__cell is-loading-state" colspan="{{ visible_columns_count }}"> {# Теперь visible_columns_count должен быть доступен и равен 7 #}
+              <p>{{ 'Loading data...'|trans }}</p>
+            </td>
+          </tr>
+          {# Сюда JS будет вставлять строки или сообщение "Нет данных" #}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Скрытое уведомление для Screen Readers -->
+    <div class="visually-hidden" aria-live="polite" id="screen-reader-announcement"></div>
+
   </div>
-
-  <!-- Скрытое уведомление для Screen Readers -->
-  <div class="visually-hidden" aria-live="polite" id="screen-reader-announcement"></div>
-
-</div>
 {% endblock %}
 
 {% block body_suffix %}
   {# Выдвижная панель графика #}
-  <dialog class="e-drawer is-bottom" id="drawer-chart">
-    <div class="e-drawer__header">
-      <h2>{{ 'Asset Chart'|trans }}</h2>
+  <dialog class="e-drawer is-bottom e-asset-details" id="drawer-chart">
+    <header class=" e-drawer__header e-asset-details__header">
+      <img class="e-asset-details__icon" src="" alt=""> {# src и alt будут установлены JS #}
+      <span class="e-asset-details__icon-fallback e-asset__icon-fallback" aria-hidden="true"></span>
+      <div class="e-asset-details__summary">
+        <div class="e-row">
+          <p class="e-asset-details__title tablet:d-none" aria-hidden="true"></p>
+          <h2 class="e-asset-details__symbol"></h2>
+          <div class="e-asset-details__price"> <small class="e-asset-details__price-change is-positive"></small></div>
+        </div>
+        <div class="e-row">
+          <p class="e-asset-details__title d-none tablet:d-block" aria-hidden="true"></p>
+          <div class="e-asset-details__stats">
+            <span>{{ 'O:'|trans }} <span class="nobr" data-stat="open"></span></span>
+            <span>{{ 'Min:'|trans }} <span class="nobr" data-stat="min"></span></span>
+            <span>{{ 'Max:'|trans }} <span class="nobr" data-stat="max"></span></span>
+          </div>
+        </div>
+      </div>
       <button class="e-btn is-close" type="button" data-role="close-drawer" aria-label="{{ 'Close'|trans }}">
         {% include 'partials/icon.twig' with {name: 'sm-x-mark', classes: 'is-sm', assets_prefix: assets_prefix} %}
       </button>
-    </div>
+    </header>
+
     <div class="e-drawer__content">
       <div class="e-drawer__chart" id="asset-chart"></div>
+
+      <div class="e-asset-details__period">
+        {% set chart_periods = [
+          { label: '1 Day', value: '1d', shortcut: '1D', checked: true },
+          { label: '48–24h Ago', value: '1pd', shortcut: 'D-2' },
+          { label: '1 Month', value: '1pd', shortcut: '1M' },
+          { label: '60–30d Ago', value: '1pd', shortcut: 'M-2' },
+          { label: '1 Year', value: '1pd', shortcut: '1Y' },
+          { label: '730–365d Ago', value: '1pd', shortcut: 'Y-2' }
+        ] %}
+
+        {% set chart_timeframes = [
+          { label: '1 Minute', value: '1m', shortcut: '1m', checked: true },
+          { label: '5 Minutes', value: '5m', shortcut: '5m' },
+          { label: '15 Minutes', value: '15m', shortcut: '15m' },
+          { label: '1 Hour', value: '1h', shortcut: '1H' },
+          { label: '4 Hours', value: '4h', shortcut: '4H', disabled: true },
+          { label: '12 Hours', value: '12h', shortcut: '12H', disabled: true },
+          { label: '1 Day', value: '1d', shortcut: '1d', disabled: true }
+        ] %}
+
+        {{ macros.chart_menu('chart-period', chart_periods, '1D') }}
+        {{ macros.chart_menu('chart-timeframe', chart_timeframes, '1m') }}
+      </div>
     </div>
   </dialog>
 
@@ -183,9 +217,8 @@
 
         {# Рейтинг #}
         <div class="mb-2">
-          <label class="e-label" for="filter-rating-max">{{ 'Rating (lower is better):'|trans }}</label> {# Изменено для ясности "до X" #}
+          <label class="e-label" for="filter-rating-max">{{ 'Rating'|trans }}:</label>
           <input class="w-full" id="filter-rating-max" name="filter-rating-max" type="number" min="1" placeholder="{{ 'E.g.,'|trans }} 50">
-          {# Убрал ошибку, т.к. валидация будет в JS или на сервере #}
         </div>
 
         {# Риск #}
@@ -202,7 +235,7 @@
         {# Columns #}
         <fieldset>
             <legend class="e-h4 mt-2l mb-s">{{ 'Columns'|trans }}</legend>
-            <ul class="e-list is-unstyled grid phone:2-columns gap-s" id="filter-columns-list">
+            <ul class="e-list is-unstyled" id="filter-columns-list">
               {# Сюда JS будет вставлять чекбоксы для колонок.
                  Можно и в Twig, но для динамического управления из JS так проще.
                  Для примера, как это могло бы выглядеть в Twig:
@@ -234,6 +267,14 @@
       </button>
     </div>
   </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
+  {# date-fns для адаптера #}
+  <script src="https://cdn.jsdelivr.net/npm/date-fns@4.1.0/cdn.min.js"></script>
+  {# Адаптер для дат #}
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  {# Плагин для финансовых графиков #}
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.2.1/dist/chartjs-chart-financial.min.js"></script>
 
   <script>
     /* eslint-disable no-use-before-define, no-console */
@@ -365,7 +406,7 @@
           formatter: formatNullable,
           visible: true,
           canHide: true,
-        }, // Изменил key для уникальности
+        },
         {
           key: 'rsi_30d',
           type: 'num',
@@ -431,14 +472,14 @@
           type: 'action',
           label: '{{ "Chart"|trans|escape("js") }}',
           sortable: false,
-          visible: false,
+          visible: true,
           canHide: true,
           apiField: 'chart_data',
         },
       ];
 
       // Текущая конфигурация колонок, которая будет меняться
-      let columnsConfig = ALL_COLUMNS_CONFIG.map(col => ({ ...col }));
+      const columnsConfig = ALL_COLUMNS_CONFIG.map((col) => ({ ...col }));
 
       // Динамически обновляемые переменные на основе columnsConfig
       let visibleColumns = columnsConfig.filter((c) => c.visible);
@@ -460,13 +501,16 @@
       const initialFilterState = {
         priceMin: null,
         priceMax: null,
-        rsiMin: null, // Для RSI7
-        rsiMax: null, // Для RSI7
-        ratingMax: null, // "до X", т.е. значение <= X
-        risk: '', // 'low', 'medium', 'high' или '' для всех
+        // Для RSI7
+        rsiMin: null,
+        rsiMax: null,
+        // "до X", т.е. значение <= X
+        ratingMax: null,
+        // 'low', 'medium', 'high' или '' для всех
+        risk: '',
         // visibleColumnKeys будет заполнено из columnsConfig в initFilters
       };
-      let currentFilterState = JSON.parse(JSON.stringify(initialFilterState));
+      const currentFilterState = JSON.parse(JSON.stringify(initialFilterState));
       currentFilterState.visibleColumnKeys = columnsConfig
         .filter((c) => c.visible)
         .map((c) => c.key);
@@ -478,13 +522,41 @@
       // -----------------------------------------------------------------------
       // DOM ЭЛЕМЕНТЫ
       // -----------------------------------------------------------------------
+      const assetChartContainer = document.getElementById('asset-chart');
+      const drawerChart = document.getElementById('drawer-chart');
+
+      // Заголовок панели графика
+      const drawerChartIcon = drawerChart?.querySelector('.e-asset-details__icon');
+      const drawerChartIconFallback = drawerChart?.querySelector(
+        '.e-asset-details__icon-fallback'
+      );
+      const drawerChartTitleElements = drawerChart?.querySelectorAll(
+        '.e-asset-details__title'
+      );
+      const drawerChartSymbol = drawerChart?.querySelector(
+        '.e-asset-details__symbol'
+      );
+      const drawerChartPrice = drawerChart?.querySelector(
+        '.e-asset-details__price'
+      );
+      const drawerChartPriceChange = drawerChart?.querySelector(
+        '.e-asset-details__price-change'
+      );
+      const drawerChartOpen = drawerChart?.querySelector(
+        '.e-asset-details__stats [data-stat="open"]'
+      );
+      const drawerChartHigh = drawerChart?.querySelector(
+        '.e-asset-details__stats [data-stat="max"]'
+      );
+      const drawerChartLow = drawerChart?.querySelector(
+        '.e-asset-details__stats [data-stat="min"]'
+      );
+
+      const loadingRow = document.getElementById('loading-row');
       const scrollContainer = document.getElementById('virtual-scroll-container');
       const table = document.getElementById('crypto-table');
-
-      // Добавим ссылку на thead
-      const tableHead = table.querySelector('thead');
       const tableBody = document.getElementById('crypto-table-body');
-      const loadingRow = document.getElementById('loading-row');
+      const tableHead = table.querySelector('thead');
 
       // sortButtons будет переопределен в generateTableHeadHtml
       let sortButtons = [];
@@ -611,6 +683,8 @@
         }
 
         currentRequestController = new AbortController();
+        const params = new URLSearchParams();
+        params.append('jsonfather', 'true');
 
         try {
           // В development используем GET для local JSON, в production - POST для API
@@ -618,9 +692,8 @@
             ? { method: 'GET', signal: currentRequestController.signal }
             : {
                 method: 'POST',
-                body: JSON.stringify({ jsonfather: true }),
-                headers: { 'Content-Type': 'application/json' },
-                // Вместе с запросом отправляем cookies
+                body: params.toString(),
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 credentials: 'include',
                 signal: currentRequestController.signal,
               };
@@ -702,31 +775,73 @@
       * @throws {void} Не выбрасывает исключений, но может вызвать displayErrorState при некорректных данных
       */
       const processData = (responseData) => {
-        let apiData;
+        let actualCryptoDataObject;
 
         if (IS_DEVELOPMENT) {
-          // Для разработки данные уже в нужном формате объекта
-          apiData = responseData;
-        } else {
-          const [status, data] = responseData;
+          // Предполагаем, что responseData приходит из crypto-data.json
+          // Если crypto-data.json теперь имеет формат ["OK", {данные}], извлекаем объект данных
           if (
-            !Array.isArray(responseData) ||
-            responseData.length < 2 ||
-            status !== 'OK'
+            Array.isArray(responseData) &&
+            responseData.length === 2 &&
+            responseData[0] === 'OK' &&
+            typeof responseData[1] === 'object'
           ) {
+            // eslint-disable-next-line prefer-destructuring
+            actualCryptoDataObject = responseData[1];
+          } else if (
+            typeof responseData === 'object' &&
+            !Array.isArray(responseData)
+          ) {
+            // Если crypto-data.json все еще старого формата (просто объект {BTC:..., ETH:...})
+            actualCryptoDataObject = responseData;
+          } else {
+            // Неожиданный формат для dev данных
+            if (IS_DEVELOPMENT) {
+              console.error(
+                'Unexpected format for development data in crypto-data.json:',
+                responseData
+              );
+            }
             displayErrorState(
-              '{{ "Server sent data in an unexpected format."|trans|escape("js") }}'
+              '{{ "Invalid development data format."|trans|escape("js") }}'
             );
             return;
           }
-          apiData = data;
+        } else {
+          // Production
+          if (
+            !Array.isArray(responseData) ||
+            responseData.length < 2 ||
+            responseData[0] !== 'OK' || // Убедимся, что статус "OK"
+            typeof responseData[1] !== 'object' || // Убедимся, что данные - объект
+            responseData[1] === null // И не null
+          ) {
+            if (IS_DEVELOPMENT) {
+              // Это условие никогда не выполнится в проде, но для полноты логирования
+              console.error(
+                'Production API response format error or status not OK:',
+                responseData
+              );
+            }
+            displayErrorState(
+              '{{ "Server sent data in an unexpected format or an error status."|trans|escape("js") }}'
+            );
+            return;
+          }
+          // eslint-disable-next-line prefer-destructuring
+          actualCryptoDataObject = responseData[1];
         }
 
-        if (!apiData || typeof apiData !== 'object') {
+        // Теперь actualCryptoDataObject должен быть объектом типа { "BTC": {...}, "ETH": {...} } в обоих случаях
+        if (
+          !actualCryptoDataObject ||
+          typeof actualCryptoDataObject !== 'object' ||
+          Array.isArray(actualCryptoDataObject)
+        ) {
           if (IS_DEVELOPMENT) {
             console.error(
-              'apiData is not an object after initial processing:',
-              apiData
+              'actualCryptoDataObject is not a valid object after initial processing:',
+              actualCryptoDataObject
             );
           }
           displayErrorState(
@@ -735,15 +850,16 @@
           return;
         }
 
-        const symbols = Object.keys(apiData);
+        const symbols = Object.keys(actualCryptoDataObject);
         allAssets = symbols
           .map((symbol) => {
             const upperSymbol = symbol.toUpperCase();
             const meta = cryptoMeta[upperSymbol] || {
-              name: symbol, // Имя по умолчанию - символ, если нет в cryptoMeta
+              name: symbol,
               icon: null,
             };
-            const assetData = apiData[symbol];
+            // Берем данные из actualCryptoDataObject
+            const assetData = actualCryptoDataObject[symbol];
 
             if (typeof assetData !== 'object' || assetData === null) {
               if (IS_DEVELOPMENT) {
@@ -759,9 +875,11 @@
                 icon: meta.icon
                   ? `${ASSETS_PATH_PREFIX}/assets/img/cryptologos/${meta.icon}`
                   : null,
-                watchlist: false, // Стандартное значение по умолчанию
-                chart_data: [], // Стандартное значение по умолчанию
-                id: symbol, // ID актива
+                // Значения по умолчанию
+                watchlist: false,
+                chart_data: [],
+                // ID актива
+                id: symbol,
 
                 // Поля, которые обычно приходят из assetData, но теперь устанавливаются по умолчанию
                 // Важно, чтобы price был объектом, даже если его поля null,
@@ -773,7 +891,8 @@
                   // today: { min: null, max: null, middle: null }
                 },
                 rating: null,
-                risk: null, // Для formatRisk, который обработает null
+                // Для formatRisk, который обработает null
+                risk: null,
                 TRINDX: null,
                 RSI7: null,
                 // Если есть другие поля из 'assetData', которые напрямую используются в formatters
@@ -795,17 +914,13 @@
               icon: meta.icon
                 ? `${ASSETS_PATH_PREFIX}/assets/img/cryptologos/${meta.icon}`
                 : null,
-              // Стандартное значение по умолчанию
               watchlist: false,
-              // Стандартное значение по умолчанию
               chart_data: [],
-              // ID актива
               id: symbol,
-              // Распространяем все данные из API для этого символа
               ...assetData,
             };
-            // Отфильтровываем возможные некорректные записи (например, если map вернул null)
           })
+          // Отфильтровываем возможные некорректные записи (например, если map вернул null)
           .filter((asset) => asset && asset.symbol);
 
         // Если это первая загрузка, обновляем состояние UI сначала
@@ -838,12 +953,12 @@
       */
       function displayErrorState(message) {
         tableBody.innerHTML = `
-              <tr>
-                <td class="table__cell is-empty-state is-error-state" colspan="${visibleColumnsCount}">
-                  <p>${message}</p>
-                  <button class="e-btn is-text" onclick="location.reload()">{{ "Retry"|trans|escape("js") }}</button>
-                </td>
-              </tr>`;
+                              <tr>
+                                <td class="table__cell is-empty-state is-error-state" colspan="${visibleColumnsCount}">
+                                  <p>${message}</p>
+                                  <button class="e-btn is-text" onclick="location.reload()">{{ "Retry"|trans|escape("js") }}</button>
+                                </td>
+                              </tr>`;
         // Снимаем состояние занятости при ошибке
         table.setAttribute('aria-busy', 'false');
         // Скрываем строку загрузки если она еще есть
@@ -951,26 +1066,6 @@
         if (drawerFilter.close) drawerFilter.close();
       }
 
-      function resetFiltersAndDraw() {
-        // Сбрасываем поля формы
-        filtersForm.reset();
-        currentFilterState = JSON.parse(JSON.stringify(initialFilterState));
-
-        // Сбросить видимость колонок к начальному состоянию
-        columnsConfig = ALL_COLUMNS_CONFIG.map(col => ({ ...col }));
-
-        visibleColumns = columnsConfig.filter((c) => c.visible);
-        visibleColumnsCount = visibleColumns.length;
-        currentFilterState.visibleColumnKeys = visibleColumns.map((c) => c.key);
-
-        // Обновить чекбоксы в UI, заголовок таблицы
-        populateColumnCheckboxes();
-        generateTableHeadHtml();
-        applySortAndFilter(true);
-        updateFilterCountBadge();
-        if (drawerFilter.close) drawerFilter.close();
-      }
-
       function updateFilterCountBadge() {
         let count = 0;
         if (
@@ -1001,9 +1096,9 @@
         }
 
         filterToggleButton.innerHTML = `
-              {% include 'partials/icon.twig' with {name: 'filter'} %}
-              {{ 'Filters'|trans }} ${count}
-            `;
+                              {% include 'partials/icon.twig' with {name: 'filter'} %}
+                              {{ 'Filters'|trans }} ${count}
+                            `;
       }
 
       filtersForm.addEventListener('submit', (event) => {
@@ -1033,16 +1128,16 @@
               ariaSort = sortState.direction === 'asc' ? 'ascending' : 'descending';
             }
             thContent = `
-                  <button
-                    class="e-btn is-sort ${isActive ? 'is-active' : ''} ${isDesc ? 'is-desc' : ''}"
-                    type="button"
-                    data-sort-field="${col.key}"
-                    aria-label="{{ 'Sort by this column'|trans|escape('js') }}"
-                    aria-sort="${ariaSort}"
-                  >
-                    ${label}
-                    {% include 'partials/icon.twig' with {name: 'up'} %}
-                  </button>`;
+                                  <button
+                                    class="e-btn is-sort ${isActive ? 'is-active' : ''} ${isDesc ? 'is-desc' : ''}"
+                                    type="button"
+                                    data-sort-field="${col.key}"
+                                    aria-label="{{ 'Sort by this column'|trans|escape('js') }}"
+                                    aria-sort="${ariaSort}"
+                                  >
+                                    ${label}
+                                    {% include 'partials/icon.twig' with {name: 'up'} %}
+                                  </button>`;
             // aria-label на кнопке, а не на th
             ariaLabelAttr = '';
           }
@@ -1173,7 +1268,7 @@
           sortState.field = 'asset';
           sortState.direction = 'asc';
           // Обновить кнопки сортировки в UI (сбросить активное состояние)
-           // Это перерисует заголовки с правильными активными состояниями
+          // Это перерисует заголовки с правильными активными состояниями
           generateTableHeadHtml();
         }
         // Повторно получаем sortConfig на случай, если он изменился
@@ -1288,11 +1383,11 @@
 
         if (totalItems === 0) {
           tableBody.innerHTML = `
-                <tr>
-                  <td class="table__cell is-empty-state" colspan="${visibleColumnsCount}">
-                    <p>{{ "No data available"|trans|escape("js") }}</p>
-                  </td>
-                </tr>`;
+                                <tr>
+                                  <td class="table__cell is-empty-state" colspan="${visibleColumnsCount}">
+                                    <p>{{ "No data available"|trans|escape("js") }}</p>
+                                  </td>
+                                </tr>`;
           return;
         }
 
@@ -1322,10 +1417,10 @@
 
         // Обновляем содержимое tbody
         tableBody.innerHTML = `
-              <tr style="height: ${topSpacerHeight}px;"><td colspan="${visibleColumnsCount}" style="padding:0; border:0;"></td></tr>
-              ${visibleRowsHtml}
-              <tr style="height: ${bottomSpacerHeight}px;"><td colspan="${visibleColumnsCount}" style="padding:0; border:0;"></td></tr>
-            `;
+                              <tr style="height: ${topSpacerHeight}px;"><td colspan="${visibleColumnsCount}" style="padding:0; border:0;"></td></tr>
+                              ${visibleRowsHtml}
+                              <tr style="height: ${bottomSpacerHeight}px;"><td colspan="${visibleColumnsCount}" style="padding:0; border:0;"></td></tr>
+                            `;
 
         // Restore focus to table if it was previously focused
         const focusedElement = document.activeElement;
@@ -1364,14 +1459,14 @@
               // onerror для показа фоллбэка
               const imgTag = `<img class="e-asset__icon" src="${iconPath}" alt="" loading="lazy" width="32" height="32" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">`;
               cellContent = `
-                    <div class="e-asset">
-                        <div class="e-asset__copy">
-                            <span class="e-asset__name">${asset.name}</span>
-                            <span class="e-asset__symbol">${asset.symbol}</span>
-                        </div>
-                        ${iconPath ? imgTag : ''}
-                        ${fallbackIcon}
-                    </div>`;
+                                    <div class="e-asset">
+                                        <div class="e-asset__copy">
+                                            <span class="e-asset__name">${asset.name}</span>
+                                            <span class="e-asset__symbol">${asset.symbol}</span>
+                                        </div>
+                                        ${iconPath ? imgTag : ''}
+                                        ${fallbackIcon}
+                                    </div>`;
               cellClasses += ' is-2-liner';
               break;
             }
@@ -1386,24 +1481,30 @@
               else if (changeValue < 0) cellClasses += ' is-negative';
               break;
             }
-            case 'chart': // Скрыто
-              // cellContent = `<button class="e-btn is-chart" type="button" ...></button>`;
+            case 'chart': {
+              // Используем id, если есть, иначе symbol
+              const assetIdForChart = asset.id || asset.symbol;
+              const assetNameForChart = asset.name || asset.symbol;
+              // data-asset-symbol может быть полезен для формирования URL запроса
+              cellContent = `
+                                  <button
+                                    class="e-btn is-chart"
+                                    type="button"
+                                    aria-label="{{ 'Show chart'|trans|escape('js') }}: ${assetNameForChart}"
+                                    data-role="drawer-toggle"
+                                    data-target="drawer-chart"
+                                    data-asset-id="${assetIdForChart}"
+                                    data-asset-symbol="${asset.symbol}"
+                                  >
+                                    <svg class="e-icon" aria-hidden="true" focusable="false"><use xlink:href="${ASSETS_PATH_PREFIX}/assets/img/icons/sprite.svg#icon-candles"></use></svg>
+                                  </button>
+                                `;
               cellClasses += ' is-action';
               break;
+            }
+
             default: {
               const value = getNestedValue(asset, col.apiField);
-              // --- DEBUGGING START ---
-              if (!col.formatter) {
-                console.error('Formatter is missing for column:', JSON.stringify(col));
-                console.error('Asset data for this row:', JSON.stringify(asset));
-                console.error('Value obtained by getNestedValue:', JSON.stringify(value));
-              } else if (typeof col.formatter !== 'function') {
-                console.error('col.formatter is not a function for column:', JSON.stringify(col));
-                console.error('Type of col.formatter:', typeof col.formatter);
-                console.error('Asset data for this row:', JSON.stringify(asset));
-                console.error('Value obtained by getNestedValue:', JSON.stringify(value));
-              }
-              // --- DEBUGGING END ---
               cellContent = col.formatter
                 ? col.formatter(value)
                 : formatNullable(value);
@@ -1424,6 +1525,540 @@
           `    ${cellsHtml}\n` +
           '</tr>'
         );
+      }
+
+      // -----------------------------------------------------------------------
+      // ГРАФИКИ
+      // -----------------------------------------------------------------------
+
+      /**
+      * Подготавливает панель графика и инициирует загрузку данных для графика.
+      * Эта функция вызывается ПОСЛЕ того, как drawer.js уже открыл панель (или одновременно).
+      * @param {HTMLElement} chartButton - Кнопка, по которой кликнули.
+      */
+      async function prepareAndFetchChartData(chartButton) {
+        // Может быть и не нужен, если все по символу
+        const { assetId } = chartButton.dataset;
+        const { assetSymbol } = chartButton.dataset;
+
+        // Находим полный объект данных для этого актива из allAssets
+        // Это важно, так как нам нужны данные price.today, price.yesterday и т.д.
+        const assetData = allAssets.find((a) => a.symbol === assetSymbol);
+
+        if (!assetData) {
+          if (IS_DEVELOPMENT) {
+            console.error(
+              `[Chart] Asset data for symbol ${assetSymbol} not found in allAssets.`
+            );
+          }
+
+          // Ошибка в панели графика
+          if (assetChartContainer) {
+            assetChartContainer.innerHTML =
+              '<p class="text-center">{{ "Asset data not found."|trans|escape("js") }}</p>';
+          }
+
+          // Прочерки вместо ненайденных значений
+          const fallbackFields = [
+            drawerChartSymbol,
+            drawerChartPrice,
+            drawerChartPriceChange,
+            drawerChartOpen,
+            drawerChartHigh,
+            drawerChartLow,
+          ];
+
+          fallbackFields.forEach((element) => {
+            const targetElement = element;
+            if (targetElement) targetElement.textContent = '---';
+          });
+
+          return;
+        }
+
+        const assetName = assetData.name || assetSymbol;
+
+        if (drawerChart) {
+          // 1. Иконка и фоллбэк
+          if (drawerChartIcon && drawerChartIconFallback) {
+            if (assetData.icon) {
+              drawerChartIcon.src = assetData.icon;
+              drawerChartIcon.alt = assetName;
+              // Показать img
+              drawerChartIcon.style.display = '';
+              // Скрыть фоллбэк
+              drawerChartIconFallback.style.display = 'none';
+              // Обработчик ошибок для img, если иконка не загрузится
+              drawerChartIcon.onerror = () => {
+                drawerChartIcon.style.display = 'none';
+                drawerChartIconFallback.textContent = assetSymbol
+                  .substring(0, 3)
+                  .toUpperCase();
+                drawerChartIconFallback.style.display = 'inline-flex';
+                // Убрать обработчик, чтобы не было зацикливания
+                drawerChartIcon.onerror = null;
+              };
+            } else {
+              // Скрыть img
+              drawerChartIcon.style.display = 'none';
+              drawerChartIconFallback.textContent = assetSymbol
+                .substring(0, 3)
+                .toUpperCase();
+              // Показать фоллбэк
+              drawerChartIconFallback.style.display = 'inline-flex';
+            }
+          }
+
+          // 2. Название актива (для двух HTML-элементов)
+          if (drawerChartTitleElements) {
+            drawerChartTitleElements.forEach((element) => {
+              const titleElement = element;
+              titleElement.textContent = assetName;
+            });
+          }
+
+          // 3. Символ (например, BTC-USD)
+          if (drawerChartSymbol) {
+            drawerChartSymbol.textContent = `${assetSymbol}-USD`;
+          }
+
+          // 4. Текущая цена и изменение за 24ч
+          if (drawerChartPrice) {
+            // Обновляем текстовый узел цены
+            drawerChartPrice.childNodes[0].nodeValue = `${formatPrice(assetData.price?.current)} `;
+          }
+          if (drawerChartPriceChange && assetData.price) {
+            const change24hValue = calculateChange24hValue(assetData.price);
+            if (change24hValue !== null && !Number.isNaN(change24hValue)) {
+              const formattedChange = `${change24hValue > 0 ? '+' : ''}${change24hValue.toFixed(2)}%`;
+              drawerChartPriceChange.textContent = formattedChange;
+              drawerChartPriceChange.classList.toggle(
+                'is-positive',
+                change24hValue > 0
+              );
+              drawerChartPriceChange.classList.toggle(
+                'is-negative',
+                change24hValue < 0
+              );
+              drawerChartPriceChange.style.display = '';
+            } else {
+              drawerChartPriceChange.textContent = '–';
+              // Сброс классов
+              drawerChartPriceChange.className = 'e-asset-details__price-change';
+              // или показать прочерк
+              drawerChartPriceChange.style.display = 'none';
+            }
+          }
+
+          // 5. Статистика H, L (сегодняшние) - их мы можем взять из assetData.price.today
+          const todayPrice = assetData.price?.today;
+          if (drawerChartHigh) {
+            drawerChartHigh.textContent =
+              todayPrice?.max !== undefined ? formatPrice(todayPrice.max) : '–';
+          }
+          if (drawerChartLow) {
+            drawerChartLow.textContent =
+              todayPrice?.min !== undefined ? formatPrice(todayPrice.min) : '–';
+          }
+          // Для Open пока ставим заглушку или очищаем, т.к. он будет из свечей
+          if (drawerChartOpen) {
+            drawerChartOpen.textContent = '...';
+          }
+        }
+
+        if (assetChartContainer) {
+          assetChartContainer.innerHTML =
+            '<p class="is-loading-state p-m text-center">{{ "Loading chart data..."|trans|escape("js") }}</p>';
+        }
+
+        if (IS_DEVELOPMENT) {
+          console.log(
+            `[Chart] Запрос данных для графика: ID=${assetId || assetSymbol}, Symbol=${assetSymbol}`
+          );
+        }
+
+        const chartCandleData = await fetchChartData(assetSymbol);
+
+        if (drawerChartOpen && chartCandleData && chartCandleData.length > 0) {
+          // Пока предположим, что chartCandleData[0] - это открытие для запрошенного периода.
+          // TODO: уточнить этот момент.
+          // Если period='1d' означает данные за последние 24 часа, то chartCandleData[0] - это самая старая свеча из этих 24ч.
+
+          // Простой вариант: берем 'o' из первой доступной свечи
+          const firstCandleOpenPrice = chartCandleData[0]?.o;
+          drawerChartOpen.textContent =
+            firstCandleOpenPrice !== undefined
+              ? formatPrice(firstCandleOpenPrice)
+              : '–';
+        } else if (drawerChartOpen) {
+          // Если данных свечей нет или ошибка, ставим прочерк для Open
+          drawerChartOpen.textContent = '–';
+        }
+
+        if (assetChartContainer) {
+          if (chartCandleData && chartCandleData.length > 0) {
+            renderCandlestickChart(chartCandleData, assetChartContainer);
+          } else if (chartCandleData && chartCandleData.length === 0) {
+            assetChartContainer.innerHTML =
+              '<p class="p-m text-center">{{ "No chart data available for the selected period."|trans|escape("js") }}</p>';
+            if (chartInstance) {
+              chartInstance.destroy();
+              chartInstance = null;
+            }
+          } else {
+            assetChartContainer.innerHTML =
+              '<p class="p-m text-center">{{ "Unable to load chart data. Please go to the ‘Contact Us’ section and report the issue to support."|trans|escape("js") }}</p>';
+            if (chartInstance) {
+              chartInstance.destroy();
+              chartInstance = null;
+            }
+          }
+        }
+      }
+
+     /**
+      * Определяет смещение часового пояса относительно UTC
+      * @returns {number} Смещение в часах (например, 3 для UTC+3, -5 для UTC-5)
+      */
+      function getTimezoneOffset() {
+        // e.g., -180 for UTC+3 (в минутах)
+        const offset = new Date().getTimezoneOffset();
+        return (offset / 60) * -1;
+      }
+
+      /**
+      * Fetches chart data for a given asset.
+      * @param {string} ticker - The asset ticker (e.g., "BTC").
+      * @param {string} period - The period for the chart data (e.g., "1d", "1M").
+      * @param {string} timeframe - The timeframe for the chart (e.g., "1h", "4h").
+      * @returns {Promise<Array|null>} A promise that resolves to an array of chart data points or null on error.
+      */
+      async function fetchChartData(ticker, period = '1d', timeframe = '1m') {
+        if (!ticker) {
+          console.error('[Chart] Ticker is required to fetch chart data.');
+          return null;
+        }
+
+        let chartCandleData = null;
+        const timezoneoffset = getTimezoneOffset();
+
+        if (IS_DEVELOPMENT) {
+          const devFixtureUrl = `${ASSETS_PATH_PREFIX}/assets/data/fixtures/crypto-data-candles.json`;
+          try {
+            const response = await fetch(devFixtureUrl);
+            if (!response.ok) {
+              throw new Error(
+                `Failed to load dev chart data fixture (${devFixtureUrl}), status: ${response.status}`
+              );
+            }
+            const responseData = await response.json();
+            if (
+              Array.isArray(responseData) &&
+              responseData.length === 2 &&
+              Array.isArray(responseData[0]) &&
+              responseData[0][0] === 'OK' &&
+              Array.isArray(responseData[1])
+            ) {
+              // eslint-disable-next-line prefer-destructuring
+              chartCandleData = responseData[1];
+            } else {
+              console.warn(
+                `[Chart] Dev chart data fixture (${devFixtureUrl}) has unexpected format for ticker ${ticker}. Expected [["OK"], [candlesArray]]. Received:`,
+                responseData
+              );
+              chartCandleData = [];
+            }
+          } catch (error) {
+            console.error(
+              '[Chart] Error fetching or parsing dev chart data fixture:',
+              error
+            );
+            chartCandleData = null;
+          }
+        } else {
+          // Production
+          const currentLang = window.location.pathname
+            .split('/')[1]
+            ?.match(/^[a-z]{2}$/)
+            ? window.location.pathname.split('/')[1]
+            : '';
+          const fullProdApiUrl = `${window.location.origin}/${currentLang ? `${currentLang}/` : ''}json/pricechart`;
+
+          // Формируем тело запроса как URLSearchParams
+          const chartParams = new URLSearchParams();
+          chartParams.append('ticker', ticker);
+          chartParams.append('period', period);
+          chartParams.append('timeframe', timeframe);
+          chartParams.append('timezoneoffset', timezoneoffset.toString());
+          chartParams.append('jsonfather', 'true');
+
+          try {
+            const response = await fetch(fullProdApiUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              credentials: 'include',
+              body: chartParams.toString(),
+            });
+
+            if (!response.ok) {
+              let errorDetail = `Request failed with status: ${response.status}`;
+              try {
+                const errorJson = await response.json();
+                if (Array.isArray(errorJson) && errorJson.length > 0) {
+                  errorDetail = errorJson[1] || JSON.stringify(errorJson);
+                } else {
+                  errorDetail = JSON.stringify(errorJson);
+                }
+              } catch (e) {
+                /* не удалось распарсить JSON ошибки */
+              }
+              throw new Error(errorDetail);
+            }
+
+            const responseData = await response.json();
+            if (
+              Array.isArray(responseData) &&
+              responseData.length === 2 &&
+              responseData[0] === 'OK' &&
+              Array.isArray(responseData[1])
+            ) {
+              [, chartCandleData] = responseData;
+            } else {
+              console.error(
+                '[Chart] Unexpected API response format for chart data:',
+                responseData
+              );
+              throw new Error('Invalid chart data format from server.');
+            }
+          } catch (error) {
+            console.error(
+              `[Chart] Error fetching prod chart data for ${ticker}:`,
+              error.message
+            );
+            chartCandleData = null;
+          }
+        }
+        return chartCandleData;
+      }
+
+      // Переменная для хранения экземпляра графика, чтобы его можно было обновлять/уничтожать
+      let chartInstance = null;
+
+      /**
+      * Renders a candlestick chart in the given container.
+      * @param {Array} candleData - Array of candlestick data points ({x, o, h, l, c}).
+      * @param {HTMLElement} containerElement - The HTML element to render the chart in.
+      */
+      function renderCandlestickChart(candleData, containerElement) {
+        if (!containerElement) {
+          console.error('[Chart] Container element not found for rendering chart.');
+          return;
+        }
+
+        if (chartInstance) {
+          chartInstance.destroy();
+          chartInstance = null;
+        }
+
+        const wrapper = document.createElement('div');
+        const canvas = document.createElement('canvas');
+        wrapper.appendChild(canvas);
+        containerElement.replaceChildren(wrapper); // Очищает контейнер и добавляет новый canvas
+        const ctx = canvas.getContext('2d');
+
+        if (!candleData || candleData.length === 0) {
+          const messageElement = document.createElement('p');
+          messageElement.className = 'p-m text-center';
+          messageElement.textContent =
+            '{{ "No data to display chart."|trans|escape("js") }}';
+          containerElement.replaceChildren(messageElement);
+          return;
+        }
+
+        const processedData = candleData.map((d, index) => {
+          let xValue;
+
+          if (typeof xValue === 'undefined') {
+            let dateString = d.x;
+
+            const parsedDate = new Date(dateString);
+            xValue = parsedDate.getTime(); // Получаем timestamp
+          }
+
+          return {
+            x: xValue, // Теперь xValue всегда будет определен
+            o: Number(d.o),
+            h: Number(d.h),
+            l: Number(d.l),
+            c: Number(d.c),
+          };
+        });
+
+        const DURATION = 240;
+        const colorUp = 'var(--color-ink-text-success)';
+        const colorDown = 'var(--color-ink-2ry-error)';
+        const colorUnchanged = 'var(--color-ink-3ry-error)';
+
+        // eslint-disable-next-line no-undef
+        chartInstance = new Chart(ctx, {
+          type: 'candlestick',
+          data: {
+            datasets: [
+              {
+                barThickness: 7,
+                color: {
+                  up: colorUp,
+                  down: colorDown,
+                  unchanged: colorUnchanged,
+                },
+                borderColor: 'inherit',
+                data: processedData,
+              },
+            ],
+          },
+          options: {
+            animation: {
+              duration: DURATION,
+            },
+            maintainAspectRatio: false,
+            onResize: (chart, size) => {
+              const dataset = chart.config.data.datasets[0];
+              const allData = dataset.data;
+
+              if (!allData || allData.length === 0) {
+                /* eslint-disable no-param-reassign */
+                chart.options.scales.x.min = undefined;
+                chart.options.scales.x.max = undefined;
+                return;
+              }
+
+              const barThickness = dataset.barThickness || 7;
+              const desiredSpaceBetweenCandles = 2; // Желаемый пробел в пикселях
+              const candleCellWidth = barThickness + desiredSpaceBetweenCandles;
+
+              let maxVisibleCandles = Math.floor(size.width / candleCellWidth);
+              maxVisibleCandles = Math.max(
+                1,
+                Math.min(maxVisibleCandles, allData.length)
+              );
+
+              let newXMin;
+              let newXMax;
+
+              if (allData.length <= maxVisibleCandles) {
+                newXMin = allData[0].x;
+                newXMax = allData[allData.length - 1].x;
+              } else {
+                newXMin = allData[allData.length - maxVisibleCandles].x;
+                newXMax = allData[allData.length - 1].x;
+              }
+
+              const currentXMin = chart.options.scales.x.min;
+              const currentXMax = chart.options.scales.x.max;
+              const newXMinTime = newXMin ? new Date(newXMin).getTime() : undefined;
+              const newXMaxTime = newXMax ? new Date(newXMax).getTime() : undefined;
+              const currentXMinTime = currentXMin
+                ? new Date(currentXMin).getTime()
+                : undefined;
+              const currentXMaxTime = currentXMax
+                ? new Date(currentXMax).getTime()
+                : undefined;
+
+              if (
+                newXMinTime !== currentXMinTime ||
+                newXMaxTime !== currentXMaxTime
+              ) {
+                chart.options.scales.x.min = newXMin;
+                chart.options.scales.x.max = newXMax;
+                /* eslint-enable no-param-reassign */
+                chart.update('none');
+              }
+            },
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                mode: 'index',
+                intersect: false,
+                backgroundColor: 'var(--color-bg-level-02)',
+                titleColor: 'rgb(255 255 255 / 0.6)',
+                titleFont: { weight: 'normal' },
+                bodyColor: 'rgb(255 255 255 / 0.87)',
+                bodyFont: { weight: 'bold' },
+                borderWidth: 0,
+                padding: 16,
+                displayColors: false,
+                callbacks: {
+                  label(context) {
+                    const datapoint = context.raw;
+                    if (datapoint !== null && typeof datapoint === 'object') {
+                      return [
+                        `O: ${formatPrice(datapoint.o)}`,
+                        `H: ${formatPrice(datapoint.h)}`,
+                        `L: ${formatPrice(datapoint.l)}`,
+                        `C: ${formatPrice(datapoint.c)}`,
+                      ];
+                    }
+                    return context.dataset.label || '';
+                  },
+                },
+              },
+            },
+            responsive: true,
+            scales: {
+              x: {
+                type: 'time',
+                distribution: 'series',
+                grid: {
+                  color: 'rgb(255 255 255 / 0.08)',
+                  drawTicks: false,
+                },
+                offset: true,
+                ticks: {
+                  autoSkip: true,
+                  autoSkipPadding: 15,
+                  color: 'rgb(255 255 255 / 0.6)',
+                  maxRotation: 0,
+                  padding: 12,
+                  source: 'auto',
+                },
+                time: {
+                  displayFormats: {
+                    millisecond: 'HH:mm:ss.SSS', // 24-часовой формат для миллисекунд
+                    second: 'HH:mm:ss',       // 24-часовой формат для секунд
+                    minute: 'HH:mm',          // 24-часовой формат для минут
+                    hour: 'HH:mm',            // 24-часовой формат для часов
+                    day: 'MMM d',             // Формат для дней (например, "May 19")
+                    week: 'MMM d, yyyy',      // Формат для недель
+                    month: 'MMM yyyy',        // Формат для месяцев (например, "May 2025")
+                    quarter: 'QQQ yyyy',      // Формат для кварталов (например, "Q2 2025")
+                    year: 'yyyy'              // Формат для годов
+                  },
+                  tooltipFormat: 'yyyy-MM-dd HH:mm',
+                },
+              },
+              y: {
+                beginAtZero: false,
+                border: {
+                  display: true,
+                  color: 'rgb(255 255 255 / 0.08)',
+                  width: 1,
+                },
+                grid: {
+                  color: 'rgb(255 255 255 / 0.08)',
+                },
+                position: 'right',
+                ticks: {
+                  color: 'rgb(255 255 255 / 0.6)',
+                  padding: 12,
+                },
+              },
+            },
+          },
+        });
       }
 
       // -----------------------------------------------------------------------
@@ -1471,8 +2106,16 @@
       const init = () => {
         try {
           if (!table || !scrollContainer || !tableBody || !tableHead) {
-            // Добавлена проверка tableHead
             throw new Error('Required DOM elements not found');
+          }
+
+          if (!tableBody || !drawerChart || !assetChartContainer) {
+            if (IS_DEVELOPMENT) {
+              console.error(
+                'One or more critical elements for chart functionality are missing.'
+              );
+              // Можно либо остановить инициализацию части функционала, либо показать ошибку
+            }
           }
 
           // Заполнить чекбоксы колонок
@@ -1494,6 +2137,20 @@
           updateFilterCountBadge();
 
           announceUpdate('{{ "Table loading."|trans|escape("js") }}');
+
+          // Делегированный обработчик для кнопок графика (реагирует на те же кнопки, что и drawer.js)
+          // Он сработает после/одновременно с drawer.js
+          tableBody.addEventListener('click', (event) => {
+            const chartButton = event.target.closest(
+              '[data-role="drawer-toggle"][data-target="drawer-chart"]'
+            );
+            if (chartButton) {
+              // Кнопка открытия графика была нажата.
+              // drawer.js уже должен был начать открывать панель.
+              // Мы здесь готовим контент для панели.
+              prepareAndFetchChartData(chartButton);
+            }
+          });
         } catch (error) {
           if (IS_DEVELOPMENT) {
             console.error('Initialization failed:', error);

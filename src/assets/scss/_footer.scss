@@ -109,6 +109,7 @@
 [data-lang^='ru'] .e-menu__item.is-ru,
 [data-lang^='en'] .e-menu__item.is-en {
   background-color: var(--menu-current-bg, hsl(0 0% 100% / 0.04));
+  border-radius: var(--border-radius-sm);
   cursor: default;
   pointer-events: none;
 }

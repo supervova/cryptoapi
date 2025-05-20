@@ -599,6 +599,7 @@ const watchFiles = () => {
   );
   watch(paths.markup.src.tpl, series(copyTpl));
   watch(paths.l10n.src, series(copyLocales));
+  watch(paths.data.src, series(copyData));
   watch([...paths.markup.watch], series(pages));
 };
 

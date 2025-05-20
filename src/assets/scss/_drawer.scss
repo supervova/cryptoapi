@@ -7,12 +7,14 @@
   box-shadow: var(--box-shadow-level-03);
   color: var(--color-ink-text);
   flex-direction: column;
-  margin: 0;
+  margin-block: 0;
+  margin-inline: auto;
   padding: 0;
   overflow-y: auto;
   position: fixed;
+  top: auto;
   bottom: 0;
-  translate: 0 -100%;
+  translate: 0 100%;
   transition:
     display calc(var(--duration-500) * 0.8) var(--easing-disappearance),
     translate calc(var(--duration-500) * 0.8) var(--easing-disappearance);
@@ -36,7 +38,7 @@
       translate var(--duration-500) var(--easing-appearance);
 
     @starting-style {
-      translate: 0 -100%;
+      translate: 0 100%;
     }
   }
 
@@ -67,6 +69,7 @@
 .e-drawer.is-bottom {
   @media (--tablet) {
     max-width: rem(1184);
+    height: 50vh;
     max-height: 50vh;
     max-height: 50dvh;
   }
@@ -149,8 +152,15 @@
 }
 
 .e-drawer__chart {
-  background-color: var(--color-bg-base);
-  border-radius: var(--border-radius-md);
+  // background-color: var(--color-bg-base);
+  // border-radius: var(--border-radius-md);
   width: 100%;
   height: rem(400);
+
+  > div {
+    height: 100%;
+  }
 }
+
+
+

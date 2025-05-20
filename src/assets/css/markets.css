@@ -30,11 +30,6 @@
   height: 1px;
 }
 
-.table__cell.is-action {
-  padding: var(--size-1);
-  width: var(--size-7);
-}
-
 .table__cell.is-num {
   width: 12%;
 }
@@ -71,12 +66,16 @@
 
 .e-btn.is-chart {
   aspect-ratio: 1;
-  opacity: 0;
   padding: 0;
   transition: opacity var(--duration-200) var(--easing-base);
 }
 tr:hover .e-btn.is-chart {
   opacity: 1;
+}
+@media (any-hover: hover) {
+  .e-btn.is-chart {
+    opacity: 0;
+  }
 }
 
 .w-1\/2 {
@@ -101,4 +100,20 @@ label:has(> [type=checkbox]) {
   left: 0;
   right: 0;
   z-index: 1;
+}
+
+[id=drawer-chart] {
+  background-color: var(--color-bg-level-01);
+}
+@media (--tablet) {
+  [id=drawer-chart] {
+    height: auto;
+    max-height: calc(100vh - var(--size-5));
+    max-height: calc(100dvh - var(--size-5));
+  }
+}
+
+[id=drawer-chart] .e-asset__icon-fallback {
+  width: var(--size-5);
+  height: var(--size-5);
 }
