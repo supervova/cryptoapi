@@ -159,6 +159,7 @@
 
   @include button;
 
+  // stylelint-disable-next-line no-duplicate-selectors
   & {
     backdrop-filter: var(--backdrop-filter-blur);
     padding-inline-start: var(--size-1p5);

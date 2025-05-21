@@ -416,6 +416,12 @@ msgstr "График"
 msgid "Show chart"
 msgstr "Показать график"
 
+msgid "Period"
+msgstr "Период"
+
+msgid "Timeframe"
+msgstr "Интервал (таймфрейм)"
+
 msgid "1 Day"
 msgstr "1 день"
 

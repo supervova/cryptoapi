@@ -33,9 +33,6 @@
 .table__cell.is-num {
   width: 12%;
 }
-.table__cell.is-num.is-positive::before {
-  content: "+";
-}
 
 .table__cell.is-2-liner + .table__cell.is-num {
   width: 16%;

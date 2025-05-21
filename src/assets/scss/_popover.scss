@@ -73,6 +73,10 @@
     right: 0;
   }
 
+  .has-tooltip > & {
+    --zindex-popover: calc(var(--zindex-tooltip) + 1);
+  }
+
   &.e-menu {
     --popover-body-padding-y: var(--size-1p5);
     --popover-body-padding-x: var(--size-1p5);

@@ -24,8 +24,8 @@
   {% endif %}
 {% endmacro %}
 
-{% macro chart_menu(name, options, selected) %}
-<details class="e-popover" data-role="popover">
+{% macro chart_menu(name, options, selected, title) %}
+<details class="e-popover has-tooltip" data-role="popover" aria-label="{{ title|trans }}">
   <summary class="has-chevron">
     {{ selected }}
   </summary>

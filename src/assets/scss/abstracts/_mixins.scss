@@ -520,7 +520,7 @@
     transform: scale(0.99);
   }
 
-  &:disabled {
+  &:disabled:not([disabled='false']) {
     cursor: not-allowed;
     filter: grayscale(100%);
     opacity: 0.5;
@@ -579,5 +579,4 @@
     border: var(--size-half) solid transparent;
   }
 }
-
 // #endregion

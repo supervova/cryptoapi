@@ -15,9 +15,9 @@
 .table__cell.is-num {
   width: 12%;
 
-  &.is-positive::before {
-    content: '+';
-  }
+  // &.is-positive::before {
+  //   content: '+';
+  // }
 }
 
 .table__cell.is-2-liner +

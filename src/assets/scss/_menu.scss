@@ -110,7 +110,8 @@
     transition: opacity var(--duration-50) var(--easing-base);
   }
 
-  &:checked::after {
+  &[checked='true']::after,
+  &:checked:not([checked='false'])::after {
     opacity: 1;
   }
 }

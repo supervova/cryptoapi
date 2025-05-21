@@ -146,7 +146,7 @@ textarea:not([rows]) {
   height: calc(var(--size-line) * 6);
 }
 
-[disabled],
+[disabled]:not([disabled='false']),
 [readonly] {
   @include state-disabled();
 }
