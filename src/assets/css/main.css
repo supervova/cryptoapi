@@ -3638,7 +3638,8 @@ body {
     translate: 0 -50%;
     height: var(--size-3);
   }
-  thead td, thead th,
+  thead td,
+  thead th,
   table:not(:has(thead)) > tbody > tr:first-child td,
   table:not(:has(thead)) > tbody > tr:first-child th {
     border-top: 0;
@@ -3738,7 +3739,8 @@ body {
     padding-block: var(--size-half);
     min-width: 12ch;
   }
-  :where(.table.has-2-liners) td, :where(.table.has-2-liners) th {
+  :where(.table.has-2-liners) td,
+  :where(.table.has-2-liners) th {
     vertical-align: middle;
   }
   tfoot th,
@@ -3775,6 +3777,21 @@ body {
     display: flex;
     margin-top: var(--size-2);
     margin-inline: auto;
+  }
+  .table__cell.is-updated,
+  [id=crypto-table] thead.is-updated tr {
+    animation: 1.6s var(--easing-appearance) forwards running cell-blink;
+  }
+  @keyframes cell-blink {
+    0% {
+      background-color: var(--color-ink-min);
+    }
+    40% {
+      color: var(--changedColor);
+    }
+    100% {
+      background: transparent;
+    }
   }
   .e-scroller table {
     margin: 0;

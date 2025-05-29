@@ -30,6 +30,10 @@
   height: 1px;
 }
 
+tr:not(:has(td[colspan], th[colspan])) {
+  height: var(--size-7);
+}
+
 .table__cell.is-num {
   width: 12%;
 }

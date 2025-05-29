@@ -1,5 +1,7 @@
 // ./src/assets/js/asset-chart.js
 
+/* global Chart */
+
 /**
  * Интерфейс для хранения данных о цене актива
  * @typedef {Object} PriceData

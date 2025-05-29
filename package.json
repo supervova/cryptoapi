@@ -10,6 +10,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "dev":   "cross-env NODE_ENV=development gulp dev",
+    "build": "cross-env NODE_ENV=production  gulp build -p",
     "format": "prettier --write 'src/**/*.{js,html}'",
     "lint:js": "eslint 'src/**/*.js'",
     "lint:styles": "stylelint 'src/**/*.scss'"

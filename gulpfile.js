@@ -125,6 +125,7 @@ const paths = {
       main: `${srcBase}/assets/js/main.js`, // основная точка входа
       'asset-chart': `${srcBase}/assets/js/asset-chart.js`,
       toast: `${srcBase}/assets/js/toast.js`,
+      markets: `${srcBase}/assets/js/markets.js`,
       // home: `${srcBase}/assets/js/home.js`,
     },
     watch: `${srcBase}/assets/js/*.js`,
@@ -197,27 +198,27 @@ const js = () => {
   const entries = Object.entries(paths.js.entry);
 
   return Promise.all(
-    entries.map(([name, entry]) =>
-      src(entry)
-        .pipe(handleError('JS Compile Error'))
-        .pipe(
-          gulpEsbuild({
-            outfile: `${name}.js`,
-            bundle: true,
-            format: PRODUCTION ? 'iife' : 'esm', // В разработке поддерживаем ESM
-            minify: PRODUCTION,
-            define: {
-              'process.env.NODE_ENV': JSON.stringify(
-                PRODUCTION ? 'production' : 'development'
-              ),
-            },
-          }).on('error', function errorHandler(err) {
-            console.error('Error in esbuild:', err.message);
-            this.emit('end');
-          })
-        )
-        .pipe(dest(paths.js.dest))
-        .pipe(bsInstance.stream())
+    entries.map(
+      ([name, entry]) =>
+        src(entry, { sourcemaps: !PRODUCTION }) // для dev-watch стэктрейсов
+          .pipe(handleError('JS Compile Error'))
+          .pipe(
+            gulpEsbuild({
+              outfile: `${name}.js`,
+              bundle: true,
+              format: PRODUCTION ? 'iife' : 'esm',
+              minify: PRODUCTION,
+              sourcemap: !PRODUCTION, // включаем карты только в dev
+              define: {
+                'process.env.NODE_ENV': JSON.stringify(
+                  PRODUCTION ? 'production' : 'development'
+                ),
+              },
+            })
+          )
+
+          .pipe(dest(paths.js.dest, { sourcemaps: '.' })) // чтобы gulp сам не терял карту
+      // .pipe(bsInstance.stream({ once: true }))
     )
   );
 };
@@ -589,17 +590,17 @@ const reload = (done) => {
 
 const watchFiles = () => {
   watch(paths.css.watch, series(css));
-  watch(paths.js.watch, series(js));
+  watch(paths.js.watch, series(js, reload));
   watch([paths.svg.src.base, paths.svg.src.flags], series(sprite, reload));
   watch(paths.img.src, series(img, reload));
-  watch(paths.engine.src, series(copyEngine));
+  watch(paths.engine.src, series(copyEngine, reload));
   watch(
     [`${srcBase}/twig/**/*.twig`, `${srcBase}/twig/readme.md`],
-    series(copyTwig)
+    series(copyTwig, reload)
   );
-  watch(paths.markup.src.tpl, series(copyTpl));
-  watch(paths.l10n.src, series(copyLocales));
-  watch(paths.data.src, series(copyData));
+  watch(paths.markup.src.tpl, series(copyTpl, reload));
+  watch(paths.l10n.src, series(copyLocales, reload));
+  watch(paths.data.src, series(copyData, reload));
   watch([...paths.markup.watch], series(pages));
 };
 
