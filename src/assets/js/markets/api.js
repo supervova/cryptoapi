@@ -13,6 +13,8 @@ import { displayErrorState, patchTableBody } from '../table/render.js';
 import { getTimezoneOffset, cleanup, announceUpdate } from './utils.js';
 import * as marketState from './state.js';
 
+console.log('APP_CONFIG.isDevelopment:', window.APP_CONFIG.isDevelopment);
+
 /**
  * Обработка полученных данных с API
  * Извлекает данные из ответа API, обновляет состояние активов и применяет сортировку/фильтрацию.
@@ -227,7 +229,7 @@ export async function fetchData() {
 
     if (!response.ok) {
       const contentType = response.headers.get('content-type');
-      if (contentType && contentType.includes('text/html')) {
+      if (contentType && contentType.includes('text/html') && !IS_DEVELOPMENT) {
         window.location.href = `/auth?returl=${encodeURIComponent(window.location.pathname)}`;
         return;
       }

@@ -1,0 +1,57 @@
+{
+  "page": {
+    "js": {
+      "pageType": "assetDetail",
+      "assetTicker": "btc",
+      "assetName": "Bitcoin",
+      "assetIconPath": "/assets/img/cryptologos/btc.svg",
+      "assetOpenPrice": "68500.50",
+      "assetHighPrice": "69200.00",
+      "assetLowPrice": "68150.75",
+      "assetCurrentPrice": "68980.30",
+      "assetChange24hPercent": "+2.1%",
+      "initialChartPeriod": "1d",
+      "initialChartTimeframe": "1h",
+      "initialCandleData": [
+        { "x": "2024-05-29T08:00:00Z", "o": 68200.00, "h": 68350.00, "l": 68150.75, "c": 68300.00 },
+        { "x": "2024-05-29T09:00:00Z", "o": 68300.00, "h": 68550.00, "l": 68250.00, "c": 68500.50 },
+        { "x": "2024-05-29T10:00:00Z", "o": 68500.50, "h": 68600.00, "l": 68450.00, "c": 68550.20 },
+        { "x": "2024-05-29T11:00:00Z", "o": 68550.20, "h": 68800.10, "l": 68500.00, "c": 68750.25 },
+        { "x": "2024-05-29T12:00:00Z", "o": 68750.25, "h": 69200.00, "l": 68700.00, "c": 68980.30 }
+      ],
+      "isDevelopment": true,
+      "assetsBasePrefix": "",
+      "currentLang": "en",
+      "devApiUrl": "/assets/data/fixtures/crypto-data-candles.json"
+    }
+  },
+  "asset_data": {
+    "ticker": "BTC",
+    "name": "Bitcoin",
+    "icon_path": "/assets/img/cryptologos/btc.svg",
+    "open_price": "68500.50",
+    "high_price": "69200.00",
+    "low_price": "68150.75",
+    "current_price": "68980.30",
+    "change_24h_percent": "+2.1%"
+  },
+  "translations_for_js": {
+    "O:": "O:",
+    "Min:": "Min:",
+    "Max:": "Max:",
+    "Loading chart data...": "Loading chart data...",
+    "Period": "Period",
+    "Timeframe": "Timeframe",
+    "assetDataNotFound": "Asset data not found.",
+    "couldNotLoadChartData": "Could not load chart data.",
+    "noChartDataForPeriod": "No chart data available for the selected period.",
+    "noDataToDisplayChart": "No data to display chart.",
+    "serverFormatError": "Server sent data in an unexpected format or an error status.",
+    "unableToLoadChartData": "Unable to load chart data. Please go to the ‘Contact Us’ section and report the issue to support.",
+    "errorConfigMissing": "Configuration data is missing.",
+    "errorPageInit": "Error initializing page.",
+    "errorTickerMissing": "Asset ticker is missing.",
+    "errorLoadingData": "Error loading data.",
+    "couldNotLoadInitialChartData": "Could not load initial chart data."
+  }
+}

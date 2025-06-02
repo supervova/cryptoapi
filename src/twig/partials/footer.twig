@@ -16,7 +16,7 @@
     <small class="e-footer__copy">© {{ "now"|date('Y') }}. CryptoAPI</small>
     <ul class="e-footer__menu">
       {% for item in data_footer %}
-        <li><a href="/{{ lng_html }}{{ item.href }}">{{ item.label|trans|raw }}</a></li>
+        <li><a href="/{{ page.lang }}{{ item.href }}">{{ item.label|trans|raw }}</a></li>
       {% endfor %}
     </ul>
     <details class="e-popover e-footer__languages" data-lang="{$lng_html}" data-role="popover">

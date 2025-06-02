@@ -1,104 +1,77 @@
 <?php
 
 /**
- * Контроллер страницы "Рынки" с таблицей криптовалютных активов.
- * Отображает данные по криптовалютам, позволяет сортировку и (в будущем) фильтрацию.
+ * Контроллер для раздела "Рынки"
+ * Либо отображает список активов (markets.twig),
+ * либо подключает asset.class.php для отображения страницы отдельного актива.
  */
 
 // Проверка авторизации пользователя
-// Удалено закрытие Memcache старым методом "на всякий случай".
-// Соединение с Memcache закрывается автоматически при завершении скрипта.
-if (!$islogged) {
-    header('Location: https://' . $authhost . '/auth?returl=' . urlencode($thispagesimpleurl));
+if (!$islogged) { // Предполагается, что $islogged определена где-то выше (например, в init.class.php)
+    // $authhost и $thispagesimpleurl также должны быть определены
+    $redirectUrl = 'Location: https://' . ($authhost ?? 'yourdomain.com') .
+        '/auth?returl=' . urlencode($thispagesimpleurl ?? '/');
+    header($redirectUrl);
     exit;
 }
 
-// Получение окружения приложения (development/production) из переменной окружения APP_ENV
+// Получение окружения приложения (development/production)
+// $data_objects должен быть инициализирован ранее (например, в init.class.php)
 $data_objects['ENV'] = getenv('APP_ENV') ?: 'production';
 
-// Подготовка массива данных
-$page_meta = [
-    'app' => true,
-    'desc' => 'Explore cryptocurrency markets, track asset performance with real-time data, ratings, and risk analysis. Sort and prepare for filtering to find your next investment.',
-    'search_on_page' => true,
-    'styles' => 'markets.css',
-    'title' => 'Cryptocurrency Markets | Real-Time Prices, Ratings & Analysis – CryptoAPI.ai',
-    'type'  => 'website'
-];
+// Предполагается, что $thispath, ROOTDIR, $config['project_path'] определены ранее.
 
-$data_objects['page'] = array_merge($data_objects['page'] ?? [], $page_meta);
+// "Маршрутизация" на основе наличия тикера в URL
+if (isset($thispath[1]) && $thispath[1] === 'markets' && isset($thispath[2]) && !empty($thispath[2])) {
+    // Случай 1: URL вида /en/markets/ticker или /markets/ticker (если язык не в $thispath[0])
+    // Предполагаем, что $thispath[2] это тикер, если он есть и dbstr() доступна.
+    $curr = dbstr($thispath[2]);
 
-// $data_objects['page']['type'] = 'website';
+    // Подключаем контроллер страницы актива.
+    // asset.class.php теперь будет использовать $curr и $data_objects и должен установить $final_html.
+    $asset_controller_path = (defined('ROOTDIR') ? ROOTDIR : '') .
+                             (isset($config['project_path']) ? "projects/" . $config['project_path'] : '') .
+                             "/engine/asset.class.php";
 
-// Начальные параметры сортировки
-$data_objects['initial_sort_field'] = 'rating'; // Поле для начальной сортировки
-$data_objects['initial_sort_direction'] = 'asc'; // Направление начальной сортировки ('asc' или 'desc')
+    if (file_exists($asset_controller_path)) {
+        include_once($asset_controller_path);
+    } else {
+        // Можно показать страницу 404 или редирект
+        $final_html = "Error: Asset controller not found.";
+    }
+} else {
+    // Случай 2: URL вида /markets или /en/markets (без тикера в $thispath[2])
+    // Отображаем страницу с таблицей валют.
 
-// Конфигурация колонок таблицы
-// Эта структура будет использована в Twig для генерации <thead>.
-// Метки (label) здесь указаны на английском, так как Twig будет применять фильтр `|trans`
-// для их перевода на основе текущего языка пользователя и PO-файлов.
-// Ключ 'visible' определяет, будет ли колонка отображаться по умолчанию.
-// Отсутствие 'visible' или 'visible: true' означает, что колонка видима.
-// 'visible: false' скроет колонку.
-$data_objects['default_columns'] = [
-  [
-      'key' => 'watchlist',       // Уникальный идентификатор колонки
-      'type' => 'action',         // Тип для CSS-классов и логики (text, num, icon, action)
-      'label' => 'Watchlist',     // Текст для заголовка (будет переведен)
-      'sortable' => false,        // Можно ли сортировать по этой колонке
-      'visible' => false          // Скрыта по умолчанию (функционал будет добавлен позже)
-  ],
-  [
-      'key' => 'asset',
-      'type' => 'text',
-      'label' => 'Asset',
-      'sortable' => true
-  ],
-  [
-      'key' => 'price',
-      'type' => 'num',
-      'label' => 'Price, $',
-      'sortable' => true
-  ],
-  [
-      'key' => 'change_24h',
-      'type' => 'num',
-      'label' => 'Chg (24H), %',
-      'sortable' => true
-  ],
-  [
-      'key' => 'rating',
-      'type' => 'num',
-      'label' => 'Rating',
-      'sortable' => true
-  ],
-  [
-      'key' => 'risk',
-      'type' => 'icon',
-      'label' => 'Risk',
-      'sortable' => false
-  ],
-  [
-      'key' => 'trindex',
-      'type' => 'num',
-      'label' => 'TRIndex',
-      'sortable' => true
-  ],
-  [
-      'key' => 'rsi',
-      'type' => 'num',
-      'label' => 'RSI (7D)',
-      'sortable' => true
-  ],
-  [
-      'key' => 'chart',
-      'type' => 'action',
-      'label' => 'Chart',
-      'sortable' => false,
-      'visible' => true
-  ]
-];
+    // Данные для <head> и мета-тегов страницы списка рынков
+    $page_settings = [
+        'app'            => true,
+        'desc'           => 'Explore cryptocurrency markets, track asset performance with real-time data, ' .
+                            'ratings, and risk analysis. Sort and prepare for filtering to ' .
+                            'find your next investment.',
+        'search_on_page' => true,
+        'styles'         => 'markets.css',
+        'title'          => 'Cryptocurrency Markets | Real-Time Prices, Ratings & Analysis – CryptoAPI.ai',
+        'type'           => 'website'
+    ];
+    $data_objects['page'] = array_merge($data_objects['page'] ?? [], $page_settings);
 
-// Рендер страницы
-$final_html = get_template("markets.twig");
+    // Начальные параметры сортировки для таблицы
+    $data_objects['initial_sort_field']     = 'rating';
+    $data_objects['initial_sort_direction'] = 'asc';
+
+    // Конфигурация колонок для таблицы (колонка 'chart' удалена)
+    $data_objects['default_columns'] = [
+        ['key' => 'watchlist',  'type' => 'action', 'label' => 'Watchlist', 'sortable' => false, 'visible' => false],
+        ['key' => 'asset',      'type' => 'text',   'label' => 'Asset', 'sortable' => true],
+        ['key' => 'price',      'type' => 'num',    'label' => 'Price, $', 'sortable' => true],
+        ['key' => 'change_24h', 'type' => 'num',    'label' => 'Chg (24H), %', 'sortable' => true],
+        ['key' => 'rating',     'type' => 'num',    'label' => 'Rating', 'sortable' => true],
+        ['key' => 'risk',       'type' => 'icon',   'label' => 'Risk', 'sortable' => false],
+        ['key' => 'trindex',    'type' => 'num',    'label' => 'TRIndex', 'sortable' => true],
+        ['key' => 'rsi',        'type' => 'num',    'label' => 'RSI (7D)', 'sortable' => true]
+    ];
+
+    // Рендер шаблона для списка рынков
+    $final_html = get_template("markets.twig");
+}

@@ -179,48 +179,25 @@ export const ALL_COLUMNS_CONFIG = [
     visible: false,
     canHide: true,
   },
-  {
-    key: 'chart',
-    type: 'action',
-    get label() {
-      return t('chart', 'Chart');
-    },
-    sortable: false,
-    visible: true,
-    canHide: true,
-    apiField: 'chart_data',
-  },
 ];
 
-// columnsConfig элементы мутируются (их свойство 'visible'), но ссылка на массив постоянна
 export const columnsConfig = ALL_COLUMNS_CONFIG.map((col) => ({ ...col }));
 
-// Внутреннее состояние для видимых колонок и их количества
 let visibleColumnsInternal = columnsConfig.filter((c) => c.visible);
 let visibleColumnsCountInternal = visibleColumnsInternal.length;
 
-/**
- * Получение видимых колонок
- * @returns {Array} Массив видимых колонок
- */
 export function getVisibleColumns() {
   return visibleColumnsInternal;
 }
 
-/**
- * Получение количества видимых колонок
- * @returns {number} Количество видимых колонок
- */
 export function getVisibleColumnsCount() {
   return visibleColumnsCountInternal;
 }
 
-// Инициализация состояния фильтра с ключами изначально видимых колонок
 marketState.currentFilterState.visibleColumnKeys = visibleColumnsInternal.map(
   (c) => c.key
 );
 
-// Обновление производного состояния колонок
 function updateDerivedColumnState() {
   visibleColumnsInternal = columnsConfig.filter((c) => c.visible);
   visibleColumnsCountInternal = visibleColumnsInternal.length;
@@ -229,10 +206,6 @@ function updateDerivedColumnState() {
   );
 }
 
-/**
- * Обработка изменения видимости колонки
- * @param {Event} event - Событие изменения чекбокса
- */
 export function handleColumnVisibilityChange(event) {
   const changedKey = event.target.value;
   const isVisible = event.target.checked;
@@ -249,18 +222,14 @@ export function handleColumnVisibilityChange(event) {
   updateFilterCountBadge();
 }
 
-/**
- * Заполнение чекбоксов для выбора колонок
- */
 export function populateColumnCheckboxes() {
   if (!DOMElements.filterColumnsList) return;
   DOMElements.filterColumnsList.innerHTML = '';
 
   columnsConfig.forEach((col) => {
-    // Показываем в фильтрах только те, которые можно скрыть/показать
-    if (!col.canHide && !col.visible) {
-      // Временно скрываем список избранного
-      if (col.key === 'watchlist') return;
+    // Колонка watchlist временно скрыта из «шапки» таблицы и фильтров
+    if (col.key === 'watchlist') {
+      return;
     }
 
     const listItem = document.createElement('li');
@@ -270,13 +239,16 @@ export function populateColumnCheckboxes() {
     checkbox.name = 'column-filter';
     checkbox.value = col.key;
     checkbox.checked = col.visible;
+
+    // Колонки, которые нельзя скрыть (canHide: false), будут иметь disabled чекбокс.
+    // К ним относятся 'asset', 'price', и 'watchlist' (согласно текущей конфигурации).
     if (!col.canHide) {
       checkbox.disabled = true;
     }
     checkbox.addEventListener('change', handleColumnVisibilityChange);
 
     label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(` ${col.label}`));
+    label.appendChild(document.createTextNode(` ${col.label}`)); // .label - это геттер
     listItem.appendChild(label);
     DOMElements.filterColumnsList.appendChild(listItem);
   });

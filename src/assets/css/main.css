@@ -3670,7 +3670,7 @@ body {
   .table__cell.is-num .e-btn.is-sort {
     justify-content: end;
   }
-  :where(.e-btn.is-sort) .e-icon.is-up {
+  :where(.e-btn.is-sort) > .e-icon {
     display: none;
     margin-inline: -0.5rem;
     opacity: 0;
@@ -3679,18 +3679,18 @@ body {
     width: 0;
     min-width: none;
   }
-  :where(.e-btn.is-sort.is-active) > .e-icon.is-up {
+  :where(.e-btn.is-sort).is-active > .e-icon {
     display: block;
     opacity: 1;
     width: var(--size-icon);
     min-width: var(--size-icon);
   }
   @starting-style {
-    :where(.e-btn.is-sort.is-active) > .e-icon.is-up {
+    :where(.e-btn.is-sort).is-active > .e-icon {
       opacity: 0;
     }
   }
-  :where(.e-btn.is-sort.is-desc) > .e-icon.is-up {
+  :where(.e-btn.is-sort).is-desc > .e-icon {
     rotate: -180deg;
   }
   :where(.table.has-hovered-rows tbody) tr {
@@ -3901,6 +3901,16 @@ body {
     flex-grow: 1;
     padding-inline-end: var(--size-2);
   }
+  :where(.e-asset-details__summary > .e-eyebrow) {
+    position: relative;
+    padding-inline-start: var(--size-2p5);
+  }
+  :where(.e-asset-details__summary > .e-eyebrow) .e-icon {
+    position: absolute;
+    top: 50%;
+    inset-inline-start: -0.5rem;
+    translate: 0 -50%;
+  }
   :where(.e-asset-details) .e-row {
     display: flex;
     flex-direction: column;
@@ -3964,14 +3974,28 @@ body {
     display: flex;
     gap: var(--size-1);
   }
-  .e-chart {
+  .e-chart,
+  .e-asset-details__chart {
     position: relative;
     width: 100%;
     height: 288px;
   }
-  .e-chart canvas {
+  .e-chart > div,
+  .e-asset-details__chart > div {
+    height: 100%;
+    max-height: 100%;
+  }
+  .e-chart canvas,
+  .e-asset-details__chart canvas {
     width: 100%;
     height: 100%;
+  }
+  .e-chart {
+    height: 288px;
+  }
+  .e-asset-details__chart {
+    height: 100%;
+    min-height: 288px;
   }
   .e-chart__loader,
   .e-chart__error {
@@ -4010,7 +4034,7 @@ body {
     display: flex;
     gap: var(--size-1);
     position: absolute;
-    bottom: 6rem;
+    bottom: -3rem;
     left: 50%;
     translate: -50% 0;
     width: fit-content;

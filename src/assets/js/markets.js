@@ -1,7 +1,7 @@
 // assets/js/markets.js
 
 import * as DOMElements from './markets/dom.js';
-import * as marketState from './markets/state.js'; // Contains 'state' object, 'currentFilterState', setters, etc.
+import * as marketState from './markets/state.js';
 import t, { initTranslations } from './markets/translate.js';
 import { IS_DEVELOPMENT, REFRESH_INTERVAL_MS } from './markets/config.js';
 import {
@@ -15,26 +15,18 @@ import { generateTableHeadHtml, patchTableBody } from './table/render.js';
 
 import {
   populateColumnCheckboxes,
-  ALL_COLUMNS_CONFIG, // Used for default colspan in error case
+  ALL_COLUMNS_CONFIG,
 } from './table/columns.js';
-
-import {
-  prepareAndFetchChartData,
-  updateTimeframeOptions,
-  handlePeriodChange,
-  handleTimeframeChange,
-} from './chart/ui.js';
 
 /**
  * Инициализация приложения "Рынки".
- * Настраивает начальное состояние, загружает данные, устанавливает обработчики событий.
+ * Настраивает начальное состояние, загружает данные, устанавливает обработчики событий для таблицы.
  * @async
  */
 async function initializeApp() {
   try {
     initTranslations();
 
-    // marketState.currentFilterState is a direct export, this is correct.
     marketState.currentFilterState.visibleColumnKeys =
       ALL_COLUMNS_CONFIG.filter((c) => c.visible).map((c) => c.key);
 
@@ -47,38 +39,7 @@ async function initializeApp() {
       throw new Error('Required table DOM elements not found');
     }
 
-    await marketState.loadCryptoMeta(); // loadCryptoMeta is a direct export and handles internal state.
-
-    const initialCheckedPeriod = DOMElements.periodRadioButtons.find(
-      (r) => r.checked
-    );
-    if (initialCheckedPeriod) {
-      marketState.setCurrentChartPeriod(initialCheckedPeriod.value); // Setter is fine
-    } else if (DOMElements.periodRadioButtons.length > 0) {
-      DOMElements.periodRadioButtons[0].checked = true;
-      marketState.setCurrentChartPeriod(
-        // Setter is fine
-        DOMElements.periodRadioButtons[0].value
-      );
-    }
-    // updateTimeframeOptions expects the period value.
-    // Reading marketState.state.currentChartPeriod to pass to updateTimeframeOptions.
-    updateTimeframeOptions(marketState.state.currentChartPeriod);
-
-    const initialCheckedTimeframe = DOMElements.timeframeRadioButtons.find(
-      (r) => r.checked
-    );
-    if (initialCheckedTimeframe) {
-      marketState.setCurrentChartTimeframe(initialCheckedTimeframe.value); // Setter is fine
-    }
-    // updateTimeframeOptions should handle the state if current selection is invalid.
-
-    DOMElements.periodRadioButtons.forEach((radio) =>
-      radio.addEventListener('change', handlePeriodChange)
-    );
-    DOMElements.timeframeRadioButtons.forEach((radio) =>
-      radio.addEventListener('change', handleTimeframeChange)
-    );
+    await marketState.loadCryptoMeta();
 
     if (DOMElements.filtersForm) {
       DOMElements.filtersForm.addEventListener('submit', (event) => {
@@ -96,7 +57,6 @@ async function initializeApp() {
     }
 
     fetchData();
-    // marketState.setUpdateIntervalId is a setter, this is fine.
     marketState.setUpdateIntervalId(
       setInterval(fetchData, REFRESH_INTERVAL_MS)
     );
@@ -104,23 +64,13 @@ async function initializeApp() {
     updateFilterCountBadge();
     announceUpdate(t('tableLoading', 'Table loading.'));
 
-    if (DOMElements.tableBody) {
-      DOMElements.tableBody.addEventListener('click', (event) => {
-        const chartButton = event.target.closest(
-          '[data-role="drawer-toggle"][data-target="drawer-chart"]'
-        );
-        if (chartButton) {
-          prepareAndFetchChartData(chartButton);
-        }
-      });
-    }
-
     window.addEventListener('unload', cleanup);
   } catch (error) {
     if (IS_DEVELOPMENT) console.error('Initialization failed:', error);
 
     const initialVisibleCols =
-      ALL_COLUMNS_CONFIG.filter((c) => c.visible).length || 7;
+      ALL_COLUMNS_CONFIG.filter((c) => c.visible).length || // Используем ALL_COLUMNS_CONFIG для определения количества видимых по умолчанию
+      7; // Запасное значение, если ALL_COLUMNS_CONFIG пуст или все невидимы
 
     if (DOMElements.tableBody) {
       DOMElements.tableBody.innerHTML = `
@@ -135,7 +85,7 @@ async function initializeApp() {
       );
     }
     if (DOMElements.table) DOMElements.table.setAttribute('aria-busy', 'false');
-    marketState.setIsLoading(false); // Setter is fine
+    marketState.setIsLoading(false);
   }
 }
 

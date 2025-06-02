@@ -9,9 +9,6 @@ import {
 
 // Централизованное реактивное состояние – экспортируется как единственная неизменяемая привязка.
 export const state = {
-  currentChartTicker: null,
-  currentChartPeriod: '1d', // Будет обновлен из DOM
-  currentChartTimeframe: '1m', // Будет обновлен из DOM
   cryptoMeta: {},
 
   allAssets: [],
@@ -22,11 +19,13 @@ export const state = {
   currentRequestController: null,
 };
 
+// Состояние сортировки (остается, так как относится к таблице)
 export const sortState = {
   field: initialSortField,
   direction: initialSortDirection,
 };
 
+// Текущее состояние фильтра (остается, так как относится к таблице)
 export const currentFilterState = JSON.parse(
   JSON.stringify(initialFilterState)
 );
@@ -66,7 +65,7 @@ export function setIsLoading(loading) {
 
 /**
  * Установка контроллера текущего запроса
- * @param {AbortController} controller - Контроллер для отмены запроса
+ * @param {AbortController|null} controller - Контроллер для отмены запроса или null
  */
 export function setCurrentRequestController(controller) {
   state.currentRequestController = controller;
@@ -74,34 +73,10 @@ export function setCurrentRequestController(controller) {
 
 /**
  * Установка идентификатора интервала обновления
- * @param {number} id - ID интервала
+ * @param {number|null} id - ID интервала или null
  */
 export function setUpdateIntervalId(id) {
   state.updateIntervalId = id;
-}
-
-/**
- * Установка тикера для текущего графика
- * @param {string} ticker - Тикер криптовалюты
- */
-export function setCurrentChartTicker(ticker) {
-  state.currentChartTicker = ticker;
-}
-
-/**
- * Установка периода для текущего графика
- * @param {string} period - Период графика
- */
-export function setCurrentChartPeriod(period) {
-  state.currentChartPeriod = period;
-}
-
-/**
- * Установка таймфрейма для текущего графика
- * @param {string} timeframe - Таймфрейм графика
- */
-export function setCurrentChartTimeframe(timeframe) {
-  state.currentChartTimeframe = timeframe;
 }
 
 /**
@@ -113,6 +88,10 @@ export async function loadCryptoMeta() {
     const response = await fetch(
       `${ASSETS_PATH_PREFIX}/assets/data/crypto-meta.json`
     );
+    if (!response.ok) {
+      // Добавлена проверка ответа
+      throw new Error(`Failed to fetch crypto-meta.json: ${response.status}`);
+    }
     const data = await response.json();
     setCryptoMeta(data);
   } catch (error) {

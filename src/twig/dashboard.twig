@@ -113,7 +113,7 @@
             <div class="e-card__row">
               <hgroup>
                 <h2 class="e-eyebrow">
-                  <a href="/{{ lng_html }}watchlist">
+                  <a href="/{{ page.lang }}/watchlist">
                     {{ 'My watchlist:'|trans }}
                     {{ watchlist.assets|length }}
                   </a>
@@ -123,7 +123,7 @@
                   {{ watchlist.total_value }}
                 </h3>
               </hgroup>
-              <a class="e-btn is-icon" href="/{{ lng_html }}watchlist">
+              <a class="e-btn is-icon" href="/{{ page.lang }}/watchlist">
                 <span class="visually-hidden">{{ 'View all'|trans }}</span>
                 {% include 'partials/icon.twig' with {name: 'chevron-right'} %}
               </a>
@@ -187,7 +187,7 @@
         <section class="e-card is-signals is-featured">
 
           <h2 class="e-eyebrow has-chevron">
-            <a href="/{{ lng_html }}signals">
+            <a href="/{{ page.lang }}/signals">
               {{ 'Signals:'|trans }}
               {{ signals|length }}
             </a>
@@ -222,7 +222,7 @@
         {# Tips #}
         <section class="e-card is-tips">
           <h2 class="e-eyebrow has-chevron">
-            <a href="/{{ lng_html }}signals">
+            <a href="/{{ page.lang }}/signals">
               {{ 'Tips'|trans }}
             </a>
             {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
@@ -269,7 +269,7 @@
         {# Reports #}
         <section class="e-card is-reports">
           <h2 class="e-eyebrow has-chevron">
-            <a href="/{{ lng_html }}trading">
+            <a href="/{{ page.lang }}/trading">
               {{ 'Reports'|trans }}
             </a>
             {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
@@ -297,7 +297,7 @@
         {# Trading / APIs #}
         <section class="e-card is-trading">
           <h2 class="e-eyebrow has-chevron">
-            <a href="/{{ lng_html }}trading">
+            <a href="/{{ page.lang }}/trading">
               {{ 'Trading'|trans }}
             </a>
             {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
@@ -314,7 +314,7 @@
           </div>
 
           <h3 class="e-eyebrow has-chevron">
-            <a href="/{{ lng_html }}trading">
+            <a href="/{{ page.lang }}/trading">
               {{ 'Connected APIs'|trans }}
             </a>
             {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
@@ -347,7 +347,7 @@
 
     <div class="e-flex is-featured-assets">
       {% for asset in featured_assets %}
-        <a class="e-card is-album-metric {{ asset.card_class }}" href="/{{ lng_html }}markets">
+        <a class="e-card is-album-metric {{ asset.card_class }}" href="/{{ page.lang }}/markets">
           <img class="e-card__logo" src="{{ site.assets_prefix }}/assets/img/cryptologos/{{ asset.logo }}.svg" alt="{{ 'Logo –'|trans }} {{ asset.name }}">
 
           <div class="e-card__content">

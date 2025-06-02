@@ -99,8 +99,9 @@ thead th:not(:has(.e-btn)) {
   }
 }
 
-.e-icon.is-up {
-  :where(.e-btn.is-sort) & {
+
+:where(.e-btn.is-sort) {
+  > .e-icon {
     display: none;
     margin-inline: rem(-8);
     opacity: 0;
@@ -110,7 +111,7 @@ thead th:not(:has(.e-btn)) {
     min-width: none;
   }
 
-  :where(.e-btn.is-sort.is-active) > & {
+  &.is-active > .e-icon {
     display: block;
     opacity: 1;
     width: var(--size-icon);
@@ -121,7 +122,7 @@ thead th:not(:has(.e-btn)) {
     }
   }
 
-  :where(.e-btn.is-sort.is-desc) > & {
+  &.is-desc > .e-icon {
     rotate: -180deg;
   }
 }

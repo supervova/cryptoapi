@@ -84,6 +84,7 @@ const paths = {
     src: {
       twig: [
         `${srcBase}/twig/**/*.twig`,
+        `!${srcBase}/twig/asset.twig`,
         `!${srcBase}/twig/partials/*.twig`,
         `!${srcBase}/twig/data/**/*.twig`,
       ],
@@ -124,8 +125,9 @@ const paths = {
     entry: {
       main: `${srcBase}/assets/js/main.js`, // основная точка входа
       'asset-chart': `${srcBase}/assets/js/asset-chart.js`,
-      toast: `${srcBase}/assets/js/toast.js`,
+      asset: `${srcBase}/assets/js/asset.js`,
       markets: `${srcBase}/assets/js/markets.js`,
+      toast: `${srcBase}/assets/js/toast.js`,
       // home: `${srcBase}/assets/js/home.js`,
     },
     watch: `${srcBase}/assets/js/*.js`,
@@ -141,6 +143,7 @@ const paths = {
   },
   data: {
     src: `${srcBase}/assets/data/**/*.json`,
+    fixtures: `${srcBase}/assets/data/fixtures`,
     dest: `${destAssets}/data/`,
   },
   engine: {
@@ -379,6 +382,105 @@ const loadPhpMockData = () => {
   }
 };
 
+const assetPage = () => {
+  // Новая задача для asset.twig -> asset.html
+  const fixturePath = join(paths.data.fixtures, 'asset-btc.json'); // Путь к фикстуре
+  let viewData = {
+    // Минимальные дефолты, если фикстура не загрузится
+    ENV: PRODUCTION ? 'production' : 'development',
+    site: { assets_prefix: '' },
+    page: { lang: 'en', js: {}, title: 'Asset Page (Default Title)' },
+    asset_data: { ticker: 'N/A', name: 'N/A' },
+    translations_for_js: {},
+  };
+
+  try {
+    if (existsSync(fixturePath)) {
+      console.log(`  ✔️ Loading data for asset.twig from: ${fixturePath}`);
+      viewData = JSON.parse(readFileSync(fixturePath, 'utf8'));
+      // Убедимся, что ENV установлен правильно на основе PRODUCTION, если его нет в фикстуре
+      // или если мы хотим, чтобы Gulp всегда определял ENV для этой задачи
+      viewData.ENV = PRODUCTION ? 'production' : 'development';
+      // Убедимся, что site.assets_prefix установлен, если его нет в фикстуре (хотя он должен быть)
+      if (!viewData.site) viewData.site = {};
+      if (viewData.site.assets_prefix === undefined)
+        viewData.site.assets_prefix = '';
+    } else {
+      console.warn(
+        `🚨 Fixture file for asset page not found: ${fixturePath}. Using defaults.`
+      );
+    }
+  } catch (error) {
+    console.error(`Error loading or parsing fixture ${fixturePath}:`, error);
+  }
+
+  // Отладочный лог для проверки данных, которые пойдут в asset.twig
+  console.log('\n--- Data prepared for asset.twig (task assetPage) ---');
+  console.log(`  ENV: ${viewData.ENV}`);
+  console.log(
+    `  Site Prefix: ${viewData.site ? viewData.site.assets_prefix : 'N/A'}`
+  );
+  console.log(
+    `  Page JS Ticker: ${viewData.page && viewData.page.js ? viewData.page.js.assetTicker : 'N/A'}`
+  );
+  console.log(
+    `  Asset Data Ticker: ${viewData.asset_data ? viewData.asset_data.ticker : 'N/A'}`
+  );
+  console.log('--- End of data for asset.twig ---\n');
+
+  return src(`${srcBase}/twig/asset.twig`) // Указываем конкретный файл asset.twig
+    .pipe(handleError('Asset Twig Compile Error')) // Твой handleError
+    .pipe(
+      replace(/\{\$([\w\-.]+)\}/g, (match, varName) => {
+        // Замена {$var} ДО Twig
+        // Для этой задачи {$var} будут браться из viewData (которая из asset-btc.json)
+        // или если это глобальные, то нужно их как-то сюда передать
+        // Проще всего, если asset-btc.json содержит все нужные {$var} или они не используются в asset.twig
+        if (viewData[varName] !== undefined) {
+          // Ищем прямо в viewData
+          return viewData[varName];
+        }
+        // Или можно попробовать загрузить globalMockData и поискать там, если {$var} глобальные
+        // const globalData = loadPhpMockData();
+        // if (globalData[varName] !== undefined) return globalData[varName];
+        console.warn(
+          `Warning: PHP variable {$${varName}} not found in asset.twig data or global mock data`
+        );
+        return '';
+      })
+    )
+    .pipe(
+      twig({
+        base: './src/twig', // База для @extends, @include
+        data: viewData, // Передаем данные из фикстуры
+        filters: [
+          {
+            name: 'trans',
+            func(string) {
+              // Твоя заглушка для |trans
+              // Для asset.twig переводы должны приходить из viewData.translations_for_js
+              // Но фильтр |trans в самом шаблоне будет использовать эту заглушку.
+              // Строки для <script id="js-translations"> должны быть переданы как объект viewData.translations_for_js
+              return string;
+            },
+          },
+        ],
+        errorLogToConsole: true,
+      })
+    )
+    .on('error', function errorHandler(err) {
+      process.stderr.write(`${err.message}\n`);
+      this.emit('end');
+    })
+    .pipe(prettify({ printWidth: 40000, bracketSameLine: true }))
+    .pipe(replace(/ (\s*<style>\n)\s*@charset "UTF-8";/g, '$1'))
+    .pipe(replace(/\s\/>/g, '>'))
+    .pipe(rename('asset.html')) // <--- ПЕРЕИМЕНОВЫВАЕМ в asset.html
+    .pipe(size({ title: 'html (asset page)' }))
+    .pipe(dest(paths.markup.dest.dev)) // Сохраняем в dist/asset.html
+    .pipe(bsInstance.stream());
+};
+
 const pages = (done) => {
   // Загружаем мок-данные для PHP-переменных
   const phpMockData = loadPhpMockData();
@@ -601,6 +703,8 @@ const watchFiles = () => {
   watch(paths.markup.src.tpl, series(copyTpl, reload));
   watch(paths.l10n.src, series(copyLocales, reload));
   watch(paths.data.src, series(copyData, reload));
+  watch(`${srcBase}/twig/asset.twig`, assetPage);
+  watch(join(paths.data.fixtures, 'asset-btc.json'), assetPage);
   watch([...paths.markup.watch], series(pages));
 };
 
@@ -677,7 +781,7 @@ const buildProd = series(
   parallel(img, css, js, copy)
 );
 
-const dev = series(build, pages, serve);
+const dev = series(build, parallel(pages, assetPage), serve);
 // #endregion
 
 /**
@@ -686,6 +790,7 @@ const dev = series(build, pages, serve);
  * -----------------------------------------------------------------------------
  */
 export {
+  assetPage,
   clean,
   copy,
   copyTwig,

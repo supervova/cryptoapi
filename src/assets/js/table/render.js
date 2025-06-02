@@ -1,22 +1,19 @@
 // assets/js/table/render.js
 import t from '../markets/translate.js';
-import * as marketState from '../markets/state.js'; // Contains 'state' object, 'sortState', etc.
+import * as marketState from '../markets/state.js';
 import * as DOMElements from '../markets/dom.js';
 import {
   ASSETS_PATH_PREFIX,
   IS_DEVELOPMENT,
   ROW_HEIGHT_ESTIMATE,
   VISIBLE_BUFFER,
+  // CURRENT_LANG, // Не используется здесь напрямую, но может быть нужен для URL, если язык в пути
 } from '../markets/config.js';
 import { getVisibleColumns, getVisibleColumnsCount } from './columns.js';
 import { formatPrice, formatNullable } from './formatting.js';
 import { getNestedValue } from '../markets/utils.js';
 import { calculateChange24hValue, handleSortClick } from './sort-filter.js';
 
-/**
- * Генерация HTML заголовка таблицы с кнопками сортировки
- * Создает строку заголовка на основе видимых колонок и настраивает обработчики событий.
- */
 export function generateTableHeadHtml() {
   if (!DOMElements.tableHead) return;
 
@@ -24,15 +21,15 @@ export function generateTableHeadHtml() {
   let headHtml = '<tr>';
 
   currentVisibleColumns.forEach((col) => {
-    const thClasses = `table__cell is-${col.type}${col.key === 'watchlist' || col.key === 'chart' ? ' is-action' : ''}`;
-    let thContent = col.label; // col.label is a getter
+    // Класс is-action для watchlist остается, для chart - убран, т.к. колонки chart нет
+    const thClasses = `table__cell is-${col.type}${col.key === 'watchlist' ? ' is-action' : ''}`;
+    let thContent = col.label;
     let ariaLabelAttr =
       col.type === 'action' || col.type === 'icon'
         ? `aria-label="${col.label}"`
         : '';
 
     if (col.sortable) {
-      // marketState.sortState is a direct export, used correctly
       const isActive = marketState.sortState.field === col.key;
       const isDesc = isActive && marketState.sortState.direction === 'desc';
       let ariaSort = 'none';
@@ -64,20 +61,15 @@ export function generateTableHeadHtml() {
   const newSortButtons = Array.from(
     DOMElements.tableHead.querySelectorAll('button[data-sort-field]')
   );
-  DOMElements.setSortButtons(newSortButtons); // Assuming setSortButtons is in dom.js
+  DOMElements.setSortButtons(newSortButtons);
   newSortButtons.forEach((button) => {
-    button.addEventListener('click', handleSortClick); // handleSortClick is from sort-filter.js
+    button.addEventListener('click', handleSortClick);
   });
 }
 
-/**
- * Генерация HTML ячеек для строки актива
- * @param {object} asset - Объект с данными актива
- * @returns {string} HTML строка со всеми ячейками
- */
 function generateCellsHtml(asset) {
   let cellsHtml = '';
-  const currentVisibleColumns = getVisibleColumns(); // Getter from columns.js
+  const currentVisibleColumns = getVisibleColumns();
 
   currentVisibleColumns.forEach((col) => {
     let cellContent = '';
@@ -94,15 +86,20 @@ function generateCellsHtml(asset) {
         const imgTag = iconPath
           ? `<img class="e-asset__icon" src="${iconPath}" alt="" loading="lazy" width="32" height="32" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">`
           : '';
+        // Формируем URL. CURRENT_LANG можно взять из marketState.state.currentLang, если язык в URL
+        // Если CURRENT_LANG не нужен в URL страницы актива, то просто /markets/${asset.symbol}
+        // Предположим, что язык не нужен в URL для простоты, или он будет добавлен на уровне сервера/роутинга PHP
+        const assetPageUrl = `/markets/${asset.symbol.toLowerCase()}`; // или .toUpperCase() в зависимости от требований
+
         cellContent = `
-          <div class="e-asset">
+          <a class="e-asset" href="${assetPageUrl}">
             <div class="e-asset__copy">
               <span class="e-asset__name">${asset.name}</span>
               <span class="e-asset__symbol">${asset.symbol}</span>
             </div>
             ${imgTag}
             ${fallbackIcon}
-          </div>`;
+          </a>`;
         cellClasses += ' is-2-liner';
         break;
       }
@@ -122,24 +119,7 @@ function generateCellsHtml(asset) {
         }
         break;
       }
-      case 'chart': {
-        const assetIdForChart = asset.id || asset.symbol;
-        const assetNameForChart = asset.name || asset.symbol;
-        cellContent = `
-          <button
-            class="e-btn is-chart"
-            type="button"
-            aria-label="${t('showChart', 'Show chart')}: ${assetNameForChart}"
-            data-role="drawer-toggle"
-            data-target="drawer-chart"
-            data-asset-id="${assetIdForChart}"
-            data-asset-symbol="${asset.symbol}"
-          >
-            <svg class="e-icon" aria-hidden="true" focusable="false"><use xlink:href="${ASSETS_PATH_PREFIX}/assets/img/icons/sprite.svg#icon-candles"></use></svg>
-          </button>`;
-        cellClasses += ' is-action';
-        break;
-      }
+      // case 'chart' больше не существует в ALL_COLUMNS_CONFIG, поэтому этот case не нужен
       default: {
         const value = getNestedValue(asset, col.apiField);
         cellContent = col.formatter
@@ -153,16 +133,10 @@ function generateCellsHtml(asset) {
   return cellsHtml;
 }
 
-/**
- * Обновление содержимого существующей ячейки
- * @param {HTMLElement} cellNode - DOM элемент ячейки
- * @param {object} asset - Объект с данными актива
- * @param {object} columnConfig - Конфигурация колонки
- */
 function updateCellNode(cellNode, asset, columnConfig) {
   const newValue = getNestedValue(asset, columnConfig.apiField);
   let newCellContent;
-  const currentCell = cellNode; // Use a const for the parameter
+  const currentCell = cellNode;
 
   switch (columnConfig.key) {
     case 'watchlist':
@@ -174,7 +148,8 @@ function updateCellNode(cellNode, asset, columnConfig) {
       const imgTag = iconPath
         ? `<img class="e-asset__icon" src="${iconPath}" alt="${asset.name}" loading="lazy" width="32" height="32" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">`
         : '';
-      newCellContent = `<div class="e-asset"><div class="e-asset__copy"><span class="e-asset__name">${asset.name}</span><span class="e-asset__symbol">${asset.symbol}</span></div>${imgTag}${fallbackIcon}</div>`;
+      const assetPageUrl = `/markets/${asset.symbol.toLowerCase()}`;
+      newCellContent = `<a class="e-asset" href="${assetPageUrl}"><div class="e-asset__copy"><span class="e-asset__name">${asset.name}</span><span class="e-asset__symbol">${asset.symbol}</span></div>${imgTag}${fallbackIcon}</a>`;
       break;
     }
     case 'risk':
@@ -196,18 +171,7 @@ function updateCellNode(cellNode, asset, columnConfig) {
       );
       break;
     }
-    case 'chart': {
-      const assetIdForChart = asset.id || asset.symbol;
-      const assetNameForChart = asset.name || asset.symbol;
-      newCellContent = `
-        <button class="e-btn is-chart" type="button"
-          aria-label="${t('showChart', 'Show chart')}: ${assetNameForChart}"
-          data-role="drawer-toggle" data-target="drawer-chart"
-          data-asset-id="${assetIdForChart}" data-asset-symbol="${asset.symbol}">
-          <svg class="e-icon" aria-hidden="true" focusable="false"><use xlink:href="${ASSETS_PATH_PREFIX}/assets/img/icons/sprite.svg#icon-candles"></use></svg>
-        </button>`;
-      break;
-    }
+    // case 'chart' больше не существует
     default:
       newCellContent = columnConfig.formatter
         ? columnConfig.formatter(newValue)
@@ -220,8 +184,7 @@ function updateCellNode(cellNode, asset, columnConfig) {
     if (columnConfig.key === 'price' || columnConfig.key === 'change_24h') {
       currentCell.classList.add('is-updated');
       setTimeout(() => {
-        // Check if currentCell is still part of the DOM and has classList
-        if (currentCell && currentCell.classList && currentCell.parentNode) {
+        if (currentCell?.classList && currentCell.parentNode) {
           currentCell.classList.remove('is-updated');
         }
       }, 1600);
@@ -240,15 +203,11 @@ function updateCellNode(cellNode, asset, columnConfig) {
   }
 }
 
-/**
- * Виртуализация и отрисовка тела таблицы
- * Рендерит только видимые строки с учетом прокрутки для оптимизации производительности.
- */
+// patchTableBody и displayErrorState остаются без изменений относительно предыдущей версии,
+// так как они уже используют marketState.state.sortedFilteredAssets и т.д.
 export function patchTableBody() {
   if (!DOMElements.tableBody || !DOMElements.scrollContainer) return;
 
-  // Используем marketState.state.sortedFilteredAssets и marketState.state.isLoading
-  // Убедимся, что sortedFilteredAssets это массив перед обращением к length
   const totalItems = Array.isArray(marketState.state.sortedFilteredAssets)
     ? marketState.state.sortedFilteredAssets.length
     : 0;
@@ -256,7 +215,6 @@ export function patchTableBody() {
   const currentVisibleColumnsCount = getVisibleColumnsCount();
   const currentVisibleColumns = getVisibleColumns();
 
-  // Используем marketState.state.isLoading
   if (marketState.state.isLoading && totalItems === 0) {
     if (!document.getElementById('loading-row') && DOMElements.loadingRow) {
       DOMElements.tableBody.innerHTML = '';
@@ -309,7 +267,7 @@ export function patchTableBody() {
     if (
       row.dataset &&
       row.dataset.assetSymbol &&
-      !row.style.height.endsWith('px') // Exclude spacers
+      !row.style.height.endsWith('px')
     ) {
       existingRowsMap.set(row.dataset.assetSymbol, row);
     }
@@ -326,7 +284,6 @@ export function patchTableBody() {
     fragment.appendChild(topSpacer);
   }
 
-  // Используем marketState.state.sortedFilteredAssets
   for (let i = startIndex; i < endIndex; i++) {
     const asset = marketState.state.sortedFilteredAssets[i];
 
@@ -376,17 +333,12 @@ export function patchTableBody() {
     DOMElements.tableHead.classList.add('is-updated');
     setTimeout(() => {
       if (DOMElements.tableHead?.classList) {
-        // Check if tableHead still exists
         DOMElements.tableHead.classList.remove('is-updated');
       }
     }, 1600);
   }
 }
 
-/**
- * Отображение состояния ошибки в таблице
- * @param {string} message - Сообщение об ошибке для отображения
- */
 export function displayErrorState(message) {
   if (!DOMElements.tableBody || !DOMElements.table) return;
   const currentVisibleColumnsCount = getVisibleColumnsCount();
@@ -400,5 +352,5 @@ export function displayErrorState(message) {
   const loadingRowElem = document.getElementById('loading-row');
   if (loadingRowElem) loadingRowElem.style.display = 'none';
 
-  marketState.setIsLoading(false); // Setter is fine
+  marketState.setIsLoading(false);
 }

@@ -1,144 +1,141 @@
-{# markets.twig.html #}
+{# asset.twig.html - Шаблон для страницы отдельного актива #}
 {% extends "partials/base.twig" %}
 {% import 'partials/macros.twig' as macros %}
 
 {% block config %}
   {{ parent() }}
 
-  {% if ENV == 'development' %}
-    {% set page = page|merge(
-      {
-        app: true,
-        classes: 'is-markets',
-        styles: 'markets.css',
-      }
-    ) %}
-    {% set user = user|merge({id: 1}) %}
-
-  {% endif %}
+  {% set page = page|merge(
+    {
+      classes: 'is-asset',
+      styles: 'markets.css'
+    }
+  ) %}
 {% endblock %}
 
-{# {% block head %}{% endblock %} #}
-
 {% block content %}
+  {% set asset = asset_data %}
 
   <div class="e-container e-asset-details">
 
     <header class="e-main__header e-asset-details__header">
-      <img class="e-asset-details__icon" src="" alt=""> {# src и alt будут установлены JS #}
-      <span class="e-asset-details__icon-fallback e-asset__icon-fallback" aria-hidden="true"></span>
+      {% if asset.icon_path %}
+        <img class="e-asset-details__icon" src="{{ site.assets_prefix }}{{ asset.icon_path }}" alt="{{ asset.name|default(asset.ticker) }}">
+        <span class="e-asset-details__icon-fallback e-asset__icon-fallback" aria-hidden="true" style="display: none;">{{ asset.ticker|slice(0, 3)|upper }}</span>
+      {% else %}
+        <img class="e-asset-details__icon" src="" alt="" style="display: none;">
+        <span class="e-asset-details__icon-fallback e-asset__icon-fallback" aria-hidden="true">{{ asset.ticker|slice(0, 3)|upper }}</span>
+      {% endif %}
+
       <div class="e-asset-details__summary">
+        <a class="e-eyebrow" href="{{ page.lang }}/markets">
+          {% include 'partials/icon.twig' with {name: 'sm-chevron-left'} %}
+          {{ 'Markets'|trans }}
+        </a>
         <div class="e-row">
-          <p class="e-asset-details__title tablet:d-none" aria-hidden="true"></p>
-          <h1 class="e-asset-details__symbol"></h1>
-          <div class="e-asset-details__price"> <small class="e-asset-details__price-change is-positive"></small></div>
+          <p class="e-asset-details__title tablet:d-none" aria-hidden="true">{{ asset.name|default(asset.ticker) }}</p>
+          <h1 class="e-asset-details__symbol">{{ asset.ticker|default('N/A') }}-USD</h1>
+          <div class="e-asset-details__price">
+            {{ asset.current_price|default('N/A') }}
+            {% if asset.change_24h_percent and asset.change_24h_percent != 'N/A' %}
+              <small class="e-asset-details__price-change {{ asset.change_24h_percent matches '/^-/' ? 'is-negative' : 'is-positive' }}">
+                {{ not (asset.change_24h_percent matches '/^-/') and asset.change_24h_percent != '0%' ? '+' : '' }}{{ asset.change_24h_percent }}
+              </small>
+            {% endif %}
+          </div>
         </div>
         <div class="e-row">
-          <p class="e-asset-details__title d-none tablet:d-block" aria-hidden="true"></p>
+          <p class="e-asset-details__title d-none tablet:d-block" aria-hidden="true">{{ asset.name|default(asset.ticker) }}</p>
           <div class="e-asset-details__stats">
-            <span>{{ 'O:'|trans }} <span class="nobr" data-stat="open"></span></span>
-            <span>{{ 'Min:'|trans }} <span class="nobr" data-stat="min"></span></span>
-            <span>{{ 'Max:'|trans }} <span class="nobr" data-stat="max"></span></span>
+            <span>{{ 'O:'|trans }} <span class="nobr" data-stat="open">{{ asset.open_price|default('N/A') }}</span></span>
+            <span>{{ 'Min:'|trans }} <span class="nobr" data-stat="min">{{ asset.low_price|default('N/A') }}</span></span>
+            <span>{{ 'Max:'|trans }} <span class="nobr" data-stat="max">{{ asset.high_price|default('N/A') }}</span></span>
           </div>
         </div>
       </div>
     </header>
 
     <div class="e-asset-details__content">
-      <div class="e-asset-details__chart" id="asset-chart"></div>
+      <div class="e-asset-details__chart" id="asset-chart">
+        <p class="is-loading-state p-m text-center">{{ 'Loading chart data...'|trans }}</p>
+      </div>
 
       <div class="e-asset-details__period">
+        {# page.js доступен напрямую и содержит initialChartPeriod/Timeframe #}
+        {% set initial_period = page.js.initialChartPeriod|default('1d') %}
+        {% set initial_timeframe = page.js.initialChartTimeframe|default('1h') %}
+
         {% set chart_periods = [
-          {label: '1 Day', value: '1d', shortcut: '1D', checked: true},
-          {label: '48–24h Ago', value: '1pd', shortcut: 'D-2'},
-          {label: '1 Month', value: '1M', shortcut: '1M'},
-          {label: '60–30d Ago', value: '1pM', shortcut: 'M-2'},
-          {label: '1 Year', value: '1Y', shortcut: '1Y'},
-          {label: '730–365d Ago', value: '1pY', shortcut: 'Y-2'}
+          {label: '1 Day', value: '1d', shortcut: '1D', checked: (initial_period == '1d')},
+          {label: '48–24h Ago', value: '1pd', shortcut: 'D-2', checked: (initial_period == '1pd')},
+          {label: '1 Month', value: '1M', shortcut: '1M', checked: (initial_period == '1M')},
+          {label: '60–30d Ago', value: '1pM', shortcut: 'M-2', checked: (initial_period == '1pM')},
+          {label: '1 Year', value: '1Y', shortcut: '1Y', checked: (initial_period == '1Y')},
+          {label: '730–365d Ago', value: '1pY', shortcut: 'Y-2', checked: (initial_period == '1pY')}
         ] %}
 
         {% set chart_timeframes = [
-          {label: '1 Minute', value: '1m', shortcut: '1m', checked: true},
-          {label: '5 Minutes', value: '5m', shortcut: '5m'},
-          {label: '15 Minutes', value: '15m', shortcut: '15m'},
-          {label: '1 Hour', value: '1h', shortcut: '1H'},
-          {label: '4 Hours', value: '4h', shortcut: '4H', disabled: true},
-          {label: '12 Hours', value: '12h', shortcut: '12H', disabled: true},
-          {label: '1 Day', value: '1d', shortcut: '1d', disabled: true}
+          {label: '1 Minute', value: '1m', shortcut: '1m', checked: (initial_timeframe == '1m')},
+          {label: '5 Minutes', value: '5m', shortcut: '5m', checked: (initial_timeframe == '5m')},
+          {label: '15 Minutes', value: '15m', shortcut: '15m', checked: (initial_timeframe == '15m')},
+          {label: '1 Hour', value: '1h', shortcut: '1H', checked: (initial_timeframe == '1h')},
+          {label: '4 Hours', value: '4h', shortcut: '4H', checked: (initial_timeframe == '4h'), disabled: true},
+          {label: '12 Hours', value: '12h', shortcut: '12H', checked: (initial_timeframe == '12h'), disabled: true},
+          {label: '1 Day', value: '1d', shortcut: '1d', checked: (initial_timeframe == '1d'), disabled: true}
         ] %}
 
-        {{ macros.chart_menu('chart-period', chart_periods, '1D', 'Period') }}
-        {{ macros.chart_menu('chart-timeframe', chart_timeframes, '1m', 'Timeframe') }}
+        {{ macros.chart_menu('chart-period', chart_periods, (initial_period|upper), 'Period'|trans) }}
+        {{ macros.chart_menu('chart-timeframe', chart_timeframes, (initial_timeframe), 'Timeframe'|trans) }}
       </div>
     </div>
   </div>
 {% endblock %}
 
 {% block body_suffix %}
-  {# Словарь для JavaScript. TODO: оставить только то, что нужно для графика #}
+  {# page.js содержит все данные для window.APP_CONFIG #}
+  {% set js_config = page.js %}
+
   <script id="js-translations" type="application/json">
-    {{ {
-      "allDataLoaded": "All data has been successfully loaded."|trans,
-      "ascending": "ascending"|trans,
-      "asset": "Asset"|trans,
+    {{ translations_for_js|default({})|json_encode()|raw }}
+    {# {{ {
       "assetDataNotFound": "Asset data not found."|trans,
-      "change_24h": "Chg (24H), %"|trans,
-      "chart": "Chart"|trans,
       "couldNotLoadChartData": "Could not load chart data."|trans,
-      "dataLoadError": "Data couldn’t be loaded. Try again soon."|trans,
-      "dataUpdated": "The data has been updated.')"|trans,
-      "descending": "descending"|trans,
-      "highRisk": "High risk"|trans,
-      "invalidDevData": "Invalid development data format."|trans,
       "loadingChartData": "Loading chart data..."|trans,
-      "lowRisk": "Low risk"|trans,
-      "market": "Market"|trans,
-      "mediumRisk": "Medium risk"|trans,
       "noChartDataForPeriod": "No chart data available for the selected period."|trans,
-      "noDataAvailable": "No data available"|trans,
       "noDataToDisplayChart": "No data to display chart."|trans,
-      "noRiskData": "No risk data"|trans,
-      "noValidAssetData": "No valid asset data available."|trans,
-      "price": "Price, $"|trans,
-      "rating": "Rating"|trans,
-      "retry": "Retry"|trans,
-      "risk": "Risk"|trans,
-      "rsi_1000d": "RSI (1000D)"|trans,
-      "rsi_182d": "RSI (182D)"|trans,
-      "rsi_30d": "RSI (30D)"|trans,
-      "rsi_365d": "RSI (365D)"|trans,
-      "rsi_7d": "RSI (7D)"|trans,
-      "rsi_91d": "RSI (91D)"|trans,
       "serverFormatError": "Server sent data in an unexpected format or an error status."|trans,
-      "showChart": "Show chart"|trans,
-      "somethingWentWrong": "Something went wrong while loading the page."|trans,
-      "sortByThisColumn": "Sort by this column"|trans,
-      "tableInitError": "We couldn’t show the table. Something went wrong during setup."|trans,
-      "tableLoading": "Table loading.')"|trans,
-      "tableSortedBy": "Table sorted by')"|trans,
-      "trindex": "TRIndex"|trans,
-      "unableToLoadChartData": "Unable to load chart data. Please go to the ‘Contact Us’ section and report the issue to support."|trans,
-      "watchlist": "Watchlist"|trans
-      }|json_encode()|raw }}
+      "unableToLoadChartData": "Unable to load chart data. Please go to the ‘Contact Us’ section and report the issue to support."|trans
+    }|json_encode()|raw }} #}
   </script>
 
   <script>
-    window.APP_CONFIG = window.APP_CONFIG || {};
-    window.APP_CONFIG.assetsBasePrefix = '{{ site.assets_prefix|default("")|escape("js") }}';
-    window.APP_CONFIG.currentLang = '{{ app.request.locale|default("en")|escape("js") }}';
-    window.APP_CONFIG.devApiUrl = '{{ api_url|escape("js") }}';
-    window.APP_CONFIG.initialSortDirection = '{{ initial_sort_direction|escape("js") }}';
-    window.APP_CONFIG.initialSortField = '{{ initial_sort_field|escape("js") }}';
-    window.APP_CONFIG.isDevelopment = {{ ENV == 'development' ? 'true' : 'false' }};
+    window.APP_CONFIG = {
+      assetsBasePrefix:     '{{ page.js.assetsBasePrefix|default(site.assets_prefix)|escape("js") }}',
+      currentLang:          '{{ page.js.currentLang|default(page.lang)|escape("js") }}',
+      isDevelopment:        {{ page.js.isDevelopment ? 'true' : 'false' }},
+      devApiUrl:            '{{ page.js.devApiUrl|escape("js") }}',
+
+      pageType:             '{{ js_config.pageType|escape("js") }}',
+      assetTicker:          '{{ js_config.assetTicker|escape("js") }}',
+      assetName:            '{{ js_config.assetName|escape("js") }}',
+      assetIconPath:        '{{ js_config.assetIconPath|escape("js") }}',
+      assetOpenPrice:       '{{ js_config.assetOpenPrice|escape("js") }}',
+      assetHighPrice:       '{{ js_config.assetHighPrice|escape("js") }}',
+      assetLowPrice:        '{{ js_config.assetLowPrice|escape("js") }}',
+      assetCurrentPrice:    '{{ js_config.assetCurrentPrice|escape("js") }}',
+      assetChange24hPercent:'{{ js_config.assetChange24hPercent|escape("js") }}',
+      initialChartPeriod:   '{{ js_config.initialChartPeriod|escape("js") }}',
+      initialChartTimeframe:'{{ js_config.initialChartTimeframe|escape("js") }}',
+      initialCandleData:     {{ js_config.initialCandleData|json_encode()|raw }}
+    };
   </script>
 
-  {# Основной скрипт страницы #}
   <script src="{{ site.assets_prefix }}/assets/js/asset.js" type="module" defer></script>
 
   {# CDN для Chart.js и его зависимостей #}
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/date-fns@4.1.0/cdn.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.1/dist/chartjs-adapter-luxon.umd.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.2.1/dist/chartjs-chart-financial.min.js" defer></script>
 
 {% endblock %}

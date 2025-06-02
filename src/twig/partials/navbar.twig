@@ -122,7 +122,7 @@
       {% for key, item in data_menu %}
         {% if item.children is not defined %}
           <li class="e-navbar__menu-item is-{{ key }}{% if item.classes %} {{ item.classes }}{% endif %}">
-            <a href="{% if key != 'home' %}/{{ lng_html }}{% endif %}{{ item.href }}">
+            <a href="{% if key != 'home' %}/{{ page.lang }}/{% endif %}{{ item.href }}">
               {% include 'partials/icon.twig' with {name: item.icon} %}
               <span class="e-navbar__menu-label">
                 {{ item.label|trans }}
@@ -141,7 +141,7 @@
               <ul class="e-popover__body e-menu" aria-labelledby="navbar-more-title">
                 {% for sub_key, sub_item in item.children %}
                   <li class="e-menu__item is-{{ sub_key }}">
-                    <a href="/{{ lng_html }}{{ sub_item.href }}">
+                    <a href="/{{ page.lang }}/{{ sub_item.href }}">
                       {% include 'partials/icon.twig' with {name: sub_item.icon} %}
                       <span class="e-menu__label">
                         {{ sub_item.label|trans }}
@@ -176,7 +176,7 @@
         <ul class="e-popover__body e-menu">
           {% for item in data_user_menu %}
             <li class="e-menu__item">
-              <a href="/{{ lng_html }}{{ item.href }}">
+              <a href="/{{ page.lang }}/{{ item.href }}">
                 {% include 'partials/icon.twig' with {name: item.icon} %}
                 {{ item.label|trans }}
               </a>
