@@ -1,30 +1,12 @@
 // assets/js/table/sort-filter.js
 import * as DOMElements from '../markets/dom.js';
 import * as marketState from '../markets/state.js'; // Contains 'state' object, 'sortState', 'currentFilterState' and setters
+import { calcChange, generateTableHeadHtml, patchTableBody } from './render.js';
+
 import t from '../markets/translate.js';
 import { ALL_COLUMNS_CONFIG, columnsConfig } from './columns.js'; // columnsConfig is used here
 import { IS_DEVELOPMENT } from '../markets/config.js';
 import { getNestedValue, announceUpdate } from '../markets/utils.js';
-import { patchTableBody, generateTableHeadHtml } from './render.js';
-
-/**
- * Расчет процентного изменения цены за 24 часа.
- * @param {object} priceData - Объект с данными о цене (current, yesterday.middle).
- * @returns {number|null} Процентное изменение или null, если данные некорректны.
- */
-export function calculateChange24hValue(priceData) {
-  if (!priceData?.current || !priceData?.yesterday?.middle) return null;
-  const current = parseFloat(priceData.current);
-  const yesterdayMiddle = parseFloat(priceData.yesterday.middle);
-  if (
-    Number.isNaN(current) ||
-    Number.isNaN(yesterdayMiddle) ||
-    yesterdayMiddle === 0
-  ) {
-    return null;
-  }
-  return ((current - yesterdayMiddle) / yesterdayMiddle) * 100;
-}
 
 /**
  * Применение текущих фильтров и сортировки к данным активов.
@@ -126,8 +108,8 @@ export function applySortAndFilter(isInitialLoadOrManualSortAction = true) {
       valA = a.name?.toLowerCase() || '';
       valB = b.name?.toLowerCase() || '';
     } else if (marketState.sortState.field === 'change_24h') {
-      const changeA = calculateChange24hValue(a.price);
-      const changeB = calculateChange24hValue(b.price);
+      const changeA = calcChange(a.price);
+      const changeB = calcChange(b.price);
       valA =
         changeA ??
         (marketState.sortState.direction === 'asc' ? Infinity : -Infinity);

@@ -132,11 +132,13 @@ thead th:not(:has(.e-btn)) {
 // ROWS
 // -----------------------------------------------------------------------------
 // #region
-:where(.table.has-hovered-rows tbody) tr {
+:where(.table.has-hovered-rows tbody) /* tr */.is-clickable {
+  cursor: pointer;
   transition: background-color var(--duration-100) var(--easing-base);
 
   &:hover {
     background-color: var(--color-ink-min);
+    text-decoration: none;
   }
 }
 

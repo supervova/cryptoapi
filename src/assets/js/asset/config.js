@@ -1,5 +1,9 @@
 // src/assets/js/asset/config.js
 
+/* Конфигурационный файл для веб-приложения, определяющий базовые настройки
+окружения, API-эндпоинты и параметры графика для отображения криптовалютных
+данных. */
+
 const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
 const IS_LOCALHOST_ENV =
   hostname === 'localhost' ||
@@ -20,7 +24,7 @@ export const CURRENT_LANG = APP_CONFIG.currentLang || 'en';
 export const API_URL_DEV_CHART_FIXTURE =
   APP_CONFIG.devApiUrl || '/assets/data/fixtures/crypto-data-candles.json'; // Используем devApiUrl из APP_CONFIG
 
-// Конфигурации для графика (эти значения мы перенесли из markets/config.js)
+// Конфигурации для графика
 export const VALID_TIMEFRAMES_FOR_PERIOD = {
   '1d': ['1m', '5m', '15m', '1h'],
   '1pd': ['1m', '5m', '15m', '1h'],

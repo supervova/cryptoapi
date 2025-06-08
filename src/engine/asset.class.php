@@ -59,9 +59,18 @@ if (file_exists($crypto_meta_file_path)) {
             $asset_meta = $crypto_meta_data[strtoupper($ticker)];
             $asset_name = $asset_meta['name'] ?? $asset_name;
             if (isset($asset_meta['icon'])) {
-                $asset_icon_filename = $asset_meta['icon'];
-                $icon_prefix = $data_objects['site']['assets_prefix'] ?? '';
-                $asset_icon_path = $icon_prefix . '/assets/img/cryptologos/' . $asset_icon_filename;
+                $icon_filename = $asset_meta['icon'];
+                $relative_path = '/assets/img/cryptologos/' . $icon_filename;
+
+                // Абсолютный путь на сервере
+                $project_root = $_SERVER['DOCUMENT_ROOT'];
+                $server_path = $project_root . $relative_path;
+
+                // Публичный путь
+                $public_path = ($data_objects['site']['assets_prefix'] ?? '') . $relative_path;
+
+                // Проверка существования файла
+                $asset_icon_path = file_exists($server_path) ? $public_path : null;
             }
         }
     }
@@ -98,15 +107,12 @@ $api_protocol = $is_local_env ? 'http://' : 'https://';
 // Языковой префикс для API URL, если он нужен
 $api_lang_prefix = !empty($lng_html) ? '/' . $lng_html : '';
 $api_url_pricechart = $api_protocol . $api_domain . $api_lang_prefix . '/json/pricechart';
-// Если язык не нужен для эндпоинта /json/pricechart:
-// $api_url_pricechart = $api_protocol . $api_domain . '/json/pricechart';
-
 
 $api_url_params = [
-    'ticker'         => $ticker, // $ticker теперь точно установлен и в нижнем регистре
-    'period'         => '1d',   // Дефолтный период для первоначальной загрузки
-    'timeframe'      => '1h',   // Дефолтный таймфрейм, совместимый с '1d'
-    'timezoneoffset' => date('Z') / 3600, // Смещение UTC сервера
+    'ticker'         => $ticker,
+    'period'         => '1d',
+    'timeframe'      => '1h',
+    'timezoneoffset' => date('Z') / 3600,
     'jsonfather'     => 'true'
 ];
 
@@ -115,7 +121,7 @@ curl_setopt($ch, CURLOPT_URL, $api_url_pricechart);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($api_url_params));
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_TIMEOUT, 10); // Таймаут 10 секунд
+curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
 $api_response_body = curl_exec($ch);
 $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -144,46 +150,40 @@ if ($api_response_body !== false && $http_code === 200) {
             $ohl_data['low'] = !empty($numeric_lows) ? min($numeric_lows) : 'N/A';
 
             $last_candle = end($chart_data_raw);
-            reset($chart_data_raw); // Важно сбросить указатель массива
+            reset($chart_data_raw);
             $ohl_data['current_price'] = $last_candle['c'] ?? 'N/A';
         }
-    } else {
-        // error_log("Asset page API ($ticker) JSON error or invalid format: HTTP $http_code, " .
-        // "Body: $api_response_body");
     }
-} else {
-    // error_log("Asset page API ($ticker) cURL error: HTTP $http_code, " .
-    // "cURL: $curl_error, Response: $api_response_body");
 }
 
 // ПЕРЕДАЧА ДАННЫХ В ШАБЛОН
 $data_objects['page']['asset'] = [
-    'ticker'              => strtoupper($ticker), // Для отображения, в верхнем регистре
+    'ticker'              => strtoupper($ticker),
     'name'                => $asset_name,
     'icon_path'           => $asset_icon_path,
     'open_price'          => $ohl_data['open'],
     'high_price'          => $ohl_data['high'],
     'low_price'           => $ohl_data['low'],
     'current_price'       => $ohl_data['current_price'],
-    'change_24h_percent'  => $ohl_data['change_24h_percent'], // Все еще N/A
+    'change_24h_percent'  => $ohl_data['change_24h_percent'],
 ];
 
-// Данные, которые будут переданы в JavaScript через window.APP_CONFIG в шаблоне asset.twig
+// Данные, которые будут переданы в JavaScript через window.APP_CONFIG
 $data_objects['page']['js'] = [
-    'pageType'                => 'assetDetail', // Идентификатор типа страницы для JS
-    'assetTicker'             => $ticker,       // Тикер в нижнем регистре для JS API запросов
+    'pageType'                => 'assetDetail',
+    'assetTicker'             => $ticker,
     'assetName'               => $asset_name,
     'assetIconPath'           => $asset_icon_path,
     'assetOpenPrice'          => $ohl_data['open'],
     'assetHighPrice'          => $ohl_data['high'],
     'assetLowPrice'           => $ohl_data['low'],
     'assetCurrentPrice'       => $ohl_data['current_price'],
-    'assetChange24hPercent'   => $ohl_data['change_24h_percent'],
+    'assetChange_24h_percent' => $ohl_data['change_24h_percent'],
     'initialChartPeriod'      => '1d',
-    'initialChartTimeframe'   => '1h',
+    'initialChartTimeframe'   => '1m',
     'initialCandleData'       => $chart_data_raw,
     'assetsBasePrefix'        => $data_objects['site']['assets_prefix'] ?? '',
-    'currentLang'             => $lng_html ?? 'en', // $lng_html должен быть доступен
+    'currentLang'             => $lng_html ?? 'en',
     'isDevelopment'           => ($data_objects['ENV'] ?? 'production') === 'development',
     'devApiUrl'               => ($data_objects['ENV'] ?? 'production') === 'development'
                                  ? '/assets/data/fixtures/crypto-data-candles.json' : '',

@@ -1,15 +1,13 @@
 // assets/js/chart/ui.js
-import t from '../markets/translate.js';
-import * as marketState from '../markets/state.js';
 import * as DOMElements from '../markets/dom.js';
-import {
-  IS_DEVELOPMENT,
-  VALID_TIMEFRAMES_FOR_PERIOD,
-} from '../markets/config.js';
+import * as marketState from '../markets/state.js';
+import t from '../markets/translate.js';
+import { IS_DEVELOPMENT } from '../markets/config.js';
+import { VALID_TIMEFRAMES_FOR_PERIOD } from '../asset/config.js';
+import { calcChange } from '../table/render.js';
 import { fetchChartData } from '../markets/api.js';
-import { renderCandlestickChart, destroyChartInstance } from './chart.js';
 import { formatPrice } from '../table/formatting.js';
-import { calculateChange24hValue } from '../table/sort-filter.js';
+import { renderCandlestickChart, destroyChartInstance } from './chart.js';
 
 /**
  * Подготовка и загрузка данных графика для выбранного актива
@@ -85,7 +83,7 @@ export async function prepareAndFetchChartData(chartButton) {
       DOMElements.drawerChartPrice.childNodes[0].nodeValue = `${formatPrice(assetData.price?.current)} `;
     }
     if (DOMElements.drawerChartPriceChange && assetData.price) {
-      const change24h = calculateChange24hValue(assetData.price);
+      const change24h = calcChange(assetData.price);
       if (change24h !== null && !Number.isNaN(change24h)) {
         DOMElements.drawerChartPriceChange.textContent = `${change24h > 0 ? '+' : ''}${change24h.toFixed(2)}%`;
         DOMElements.drawerChartPriceChange.classList.toggle(

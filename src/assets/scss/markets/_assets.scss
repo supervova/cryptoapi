@@ -107,6 +107,12 @@
   display: flex;
   align-items: center;
   gap: var(--size-1p5);
+
+  @media (any-hover: hover) and (pointer: fine) {
+    &:hover {
+      text-decoration: none;
+    }
+  }
 }
 
 .e-asset__icon {
@@ -153,8 +159,7 @@
   background: var(--color-gradient-brand);
   color: var(--button-color-primary);
   border-radius: 50%;
-  // Shown via JS on img loading error
-  display: none;
+  display: flex;
   align-items: center;
   flex-shrink: 0;
   justify-content: center;
@@ -166,5 +171,10 @@
   order: -1;
   width: var(--size-4);
   height: var(--size-4);
+}
+
+.e-asset-details__icon-fallback {
+  width: var(--size-5);
+  height: var(--size-5);
 }
 // #endregion

@@ -30,6 +30,14 @@ export const state = {
     isLoading: true, // Состояние загрузки данных для графика
   },
 
+  // Данные для шапки (обновляются после каждой загрузки свечей)
+  header: {
+    open: null,
+    high: null,
+    low: null,
+    current: null,
+  },
+
   // Если будут другие состояния, например, для новостей или AI-советов, они добавятся сюда.
   // news: {
   //   items: [],
@@ -40,8 +48,6 @@ export const state = {
   //   isLoading: false,
   // }
 };
-
-// --- Функции-сеттеры для обновления состояния ---
 
 // Обновление данных текущего актива (если понадобится динамическое обновление без перезагрузки)
 export function setCurrentAssetData(data) {
@@ -56,6 +62,14 @@ export function setCurrentAssetData(data) {
     state.currentAsset.change24hPercent = data.change24hPercent;
 }
 
+// Обновление O/H/L/Last для шапки
+export function setHeaderData({ open, high, low, current }) {
+  if (open !== undefined) state.header.open = open;
+  if (high !== undefined) state.header.high = high;
+  if (low !== undefined) state.header.low = low;
+  if (current !== undefined) state.header.current = current;
+}
+
 // Сеттеры для состояния графика
 export function setChartPeriod(period) {
   state.chart.currentPeriod = period;
@@ -68,15 +82,3 @@ export function setChartTimeframe(timeframe) {
 export function setChartIsLoading(loading) {
   state.chart.isLoading = loading;
 }
-
-// export function setChartCandleData(candles) {
-//   state.chart.candleData = candles;
-// }
-
-// Инициализация состояния (если потребуется более сложная логика при старте)
-// export function initializeState() {
-//   // Можно добавить проверки или дополнительную логику на основе APP_CONFIG
-//   if (!VALID_TIMEFRAMES_FOR_PERIOD[state.chart.currentPeriod]?.includes(state.chart.currentTimeframe)) {
-//      // Логика выбора валидного таймфрейма, если текущий некорректен
-//   }
-// }

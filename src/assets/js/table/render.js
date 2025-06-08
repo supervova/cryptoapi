@@ -1,18 +1,171 @@
 // assets/js/table/render.js
-import t from '../markets/translate.js';
-import * as marketState from '../markets/state.js';
 import * as DOMElements from '../markets/dom.js';
+import * as marketState from '../markets/state.js';
+import t from '../markets/translate.js';
 import {
   ASSETS_PATH_PREFIX,
-  IS_DEVELOPMENT,
   ROW_HEIGHT_ESTIMATE,
   VISIBLE_BUFFER,
-  // CURRENT_LANG, // Не используется здесь напрямую, но может быть нужен для URL, если язык в пути
 } from '../markets/config.js';
-import { getVisibleColumns, getVisibleColumnsCount } from './columns.js';
-import { formatPrice, formatNullable } from './formatting.js';
+import { formatNullable, formatPrice } from './formatting.js';
 import { getNestedValue } from '../markets/utils.js';
-import { calculateChange24hValue, handleSortClick } from './sort-filter.js';
+import { getVisibleColumns, getVisibleColumnsCount } from './columns.js';
+
+const calcChange = (p) =>
+  p?.current && p?.yesterday?.middle
+    ? ((p.current - p.yesterday.middle) / p.yesterday.middle) * 100
+    : null;
+
+const spacer = (h, cols) => {
+  const tr = document.createElement('tr');
+  tr.style.height = `${h}px`;
+  const td = document.createElement('td');
+  td.colSpan = cols;
+  td.style.cssText = 'padding:0;border:0;height:1px;display:block;';
+  tr.appendChild(td);
+  return tr;
+};
+
+const assetCell = (asset) => {
+  const { symbol, name = symbol, icon: iconPath } = asset;
+  const fallbackText = symbol.slice(0, 3).toUpperCase();
+
+  const copyHtml = `
+    <div class="e-asset__copy">
+      <span class="e-asset__name">${name}</span>
+      <span class="e-asset__symbol">${symbol}</span>
+    </div>`;
+
+  const iconHtml = !iconPath
+    ? `<span class="e-asset__icon-fallback" aria-hidden="true">${fallbackText}</span>`
+    : `<img class="e-asset__icon" src="${iconPath}" alt="" width="32" height="32" data-symbol="${symbol}">`;
+
+  return `
+    <div class="e-asset">
+      ${copyHtml}
+      ${iconHtml}
+    </div>`;
+};
+
+const buildCell = (col, asset) => {
+  switch (col.key) {
+    case 'watchlist':
+      return ['table__cell is-action', `<!-- watch ${asset.symbol} -->`];
+    case 'asset': {
+      return ['table__cell is-text is-2-liner', assetCell(asset)];
+    }
+    case 'risk':
+      return [
+        'table__cell is-icon',
+        col.formatter(getNestedValue(asset, col.apiField)),
+      ];
+    case 'change_24h': {
+      const v = calcChange(asset.price);
+      const txt =
+        v === null || Number.isNaN(v)
+          ? '–'
+          : `${v > 0 ? '+' : ''}${v.toFixed(2)}`;
+      const getChangeClass = (value) => {
+        if (value === null) return '';
+        if (value > 0) return ' is-positive';
+        if (value < 0) return ' is-negative';
+        return '';
+      };
+      const cls = getChangeClass(v);
+      return [`table__cell is-num${cls}`, txt];
+    }
+    default: {
+      const val = getNestedValue(asset, col.apiField);
+      const txt = col.formatter ? col.formatter(val) : formatNullable(val);
+      const typeCls = `table__cell is-${col.type}`;
+      return [typeCls, txt];
+    }
+  }
+};
+
+function generateCellsHtml(asset) {
+  return getVisibleColumns()
+    .map((c) => {
+      const [cls, html] = buildCell(c, asset);
+      return `<td class="${cls}">${html}</td>`;
+    })
+    .join('');
+}
+
+function updateCellNode(td, asset, col) {
+  const [, newHtml] = buildCell(col, asset);
+  const cell = td;
+  if (cell.innerHTML !== newHtml) {
+    cell.innerHTML = newHtml;
+  }
+}
+
+export function patchTableBody() {
+  if (!DOMElements.tableBody || !DOMElements.scrollContainer) return;
+
+  const items = marketState.state.sortedFilteredAssets ?? [];
+  const total = items.length;
+  const colCnt = getVisibleColumnsCount();
+  const cols = getVisibleColumns();
+
+  if (marketState.state.isLoading && total === 0) {
+    DOMElements.tableBody.innerHTML = `
+      <tr id="loading-row"><td class="table__cell" colspan="${colCnt}">
+        ${t('loading', 'Loading…')}
+      </td></tr>`;
+    return;
+  }
+  if (total === 0) {
+    DOMElements.tableBody.innerHTML = `
+      <tr><td class="table__cell is-empty-state" colspan="${colCnt}">
+        ${t('noDataAvailable', 'No data available')}
+      </td></tr>`;
+    return;
+  }
+
+  const top = DOMElements.scrollContainer.scrollTop;
+  const height = DOMElements.scrollContainer.clientHeight;
+  const start = Math.max(
+    0,
+    Math.floor(top / ROW_HEIGHT_ESTIMATE) - VISIBLE_BUFFER
+  );
+  const end = Math.min(
+    total,
+    Math.ceil((top + height) / ROW_HEIGHT_ESTIMATE) + VISIBLE_BUFFER
+  );
+
+  const frag = document.createDocumentFragment();
+  if (start > 0) frag.appendChild(spacer(start * ROW_HEIGHT_ESTIMATE, colCnt));
+
+  for (let i = start; i < end; i++) {
+    const a = items[i];
+    let tr = document.getElementById(`asset-row-${a.symbol}`);
+    if (!tr) {
+      tr = document.createElement('tr');
+      tr.id = `asset-row-${a.symbol}`;
+      tr.dataset.assetSymbol = a.symbol;
+      tr.dataset.url = `/markets/${a.symbol.toLowerCase()}`;
+      tr.classList.add('is-clickable');
+      tr.setAttribute('role', 'link');
+      tr.tabIndex = 0;
+      tr.setAttribute(
+        'aria-label',
+        `${a.name ?? a.symbol} - ${formatPrice(a.price?.current)} USD`
+      );
+      tr.innerHTML = generateCellsHtml(a);
+    } else {
+      Array.from(tr.children).forEach((td, j) =>
+        updateCellNode(td, a, cols[j])
+      );
+    }
+    frag.appendChild(tr);
+  }
+
+  if (end < total)
+    frag.appendChild(spacer((total - end) * ROW_HEIGHT_ESTIMATE, colCnt));
+
+  DOMElements.tableBody.replaceChildren(frag);
+}
 
 export function generateTableHeadHtml() {
   if (!DOMElements.tableHead) return;
@@ -21,7 +174,6 @@ export function generateTableHeadHtml() {
   let headHtml = '<tr>';
 
   currentVisibleColumns.forEach((col) => {
-    // Класс is-action для watchlist остается, для chart - убран, т.к. колонки chart нет
     const thClasses = `table__cell is-${col.type}${col.key === 'watchlist' ? ' is-action' : ''}`;
     let thContent = col.label;
     let ariaLabelAttr =
@@ -63,294 +215,12 @@ export function generateTableHeadHtml() {
   );
   DOMElements.setSortButtons(newSortButtons);
   newSortButtons.forEach((button) => {
-    button.addEventListener('click', handleSortClick);
-  });
-}
-
-function generateCellsHtml(asset) {
-  let cellsHtml = '';
-  const currentVisibleColumns = getVisibleColumns();
-
-  currentVisibleColumns.forEach((col) => {
-    let cellContent = '';
-    let cellClasses = `table__cell is-${col.type}`;
-
-    switch (col.key) {
-      case 'watchlist':
-        cellContent = `<!-- Список наблюдения для ${asset.symbol} -->`;
-        cellClasses += ' is-action';
-        break;
-      case 'asset': {
-        const iconPath = asset.icon;
-        const fallbackIcon = `<span class="e-asset__icon-fallback" aria-hidden="true">${asset.symbol.substring(0, 3).toUpperCase()}</span>`;
-        const imgTag = iconPath
-          ? `<img class="e-asset__icon" src="${iconPath}" alt="" loading="lazy" width="32" height="32" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">`
-          : '';
-        // Формируем URL. CURRENT_LANG можно взять из marketState.state.currentLang, если язык в URL
-        // Если CURRENT_LANG не нужен в URL страницы актива, то просто /markets/${asset.symbol}
-        // Предположим, что язык не нужен в URL для простоты, или он будет добавлен на уровне сервера/роутинга PHP
-        const assetPageUrl = `/markets/${asset.symbol.toLowerCase()}`; // или .toUpperCase() в зависимости от требований
-
-        cellContent = `
-          <a class="e-asset" href="${assetPageUrl}">
-            <div class="e-asset__copy">
-              <span class="e-asset__name">${asset.name}</span>
-              <span class="e-asset__symbol">${asset.symbol}</span>
-            </div>
-            ${imgTag}
-            ${fallbackIcon}
-          </a>`;
-        cellClasses += ' is-2-liner';
-        break;
-      }
-      case 'risk':
-        cellContent = col.formatter(getNestedValue(asset, col.apiField));
-        cellClasses += ' is-icon';
-        break;
-      case 'change_24h': {
-        const changeValue = calculateChange24hValue(asset.price);
-        cellContent =
-          changeValue !== null && !Number.isNaN(changeValue)
-            ? `${changeValue > 0 ? '+' : ''}${changeValue.toFixed(2)}`
-            : '–';
-        if (changeValue !== null) {
-          if (changeValue > 0) cellClasses += ' is-positive';
-          if (changeValue < 0) cellClasses += ' is-negative';
-        }
-        break;
-      }
-      // case 'chart' больше не существует в ALL_COLUMNS_CONFIG, поэтому этот case не нужен
-      default: {
-        const value = getNestedValue(asset, col.apiField);
-        cellContent = col.formatter
-          ? col.formatter(value)
-          : formatNullable(value);
-        break;
-      }
-    }
-    cellsHtml += `<td class="${cellClasses}">${cellContent}</td>`;
-  });
-  return cellsHtml;
-}
-
-function updateCellNode(cellNode, asset, columnConfig) {
-  const newValue = getNestedValue(asset, columnConfig.apiField);
-  let newCellContent;
-  const currentCell = cellNode;
-
-  switch (columnConfig.key) {
-    case 'watchlist':
-      newCellContent = `<!-- Список наблюдения для ${asset.symbol} -->`;
-      break;
-    case 'asset': {
-      const iconPath = asset.icon;
-      const fallbackIcon = `<span class="e-asset__icon-fallback" aria-hidden="true">${asset.symbol.substring(0, 3).toUpperCase()}</span>`;
-      const imgTag = iconPath
-        ? `<img class="e-asset__icon" src="${iconPath}" alt="${asset.name}" loading="lazy" width="32" height="32" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">`
-        : '';
-      const assetPageUrl = `/markets/${asset.symbol.toLowerCase()}`;
-      newCellContent = `<a class="e-asset" href="${assetPageUrl}"><div class="e-asset__copy"><span class="e-asset__name">${asset.name}</span><span class="e-asset__symbol">${asset.symbol}</span></div>${imgTag}${fallbackIcon}</a>`;
-      break;
-    }
-    case 'risk':
-      newCellContent = columnConfig.formatter(newValue);
-      break;
-    case 'change_24h': {
-      const change = calculateChange24hValue(asset.price);
-      newCellContent =
-        change !== null && !Number.isNaN(change)
-          ? `${change > 0 ? '+' : ''}${change.toFixed(2)}`
-          : '–';
-      currentCell.classList.toggle(
-        'is-positive',
-        change !== null && change > 0
+    button.addEventListener('click', (event) => {
+      document.dispatchEvent(
+        new CustomEvent('table:sort-click', { detail: event })
       );
-      currentCell.classList.toggle(
-        'is-negative',
-        change !== null && change < 0
-      );
-      break;
-    }
-    // case 'chart' больше не существует
-    default:
-      newCellContent = columnConfig.formatter
-        ? columnConfig.formatter(newValue)
-        : formatNullable(newValue);
-      break;
-  }
-
-  if (currentCell.innerHTML !== newCellContent) {
-    currentCell.innerHTML = newCellContent;
-    if (columnConfig.key === 'price' || columnConfig.key === 'change_24h') {
-      currentCell.classList.add('is-updated');
-      setTimeout(() => {
-        if (currentCell?.classList && currentCell.parentNode) {
-          currentCell.classList.remove('is-updated');
-        }
-      }, 1600);
-    }
-  }
-  if (columnConfig.key === 'change_24h') {
-    const changeVal = calculateChange24hValue(asset.price);
-    currentCell.classList.toggle(
-      'is-positive',
-      changeVal !== null && changeVal > 0
-    );
-    currentCell.classList.toggle(
-      'is-negative',
-      changeVal !== null && changeVal < 0
-    );
-  }
-}
-
-// patchTableBody и displayErrorState остаются без изменений относительно предыдущей версии,
-// так как они уже используют marketState.state.sortedFilteredAssets и т.д.
-export function patchTableBody() {
-  if (!DOMElements.tableBody || !DOMElements.scrollContainer) return;
-
-  const totalItems = Array.isArray(marketState.state.sortedFilteredAssets)
-    ? marketState.state.sortedFilteredAssets.length
-    : 0;
-
-  const currentVisibleColumnsCount = getVisibleColumnsCount();
-  const currentVisibleColumns = getVisibleColumns();
-
-  if (marketState.state.isLoading && totalItems === 0) {
-    if (!document.getElementById('loading-row') && DOMElements.loadingRow) {
-      DOMElements.tableBody.innerHTML = '';
-      const clonedLoadingRow = DOMElements.loadingRow.cloneNode(true);
-      clonedLoadingRow.id = 'loading-row';
-      clonedLoadingRow.style.display = '';
-      const loadingCell = clonedLoadingRow.querySelector('td');
-      if (loadingCell) loadingCell.colSpan = currentVisibleColumnsCount;
-      DOMElements.tableBody.appendChild(clonedLoadingRow);
-    }
-    return;
-  }
-
-  const currentLoadingRowDOM = document.getElementById('loading-row');
-  if (currentLoadingRowDOM) currentLoadingRowDOM.remove();
-
-  if (totalItems === 0) {
-    DOMElements.tableBody.innerHTML = `
-      <tr><td class="table__cell is-empty-state" colspan="${currentVisibleColumnsCount}">
-        <p>${t('noDataAvailable', 'No data available')}</p>
-      </td></tr>`;
-    return;
-  }
-
-  const { scrollTop } = DOMElements.scrollContainer;
-  const containerHeight = DOMElements.scrollContainer.clientHeight;
-
-  if (containerHeight === 0 && totalItems > 0 && IS_DEVELOPMENT) {
-    console.warn(
-      '[Patch Table] scrollContainer.clientHeight равен 0. Отрисовка таблицы может быть некорректной.'
-    );
-  }
-
-  const startIndex = Math.max(
-    0,
-    Math.floor(scrollTop / ROW_HEIGHT_ESTIMATE) - VISIBLE_BUFFER
-  );
-  const endIndex = Math.min(
-    totalItems,
-    Math.ceil((scrollTop + containerHeight) / ROW_HEIGHT_ESTIMATE) +
-      VISIBLE_BUFFER
-  );
-
-  const topSpacerHeight = startIndex * ROW_HEIGHT_ESTIMATE;
-  const bottomSpacerHeight = (totalItems - endIndex) * ROW_HEIGHT_ESTIMATE;
-  const fragment = document.createDocumentFragment();
-
-  const existingRowsMap = new Map();
-  Array.from(DOMElements.tableBody.children).forEach((row) => {
-    if (
-      row.dataset &&
-      row.dataset.assetSymbol &&
-      !row.style.height.endsWith('px')
-    ) {
-      existingRowsMap.set(row.dataset.assetSymbol, row);
-    }
+    });
   });
-
-  if (topSpacerHeight > 0) {
-    const topSpacer = document.createElement('tr');
-    topSpacer.style.height = `${topSpacerHeight}px`;
-    const topSpacerCell = document.createElement('td');
-    topSpacerCell.colSpan = currentVisibleColumnsCount;
-    topSpacerCell.style.cssText =
-      'padding:0; border:0; height:1px; display:block;';
-    topSpacer.appendChild(topSpacerCell);
-    fragment.appendChild(topSpacer);
-  }
-
-  for (let i = startIndex; i < endIndex; i++) {
-    const asset = marketState.state.sortedFilteredAssets[i];
-
-    if (asset) {
-      let rowNode = existingRowsMap.get(asset.symbol);
-
-      if (rowNode) {
-        Array.from(rowNode.children).forEach((cellNode, cellIndex) => {
-          if (cellIndex < currentVisibleColumns.length) {
-            updateCellNode(cellNode, asset, currentVisibleColumns[cellIndex]);
-          }
-        });
-        existingRowsMap.delete(asset.symbol);
-      } else {
-        rowNode = document.createElement('tr');
-        rowNode.id = `asset-row-${asset.symbol}`;
-        rowNode.dataset.assetId = asset.id;
-        rowNode.dataset.assetSymbol = asset.symbol;
-        rowNode.tabIndex = 0;
-        rowNode.setAttribute(
-          'aria-label',
-          `${asset.name} - ${formatPrice(asset.price?.current)} USD`
-        );
-        rowNode.innerHTML = generateCellsHtml(asset);
-      }
-      fragment.appendChild(rowNode);
-    } else if (IS_DEVELOPMENT) {
-      console.warn(`Asset at index ${i} is undefined in sortedFilteredAssets.`);
-    }
-  }
-
-  if (bottomSpacerHeight > 0) {
-    const bottomSpacer = document.createElement('tr');
-    bottomSpacer.style.height = `${bottomSpacerHeight}px`;
-    const bottomSpacerCell = document.createElement('td');
-    bottomSpacerCell.colSpan = currentVisibleColumnsCount;
-    bottomSpacerCell.style.cssText =
-      'padding:0; border:0; height:1px; display:block;';
-    bottomSpacer.appendChild(bottomSpacerCell);
-    fragment.appendChild(bottomSpacer);
-  }
-
-  DOMElements.tableBody.innerHTML = '';
-  DOMElements.tableBody.appendChild(fragment);
-
-  if (DOMElements.tableHead) {
-    DOMElements.tableHead.classList.add('is-updated');
-    setTimeout(() => {
-      if (DOMElements.tableHead?.classList) {
-        DOMElements.tableHead.classList.remove('is-updated');
-      }
-    }, 1600);
-  }
 }
 
-export function displayErrorState(message) {
-  if (!DOMElements.tableBody || !DOMElements.table) return;
-  const currentVisibleColumnsCount = getVisibleColumnsCount();
-
-  DOMElements.tableBody.innerHTML = `
-    <tr><td class="table__cell is-empty-state is-error-state" colspan="${currentVisibleColumnsCount}">
-      <p>${message}</p>
-      <button class="e-btn is-text" onclick="location.reload()">${t('retry', 'Retry')}</button>
-    </td></tr>`;
-  DOMElements.table.setAttribute('aria-busy', 'false');
-  const loadingRowElem = document.getElementById('loading-row');
-  if (loadingRowElem) loadingRowElem.style.display = 'none';
-
-  marketState.setIsLoading(false);
-}
+export { calcChange };

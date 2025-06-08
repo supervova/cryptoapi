@@ -130,7 +130,7 @@ const paths = {
       toast: `${srcBase}/assets/js/toast.js`,
       // home: `${srcBase}/assets/js/home.js`,
     },
-    watch: `${srcBase}/assets/js/*.js`,
+    watch: `${srcBase}/assets/js/**/*.js`,
     dest: `${destAssets}/js/`,
   },
   video: {
@@ -300,7 +300,7 @@ const copy = parallel(
  * -----------------------------------------------------------------------------
  */
 // #region
-const img = (done) => {
+const img = () =>
   src(paths.img.src, { encoding: false })
     .pipe(newer(paths.img.dest))
     .pipe(
@@ -311,19 +311,10 @@ const img = (done) => {
           imageminPNG({ quality: [0.85, 0.95] }),
           imageminSVG({
             plugins: [
-              {
-                name: 'removeViewBox',
-                active: false,
-              },
+              { name: 'removeViewBox', active: false },
               {
                 name: 'cleanupIds',
-                params: {
-                  remove: false,
-                  minify: false,
-                  preserve: [],
-                  preservePrefixes: [],
-                  force: false,
-                },
+                params: { remove: false, minify: false, preserve: [] },
               },
             ],
           }),
@@ -333,8 +324,6 @@ const img = (done) => {
     )
     .pipe(dest(paths.img.dest))
     .pipe(size({ title: 'images' }));
-  done();
-};
 // #endregion
 
 /**
@@ -481,62 +470,65 @@ const assetPage = () => {
     .pipe(bsInstance.stream());
 };
 
-const pages = (done) => {
+const pages = () => {
   // Загружаем мок-данные для PHP-переменных
   const phpMockData = loadPhpMockData();
 
-  src(paths.markup.src.twig, { base: './src/twig' })
-    .pipe(
-      plumber({
-        handleError(err) {
-          console.log(err);
-          this.emit('end');
-        },
-      })
-    )
-    // НЕ заменяем {$variable} на {{variable}} до компиляции Twig
-    // Вместо этого, компилируем Twig как обычно
-    .pipe(
-      twig({
-        base: './src/twig',
-        data: {
-          // Добавляем все PHP-переменные как обычные переменные Twig
-          ...phpMockData,
-          ENV: process.env.NODE_ENV || 'production',
-        },
-        filters: [
-          {
-            name: 'trans',
-            func(string) {
-              return string;
-            },
+  return (
+    src(paths.markup.src.twig, { base: './src/twig' })
+      .pipe(
+        plumber({
+          handleError(err) {
+            console.log(err);
+            this.emit('end');
           },
-        ],
+        })
+      )
+      // НЕ заменяем {$variable} на {{variable}} до компиляции Twig
+      // Вместо этого, компилируем Twig как обычно
+      .pipe(
+        twig({
+          base: './src/twig',
+          data: {
+            // Добавляем все PHP-переменные как обычные переменные Twig
+            ...phpMockData,
+            ENV: process.env.NODE_ENV || 'production',
+          },
+          filters: [
+            {
+              name: 'trans',
+              func(string) {
+                return string;
+              },
+            },
+          ],
+        })
+      )
+      .on('error', function errorHandler(err) {
+        process.stderr.write(`${err.message}\n`);
+        this.emit('end');
       })
-    )
-    .on('error', function errorHandler(err) {
-      process.stderr.write(`${err.message}\n`);
-      this.emit('end');
-    })
-    // После компиляции Twig заменяем {$variable} на соответствующие значения из phpMockData
-    .pipe(
-      replace(/\{\$([\w\-.]+)\}/g, (match, varName) => {
-        // Если переменная есть в phpMockData, возвращаем ее значение
-        if (phpMockData[varName] !== undefined) {
-          return phpMockData[varName];
-        }
-        // Иначе возвращаем пустую строку
-        console.warn(`Warning: PHP variable ${varName} not found in mock data`);
-        return '';
-      })
-    )
-    .pipe(prettify({ printWidth: 40000, bracketSameLine: true }))
-    .pipe(replace(/ (\s*<style>\n)\s*@charset "UTF-8";/g, '$1'))
-    .pipe(replace(/\s\/>/g, '>'))
-    .pipe(size({ title: 'html' }))
-    .pipe(dest(paths.markup.dest.dev))
-    .pipe(bsInstance.stream());
-  done();
+      // После компиляции Twig заменяем {$variable} на соответствующие значения из phpMockData
+      .pipe(
+        replace(/\{\$([\w\-.]+)\}/g, (match, varName) => {
+          // Если переменная есть в phpMockData, возвращаем ее значение
+          if (phpMockData[varName] !== undefined) {
+            return phpMockData[varName];
+          }
+          // Иначе возвращаем пустую строку
+          console.warn(
+            `Warning: PHP variable ${varName} not found in mock data`
+          );
+          return '';
+        })
+      )
+      .pipe(prettify({ printWidth: 40000, bracketSameLine: true }))
+      .pipe(replace(/ (\s*<style>\n)\s*@charset "UTF-8";/g, '$1'))
+      .pipe(replace(/\s\/>/g, '>'))
+      .pipe(size({ title: 'html' }))
+      .pipe(dest(paths.markup.dest.dev))
+      .pipe(bsInstance.stream())
+  );
 };
 // #endregion
 
@@ -555,89 +547,89 @@ const processStyles = (
   outputName = null
   // purgeContent,
   // forceProduction = false
-) =>
-  src(source)
-    .pipe(newer(destination))
-    .pipe(
-      plumber({
-        errorHandler: notify.onError('Error: <%= error.message %>'),
-      })
-    )
-    // .pipe(gulpif(!(PRODUCTION || forceProduction), sourcemaps.init()))
-    .pipe(
-      sassCompiler({
-        precision: 4,
-        includePaths: ['.'],
-      }).on('error', function errorHandler(err) {
-        console.error('Error compiling Sass:', err.message);
-        this.emit('end');
-      })
-    )
-    .pipe(dest(paths.css.tmp))
-    .pipe(
-      postcss([
-        inlineSvg(),
-        futureFeatures({
-          stage: 2,
-          features: {
-            'cascade-layers': false,
-            clamp: false,
-            'color-mix': true,
-            'custom-media-queries': true,
-            'custom-properties': false,
-            'custom-selectors': true,
-            'font-variant-property': false,
-            'has-pseudo-class': true,
-            'image-set-function': true,
-            'is-pseudo-class': false,
-            'logical-properties-and-values': false,
-            'media-query-ranges': true,
-            'nesting-rules': true,
-            'unset-value': true,
-          },
-          autoprefixer: { cascade: false },
-        }),
-        cssnano({
-          preset: [
-            'lite',
-            {
-              normalizeWhitespace: false,
+) => {
+  return (
+    src(source)
+      .pipe(newer(destination))
+      .pipe(
+        plumber({
+          errorHandler: notify.onError('Error: <%= error.message %>'),
+        })
+      )
+      // .pipe(gulpif(!(PRODUCTION || forceProduction), sourcemaps.init()))
+      .pipe(
+        sassCompiler({
+          precision: 4,
+          includePaths: ['.'],
+        }).on('error', function errorHandler(err) {
+          console.error('Error compiling Sass:', err.message);
+          this.emit('end');
+        })
+      )
+      .pipe(dest(paths.css.tmp))
+      .pipe(
+        postcss([
+          inlineSvg(),
+          futureFeatures({
+            stage: 2,
+            features: {
+              'cascade-layers': false,
+              clamp: false,
+              'color-mix': true,
+              'custom-media-queries': true,
+              'custom-properties': false,
+              'custom-selectors': true,
+              'font-variant-property': false,
+              'has-pseudo-class': true,
+              'image-set-function': true,
+              'is-pseudo-class': false,
+              'logical-properties-and-values': false,
+              'media-query-ranges': true,
+              'nesting-rules': true,
+              'unset-value': true,
             },
-          ],
-        }),
-        // cssnano({ reduceIdents: { keyframes: false } }),
-      ])
-    )
-    // .pipe(gulpif(!(PRODUCTION || forceProduction), sourcemaps.write()))
-    .pipe(size({ title: `styles: ${subtitle}` }))
-    .pipe(outputName ? rename(outputName) : rename((path) => path))
-    .pipe(dest(destination))
-    .pipe(bsInstance.stream());
+            autoprefixer: { cascade: false },
+          }),
+          cssnano({
+            preset: [
+              'lite',
+              {
+                normalizeWhitespace: false,
+              },
+            ],
+          }),
+          // cssnano({ reduceIdents: { keyframes: false } }),
+        ])
+      )
+      // .pipe(gulpif(!(PRODUCTION || forceProduction), sourcemaps.write()))
+      .pipe(size({ title: `styles: ${subtitle}` }))
+      .pipe(outputName ? rename(outputName) : rename((path) => path))
+      .pipe(dest(destination))
+      .pipe(bsInstance.stream())
+  );
+};
 
-const cssBase = (done) => {
-  processStyles(
+const cssBase = () => {
+  return processStyles(
     paths.css.src.main,
     'main',
     paths.css.dest.base
     // [`${srcBase}/pages/uncss/**/*.html`],
     // true // Force production mode
   );
-  done();
 };
 
-const cssPages = (done) => {
-  processStyles(paths.css.src.pages, 'pages', paths.css.dest.base);
-  done();
+const cssPages = () => {
+  return processStyles(paths.css.src.pages, 'pages', paths.css.dest.base);
 };
 
-const cssLegacy = (done) => {
-  processStyles(
+const cssLegacy = () => {
+  return processStyles(
     paths.css.src.legacy,
     'legacy',
     paths.css.dest.base,
     'legacy.css'
   ); // Добавляем имя файла
-  done();
 };
 
 // export { cssLegacy as cssp };

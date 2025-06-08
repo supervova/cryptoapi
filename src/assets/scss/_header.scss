@@ -117,6 +117,7 @@
   display: none;
   align-items: center;
   gap: 1ch;
+  white-space: nowrap;
   user-select: none;
 
   @media (--tablet) {

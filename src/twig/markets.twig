@@ -189,14 +189,26 @@
     </div>
   </dialog>
 
-  {# Словарь для JavaScript. #}
+  {# Добавить перед скриптом переводов #}
+  {% set translations_debug = {
+    "allDataLoaded": "All data has been successfully loaded."|trans,
+    "ascending": "ascending"|trans,
+    "asset": "Asset"|trans
+  } %}
+
+  <!-- Debug output -->
+  <script>
+    console.log('Translations debug:', {{ translations_debug|json_encode()|raw }});
+  </script>
+
+  {# Словарь для JavaScript #}
   <script id="js-translations" type="application/json">
-    {{ {
+    {% set translations = {
       "allDataLoaded": "All data has been successfully loaded."|trans,
       "ascending": "ascending"|trans,
       "asset": "Asset"|trans,
       "change_24h": "Chg (24H), %"|trans,
-      "dataLoadError": "Data couldn’t be loaded. Try again soon."|trans,
+      "dataLoadError": "Data couldn't be loaded. Try again soon."|trans,
       "dataUpdated": "The data has been updated."|trans,
       "descending": "descending"|trans,
       "highRisk": "High risk"|trans,
@@ -225,7 +237,8 @@
       "tableSortedBy": "Table sorted by"|trans,
       "trindex": "TRIndex"|trans,
       "watchlist": "Watchlist"|trans
-      }|json_encode()|raw }}
+    } %}
+    {{ translations|json_encode()|raw }}
   </script>
 
   <script>

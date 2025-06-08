@@ -1,24 +1,17 @@
 // assets/js/table/columns.js
-
 import * as DOMElements from '../markets/dom.js';
-import * as marketState from '../markets/state.js';
-import t from '../markets/translate.js';
-import { applySortAndFilter, updateFilterCountBadge } from './sort-filter.js';
 import {
   formatPrice,
   formatChange24h,
   formatRisk,
   formatNullable,
 } from './formatting.js';
-import { generateTableHeadHtml } from './render.js';
 
 export const ALL_COLUMNS_CONFIG = [
   {
     key: 'watchlist',
+    label: 'Watchlist',
     type: 'action',
-    get label() {
-      return t('watchlist', 'Watchlist');
-    },
     sortable: false,
     visible: false,
     canHide: false,
@@ -26,10 +19,8 @@ export const ALL_COLUMNS_CONFIG = [
   },
   {
     key: 'asset',
+    label: 'Asset',
     type: 'text',
-    get label() {
-      return t('asset', 'Asset');
-    },
     sortable: true,
     apiField: 'symbol',
     visible: true,
@@ -37,10 +28,8 @@ export const ALL_COLUMNS_CONFIG = [
   },
   {
     key: 'price',
+    label: 'Price, $',
     type: 'num',
-    get label() {
-      return t('price', 'Price, $');
-    },
     sortable: true,
     apiField: 'price.current',
     formatter: formatPrice,
@@ -49,10 +38,8 @@ export const ALL_COLUMNS_CONFIG = [
   },
   {
     key: 'change_24h',
+    label: 'Chg (24H), %',
     type: 'num',
-    get label() {
-      return t('change_24h', 'Chg (24H), %');
-    },
     sortable: true,
     apiField: 'price',
     formatter: formatChange24h,
@@ -61,10 +48,8 @@ export const ALL_COLUMNS_CONFIG = [
   },
   {
     key: 'rating',
+    label: 'Rating',
     type: 'num',
-    get label() {
-      return t('rating', 'Rating');
-    },
     sortable: true,
     apiField: 'rating',
     formatter: formatNullable,
@@ -73,10 +58,8 @@ export const ALL_COLUMNS_CONFIG = [
   },
   {
     key: 'risk',
+    label: 'Risk',
     type: 'icon',
-    get label() {
-      return t('risk', 'Risk');
-    },
     sortable: false,
     apiField: 'risk',
     formatter: formatRisk,
@@ -85,10 +68,8 @@ export const ALL_COLUMNS_CONFIG = [
   },
   {
     key: 'trindex',
+    label: 'TRIndex',
     type: 'num',
-    get label() {
-      return t('trindex', 'TRIndex');
-    },
     sortable: true,
     apiField: 'TRINDX',
     formatter: formatNullable,
@@ -97,10 +78,8 @@ export const ALL_COLUMNS_CONFIG = [
   },
   {
     key: 'rsi_7d',
+    label: 'RSI (7D)',
     type: 'num',
-    get label() {
-      return t('rsi_7d', 'RSI (7D)');
-    },
     sortable: true,
     apiField: 'RSI7',
     formatter: formatNullable,
@@ -109,10 +88,8 @@ export const ALL_COLUMNS_CONFIG = [
   },
   {
     key: 'rsi_30d',
+    label: 'RSI (30D)',
     type: 'num',
-    get label() {
-      return t('rsi_30d', 'RSI (30D)');
-    },
     sortable: true,
     apiField: 'RSI30',
     formatter: formatNullable,
@@ -121,10 +98,8 @@ export const ALL_COLUMNS_CONFIG = [
   },
   {
     key: 'rsi_91d',
+    label: 'RSI (91D)',
     type: 'num',
-    get label() {
-      return t('rsi_91d', 'RSI (91D)');
-    },
     sortable: true,
     apiField: 'RSI91',
     formatter: formatNullable,
@@ -133,10 +108,8 @@ export const ALL_COLUMNS_CONFIG = [
   },
   {
     key: 'rsi_182d',
+    label: 'RSI (182D)',
     type: 'num',
-    get label() {
-      return t('rsi_182d', 'RSI (182D)');
-    },
     sortable: true,
     apiField: 'RSI182',
     formatter: formatNullable,
@@ -145,10 +118,8 @@ export const ALL_COLUMNS_CONFIG = [
   },
   {
     key: 'rsi_365d',
+    label: 'RSI (365D)',
     type: 'num',
-    get label() {
-      return t('rsi_365d', 'RSI (365D)');
-    },
     sortable: true,
     apiField: 'RSI365',
     formatter: formatNullable,
@@ -157,10 +128,8 @@ export const ALL_COLUMNS_CONFIG = [
   },
   {
     key: 'rsi_1000d',
+    label: 'RSI (1000D)',
     type: 'num',
-    get label() {
-      return t('rsi_1000d', 'RSI (1000D)');
-    },
     sortable: true,
     apiField: 'RSI1000',
     formatter: formatNullable,
@@ -169,10 +138,8 @@ export const ALL_COLUMNS_CONFIG = [
   },
   {
     key: 'market',
+    label: 'Market',
     type: 'text',
-    get label() {
-      return t('market', 'Market');
-    },
     sortable: true,
     apiField: 'market',
     formatter: formatNullable,
@@ -182,6 +149,17 @@ export const ALL_COLUMNS_CONFIG = [
 ];
 
 export const columnsConfig = ALL_COLUMNS_CONFIG.map((col) => ({ ...col }));
+
+/**
+ * Инициализирует переведенные названия колонок после загрузки словаря.
+ * @param {Function} t - Функция-переводчик.
+ */
+export function translateColumnHeaders(t) {
+  columnsConfig.forEach((col) => {
+    // Используем col.key для поиска перевода, а текущий col.label как fallback
+    col.label = t(col.key, col.label);
+  });
+}
 
 let visibleColumnsInternal = columnsConfig.filter((c) => c.visible);
 let visibleColumnsCountInternal = visibleColumnsInternal.length;
@@ -194,16 +172,19 @@ export function getVisibleColumnsCount() {
   return visibleColumnsCountInternal;
 }
 
-marketState.currentFilterState.visibleColumnKeys = visibleColumnsInternal.map(
-  (c) => c.key
-);
+function dispatchVisibleColumnsChanged() {
+  const keys = visibleColumnsInternal.map((c) => c.key);
+  document.dispatchEvent(
+    new CustomEvent('table:visible-columns-changed', { detail: keys })
+  );
+}
+
+dispatchVisibleColumnsChanged();
 
 function updateDerivedColumnState() {
   visibleColumnsInternal = columnsConfig.filter((c) => c.visible);
   visibleColumnsCountInternal = visibleColumnsInternal.length;
-  marketState.currentFilterState.visibleColumnKeys = visibleColumnsInternal.map(
-    (c) => c.key
-  );
+  dispatchVisibleColumnsChanged();
 }
 
 export function handleColumnVisibilityChange(event) {
@@ -217,9 +198,7 @@ export function handleColumnVisibilityChange(event) {
 
   updateDerivedColumnState();
 
-  generateTableHeadHtml();
-  applySortAndFilter(false);
-  updateFilterCountBadge();
+  document.dispatchEvent(new CustomEvent('table:columns-updated'));
 }
 
 export function populateColumnCheckboxes() {
@@ -227,7 +206,6 @@ export function populateColumnCheckboxes() {
   DOMElements.filterColumnsList.innerHTML = '';
 
   columnsConfig.forEach((col) => {
-    // Колонка watchlist временно скрыта из «шапки» таблицы и фильтров
     if (col.key === 'watchlist') {
       return;
     }
@@ -240,15 +218,13 @@ export function populateColumnCheckboxes() {
     checkbox.value = col.key;
     checkbox.checked = col.visible;
 
-    // Колонки, которые нельзя скрыть (canHide: false), будут иметь disabled чекбокс.
-    // К ним относятся 'asset', 'price', и 'watchlist' (согласно текущей конфигурации).
     if (!col.canHide) {
       checkbox.disabled = true;
     }
     checkbox.addEventListener('change', handleColumnVisibilityChange);
 
     label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(` ${col.label}`)); // .label - это геттер
+    label.appendChild(document.createTextNode(` ${col.label}`));
     listItem.appendChild(label);
     DOMElements.filterColumnsList.appendChild(listItem);
   });

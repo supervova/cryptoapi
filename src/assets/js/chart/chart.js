@@ -1,4 +1,9 @@
 // assets/js/chart/chart.js
+
+/* Модуль для создания и управления интерактивным свечным графиком с помощью
+Chart.js, включая настройку внешнего вида, форматирование данных и обработку
+изменения размеров. */
+
 import t from '../markets/translate.js';
 import { formatPrice } from '../table/formatting.js';
 import { IS_DEVELOPMENT } from '../markets/config.js';
@@ -46,7 +51,7 @@ export function renderCandlestickChart(candleData, containerElement) {
 
   if (!candleData || candleData.length === 0) {
     const messageElement = document.createElement('p');
-    messageElement.className = 'p-m text-center';
+    messageElement.className = 'p-3 text-center';
     messageElement.textContent = t(
       'noDataToDisplayChart',
       'No data to display chart.'
@@ -99,7 +104,7 @@ export function renderCandlestickChart(candleData, containerElement) {
 
         const barThickness = dataset.barThickness || 7;
         // В пикселях
-        const desiredSpaceBetweenCandles = 2;
+        const desiredSpaceBetweenCandles = 5;
         const candleCellWidth = barThickness + desiredSpaceBetweenCandles;
 
         let maxVisibleCandles = Math.floor(size.width / candleCellWidth);

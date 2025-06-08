@@ -103,7 +103,7 @@
   &::after {
     background-color: var(--color-ink-3ry);
     content: '';
-    mask: url('/assets/img/icons/icon-checkmark.svg') no-repeat center / contain;
+    mask: url('#{$assets-prefix}/assets/img/icons/icon-checkmark.svg') no-repeat center / contain;
     opacity: 0;
     position: absolute;
     inset: 0;

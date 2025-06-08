@@ -461,6 +461,9 @@ msgstr "12 часов"
 msgid "1D"
 msgstr "1 д."
 
+msgid "1d"
+msgstr "1 д."
+
 msgid "D-2"
 msgstr "Д.-2"
 
@@ -476,13 +479,13 @@ msgstr "1 г."
 msgid "Y-2"
 msgstr "Г.-2"
 
-msgid "1M"
+msgid "1m"
 msgstr "1 мин."
 
-msgid "5M"
+msgid "5m"
 msgstr "5 мин."
 
-msgid "15M"
+msgid "15m"
 msgstr "15 мин."
 
 msgid "1H"

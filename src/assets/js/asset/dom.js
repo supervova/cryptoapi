@@ -29,6 +29,22 @@ export const assetDetailsLow = document.querySelector(
   '.e-asset-details__stats [data-stat="min"]'
 );
 
+// -----------------------------------------------------------------------------
+// ВАЛЮТА
+// -----------------------------------------------------------------------------
+
+// «Шапка»
+export const assetHeader = {
+  name: document.querySelectorAll('[data-asset-name]'),
+  symbol: document.querySelector('[data-asset-symbol]'),
+  icon: document.querySelector('.e-asset-details__icon'),
+  iconFallback: document.querySelector('.e-asset-details__icon-fallback'),
+  open: document.querySelector('[data-asset-open]'),
+  high: document.querySelector('[data-asset-high]'),
+  low: document.querySelector('[data-asset-low]'),
+  price: document.querySelector('[data-asset-price]'),
+};
+
 // Контейнер для графика
 export const assetChartContainer = document.getElementById('asset-chart');
 

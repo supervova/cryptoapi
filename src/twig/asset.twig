@@ -14,17 +14,25 @@
 {% endblock %}
 
 {% block content %}
-  {% set asset = asset_data %}
+  {% set asset = page.asset %}
 
   <div class="e-container e-asset-details">
 
     <header class="e-main__header e-asset-details__header">
       {% if asset.icon_path %}
-        <img class="e-asset-details__icon" src="{{ site.assets_prefix }}{{ asset.icon_path }}" alt="{{ asset.name|default(asset.ticker) }}">
-        <span class="e-asset-details__icon-fallback e-asset__icon-fallback" aria-hidden="true" style="display: none;">{{ asset.ticker|slice(0, 3)|upper }}</span>
+        <img
+          class="e-asset-details__icon"
+          src="{{ asset.icon_path }}"
+          alt="{{ asset.name|default(asset.ticker) }}"
+        >
       {% else %}
-        <img class="e-asset-details__icon" src="" alt="" style="display: none;">
-        <span class="e-asset-details__icon-fallback e-asset__icon-fallback" aria-hidden="true">{{ asset.ticker|slice(0, 3)|upper }}</span>
+        <span
+          class="e-asset-details__icon-fallback e-asset__icon-fallback"
+          aria-hidden="true"
+          style="display: inline-flex;"
+        >
+          {{ asset.ticker|slice(0, 3)|upper }}
+        </span>
       {% endif %}
 
       <div class="e-asset-details__summary">
@@ -33,9 +41,9 @@
           {{ 'Markets'|trans }}
         </a>
         <div class="e-row">
-          <p class="e-asset-details__title tablet:d-none" aria-hidden="true">{{ asset.name|default(asset.ticker) }}</p>
-          <h1 class="e-asset-details__symbol">{{ asset.ticker|default('N/A') }}-USD</h1>
-          <div class="e-asset-details__price">
+          <p class="e-asset-details__title tablet:d-none" data-asset-name aria-hidden="true">{{ asset.name|default(asset.ticker) }}</p>
+          <h1 class="e-asset-details__symbol" data-asset-symbol>{{ asset.ticker|default('N/A') }}-USD</h1>
+          <div class="e-asset-details__price" data-asset-price>
             {{ asset.current_price|default('N/A') }}
             {% if asset.change_24h_percent and asset.change_24h_percent != 'N/A' %}
               <small class="e-asset-details__price-change {{ asset.change_24h_percent matches '/^-/' ? 'is-negative' : 'is-positive' }}">
@@ -45,11 +53,11 @@
           </div>
         </div>
         <div class="e-row">
-          <p class="e-asset-details__title d-none tablet:d-block" aria-hidden="true">{{ asset.name|default(asset.ticker) }}</p>
+          <p class="e-asset-details__title d-none tablet:d-block" data-asset-name aria-hidden="true">{{ asset.name|default(asset.ticker) }}</p>
           <div class="e-asset-details__stats">
-            <span>{{ 'O:'|trans }} <span class="nobr" data-stat="open">{{ asset.open_price|default('N/A') }}</span></span>
-            <span>{{ 'Min:'|trans }} <span class="nobr" data-stat="min">{{ asset.low_price|default('N/A') }}</span></span>
-            <span>{{ 'Max:'|trans }} <span class="nobr" data-stat="max">{{ asset.high_price|default('N/A') }}</span></span>
+            <span>{{ 'O:'|trans }} <span class="nobr" data-asset-open data-stat="open">{{ asset.open_price|default('N/A') }}</span></span>
+            <span>{{ 'Min:'|trans }} <span class="nobr" data-asset-low data-stat="min">{{ asset.low_price|default('N/A') }}</span></span>
+            <span>{{ 'Max:'|trans }} <span class="nobr" data-asset-high data-stat="max">{{ asset.high_price|default('N/A') }}</span></span>
           </div>
         </div>
       </div>
@@ -61,9 +69,8 @@
       </div>
 
       <div class="e-asset-details__period">
-        {# page.js доступен напрямую и содержит initialChartPeriod/Timeframe #}
         {% set initial_period = page.js.initialChartPeriod|default('1d') %}
-        {% set initial_timeframe = page.js.initialChartTimeframe|default('1h') %}
+        {% set initial_timeframe = page.js.initialChartTimeframe|default('1m') %}
 
         {% set chart_periods = [
           {label: '1 Day', value: '1d', shortcut: '1D', checked: (initial_period == '1d')},
@@ -85,7 +92,8 @@
         ] %}
 
         {{ macros.chart_menu('chart-period', chart_periods, (initial_period|upper), 'Period'|trans) }}
-        {{ macros.chart_menu('chart-timeframe', chart_timeframes, (initial_timeframe), 'Timeframe'|trans) }}
+        {# Эта строка содержит оригинальную ошибку с неверным summary #}
+        {{ macros.chart_menu('chart-timeframe', chart_timeframes, '1d', 'Timeframe'|trans) }}
       </div>
     </div>
   </div>
@@ -96,8 +104,7 @@
   {% set js_config = page.js %}
 
   <script id="js-translations" type="application/json">
-    {{ translations_for_js|default({})|json_encode()|raw }}
-    {# {{ {
+    {{ {
       "assetDataNotFound": "Asset data not found."|trans,
       "couldNotLoadChartData": "Could not load chart data."|trans,
       "loadingChartData": "Loading chart data..."|trans,
@@ -105,15 +112,15 @@
       "noDataToDisplayChart": "No data to display chart."|trans,
       "serverFormatError": "Server sent data in an unexpected format or an error status."|trans,
       "unableToLoadChartData": "Unable to load chart data. Please go to the ‘Contact Us’ section and report the issue to support."|trans
-    }|json_encode()|raw }} #}
+    }|json_encode()|raw }}
   </script>
 
   <script>
     window.APP_CONFIG = {
-      assetsBasePrefix:     '{{ page.js.assetsBasePrefix|default(site.assets_prefix)|escape("js") }}',
-      currentLang:          '{{ page.js.currentLang|default(page.lang)|escape("js") }}',
-      isDevelopment:        {{ page.js.isDevelopment ? 'true' : 'false' }},
-      devApiUrl:            '{{ page.js.devApiUrl|escape("js") }}',
+      assetsBasePrefix:     '{{ js_config.assetsBasePrefix|default(site.assets_prefix)|escape("js") }}',
+      currentLang:          '{{ js_config.currentLang|default(page.lang)|escape("js") }}',
+      isDevelopment:        {{ js_config.isDevelopment ? 'true' : 'false' }},
+      devApiUrl:            '{{ js_config.devApiUrl|escape("js") }}',
 
       pageType:             '{{ js_config.pageType|escape("js") }}',
       assetTicker:          '{{ js_config.assetTicker|escape("js") }}',
@@ -130,7 +137,6 @@
     };
   </script>
 
-  <script src="{{ site.assets_prefix }}/assets/js/asset.js" type="module" defer></script>
 
   {# CDN для Chart.js и его зависимостей #}
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script>
@@ -138,4 +144,5 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.1/dist/chartjs-adapter-luxon.umd.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.2.1/dist/chartjs-chart-financial.min.js" defer></script>
 
+  <script src="{{ site.assets_prefix }}/assets/js/asset.js?{{ "now"|date('U') }}" type="module" defer></script>
 {% endblock %}

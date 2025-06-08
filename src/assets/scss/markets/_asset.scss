@@ -20,6 +20,13 @@
   }
 }
 
+.e-asset-details__icon,
+.e-asset-details__icon-fallback {
+  @media (--tablet) {
+    translate: 0 rem(-3);
+  }
+}
+
 .e-asset-details__summary {
   flex-grow: 1;
   padding-inline-end: var(--size-2);

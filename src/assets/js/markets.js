@@ -1,11 +1,12 @@
 // assets/js/markets.js
-
 import * as DOMElements from './markets/dom.js';
 import * as marketState from './markets/state.js';
 import t, { initTranslations } from './markets/translate.js';
 import { IS_DEVELOPMENT, REFRESH_INTERVAL_MS } from './markets/config.js';
 import {
   applyFiltersAndDraw,
+  applySortAndFilter,
+  handleSortClick,
   updateFilterCountBadge,
 } from './table/sort-filter.js';
 
@@ -16,16 +17,67 @@ import { generateTableHeadHtml, patchTableBody } from './table/render.js';
 import {
   populateColumnCheckboxes,
   ALL_COLUMNS_CONFIG,
+  translateColumnHeaders,
 } from './table/columns.js';
 
 /**
+ * Заменяет сбойное изображение на текстовый фоллбэк.
+ * @param {Event} event - Событие ошибки загрузки изображения.
+ */
+function handleImageError(event) {
+  const img = event.target;
+
+  if (img.tagName !== 'IMG' || !img.classList.contains('e-asset__icon')) {
+    return;
+  }
+
+  const { symbol } = img.dataset;
+  if (!symbol) return;
+
+  const fallback = document.createElement('span');
+  fallback.className = 'e-asset__icon-fallback';
+  fallback.setAttribute('aria-hidden', 'true');
+  fallback.textContent = symbol.slice(0, 3).toUpperCase();
+
+  img.replaceWith(fallback);
+}
+
+/**
+ * Обрабатывает клик по строке таблицы для перехода на страницу актива.
+ * @param {MouseEvent} event
+ */
+function handleRowClick(event) {
+  const row = event.target.closest('tr.is-clickable');
+  if (row && row.dataset.url) {
+    window.location.href = row.dataset.url;
+  }
+}
+
+/**
+ * Обрабатывает нажатие клавиши Enter на строке для перехода.
+ * @param {KeyboardEvent} event
+ */
+function handleRowKeydown(event) {
+  if (event.key !== 'Enter') {
+    return;
+  }
+  const row = event.target.closest('tr.is-clickable');
+  if (row && row.dataset.url) {
+    window.location.href = row.dataset.url;
+  }
+}
+
+/**
  * Инициализация приложения "Рынки".
- * Настраивает начальное состояние, загружает данные, устанавливает обработчики событий для таблицы.
  * @async
  */
 async function initializeApp() {
   try {
+    // 1. Загружаем переводы
     initTranslations();
+
+    // 2. Явно переводим заголовки колонок, используя загруженный словарь
+    translateColumnHeaders(t);
 
     marketState.currentFilterState.visibleColumnKeys =
       ALL_COLUMNS_CONFIG.filter((c) => c.visible).map((c) => c.key);
@@ -39,6 +91,10 @@ async function initializeApp() {
       throw new Error('Required table DOM elements not found');
     }
 
+    DOMElements.tableBody.addEventListener('error', handleImageError, true);
+    DOMElements.tableBody.addEventListener('click', handleRowClick);
+    DOMElements.tableBody.addEventListener('keydown', handleRowKeydown);
+
     await marketState.loadCryptoMeta();
 
     if (DOMElements.filtersForm) {
@@ -48,6 +104,7 @@ async function initializeApp() {
       });
     }
 
+    // 3. Теперь, когда заголовки переведены, генерируем элементы интерфейса
     populateColumnCheckboxes();
     generateTableHeadHtml();
 
@@ -69,8 +126,7 @@ async function initializeApp() {
     if (IS_DEVELOPMENT) console.error('Initialization failed:', error);
 
     const initialVisibleCols =
-      ALL_COLUMNS_CONFIG.filter((c) => c.visible).length || // Используем ALL_COLUMNS_CONFIG для определения количества видимых по умолчанию
-      7; // Запасное значение, если ALL_COLUMNS_CONFIG пуст или все невидимы
+      ALL_COLUMNS_CONFIG.filter((c) => c.visible).length || 7;
 
     if (DOMElements.tableBody) {
       DOMElements.tableBody.innerHTML = `
@@ -90,3 +146,19 @@ async function initializeApp() {
 }
 
 document.addEventListener('DOMContentLoaded', initializeApp);
+
+document.addEventListener('meta:updated', () => applySortAndFilter(false));
+
+document.addEventListener('table:sort-click', (e) => {
+  handleSortClick(e.detail);
+});
+
+document.addEventListener('table:columns-updated', () => {
+  generateTableHeadHtml();
+  applySortAndFilter(false);
+  updateFilterCountBadge();
+});
+
+document.addEventListener('table:visible-columns-changed', (e) => {
+  marketState.currentFilterState.visibleColumnKeys = e.detail;
+});

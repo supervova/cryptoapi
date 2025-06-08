@@ -27,7 +27,7 @@
 {% macro chart_menu(name, options, selected, title) %}
 <details class="e-popover has-tooltip" data-role="popover" aria-label="{{ title|trans }}">
   <summary class="has-chevron">
-    {{ selected }}
+    {{ selected|trans }}
   </summary>
   <ul class="e-popover__body e-menu">
     {% for opt in options %}

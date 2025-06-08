@@ -11,7 +11,7 @@
       "assetCurrentPrice": "68980.30",
       "assetChange24hPercent": "+2.1%",
       "initialChartPeriod": "1d",
-      "initialChartTimeframe": "1h",
+      "initialChartTimeframe": "1m",
       "initialCandleData": [
         { "x": "2024-05-29T08:00:00Z", "o": 68200.00, "h": 68350.00, "l": 68150.75, "c": 68300.00 },
         { "x": "2024-05-29T09:00:00Z", "o": 68300.00, "h": 68550.00, "l": 68250.00, "c": 68500.50 },

@@ -1,5 +1,8 @@
 // assets/js/markets/api.js
 import * as DOMElements from './dom.js';
+import * as marketState from './state.js';
+import displayErrorState from '../table/error-state.js';
+import { patchTableBody } from '../table/render.js';
 import t from './translate.js';
 import {
   API_URL_DEV,
@@ -9,11 +12,7 @@ import {
 } from './config.js';
 
 import { applySortAndFilter } from '../table/sort-filter.js';
-import { displayErrorState, patchTableBody } from '../table/render.js';
 import { getTimezoneOffset, cleanup, announceUpdate } from './utils.js';
-import * as marketState from './state.js';
-
-console.log('APP_CONFIG.isDevelopment:', window.APP_CONFIG.isDevelopment);
 
 /**
  * Обработка полученных данных с API
@@ -122,7 +121,7 @@ function processData(responseData) {
         newAssetDataForSymbol !== null
       ) {
         Object.assign(existingAsset, newAssetDataForSymbol, {
-          name: meta.name,
+          name: meta.name || upperSymbol,
           icon: meta.icon
             ? `${ASSETS_PATH_PREFIX}/assets/img/cryptologos/${meta.icon}`
             : null,
@@ -157,7 +156,7 @@ function processData(responseData) {
       if (typeof assetApiData === 'object' && assetApiData !== null) {
         nextAllAssets.push({
           symbol: upperSymbol,
-          name: meta.name,
+          name: meta.name || upperSymbol,
           id: upperSymbol,
           icon: meta.icon
             ? `${ASSETS_PATH_PREFIX}/assets/img/cryptologos/${meta.icon}`
@@ -174,7 +173,7 @@ function processData(responseData) {
           );
         nextAllAssets.push({
           symbol: upperSymbol,
-          name: meta.name,
+          name: meta.name || upperSymbol,
           id: upperSymbol,
           icon: meta.icon
             ? `${ASSETS_PATH_PREFIX}/assets/img/cryptologos/${meta.icon}`
@@ -290,7 +289,9 @@ export async function fetchChartData(ticker, period = '1d', timeframe = '1m') {
   }
 
   let chartCandleData = null;
-  const timezoneoffset = getTimezoneOffset(); // This is a utility function, not from state
+  // getTimezoneOffset() стандартно даёт минуты ЗАПАДНЕЕ UTC (>0 для UTC-, <0 для UTC+).
+  // Нам нужно положительное значение для UTC+.
+  const timezoneoffset = -getTimezoneOffset(); // будет 180 для Europe/Podgorica
 
   if (IS_DEVELOPMENT) {
     const devFixtureUrl = `${ASSETS_PATH_PREFIX}/assets/data/fixtures/crypto-data-candles.json`;
@@ -338,7 +339,7 @@ export async function fetchChartData(ticker, period = '1d', timeframe = '1m') {
     const fullProdApiUrl = `${window.location.origin}/${currentAppLang ? `${currentAppLang}/` : ''}json/pricechart`;
 
     const chartParams = new URLSearchParams();
-    chartParams.append('ticker', ticker);
+    chartParams.append('ticker', ticker.toUpperCase());
     chartParams.append('period', period);
     chartParams.append('timeframe', timeframe);
     chartParams.append('timezoneoffset', timezoneoffset.toString());

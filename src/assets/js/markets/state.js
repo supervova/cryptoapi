@@ -7,6 +7,8 @@ import {
   initialFilterState,
 } from './config.js';
 
+const META_UPDATED_EVENT = 'meta:updated';
+
 // Централизованное реактивное состояние – экспортируется как единственная неизменяемая привязка.
 export const state = {
   cryptoMeta: {},
@@ -37,6 +39,19 @@ export const currentFilterState = JSON.parse(
  */
 export function setCryptoMeta(data) {
   state.cryptoMeta = data;
+
+  // обновляем ранее загруженные активы
+  state.allAssets = state.allAssets.map((a) => {
+    const m = data[a.symbol] || {};
+    return {
+      ...a,
+      name: m.name || a.name || a.symbol,
+      icon: m.icon
+        ? `${ASSETS_PATH_PREFIX}/assets/img/cryptologos/${m.icon}`
+        : a.icon,
+    };
+  });
+  document.dispatchEvent(new Event(META_UPDATED_EVENT));
 }
 
 /**

@@ -2800,6 +2800,7 @@ body {
     display: none;
     align-items: center;
     gap: 1ch;
+    white-space: nowrap;
     user-select: none;
   }
   @media (--tablet) {
@@ -3443,7 +3444,7 @@ body {
   .e-menu__action [type=radio]::after {
     background-color: var(--color-ink-3ry);
     content: "";
-    mask: url("/assets/img/icons/icon-checkmark.svg") no-repeat center/contain;
+    mask: url("/projects/cryptoapi.ai/assets/img/icons/icon-checkmark.svg") no-repeat center/contain;
     opacity: 0;
     position: absolute;
     inset: 0;
@@ -3693,11 +3694,13 @@ body {
   :where(.e-btn.is-sort).is-desc > .e-icon {
     rotate: -180deg;
   }
-  :where(.table.has-hovered-rows tbody) tr {
+  :where(.table.has-hovered-rows tbody) .is-clickable {
+    cursor: pointer;
     transition: background-color var(--duration-100) var(--easing-base);
   }
-  :where(.table.has-hovered-rows tbody) tr:hover {
+  :where(.table.has-hovered-rows tbody) .is-clickable:hover {
     background-color: var(--color-ink-min);
+    text-decoration: none;
   }
   tbody tr[tabindex="0"]:focus-visible {
     outline: 0.125rem solid var(--color-brand-primary);
@@ -3895,6 +3898,12 @@ body {
       display: block;
       width: var(--size-5);
       height: var(--size-5);
+    }
+  }
+  @media (--tablet) {
+    .e-asset-details__icon,
+    .e-asset-details__icon-fallback {
+      translate: 0 -0.1875rem;
     }
   }
   .e-asset-details__summary {
@@ -4214,6 +4223,11 @@ body {
     align-items: center;
     gap: var(--size-1p5);
   }
+  @media (any-hover: hover) and (pointer: fine) {
+    .e-asset:hover {
+      text-decoration: none;
+    }
+  }
   .e-asset__icon {
     background-color: var(--color-bg-2ry);
     border-radius: 50%;
@@ -4256,7 +4270,7 @@ body {
     background: var(--color-gradient-brand);
     color: var(--button-color-primary);
     border-radius: 50%;
-    display: none;
+    display: flex;
     align-items: center;
     flex-shrink: 0;
     justify-content: center;
@@ -4268,6 +4282,10 @@ body {
     order: -1;
     width: var(--size-4);
     height: var(--size-4);
+  }
+  .e-asset-details__icon-fallback {
+    width: var(--size-5);
+    height: var(--size-5);
   }
   /* Mixins were created in order to quickly style the buttons of plugins, like woocommerce */
   .e-card.is-album-metric {
