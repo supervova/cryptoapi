@@ -3,19 +3,35 @@ import t from '../markets/translate.js';
 import { ASSETS_PATH_PREFIX } from '../markets/config.js';
 
 /**
- * Форматирование цены
- * @param {string|number} value - Значение цены
- * @returns {string} Отформатированная цена
+ * Форматирование цены с динамическим числом знаков после запятой.
+ *  • < 1 e-8  → экспоненциальная запись `1.23e-9`
+ *  • < 1      → столько знаков, чтобы показать первые 2 значащие цифры,
+ *               но не более 8
+ *  • ≥ 1      → всегда 2 знака
+ * @param {string|number} value
+ * @returns {string}
  */
 export function formatPrice(value) {
   if (value === null || value === undefined) return '–';
-  const price = parseFloat(value);
-  if (Number.isNaN(price)) return '–';
-  if (price < 0.00000001 && price > 0) return price.toExponential(2);
-  if (price < 1) {
-    const sigDigit = (price.toString().split('.')[1] || '').search(/[^0]/);
-    return price.toFixed(Math.min(8, Math.max(sigDigit + 2, 2)));
+
+  const price = Number(value);
+  if (!Number.isFinite(price)) return '–';
+  if (price === 0) return '0';
+
+  // Очень маленькие значения показываем в экспоненциальной форме
+  if (Math.abs(price) < 1e-8) return price.toExponential(2);
+
+  // Для значений меньше 1 рассчитываем нужную точность
+  if (Math.abs(price) < 1) {
+    const exponent = Math.floor(Math.log10(Math.abs(price))); // отрицательное число
+    /*  |exponent| = количество нулей после точки до первой значащей
+     *  +3  → две дополнительные значащие цифры.
+     *  Минимум 4 знака, максимум 8.                         */
+    const decimals = Math.min(8, Math.max(4, Math.abs(exponent) + 3));
+    return Number(price.toFixed(decimals)).toString(); // убираем лишние нули
   }
+
+  // Всё остальное — две цифры после запятой
   return price.toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,

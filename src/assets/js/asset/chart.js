@@ -9,6 +9,7 @@ import * as DOMElements from './dom.js';
 import t from '../markets/translate.js';
 import { VALID_TIMEFRAMES_FOR_PERIOD, IS_DEVELOPMENT } from './config.js';
 import { fetchChartData } from '../markets/api.js';
+import { formatPrice } from '../table/formatting.js';
 
 import {
   renderCandlestickChart,
@@ -22,9 +23,31 @@ import {
   setChartIsLoading,
 } from './state.js';
 
-/** Быстрое форматирование цены. При желании замените на Intl.NumberFormat */
-export const formatPrice = (value) =>
-  (+value).toLocaleString('en-US', { minimumFractionDigits: 2 });
+/**
+ * Приводит массив свечей к единому формату, приемлемому для Chart.js:
+ *  • x → объект Date (или ISO-строка с «T…Z»)
+ *  • массив отсортирован по возрастанию времени
+ * Возвращается новый массив, исходный не мутируется.
+ */
+export function normalizeCandles(candles = []) {
+  const normalized = (candles || []).map((c) => {
+    const copy = { ...c };
+    if (copy && copy.x) {
+      const raw = String(copy.x);
+
+      const iso = raw.includes('T')
+        ? raw // уже ISO-8601 (+00:00, +03:00 …) – оставляем
+        : `${raw.replace(' ', 'T')}`; // «2025-06-09 07:01:00» → «2025-06-09T07:01:00»
+
+      // «пробел» → «T», БЕЗ «Z»
+      copy.x = new Date(iso);
+    }
+    return copy;
+  });
+
+  normalized.sort((a, b) => +a.x - +b.x);
+  return normalized;
+}
 
 /** Обновляем шапку страницы активом */
 export function updateAssetHeader({
@@ -91,6 +114,8 @@ export function updateAssetHeader({
  * @param {HTMLElement} chartContainer - DOM‑элемент контейнера для графика.
  */
 export function initializeChartWithData(initialCandles, chartContainer) {
+  const candles = normalizeCandles(initialCandles || []);
+
   if (!chartContainer) {
     console.error(
       '[Asset Chart] Chart container not provided for initialization.'
@@ -99,17 +124,16 @@ export function initializeChartWithData(initialCandles, chartContainer) {
   }
 
   // 1. Рисуем график или выводим сообщения об ошибке
-  if (initialCandles && initialCandles.length > 0) {
-    renderCandlestickChart(initialCandles, chartContainer);
+  const container = chartContainer;
+  if (candles.length > 0) {
+    renderCandlestickChart(candles, container);
   } else if (initialCandles && initialCandles.length === 0) {
-    const container = chartContainer;
     container.innerHTML = `<p class="p-3 text-center">${t(
       'noDataToDisplayChart',
       'No data to display chart.'
     )}</p>`;
     destroyChartInstance();
   } else {
-    const container = chartContainer;
     container.innerHTML = `<p class="p-3 text-center">${t(
       'couldNotLoadInitialChartData',
       'Could not load initial chart data.'
@@ -119,11 +143,11 @@ export function initializeChartWithData(initialCandles, chartContainer) {
   setChartIsLoading(false);
 
   // 2. Если есть свечи — вычисляем статистику и обновляем шапку
-  if (initialCandles && initialCandles.length > 0) {
-    const first = initialCandles[0];
-    const last = initialCandles.at(-1);
-    const high = Math.max(...initialCandles.map((c) => +c.h));
-    const low = Math.min(...initialCandles.map((c) => +c.l));
+  if (candles.length > 0) {
+    const first = candles[0];
+    const last = candles.at(-1);
+    const high = Math.max(...candles.map((c) => +c.h));
+    const low = Math.min(...candles.map((c) => +c.l));
 
     assetState.header = { open: +first.o, high, low, current: +last.c };
 
@@ -148,7 +172,6 @@ export function updateTimeframeOptionsForAssetPage(selectedPeriod) {
   const validTimeframes = VALID_TIMEFRAMES_FOR_PERIOD[selectedPeriod] || [];
   let newActiveTimeframe = assetState.chart.currentTimeframe;
 
-  // Если текущий таймфрейм недопустим — берём первый валидный
   if (!validTimeframes.includes(newActiveTimeframe) && validTimeframes.length) {
     [newActiveTimeframe] = validTimeframes;
     setChartTimeframe(newActiveTimeframe);
@@ -157,27 +180,23 @@ export function updateTimeframeOptionsForAssetPage(selectedPeriod) {
     setChartTimeframe(null);
   }
 
-  // Перебираем радиокнопки и корректно выставляем свойства
-  DOMElements.timeframeRadioButtons.forEach((radioInput) => {
+  DOMElements.timeframeRadioButtons.forEach((input) => {
+    const radioInput = input;
     const tfValue = radioInput.value;
     const labelAction = radioInput.closest('.e-menu__action');
     const isValid = validTimeframes.includes(tfValue);
 
-    const input = radioInput;
-    input.disabled = !isValid; // ← свойство, не атрибут
-    input.checked = isValid && tfValue === newActiveTimeframe;
-
-    if (labelAction) {
-      labelAction.classList.toggle('is-disabled', !isValid);
-    }
+    radioInput.disabled = !isValid;
+    radioInput.checked = isValid && tfValue === newActiveTimeframe;
+    if (labelAction) labelAction.classList.toggle('is-disabled', !isValid);
   });
 
-  /* Обновляем summary выпадашки */
   if (DOMElements.chartTimeframeMenu) {
     const summary = DOMElements.chartTimeframeMenu.querySelector('summary');
-    const activeRadio = DOMElements.timeframeRadioButtons.find(
+    const activeRadio = Array.from(DOMElements.timeframeRadioButtons).find(
       (r) => r.checked
     );
+
     if (summary) {
       summary.childNodes[0].nodeValue = activeRadio
         ? `${activeRadio.dataset.shortcut || activeRadio.value} `
@@ -188,7 +207,7 @@ export function updateTimeframeOptionsForAssetPage(selectedPeriod) {
   if (IS_DEVELOPMENT) {
     console.log(
       `[Asset Chart] Timeframe options updated for "${selectedPeriod}". ` +
-        `Current timeframe: "${assetState.chart.currentTimeframe}"`
+        `Current TF: "${assetState.chart.currentTimeframe}"`
     );
   }
 }
@@ -212,11 +231,11 @@ export async function refreshAssetChartData({
   isSilent = false,
 } = {}) {
   if (!ticker) {
-    if (IS_DEVELOPMENT) {
-      console.warn('[Asset Chart] Ticker not set, cannot refresh chart.');
-    }
     if (DOMElements.assetChartContainer) {
-      DOMElements.assetChartContainer.innerHTML = `<p class="p-3 text-center">${t('errorTickerMissing', 'Asset ticker is missing.')}</p>`;
+      DOMElements.assetChartContainer.innerHTML = `<p class="p-3 text-center">${t(
+        'errorTickerMissing',
+        'Asset ticker is missing.'
+      )}</p>`;
     }
     return;
   }
@@ -224,46 +243,52 @@ export async function refreshAssetChartData({
   if (!isSilent) {
     setChartIsLoading(true);
     if (DOMElements.assetChartContainer) {
-      DOMElements.assetChartContainer.innerHTML = `<p class="is-loading-state p-3 text-center">${t('loadingChartData', 'Loading chart data...')}</p>`;
+      DOMElements.assetChartContainer.innerHTML = `<p class="is-loading-state p-3 text-center">${t(
+        'loadingChartData',
+        'Loading chart data...'
+      )}</p>`;
     }
   }
 
   try {
     const candleData = await fetchChartData(ticker, period, timeframe);
+    const candles = normalizeCandles(candleData || []);
 
     if (!DOMElements.assetChartContainer) return;
 
-    if (candleData && candleData.length > 0) {
-      renderCandlestickChart(candleData, DOMElements.assetChartContainer);
+    if (candles.length > 0) {
+      renderCandlestickChart(candles, DOMElements.assetChartContainer);
 
-      // ---- Обновляем O/H/L/Last в шапке ----
-      const first = candleData[0];
-      const last = candleData.at(-1);
-      const high = Math.max(...candleData.map((c) => +c.h));
-      const low = Math.min(...candleData.map((c) => +c.l));
+      const first = candles[0];
+      const last = candles.at(-1);
+      const high = Math.max(...candles.map((c) => +c.h));
+      const low = Math.min(...candles.map((c) => +c.l));
 
       assetState.header = { open: +first.o, high, low, current: +last.c };
 
       updateAssetHeader({
         ticker: ticker.toUpperCase(),
-        name: window.APP_CONFIG.assetName, // или assetState.currentAsset.name
+        name: window.APP_CONFIG.assetName,
         iconPath: window.APP_CONFIG.assetIconPath,
         open: first.o,
         high,
         low,
         current: last.c,
       });
-    } else if (candleData && candleData.length === 0) {
-      DOMElements.assetChartContainer.innerHTML = `<p class="p-3 text-center">${t('noChartDataForPeriod', 'No chart data available for the selected period.')}</p>`;
-      destroyChartInstance();
     } else {
-      DOMElements.assetChartContainer.innerHTML = `<p class="p-3 text-center">${t('couldNotLoadChartData', 'Could not load chart data.')}</p>`;
+      DOMElements.assetChartContainer.innerHTML = `<p class="p-3 text-center">${t(
+        'noChartDataForPeriod',
+        'No chart data available for the selected period.'
+      )}</p>`;
       destroyChartInstance();
     }
   } catch (error) {
     console.error('[Asset Chart] Error refreshing chart data:', error);
     if (DOMElements.assetChartContainer) {
-      DOMElements.assetChartContainer.innerHTML = `<p class="p-3 text-center">${t('errorLoadingData', 'Error loading data.')}</p>`;
+      DOMElements.assetChartContainer.innerHTML = `<p class="p-3 text-center">${t(
+        'errorLoadingData',
+        'Error loading data.'
+      )}</p>`;
       destroyChartInstance();
     }
   } finally {

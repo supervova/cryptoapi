@@ -354,6 +354,10 @@
     --padding-x-container:  var(--size-5);
 
     --navbar-area:          #{rem(96)};
+
+    // JS stuff
+    --chart-axis-width: min-content;
+    --chart-height: 400px;
   }
 
   // 💻 LAPTOP OVERRIDES

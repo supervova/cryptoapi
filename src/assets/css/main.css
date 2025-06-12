@@ -251,6 +251,8 @@
     --padding-x-box: var(--size-line);
     --padding-x-container: var(--size-5);
     --navbar-area: 6rem;
+    --chart-axis-width: min-content;
+    --chart-height: 400px;
   }
 }
 @media (--laptop) {
@@ -3985,9 +3987,10 @@ body {
   }
   .e-chart,
   .e-asset-details__chart {
+    display: flex;
     position: relative;
     width: 100%;
-    height: 288px;
+    height: var(--chart-height);
   }
   .e-chart > div,
   .e-asset-details__chart > div {
@@ -3996,15 +3999,24 @@ body {
   }
   .e-chart canvas,
   .e-asset-details__chart canvas {
+    max-width: none;
     width: 100%;
     height: 100%;
   }
-  .e-chart {
-    height: 288px;
-  }
   .e-asset-details__chart {
     height: 100%;
-    min-height: 288px;
+    min-height: var(--chart-height);
+  }
+  .e-chart__base {
+    flex: 1 1 auto;
+    overflow-x: auto;
+    height: 100%;
+  }
+  .e-chart__y {
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    flex: 0 0 var(--chart-axis-width);
+    overflow: visible;
+    height: 100%;
   }
   .e-chart__loader,
   .e-chart__error {
@@ -4043,7 +4055,7 @@ body {
     display: flex;
     gap: var(--size-1);
     position: absolute;
-    bottom: -3rem;
+    bottom: -3.5rem;
     left: 50%;
     translate: -50% 0;
     width: fit-content;

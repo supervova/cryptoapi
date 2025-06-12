@@ -6,6 +6,7 @@ deploy.sh
 dist/
 public/
 src/assets/js/_tmp.js
+src/patches/
 
 # Drafts
 docs/_index.md

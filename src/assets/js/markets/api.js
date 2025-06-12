@@ -289,9 +289,8 @@ export async function fetchChartData(ticker, period = '1d', timeframe = '1m') {
   }
 
   let chartCandleData = null;
-  // getTimezoneOffset() стандартно даёт минуты ЗАПАДНЕЕ UTC (>0 для UTC-, <0 для UTC+).
-  // Нам нужно положительное значение для UTC+.
-  const timezoneoffset = -getTimezoneOffset(); // будет 180 для Europe/Podgorica
+
+  const timezoneoffset = getTimezoneOffset();
 
   if (IS_DEVELOPMENT) {
     const devFixtureUrl = `${ASSETS_PATH_PREFIX}/assets/data/fixtures/crypto-data-candles.json`;
