@@ -28,8 +28,8 @@ export const API_URL_DEV_CHART_FIXTURE =
 
 // Конфигурации для графика
 export const VALID_TIMEFRAMES_FOR_PERIOD = {
-  '1d': ['1m', '5m', '15m', '1h'],
-  '1pd': ['1m', '5m', '15m', '1h'],
+  '1d': ['5m', '1m', '15m', '1h'],
+  '1pd': ['5m', '1m', '15m', '1h'],
   '1M': ['1h', '4h', '12h', '1d'],
   '1pM': ['1h', '4h', '12h', '1d'],
   '1Y': ['12h', '1d'],
@@ -39,7 +39,7 @@ export const VALID_TIMEFRAMES_FOR_PERIOD = {
 
 // Начальные значения для графика (будут переопределены из APP_CONFIG в state.js или asset.js)
 export const DEFAULT_CHART_PERIOD = APP_CONFIG.initialChartPeriod || '1d';
-export const DEFAULT_CHART_TIMEFRAME = APP_CONFIG.initialChartTimeframe || '1m'; // Должен быть валидным для DEFAULT_CHART_PERIOD
+export const DEFAULT_CHART_TIMEFRAME = APP_CONFIG.initialChartTimeframe || '5m'; // Должен быть валидным для DEFAULT_CHART_PERIOD
 
 // Если есть другие специфичные для страницы актива конфигурации, их можно добавить сюда.
 // Например, интервалы обновления для графика, если он должен обновляться "вживую" (пока не реализуем).

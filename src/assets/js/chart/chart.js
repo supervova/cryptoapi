@@ -1,88 +1,103 @@
+// src/assets/js/chart/chart.js
+
 /**
  * @file Модуль для создания и управления интерактивным свечным графиком с помощью
  * Chart.js.
  * Настройка внешнего вида, форматирование данных и обработка изменения размеров.
- * @path src/assets/js/chart/chart.js
  */
-
 import t from '../markets/translate.js';
 import { formatPrice } from '../table/formatting.js';
-import { IS_DEVELOPMENT } from '../markets/config.js';
+// import { IS_DEVELOPMENT } from '../markets/config.js';
 
+const { Chart } = window;
+
+/**
+ * Проверяет и регистрирует плагин для финансовых графиков
+ */
+function ensureFinancialPlugin() {
+  const fp = window['chartjs-chart-financial'] || {};
+  const Ctl = fp.CandlestickController || fp.FinancialController;
+  const El = fp.CandlestickElement;
+  if (Ctl && El && !Chart.registry.controllers.has(Ctl.id)) {
+    Chart.register(Ctl, El);
+  } else {
+    /* dev-сборка иногда загружает плагин после бандла → ждём onload */
+    window.addEventListener('load', () => {
+      const again = window['chartjs-chart-financial'] || {};
+      if (again.CandlestickController && again.CandlestickElement) {
+        Chart.register(again.CandlestickController, again.CandlestickElement);
+      }
+    });
+  }
+}
+
+ensureFinancialPlugin();
+
+const BAR_WIDTH = 7;
+const DURATION = 240;
 let chartInstance = null;
 
 /**
- * Получение текущего экземпляра графика
- * @returns Текущий экземпляр Chart.js или null
+ * Рисует (или перерисовывает) свечной график.
+ * @param {Array<Object>} candles    [{x,o,h,l,c}, …]
+ * @param {HTMLElement}   wrapperEl  div-контейнер
  */
-export function getChartInstance() {
-  return chartInstance;
-}
+export function renderCandlestickChart(candles, wrapperEl) {
+  if (!wrapperEl) return;
+  const container = wrapperEl;
 
-/**
- * Уничтожение текущего экземпляра графика
- */
-export function destroyChartInstance() {
-  if (chartInstance) {
-    chartInstance.destroy();
-    chartInstance = null;
-  }
-}
-
-/**
- * Отрисовка свечного графика с данными OHLC
- * @param candleData - Массив данных свечей с полями x, o, h, l, c
- * @param containerElement - DOM-элемент контейнера для размещения графика
- */
-export function renderCandlestickChart(candleData, containerElement) {
-  if (!containerElement) {
-    if (IS_DEVELOPMENT) {
-      console.error('[Chart] Container element not found for rendering chart.');
-    }
+  // 1. Проверка данных
+  if (!candles || candles.length === 0) {
+    container.innerHTML = `
+      <p class="p-3 text-center">
+        ${t('noDataToDisplayChart', 'No data to display chart.')}
+      </p>`;
+    if (chartInstance) chartInstance.destroy();
     return;
   }
 
-  destroyChartInstance();
-
-  const wrapper = document.createElement('div');
-  const canvas = document.createElement('canvas');
-  wrapper.appendChild(canvas);
-  containerElement.replaceChildren(wrapper);
-  const ctx = canvas.getContext('2d');
-
-  if (!candleData || candleData.length === 0) {
-    const messageElement = document.createElement('p');
-    messageElement.className = 'p-3 text-center';
-    messageElement.textContent = t(
-      'noDataToDisplayChart',
-      'No data to display chart.'
-    );
-    containerElement.replaceChildren(messageElement);
-    return;
-  }
-
-  const processedData = candleData.map((d) => ({
+  // 2. Данные → числа/Date
+  const processedData = candles.map((d) => ({
     x: new Date(d.x).getTime(),
-    o: Number(d.o),
-    h: Number(d.h),
-    l: Number(d.l),
-    c: Number(d.c),
+    o: +d.o,
+    h: +d.h,
+    l: +d.l,
+    c: +d.c,
   }));
 
-  const DURATION = 240;
-  const colorUp = 'var(--color-ink-text-success)';
-  const colorDown = 'var(--color-ink-2ry-error)';
-  const colorUnchanged = 'var(--color-ink-3ry-error)';
+  // 3. Подготовка контейнера
+  container.innerHTML = '';
+  const canvas = document.createElement('canvas');
+  container.appendChild(canvas);
 
-  // eslint-disable-next-line no-undef
-  chartInstance = new Chart(ctx, {
+  const minWidth = container.clientWidth;
+  const GAP = 5;
+  const fullWidth = processedData.length * (BAR_WIDTH + GAP) + 32; // доп. отступ
+  const chartWidth = Math.max(minWidth, fullWidth);
+
+  canvas.width = chartWidth;
+  canvas.height = 400; // можно задать через CSS
+  canvas.style.width = `${chartWidth}px`;
+  canvas.style.height = '400px';
+
+  container.style.overflowX = fullWidth > minWidth ? 'auto' : 'hidden';
+
+  // 4. Chart.js
+  if (chartInstance) chartInstance.destroy();
+
+  chartInstance = new Chart(canvas.getContext('2d'), {
     type: 'candlestick',
     data: {
       datasets: [
         {
-          barThickness: 7,
-          color: { up: colorUp, down: colorDown, unchanged: colorUnchanged },
+          barThickness: BAR_WIDTH,
+          barSpacing: GAP,
           borderColor: 'inherit',
+          color: {
+            up: 'var(--color-ink-text-success)',
+            down: 'var(--color-ink-2ry-error)',
+            unchanged: 'var(--color-ink-3ry-error)',
+          },
           data: processedData,
         },
       ],
@@ -90,54 +105,7 @@ export function renderCandlestickChart(candleData, containerElement) {
     options: {
       animation: { duration: DURATION },
       maintainAspectRatio: false,
-      onResize: (chart, size) => {
-        const dataset = chart.config.data.datasets[0];
-        const allData = dataset.data;
-
-        if (!allData || allData.length === 0) {
-          // eslint-disable-next-line no-param-reassign
-          chart.options.scales.x.min = undefined;
-          // eslint-disable-next-line no-param-reassign
-          chart.options.scales.x.max = undefined;
-          chart.update('none');
-          return;
-        }
-
-        const barThickness = dataset.barThickness || 7;
-        // В пикселях
-        const desiredSpaceBetweenCandles = 5;
-        const candleCellWidth = barThickness + desiredSpaceBetweenCandles;
-
-        let maxVisibleCandles = Math.floor(size.width / candleCellWidth);
-        maxVisibleCandles = Math.max(
-          1, // Показать хотя бы одну свечу
-          Math.min(maxVisibleCandles, allData.length)
-        );
-
-        let newXMin;
-        let newXMax;
-
-        if (allData.length <= maxVisibleCandles) {
-          newXMin = allData[0].x;
-          newXMax = allData[allData.length - 1].x;
-        } else {
-          // Показать последние 'maxVisibleCandles'
-          newXMin = allData[allData.length - maxVisibleCandles].x;
-          newXMax = allData[allData.length - 1].x;
-        }
-
-        const currentXMin = chart.options.scales.x.min;
-        const currentXMax = chart.options.scales.x.max;
-
-        if (newXMin !== currentXMin || newXMax !== currentXMax) {
-          // eslint-disable-next-line no-param-reassign
-          chart.options.scales.x.min = newXMin;
-          // eslint-disable-next-line no-param-reassign
-          chart.options.scales.x.max = newXMax;
-          // Обновить график в новом размере
-          chart.update('none');
-        }
-      },
+      parsing: false,
       plugins: {
         legend: { display: false },
         tooltip: {
@@ -166,7 +134,7 @@ export function renderCandlestickChart(candleData, containerElement) {
           },
         },
       },
-      responsive: true,
+      responsive: false,
       scales: {
         x: {
           type: 'time',
@@ -209,9 +177,28 @@ export function renderCandlestickChart(candleData, containerElement) {
           border: { display: true, color: 'rgb(255 255 255 / 0.08)', width: 1 },
           grid: { color: 'rgb(255 255 255 / 0.08)' },
           position: 'right',
-          ticks: { color: 'rgb(255 255 255 / 0.6)', padding: 12 },
+          ticks: {
+            color: 'rgb(255 255 255 / 0.6)',
+            padding: 12,
+            callback: (v) => formatPrice(v),
+          },
         },
       },
     },
   });
+
+  // 5. Скролл к последней свече
+  if (fullWidth > minWidth) {
+    requestAnimationFrame(() => {
+      container.scrollLeft = container.scrollWidth - container.clientWidth;
+    });
+  }
+}
+
+/** Утилита для безопасного уничтожения графика */
+export function destroyChartInstance() {
+  if (chartInstance) {
+    chartInstance.destroy();
+    chartInstance = null;
+  }
 }

@@ -175,6 +175,9 @@ export function updateTimeframeOptionsForAssetPage(selectedPeriod) {
   if (!validTimeframes.includes(newActiveTimeframe) && validTimeframes.length) {
     [newActiveTimeframe] = validTimeframes;
     setChartTimeframe(newActiveTimeframe);
+  } else if (['1d', '1pd'].includes(selectedPeriod)) {
+    newActiveTimeframe = '5m';
+    setChartTimeframe('5m');
   } else if (!validTimeframes.length) {
     newActiveTimeframe = null;
     setChartTimeframe(null);
