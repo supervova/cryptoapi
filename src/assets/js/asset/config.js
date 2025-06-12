@@ -1,8 +1,9 @@
+// src/assets/js/asset/config.js
+
 /**
  * @file Конфигурационный файл веб-приложения.
  * Определяет базовые настройки окружения, API-эндпоинты и параметры графика
  * для отображения криптовалютных данных.
- * @path src/assets/js/asset/config.js
  */
 
 const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
@@ -38,7 +39,7 @@ export const VALID_TIMEFRAMES_FOR_PERIOD = {
 
 // Начальные значения для графика (будут переопределены из APP_CONFIG в state.js или asset.js)
 export const DEFAULT_CHART_PERIOD = APP_CONFIG.initialChartPeriod || '1d';
-export const DEFAULT_CHART_TIMEFRAME = APP_CONFIG.initialChartTimeframe || '1h'; // Должен быть валидным для DEFAULT_CHART_PERIOD
+export const DEFAULT_CHART_TIMEFRAME = APP_CONFIG.initialChartTimeframe || '1m'; // Должен быть валидным для DEFAULT_CHART_PERIOD
 
 // Если есть другие специфичные для страницы актива конфигурации, их можно добавить сюда.
 // Например, интервалы обновления для графика, если он должен обновляться "вживую" (пока не реализуем).

@@ -5,6 +5,7 @@
 deploy.sh
 dist/
 public/
+src/assets/css/*.css
 src/assets/js/_tmp.js
 src/patches/
 
@@ -88,3 +89,4 @@ Desktop.ini
 Thumbs.db
 ehthumbs.db
 ehthumbs_vista.db
+
