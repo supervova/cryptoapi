@@ -8,6 +8,7 @@
 @custom-media --tablet-p-only only screen and (#{$tablet} <= width <= #{$tablet-l - 1px}) and (min-height: #{$phone-l-height});
 @custom-media --tablet-l-down only screen and (width < #{$tablet-l});
 @custom-media --tablet-l only screen and (width >= #{$tablet-l}) and (min-height: #{$phone-l-height});
+@custom-media --tablet-l-only only screen and (#{$tablet-l} < width <= #{$laptop}) and (min-height: #{$phone-l-height});
 @custom-media --tablet-only only screen and (#{$tablet} <= width <= #{$laptop}) and (min-height: #{$phone-l-height});
 @custom-media --laptop-down only screen and (width < #{$laptop});
 @custom-media --laptop only screen and (width >= #{$laptop}) and (min-height: #{$phone-l-height});

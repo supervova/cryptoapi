@@ -4,7 +4,7 @@
   background: var(--color-bg-level-01);
   border-radius: calc(var(--border-radius-base) + var(--size-half));
   display: flex;
-  gap: 0;
+  gap: var(--size-half);
   justify-content: center;
   margin-bottom: var(--size-1);
   padding: var(--size-half);
@@ -12,20 +12,31 @@
 
 .e-segmented-control__item {
   --button-height: var(--size-5);
-  background: none;
-  border-radius: var(--border-radius-base);
-  color: var(--color-ink-2ry);
+  @include button;
 
-  &.is-active {
-    &,
-    &:hover {
-      background-color: hsl(var(--h-green) var(--s) 88% / 0.08);
-      color: var(--color-ink-text-success);
-      cursor: default;
-    }
+  & {
+    background: none;
+    border-radius: var(--border-radius-base);
+    color: var(--color-ink-2ry);
+    margin-inline-end: 0;
   }
 
   &:hover {
     color: var(--color-ink-text);
+  }
+}
+
+.e-segmented-control__item input {
+  opacity: 0;
+}
+
+.e-segmented-control__item:has(input:checked)  {
+  &,
+  &:hover {
+    background: hsl(var(--h-green) var(--s) 88% / 0.08);
+    color: var(--color-ink-text-success);
+    cursor: default;
+    filter: none;
+    pointer-events: none;
   }
 }

@@ -143,8 +143,11 @@ msgstr "Тарифы и цены"
 msgid "AI Consultant and API Integrations"
 msgstr "ИИ-консультант и интеграции API"
 
-msgid "Two CryptoAI products — AI Consultant and API Integrations — are available by subscription. However, you can start using them completely free. By signing up, you gain access to basic AI analytics features for major cryptocurrencies — Bitcoin and Ethereum. Each day, the system will send you one trading signal and provide access to the general forecast feed with a one-hour delay. This is enough to evaluate the accuracy of our AI algorithms and take your first steps into crypto trading with artificial intelligence."
-msgstr "Два продукта CryptoAI — ИИ-консультант и интеграции API — доступны по подписке. Но вы можете начать пользоваться ими совершенно бесплатно. Зарегистрировавшись, вы получаете доступ к базовым возможностям нашей ИИ-аналитики для главных криптовалют — Bitcoin и Ethereum. Каждый день система будет отправлять вам один торговый сигнал и предоставлять доступ к общей ленте прогнозов с часовой задержкой. Этого достаточно, чтобы оценить точность наших ИИ-алгоритмов и сделать первые шаги в мире криптотрейдинга с искусственным интеллектом."
+msgid "Two CryptoAI products — AI Consultant and API Integrations — are available by subscription. However, you can start using them completely free."
+msgstr "Два продукта CryptoAI — ИИ-консультант и интеграции API — доступны по подписке. Но вы можете начать пользоваться ими совершенно бесплатно."
+
+msgid "By signing up, you gain access to basic AI analytics features for major cryptocurrencies — Bitcoin and Ethereum. Each day, the system will send you one trading signal and provide access to the general forecast feed with a one-hour delay. This is enough to evaluate the accuracy of our AI algorithms and take your first steps into crypto trading with artificial intelligence."
+msgstr "Зарегистрировавшись, вы получаете доступ к базовым возможностям нашей ИИ-аналитики для главных криптовалют — Bitcoin и Ethereum. Каждый день система будет отправлять вам один торговый сигнал и предоставлять доступ к общей ленте прогнозов с часовой задержкой. Этого достаточно, чтобы оценить точность наших ИИ-алгоритмов и сделать первые шаги в мире криптотрейдинга с искусственным интеллектом."
 
 msgid "Monthly Payment"
 msgstr "Помесячная оплата"

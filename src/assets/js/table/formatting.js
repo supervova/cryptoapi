@@ -7,34 +7,38 @@ import { ASSETS_PATH_PREFIX } from '../markets/config.js';
  *  • < 1 e-8  → экспоненциальная запись `1.23e-9`
  *  • < 1      → столько знаков, чтобы показать первые 2 значащие цифры,
  *               но не более 8
- *  • ≥ 1      → всегда 2 знака
+ *  • ≥ 1      → всегда 2 знака, либо 4 — если указан малый tick
  * @param {string|number} value
+ * @param {Object} [options]
+ * @param {number} [options.tick] — минимальный шаг изменения цены
  * @returns {string}
  */
-export function formatPrice(value) {
+export function formatPrice(value, options = {}) {
   if (value === null || value === undefined) return '–';
 
   const price = Number(value);
   if (!Number.isFinite(price)) return '–';
   if (price === 0) return '0';
 
-  // Очень маленькие значения показываем в экспоненциальной форме
-  if (Math.abs(price) < 1e-8) return price.toExponential(2);
-
-  // Для значений меньше 1 рассчитываем нужную точность
-  if (Math.abs(price) < 1) {
-    const exponent = Math.floor(Math.log10(Math.abs(price))); // отрицательное число
-    /*  |exponent| = количество нулей после точки до первой значащей
-     *  +3  → две дополнительные значащие цифры.
-     *  Минимум 4 знака, максимум 8.                         */
-    const decimals = Math.min(8, Math.max(4, Math.abs(exponent) + 3));
-    return Number(price.toFixed(decimals)).toString(); // убираем лишние нули
+  // Очень маленькие значения — экспоненциально
+  if (Math.abs(price) < 1e-8) {
+    return price.toExponential(2);
   }
 
-  // Всё остальное — две цифры после запятой
+  // До 1 — вычисляем нужную точность от порядка
+  if (Math.abs(price) < 1) {
+    const exponent = Math.floor(Math.log10(Math.abs(price)));
+    const decimals = Math.min(8, Math.max(4, Math.abs(exponent) + 3));
+    return Number(price.toFixed(decimals)).toString();
+  }
+
+  // Для значений >= 1 — увеличиваем точность, если tick < 0.01
+  const { tick } = options;
+  const decimals = tick && tick < 0.01 ? 4 : 2;
+
   return price.toLocaleString('en-US', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
   });
 }
 

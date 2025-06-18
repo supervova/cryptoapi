@@ -322,7 +322,7 @@
     --padding-bottom-display: #{rem(7)};
 
     --font-size-title:      #{rem(40)};
-    --font-weight-title:    var(--font-weight-titles);
+    --font-weight-title:    var(--font-weight-titles-lighter);
     --line-height-title:    #{math.div(48, 40)};
     --padding-top-title:    #{rem(1)};
     --padding-bottom-title: #{rem(7)};

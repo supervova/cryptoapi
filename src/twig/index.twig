@@ -415,10 +415,16 @@
       <header class="e-section__header is-centered">
         <span class="e-eyebrow">{{ 'AI Consultant and API Integrations'|trans }}</span>
         <h2 class="e-section__title">{{ 'Plans & Pricing'|trans }}</h2>
-        <p>{{ 'Two CryptoAI products — AI Consultant and API Integrations — are available by subscription. However, you can start using them completely free. By signing up, you gain access to basic AI analytics features for major cryptocurrencies — Bitcoin and Ethereum. Each day, the system will send you one trading signal and provide access to the general forecast feed with a one-hour delay. This is enough to evaluate the accuracy of our AI algorithms and take your first steps into crypto trading with artificial intelligence.'|trans }}</p>
+        <p>{{ 'Two CryptoAI products — AI Consultant and API Integrations — are available by subscription. However, you can start using them completely free.'|trans }} {{ 'By signing up, you gain access to basic AI analytics features for major cryptocurrencies — Bitcoin and Ethereum. Each day, the system will send you one trading signal and provide access to the general forecast feed with a one-hour delay. This is enough to evaluate the accuracy of our AI algorithms and take your first steps into crypto trading with artificial intelligence.'|trans }}</p>
         <div class="e-segmented-control d-none tablet:d-flex">
-          <button class="e-segmented-control__item" id="billing-monthly" type="button">{{ 'Monthly Payment'|trans }}</button>
-          <button class="e-segmented-control__item is-active" id="billing-annual" type="button">{{ 'Annual Payment (15% Discount)'|trans }}</button>
+          <label class="e-segmented-control__item" for="billing-monthly">
+            <input id="billing-monthly" name="interval" type="radio">
+            {{ 'Monthly Payment'|trans }}
+          </label>
+          <label class="e-segmented-control__item" for="billing-annual">
+            <input id="billing-annual" name="interval" type="radio" checked>
+            {{ 'Annual Payment (15% Discount)'|trans }}
+          </label>
         </div>
       </header>
       <div class="e-plans">

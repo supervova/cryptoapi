@@ -68,32 +68,41 @@
         <p class="is-loading-state p-m text-center">{{ 'Loading chart data...'|trans }}</p>
       </div>
 
-      <div class="e-asset-details__period">
-        {% set initial_period = page.js.initialChartPeriod|default('1d') %}
-        {% set initial_timeframe = page.js.initialChartTimeframe|default('1m') %}
+      <div class="e-asset-details__controls">
+        <button class="btn has-tooltip is-hidden" data-role="chart-scroller" data-target="start" aria-label="{{ 'Period Start'|trans }}">
+          {% include 'partials/icon.twig' with {name: 'sm-chevron-left'} %}
+        </button>
 
-        {% set chart_periods = [
-          {label: '1 Day', value: '1d', shortcut: '1D', checked: (initial_period == '1d')},
-          {label: '48–24h Ago', value: '1pd', shortcut: 'D-2', checked: (initial_period == '1pd')},
-          {label: '1 Month', value: '1M', shortcut: '1M', checked: (initial_period == '1M')},
-          {label: '60–30d Ago', value: '1pM', shortcut: 'M-2', checked: (initial_period == '1pM')},
-          {label: '1 Year', value: '1Y', shortcut: '1Y', checked: (initial_period == '1Y')},
-          {label: '730–365d Ago', value: '1pY', shortcut: 'Y-2', checked: (initial_period == '1pY')}
-        ] %}
+        <div class="e-asset-details__period">
+          {% set initial_period = page.js.initialChartPeriod|default('1d') %}
+          {% set initial_timeframe = page.js.initialChartTimeframe|default('5m') %}
 
-        {% set chart_timeframes = [
-          {label: '1 Minute', value: '1m', shortcut: '1m', checked: (initial_timeframe == '1m')},
-          {label: '5 Minutes', value: '5m', shortcut: '5m', checked: (initial_timeframe == '5m')},
-          {label: '15 Minutes', value: '15m', shortcut: '15m', checked: (initial_timeframe == '15m')},
-          {label: '1 Hour', value: '1h', shortcut: '1H', checked: (initial_timeframe == '1h')},
-          {label: '4 Hours', value: '4h', shortcut: '4H', checked: (initial_timeframe == '4h'), disabled: true},
-          {label: '12 Hours', value: '12h', shortcut: '12H', checked: (initial_timeframe == '12h'), disabled: true},
-          {label: '1 Day', value: '1d', shortcut: '1d', checked: (initial_timeframe == '1d'), disabled: true}
-        ] %}
+          {% set chart_periods = [
+            {label: '1 Day', value: '1d', shortcut: '1D', checked: (initial_period == '1d')},
+            {label: '48–24h Ago', value: '1pd', shortcut: 'D-2', checked: (initial_period == '1pd')},
+            {label: '1 Month', value: '1M', shortcut: '1M', checked: (initial_period == '1M')},
+            {label: '60–30d Ago', value: '1pM', shortcut: 'M-2', checked: (initial_period == '1pM')},
+            {label: '1 Year', value: '1Y', shortcut: '1Y', checked: (initial_period == '1Y')},
+            {label: '730–365d Ago', value: '1pY', shortcut: 'Y-2', checked: (initial_period == '1pY')}
+          ] %}
 
-        {{ macros.chart_menu('chart-period', chart_periods, (initial_period|upper), 'Period'|trans) }}
-        {# Эта строка содержит оригинальную ошибку с неверным summary #}
-        {{ macros.chart_menu('chart-timeframe', chart_timeframes, '1d', 'Timeframe'|trans) }}
+          {% set chart_timeframes = [
+            {label: '1 Minute', value: '1m', shortcut: '1m', checked: (initial_timeframe == '1m')},
+            {label: '5 Minutes', value: '5m', shortcut: '5m', checked: (initial_timeframe == '5m')},
+            {label: '15 Minutes', value: '15m', shortcut: '15m', checked: (initial_timeframe == '15m')},
+            {label: '1 Hour', value: '1h', shortcut: '1H', checked: (initial_timeframe == '1h')},
+            {label: '4 Hours', value: '4h', shortcut: '4H', checked: (initial_timeframe == '4h'), disabled: true},
+            {label: '12 Hours', value: '12h', shortcut: '12H', checked: (initial_timeframe == '12h'), disabled: true},
+            {label: '1 Day', value: '1d', shortcut: '1d', checked: (initial_timeframe == '1d'), disabled: true}
+          ] %}
+
+          {{ macros.chart_menu('chart-period', chart_periods, (initial_period|upper), 'Period'|trans) }}
+          {{ macros.chart_menu('chart-timeframe', chart_timeframes, (initial_timeframe|trans), 'Timeframe'|trans) }}
+        </div>
+
+        <button class="btn has-tooltip is-hidden" data-role="chart-scroller" data-target="end" aria-label="{{ 'Period End'|trans }}" disabled>
+          {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
+        </button>
       </div>
     </div>
   </div>

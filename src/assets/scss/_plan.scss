@@ -8,7 +8,11 @@
   // Prevent resizing of child elements
 
   @media (--tablet-l) {
+    background-image: url('#{$assets-prefix}/assets/img/components/bg-plans.png');
+    background-position: rem(64) calc(100% - #{rem(64)});
+    background-repeat: no-repeat;
     display: flex;
+    align-items: start;
     gap: var(--size-3);
   }
 }

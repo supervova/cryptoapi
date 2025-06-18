@@ -1,8 +1,9 @@
+// src/assets/js/asset/chart.js
+
 /**
  * @file Модуль для управления отображением данных криптовалютного актива.
  * обновление заголовка страницы, обработка периодов и таймфреймов, и загрузка
  * данных для графика.
- * @path src/assets/js/asset/chart.js
  */
 
 import * as DOMElements from './dom.js';
@@ -97,13 +98,19 @@ export function updateAssetHeader({
 
   // Цены
   if (DOMElements.assetHeader.open)
-    DOMElements.assetHeader.open.textContent = formatPrice(open);
+    DOMElements.assetHeader.open.textContent = formatPrice(open, {
+      tick: 0.001,
+    });
   if (DOMElements.assetHeader.high)
-    DOMElements.assetHeader.high.textContent = formatPrice(high);
+    DOMElements.assetHeader.high.textContent = formatPrice(high, {
+      tick: 0.001,
+    });
   if (DOMElements.assetHeader.low)
-    DOMElements.assetHeader.low.textContent = formatPrice(low);
+    DOMElements.assetHeader.low.textContent = formatPrice(low, { tick: 0.001 });
   if (DOMElements.assetHeader.price)
-    DOMElements.assetHeader.price.textContent = formatPrice(current);
+    DOMElements.assetHeader.price.textContent = formatPrice(current, {
+      tick: 0.001,
+    });
 }
 
 /**

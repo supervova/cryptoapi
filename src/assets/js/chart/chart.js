@@ -35,7 +35,76 @@ ensureFinancialPlugin();
 
 const BAR_WIDTH = 7;
 const DURATION = 240;
-let chartInstance = null;
+let chartInstance = null; // хранит текущий экземпляр Chart.js
+
+// Актуальный scroll-контейнер
+let currentScrollDiv = null;
+
+// Кнопки прокрутки
+const scrollBtns = {
+  start: document.querySelector(
+    '[data-role="chart-scroller"][data-target="start"]'
+  ),
+  end: document.querySelector(
+    '[data-role="chart-scroller"][data-target="end"]'
+  ),
+};
+
+/**
+ * Обновляет состояние кнопки прокрутки графика
+ * @param {HTMLElement|null} btn - HTML-элемент кнопки
+ * @param {Object} options - Параметры состояния
+ * @param {boolean} options.hidden - Флаг видимости кнопки
+ * @param {boolean} options.disabled - Флаг активности кнопки
+ * @returns {void}
+ */
+function setBtnState(btn, { hidden, disabled }) {
+  if (!btn) return;
+  btn.classList.toggle('is-hidden', !!hidden);
+  if (disabled) btn.setAttribute('disabled', 'disabled');
+  else btn.removeAttribute('disabled');
+}
+
+/**
+ * Обновляет состояние кнопок прокрутки в зависимости от положения скролла графика
+ * @returns {void}
+ */
+function updateScrollButtons() {
+  if (!currentScrollDiv) return;
+  const { scrollLeft, scrollWidth, clientWidth } = currentScrollDiv;
+  const atStart = scrollLeft < 4;
+  const atEnd = scrollLeft > scrollWidth - clientWidth - 4;
+
+  // показываем кнопки, если график шире контейнера
+  const need = scrollWidth > clientWidth + 4;
+  setBtnState(scrollBtns.start, {
+    hidden: !need,
+    disabled: atStart,
+  });
+  setBtnState(scrollBtns.end, {
+    hidden: !need,
+    disabled: atEnd,
+  });
+}
+
+// Хэндлеры кликов
+scrollBtns.start?.addEventListener('click', () => {
+  if (currentScrollDiv) {
+    currentScrollDiv.scrollTo({ left: 0, behavior: 'smooth' });
+  }
+});
+
+scrollBtns.end?.addEventListener('click', () => {
+  if (currentScrollDiv) {
+    currentScrollDiv.scrollTo({
+      left: currentScrollDiv.scrollWidth,
+      behavior: 'smooth',
+    });
+  }
+});
+
+// Пересчитываем при ресайзе окна
+window.addEventListener('resize', updateScrollButtons);
 
 /**
  * Рисует (или перерисовывает) свечной график.
@@ -65,22 +134,35 @@ export function renderCandlestickChart(candles, wrapperEl) {
     c: +d.c,
   }));
 
-  // 3. Подготовка контейнера
+  // 3. Подготовка контейнеров
   container.innerHTML = '';
+
+  const scrollDiv = document.createElement('div'); // прокручиваемая часть
+  scrollDiv.className = 'e-chart__base'; // сохраняем исходный класс
+
+  // пока фиксированной колонки Y нет — создаём только scrollDiv
+  container.appendChild(scrollDiv);
+
+  // сам график
   const canvas = document.createElement('canvas');
-  container.appendChild(canvas);
+  scrollDiv.appendChild(canvas);
+
+  // для кнопок‑скроллеров
+  currentScrollDiv = scrollDiv;
 
   const minWidth = container.clientWidth;
   const GAP = 5;
-  const fullWidth = processedData.length * (BAR_WIDTH + GAP) + 32; // доп. отступ
+  const fullWidth = processedData.length * (BAR_WIDTH + GAP) + 32;
   const chartWidth = Math.max(minWidth, fullWidth);
 
   canvas.width = chartWidth;
-  canvas.height = 400; // можно задать через CSS
+
+  // можно управлять через CSS
+  canvas.height = 400;
   canvas.style.width = `${chartWidth}px`;
   canvas.style.height = '400px';
 
-  container.style.overflowX = fullWidth > minWidth ? 'auto' : 'hidden';
+  scrollDiv.style.overflowX = fullWidth > minWidth ? 'auto' : 'hidden';
 
   // 4. Chart.js
   if (chartInstance) chartInstance.destroy();
@@ -124,10 +206,10 @@ export function renderCandlestickChart(candles, wrapperEl) {
               const dp = context.raw;
               return dp
                 ? [
-                    `O: ${formatPrice(dp.o)}`,
-                    `H: ${formatPrice(dp.h)}`,
-                    `L: ${formatPrice(dp.l)}`,
-                    `C: ${formatPrice(dp.c)}`,
+                    `O: ${formatPrice(dp.o, { tick: 0.001 })}`,
+                    `H: ${formatPrice(dp.h, { tick: 0.001 })}`,
+                    `L: ${formatPrice(dp.l, { tick: 0.001 })}`,
+                    `C: ${formatPrice(dp.c, { tick: 0.001 })}`,
                   ]
                 : context.dataset.label || '';
             },
@@ -180,7 +262,7 @@ export function renderCandlestickChart(candles, wrapperEl) {
           ticks: {
             color: 'rgb(255 255 255 / 0.6)',
             padding: 12,
-            callback: (v) => formatPrice(v),
+            callback: (v) => formatPrice(v, { tick: 0.001 }),
           },
         },
       },
@@ -190,9 +272,13 @@ export function renderCandlestickChart(candles, wrapperEl) {
   // 5. Скролл к последней свече
   if (fullWidth > minWidth) {
     requestAnimationFrame(() => {
-      container.scrollLeft = container.scrollWidth - container.clientWidth;
+      scrollDiv.scrollLeft = scrollDiv.scrollWidth - scrollDiv.clientWidth;
     });
   }
+
+  /* 5. Обновляем/навешиваем слушатели */
+  scrollDiv.addEventListener('scroll', updateScrollButtons, { passive: true });
+  updateScrollButtons(); // первичный расчёт
 }
 
 /** Утилита для безопасного уничтожения графика */

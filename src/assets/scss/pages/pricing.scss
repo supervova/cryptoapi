@@ -1,0 +1,71 @@
+/* stylelint-disable declaration-no-important */
+@use '../abstracts' as *;
+@use '../abstracts/custom';
+
+.e-section.is-plans {
+  margin-top: var(--spacer-half-max);
+}
+
+.e-section__header.is-centered {
+  max-width: 100%;
+
+  p { max-width: rem(622); }
+}
+
+.e-section__controls {
+  justify-content: space-between;
+  width: 100%;
+}
+
+[data-role='plans-scroller'] {
+  display: none;
+
+  @media (--tablet-l-only) {
+    display: flex;
+  }
+}
+
+.e-segmented-control {
+  margin-inline: auto;
+}
+
+.e-section__scroller {
+
+  @media (--tablet-l) {
+    display: block;
+    overflow-x: auto;
+    padding: 0;
+    scroll-snap-type: x mandatory;
+    max-width: 100%;
+  }
+
+  @media (--laptop) {
+    margin-inline: auto;
+    padding-inline: var(--padding-x-container);
+    width: 100%;
+    max-width: var(--width-container);
+  }
+}
+
+.e-plans {
+  padding-inline: var(--size-2p5);
+
+  @media (--tablet-l) {
+    gap: var(--size-2);
+    padding-inline: var(--size-5);
+  }
+
+  @media (--laptop) {
+    padding-inline: 0;
+  }
+}
+
+.e-plan {
+  min-width: rem(280);
+}
+
+.e-plan:first-child .e-plan_icon {
+  background-color: var(--color-brand-accent);
+}
+
+

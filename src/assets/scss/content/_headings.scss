@@ -52,7 +52,7 @@ h5, h6 {
 
 h1, .e-h1 {
   @include text-format(title);
-  font-weight: var(--font-weight-titles, 500);
+  font-weight: var(--font-weight-title, 500);
   letter-spacing: var(--letter-spacing-title, normal);
 }
 

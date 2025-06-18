@@ -80,7 +80,7 @@ export async function prepareAndFetchChartData(chartButton) {
       DOMElements.drawerChartSymbol.textContent = `${assetSymbol}-USD`;
     }
     if (DOMElements.drawerChartPrice) {
-      DOMElements.drawerChartPrice.childNodes[0].nodeValue = `${formatPrice(assetData.price?.current)} `;
+      DOMElements.drawerChartPrice.childNodes[0].nodeValue = `${formatPrice(assetData.price?.current, { tick: 0.001 })} `;
     }
     if (DOMElements.drawerChartPriceChange && assetData.price) {
       const change24h = calcChange(assetData.price);
@@ -103,14 +103,23 @@ export async function prepareAndFetchChartData(chartButton) {
       }
     }
     const todayPrice = assetData.price?.today;
+
+    if (DOMElements.drawerChartPrice) {
+      DOMElements.drawerChartPrice.childNodes[0].nodeValue = `${formatPrice(assetData.price?.current, { tick: 0.001 })} `;
+    }
     if (DOMElements.drawerChartHigh) {
       DOMElements.drawerChartHigh.textContent =
-        todayPrice?.max !== undefined ? formatPrice(todayPrice.max) : '–';
+        todayPrice?.max !== undefined
+          ? formatPrice(todayPrice.max, { tick: 0.001 })
+          : '–';
     }
     if (DOMElements.drawerChartLow) {
       DOMElements.drawerChartLow.textContent =
-        todayPrice?.min !== undefined ? formatPrice(todayPrice.min) : '–';
+        todayPrice?.min !== undefined
+          ? formatPrice(todayPrice.min, { tick: 0.001 })
+          : '–';
     }
+
     if (DOMElements.drawerChartOpen) {
       DOMElements.drawerChartOpen.textContent = '...';
     }
@@ -139,7 +148,7 @@ export async function prepareAndFetchChartData(chartButton) {
       chartCandleData &&
       chartCandleData.length > 0 &&
       chartCandleData[0]?.o !== undefined
-        ? formatPrice(chartCandleData[0].o)
+        ? formatPrice(chartCandleData[0].o, { tick: 0.001 })
         : '–';
   }
 
@@ -249,7 +258,7 @@ export async function refreshChartData() {
       chartCandleData &&
       chartCandleData.length > 0 &&
       chartCandleData[0]?.o !== undefined
-        ? formatPrice(chartCandleData[0].o)
+        ? formatPrice(chartCandleData[0].o, { tick: 0.001 })
         : '–';
   }
 

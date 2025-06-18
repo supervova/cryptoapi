@@ -23,5 +23,13 @@
 
 .e-section__title {
   color: var(--color-ink-text);
+
+  &.is-highlight {
+    background-image: var(--color-gradient-brand);
+    background-clip: text;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    color: transparent;
+  }
 }
 // #endregion

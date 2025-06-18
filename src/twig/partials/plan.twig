@@ -3,7 +3,7 @@
     <h3 class="e-plan_title">
       {{ plan.title|trans }}
       <span class="e-plan_icon">
-        {% include 'partials/icon.twig' with { name: plan.icon } %}
+        {% include 'partials/icon.twig' with {name: plan.icon} %}
       </span>
     </h3>
     <p class="e-plan__price">
@@ -14,7 +14,7 @@
     <p class="e-plan__subtitle">
       {{ plan.subtitle|trans }}
     </p>
-    <a class="e-btn" href="{{ plan.link }}">{{ 'Choose a Plan'|trans }}</a>
+    <a class="e-btn" href="{{ plan.link }}">{{ plan.anchor|default('Choose a Plan')|trans }}</a>
   </header>
   <ul class="e-plan__features">
     {% for feature in plan.features %}
