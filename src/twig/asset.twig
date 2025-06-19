@@ -17,23 +17,16 @@
   {% set asset = page.asset %}
 
   <div class="e-container e-asset-details">
-
     <header class="e-main__header e-asset-details__header">
-      {% if asset.icon_path %}
+
+      <figure class="e-asset-details__figure" data-fallback="{{ asset.ticker|slice(0, 3)|upper }}">
         <img
           class="e-asset-details__icon"
           src="{{ asset.icon_path }}"
+          data-fallback="{{ asset.ticker|slice(0, 3)|upper }}"
           alt="{{ asset.name|default(asset.ticker) }}"
         >
-      {% else %}
-        <span
-          class="e-asset-details__icon-fallback e-asset__icon-fallback"
-          aria-hidden="true"
-          style="display: inline-flex;"
-        >
-          {{ asset.ticker|slice(0, 3)|upper }}
-        </span>
-      {% endif %}
+      </figure>
 
       <div class="e-asset-details__summary">
         <a class="e-eyebrow" href="{{ page.lang }}/markets">

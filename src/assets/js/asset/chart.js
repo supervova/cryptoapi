@@ -12,10 +12,7 @@ import { VALID_TIMEFRAMES_FOR_PERIOD, IS_DEVELOPMENT } from './config.js';
 import { fetchChartData } from '../markets/api.js';
 import { formatPrice } from '../table/formatting.js';
 
-import {
-  renderCandlestickChart,
-  destroyChartInstance,
-} from '../chart/chart.js'; // Рендеринг самого графика
+import { renderCandlestickChart, destroyChartInstance } from '../chart.js'; // Рендеринг самого графика
 
 import {
   state as assetState,
@@ -61,10 +58,10 @@ export function updateAssetHeader({
   current,
 }) {
   // Название валюты
-  DOMElements.assetHeader.name.forEach((elem) => {
-    if (elem) {
-      const element = elem;
-      element.textContent = name || '—';
+  DOMElements.assetHeader.name.forEach((el) => {
+    if (el) {
+      const elName = el;
+      elName.textContent = name || '—';
     }
   });
 
@@ -73,27 +70,12 @@ export function updateAssetHeader({
     DOMElements.assetHeader.symbol.textContent = `${ticker}-USD`;
   }
 
-  // Иконка и fallback
-  if (DOMElements.assetHeader.icon && DOMElements.assetHeader.iconFallback) {
-    const { icon } = DOMElements.assetHeader;
-    const fallback = DOMElements.assetHeader.iconFallback;
-
-    // Сразу проверяем существование файла
-    fetch(iconPath)
-      .then((response) => {
-        if (response.ok) {
-          icon.src = iconPath;
-          icon.style.display = '';
-          fallback.style.display = 'none';
-        } else {
-          throw new Error('Icon not found');
-        }
-      })
-      .catch(() => {
-        icon.style.display = 'none';
-        fallback.textContent = ticker.slice(0, 3).toUpperCase();
-        fallback.style.display = '';
-      });
+  // Иконка и data-fallback (без fetch)
+  if (DOMElements.assetHeader.icon) {
+    DOMElements.assetHeader.icon.src = iconPath;
+    DOMElements.assetHeader.icon.dataset.fallback = ticker
+      .slice(0, 3)
+      .toUpperCase();
   }
 
   // Цены
@@ -101,12 +83,15 @@ export function updateAssetHeader({
     DOMElements.assetHeader.open.textContent = formatPrice(open, {
       tick: 0.001,
     });
+
   if (DOMElements.assetHeader.high)
     DOMElements.assetHeader.high.textContent = formatPrice(high, {
       tick: 0.001,
     });
+
   if (DOMElements.assetHeader.low)
     DOMElements.assetHeader.low.textContent = formatPrice(low, { tick: 0.001 });
+
   if (DOMElements.assetHeader.price)
     DOMElements.assetHeader.price.textContent = formatPrice(current, {
       tick: 0.001,

@@ -392,6 +392,10 @@ const assetPage = () => {
       viewData.ENV = PRODUCTION ? 'production' : 'development';
       // Убедимся, что site.assets_prefix установлен, если его нет в фикстуре (хотя он должен быть)
       if (!viewData.site) viewData.site = {};
+      if (!viewData.page) viewData.page = {};
+      if (viewData.asset_data) {
+        viewData.page.asset = viewData.asset_data;
+      }
       if (viewData.site.assets_prefix === undefined)
         viewData.site.assets_prefix = '';
     } else {

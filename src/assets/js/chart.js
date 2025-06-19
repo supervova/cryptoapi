@@ -1,12 +1,12 @@
-// src/assets/js/chart/chart.js
+// src/assets/js/chart.js
 
 /**
  * @file Модуль для создания и управления интерактивным свечным графиком с помощью
  * Chart.js.
  * Настройка внешнего вида, форматирование данных и обработка изменения размеров.
  */
-import t from '../markets/translate.js';
-import { formatPrice } from '../table/formatting.js';
+import t from './markets/translate.js';
+import { formatPrice } from './table/formatting.js';
 // import { IS_DEVELOPMENT } from '../markets/config.js';
 
 const { Chart } = window;

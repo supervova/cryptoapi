@@ -39,6 +39,19 @@
       "RSI365": "63.7",
       "RSI1000": "N/A",
       "market": "high"
+    },
+    "ZRO": {
+      "price": {"current": "98.45", "yesterday": {"middle": "95.20"}},
+      "rating": 6.9,
+      "risk": "high",
+      "TRINDX": 590,
+      "RSI7": "71.2",
+      "RSI30": "68.3",
+      "RSI91": "65.0",
+      "RSI182": "60.1",
+      "RSI365": "63.7",
+      "RSI1000": "N/A",
+      "market": "high"
     }
   }
 ]

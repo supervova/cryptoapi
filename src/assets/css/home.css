@@ -20,6 +20,7 @@
 @custom-selector :--text-field-blur :where(input:not([type="checkbox"]):not([type="radio"]), select, textarea):not(:focus);
 :where(.e-section.is-markets) .e-asset-details {
   flex: 1;
+  padding-bottom: var(--size-8);
 }
 @media (--tablet-l) {
   :where(.e-section.is-markets) .e-asset-details {

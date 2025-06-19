@@ -84,7 +84,6 @@ async function initializeAssetPage() {
           name: DOMElements.assetHeader.name,
           symbol: DOMElements.assetHeader.symbol,
           icon: DOMElements.assetHeader.icon,
-          iconFallback: DOMElements.assetHeader.iconFallback,
         },
       });
     }

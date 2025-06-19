@@ -88,6 +88,7 @@
 
   // Markets
   @include meta.load-css('markets/asset');
+  @include meta.load-css('markets/asset-icon');
   @include meta.load-css('markets/assets');
   @include meta.load-css('markets/metric');
 

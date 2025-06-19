@@ -103,19 +103,3 @@ label:has(> [type=checkbox]) {
   right: 0;
   z-index: 1;
 }
-
-[id=drawer-chart] {
-  background-color: var(--color-bg-level-01);
-}
-@media (--tablet) {
-  [id=drawer-chart] {
-    height: auto;
-    max-height: calc(100vh - var(--size-5));
-    max-height: calc(100dvh - var(--size-5));
-  }
-}
-
-[id=drawer-chart] .e-asset__icon-fallback {
-  width: var(--size-5);
-  height: var(--size-5);
-}

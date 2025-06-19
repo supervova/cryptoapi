@@ -4,9 +4,6 @@
 export const assetDetailsIcon = document.querySelector(
   '.e-asset-details__icon'
 );
-export const assetDetailsIconFallback = document.querySelector(
-  '.e-asset-details__icon-fallback'
-);
 export const assetDetailsTitleElements = document.querySelectorAll(
   '.e-asset-details__title'
 ); // Их два (мобильный/десктоп)
@@ -38,7 +35,6 @@ export const assetHeader = {
   name: document.querySelectorAll('[data-asset-name]'),
   symbol: document.querySelector('[data-asset-symbol]'),
   icon: document.querySelector('.e-asset-details__icon'),
-  iconFallback: document.querySelector('.e-asset-details__icon-fallback'),
   open: document.querySelector('[data-asset-open]'),
   high: document.querySelector('[data-asset-high]'),
   low: document.querySelector('[data-asset-low]'),

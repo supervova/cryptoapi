@@ -1,5 +1,9 @@
 @use '../abstracts' as *;
 
+.e-asset-details {
+  padding-bottom: rem(80);
+}
+
 // -----------------------------------------------------------------------------
 // HEADER
 // -----------------------------------------------------------------------------
@@ -10,23 +14,6 @@
   padding-bottom: var(--size-3);
 }
 
-.e-asset-details__icon {
-  display: none;
-
-  @media (--tablet) {
-    display: block;
-    width: var(--size-5);
-    height: var(--size-5);
-  }
-}
-
-.e-asset-details__icon,
-.e-asset-details__icon-fallback {
-  @media (--tablet) {
-    translate: 0 rem(-3);
-  }
-}
-
 .e-asset-details__summary {
   flex-grow: 1;
   padding-inline-end: var(--size-2);
@@ -34,12 +21,19 @@
 
 :where(.e-asset-details__summary > .e-eyebrow) {
   position: relative;
-  padding-inline-start: var(--size-2p5);
+
   .e-icon {
-    position: absolute;
-    top: 50%;
-    inset-inline-start: rem(-8);
-    translate: 0 (-50%);
+    display: none;
+  }
+
+  @media (--phone-l) {
+    .e-icon {
+      display: block;
+      position: absolute;
+      top: 50%;
+      inset-inline-start: rem(-24);
+      translate: 0 (-50%);
+    }
   }
 }
 
@@ -182,7 +176,7 @@
   gap: var(--size-1);
   justify-content: space-between;
   position: absolute;
-  bottom: rem(-56);
+  bottom: var(--size-2);
   left: 50%;
   translate: -50% 0;
   width: 100%;

@@ -21,28 +21,6 @@ import {
 } from './table/columns.js';
 
 /**
- * Заменяет сбойное изображение на текстовый фоллбэк.
- * @param {Event} event - Событие ошибки загрузки изображения.
- */
-function handleImageError(event) {
-  const img = event.target;
-
-  if (img.tagName !== 'IMG' || !img.classList.contains('e-asset__icon')) {
-    return;
-  }
-
-  const { symbol } = img.dataset;
-  if (!symbol) return;
-
-  const fallback = document.createElement('span');
-  fallback.className = 'e-asset__icon-fallback';
-  fallback.setAttribute('aria-hidden', 'true');
-  fallback.textContent = symbol.slice(0, 3).toUpperCase();
-
-  img.replaceWith(fallback);
-}
-
-/**
  * Обрабатывает клик по строке таблицы для перехода на страницу актива.
  * @param {MouseEvent} event
  */
@@ -91,7 +69,6 @@ async function initializeApp() {
       throw new Error('Required table DOM elements not found');
     }
 
-    DOMElements.tableBody.addEventListener('error', handleImageError, true);
     DOMElements.tableBody.addEventListener('click', handleRowClick);
     DOMElements.tableBody.addEventListener('keydown', handleRowKeydown);
 

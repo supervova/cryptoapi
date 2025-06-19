@@ -1,0 +1,56 @@
+@use '../abstracts' as *;
+
+// Icon Container / fallback
+.e-asset__figure,
+.e-asset-details__figure {
+  background-color: var(--color-bg-2ry);
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-bottom: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // Prevents SVG distortion
+  object-fit: contain;
+}
+
+.e-asset__figure {
+  order: -1;
+}
+
+.e-asset-details__figure {
+  translate: 0 rem(-3);
+}
+
+.e-asset__figure,
+.e-asset__icon {
+  width: var(--size-4);
+  height: var(--size-4);
+}
+
+.e-asset-details__figure,
+.e-asset-details__icon {
+  width: var(--size-5);
+  height: var(--size-5);
+}
+
+.e-asset__figure:has(.e-asset__icon[src$='placeholder.svg']),
+.e-asset-details__figure:has(.e-asset-details__icon[src$='placeholder.svg']) {
+  background: var(--color-gradient-brand);
+  color: var(--button-color-primary);
+  font-size: var(--font-size-caption);
+  font-weight: 500;
+  text-shadow: 0 1px 0 var(--color-alpha-light-400);
+  text-transform: uppercase;
+  position: relative;
+
+  &::after {
+    content: attr(data-fallback);
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% (-44%);
+  }
+}

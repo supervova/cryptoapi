@@ -16,6 +16,7 @@
 :where(.e-section.is-markets) {
   .e-asset-details {
     flex: 1;
+    padding-bottom: var(--size-8);
 
     @media (--tablet-l) {
       padding-inline-end: var(--size-2);

@@ -36,9 +36,11 @@ const assetCell = (asset) => {
       <span class="e-asset__symbol">${symbol}</span>
     </div>`;
 
-  const iconHtml = !iconPath
-    ? `<span class="e-asset__icon-fallback" aria-hidden="true">${fallbackText}</span>`
-    : `<img class="e-asset__icon" src="${iconPath}" alt="" width="32" height="32" data-symbol="${symbol}">`;
+  const iconHtml = `
+    <figure class="e-asset__figure" data-fallback="${fallbackText}">
+      <img class="e-asset__icon" src="${iconPath}" alt="" width="32" height="32">
+    </figure>
+  `;
 
   return `
     <div class="e-asset">

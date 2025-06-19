@@ -26,7 +26,13 @@
 
 .e-main__header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: start;
+  flex-direction: column;
   margin-bottom: var(--size-line);
+
+  @media (--phone-l) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
