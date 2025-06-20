@@ -271,10 +271,10 @@ tfoot td {
 
 @keyframes cell-blink {
   0% {
-    background-color: var(--color-ink-min);
+    background-color: var(--tr-highlight);
   }
   40% {
-    color: var(--changedColor);
+    color: var(--tr-highlight);
   }
   100% {
     background: transparent;

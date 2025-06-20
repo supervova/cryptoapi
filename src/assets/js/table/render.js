@@ -97,8 +97,20 @@ function generateCellsHtml(asset) {
 function updateCellNode(td, asset, col) {
   const [, newHtml] = buildCell(col, asset);
   const cell = td;
-  if (cell.innerHTML !== newHtml) {
+  const isChanged = cell.innerHTML !== newHtml;
+
+  if (isChanged) {
     cell.innerHTML = newHtml;
+
+    // highlight updated price and 24 h change cells
+    if (col.key === 'price' || col.key === 'change_24h') {
+      cell.classList.add('is-updated');
+      setTimeout(() => {
+        if (cell?.classList && cell.parentNode) {
+          cell.classList.remove('is-updated');
+        }
+      }, 1600);
+    }
   }
 }
 
@@ -167,6 +179,14 @@ export function patchTableBody() {
     frag.appendChild(spacer((total - end) * ROW_HEIGHT_ESTIMATE, colCnt));
 
   DOMElements.tableBody.replaceChildren(frag);
+  if (DOMElements.tableHead) {
+    DOMElements.tableHead.classList.add('is-updated');
+    setTimeout(() => {
+      if (DOMElements.tableHead?.classList) {
+        DOMElements.tableHead.classList.remove('is-updated');
+      }
+    }, 1600);
+  }
 }
 
 export function generateTableHeadHtml() {
