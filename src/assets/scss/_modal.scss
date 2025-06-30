@@ -124,6 +124,11 @@
     translate: 0 -50%;
   }
 }
+
+// SIZES
+.e-modal.is-sm .e-modal__base {
+  --modal-max-width: var(--width-md);
+}
 // #endregion
 
 // -----------------------------------------------------------------------------

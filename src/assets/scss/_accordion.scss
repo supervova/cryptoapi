@@ -83,3 +83,50 @@
 }
 
 // #endregion
+
+// -----------------------------------------------------------------------------
+// HEADER CONTAINING A HGROUP
+// -----------------------------------------------------------------------------
+// #region
+.e-accordion__header.has-hgroup {
+  display: flex;
+  align-items: center;
+  gap: var(--size-2);
+
+  @media (--phone-l) {
+    gap: var(--size-3);
+  }
+}
+
+.e-accordion__hgroup {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+:where(.e-accordion__header.has-hgroup) {
+  .e-h3 {
+    margin-bottom: rem(-8);
+
+    @media (--tablet) {
+      margin-bottom: rem(-16);
+    }
+  }
+
+  .text-2ry {
+    @include text-truncate();
+
+    display: block;
+    padding-top: var(--padding-top-base);
+    padding-bottom: var(--padding-bottom-base);
+  }
+
+  .e-accordion__marker {
+    top: 50%;
+    translate: 0 (-50%);
+  }
+}
+
+.e-accordion__spot-icon {
+  @include spot-icon();
+}
+// #endregion

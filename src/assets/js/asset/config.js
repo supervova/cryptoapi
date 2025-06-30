@@ -12,7 +12,7 @@ const IS_LOCALHOST_ENV =
   hostname.endsWith('.local') ||
   hostname === '127.0.0.1';
 
-// Значения, которые могут прийти из window.APP_CONFIG, установленного в asset.twig.html
+// Значения, которые могут прийти из window.APP_CONFIG, установленного в asset.twig
 const APP_CONFIG = window.APP_CONFIG || {};
 
 // Общие конфигурации

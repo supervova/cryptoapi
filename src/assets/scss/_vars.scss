@@ -311,7 +311,17 @@
   --icon-fill: none;
   --icon-stroke: var(--color-ink-icon);
   --icon-stroke-width: 2;
+
+  --popover-body-background: var(--color-bg-level-02);
+  --popover-body-border: 0;
+  --popover-body-border-radius: var(--border-radius-base);
+  --popover-body-box-shadow: var(--box-shadow-level-02);
   // #endregion
+
+  // 🏞️ LANDSCAPE PHONE OVERRIDES
+  @media (--phone-l) {
+    --padding-x-container: var(--size-3);
+  }
 
   // 📋 TABLET OVERRIDES
   @media (--tablet) {

@@ -34,6 +34,8 @@
   @include meta.load-css('form/form');
   @include meta.load-css('form/label');
   @include meta.load-css('form/checkbox-radio');
+  @include meta.load-css('form/switch');
+  @include meta.load-css('form/date-time');
   @include meta.load-css('flex');
   @include meta.load-css('form/select');
 

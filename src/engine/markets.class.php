@@ -7,8 +7,7 @@
  */
 
 // Проверка авторизации пользователя
-if (!$islogged) { // Предполагается, что $islogged определена где-то выше (например, в init.class.php)
-    // $authhost и $thispagesimpleurl также должны быть определены
+if (!$islogged) {
     $redirectUrl = 'Location: https://' . ($authhost ?? 'yourdomain.com') .
         '/auth?returl=' . urlencode($thispagesimpleurl ?? '/');
     header($redirectUrl);

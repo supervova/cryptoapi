@@ -1,0 +1,53 @@
+@use '../abstracts' as *;
+
+/* [type='checkbox'] */.switch,
+label:has([type='checkbox'][role='switch'], [switch]) {
+  color: var(--color-ink-2ry);
+  margin: 0 var(--size-1) 0 0;
+  padding-left: calc(var(--size-line) * 2);
+
+  > [type='checkbox'][role='switch'] {
+    top: var(--size-1);
+  }
+}
+
+[type='checkbox'][role='switch'] {
+  --switch-background: var(--color-ink-border);
+  --switch-background-checked: var(--color-brand-primary);
+  --switch-border-width: #{rem(2)};
+  --switch-height: #{rem(22)};
+  --switch-width: var(--size-5);
+  --switch-thumb-size: calc(var(--switch-height) - #{rem(4)});
+
+  background-color: var(--switch-background);
+  border-radius: var(--border-radius-pill);
+  border: 0;
+  display: flex;
+  flex: 0 0 auto;
+  padding: rem(2);
+  align-items: center;
+  width: var(--switch-width);
+  height: var(--switch-height);
+
+  // Thumb
+  &::before {
+    aspect-ratio: 1;
+    background-color: hsl(var(--h) var(--s-min) 40%);
+    border-radius: 50%;
+    content: '';
+    display: block;
+    transition: margin var(--duration-50) var(--easing-base);
+    width: var(--switch-thumb-size);
+    height: var(--switch-thumb-size);
+  }
+
+  &:checked {
+    background-color: var(--switch-background-checked);
+    background-image: none;
+
+    &::before {
+      background-color: hsl(var(--h) var(--s-min) 32%);
+      margin-inline-start: var(--switch-thumb-size);
+    }
+  }
+}

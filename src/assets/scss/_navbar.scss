@@ -210,7 +210,8 @@ $navbar-dot-size: var(--size-1);
 // Current Pages
 .e-page.is-home .e-navbar__menu-item.is-home > a,
 .e-page.is-dashboard .e-navbar__menu-item.is-dashboard > a,
-.e-page.is-markets .e-menu__item.is-markets > a {
+.e-page.is-markets .e-menu__item.is-markets > a,
+.e-page.is-trading .e-menu__item.is-trading > a {
   background-color: hsl(0 0% 100% / 0.03);
   background-image:
     radial-gradient(

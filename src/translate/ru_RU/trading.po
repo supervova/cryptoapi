@@ -1,0 +1,164 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+# ------------------------------------------------------------------------------
+# Meta
+# ------------------------------------------------------------------------------
+msgid "Trading Settings | AI Strategy & Risk Controls – CryptoAPI.ai"
+msgstr "Настройки трейдинга | ИИ-стратегии и контроль рисков – CryptoAPI.ai"
+
+msgid "Customize your crypto trading setup for safer, faster crypto trades."
+msgstr "Персонализируйте CryptoAPI.ai для более безопасных и быстрых сделок."
+
+# ------------------------------------------------------------------------------
+# Body
+# ------------------------------------------------------------------------------
+msgid "Settings"
+msgstr "Настройки"
+
+# APIs
+msgid "CryptoAPI key, exchange and bot keys"
+msgstr "Ключ CryptoAPI, ключи бирж и ботов"
+
+# Strategy
+msgid "Strategy Preferences"
+msgstr "Стратегия"
+
+msgid "Preferred risk-return balance"
+msgstr "Предпочтительный баланс риска и прибыли"
+
+msgid "Conservative"
+msgstr "Осторожная"
+
+msgid "Low risk, protection"
+msgstr "Низкий риск, защита"
+
+msgid "Balanced"
+msgstr "Сбалансированная"
+
+msgid "Risk and return balanced"
+msgstr "Риск и доход равны"
+
+msgid "Aggressive"
+msgstr "Агрессивная"
+
+msgid "Maximum profit, high risk"
+msgstr "Максимум прибыли, риск"
+
+msgid "Allowed assets"
+msgstr "Разрешённые активы"
+
+msgid "Add an asset to track"
+msgstr "Отслеживаемые активы"
+
+msgid "List of currencies the AI can signal and open positions for."
+msgstr "Список валют, по которым ИИ может давать сигналы и открывать позиции."
+
+msgid "Automatic rebalancing"
+msgstr "Автоматическая ребалансировка"
+
+msgid "Periodic adjustment of target portfolio allocations."
+msgstr "Периодическое выравнивание заданных долей в портфеле."
+
+msgid "Daily"
+msgstr "Ежедневно"
+
+msgid "Weekly"
+msgstr "Еженедельно"
+
+msgid "Monthly"
+msgstr "Ежемесячно"
+
+msgid "Automatic orders"
+msgstr "Автоматические ордера"
+
+msgid "Otherwise you only receive notifications."
+msgstr "Иначе получаешь только уведомления."
+
+# Risk Management
+msgid "Risk Management"
+msgstr "Управление рисками"
+
+msgid "Capital-protection limits"
+msgstr "Ограничения для защиты капитала"
+
+msgid "Deposit allocation"
+msgstr "Доля депозита"
+
+msgid "Maximum share of balance usable for trading"
+msgstr "Максимальный процент средств счёта, который может использоваться в сделках"
+
+msgid "Maximum position size"
+msgstr "Максимальный размер позиции"
+
+msgid "Funds per single trade"
+msgstr "Средства для одной сделки"
+
+msgid "Maximum Daily Loss"
+msgstr "Максимальная дневная просадка"
+
+msgid "Allowed loss"
+msgstr "Допустимые потери"
+
+msgid "Default stop-loss"
+msgstr "Стоп-лосс по умолчанию"
+
+msgid "Loss limit per position"
+msgstr "Лимит убытка для отдельной позиции"
+
+msgid "Default take-profit"
+msgstr "Тейк-профит по умолчанию"
+
+msgid "Profit limit per position"
+msgstr "Лимит прибыли для отдельной позиции"
+
+# Paper Trading
+msgid "Simulation"
+msgstr "Симуляция"
+
+msgid "Try out CryptoAPI and your ideas"
+msgstr "Опробуйте CryptoAPI и свои идеи"
+
+msgid "Paper trading"
+msgstr "Тестовая торговля"
+
+msgid "Trades are executed virtually, funds are not spent"
+msgstr "Сделки исполняются виртуально, средства не тратятся"
+
+msgid "Quick test"
+msgstr "Быстрый тест"
+
+msgid "Run"
+msgstr "Запустить"
+
+msgid "Back-test your settings on historical data: profit, losses."
+msgstr "Проверка ваших настроек на исторических данных:  прибыль, убытки."
+
+msgid "Profile Settings"
+msgstr "Настройки профиля"
+
+msgid "Primary email, password, avatar"
+msgstr "Основной email, пароль, аватар"
+
+msgid "Go"
+msgstr "Открыть"
+
+#  Modals
+
+msgid "Third-party service"
+msgstr "Сторонний сервис"
+
+msgid "API Keys"
+msgstr "API ключи"
+
+msgid "Public Key"
+msgstr "Публичный ключ"
+
+msgid "Secret Key"
+msgstr "Секретный ключ"
+
+msgid "Testnet"
+msgstr "Тестовая сеть"
+

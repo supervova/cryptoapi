@@ -16,6 +16,8 @@
 
 .me-1 { margin-inline-end: var(--size-1); }
 
+.pb-0 { padding-bottom: 0;}
+
 .pt-half-max { padding-top: var(--spacer-half-max); }
 .pb-half-max { padding-bottom: var(--spacer-half-max); }
 .py-half-max {
@@ -25,6 +27,8 @@
 
 .pt-max { padding-top: var(--spacer-max); }
 .pb-max { padding-bottom: var(--spacer-max); }
+
+.ps-0 { padding-inline-start: 0;}
 
 // SIZE
 .max-w-none	{ max-width: none; }
@@ -105,6 +109,10 @@
 .text-warning { color: var(--color-ink-text-warning); }
 
 // MISC
+
+.border-t-0 {
+  border-top: 0;
+}
 
 .visually-hidden {
   @include visually-hidden;

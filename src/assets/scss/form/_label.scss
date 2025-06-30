@@ -1,4 +1,4 @@
-@use 'abstracts' as *;
+@use '../abstracts' as *;
 
 :where(.e-form) .e-label {
   @include text-format('base');
@@ -23,7 +23,7 @@
     pointer-events: none;
     position: absolute;
     left: var(--padding-x-input);
-    top: var(--size-2);
+    top: var(--size-2p5);
     transition: all var(--duration-200) var(--easing-base);
   }
 

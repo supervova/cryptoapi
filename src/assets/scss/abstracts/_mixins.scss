@@ -20,6 +20,7 @@
 // ol                       - Ordered list styles
 // border                   - Adds a border overlay with flex display and overflow handling
 // chevron-down             - Adds a chevron down icon with specific positioning and styles
+// spot-icon                - An icon in a colored circle
 // utility-classes          - Generates utility classes based on provided properties
 // visually-hidden          - Hides elements visually but keeps them accessible
 // state-disabled           - Uses visual cues to indicate that the button is disabled
@@ -308,6 +309,25 @@
   transition: transform var(--duration-50) var(--easing-base);
   width: $icon-size;
   height: $icon-size;
+}
+
+@mixin spot-icon(
+  $size: var(--size-6),
+  $bg: var(--color-brand-primary),
+  $stroke: var(--color-alpha-light-900)
+) {
+  --icon-stroke: #{$stroke};
+
+  background-color: $bg;
+  border-radius: var(--border-radius-pill);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: $size;
+  height: $size;
 }
 // #endregion
 

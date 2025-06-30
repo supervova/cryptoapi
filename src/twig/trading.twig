@@ -1,0 +1,786 @@
+{# trading.twig - Шаблон страницы торговых настроек #}
+{% extends "partials/base.twig" %}
+{% import 'partials/macros.twig' as macros %}
+
+{% block config %}
+  {{ parent() }}
+
+  {% if ENV == 'development' %}
+    {% set page = page|merge(
+      {
+        app: true,
+        classes: 'is-trading',
+        styles: 'trading.css'
+      }
+    ) %}
+
+    {% set user = user|merge(
+      {
+        id: 1,
+        allowed_assets: ['BTC']
+      }
+    ) %}
+
+    {% set apis = [
+      {name: "BTC Bungavy Bot", status: "Active", icon: "robot"},
+      {name: "Binance", status: "active", icon: "exchange"},
+      {name: "Coinbase", status: "Inactive", icon: "exchange"},
+      {name: "ETH Grid Bot", status: "inactive", icon: "robot"}
+    ] %}
+  {% endif %}
+{% endblock %}
+
+{% block assets %}
+  {{ parent() }}
+  {# <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"> #}
+{% endblock %}
+
+{% block content %}
+  <div class="e-container is-md">
+    <h1>{{ 'Trading'|trans }}.
+      <span class="text-2ry">{{ 'Settings'|trans }}</span>
+    </h1>
+
+    <form class="e-form" id="form-trading-settings" action="/{{ page.lang }}/trading" method="post" autocomplete="off" novalidate>
+
+      {# 1. API KEYS #}
+      <details class="e-accordion is-apis" open>
+        <summary class="e-accordion__header has-hgroup">
+          <span class="e-accordion__spot-icon">
+            {% include 'partials/icon.twig' with {name: 'plug'} %}
+          </span>
+          <span class="e-accordion__hgroup">
+            <span class="e-h3">API</span>
+            <span class="text-2ry">{{ 'CryptoAPI key, exchange and bot keys'|trans }}</span>
+          </span>
+          <span class="e-accordion__marker">
+            {% include 'partials/icon.twig' with {name: 'sm-chevron-down', classes: 'is-sm'} %}
+          </span>
+        </summary>
+        <div class="e-accordion__body">
+          <div class="e-accordion__lead">
+            <strong>{{ 'My API key'|trans }}</strong>
+            <button class="e-btn is-icon is-ghost" type="button" title="{{ 'Revoke API Key'|trans }}">
+              {% include 'partials/icon.twig' with {name: 'key-slash'} %}
+            </button>
+            <button class="e-btn is-icon is-ghost" type="button" title="{{ 'View'|trans }}">
+              {% include 'partials/icon.twig' with {name: 'eye'} %}
+            </button>
+          </div>
+
+          <h2 class="e-eyebrow">
+            <a href="/{{ page.lang }}/trading">
+              {{ 'Connected APIs'|trans }}
+            </a>
+            <button class="e-btn is-icon is-ghost" type="button">
+              {% include 'partials/icon.twig' with {name: 'add'} %}
+              <span class="visually-hidden">
+                {{ 'Add API'|trans }}
+              </span>
+            </button>
+          </h2>
+
+          <ul class="e-accordion__list">
+            {% for api in apis %}
+              <li class="e-accordion__li">
+                <div>
+                  {% include 'partials/icon.twig' with {name: api.icon} %}
+                  <div>
+                    <strong>{{ api.name }}</strong>
+                    <span class="text-2ry">{{ api.status }}</span>
+                  </div>
+                </div>
+                <button class="e-btn is-icon is-ghost" type="button" data-role="open-modal" data-target="modal-api" title="{{ 'Settings'|trans }}">
+                  {% include 'partials/icon.twig' with {name: 'settings'} %}
+                </button>
+              </li>
+            {% endfor %}
+          </ul>
+
+
+        </div>
+      </details>
+
+      {# 2. STRATEGY PREFERENCES #}
+      <details class="e-accordion is-strategy">
+        <summary class="e-accordion__header has-hgroup">
+          <span class="e-accordion__spot-icon">
+            {% include 'partials/icon.twig' with {name: 'chess'} %}
+          </span>
+          <span class="e-accordion__hgroup">
+            <span class="e-h3">{{ 'Strategy Preferences'|trans }}</span>
+            <span class="text-2ry">{{ 'Preferred risk-return balance'|trans }}</span>
+          </span>
+          <span class="e-accordion__marker">
+            {% include 'partials/icon.twig' with {name: 'sm-chevron-down', classes: 'is-sm'} %}
+          </span>
+        </summary>
+
+        <fieldset class="e-accordion__body">
+          <legend class="visually-hidden">{{ 'Strategy Preferences'|trans }}</legend>
+
+          {# AI modes #}
+          <div class="e-form__item has-radio border-t-0">
+            <input type="radio" id="ai-conservative" name="ai-mode" value="conservative">
+            <label for="ai-conservative">
+              <strong>{{ 'Conservative'|trans }}</strong>
+              <span>{{ 'Low risk, protection'|trans }}</span>
+            </label>
+          </div>
+
+          <div class="e-form__item has-radio">
+            <input type="radio" id="ai-balanced" name="ai-mode" value="balanced" checked>
+            <label for="ai-balanced">
+              <strong>{{ 'Balanced'|trans }}</strong>
+              <span>{{ 'Risk and return balanced'|trans }}</span>
+            </label>
+          </div>
+
+          <div class="e-form__item has-radio">
+            <input type="radio" id="ai-aggressive" name="ai-mode" value="aggressive">
+            <label for="ai-aggressive">
+              <strong>{{ 'Aggressive'|trans }}</strong>
+              <span>{{ 'Maximum profit, high risk'|trans }}</span>
+            </label>
+          </div>
+
+          {# Allowed assets (chips) #}
+          <div class="e-form__tag-input">
+            <label class="visually-hidden" for="currency-select">{{ 'Allowed assets'|trans }}</label>
+
+            {# <select id="allowed-assets" name="allowed-assets[]" multiple>
+                          {% for pair in pairs %}
+                            <option value="{{ pair }}" {% if pair in user.allowed_assets %}selected{% endif %}>
+                              {{ pair }}
+                            </option>
+                          {% endfor %}
+                        </select> #}
+
+            <select id="currency-select" name="allowed-assets[]" multiple>
+              <option value="">{{ 'Add an asset to track'|trans}}</option>
+            </select>
+
+            <small class="e-form__hint">{{ 'List of currencies the AI can signal and open positions for.'|trans }}</small>
+          </div>
+
+          {# Automatic rebalancing #}
+          <div class="e-form__item has-select">
+            <label for="rebalance-freq">
+              <strong>{{ 'Automatic rebalancing'|trans }}</strong>
+              <span>{{ 'Periodic adjustment of target portfolio allocations'|trans }}</span>
+            </label>
+            <select id="rebalance-freq" name="rebalance-freq">
+              <option value="daily">{{ 'Daily'|trans }}</option>
+              <option value="weekly" selected>{{ 'Weekly'|trans }}</option>
+              <option value="monthly">{{ 'Monthly'|trans }}</option>
+            </select>
+          </div>
+
+          {# Automatic orders #}
+          <div class="e-form__item has-switch">
+            <label for="auto-execute">
+              <strong>{{ 'Automatic orders'|trans }}</strong>
+              <span>{{ 'Otherwise you only receive notifications.'|trans }}</span>
+            </label>
+            <input id="auto-execute" name="auto-execute" type="checkbox" role="switch" checked>
+          </div>
+
+        </fieldset>
+      </details>
+
+      {# 3. RISK MANAGEMENT #}
+      <details class="e-accordion">
+        <summary class="e-accordion__header has-hgroup">
+          <span class="e-accordion__spot-icon">
+            {% include 'partials/icon.twig' with {name: 'umbrella'} %}
+          </span>
+          <span class="e-accordion__hgroup">
+            <span class="e-h3">{{ 'Risk Management'|trans }}</span>
+            <span class="text-2ry">{{ 'Capital-protection limits'|trans }}</span>
+          </span>
+          <span class="e-accordion__marker">
+            {% include 'partials/icon.twig' with {name: 'sm-chevron-down', classes: 'is-sm'} %}
+          </span>
+        </summary>
+        <fieldset class="e-accordion__body">
+          <legend class="visually-hidden">{{ 'Risk Management'|trans }}</legend>
+
+          <div class="e-form__item has-input">
+            <label for="deposit-allocation">
+              <strong>{{ 'Deposit allocation'|trans }}, %</strong>
+              <span>{{ 'Maximum share of balance usable for trading'|trans }}</span>
+            </label>
+            <input id="deposit-allocation" name="deposit-allocation" type="number" value="10" min="0" max="100" step="0.1" required>
+          </div>
+
+          <div class="e-form__item has-input">
+            <label for="max-position">
+              <strong>{{ 'Maximum Position Size'|trans }}, %</strong>
+              <span>{{ 'Funds per single trade'|trans }}</span>
+            </label>
+            <input id="max-position" name="max-position" type="number" value="10" min="0" max="100" step="0.1" required>
+          </div>
+
+          <div class="e-form__item has-input">
+            <label for="max-daily-loss">
+              <strong>{{ 'Maximum Daily Loss'|trans }}, %</strong>
+              <span>{{ 'Allowed loss'|trans }}</span>
+            </label>
+            <input id="max-daily-loss" name="max-daily-loss" type="number" value="10" min="0" max="100" step="0.1" required>
+          </div>
+
+          <div class="e-form__item has-input">
+            <label for="default-sl">
+              <strong>{{ 'Default Stop-Loss'|trans }}, %</strong>
+              <span>{{ 'Loss limit per position'|trans }}</span>
+            </label>
+            <input id="default-sl" name="default-sl" type="number" value="10" min="0" max="100" step="0.1" required>
+          </div>
+
+          <div class="e-form__item has-input">
+            <label for="default-tp">
+              <strong>{{ 'Default Take-Profit'|trans }}, %</strong>
+              <span>{{ 'Profit limit per position'|trans }}</span>
+            </label>
+            <input id="default-tp" name="default-tp" type="number" value="10" min="0" max="100" step="0.1" required>
+          </div>
+
+        </fieldset>
+      </details>
+
+      {# 4. SIMULATION #}
+      <details class="e-accordion">
+        <summary class="e-accordion__header has-hgroup">
+          <span class="e-accordion__spot-icon">
+            {% include 'partials/icon.twig' with {name: 'paper-trading'} %}
+          </span>
+          <span class="e-accordion__hgroup">
+            <span class="e-h3">{{ 'Simulation'|trans }}</span>
+            <span class="text-2ry">{{ 'Try out CryptoAPI and your ideas'|trans }}</span>
+          </span>
+          <span class="e-accordion__marker">
+            {% include 'partials/icon.twig' with {name: 'sm-chevron-down', classes: 'is-sm'} %}
+          </span>
+        </summary>
+
+        <fieldset class="e-accordion__body">
+          <legend class="visually-hidden">{{ 'Simulation'|trans }}</legend>
+          <div class="e-form__item has-switch border-t-0">
+            <label for="paper-mode">
+              <strong>{{ 'Paper trading'|trans }}</strong>
+              <span>{{ 'Trades are executed virtually, funds are not spent.'|trans }}</span>
+            </label>
+            <input id="paper-mode" name="paper-mode" type="checkbox" role="switch">
+          </div>
+
+          <p class="mt-1">
+            <label class="e-label is-strong" for="history-start">{{ 'Quick test'|trans }}</label>
+            <span class="d-flex is-test">
+              <input id="history-start" name="history-start" type="month" min="2017-01" max="{{ 'now'|date('Y-m') }}">
+              –
+              <input id="history-end" name="history-end" type="month" min="2017-01" max="{{ 'now'|date('Y-m') }}">
+              <button class="btn" type="button">{{ 'Run'|trans }}</button>
+            </span>
+            <small class="e-form__hint">{{ 'Back-test your settings on historical data: profit, losses.'|trans }}</small>
+          </p>
+
+        </fieldset>
+      </details>
+    </form>
+
+    <div class="e-accordion__header has-hgroup is-banner">
+      <span class="e-accordion__spot-icon">
+        {% include 'partials/icon.twig' with {name: 'user'} %}
+      </span>
+      <span class="e-accordion__hgroup">
+        <span class="e-h3">{{ 'Profile Settings'|trans }}</span>
+        <span class="text-2ry">{{ 'Primary email, password, avatar'|trans }}</span>
+      </span>
+      <a class="e-btn is-outline" href="/{{ page.lang }}/profile">
+        {{ 'Go'|trans }}
+      </a>
+    </div>
+  </div>
+
+    <div class="e-container is-action">
+      <button class="e-btn is-primary is-action" type="submit" form="form-trading-settings">{{ 'Save'|trans }}</button>
+    </div>
+{% endblock %}
+
+{% block body_suffix %}
+  {% set modal_api %}
+    <div class="e-modal__body">
+      <header class="d-flex is-api-title">
+        <h2 class="e-h3">{{ plugin|default('Third-party service'|trans) }} – {{ 'API Keys'|trans }}</h2>
+        <button class="e-btn is-icon is-ghost" type="button" title="{{ 'Revoke API Key'|trans }}">
+          {% include 'partials/icon.twig' with {name: 'key-slash'} %}
+        </button>
+        <input name="api-toggle" type="checkbox" role="switch" checked>
+      </header>
+
+      <div class="d-flex is-api-key">
+        <p class="e-form__text-field">
+          <input id="form-public-key" name="form-public-key" type="text" value="abcd****************1f4c" placeholder="{{ 'Public Key'|trans }}">
+          <label for="form-public-key">{{ 'Public Key'|trans }}</label>
+        </p>
+        <button class="e-btn is-icon is-ghost" type="button" title="{{ 'View'|trans }}">
+          {% include 'partials/icon.twig' with {name: 'eye'} %}
+        </button>
+        <button class="e-btn is-icon is-ghost" type="button" title="{{ 'Revoke API Key'|trans }}">
+          {% include 'partials/icon.twig' with {name: 'copy'} %}
+        </button>
+      </div>
+
+      <div class="d-flex is-api-key">
+        <p class="e-form__text-field">
+          <input id="form-private-key" name="form-private-key" type="text" value="abcd****************1f4c" placeholder="{{ 'Public Key'|trans }}">
+          <label for="form-private-key">{{ 'Private Key'|trans }}</label>
+        </p>
+        <button class="e-btn is-icon is-ghost" type="button" title="{{ 'View'|trans }}">
+          {% include 'partials/icon.twig' with {name: 'eye'} %}
+        </button>
+        <button class="e-btn is-icon is-ghost" type="button" title="{{ 'Revoke API Key'|trans }}">
+          {% include 'partials/icon.twig' with {name: 'copy'} %}
+        </button>
+      </div>
+
+      <label class="e-form__option">
+        <input id="form-testnet" type="checkbox">
+        {{ 'Testnet'|trans }}
+      </label>
+
+      <div class="d-flex is-action">
+        <button class="e-btn" type="button" data-role="close-modal">{{ 'OK'|trans }}</button>
+      </div>
+    </div>
+  {% endset %}
+  {{ macros.modal('modal-api', modal_api, site.assets_prefix) }}
+
+  <!-- Подключение Choices.js через CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/choices.js@10.2.0/public/assets/scripts/choices.min.js"></script>
+
+  <script>
+    // Список всех валют
+    const currencies = [
+      "1000CAT",
+      "1000CHEEMS",
+      "1000SATS",
+      "1INCH",
+      "1MBABYDOGE",
+      "A",
+      "AAVE",
+      "ACE",
+      "ACH",
+      "ACM",
+      "ACT",
+      "ACX",
+      "ADA",
+      "ADX",
+      "AEVO",
+      "AGLD",
+      "AI",
+      "AIXBT",
+      "ALCX",
+      "ALGO",
+      "ALICE",
+      "ALPHA",
+      "ALPINE",
+      "ALT",
+      "AMP",
+      "ANIME",
+      "APE",
+      "API3",
+      "APT",
+      "AR",
+      "ARB",
+      "ARDR",
+      "ARK",
+      "ARKM",
+      "ARPA",
+      "ASR",
+      "ASTR",
+      "ATA",
+      "ATM",
+      "ATOM",
+      "AUCTION",
+      "AUDIO",
+      "AVA",
+      "AVAX",
+      "AWE",
+      "AXL",
+      "AXS",
+      "BABY",
+      "BAKE",
+      "BANANA",
+      "BANANAS31",
+      "BAND",
+      "BAR",
+      "BB",
+      "BCH",
+      "BEAMX",
+      "BEL",
+      "BERA",
+      "BICO",
+      "BIFI",
+      "BIGTIME",
+      "BIO",
+      "BLUR",
+      "BMT",
+      "BNB",
+      "BNSOL",
+      "BNT",
+      "BOME",
+      "BONK",
+      "BSW",
+      "BTC",
+      "C98",
+      "CAKE",
+      "CATI",
+      "CELO",
+      "CELR",
+      "CETUS",
+      "CFX",
+      "CGPT",
+      "CHESS",
+      "CHR",
+      "CHZ",
+      "CITY",
+      "CKB",
+      "COMP",
+      "COOKIE",
+      "COS",
+      "COTI",
+      "COW",
+      "CRV",
+      "CTK",
+      "CTSI",
+      "CVC",
+      "CVX",
+      "CYBER",
+      "D",
+      "DASH",
+      "DATA",
+      "DCR",
+      "DEGO",
+      "DENT",
+      "DEXE",
+      "DF",
+      "DGB",
+      "DIA",
+      "DODO",
+      "DOGE",
+      "DOGS",
+      "DOT",
+      "DYDX",
+      "DYM",
+      "EDU",
+      "EGLD",
+      "EIGEN",
+      "ENA",
+      "ENJ",
+      "ENS",
+      "EOS",
+      "EPIC",
+      "ETH",
+      "ETHFI",
+      "FARM",
+      "FET",
+      "FIDA",
+      "FIL",
+      "FIO",
+      "FIS",
+      "FLM",
+      "FLOKI",
+      "FLOW",
+      "FLUX",
+      "FORM",
+      "FORTH",
+      "FUN",
+      "FXS",
+      "G",
+      "GALA",
+      "GAS",
+      "GHST",
+      "GLM",
+      "GLMR",
+      "GMT",
+      "GMX",
+      "GNO",
+      "GNS",
+      "GPS",
+      "GRT",
+      "GTC",
+      "GUN",
+      "HAEDAL",
+      "HBAR",
+      "HEI",
+      "HFT",
+      "HIFI",
+      "HIGH",
+      "HIVE",
+      "HMSTR",
+      "HOOK",
+      "HOT",
+      "HUMA",
+      "HYPER",
+      "ICP",
+      "ICX",
+      "ID",
+      "IDEX",
+      "ILV",
+      "IMX",
+      "INIT",
+      "INJ",
+      "IO",
+      "IOST",
+      "IOTA",
+      "IOTX",
+      "IQ",
+      "JASMY",
+      "JOE",
+      "JST",
+      "JTO",
+      "JUV",
+      "KAIA",
+      "KAITO",
+      "KAVA",
+      "KDA",
+      "KERNEL",
+      "KMD",
+      "KMNO",
+      "KNC",
+      "KSM",
+      "LAYER",
+      "LAZIO",
+      "LDO",
+      "LEVER",
+      "LINK",
+      "LISTA",
+      "LOKA",
+      "LPT",
+      "LQTY",
+      "LRC",
+      "LSK",
+      "LTC",
+      "LTO",
+      "LUMIA",
+      "LUNA",
+      "LUNC",
+      "MAGIC",
+      "MANA",
+      "MANTA",
+      "MASK",
+      "MAV",
+      "MBL",
+      "MBOX",
+      "MDT",
+      "ME",
+      "MEME",
+      "METIS",
+      "MINA",
+      "MKR",
+      "MLN",
+      "MOVE",
+      "MOVR",
+      "MTL",
+      "MUBARAK",
+      "NEAR",
+      "NEIRO",
+      "NEO",
+      "NEXO",
+      "NFP",
+      "NIL",
+      "NKN",
+      "NMR",
+      "NOT",
+      "NTRN",
+      "NXPC",
+      "OG",
+      "OGN",
+      "OM",
+      "OMNI",
+      "ONDO",
+      "ONG",
+      "ONT",
+      "OP",
+      "ORCA",
+      "ORDI",
+      "OSMO",
+      "OXT",
+      "PARTI",
+      "PENDLE",
+      "PENGU",
+      "PEOPLE",
+      "PEPE",
+      "PERP",
+      "PHA",
+      "PIVX",
+      "PIXEL",
+      "PNUT",
+      "POL",
+      "POLYX",
+      "POND",
+      "PORTAL",
+      "PORTO",
+      "POWR",
+      "PROM",
+      "PSG",
+      "PUNDIX",
+      "PYR",
+      "PYTH",
+      "QI",
+      "QKC",
+      "QNT",
+      "QTUM",
+      "QUICK",
+      "RAD",
+      "RARE",
+      "RAY",
+      "RDNT",
+      "RED",
+      "REI",
+      "RENDER",
+      "REQ",
+      "REZ",
+      "RIF",
+      "RLC",
+      "RONIN",
+      "ROSE",
+      "RPL",
+      "RSR",
+      "RUNE",
+      "RVN",
+      "S",
+      "SAGA",
+      "SAND",
+      "SANTOS",
+      "SC",
+      "SCR",
+      "SCRT",
+      "SEI",
+      "SFP",
+      "SHELL",
+      "SHIB",
+      "SIGN",
+      "SKL",
+      "SLF",
+      "SLP",
+      "SNX",
+      "SOL",
+      "SOLV",
+      "SOPH",
+      "SPELL",
+      "STEEM",
+      "STG",
+      "STO",
+      "STORJ",
+      "STPT",
+      "STRAX",
+      "STRK",
+      "STX",
+      "SUI",
+      "SUN",
+      "SUPER",
+      "SUSHI",
+      "SXP",
+      "SXT",
+      "SYN",
+      "SYS",
+      "T",
+      "TAO",
+      "THE",
+      "THETA",
+      "TIA",
+      "TKO",
+      "TLM",
+      "TNSR",
+      "TON",
+      "TRB",
+      "TRU",
+      "TRUMP",
+      "TRX",
+      "TST",
+      "TURBO",
+      "TUT",
+      "TWT",
+      "UMA",
+      "UNI",
+      "USTC",
+      "USUAL",
+      "UTK",
+      "VANA",
+      "VANRY",
+      "VELODROME",
+      "VET",
+      "VIC",
+      "VIRTUAL",
+      "VOXEL",
+      "VTHO",
+      "W",
+      "WAN",
+      "WAXP",
+      "WBETH",
+      "WBTC",
+      "WCT",
+      "WIF",
+      "WLD",
+      "WOO",
+      "XAI",
+      "XEC",
+      "XLM",
+      "XNO",
+      "XRP",
+      "XTZ",
+      "XVG",
+      "XVS",
+      "YFI",
+      "YGG",
+      "ZEN",
+      "ZIL",
+      "ZK",
+      "ZRO",
+      "ZRX"
+    ];
+
+    // Инициализация Choices
+    const choices = new Choices('#currency-select', {
+      allowHTML: false,
+      itemSelectText: 'Нажмите для выбора',
+      noChoicesText: 'Все валюты добавлены',
+      noResultsText: 'Валюта не найдена',
+      placeholder: true,
+      placeholderValue: 'Найти и добавить',
+      removeItemButton: true,
+      searchChoices: true,
+      searchEnabled: true,
+      searchFloor: 1,
+      searchResultLimit: 10,
+      shouldSort: false,
+      fuseOptions: {
+        includeScore: true,
+        threshold: 0.3
+      }
+    });
+
+    // Добавление валют в выпадающий список
+    currencies.forEach(currency => {
+      choices.setChoices([
+        {
+          value: currency,
+          label: currency,
+          selected: false,
+          disabled: false
+        }
+      ], 'value', 'label', false);
+    });
+
+    // Предустановленные значения (пример)
+    choices.setChoiceByValue(['BTC' /*, 'ETH', 'SOL'*/
+    ]);
+
+    // Обработчик изменений. TODO: заменить логирование сохранением в базу
+    document.getElementById('currency-select').addEventListener('change', function (event) {
+      console.log('Выбранные валюты:', choices.getValue(true));
+    });
+  </script>
+{% endblock %}

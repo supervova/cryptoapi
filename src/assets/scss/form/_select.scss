@@ -1,8 +1,8 @@
-@use 'abstracts' as *;
+@use '../abstracts' as *;
 
 select {
   // General styles for select elements
-  &:not([multiple]):not([size]) {
+  &:not([multiple]) {
     background-image: var(--icon-chevron-down);
     background-position: center right var(--size-1);
     background-repeat: no-repeat;

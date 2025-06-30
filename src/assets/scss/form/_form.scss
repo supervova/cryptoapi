@@ -1,10 +1,10 @@
 // stylelint-disable selector-no-qualifying-type
-@use 'abstracts' as *;
+@use '../abstracts' as *;
 
 // -----------------------------------------------------------------------------
 // CONTAINERS
 // -----------------------------------------------------------------------------
-
+// #region
 form {
   accent-color: var(--color-ink-text-brand);
   caret-color: var(--color-ink-2ry-brand);
@@ -23,6 +23,7 @@ form > div:not([class]) {
   padding: 0;
 }
 
+// Two inputs, not iOS-like row
 .e-form__row {
   display: grid;
   gap: var(--gap, var(--size-2));
@@ -48,10 +49,70 @@ legend {
   margin: 0;
   max-width: 100%;
 }
+// #endregion
+
+// -----------------------------------------------------------------------------
+// INLINE FORM FIELD
+// -----------------------------------------------------------------------------
+// #region
+
+// Label and input inline, like iOS row
+.e-form__item {
+  border-top:  1px solid var(--color-ink-border);
+  display: flex;
+  align-items: center;
+  padding-top: var(--padding-top, var(--size-1));
+  padding-bottom: var(--padding-bottom, var(--size-1p5));
+}
+
+:where(.e-form__item) {
+  label {
+    flex-grow: 1;
+  }
+
+  label strong,
+  label span {
+    display: block;
+  }
+
+  label strong {
+    color: var(--color-ink-text);
+    margin-bottom: rem(-8);
+    padding-top: var(--padding-top-base);
+    padding-bottom: var(--padding-bottom-base);
+  }
+
+  label span {
+    @include text-format(caption);
+  }
+
+  select,
+  [type='radio'],
+  [role='switch'] {
+    order: 1;
+  }
+}
+
+.e-form__item.has-select select {
+  background-image: var(--icon-chevron-up-down);
+  background-color: transparent;
+  color: var(--color-ink-text-brand);
+  text-align: end;
+  padding-block: 0;
+  padding-inline-end: var(--size-4);
+  width: auto;
+  min-height: auto;
+}
+
+.e-form__item.has-input input {
+  width: var(--width, auto);
+}
+// #endregion
 
 // -----------------------------------------------------------------------------
 // FIELDS NORMALIZE
 // -----------------------------------------------------------------------------
+// #region
 
 ::-moz-focus-inner {
   border-style: none;
@@ -69,10 +130,12 @@ legend {
 ::-ms-expand {
   display: none;
 }
+// #endregion
 
 // -----------------------------------------------------------------------------
 // INPUT, TEXTAREA, SELECT BASE
 // -----------------------------------------------------------------------------
+// #region
 
 input,
 optgroup,
@@ -85,6 +148,11 @@ textarea {
 }
 
 :--text-field,
+[type='date'],
+[type='datetime-local'],
+[type='month'],
+[type='time'],
+[type='week'],
 [type='search'] {
   appearance: none;
   background-color: hsl(var(--h) var(--s) 90% / 0.05);
@@ -112,7 +180,12 @@ textarea {
   }
 }
 
-:--text-field {
+:--text-field,
+[type='date'],
+[type='datetime-local'],
+[type='month'],
+[type='time'],
+[type='week'] {
   border-radius: var(--border-radius-sm);
   padding-inline: var(--padding-x-input);
 }
@@ -131,10 +204,12 @@ textarea {
 //     box-shadow: 0 0 0 1000px  var(--color-bg-2ry) inset !important;
 //   }
 // }
+// #endregion
 
 // -----------------------------------------------------------------------------
 // SPECIFIC
 // -----------------------------------------------------------------------------
+// #region
 
 textarea {
   padding-top: rem(11);
@@ -150,10 +225,12 @@ textarea:not([rows]) {
 [readonly] {
   @include state-disabled();
 }
+// #endregion
 
 // -----------------------------------------------------------------------------
 // HINTS
 // -----------------------------------------------------------------------------
+// #region
 
 /* small */.e-form__hint {
   display: block;
@@ -202,6 +279,7 @@ textarea:not([rows]) {
     background: transparent;
   }
 }
+// #endregion
 
 // -----------------------------------------------------------------------------
 // CAPTCHA

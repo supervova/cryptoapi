@@ -3,6 +3,10 @@
 // BASE CONTAINER
 .e-container {
   @include container;
+
+  &.is-md {
+    max-width: rem(818);
+  }
 }
 
 // CONTENT CONTAINERS
