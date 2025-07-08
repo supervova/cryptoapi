@@ -22,10 +22,12 @@ $ticker = strtolower(trim($curr));
 // ПОДГОТОВКА БАЗОВЫХ ДАННЫХ СТРАНИЦЫ
 
 $page_settings = [
-    'app'    => true,
-    // Тип страницы для OpenGraph
-    'type'   => 'article',
+    'app' => true,
+    'classes' => 'is-asset',
     'slug'   => 'markets/' . $ticker,
+    'styles' => 'markets.css',
+     // Тип страницы для OpenGraph
+    'type'   => 'article',
 ];
 
 // Обновляем $data_objects['page']
@@ -62,17 +64,42 @@ if (file_exists($crypto_meta_file_path)) {
                 $icon_filename = $asset_meta['icon'];
                 $relative_path = '/assets/img/cryptologos/' . $icon_filename;
 
-                // Абсолютный путь на сервере
-                $project_root = $_SERVER['DOCUMENT_ROOT'];
-                $server_path = $project_root . $relative_path;
-
-                // Публичный путь
+                // Публичный URL
                 $public_path = ($data_objects['site']['assets_prefix'] ?? '') . $relative_path;
 
-                // Проверка существования файла
-                $asset_icon_path = file_exists($server_path) ? $public_path : null;
+                /**
+                 * Абсолютный путь на ФС должен учитывать assets_prefix, иначе
+                 * проверка file_exists() на прод‑сервере возвращает false, и
+                 * мы остаёмся с несуществующим файлом <ticker>.svg.
+                 */
+                $assets_prefix_fs = rtrim(($data_objects['site']['assets_prefix'] ?? ''), '/');
+                $project_root     = rtrim($_SERVER['DOCUMENT_ROOT'], '/');
+                $server_path      = $project_root . $assets_prefix_fs . $relative_path;
+
+                // placeholder.svg считаем «существующим» всегда
+                if ($icon_filename === 'placeholder.svg' || file_exists($server_path)) {
+                    $asset_icon_path = $public_path;
+                }
             }
         }
+    }
+}
+
+$icons_base_rel = '/assets/img/cryptologos/';
+$doc_root = rtrim($_SERVER['DOCUMENT_ROOT'], '/');
+
+// Check whether the currently selected icon file actually exists
+$icon_filename_for_check = basename($asset_icon_path);
+$icon_server_path        = $doc_root . $assets_prefix_fs . $icons_base_rel . $icon_filename_for_check;
+
+if (!file_exists($icon_server_path)) {
+    // If not, fall back to the universal placeholder icon
+    $placeholder_rel  = $icons_base_rel . 'placeholder.svg';
+    $placeholder_path = ($data_objects['site']['assets_prefix'] ?? '') . $placeholder_rel;
+    $placeholder_server_path = $doc_root . $assets_prefix_fs . $placeholder_rel;
+
+    if (file_exists($placeholder_server_path)) {
+        $asset_icon_path = $placeholder_path;
     }
 }
 

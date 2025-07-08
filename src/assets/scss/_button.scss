@@ -43,7 +43,7 @@ a[role='button'] {
     background: var(--color-ink-min);
   }
 
-  @media (any-hover: hover) and (pointer: fine) {
+  @media (any-hover: hover) {
     &:hover {
       background: var(--color-ink-min);
     }

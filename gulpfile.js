@@ -127,6 +127,7 @@ const paths = {
       'asset-chart': `${srcBase}/assets/js/asset-chart.js`,
       asset: `${srcBase}/assets/js/asset.js`,
       markets: `${srcBase}/assets/js/markets.js`,
+      search: `${srcBase}/assets/js/search.js`,
       toast: `${srcBase}/assets/js/toast.js`,
       // home: `${srcBase}/assets/js/home.js`,
     },

@@ -1,4 +1,5 @@
 {# trading.twig - Шаблон страницы торговых настроек #}
+{# trading.twig - Шаблон страницы торговых настроек #}
 {% extends "partials/base.twig" %}
 {% import 'partials/macros.twig' as macros %}
 
@@ -148,14 +149,6 @@
           <div class="e-form__tag-input">
             <label class="visually-hidden" for="currency-select">{{ 'Allowed assets'|trans }}</label>
 
-            {# <select id="allowed-assets" name="allowed-assets[]" multiple>
-                          {% for pair in pairs %}
-                            <option value="{{ pair }}" {% if pair in user.allowed_assets %}selected{% endif %}>
-                              {{ pair }}
-                            </option>
-                          {% endfor %}
-                        </select> #}
-
             <select id="currency-select" name="allowed-assets[]" multiple>
               <option value="">{{ 'Add an asset to track'|trans}}</option>
             </select>
@@ -286,6 +279,9 @@
 
         </fieldset>
       </details>
+
+      {# Защита от CSRF (cross-site request forgery; межсайтовой подделки запроса #}
+      <input type="hidden" name="_token" value="{{ csrf_token }}">
     </form>
 
     <div class="e-accordion__header has-hgroup is-banner">
@@ -783,4 +779,6 @@
       console.log('Выбранные валюты:', choices.getValue(true));
     });
   </script>
+
+  {{ parent() }}
 {% endblock %}

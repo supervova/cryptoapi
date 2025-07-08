@@ -5,12 +5,14 @@
 {% block config %}
   {{ parent() }}
 
-  {% set page = page|merge(
-    {
-      classes: 'is-asset',
-      styles: 'markets.css'
-    }
-  ) %}
+  {% if ENV == 'development' %}
+    {% set page = page|merge(
+      {
+        classes: 'is-asset',
+        styles: 'markets.css'
+      }
+    ) %}
+  {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -147,4 +149,6 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.2.1/dist/chartjs-chart-financial.min.js" defer></script>
 
   <script src="{{ site.assets_prefix }}/assets/js/asset.js?{{ "now"|date('U') }}" type="module" defer></script>
+
+  {{ parent() }}
 {% endblock %}

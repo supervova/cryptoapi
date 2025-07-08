@@ -51,6 +51,11 @@ h1,
 
 // API
 :where(.e-accordion.is-apis) {
+  .e-accordion__lead {
+    align-items: center;
+    padding-bottom: var(--size-3);
+  }
+
   .e-accordion__li {
     display: flex;
     gap: var(--size-2);

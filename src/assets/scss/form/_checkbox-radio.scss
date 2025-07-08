@@ -49,6 +49,8 @@
 }
 
 input:is([type='checkbox'], [type='radio']) {
+  // Prevent deformation in flex containers
+  flex: 0 0 auto;
   margin-top: 0;
 
   &:focus-visible {

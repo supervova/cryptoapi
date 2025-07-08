@@ -1,14 +1,14 @@
 <header class="e-header" id="header-app">
   <div class="e-container">
 
-    <form class="e-header__search" role="search">
+    <form class="e-header__search e-search" role="search">
       <label class="visually-hidden" for="header-search">{{ 'Search coins by name or symbol…'|trans }}</label>
       {% include 'partials/icon.twig' with {name: 'search'} %}
       {% if search_on_page %}
         {# TODO: develop on page search #}
-        <input type="search" id="header-search" placeholder="{{ 'Search coins by name or symbol…'|trans }}">
+        <input type="search" id="header-search" autocomplete="off" placeholder="{{ 'Search coins by name or symbol…'|trans }}">
       {% else %}
-        <input type="search" id="header-search" placeholder="{{ 'Search coins by name or symbol…'|trans }}">
+        <input type="search" id="header-search" autocomplete="off" placeholder="{{ 'Search coins by name or symbol…'|trans }}">
       {% endif %}
     </form>
 
