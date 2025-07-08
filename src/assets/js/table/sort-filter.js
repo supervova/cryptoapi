@@ -79,6 +79,15 @@ export function applySortAndFilter(isInitialLoadOrManualSortAction = true) {
       if (assetRisk === 'neutral') assetRisk = 'medium';
       if (assetRisk !== marketState.currentFilterState.risk) return false;
     }
+
+    // ⇢ поиск по live-строке
+    if (marketState.currentFilterState.searchTerm) {
+      const term = marketState.currentFilterState.searchTerm;
+      if (!`${asset.symbol} ${asset.name ?? ''}`.toLowerCase().includes(term)) {
+        // ` // HACK: закрывающая обратная кавычка в литерале шаблона парсится, как открывающая
+        return false;
+      }
+    }
     return true;
   });
 

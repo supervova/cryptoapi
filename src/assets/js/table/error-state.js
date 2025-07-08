@@ -1,4 +1,4 @@
-// assets/js/table/render.js
+// assets/js/table/error-state.js
 import * as marketState from '../markets/state.js';
 import * as DOMElements from '../markets/dom.js';
 import t from '../markets/translate.js';

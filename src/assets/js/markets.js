@@ -52,7 +52,7 @@ function handleRowKeydown(event) {
 async function initializeApp() {
   try {
     // 1. Загружаем переводы
-    initTranslations();
+    await initTranslations();
 
     // 2. Явно переводим заголовки колонок, используя загруженный словарь
     translateColumnHeaders(t);
@@ -138,4 +138,9 @@ document.addEventListener('table:columns-updated', () => {
 
 document.addEventListener('table:visible-columns-changed', (e) => {
   marketState.currentFilterState.visibleColumnKeys = e.detail;
+});
+
+document.addEventListener('markets:search', (e) => {
+  marketState.currentFilterState.searchTerm = e.detail; // строка или null
+  applySortAndFilter(true); // фильтрация + scrollTop=0
 });

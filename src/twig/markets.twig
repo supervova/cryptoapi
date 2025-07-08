@@ -245,6 +245,6 @@
     window.APP_CONFIG.isDevelopment = {{ ENV == 'development' ? 'true' : 'false' }};
   </script>
 
-  <script src="{{ site.assets_prefix }}/assets/js/markets.js" type="module" defer></script>
+  <script src="{{ site.assets_prefix }}/assets/js/markets.js?{{ "now"|date('U') }}" type="module" defer></script>
   {{ parent() }}
 {% endblock %}

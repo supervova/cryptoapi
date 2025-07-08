@@ -28,9 +28,11 @@ export const sortState = {
 };
 
 // Текущее состояние фильтра (остается, так как относится к таблице)
-export const currentFilterState = JSON.parse(
-  JSON.stringify(initialFilterState)
-);
+export const currentFilterState = {
+  ...JSON.parse(JSON.stringify(initialFilterState)),
+  /** строка live-поиска в таблице */
+  searchTerm: null,
+};
 // visibleColumnKeys будет установлен после инициализации columnsConfig
 
 /**
