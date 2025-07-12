@@ -58,6 +58,10 @@
 
   <meta name="user-id" content="{{ user.id }}">
 
+  <script>
+    window.APP_CONFIG = window.APP_CONFIG || {};
+    window.APP_CONFIG.assetsBasePrefix = "{{ site.assets_prefix|escape('js') }}";
+  </script>
   {% block assets %}
   <script src="{{ site.assets_prefix }}/assets/js/main.js?{{ "now"|date('U') }}" type="module"></script>
   {% if page.legacy_js %}{{ page.legacy_js }}{% endif %}

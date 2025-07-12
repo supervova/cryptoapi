@@ -19,6 +19,11 @@
     "label": "More",
     "icon": "more",
     "children": {
+      "news": {
+        "label": "News",
+        "href": "news",
+        "icon": "news"
+      },
       "pricing": {
         "label": "Pricing",
         "href": "pricing",
@@ -28,18 +33,12 @@
         "label": "Support",
         "href": "support",
         "icon": "support"
-      },
-      "blog": {
-        "label": "Blog",
-        "href": "blog",
-        "icon": "news"
       }
     }
   }
  } %}
 
-{% set data_menu_user = {
-  "dashboard": {
+  {# "dashboard": {
     "label": "Dashboard",
     "href": "dashboard",
     "icon": "home"
@@ -48,6 +47,20 @@
     "label": "Watchlist",
     "href": "watchlist",
     "icon": "coins"
+  }, #}
+
+{% set data_menu_user = {
+
+
+  "markets": {
+    "label": "Markets",
+    "href":  "markets",
+    "icon":  "chart-line"
+  },
+  "news": {
+    "label": "News",
+    "href": "news",
+    "icon": "news"
   },
   "signals": {
     "label": "Signals",
@@ -58,15 +71,15 @@
     "label": "More",
     "icon": "more",
     "children": {
-      "trading": {
-        "label": "Trading",
-        "href": "trading",
-        "icon": "candles"
-      },
-      "markets": {
-        "label": "Markets",
-        "href":  "markets",
-        "icon":  "chart-line"
+        "trading": {
+          "label": "Trading",
+          "href": "trading",
+          "icon": "candles"
+        },
+      "pricing": {
+        "label": "Pricing",
+        "href": "pricing",
+        "icon": "money"
       }
     }
   }

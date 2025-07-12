@@ -12,6 +12,7 @@ import * as sass from 'sass';
 import browserSync from 'browser-sync';
 import changed from 'gulp-changed';
 import cssnano from 'cssnano';
+import data from 'gulp-data';
 import futureFeatures from 'postcss-preset-env';
 import gulpSass from 'gulp-sass';
 // import gulpif from 'gulp-if';
@@ -45,7 +46,7 @@ const gulpEsbuild = createGulpEsbuild();
 const sassCompiler = gulpSass(sass);
 
 const { argv } = yargs(hideBin(process.argv));
-const PRODUCTION = argv.p;
+const isProd = argv.p;
 // #endregion
 
 /**
@@ -204,18 +205,18 @@ const js = () => {
   return Promise.all(
     entries.map(
       ([name, entry]) =>
-        src(entry, { sourcemaps: !PRODUCTION }) // для dev-watch стэктрейсов
+        src(entry, { sourcemaps: !isProd }) // для dev-watch стэктрейсов
           .pipe(handleError('JS Compile Error'))
           .pipe(
             gulpEsbuild({
               outfile: `${name}.js`,
               bundle: true,
-              format: PRODUCTION ? 'iife' : 'esm',
-              minify: PRODUCTION,
-              sourcemap: !PRODUCTION, // включаем карты только в dev
+              format: isProd ? 'iife' : 'esm',
+              minify: isProd,
+              sourcemap: !isProd, // включаем карты только в dev
               define: {
                 'process.env.NODE_ENV': JSON.stringify(
-                  PRODUCTION ? 'production' : 'development'
+                  isProd ? 'production' : 'development'
                 ),
               },
             })
@@ -372,12 +373,36 @@ const loadPhpMockData = () => {
   }
 };
 
+const newsFixture = `${srcBase}/assets/data/fixtures/news.json`;
+const newsApi = 'https://api.cryptoapi.ai/news'; // TODO: replace with real API endpoint
+
+// 1. загружаем новости из локальной фикстуры
+const loadNewsFixture = () => {
+  if (existsSync(newsFixture)) {
+    return JSON.parse(readFileSync(newsFixture, 'utf8'));
+  }
+  console.warn('⚠️  news fixture not found – returning empty array');
+  return { featured: null, items: [] };
+};
+
+// 2. загружаем новости с удалённого API (sync через node-fetch)
+const fetchNewsFromApi = async (lang = 'en') => {
+  try {
+    const res = await fetch(`${newsApi}?lang=${lang}&limit=6`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch (e) {
+    console.error('News API error:', e.message);
+    return { featured: null, items: [] }; // fallback
+  }
+};
+
 const assetPage = () => {
   // Новая задача для asset.twig -> asset.html
   const fixturePath = join(paths.data.fixtures, 'asset-btc.json'); // Путь к фикстуре
   let viewData = {
     // Минимальные дефолты, если фикстура не загрузится
-    ENV: PRODUCTION ? 'production' : 'development',
+    ENV: isProd ? 'production' : 'development',
     site: { assets_prefix: '' },
     page: { lang: 'en', js: {}, title: 'Asset Page (Default Title)' },
     asset_data: { ticker: 'N/A', name: 'N/A' },
@@ -388,9 +413,9 @@ const assetPage = () => {
     if (existsSync(fixturePath)) {
       console.log(`  ✔️ Loading data for asset.twig from: ${fixturePath}`);
       viewData = JSON.parse(readFileSync(fixturePath, 'utf8'));
-      // Убедимся, что ENV установлен правильно на основе PRODUCTION, если его нет в фикстуре
+      // Убедимся, что ENV установлен правильно на основе isProd, если его нет в фикстуре
       // или если мы хотим, чтобы Gulp всегда определял ENV для этой задачи
-      viewData.ENV = PRODUCTION ? 'production' : 'development';
+      viewData.ENV = isProd ? 'production' : 'development';
       // Убедимся, что site.assets_prefix установлен, если его нет в фикстуре (хотя он должен быть)
       if (!viewData.site) viewData.site = {};
       if (!viewData.page) viewData.page = {};
@@ -476,7 +501,6 @@ const assetPage = () => {
 };
 
 const pages = () => {
-  // Загружаем мок-данные для PHP-переменных
   const phpMockData = loadPhpMockData();
 
   return (
@@ -489,41 +513,46 @@ const pages = () => {
           },
         })
       )
+
+      // подкидываем async-data перед компиляцией Twig
+      .pipe(
+        data(async () => {
+          const lang = phpMockData.lng_html || 'en';
+
+          /* newsData: в dev берём локальный JSON, в prod – реальный API */
+          const newsData = isProd
+            ? await fetchNewsFromApi(lang)
+            : loadNewsFixture();
+
+          return {
+            ...phpMockData,
+            ENV: process.env.NODE_ENV || 'production',
+
+            /* 👇 делаем доступным в Twig */
+            news: newsData,
+          };
+        })
+      )
       // НЕ заменяем {$variable} на {{variable}} до компиляции Twig
       // Вместо этого, компилируем Twig как обычно
       .pipe(
         twig({
           base: './src/twig',
-          data: {
-            // Добавляем все PHP-переменные как обычные переменные Twig
-            ...phpMockData,
-            ENV: process.env.NODE_ENV || 'production',
-          },
           filters: [
             {
               name: 'trans',
-              func(string) {
-                return string;
+              func(str) {
+                return str;
               },
             },
           ],
         })
       )
-      .on('error', function errorHandler(err) {
-        process.stderr.write(`${err.message}\n`);
-        this.emit('end');
-      })
       // После компиляции Twig заменяем {$variable} на соответствующие значения из phpMockData
       .pipe(
         replace(/\{\$([\w\-.]+)\}/g, (match, varName) => {
-          // Если переменная есть в phpMockData, возвращаем ее значение
-          if (phpMockData[varName] !== undefined) {
-            return phpMockData[varName];
-          }
-          // Иначе возвращаем пустую строку
-          console.warn(
-            `Warning: PHP variable ${varName} not found in mock data`
-          );
+          if (phpMockData[varName] !== undefined) return phpMockData[varName];
+          console.warn(`PHP var ${varName} not found in mock data`);
           return '';
         })
       )
@@ -561,7 +590,7 @@ const processStyles = (
           errorHandler: notify.onError('Error: <%= error.message %>'),
         })
       )
-      // .pipe(gulpif(!(PRODUCTION || forceProduction), sourcemaps.init()))
+      // .pipe(gulpif(!(isProd || forceProduction), sourcemaps.init()))
       .pipe(
         sassCompiler({
           precision: 4,
@@ -606,7 +635,7 @@ const processStyles = (
           // cssnano({ reduceIdents: { keyframes: false } }),
         ])
       )
-      // .pipe(gulpif(!(PRODUCTION || forceProduction), sourcemaps.write()))
+      // .pipe(gulpif(!(isProd || forceProduction), sourcemaps.write()))
       .pipe(size({ title: `styles: ${subtitle}` }))
       .pipe(outputName ? rename(outputName) : rename((path) => path))
       .pipe(dest(destination))
