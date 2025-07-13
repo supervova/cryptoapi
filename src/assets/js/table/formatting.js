@@ -51,18 +51,18 @@ export function formatChange24h(priceData) {
   if (
     !priceData ||
     priceData.current === undefined ||
-    priceData.yesterday?.middle === undefined
+    priceData.dayago === undefined
   )
     return '–';
   const current = parseFloat(priceData.current);
-  const yesterdayMiddle = parseFloat(priceData.yesterday.middle);
+  const dayAgoPrice = parseFloat(priceData.dayago);
   if (
     Number.isNaN(current) ||
-    Number.isNaN(yesterdayMiddle) ||
-    yesterdayMiddle === 0
+    Number.isNaN(dayAgoPrice) ||
+    dayAgoPrice === 0
   )
     return '–';
-  const change = ((current - yesterdayMiddle) / yesterdayMiddle) * 100;
+  const change = ((current - dayAgoPrice) / dayAgoPrice) * 100;
   const sign = change > 0 ? '+' : '';
   return `${sign}${change.toFixed(2)}`;
 }

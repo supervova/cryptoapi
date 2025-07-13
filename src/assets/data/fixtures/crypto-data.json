@@ -2,56 +2,74 @@
   "OK",
   {
     "BTC": {
-      "price": {"current": "43521.23", "yesterday": {"middle": "42100.50"}},
-      "rating": 8.5,
-      "risk": "low",
-      "TRINDX": 745,
-      "RSI7": "62.3",
-      "RSI30": "55.1",
-      "RSI91": "50.5",
-      "RSI182": "48.2",
-      "RSI365": "52.1",
-      "RSI1000": "58.9",
-      "market": "high"
+      "rating": 9,
+      "price": {
+        "current": "118758.42000000",
+        "dayago": "117431.75999999999476131052",
+        "today": {
+          "min": 117042.82,
+          "max": 119337.36,
+          "middle": 117935.82944217362
+        },
+        "yesterday": {
+          "min": 116989.14,
+          "max": 118237.99,
+          "middle": 117680.03657322
+        }
+      },
+      "market": "high",
+      "TRINDX": 60,
+      "risk": "neutral",
+      "RSI1000": "238",
+      "RSI365": "193",
+      "RSI182": "187",
+      "RSI91": "176",
+      "RSI30": "197",
+      "RSI7": "177"
     },
     "ETH": {
-      "price": {"current": "2284.15", "yesterday": {"middle": "2310.75"}},
-      "rating": 7.8,
-      "risk": "medium",
-      "TRINDX": 680,
-      "RSI7": "58.1",
-      "RSI30": "50.0",
-      "RSI91": "45.3",
-      "RSI182": "42.1",
-      "RSI365": "49.5",
-      "RSI1000": "55.2",
-      "market": "middle"
+      "rating": 138,
+      "price": {
+        "current": "2989.13000000",
+        "dayago": "2940",
+        "today": {
+          "min": 2915.94,
+          "max": 3018.06,
+          "middle": 2959.6849846670184
+        },
+        "yesterday": {
+          "min": 2906.23,
+          "max": 2997.88,
+          "middle": 2954.6069370711
+        }
+      },
+      "market": "high",
+      "TRINDX": 189,
+      "risk": "high",
+      "RSI1000": "138",
+      "RSI365": "119",
+      "RSI182": "151",
+      "RSI91": "175",
+      "RSI30": "185",
+      "RSI7": "165"
     },
     "SOL": {
-      "price": {"current": "98.45", "yesterday": {"middle": "95.20"}},
-      "rating": 6.9,
+      "rating": 117,
+      "price": {
+        "current": "161.93000000",
+        "dayago": "159.87000000000000454747",
+        "today": { "min": 159.02, "max": 164.2, "middle": 161.6592866530353 },
+        "yesterday": { "min": 157.93, "max": 163.97, "middle": 161.8512197333 }
+      },
+      "market": "middle",
+      "TRINDX": 158,
       "risk": "high",
-      "TRINDX": 590,
-      "RSI7": "71.2",
-      "RSI30": "68.3",
-      "RSI91": "65.0",
-      "RSI182": "60.1",
-      "RSI365": "63.7",
-      "RSI1000": "N/A",
-      "market": "high"
-    },
-    "ZRO": {
-      "price": {"current": "98.45", "yesterday": {"middle": "95.20"}},
-      "rating": 6.9,
-      "risk": "high",
-      "TRINDX": 590,
-      "RSI7": "71.2",
-      "RSI30": "68.3",
-      "RSI91": "65.0",
-      "RSI182": "60.1",
-      "RSI365": "63.7",
-      "RSI1000": "N/A",
-      "market": "high"
+      "RSI1000": "143",
+      "RSI365": "86",
+      "RSI182": "94",
+      "RSI91": "113",
+      "RSI30": "137",
+      "RSI7": "125"
     }
   }
 ]

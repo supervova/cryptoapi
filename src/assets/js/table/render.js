@@ -12,9 +12,7 @@ import { getNestedValue } from '../markets/utils.js';
 import { getVisibleColumns, getVisibleColumnsCount } from './columns.js';
 
 const calcChange = (p) =>
-  p?.current && p?.yesterday?.middle
-    ? ((p.current - p.yesterday.middle) / p.yesterday.middle) * 100
-    : null;
+  p?.current && p?.dayago ? ((p.current - p.dayago) / p.dayago) * 100 : null;
 
 const spacer = (h, cols) => {
   const tr = document.createElement('tr');
