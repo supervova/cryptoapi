@@ -155,6 +155,7 @@
           "allowForLoopAfterthoughts": true
         }
       ],
+      "no-template-curly-in-string": "error",
       "quotes": [
         "error",
         "single"

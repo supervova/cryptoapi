@@ -258,6 +258,7 @@
 
   <script type="module">
     import {showToast} from '{{ site.assets_prefix }}/assets/js/toast.js';
+    import dompurify from 'https://cdn.jsdelivr.net/npm/dompurify@3.2.6/+esm';
 
     /**
     * Переключение на вкладку восстановления пароля.
@@ -615,10 +616,9 @@
           if (result === 'OK') {
             config.successAction();
           } else { // Показать сообщение об ошибке, предоставленное сервером
-            messageElement.innerHTML = ` $ {
-                result || '{{ "Request error."|trans|e("js") }}'
-              }
-              `;
+            messageElement.innerHTML = dompurify.sanitize(
+              result || '{{ "Request error."|trans|e("js") }}'
+            );
             // Если попытка отправки почты была неудачной, обновим счетчик
             if (type === 'signup' || type === 'resetpwd') {
               mailRetryCount += 1;
