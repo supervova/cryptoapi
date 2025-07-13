@@ -189,71 +189,71 @@ function getAssetMatches(q) {
 // -----------------------------------------------------------------------------
 // #region
 
-if (input) {
-  /**
-   * Обрабатывает ввод в поиске.
-   * @return {Promise<void>|undefined}
-   */
-  async function handleInput() {
-    const q = input.value.trim();
+/**
+ * Обрабатывает ввод в поиске.
+ * @return {Promise<void>|undefined}
+ */
+async function handleInput() {
+  const q = input.value.trim();
 
-    // На странице markets фильтруем таблицу и не показываем подсказки
-    if (isMarketsPage) {
-      // сообщаем основному бандлу строку поиска
-      document.dispatchEvent(
-        new CustomEvent('markets:search', {
-          detail: q.trim().toLowerCase() || null,
-        })
-      );
-      return clearBox(); // выпадашка не нужна
-    }
-
-    if (q.length < SEARCH_MIN_LENGTH) return clearBox();
-
-    await loadMeta();
-    const [assets, news, blog] = await Promise.all([
-      getAssetMatches(q),
-      // TODO: Раскомментировать, когда будут реализованы
-      // getNewsMatches(q),
-      // getBlogMatches(q),
-    ]);
-    render(
-      [
-        { title: t('Assets'), items: assets },
-        { title: t('News'), items: news },
-        { title: t('Blog'), items: blog },
-      ],
-      q
+  // На странице markets фильтруем таблицу и не показываем подсказки
+  if (isMarketsPage) {
+    // сообщаем основному бандлу строку поиска
+    document.dispatchEvent(
+      new CustomEvent('markets:search', {
+        detail: q.trim().toLowerCase() || null,
+      })
     );
-
-    return undefined;
+    return clearBox(); // выпадашка не нужна
   }
 
-  /**
-   * Сдвигает подсветку в списке подсказок.
-   * @param {number} highlightDelta
-   */
-  function move(highlightDelta) {
-    if (!box || box.hidden) return;
-    const items = [...box.children];
-    highlight = (highlight + highlightDelta + items.length) % items.length;
-    items.forEach((li, i) => li.classList.toggle('is-active', i === highlight));
-  }
+  if (q.length < SEARCH_MIN_LENGTH) return clearBox();
 
-  /**
-   * Переходит по выбранной подсказке.
-   * @return {boolean}
-   */
-  function chooseHighlighted() {
-    if (!box || box.hidden) return false;
-    const li = box.children[highlight];
-    if (li) {
-      window.location.href = li.dataset.url;
-      return true;
-    }
-    return false;
-  }
+  await loadMeta();
+  const [assets, news, blog] = await Promise.all([
+    getAssetMatches(q),
+    // TODO: Раскомментировать, когда будут реализованы
+    // getNewsMatches(q),
+    // getBlogMatches(q),
+  ]);
+  render(
+    [
+      { title: t('Assets'), items: assets },
+      { title: t('News'), items: news },
+      { title: t('Blog'), items: blog },
+    ],
+    q
+  );
 
+  return undefined;
+}
+
+/**
+ * Сдвигает подсветку в списке подсказок.
+ * @param {number} highlightDelta
+ */
+function move(highlightDelta) {
+  if (!box || box.hidden) return;
+  const items = [...box.children];
+  highlight = (highlight + highlightDelta + items.length) % items.length;
+  items.forEach((li, i) => li.classList.toggle('is-active', i === highlight));
+}
+
+/**
+ * Переходит по выбранной подсказке.
+ * @return {boolean}
+ */
+function chooseHighlighted() {
+  if (!box || box.hidden) return false;
+  const li = box.children[highlight];
+  if (li) {
+    window.location.href = li.dataset.url;
+    return true;
+  }
+  return false;
+}
+
+if (input) {
   input.addEventListener('input', handleInput);
   input.addEventListener('focus', handleInput);
   input.addEventListener('blur', () => setTimeout(clearBox, 150));
