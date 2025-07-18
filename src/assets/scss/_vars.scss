@@ -119,7 +119,7 @@
   --margin-top-subhead: var(--size-line);
 
   --font-size-h3:      #{rem(17)};
-  --font-weight-h3:    var(--font-weight-titles);
+  --font-weight-h3:    var(--font-weight-titles-max);
   --letter-spacing-h3: 0;
   --line-height-h3:    #{math.div(24, 17)};
   --padding-top-h3:    #{rem(6)};
@@ -344,7 +344,7 @@
     --padding-bottom-h2: #{rem(7)};
 
     --font-size-h3:      #{rem(23)};
-    // --font-weight-h3:    var(--font-weight-titles-lighter);
+    --font-weight-h3:    var(--font-weight-titles);
     --letter-spacing-h3: #{rem(0.3)};
     --line-height-h3:    #{math.div(32, 23)};
     --padding-top-h3:    #{rem(1)};

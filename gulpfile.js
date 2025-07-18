@@ -519,17 +519,24 @@ const pages = () => {
         data(async () => {
           const lang = phpMockData.lng_html || 'en';
 
-          /* newsData: в dev берём локальный JSON, в prod – реальный API */
+          // newsData: в dev берём локальный JSON, в prod – реальный API
           const newsData = isProd
             ? await fetchNewsFromApi(lang)
             : loadNewsFixture();
 
+          // читаем crypto-meta
+          const cryptoMeta = JSON.parse(
+            readFileSync(`${srcBase}/assets/data/crypto-meta.json`, 'utf8')
+          );
+
           return {
             ...phpMockData,
             ENV: process.env.NODE_ENV || 'production',
-
-            /* 👇 делаем доступным в Twig */
-            news: newsData,
+            page: {
+              ...phpMockData.page, // сохраняем page.lang и другие поля
+              news: newsData, // добавляем новые
+            },
+            crypto_meta: cryptoMeta,
           };
         })
       )
@@ -543,6 +550,27 @@ const pages = () => {
               name: 'trans',
               func(str) {
                 return str;
+              },
+            },
+            {
+              name: 'tzdate',
+              func(value, timezone = 'UTC', lang = 'en') {
+                try {
+                  if (Array.isArray(timezone)) {
+                    timezone = timezone[0]; // берем первый элемент массива
+                  }
+                  const date = new Date(value);
+                  if (isNaN(date.getTime())) return value;
+
+                  return date.toLocaleString(lang, {
+                    timeZone: timezone,
+                    dateStyle: 'medium',
+                    timeStyle: 'short',
+                  });
+                } catch (e) {
+                  console.warn('tzdate error:', e);
+                  return value;
+                }
               },
             },
           ],

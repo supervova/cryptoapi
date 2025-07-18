@@ -208,23 +208,28 @@ $navbar-dot-size: var(--size-1);
 }
 
 // Current Pages
-.e-page.is-home .e-navbar__menu-item.is-home > a,
-.e-page.is-dashboard .e-navbar__menu-item.is-dashboard > a,
-.e-page.is-markets .e-menu__item.is-markets > a,
-.e-page.is-trading .e-menu__item.is-trading > a {
-  background-color: hsl(0 0% 100% / 0.03);
-  background-image:
-    radial-gradient(
-      50% 24px at 50% 100%,
-      rgb(255 255 255 / 0.16),
-      rgb(255 255 255 / 0.14) 2%,
-      rgb(255 255 255 / 0.12) 10%,
-      rgb(255 255 255 / 0.09) 21%,
-      rgb(255 255 255 / 0.06) 36%,
-      rgb(255 255 255 / 0.03) 54%,
-      rgb(255 255 255 / 0)
-    );
+$current-pages: dashboard, home, markets, news, trading;
+
+@each $page in $current-pages {
+  .e-page.is-#{$page} {
+    .e-menu__item.is-#{$page} > a,
+    .e-navbar__menu-item.is-#{$page} > a {
+      background-color: hsl(0 0% 100% / 0.03);
+      background-image:
+        radial-gradient(
+          50% 24px at 50% 100%,
+          rgb(255 255 255 / 0.16),
+          rgb(255 255 255 / 0.14) 2%,
+          rgb(255 255 255 / 0.12) 10%,
+          rgb(255 255 255 / 0.09) 21%,
+          rgb(255 255 255 / 0.06) 36%,
+          rgb(255 255 255 / 0.03) 54%,
+          rgb(255 255 255 / 0)
+        );
+    }
+  }
 }
+
 // #endregion
 
 // -----------------------------------------------------------------------------

@@ -115,7 +115,14 @@
 {% endblock %}
 </head>
 
-<body class="e-page{% if page.slug is defined and page.slug is not empty %} is-{{ page.slug }}{% endif %}{% if page.app %} is-app{% else %} is-site{% endif %}{% if page.classes %} {{ page.classes }}{% endif %}">
+<body class="e-page
+  {{ page.app ? 'is-app' : 'is-site' }}
+  {% if page.classes %}
+    {{ page.classes }}
+  {% elseif page.slug is defined and page.slug %}
+    is-{{ page.slug }}
+  {% endif %}
+">
 
   {# NAVBAR ----------------------------------------------------------------- #}
   {% block navbar %}

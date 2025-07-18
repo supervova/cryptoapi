@@ -18,6 +18,8 @@
   "thispagejs": "",
   "thispageurl": "http://localhost:9000",
 
+  "timezone_offset": "UTC",
+
   "googleurl": "https://accounts.google.com/o/oauth2/v2/auth?client_id=1234567890-abcdefg12345.apps.googleusercontent.com&redirect_uri=https://cryptoapi.ai/callback&response_type=code&scope=openid%20profile%20email&state=xyz123",
   "lngdot": "",
   "returl": "http://localhost:9000",

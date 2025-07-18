@@ -23,7 +23,7 @@
 
 .e-testimonial__base {
   @include text-format(body-sm);
-  @include multiline-truncate($lines: 11, $line-height: rem(20), $padding-top: rem(1));
+  @include multiline-truncate($lines: 11, $line-height: rem(20), $padding-block: rem(4));
 
   min-height: rem(221);
 

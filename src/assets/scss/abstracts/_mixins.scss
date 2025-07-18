@@ -1,36 +1,37 @@
 // -----------------------------------------------------------------------------
 // Table of contents
 // -----------------------------------------------------------------------------
-// grid-base                - Base grid layout with default column, row, and gap settings
-// multi-grid               - Grid layout with specific settings
-// grid-auto                - Grid with automatic columns based on a minimum width
-// grid                     - Responsive grid layout combining base and 12-column layouts
-// grid-columns             - Generates column classes for grid with custom breakpoints
-// flex-base                - Base flex layout with default settings
-// flex-grid                - It can be a row or a 2-dimensional flex layout. Use this one within media query.
-// container                - Centers content with a max-width and auto margins
-// centering-max-width      - Centers elements with a maximum width and customizable margins
-// heading-base             - Basic styles for headings including font and color
-// text-format              - Sets font size, line height, and padding for text elements
-// label                    - Styles for labels with optional uppercase transformation
-// text-truncate            - Single line text truncation with ellipsis
-// multiline-truncate       - Multi-line text truncation with ellipsis
-// multiline-truncate-reset - Resets multi-line truncation
-// text-inline-block        - Text with inline-block display
-// ol                       - Ordered list styles
-// border                   - Adds a border overlay with flex display and overflow handling
-// chevron-down             - Adds a chevron down icon with specific positioning and styles
-// spot-icon                - An icon in a colored circle
-// utility-classes          - Generates utility classes based on provided properties
-// visually-hidden          - Hides elements visually but keeps them accessible
-// state-disabled           - Uses visual cues to indicate that the button is disabled
-// state-focus              - Adds a focus ring for accessibility
-// state-hover-a            - Adds a :hover underscore to links
-// menu-item                - Styles for menu items with padding, alignment, and focus behavior
-// button-base              - Base styles for buttons including alignment, cursor, and touch-action
-// button                   - Comprehensive button styles with customizable properties
-// button-primary           - Styles for primary buttons with specific background, color, and shadow
-// scrollbar                - Styles for scrollbars with customizable properties
+// grid-base                   - Base grid layout with default column, row, and gap settings
+// multi-grid                  - Grid layout with specific settings
+// grid-auto                   - Grid with automatic columns based on a minimum width
+// grid                        - Responsive grid layout combining base and 12-column layouts
+// grid-columns                - Generates column classes for grid with custom breakpoints
+// flex-base                   - Base flex layout with default settings
+// flex-grid                   - It can be a row or a 2-dimensional flex layout. Use this one within media query.
+// container                   - Centers content with a max-width and auto margins
+// centering-max-width         - Centers elements with a maximum width and customizable margins
+// heading-base                - Basic styles for headings including font and color
+// text-format                 - Sets font size, line height, and padding for text elements
+// label                       - Styles for labels with optional uppercase transformation
+// text-truncate               - Single line text truncation with ellipsis
+// multiline-truncate          - Multi-line text truncation with ellipsis
+// multiline-truncate-override - Override multi-line truncation
+// multiline-truncate-reset    - Resets multi-line truncation
+// text-inline-block           - Text with inline-block display
+// ol                          - Ordered list styles
+// border                      - Adds a border overlay with flex display and overflow handling
+// chevron-down                - Adds a chevron down icon with specific positioning and styles
+// spot-icon                   - An icon in a colored circle
+// utility-classes             - Generates utility classes based on provided properties
+// visually-hidden             - Hides elements visually but keeps them accessible
+// state-disabled              - Uses visual cues to indicate that the button is disabled
+// state-focus                 - Adds a focus ring for accessibility
+// state-hover-a               - Adds a :hover underscore to links
+// menu-item                   - Styles for menu items with padding, alignment, and focus behavior
+// button-base                 - Base styles for buttons including alignment, cursor, and touch-action
+// button                      - Comprehensive button styles with customizable properties
+// button-primary              - Styles for primary buttons with specific background, color, and shadow
+// scrollbar                   - Styles for scrollbars with customizable properties
 // -----------------------------------------------------------------------------
 
 @use 'sass:map';
@@ -214,7 +215,7 @@
   overflow: hidden;
 }
 
-@mixin multiline-truncate($lines: 4, $line-height: rem(24), $padding-top: 0) {
+@mixin multiline-truncate($lines: 4, $line-height: rem(24), $padding-block: rem(8)) {
   // All old stuff is required
   -webkit-line-clamp: $lines;
   -webkit-box-orient: vertical;
@@ -222,7 +223,13 @@
 
   line-clamp: $lines;
   overflow: hidden;
-  max-height: $lines * $line-height + $padding-top;
+  max-height: $lines * $line-height + $padding-block;
+}
+
+@mixin multiline-truncate-override($lines: 4, $line-height: rem(24), $padding-block: rem(8)) {
+  -webkit-line-clamp: $lines;
+  line-clamp: $lines;
+  max-height: $lines * $line-height + $padding-block;
 }
 
 @mixin multiline-truncate-reset() {

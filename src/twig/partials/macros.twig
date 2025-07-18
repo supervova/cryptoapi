@@ -1,6 +1,7 @@
 {# Передаем объект site в параметр, чтобы инклюд иконки получил assets_prefix #}
 {# {{ macros.modal('my-modal', '<p>Lorem ipsum dolor sit amet.</p>', site.assets_prefix) }} #}
 
+{# Modal #}
 {% macro modal(id, content, assets_prefix, classes) %}
 <dialog class="e-modal{% if classes %} {{ classes }}{% endif %}" id="{{ id }}">
   <div class="e-modal__base">
@@ -12,6 +13,7 @@
 </dialog>
 {% endmacro %}
 
+{# Price #}
 {% macro format_price(price) %}
   {% if price >= 1 %}
     {{ price|number_format(2, ',', ' ') }}
@@ -24,6 +26,18 @@
   {% endif %}
 {% endmacro %}
 
+{# Post Date #}
+{% macro fmt(dt, lang = 'en') %}
+  {% set today = 'now'|date('Y-m-d') %}
+  {% set is_today = dt|date('Y-m-d') == today %}
+  {% if lang == 'en' %}
+    {{ is_today ? dt|date('h:i a') : dt|date('F j, Y • h:i a') }}
+  {% else %}
+    {{ is_today ? dt|date('H:i') : dt|date('j F, Y • H:i') }}
+  {% endif %}
+{% endmacro %}
+
+{# Chart Menus #}
 {% macro chart_menu(name, options, selected, title) %}
 <details class="e-popover has-tooltip" data-role="popover" aria-label="{{ title|trans }}">
   <summary class="has-chevron">

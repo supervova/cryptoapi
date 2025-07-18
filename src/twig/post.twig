@@ -1,0 +1,149 @@
+{% extends "partials/base.twig" %}
+{% import 'partials/macros.twig' as macros %}
+
+{% block config %}
+  {{ parent() }}
+
+  {% if ENV == 'development' %}
+    {% set page = page|merge({
+      app: true,
+      classes: 'is-news is-post',
+      lang: 'en',
+      styles: 'news.css'
+    }) %}
+    {% set article = {
+      "title": "Wolfe says it’s time to rotate into altcoins 🔥",
+      "slug": "wolfe-says-it-s-time-to-rotate-into-altcoins-20250717T083000",
+      "datetime": "2025-07-17T08:30:00+00:00",
+      "tag": "Altcoins",
+      "image": "https://pbs.twimg.com/amplify_video_thumb/1792549446456090624/img/EIAqX2VzL3dJoYnK.jpg",
+      "content": "<p>Wolfe Research is urging investors to broaden their exposure in digital assets, arguing that the time has come to rotate more meaningfully into altcoins.</p><h2>Wolfe Research Urges Altcoin Investment</h2><p>After a strong run in Bitcoin and Ethereum, the broker’s analysts see growing momentum across the broader crypto market, with technical signals pointing to a potential breakout.</p><img src='https://www.wolferesearch.com/wp-content/uploads/2023/05/IMG_3033-2-e1682967434959.png' alt='Wolfe Research'><p>“The median coin we track is up 23% month to date as momentum has picked up across the board,” Wolfe’s Rob Ginsberg wrote in a Wednesday report.</p>",
+      "source": {
+        "name": "investing.com",
+        "link": "https://www.investing.com/news/cryptocurrency-news/wolfe-says-its-time-to-rotate-into-altcoins-4139441"
+      }
+    } %}
+  {% endif %}
+
+{% endblock %}
+
+{% block content %}
+  <div class="e-article e-container is-5/6">
+    {% if article %}
+      <header class="e-article__header">
+        <p class="e-eyebrow">
+          <a href="/{{ page.lang }}/news">
+            {% include 'partials/icon.twig' with {name: 'sm-chevron-left'} %}
+            {{ 'News'|trans }}:
+          </a>
+          {% if article.tag %}{{ article.tag }} –{% endif %}
+          {{ macros.fmt(article.datetime, page.lang) }}
+        </p>
+        <h1>{{ article.title }}</h1>
+
+        {% set share_url   = site.domain ~ '/' ~ page.lang ~ '/news/' ~ article.slug %}
+        {% set share_title = article.title %}
+        {% set copied_txt  = 'Copied!'|trans %}
+
+        <ul class="e-share">
+          <li>
+            <a
+              class="e-share__link is-fb"
+              href="https://www.facebook.com/sharer/sharer.php?u={{ share_url|url_encode }}&amp;quote={{ share_title|url_encode }}"
+              target="_blank"
+              rel="noopener"
+            >
+              {% include 'partials/icon.twig' with {name: 'brand-facebook-outline'} %}
+              <span class="visually-hidden">Facebook</span>
+            </a>
+          </li>
+
+          <li>
+            <a
+              class="e-share__link is-x"
+              href="https://x.com/intent/post?url={{ share_url|url_encode }}&amp;text={{ share_title|url_encode }}"
+              target="_blank"
+              rel="noopener"
+            >
+              {% include 'partials/icon.twig' with {name: 'brand-x-outline'} %}
+              <span class="visually-hidden">X</span>
+            </a>
+          </li>
+
+          <li>
+            <a
+              class="e-share__link is-mail"
+              href="mailto:?subject={{ share_title|url_encode }}&amp;body={{ share_url|url_encode }}"
+            >
+              {% include 'partials/icon.twig' with {name: 'mail'} %}
+              <span class="visually-hidden">Email</span>
+            </a>
+          </li>
+
+          <li>
+            <button
+              class="e-share__link is-copy"
+              type="button"
+              data-share-copy="{{ share_url }}"
+              data-copy-label="{{ copied_txt }}"
+            >
+              {% include 'partials/icon.twig' with {name: 'link'} %}
+              <span class="visually-hidden">{{ 'Copy link'|trans }}</span>
+            </button>
+          </li>
+        </ul>
+      </header>
+
+      {% if article.image %}
+        {% set image_src = article.image matches('/^https?:\/\//') ? article.image : site.assets_prefix ~ '/' ~ article.image %}
+        <img class="e-article__image" src="{{ image_src }}" alt="{{ article.title|e }}">
+      {% endif %}
+
+      <div class="e-article__body">
+        {{ article.content|raw }}
+      </div>
+
+      {% if article.source and (article.source.name or article.source.link) %}
+        <footer class="e-article__footer">
+          {{ 'Source:'|trans }} {% if article.source.link %}<a href="{{ article.source.link }}" target="_blank" rel="noopener">{% endif %}
+            {{ article.source.name ?? article.source.link }}
+          {% if article.source.link %}</a>{% endif %}
+        </footer>
+      {% endif %}
+    {% else %}
+      <div class="e-article__body text-center">
+        <h1>{{ 'Article not found'|trans }}</h1>
+        <p>{{ 'The article you are looking for could not be found.'|trans }}</p>
+        <p><a href="/{{ page.lang }}/news">{{ 'Back to News'|trans }}</a></p>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block body_suffix %}
+  {{ parent() }}
+  <script>
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-share-copy]');
+      if (!btn) return;
+
+      const urlToCopy = btn.dataset.shareCopy;
+      if (!urlToCopy) return;
+
+      navigator.clipboard.writeText(urlToCopy).then(() => {
+        const originalLabel = btn.getAttribute('aria-label');
+        const copiedLabel = btn.dataset.copyLabel || 'Copied!';
+
+        btn.classList.add('is-copied');
+        btn.setAttribute('aria-label', copiedLabel);
+
+        setTimeout(() => {
+          btn.classList.remove('is-copied');
+          btn.setAttribute('aria-label', originalLabel);
+        }, 2000);
+      }).catch(err => {
+        console.error('Could not copy text: ', err);
+      });
+    });
+  </script>
+{% endblock %}

@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+# ------------------------------------------------------------------------------
+# Meta
+# ------------------------------------------------------------------------------
+msgid "Crypto Market News | CryptoAPI.ai - AI-Powered Crypto Trading"
+msgstr "Новости крипторынков | CryptoAPI.ai - Торговля криптовалютой с ИИ"
+
+msgid "Get real-time crypto market news and AI-powered analysis. Receive timely updates on Bitcoin, Ethereum, altcoins, and market trends to optimize your trading strategy."
+msgstr "Получайте новости крипторынков в режиме реального времени и аналитику на основе ИИ. Своевременные обновления о Bitcoin, Ethereum, альткойнах и рыночных трендах помогут оптимизировать вашу торговую стратегию."
+
+# ------------------------------------------------------------------------------
+# Body
+# ------------------------------------------------------------------------------
+msgid "News:"
+msgstr "Новости."
+
+msgid "Cryptocurrencies & AI Trading"
+msgstr "Криптовалюты, ИИ-трейдинг"
+
+msgid "General"
+msgstr "Общее"

@@ -1,0 +1,61 @@
+{# web/src/twig/news.twig #}
+{% extends "partials/base.twig" %}
+{% import 'partials/macros.twig' as macros %}
+
+{% block config %}
+  {{ parent() }}
+  {% if ENV == 'development' %}
+    {% set page = page|merge({
+      app: true,
+      classes: 'is-news',
+      lang: 'en',
+      styles: 'news.css'
+    }) %}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="e-container is-5/6">
+    <h1>{{ 'News:'|trans }} <span class="text-2ry">
+      {{ 'Cryptocurrencies & AI Trading'|trans }}</span>
+    </h1>
+
+    {% for item in page.news %}
+      <article class="e-news-item">
+        <figure class="e-news-item__media{{ item.image ? ' has-image' : ' has-icon' }}">
+          {% if item.image %}
+            {% set image_src = item.image matches('/^https?:\/\//') ? item.image : site.assets_prefix ~ '/' ~ item.image %}
+            <img src="{{ image_src }}" alt="{{ item.title|e }}" loading="lazy">
+          {% else %}
+            {% set meta = crypto_meta[item.tag|upper] ?? {} %}
+            {% if meta.icon is defined %}
+              <span class="e-news-item__icon-spot"
+                {% if item.tag %}data-fallback="{{ item.tag|slice(0,3)|upper }}"{% endif %}>
+                <img class="e-asset__icon" src="{{ site.assets_prefix }}/assets/img/cryptologos/{{ meta.icon }}" width="56" height="56" alt="{{ item.tag }}">
+              </span>
+            {% else %}
+              <span class="e-news-item__icon-fallback">
+                {% include 'partials/icon.twig' with {name: 'candles'} %}
+              </span>
+            {% endif %}
+          {% endif %}
+        </figure>
+
+        <div class="e-news-item__copy">
+          <header class="e-news-item__header">
+            <span class="e-eyebrow">
+              {{ item.tag ?? 'General'|trans }}
+            </span>
+            <h2 class="e-h3">
+              <a href="{{ page.lang }}/news/{{ item.slug }}">{{ item.title }}</a>
+            </h2>
+          </header>
+
+          <time datetime="{{ item.datetime }}">
+            {{ macros.fmt(item.datetime, page.lang) }}
+          </time>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+{% endblock %}
