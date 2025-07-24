@@ -7,6 +7,73 @@ $current_page = !empty($routes[1]) ? $routes[1] : 'home';
 // Получение окружения: development или production
 $data_objects['ENV'] = getenv('APP_ENV') ?: 'production';
 
+if (!function_exists('fetch_marketdata')) {
+    /**
+     * Получает marketdata через POST x-www-form-urlencoded.
+     *
+     * @param int $timeout  секунд ожидания ответа
+     * @return array|null   Распарсенный payload[1] либо null при ошибке
+     */
+    function fetch_marketdata(int $timeout = 3): ?array
+    {
+        $url  = 'https://cryptoapi.ai/json/marketdata';
+
+        // Тело запроса: если jsonfather  не нужен, можно оставить пустую строку
+        $postBody = http_build_query([
+            'jsonfather' => 'true',
+        ]);
+
+        // stream_wrapper
+        $ctx = stream_context_create([
+            'http' => [
+                'method'  => 'POST',
+                'timeout' => $timeout,
+                'header'  => implode("\r\n", [
+                    'Content-Type: application/x-www-form-urlencoded',
+                    'Accept: application/json',
+                    'Content-Length: ' . strlen($postBody),
+                ]),
+                'content' => $postBody,
+            ],
+        ]);
+        $json = @file_get_contents($url, false, $ctx);
+
+        // fallback на cURL
+        if ($json === false && function_exists('curl_init')) {
+            $ch = curl_init($url);
+            curl_setopt_array($ch, [
+                CURLOPT_POST           => true,
+                CURLOPT_POSTFIELDS     => $postBody,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT        => $timeout,
+                CURLOPT_HTTPHEADER     => [
+                    'Content-Type: application/x-www-form-urlencoded',
+                    'Accept: application/json',
+                ],
+            ]);
+            $json = curl_exec($ch);
+            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            if ($code !== 200) {
+                $json = false;
+            }
+        }
+
+        if ($json === false) {
+            error_log('marketdata POST failed');
+            return null;
+        }
+
+        $payload = json_decode($json, true);
+        if (json_last_error() !== JSON_ERROR_NONE || $payload[0] !== 'OK') {
+            error_log('marketdata JSON parse error');
+            return null;
+        }
+
+        return $payload[1];   // полезная часть ответа
+    }
+}
+
 // Глобальные параметры сайта
 $data_objects['site'] = [
   'assets_prefix' => '/projects/cryptoapi.ai',
@@ -14,13 +81,23 @@ $data_objects['site'] = [
     'Access real-time market insights, trading signals, custom indices, and automated tools to boost your trading ' .
     'performance.',
   'domain' => $thisdomain ?? 'cryptoapi.ai',
-  'fgi' => $fgi ?? 44,
+  // 'fgi' => $fgi ?? 44,
   'fonts_google' => 'Inter:wght@300;400;600',
   'languages' => $languages ?? ['en', 'ru'],
   'header_stats' => $header_stats ?? [3.78, -25.3],
   'id' => $thisprojectid ?? 43,
   'timezone_offset' => date('Z') / 3600,
   'title' => $blog_title ?? 'CryptoAPI.ai – Advanced APIs for Crypto Traders and Market Analytics'
+];
+
+$market = fetch_marketdata();
+
+$data_objects['site']['header_stats'] = [
+    'btc_price' => $market['BTC']['price']   ?? null,
+    'btc_diff'  => $market['BTC']['diff']    ?? null,
+    'all_diff'  => $market['all']['diff']    ?? null,
+    'level'     => $market['level']          ?? null,
+    'fgi'       => $market['fear_and_greed'] ?? null,
 ];
 
 // Данные текущей страницы

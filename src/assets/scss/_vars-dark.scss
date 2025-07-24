@@ -1,27 +1,22 @@
 [data-theme='dark'],
 :root:not([data-theme='light']) {
-
   // SEMANTIC BRAND
   // use it with --color-bg-* solid colors
   // radial-gradient(circle 75% at 0% 100%, var(--color-bg-brand))
-  --color-bg-brand:
-      hsl(var(--h) var(--s) 92% / 0.1),
-      hsl(var(--h) var(--s) 92% / 0.05) 33.33%,
-      hsl(var(--h) var(--s) 92% / 0);
-  --color-bg-bold-brand:    hsl(var(--h) var(--s) 39%);
-  --color-ink-text-brand:   hsl(var(--h) var(--s) 78%);
-  --color-ink-2ry-brand:    hsl(var(--h) var(--s) 69%);
+  --color-bg-brand: hsl(var(--h) var(--s) 92% / 0.1),
+    hsl(var(--h) var(--s) 92% / 0.05) 33.33%, hsl(var(--h) var(--s) 92% / 0);
+  --color-bg-bold-brand: hsl(var(--h) var(--s) 39%);
+  --color-ink-text-brand: hsl(var(--h) var(--s) 78%);
+  --color-ink-2ry-brand: hsl(var(--h) var(--s) 69%);
   --color-ink-border-brand: hsl(var(--h) var(--s) 46% / 0.32);
 
-  --color-bg-brand-accent:
-      hsl(var(--h-green) var(--s) 32% / 0.24),
-      hsl(var(--h-green) var(--s) 32% / 0.12) 33.33%,
-      hsl(var(--h-green) var(--s) 32% / 0);
+  --color-bg-brand-accent: hsl(var(--h-green) var(--s) 32% / 0.24),
+    hsl(var(--h-green) var(--s) 32% / 0.12) 33.33%,
+    hsl(var(--h-green) var(--s) 32% / 0);
   --color-ink-text-brand-accent: hsl(var(--h) var(--s) 38%);
-  --color-ink-2ry-brand-accent:  hsl(var(--h) var(--s) 31%);
+  --color-ink-2ry-brand-accent: hsl(var(--h) var(--s) 31%);
 
-  --color-gradient-brand:
-    radial-gradient(
+  --color-gradient-brand: radial-gradient(
       circle farthest-corner at 0% 100%,
       rgb(255 255 255 / 0.8),
       rgb(255 255 255 / 0.76) 2%,
@@ -43,76 +38,75 @@
       rgb(255 255 255 / 0) 76%,
       rgb(255 255 255 / 0)
     ),
-    linear-gradient(to bottom right, var(--color-brand-primary), var(--color-brand-accent));
+    linear-gradient(
+      to bottom right,
+      var(--color-brand-primary),
+      var(--color-brand-accent)
+    );
 
   // @use background: radial-gradient(circle 100px at 50% 0, var(--color-gradient-brand-radial)), var(--color-bg-level-01);
-  --color-gradient-brand-radial:
-    hsl(var(--h-green) var(--s) 80% / 0.35) 0%,
-    hsl(var(--h) var(--s) 78% / 0.25) 32%,
-    hsl(var(--h) var(--s) 78% / 0.12) 56%,
-    hsl(var(--h) var(--s) 78% / 0.06) 72%,
-    hsl(var(--h) var(--s) 78% / 0.03) 81%,
+  --color-gradient-brand-radial: hsl(var(--h-green) var(--s) 80% / 0.35) 0%,
+    hsl(var(--h) var(--s) 78% / 0.25) 32%, hsl(var(--h) var(--s) 78% / 0.12) 56%,
+    hsl(var(--h) var(--s) 78% / 0.06) 72%, hsl(var(--h) var(--s) 78% / 0.03) 81%,
     hsl(var(--h) var(--s) 78% / 0) 100%;
 
-  --color-bg-base:       hsl(var(--h) var(--s-min) 14%);
+  --color-bg-base: hsl(var(--h) var(--s-min) 14%);
   --color-bg-base-alpha: hsl(from var(--color-bg-base) h s l / 0.7);
-  --color-bg-2ry:        var(--color-bg-level-03);
-  --color-bg-2ry-alpha:  hsl(from var(--color-bg-level-03) h s l / 0.7);
-  --color-bg-inverse:    hsl(var(--h) var(--s-min) 78%);
-  --color-bg-level-01:   hsl(var(--h) var(--s-min) 18%);
-  --color-bg-level-02:   hsl(var(--h) var(--s-min) 21%);
-  --color-bg-level-03:   hsl(var(--h) var(--s-min) 24%);
+  --color-bg-2ry: var(--color-bg-level-03);
+  --color-bg-2ry-alpha: hsl(from var(--color-bg-level-03) h s l / 0.7);
+  --color-bg-inverse: hsl(var(--h) var(--s-min) 78%);
+  --color-bg-level-01: hsl(var(--h) var(--s-min) 18%);
+  --color-bg-level-02: hsl(var(--h) var(--s-min) 21%);
+  --color-bg-level-03: hsl(var(--h) var(--s-min) 24%);
 
-  --color-bg-scrim:   rgb(0 0 0 / 0.24);
+  --color-bg-scrim: rgb(0 0 0 / 0.24);
 
-  --color-ink-max:    var(--color-alpha-light-max);
-  --color-ink-text:   var(--color-alpha-light-900);
-  --color-ink-2ry:    var(--color-alpha-light-600);
-  --color-ink-3ry:    var(--color-alpha-light-400);
-  --color-ink-icon:   var(--color-ink-3ry);
-  --color-ink-border: var(--color-alpha-light-100);
-  --color-ink-min:    var(--color-alpha-light-min);
-  --color-ink-link:   hsl(var(--h) var(--s) 91%);
+  --color-ink-max:           var(--color-alpha-light-max);
+  --color-ink-text:          var(--color-alpha-light-900);
+  --color-ink-2ry:           var(--color-alpha-light-600);
+  --color-ink-3ry:           var(--color-alpha-light-400);
+  --color-ink-icon:          var(--color-ink-3ry);
+  --color-ink-border:        var(--color-alpha-light-100);
+  --color-ink-border-strong: var(--color-alpha-light-200);
+  --color-ink-min:           var(--color-alpha-light-min);
+  --color-ink-link:          hsl(var(--h) var(--s) 91%);
 
-  --color-ink-text-inverse:   hsl(var(--h) var(--s-min) 14%);
-  --color-ink-2ry-inverse:    hsl(var(--h) var(--s-min) 47%);
-  --color-ink-3ry-inverse:    hsl(var(--h) var(--s-min) 62%);
-  --color-ink-icon-inverse:   var(--color-ink-3ry-inverse);
+  --color-ink-text-inverse: hsl(var(--h) var(--s-min) 14%);
+  --color-ink-2ry-inverse: hsl(var(--h) var(--s-min) 47%);
+  --color-ink-3ry-inverse: hsl(var(--h) var(--s-min) 62%);
+  --color-ink-icon-inverse: var(--color-ink-3ry-inverse);
   --color-ink-border-inverse: hsl(var(--color-shadow) / 0.08);
 
-  --color-ink-2ry-neutral:    var(--color-ink-2ry);
+  --color-ink-2ry-neutral: var(--color-ink-2ry);
   --color-ink-border-neutral: var(--color-ink-border);
 
-  --color-base-info:     var(--color-brand-primary);
+  --color-base-info: var(--color-brand-primary);
   // use it with --color-bg-* solid colors
   // radial-gradient(circle 75% at 0% 100%, var(--color-bg-brand))
-  --color-bg-info:       var(--color-bg-brand);
+  --color-bg-info: var(--color-bg-brand);
   --color-ink-text-info: var(--color-ink-text-brand);
-  --color-ink-2ry-info:  var(--color-ink-2ry-brand);
+  --color-ink-2ry-info: var(--color-ink-2ry-brand);
 
-  --color-base-error:     hsl(var(--h-red) var(--s) 71%);
-  --color-bg-error:
-    hsl(var(--h-red) var(--s) 63% / 0.6),
+  --color-base-error: hsl(var(--h-red) var(--s) 71%);
+  --color-bg-error: hsl(var(--h-red) var(--s) 63% / 0.6),
     hsl(var(--h-red) var(--s) 63% / 0.3) 33.33%,
     hsl(var(--h-red) var(--s) 63% / 0);
   --color-ink-text-error: hsl(var(--h-red) var(--s) 76%);
-  --color-ink-2ry-error:  hsl(var(--h-red) var(--s) 63%);
+  --color-ink-2ry-error: hsl(var(--h-red) var(--s) 63%);
 
-  --color-base-warning:     hsl(var(--h-yellow) var(--s) 52%);
-  --color-bg-warning:
-    hsl(var(--h-yellow) var(--s) 36% / 0.2),
+  --color-base-warning: hsl(var(--h-yellow) var(--s) 52%);
+  --color-bg-warning: hsl(var(--h-yellow) var(--s) 36% / 0.2),
     hsl(var(--h-yellow) var(--s) 36% / 0.15) 33.33%,
     hsl(var(--h-yellow) var(--s) 36% / 0);
   --color-ink-text-warning: hsl(var(--h-yellow) var(--s) 43%);
-  --color-ink-2ry-warning:  hsl(var(--h-yellow) var(--s) 34%);
+  --color-ink-2ry-warning: hsl(var(--h-yellow) var(--s) 34%);
 
-  --color-base-success:     hsl(var(--h-green) var(--s) 37%);
-  --color-bg-success:
-    hsl(var(--h-green) var(--s) 32% / 0.24),
+  --color-base-success: hsl(var(--h-green) var(--s) 37%);
+  --color-bg-success: hsl(var(--h-green) var(--s) 32% / 0.24),
     hsl(var(--h-green) var(--s) 32% / 0.12) 33.33%,
     hsl(var(--h-green) var(--s) 32% / 0);
   --color-ink-text-success: hsl(var(--h-green) var(--s) 38%);
-  --color-ink-2ry-success:  hsl(var(--h-green) var(--s) 31%);
+  --color-ink-2ry-success: hsl(var(--h-green) var(--s) 31%);
 
   // Optional - code: number, property, string, variable, tag, function, operator
   // #endregion
@@ -120,23 +114,23 @@
   // 🌓 SHADOWS
   // #region
 
-  --shadow-ring:        0.1;
+  --shadow-ring: 0.1;
   --shadow-opacity-low: 0.2;
   --shadow-opacity-hi: 0.4;
 
   // Buttons, Cards, Alerts, App Bar, Tab Bar, Switches
-  --box-shadow-min: 0 1px 0 hsl(var(--color-shadow) / 0.10);
+  --box-shadow-min: 0 1px 0 hsl(var(--color-shadow) / 0.1);
   // #endregion
 
   // #region: Graphics 🧑🏻‍🎨
   --icon-calendar: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M16%203V7M8%203V7M4%2011H20M11%2015H12V18M6%205H18C19.1046%205%2020%205.89543%2020%207V19C20%2020.1046%2019.1046%2021%2018%2021H6C4.89543%2021%204%2020.1046%204%2019V7C4%205.89543%204.89543%205%206%205Z%22%20stroke-opacity%3D%220.38%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E%0A');
-  --icon-checkbox: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M6%2011L9%2014L15%208%22%20stroke%3D%22white%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E%0A");
-  --icon-chevron-down: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%207L8%2010L11%207%22%20stroke%3D%22%23B1918B%22%20stroke-width%3D%222%22%20stroke-miterlimit%3D%2210%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E%0A");
-  --icon-chevron-up-down: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M7.19995%2014.4L12%2019.2L16.8%2014.4M7.19995%209.60005L12%204.80005L16.8%209.60005%22%20stroke%3D%22white%22%20stroke-opacity%3D%220.38%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E%0A");
-  --icon-error: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M21%2012C21%2016.9706%2016.9706%2021%2012%2021C7.02944%2021%203%2016.9706%203%2012C3%207.02944%207.02944%203%2012%203C16.9706%203%2021%207.02944%2021%2012Z%22%20fill%3D%22%23FDE2E7%22%2F%3E%3Cpath%20d%3D%22M12%2016.9V17M12%207V13M21%2012C21%2016.9706%2016.9706%2021%2012%2021C7.02944%2021%203%2016.9706%203%2012C3%207.02944%207.02944%203%2012%203C16.9706%203%2021%207.02944%2021%2012Z%22%20stroke%3D%22%23F2405E%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E%0A");
+  --icon-checkbox: url('data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M6%2011L9%2014L15%208%22%20stroke%3D%22white%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E%0A');
+  --icon-chevron-down: url('data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%207L8%2010L11%207%22%20stroke%3D%22%23B1918B%22%20stroke-width%3D%222%22%20stroke-miterlimit%3D%2210%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E%0A');
+  --icon-chevron-up-down: url('data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M7.19995%2014.4L12%2019.2L16.8%2014.4M7.19995%209.60005L12%204.80005L16.8%209.60005%22%20stroke%3D%22white%22%20stroke-opacity%3D%220.38%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E%0A');
+  --icon-error: url('data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M21%2012C21%2016.9706%2016.9706%2021%2012%2021C7.02944%2021%203%2016.9706%203%2012C3%207.02944%207.02944%203%2012%203C16.9706%203%2021%207.02944%2021%2012Z%22%20fill%3D%22%23FDE2E7%22%2F%3E%3Cpath%20d%3D%22M12%2016.9V17M12%207V13M21%2012C21%2016.9706%2016.9706%2021%2012%2021C7.02944%2021%203%2016.9706%203%2012C3%207.02944%207.02944%203%2012%203C16.9706%203%2021%207.02944%2021%2012Z%22%20stroke%3D%22%23F2405E%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E%0A');
   --icon-sm-remove: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M7.87868%207.87868L10%2010M10%2010L12.1213%2012.1213M10%2010L7.87868%2012.1213M10%2010L12.1213%207.87868M17%2010C17%2013.866%2013.866%2017%2010%2017C6.13401%2017%203%2013.866%203%2010C3%206.13401%206.13401%203%2010%203C13.866%203%2017%206.13401%2017%2010Z%22%20stroke%3D%22white%22%20stroke-opacity%3D%220.6%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E%0A');
-  --icon-success: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2021C16.9706%2021%2021%2016.9706%2021%2012C21%207.02944%2016.9706%203%2012%203C7.02944%203%203%207.02944%203%2012C3%2016.9706%207.02944%2021%2012%2021Z%22%20fill%3D%22%23BBF9AE%22%2F%3E%3Cpath%20d%3D%22M9%2012L11%2014L15%2010%22%20fill%3D%22%23BBF9AE%22%2F%3E%3Cpath%20d%3D%22M9%2012L11%2014L15%2010M21%2012C21%2016.9706%2016.9706%2021%2012%2021C7.02944%2021%203%2016.9706%203%2012C3%207.02944%207.02944%203%2012%203C16.9706%203%2021%207.02944%2021%2012Z%22%20stroke%3D%22%2322990A%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E%0A");
-  --icon-x-mark: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M18%206L6%2018M6%206L18%2018%22%20stroke%3D%22white%22%20stroke-opacity%3D%220.38%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E");
+  --icon-success: url('data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2021C16.9706%2021%2021%2016.9706%2021%2012C21%207.02944%2016.9706%203%2012%203C7.02944%203%203%207.02944%203%2012C3%2016.9706%207.02944%2021%2012%2021Z%22%20fill%3D%22%23BBF9AE%22%2F%3E%3Cpath%20d%3D%22M9%2012L11%2014L15%2010%22%20fill%3D%22%23BBF9AE%22%2F%3E%3Cpath%20d%3D%22M9%2012L11%2014L15%2010M21%2012C21%2016.9706%2016.9706%2021%2012%2021C7.02944%2021%203%2016.9706%203%2012C3%207.02944%207.02944%203%2012%203C16.9706%203%2021%207.02944%2021%2012Z%22%20stroke%3D%22%2322990A%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E%0A');
+  --icon-x-mark: url('data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M18%206L6%2018M6%206L18%2018%22%20stroke%3D%22white%22%20stroke-opacity%3D%220.38%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E');
   // #endregion
 
   // #region: Components 🍱
@@ -157,5 +151,4 @@
 
   --tr-highlight: var(--color-alpha-light-100);
   // #endregion
-
 }

@@ -96,7 +96,7 @@ async function initializeApp() {
     );
 
     updateFilterCountBadge();
-    announceUpdate(t('tableLoading', 'Table loading.'));
+    announceUpdate(t('tableLoading', 'Table loading'));
 
     window.addEventListener('unload', cleanup);
   } catch (error) {

@@ -13,32 +13,63 @@
     </form>
 
     <div class="e-header__stats">
-      {# Market Cap #}
-      {% set value = site.header_stats[0] %}
+      {% set stats = site.header_stats %}
+
+      {# BTC #}
+      {% set value = stats.btc_diff %}
       {% set class = value > 0 ? 'is-success' : (value < 0 ? 'is-error' : 'text-2ry') %}
-      <div class="e-header__stat-item has-tooltip is-bottom" aria-label="{{ 'Market Cap'|trans }}">
-        {{ 'Cap.:'|trans }}
+      <div class="e-header__stat-item">
+        BTC <b>{{ stats.btc_price|number_format(2) }}</b>
         <span class="e-header__stat-value {{ class }}">{{ value ~ '%' }}</span>
       </div>
 
-      {# 24h Volume #}
-      {% set value = site.header_stats[1] %}
+      {# Market #}
+      {% set value = stats.all_diff %}
+      {% set level = stats.level %}
       {% set class = value > 0 ? 'is-success' : (value < 0 ? 'is-error' : 'text-2ry') %}
-      <div class="e-header__stat-item has-tooltip is-bottom" aria-label="{{ '24h Volume'|trans }}">
-        {{ '24h Vol.:'|trans }}
-        <span class="e-header__stat-value {{ class }}">{{ value ~ '%' }}</span>
+      <div class="e-header__stat-item">
+        <div class="has-tooltip is-bottom" aria-label="{{ 'Market Cap Change'|trans }}">
+          {{ 'Market:'|trans }}
+        </div>
+        <span class="e-header__stat-value {{ class }} has-tooltip is-bottom" aria-label="{{ 'Market Cap Change'|trans }}">{{ value ~ '%' }}</span>
+
+        {% if level == 'low' %}
+          {% set label = 'Low' %}
+          {% set class = 'is-error' %}
+        {% elseif level == 'middle' %}
+          {% set label = 'Neutral' %}
+          {% set class = 'is-neutral' %}
+        {% else %}
+          {% set label = 'High' %}
+          {% set class = 'is-success' %}
+        {% endif %}
+
+        <div class="e-header__indicator has-tooltip is-bottom" aria-label="{{ label|trans }}">
+          {# {% include 'partials/icon.twig' with {name: 'hamburger', classes: class} %} #}
+          <svg class="e-icon is-hamburger {{ class }}" aria-hidden="true" focusable="false">
+            <line class="e-icon-hamburger__high" x1="19" y1="6" x2="5" y2="6" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)" stroke-linecap="round"></line>
+            <line class="e-icon-hamburger__mid" x1="19" y1="12" x2="5" y2="12" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)" stroke-linecap="round"></line>
+            <line class="e-icon-hamburger__low" x1="19" y1="18" x2="5" y2="18" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)" stroke-linecap="round"></line>
+          </svg>
+        </div>
       </div>
 
       {# Fear and Greed Index #}
-      {% set fgi = site.fgi %}
-      {% if fgi < 41 %}
+      {% set fgi = stats.fgi %}
+      {% if fgi < 26 %}
+        {% set label = 'Ext. Fear:' %}
+        {% set class = 'is-error' %}
+      {% elseif fgi < 48 %}
         {% set label = 'Fear:' %}
         {% set class = 'is-error' %}
-      {% elseif fgi < 61 %}
+      {% elseif fgi < 53 %}
         {% set label = 'Neutral:' %}
         {% set class = '' %}
-      {% else %}
+      {% elseif fgi < 75 %}
         {% set label = 'Greed:' %}
+        {% set class = 'is-success' %}
+      {% else %}
+        {% set label = 'Ext. Greed:' %}
         {% set class = 'is-success' %}
       {% endif %}
 

@@ -129,6 +129,9 @@ msgstr "Кап.:"
 msgid "Market Cap"
 msgstr "Капитализация рынка"
 
+msgid "Market Cap Change"
+msgstr "Капитализация рынка"
+
 msgid "24h Vol.:"
 msgstr "Сут. об.:"
 
@@ -249,7 +252,7 @@ msgstr "Лидер падения"
 msgid "Top Gainer"
 msgstr "Лидер роста"
 
-msgid "Cryptocurrency Rating "
+msgid "Cryptocurrency Rating"
 msgstr "Рейтинг криптовалют"
 
 msgid "Sort by asset"
@@ -372,7 +375,7 @@ msgstr "по возрастанию"
 msgid "descending"
 msgstr "по убыванию"
 
-msgid "Table loading."
+msgid "Table loading"
 msgstr "Таблица загружается"
 
 msgid "Table data updated."
@@ -409,6 +412,12 @@ msgstr "до"
 # ------------------------------------------------------------------------------
 # NEWS
 # ------------------------------------------------------------------------------
+
+msgid "Article Not Found – CryptoAPI.ai"
+msgstr "Статья не найдена – CryptoAPI.ai"
+
+msgid "The article you are looking for could not be found on our server."
+msgstr "Запрашиваемая статья не найдена на нашем сервере."
 
 msgid "Article not found"
 msgstr "Статья не найдена"
@@ -522,5 +531,8 @@ msgstr "Цена и изменения котировки этой валюты 
 msgid "Unable to load chart data. Please go to the ‘Contact Us’ section and report the issue to support."
 msgstr "Невозможно загрузить данные графика. Перейдите в раздел «Контакты» и сообщите о проблеме в службу поддержки."
 
-msgid "Loading chart data"
-msgstr "Загрузка данных графика..."
+msgid "Loading chart data…"
+msgstr "Загрузка данных графика…"
+
+msgid "Available"
+msgstr "Доступно"

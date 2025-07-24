@@ -95,23 +95,7 @@ h1:not(.e-article__header h1) {
 }
 
 .e-news-item__icon-spot:has(.e-asset__icon[src$='placeholder.svg']) {
-  background: var(--color-gradient-brand);
-  border-radius: 50%;
-  color: var(--button-color-primary);
-  font-size: var(--font-size-caption);
-  font-weight: 500;
-  text-shadow: 0 1px 0 var(--color-alpha-light-400);
-  text-transform: uppercase;
-  position: relative;
-
-  &::after {
-    content: attr(data-fallback);
-    display: inline-block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    translate: -50% (-44%);
-  }
+  @include logo-fallback();
 }
 
 // COPY

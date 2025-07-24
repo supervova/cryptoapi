@@ -240,7 +240,7 @@ export async function refreshAssetChartData({
     if (DOMElements.assetChartContainer) {
       DOMElements.assetChartContainer.innerHTML = `<p class="is-loading-state p-3 text-center">${t(
         'loadingChartData',
-        'Loading chart data...'
+        'Loading chart data…'
       )}</p>`;
     }
   }

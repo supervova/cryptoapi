@@ -64,3 +64,83 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+// QUICK STATS
+.e-header__stats {
+  @include text-format(caption);
+
+  display: none;
+
+  @media (--tablet) {
+    display: flex;
+    justify-content: end;
+    gap: var(--size-2);
+    font-weight: 600;
+  }
+
+  @media (--tablet-l) {
+    grid-column: span 1;
+  }
+}
+
+.e-header__stat-item {
+  display: none;
+  align-items: center;
+  gap: 1ch;
+  white-space: nowrap;
+  user-select: none;
+
+  @media (--tablet) {
+    &:nth-child(3) {
+    display: flex;
+    }
+  }
+
+  @media (--tablet-l) {
+    display: flex;
+  }
+}
+
+.e-header__stat-value {
+  background-color: var(--color-ink-min);
+  border-radius: var(--border-radius-xs);
+  display: block;
+  white-space: nowrap;
+  padding-block: var(--size-half);
+  padding-inline: var(--size-1);
+
+  &.is-error {
+    background-color: var(--color-ink-2ry-error);
+  }
+
+  &.is-success {
+    background-color: var(--color-ink-2ry-success);
+  }
+}
+
+// Market level color codes
+:where(.e-header__stats) {
+  .is-hamburger.is-error  {
+    --icon-stroke: var(--color-ink-border-strong);
+
+    .e-icon-hamburger__low {
+      --icon-stroke: var(--color-ink-2ry-error);
+    }
+  }
+
+  .is-hamburger.is-neutral  {
+    --icon-stroke: var(--color-ink-2ry);
+
+    .e-icon-hamburger__high {
+      --icon-stroke: var(--color-ink-border-strong);
+    }
+  }
+
+  .is-hamburger.is-success  {
+    --icon-stroke: var(--color-ink-2ry-success);
+  }
+}
+
+.e-header__indicator {
+  flex: none;
+}

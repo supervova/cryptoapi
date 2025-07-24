@@ -95,7 +95,7 @@
       </header>
 
       {% if article.image %}
-        {% set image_src = article.image matches('/^https?:\/\//') ? article.image : site.assets_prefix ~ '/' ~ article.image %}
+        {% set image_src = article.image|slice(0, 4) == 'http' ? article.image : site.assets_prefix ~ '/' ~ article.image %}
         <img class="e-article__image" src="{{ image_src }}" alt="{{ article.title|e }}">
       {% endif %}
 

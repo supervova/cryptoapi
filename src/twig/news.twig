@@ -24,13 +24,13 @@
       <article class="e-news-item">
         <figure class="e-news-item__media{{ item.image ? ' has-image' : ' has-icon' }}">
           {% if item.image %}
-            {% set image_src = item.image matches('/^https?:\/\//') ? item.image : site.assets_prefix ~ '/' ~ item.image %}
+            {% set image_src = item.image|slice(0, 4) == 'http' ? item.image : site.assets_prefix ~ '/' ~ item.image %}
             <img src="{{ image_src }}" alt="{{ item.title|e }}" loading="lazy">
           {% else %}
             {% set meta = crypto_meta[item.tag|upper] ?? {} %}
             {% if meta.icon is defined %}
               <span class="e-news-item__icon-spot"
-                {% if item.tag %}data-fallback="{{ item.tag|slice(0,3)|upper }}"{% endif %}>
+                {% if item.tag %}data-fallback="{{ item.tag|slice(0, 3)|upper }}"{% endif %}>
                 <img class="e-asset__icon" src="{{ site.assets_prefix }}/assets/img/cryptologos/{{ meta.icon }}" width="56" height="56" alt="{{ item.tag }}">
               </span>
             {% else %}
