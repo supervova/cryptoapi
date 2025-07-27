@@ -141,15 +141,20 @@ msgstr "Суточный объем"
 msgid "Fear and Greed Index"
 msgstr "Индекс страха-жадности"
 
-msgid "Fear:"
-msgstr "Страх:"
+msgid "Ext. Fear"
+msgstr "Макс. страх"
 
-msgid "Neutral:"
-msgstr "Нейтр.:"
+msgid "Fear"
+msgstr "Страх"
 
-msgid "Greed:"
-msgstr "Жадн.:"
+msgid "Neutral"
+msgstr "Скок."
 
+msgid "Greed"
+msgstr "Жадн."
+
+msgid "Ext. Greed"
+msgstr "Макс. жадн."
 
 # ------------------------------------------------------------------------------
 # Trading

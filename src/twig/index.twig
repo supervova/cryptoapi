@@ -194,13 +194,17 @@
           </figure>
           <div class="e-card__content">
             <h3 class="e-card__status">
-                {% if fgi < 41 %}
-                  <span class="text-error">{{ 'Fear'|trans }}: {{ fgi }}</span>
-                {% elseif fgi < 61 %}
-                  {{ 'Neutral'|trans }}: {{ fgi }}
-                {% else %}
-                  <span class="text-success">{{ 'Greed'|trans }}: {{ fgi }}</span>
-                {% endif %}
+              {% if fgi < 26 %}
+                <span class="text-error">{{ 'Extreme Fear'|trans }}: {{ fgi }}</span>
+              {% elseif fgi < 48 %}
+                <span class="text-error">{{ 'Fear'|trans }}: {{ fgi }}</span>
+              {% elseif fgi < 53 %}
+                {{ 'Neutral'|trans }}: {{ fgi }}
+              {% elseif fgi < 75 %}
+                <span class="text-success">{{ 'Greed'|trans }}: {{ fgi }}</span>
+              {% else %}
+                <span class="text-success">{{ 'Extreme Greed'|trans }}: {{ fgi }}</span>
+              {% endif %}
             </h3>
             <p class="e-card__description">{{ 'Market Sentiment'|trans }}</p>
           </div>
