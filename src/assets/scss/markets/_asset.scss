@@ -78,6 +78,8 @@
 .e-asset-details__price-change {
   @include text-format('h3');
 
+  padding-inline-start: 1ch;
+
   &.is-positive {
     color: var(--color-ink-text-success);
   }

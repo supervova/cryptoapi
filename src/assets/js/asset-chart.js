@@ -196,6 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
               maxRotation: 0,
               autoSkip: true,
               maxTicksLimit: 8,
+              padding: 16,
             },
           },
           y: {

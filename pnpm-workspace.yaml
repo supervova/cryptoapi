@@ -1,0 +1,7 @@
+onlyBuiltDependencies:        # ← разрешаем этим пакетам запускать build
+  - '@parcel/watcher'
+  - es5-ext
+  - esbuild
+  - gifsicle
+  - mozjpeg
+  - optipng-bin

@@ -176,7 +176,7 @@ $navbar-dot-size: var(--size-1);
   bottom: 0;
   left: 0;
   right: 0;
-  height: calc(#{$navbar-menu-height-mobile} + env(safe-area-inset-bottom));
+  height: calc($navbar-menu-height-mobile + env(safe-area-inset-bottom));
   z-index: var(--zindex-fixed);
 
   @media (--tablet) {
@@ -460,7 +460,7 @@ $current-pages: dashboard, home, markets, news, trading;
         border-radius: var(--border-radius-pill);
         content: '';
         position: absolute;
-        top: calc(50% - #{rem(2)});
+        top: calc(50% - rem(2));
         left: var(--size-1p5);
         width: $navbar-dot-size;
         height: $navbar-dot-size;

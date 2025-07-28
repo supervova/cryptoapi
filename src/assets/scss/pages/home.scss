@@ -13,6 +13,24 @@
 //   }
 // }
 
+:where(.e-section.is-markets) .e-assets h2 {
+  display: none;
+
+  @media (--tablet-l) {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  a {
+    @include text-format('base');
+
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+
 :where(.e-section.is-markets) {
   .e-asset-details {
     flex: 1;
@@ -82,7 +100,8 @@
 [id='markets-chart'] {
   overflow: hidden;
   width: 100%;
-  height: rem(288);
+  // stylelint-disable-next-line declaration-no-important
+  height: rem(304) !important;
 }
 
 // TESTIMONIALS

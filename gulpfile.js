@@ -16,11 +16,7 @@ import data from 'gulp-data';
 import futureFeatures from 'postcss-preset-env';
 import gulpSass from 'gulp-sass';
 // import gulpif from 'gulp-if';
-import imagemin from 'gulp-imagemin';
-import imageminGIF from 'imagemin-gifsicle';
-import imageminJPG from 'imagemin-mozjpeg';
-import imageminPNG from 'imagemin-pngquant';
-import imageminSVG from 'imagemin-svgo';
+import imagemin, { gifsicle, mozjpeg, optipng, svgo } from 'gulp-imagemin';
 import inlineSvg from 'postcss-inline-svg';
 import newer from 'gulp-newer';
 import notify from 'gulp-notify';
@@ -122,15 +118,15 @@ const paths = {
     dest: `${destAssets}/img/icons`,
   },
   js: {
-    src: `${srcBase}/assets/js`, // папка с исходниками
+    src: `${srcBase}/assets/js`,
     entry: {
-      main: `${srcBase}/assets/js/main.js`, // основная точка входа
+      main: `${srcBase}/assets/js/main.js`,
       'asset-chart': `${srcBase}/assets/js/asset-chart.js`,
       asset: `${srcBase}/assets/js/asset.js`,
+      'pages/home': `${srcBase}/assets/js/pages/home.js`, // ключ с папкой
       markets: `${srcBase}/assets/js/markets.js`,
       search: `${srcBase}/assets/js/search.js`,
       toast: `${srcBase}/assets/js/toast.js`,
-      // home: `${srcBase}/assets/js/home.js`,
     },
     watch: `${srcBase}/assets/js/**/*.js`,
     dest: `${destAssets}/js/`,
@@ -203,28 +199,34 @@ const js = () => {
   const entries = Object.entries(paths.js.entry);
 
   return Promise.all(
-    entries.map(
-      ([name, entry]) =>
-        src(entry, { sourcemaps: !isProd }) // для dev-watch стэктрейсов
-          .pipe(handleError('JS Compile Error'))
-          .pipe(
-            gulpEsbuild({
-              outfile: `${name}.js`,
-              bundle: true,
-              format: isProd ? 'iife' : 'esm',
-              minify: isProd,
-              sourcemap: !isProd, // включаем карты только в dev
-              define: {
-                'process.env.NODE_ENV': JSON.stringify(
-                  isProd ? 'production' : 'development'
-                ),
-              },
-            })
-          )
+    entries.map(([name, entry]) => {
+      // Определяем выходную папку на основе имени
+      const outputDir = name.includes('/')
+        ? `${paths.js.dest}${name.substring(0, name.lastIndexOf('/'))}/`
+        : paths.js.dest;
 
-          .pipe(dest(paths.js.dest, { sourcemaps: '.' })) // чтобы gulp сам не терял карту
-      // .pipe(bsInstance.stream({ once: true }))
-    )
+      const outputFile = name.includes('/')
+        ? `${name.substring(name.lastIndexOf('/') + 1)}.js`
+        : `${name}.js`;
+
+      return src(entry, { sourcemaps: !isProd })
+        .pipe(handleError('JS Compile Error'))
+        .pipe(
+          gulpEsbuild({
+            outfile: outputFile,
+            bundle: true,
+            format: isProd ? 'iife' : 'esm',
+            minify: isProd,
+            sourcemap: !isProd,
+            define: {
+              'process.env.NODE_ENV': JSON.stringify(
+                isProd ? 'production' : 'development'
+              ),
+            },
+          })
+        )
+        .pipe(dest(outputDir, { sourcemaps: '.' }));
+    })
   );
 };
 
@@ -306,23 +308,20 @@ const img = () =>
   src(paths.img.src, { encoding: false })
     .pipe(newer(paths.img.dest))
     .pipe(
-      imagemin(
-        [
-          imageminGIF({ interlaced: true, optimizationLevel: 3 }),
-          imageminJPG({ quality: 85 }),
-          imageminPNG({ quality: [0.85, 0.95] }),
-          imageminSVG({
-            plugins: [
-              { name: 'removeViewBox', active: false },
-              {
-                name: 'cleanupIds',
-                params: { remove: false, minify: false, preserve: [] },
-              },
-            ],
-          }),
-        ],
-        { verbose: true }
-      )
+      imagemin([
+        gifsicle({ interlaced: true }),
+        mozjpeg({ quality: 85, progressive: true }),
+        optipng({ optimizationLevel: 1 }),
+        svgo({
+          plugins: [
+            { name: 'removeViewBox', active: false },
+            {
+              name: 'cleanupIDs',
+              params: { remove: false, minify: false, preserve: [] },
+            },
+          ],
+        }),
+      ])
     )
     .pipe(dest(paths.img.dest))
     .pipe(size({ title: 'images' }));

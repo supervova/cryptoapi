@@ -18,6 +18,25 @@
   (min-resolution: 120dpi);
 @custom-selector :--text-field select, textarea, .e-form__text-input, input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="url"], input[type="tel"], input[type="date"];
 @custom-selector :--text-field-blur :where(input:not([type="checkbox"]):not([type="radio"]), select, textarea):not(:focus);
+:where(.e-section.is-markets) .e-assets h2 {
+  display: none;
+}
+@media (--tablet-l) {
+  :where(.e-section.is-markets) .e-assets h2 {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+}
+:where(.e-section.is-markets) .e-assets h2 a {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  padding-top: var(--padding-top-base);
+  padding-bottom: var(--padding-bottom-base);
+  display: inline-flex;
+  align-items: center;
+}
+
 :where(.e-section.is-markets) .e-asset-details {
   flex: 1;
   padding-bottom: var(--size-8);
@@ -80,7 +99,7 @@
 [id=markets-chart] {
   overflow: hidden;
   width: 100%;
-  height: 18rem;
+  height: 19rem !important;
 }
 
 .e-section.is-testimonials .e-card.is-featured {

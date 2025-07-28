@@ -278,32 +278,75 @@
       <div class="e-section__grid">
         <article class="e-asset-details">
           <header class="e-asset-details__header">
-            <img class="e-asset-details__icon" src="{{ site.assets_prefix }}/assets/img/cryptologos/btc.svg" alt="Bitcoin">
+            {% set asset = {
+              name: 'N/A',
+              symbol: 'N/A',
+              icon: 'placeholder.svg',
+              price: 'N/A',
+              change: 'N/A',
+              open: 'N/A',
+              max: 'N/A',
+              min: 'N/A',
+            } %}
+
+            {% if ENV == 'development' %}
+              {% set asset = asset|merge({
+                name: 'Bitcoin',
+                symbol: 'BTC',
+                icon: 'btc.svg',
+                price: '96 117,07',
+                change: '0,61',
+                open: '96 117,07',
+                max: '96 844,94',
+                min: '95 781,32',
+              }) %}
+            {% endif %}
+
+            <figure class="e-asset-details__figure" data-fallback="{{ asset.symbol|slice(0, 3)|upper }}">
+              <img class="e-asset-details__icon" src="{{ site.assets_prefix }}/assets/img/cryptologos/{{ asset.icon }}" alt="{{ asset.name }}">
+            </figure>
+
             <div class="e-asset-details__summary">
               <div class="e-row">
-                <p class="e-asset-details__title tablet:d-none" aria-hidden="true">Bitcoin</p>
-                <h2 class="e-asset-details__symbol">BTC-USD</h2>
-                <div class="e-asset-details__price">96 762,86 <small class="e-asset-details__price-change is-positive">+0,61%</small></div>
+                <p class="e-asset-details__title tablet:d-none" aria-hidden="true">
+                  {{ asset.name }}
+                </p>
+                <h2 class="e-asset-details__symbol">{{ asset.symbol }}-USD</h2>
+
+                <div class="e-asset-details__price">
+                  {{ asset.price }}
+                  <small class="e-asset-details__price-change {{ asset.change starts with '-' ? 'is-negative' : 'is-positive' }}">
+                    {{ asset.change starts with '-' ? '' : '+' }}{{ asset.change }}%
+                  </small>
+                </div>
               </div>
+
               <div class="e-row">
-                <p class="e-asset-details__title d-none tablet:d-block" aria-hidden="true">Bitcoin</p>
+                <p class="e-asset-details__title d-none tablet:d-block" aria-hidden="true">
+                  {{ asset.name }}
+                </p>
                 <div class="e-asset-details__stats">
-                  <span>{{ 'O:'|trans }} <span class="nobr">96 117,07</span></span>
-                  <span>{{ 'Max:'|trans }} <span class="nobr">96 844,94</span></span>
-                  <span>{{ 'Min:'|trans }} <span class="nobr">95 781,32</span></span>
+                  <span>{{ 'O:'|trans }}   <span class="nobr">{{ asset.open }}</span></span>
+                  <span>{{ 'Max:'|trans }} <span class="nobr">{{ asset.max }}</span></span>
+                  <span>{{ 'Min:'|trans }} <span class="nobr">{{ asset.min }}</span></span>
                 </div>
               </div>
             </div>
           </header>
           <figure class="e-chart">
             <canvas id="markets-chart"></canvas>
-            <button class="e-btn is-period" type="button" data-role="chart-period">1Д</button>
             <div class="e-chart__loader" id="chart-loader">Загрузка графика...</div>
             <div class="e-chart__error" id="chart-error" style="display: none;">Не удалось загрузить данные графика</div>
           </figure>
         </article>
         <div class="e-assets">
-          <h2 class="d-none tablet-l:d-block" aria-hidden="true">{{ 'Top Currencies'|trans }}</h2>
+          <h2 aria-hidden="true">
+            {{ 'Top Currencies'|trans }}
+            <a href="{{ page.lang }}/markets">
+              {{ 'All'|trans }}
+              {% include 'partials/icon.twig' with {name: 'sm-chevron-right', classes: 'is-sm'} %}
+            </a>
+          </h2>
           <table class="e-assets__table">
             <colgroup>
               <col class="e-assets__symbols">
@@ -578,7 +621,7 @@
 {% block body_suffix %}
   {{ parent() }}
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
-  <script src="{{ site.assets_prefix }}/assets/js/asset-chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 
   {# Логотипы и названия Top Gainer/Loser #}
   <script>
@@ -617,76 +660,9 @@
     });
   </script>
 
-  {# TRIndx-таблица: 6 валют, автообновление 30 с #}
-  <script type="module">
-    (() => {
-      const ASSETS_PREFIX = '{{ site.assets_prefix }}';
-      const META_URL = `${ASSETS_PREFIX}/assets/data/crypto-meta.json`;
-      const RATING_URL = 'https://cryptoapi.ai/json/trindxrating/';
-      const tbody = document.getElementById('assets-table-body');
-      if (!tbody) return;
-
-      let meta;
-      const getMeta = () =>
-        meta
-          ? Promise.resolve(meta)
-          : fetch(META_URL)
-              .then((r) => r.json())
-              .then((j) => {
-                meta = j;
-                return meta;
-              });
-
-      const fmtPrice = (v) => {
-        const [i, f = '00'] = (+v).toFixed(2).split('.');
-        return `${i.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}<small>${f}</small>`;
-      };
-
-      const row = (a, m = {}) => {
-        const ch = +a.change_24h || 0;
-        let cls = '';
-        if (ch > 0) {
-          cls = 'is-positive';
-        } else if (ch < 0) {
-          cls = 'is-negative';
-        }
-        const sign = ch > 0 ? '+' : '';
-        return `
-              <tr data-ticker="${a.ticker}">
-                <th scope="row">
-                  <div class="e-assets__symbol">${a.ticker}-USD</div>
-                  <div class="e-assets__name">${m.name ?? a.ticker}</div>
-                </th>
-                <td class="e-assets__price">${fmtPrice(a.price)}</td>
-                <td class="e-assets__change ${cls}">${sign}${ch.toFixed(2)}%</td>
-              </tr>`;
-      };
-
-      async function load() {
-        try {
-          const [m, data] = await Promise.all([
-            getMeta(),
-            fetch(RATING_URL, { cache: 'no-store' }).then((r) => r.json()),
-          ]);
-
-          const btc = data.find((x) => x.ticker === 'BTC');
-          const rest = data
-            .filter((x) => x.ticker !== 'BTC' && x.rating >= 1 && x.rating <= 5)
-            .sort((a, b) => a.rating - b.rating)
-            .slice(0, 5);
-
-          tbody.innerHTML = [btc, ...rest]
-            .filter(Boolean)
-            .map((a) => row(a, m[a.ticker]))
-            .join('');
-        } catch (e) {
-          console.error('[home] trindxrating', e);
-        }
-      }
-
-      load();
-      setInterval(load, 30_000);
-    })();
-  </script>
-
+  {% if ENV == 'development' %}
+    <script src="{{ site.assets_prefix }}/assets/js/asset-chart.js"></script>
+  {% else %}
+    <script src="{{ site.assets_prefix }}/assets/js/pages/home.js?{{ "now"|date('U') }}" type="module"></script>
+  {% endif %}
 {% endblock %}

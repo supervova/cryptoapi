@@ -1,3 +1,5 @@
+export const testExport = () => 'ok';
+
 // assets/js/markets/api.js
 import * as DOMElements from './dom.js';
 import * as marketState from './state.js';
@@ -18,8 +20,9 @@ import { getTimezoneOffset, cleanup, announceUpdate } from './utils.js';
  * Обработка полученных данных с API
  * Извлекает данные из ответа API, обновляет состояние активов и применяет сортировку/фильтрацию.
  * @param {any} responseData - Данные, полученные от API
+ * @param {object} cryptoData - Метаданные криптовалют
  */
-function processData(responseData) {
+function processData(responseData, cryptoData) {
   let actualCryptoDataObject;
 
   if (IS_DEVELOPMENT) {
@@ -107,8 +110,8 @@ function processData(responseData) {
   currentAssets.forEach((existingAsset) => {
     const upperSymbol = existingAsset.symbol.toUpperCase();
     if (newApiSymbols.includes(upperSymbol)) {
-      // Используем marketState.state.cryptoMeta
-      const meta = marketState.state.cryptoMeta[upperSymbol] || {
+      // Используем переданный cryptoData
+      const meta = (cryptoData && cryptoData[upperSymbol]) || {
         name: upperSymbol,
         icon: null,
       };
@@ -144,8 +147,8 @@ function processData(responseData) {
 
   newApiSymbols.forEach((upperSymbol) => {
     if (!processedSymbols.has(upperSymbol)) {
-      // Используем marketState.state.cryptoMeta
-      const meta = marketState.state.cryptoMeta[upperSymbol] || {
+      // Используем переданный cryptoData
+      const meta = (cryptoData && cryptoData[upperSymbol]) || {
         name: upperSymbol,
         icon: null,
       };
@@ -198,7 +201,7 @@ function processData(responseData) {
   applySortAndFilter(marketState.state.isLoading); // Pass isLoading from marketState.state
 }
 
-export async function fetchData() {
+export async function fetchData(cryptoData) {
   // Используем marketState.state.currentRequestController
   if (marketState.state.currentRequestController) {
     marketState.state.currentRequestController.abort();
@@ -240,7 +243,7 @@ export async function fetchData() {
     const data = await response.json();
     const wasLoading = marketState.state.isLoading; // Access isLoading from marketState.state
 
-    processData(data);
+    processData(data, cryptoData);
 
     if (wasLoading) {
       marketState.setIsLoading(false); // Uses setter

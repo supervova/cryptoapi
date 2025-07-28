@@ -14,6 +14,7 @@
 }
 
 .e-assets tr {
+  border: 0;
   cursor: pointer;
   position: relative;
 
@@ -46,6 +47,7 @@
 .e-assets th,
 .e-assets td {
   border: 0;
+  box-shadow: none;
   font-weight: 400;
   vertical-align: middle;
   padding-block: var(--size-1p5);
