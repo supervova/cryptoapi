@@ -1,3 +1,5 @@
+// src/assets/js/pages/home.js
+
 import { fetchData, fetchChartData } from '../markets/api.js';
 import { state, setCryptoMeta } from '../markets/state.js';
 
