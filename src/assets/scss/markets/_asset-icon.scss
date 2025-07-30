@@ -19,7 +19,8 @@
   order: -1;
 }
 
-.e-asset-details__figure {
+// Tweak for the single asset pages
+.e-page.is-asset .e-asset-details__figure {
   translate: 0 rem(-3);
 }
 
