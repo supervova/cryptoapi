@@ -90,9 +90,10 @@ async function initializeApp() {
       DOMElements.scrollContainer.addEventListener('scroll', throttledPatch);
     }
 
-    fetchData();
+    const fetchWithMeta = () => fetchData(marketState.state.cryptoMeta);
+    fetchWithMeta();
     marketState.setUpdateIntervalId(
-      setInterval(fetchData, REFRESH_INTERVAL_MS)
+      setInterval(fetchWithMeta, REFRESH_INTERVAL_MS)
     );
 
     updateFilterCountBadge();

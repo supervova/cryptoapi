@@ -1,5 +1,3 @@
-export const testExport = () => 'ok';
-
 // assets/js/markets/api.js
 import * as DOMElements from './dom.js';
 import * as marketState from './state.js';
@@ -15,6 +13,8 @@ import {
 
 import { applySortAndFilter } from '../table/sort-filter.js';
 import { getTimezoneOffset, cleanup, announceUpdate } from './utils.js';
+
+export const testExport = () => 'ok';
 
 /**
  * Обработка полученных данных с API
