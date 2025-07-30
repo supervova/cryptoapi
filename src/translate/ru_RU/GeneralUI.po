@@ -148,7 +148,7 @@ msgid "Fear"
 msgstr "Страх"
 
 msgid "Neutral"
-msgstr "Скок."
+msgstr "Спок."
 
 msgid "Greed"
 msgstr "Жадн."
@@ -541,3 +541,97 @@ msgstr "Загрузка данных графика…"
 
 msgid "Available"
 msgstr "Доступно"
+
+# ------------------------------------------------------------------------------
+# Pricing
+# ------------------------------------------------------------------------------
+
+msgid "Choose Your Plan"
+msgstr "Выбери свой тариф"
+
+msgid "Try it out to assess the accuracy of our AI algorithms"
+msgstr "Попробуйте, чтобы оценить точность наших ИИ-алгоритмов"
+
+msgid "AI-powered analysis of Bitcoin and Ethereum"
+msgstr "AI-анализ Bitcoin и Eherium"
+
+msgid "One trading signal per day"
+msgstr "1 торговый сигнал в день"
+
+msgid "Access to the forecasts feed with a one-hour delay"
+msgstr "Доступ к ленте прогнозов с часовой задержкой"
+
+# Free
+
+msgid "Access to signals on the website"
+msgstr "Доступ к сигналам на сайте"
+
+msgid "Signal delay – 15 seconds"
+msgstr "Задержка сигналов – 15 секунд"
+
+msgid "Up to 1,000 daily requests to the APIs “asset rating”, “market indicators and indices”"
+msgstr "до 1000 запросов в сутки к API «рейтинг активов», «рыночные индикаторы и индексы»"
+
+msgid "Binance API integration"
+msgstr "API интеграция с Binance"
+
+msgid "Service fee – 30% of profit"
+msgstr "Комиссия сервиса – 30% от прибыли"
+
+# Trader
+
+msgid "Access to signals via Telegram"
+msgstr "Доступ к сигналам через телеграм"
+
+msgid "Signal delay – none (real-time)"
+msgstr "Задержка сигналов – без задержки (онлайн)"
+
+msgid "Up to 10,000 daily requests to the APIs “asset rating”, “market indicators and indices”"
+msgstr "до 10 000 запросов в сутки к API «рейтинг активов», «рыночные индикаторы и индексы»"
+
+msgid "Balanced trading strategy"
+msgstr "Сбалансированная торговая стратегия"
+
+msgid "Service fee – 20% of profit"
+msgstr "Комиссия сервиса – 20% от прибыли"
+
+msgid "$33/month or $297/year (25% off)"
+msgstr "$33/месяц или $297/год (скидка 25 %)"
+
+msgid "Plus all benefits of the Free plan"
+msgstr "Плюс все преимущества бесплатного тарифа"
+
+# Expert
+
+msgid "Up to 50,000 daily requests to the APIs “asset rating”, “market indicators and indices”"
+msgstr "до 50 000 запросов в сутки к API «рейтинг активов», «рыночные индикаторы и индексы»"
+
+msgid "Customizable trading strategies"
+msgstr "Настраиваемые торговые стратегии"
+
+msgid "Service fee – 10% of profit"
+msgstr "Комиссия сервиса – 10% от прибыли"
+
+msgid "$60/month or $540/year (25% off)"
+msgstr "$60/месяц или $540/год (скидка 25 %)"
+
+msgid "Plus all benefits of the Trader plan"
+msgstr "Плюс все преимущества тарифа «Трейдер»"
+
+# Premium
+
+msgid "Unlimited API “asset rating”, “market indicators and indices” * no more than 1 request at any given moment"
+msgstr "Unlimited API «рейтинг активов», «рыночные индикаторы и индексы» * не более 1 запроса в 1 момент времени"
+
+msgid "Service fee – 5% of profit"
+msgstr "Комиссия сервиса – 5% от прибыли"
+
+msgid "VIP support"
+msgstr "VIP-поддержка"
+
+msgid "$150/month or $1,080/year (25% off)"
+msgstr "$150/месяц или $1080/год (скидка 25 %)"
+
+msgid "Plus all benefits of the Expert plan"
+msgstr "Плюс все преимущества тарифа «Эксперт»"
+

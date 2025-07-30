@@ -124,7 +124,7 @@
       <div class="e-flex">
         <!-- Top Loser -->
         <article class="e-card is-album-metric">
-          <figure class="e-card__logo" data-fallback="{{ page.market_tops.loser_ticker|slice(0, 3)|upper }}">>
+          <figure class="e-card__logo" data-fallback="{{ page.market_tops.loser_ticker|slice(0, 3)|upper }}">
             <img src="" data-role="loser-logo" alt="">
           </figure>
 
@@ -418,108 +418,8 @@
     </div>
   </section>
 
-  {# PLANS #}
-  {% set data_plans = [
-    {
-      "title": "Trader",
-      "icon": "user",
-      "price": 29,
-      "subtitle": "Perfect for beginner active traders",
-      "link": "#",
-      "features": [
-        "AI analysis of the top 20 cryptocurrencies",
-        "Up to 10 trading signals per day",
-        "Real-time signal notifications",
-        "Basic market sentiment indicators",
-        "Integration with major crypto exchanges",
-        "Weekly reports and forecasts",
-        "Priority chat support"
-      ]
-    },
-    {
-      "title": "Expert",
-      "icon": "star",
-      "price": 79,
-      "subtitle": "Optimal choice for professional traders",
-      "link": "#",
-      "features": [
-        "Everything in the &quot;Trader&quot; plan",
-        "AI analysis of over 100 cryptocurrencies",
-        "Unlimited number of signals",
-        "Advanced market trend analytics",
-        "Personalized trading strategies",
-        "In-depth market sentiment analysis",
-        "API access",
-        "Telegram and Email notification",
-        "Data export in CSV/Excel",
-        "Access to historical data",
-        "24/7 support"
-      ],
-      "isFeatured": true
-    },
-    {
-      "title": "Premium",
-      "icon": "crown",
-      "price": 199,
-      "subtitle": "Designed for professional teams and crypto funds",
-      "link": "#",
-      "features": [
-        "Everything in the &quot;Expert&quot; plan",
-        "Full analysis of all tradable cryptocurrencies",
-        "AI assistant for personal consultations",
-        "Predictive analytics of future trends",
-        "Automated trading via API",
-        "Customizable trading strategies",
-        "Detailed on-chain metrics analysis",
-        "Correlation analysis with traditional markets",
-        "Private research and reports",
-        "VIP support with a personal manager",
-        "Early access to new features",
-        "Group online consultations with experts"
-      ]
-    }
-  ] %}
-  <section class="e-section is-plans">
-    <div class="e-container">
-      <header class="e-section__header is-centered">
-        <span class="e-eyebrow">{{ 'AI Consultant and API Integrations'|trans }}</span>
-        <h2 class="e-section__title">{{ 'Plans & Pricing'|trans }}</h2>
-        <p>{{ 'Two CryptoAI products — AI Consultant and API Integrations — are available by subscription. However, you can start using them completely free.'|trans }} {{ 'By signing up, you gain access to basic AI analytics features for major cryptocurrencies — Bitcoin and Ethereum. Each day, the system will send you one trading signal and provide access to the general forecast feed with a one-hour delay. This is enough to evaluate the accuracy of our AI algorithms and take your first steps into crypto trading with artificial intelligence.'|trans }}</p>
-        <div class="e-segmented-control d-none tablet:d-flex">
-          <label class="e-segmented-control__item" for="billing-monthly">
-            <input id="billing-monthly" name="interval" type="radio">
-            {{ 'Monthly Payment'|trans }}
-          </label>
-          <label class="e-segmented-control__item" for="billing-annual">
-            <input id="billing-annual" name="interval" type="radio" checked>
-            {{ 'Annual Payment (15% Discount)'|trans }}
-          </label>
-        </div>
-      </header>
-      <div class="e-plans">
-        <div class="e-plans">
-          {% for plan in data_plans %}
-            {% include 'partials/plan.twig' with {'plan': plan, 'site': site} only %}
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-  </section>
-
-  {# AGENT PRICE #}
-  <section class="e-section is-agent-price">
-    <div class="e-container">
-      <div class="e-section__image">
-        <img src="{{ site.assets_prefix }}/assets/img/components/agent-price.jpg" srcset="{{ site.assets_prefix }}/assets/img/components/agent-price.jpg 1x, {{ site.assets_prefix }}/assets/img/components/agent-price@2x.jpg 2x" alt="Цена торгового агента">
-      </div>
-      <div class="e-section__body">
-        <h2>{{ 'Trading Agent Pricing'|trans }}</h2>
-        <p>{{ 'The AI trading agent’s services are paid on a different basis.'|trans }}</p>
-        <p class="text-success">{{ 'You pay 10% on each profitable trade, with a minimum of $1.'|trans }}</p>
-        <a class="e-btn" href="#">{{ 'Choose This One'|trans }}</a>
-      </div>
-    </div>
-  </section>
+  {# RICING #}
+  {% include 'partials/plans.twig' %}
 
   {# TESTIMONIALS #}
   {% set data_testimonials = [
@@ -665,4 +565,6 @@
   {% else %}
     <script src="{{ site.assets_prefix }}/assets/js/pages/home.js?{{ "now"|date('U') }}" type="module"></script>
   {% endif %}
+
+  <script src="{{ site.assets_prefix }}/assets/js/pricing.js?{{ "now"|date('U') }}" type="module"></script>
 {% endblock %}

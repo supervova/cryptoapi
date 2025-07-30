@@ -12,21 +12,3 @@ msgstr "Тарифные планы | CryptoAPI.ai - Торговля крипт
 msgid "Explore our Free, Trader, Expert, and Premium plans for AI-powered crypto trading. Unlock real-time trading signals, advanced analytics, personalized insights, and automation tools to elevate your strategy."
 msgstr "Выберите один из тарифов — Бесплатный, Трейдер, Эксперт или Премиум — и получите ИИ-консультанта для криптотрейдинга. Реальные торговые сигналы, продвинутая аналитика, персональные рекомендации и автоматизация сделок помогут повысить эффективность вашей торговли."
 
-# ------------------------------------------------------------------------------
-# Body
-# ------------------------------------------------------------------------------
-
-msgid "Choose Your Plan"
-msgstr "Выбери свой тариф"
-
-msgid "Try it out to assess the accuracy of our AI algorithms"
-msgstr "Попробуйте, чтобы оценить точность наших ИИ-алгоритмов"
-
-msgid "AI-powered analysis of Bitcoin and Ethereum"
-msgstr "AI-анализ Bitcoin и Eherium"
-
-msgid "One trading signal per day"
-msgstr "1 торговый сигнал в день"
-
-msgid "Access to the forecasts feed with a one-hour delay"
-msgstr "Доступ к ленте прогнозов с часовой задержкой"

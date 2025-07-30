@@ -1,0 +1,111 @@
+{% set data_plans = [
+  {
+    "title": "Free",
+    "icon": "gift",
+    "price": 0,
+    "subtitle": "Try it out to assess the accuracy of our AI algorithms",
+    "link": "/" ~ page.lang ~ "/auth?tab=signup&plan=free",
+    "anchor": "Sign Up",
+    "features": [
+      "Access to signals on the website",
+      "Signal delay – 15 seconds",
+      "Up to 1,000 daily requests to the APIs “asset rating”, “market indicators and indices”",
+      "Binance API integration",
+      "Service fee – 30% of profit"
+    ]
+  },
+  {
+    "title": "Trader",
+    "icon": "user",
+    "price": 33,
+    "subtitle": "Perfect for beginner active traders",
+    "link": "/" ~ page.lang ~ "/auth?tab=signup&plan=trader&interval=annual",
+    "features": [
+      "Access to signals via Telegram",
+      "Signal delay – none (real-time)",
+      "Up to 10,000 daily requests to the APIs “asset rating”, “market indicators and indices”",
+      "Balanced trading strategy",
+      "Service fee – 20% of profit",
+      "Plus all benefits of the Free plan"
+    ]
+  },
+  {
+    "title": "Expert",
+    "icon": "star",
+    "price": 60,
+    "subtitle": "Optimal choice for professional traders",
+    "link": "/" ~ page.lang ~ "/auth?tab=signup&plan=expert&interval=annual",
+    "features": [
+      "Up to 50,000 daily requests to the APIs “asset rating”, “market indicators and indices”",
+      "Customizable trading strategies",
+      "Service fee – 10% of profit",
+      "Plus all benefits of the Trader plan"
+    ],
+    "isFeatured": true
+  },
+  {
+    "title": "Premium",
+    "icon": "crown",
+    "price": 150,
+    "subtitle": "Designed for professional teams and crypto funds",
+    "link": "/" ~ page.lang ~ "/auth?tab=signup&plan=premium&interval=annual",
+    "features": [
+      "Unlimited API “asset rating”, “market indicators and indices” * no more than 1 request at any given moment",
+      "Service fee – 5% of profit",
+      "VIP support",
+      "Plus all benefits of the Expert plan"
+    ]
+  }
+] %}
+
+<section class="e-section is-plans">
+  <div class="e-container">
+    <header class="e-section__header is-centered">
+      <h1 class="e-section__title is-highlight mb-0">{{ 'Choose Your Plan'|trans }}</h1>
+      <p>{{ 'Two CryptoAI products — AI Consultant and API Integrations — are available by subscription. However, you can start using them completely free.'|trans }}</p>
+      <div class="e-section__controls d-none tablet:d-flex">
+        <button class="btn has-tooltip" data-role="plans-scroller" data-target="start" aria-label="{{ 'To Start'|trans }}" disabled>
+          {% include 'partials/icon.twig' with {name: 'sm-chevron-left'} %}
+        </button>
+
+        <div class="e-segmented-control">
+          <label class="e-segmented-control__item" for="billing-monthly">
+            <input id="billing-monthly" name="interval" type="radio">
+            {{ 'Monthly Payment'|trans }}
+          </label>
+          <label class="e-segmented-control__item" for="billing-annual">
+            <input id="billing-annual" name="interval" type="radio" checked>
+            {{ 'Annual Payment (25% Discount)'|trans }}
+          </label>
+        </div>
+
+        <button class="btn has-tooltip" data-role="plans-scroller" data-target="end" aria-label="{{ 'To End'|trans }}">
+          {% include 'partials/icon.twig' with {name: 'sm-chevron-right'} %}
+        </button>
+      </div>
+    </header>
+  </div>
+
+  <div class="e-section__scroller">
+    <div class="e-plans">
+      {% for plan in data_plans %}
+        {% include 'partials/plan.twig' with {'plan': plan, 'site': site} only %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# AGENT PRICE #}
+<section class="e-section is-agent-price">
+  <div class="e-container">
+    <div class="e-section__image">
+      <img src="{{ site.assets_prefix }}/assets/img/components/agent-price.jpg" srcset="{{ site.assets_prefix }}/assets/img/components/agent-price.jpg 1x, {{ site.assets_prefix }}/assets/img/components/agent-price@2x.jpg 2x" alt="Цена торгового агента">
+    </div>
+    <div class="e-section__body">
+      <h2>{{ 'Trading Agent Pricing'|trans }}</h2>
+      <p>{{ 'The AI trading agent’s services are paid on a different basis.'|trans }}</p>
+      <p class="text-success">{{ 'You pay 10% on each profitable trade, with a minimum of $1.'|trans }}</p>
+      <a class="e-btn" href="/{{ page.lang }}/auth?tab=signup&plan=agent">{{ 'Choose This One'|trans }}</a>
+    </div>
+  </div>
+</section>

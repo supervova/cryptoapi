@@ -1,6 +1,6 @@
 /* stylelint-disable declaration-no-important */
-@use '../abstracts' as *;
-@use '../abstracts/custom';
+@use 'abstracts' as *;
+@use 'abstracts/custom';
 
 .e-section.is-plans {
   margin-top: var(--spacer-half-max);

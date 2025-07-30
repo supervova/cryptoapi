@@ -1,4 +1,10 @@
-<script src="{{ site.assets_prefix }}/assets/js/search.js?{{ "now"|date('U') }}"  type="module"></script>
+{# <script src="{{ site.assets_prefix }}/assets/js/search.js?{{ "now"|date('U') }}"  type="module"></script> #}
+{% if page.app %}
+  <script src="{{ site.assets_prefix }}/assets/js/search.js?{{ "now"|date('U') }}"  type="module"></script>
+  {% if ENV != 'development' %}
+    <script src="{{ site.assets_prefix }}/assets/js/header-stats.js?{{ "now"|date('U') }}" defer></script>
+  {% endif %}
+{% endif %}
 
 <!-- Toast box -->
 <div class="e-toast" id="toast-container"></div>

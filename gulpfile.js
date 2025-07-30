@@ -33,7 +33,6 @@ import yargs from 'yargs';
 import { createGulpEsbuild } from 'gulp-esbuild';
 import { deleteAsync } from 'del';
 import { existsSync, readFileSync } from 'fs';
-import { hideBin } from 'yargs/helpers';
 import { join } from 'path';
 
 const bsInstance = browserSync.create();
@@ -41,7 +40,7 @@ const gulpEsbuild = createGulpEsbuild();
 
 const sassCompiler = gulpSass(sass);
 
-const { argv } = yargs(hideBin(process.argv));
+const { argv } = yargs(process.argv.slice(2));
 const isProd = argv.p;
 // #endregion
 
@@ -122,9 +121,11 @@ const paths = {
     entry: {
       main: `${srcBase}/assets/js/main.js`,
       'asset-chart': `${srcBase}/assets/js/asset-chart.js`,
-      asset: `${srcBase}/assets/js/asset.js`,
+      'header-stats': `${srcBase}/assets/js/header-stats.js`,
       'pages/home': `${srcBase}/assets/js/pages/home.js`, // ключ с папкой
+      asset: `${srcBase}/assets/js/asset.js`,
       markets: `${srcBase}/assets/js/markets.js`,
+      pricing: `${srcBase}/assets/js/pricing.js`,
       search: `${srcBase}/assets/js/search.js`,
       toast: `${srcBase}/assets/js/toast.js`,
     },
@@ -556,10 +557,11 @@ const pages = () => {
               func(value, timezone = 'UTC', lang = 'en') {
                 try {
                   if (Array.isArray(timezone)) {
+                    // eslint-disable-next-line prefer-destructuring, no-param-reassign
                     timezone = timezone[0]; // берем первый элемент массива
                   }
                   const date = new Date(value);
-                  if (isNaN(date.getTime())) return value;
+                  if (Number.isNaN(date.getTime())) return value;
 
                   return date.toLocaleString(lang, {
                     timeZone: timezone,

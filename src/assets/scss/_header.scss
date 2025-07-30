@@ -144,3 +144,19 @@
 .e-header__indicator {
   flex: none;
 }
+
+// Update animation
+.e-header__stats.is-updated {
+  .e-header__stat-item {
+    will-change: filter;
+    animation: quick-stat-blink 1.6s var(--easing-appearance) forwards;
+
+    &:nth-child(2) { animation-delay: 0.8s; }
+    &:nth-child(3) { animation-delay: 1.6s; }
+  }
+}
+
+@keyframes quick-stat-blink {
+  0%, 40% { filter: brightness(1.5); }
+  100%    { filter: brightness(1);   }
+}

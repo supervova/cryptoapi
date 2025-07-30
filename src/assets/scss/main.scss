@@ -85,6 +85,7 @@
   @include meta.load-css('content/table');
   @include meta.load-css('content/code');
   @include meta.load-css('content/main');
+  @include meta.load-css('pricing');
   // @include meta.load-css('badge');
   // @include meta.load-css('content/callout');
   // @include meta.load-css('content/tag');

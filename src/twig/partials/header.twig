@@ -5,7 +5,6 @@
       <label class="visually-hidden" for="header-search">{{ 'Search coins by name or symbol…'|trans }}</label>
       {% include 'partials/icon.twig' with {name: 'search'} %}
       {% if search_on_page %}
-        {# TODO: develop on page search #}
         <input type="search" id="header-search" autocomplete="off" placeholder="{{ 'Search coins by name or symbol…'|trans }}">
       {% else %}
         <input type="search" id="header-search" autocomplete="off" placeholder="{{ 'Search coins by name or symbol…'|trans }}">
@@ -19,8 +18,9 @@
       {% set value = stats.btc_diff %}
       {% set class = value > 0 ? 'is-success' : (value < 0 ? 'is-error' : 'text-2ry') %}
       <div class="e-header__stat-item">
-        BTC <b>{{ stats.btc_price|number_format(2) }}</b>
-        <span class="e-header__stat-value {{ class }}">{{ value ~ '%' }}</span>
+        BTC
+        <b id="stat-btc-price">{{ stats.btc_price|number_format(2) }}</b>
+        <span id="stat-btc-diff" class="e-header__stat-value {{ class }}">{{ value ~ '%' }}</span>
       </div>
 
       {# Market #}
@@ -31,7 +31,7 @@
         <div class="has-tooltip is-bottom" aria-label="{{ 'Market Cap Change'|trans }}">
           {{ 'Market:'|trans }}
         </div>
-        <span class="e-header__stat-value {{ class }} has-tooltip is-bottom" aria-label="{{ 'Market Cap Change'|trans }}">{{ value ~ '%' }}</span>
+        <span id="stat-market-diff" class="e-header__stat-value {{ class }} has-tooltip is-bottom" aria-label="{{ 'Market Cap Change'|trans }}">{{ value ~ '%' }}</span>
 
         {% if level == 'low' %}
           {% set label = 'Low' %}
@@ -44,7 +44,7 @@
           {% set class = 'is-success' %}
         {% endif %}
 
-        <div class="e-header__indicator has-tooltip is-bottom" aria-label="{{ label|trans }}">
+        <div id="stat-market-indicator" class="e-header__indicator has-tooltip is-bottom {{ class }}" aria-label="{{ label|trans }}">
           {# {% include 'partials/icon.twig' with {name: 'hamburger', classes: class} %} #}
           <svg class="e-icon is-hamburger {{ class }}" aria-hidden="true" focusable="false">
             <line class="e-icon-hamburger__high" x1="19" y1="6" x2="5" y2="6" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)" stroke-linecap="round"></line>
@@ -74,8 +74,8 @@
       {% endif %}
 
       <div class="e-header__stat-item has-tooltip is-bottom" aria-label="{{ 'Fear and Greed Index'|trans }}">
-        {{ label|trans }}:
-        <span class="e-header__stat-value {{ class }}">{{ fgi }} <span class="text-2ry">/ 100</span></span>
+        <span id="stat-fgi-label">{{ label|trans }}:</span>
+        <span id="stat-fgi-value" class="e-header__stat-value {{ class }}">{{ fgi }} <span class="text-2ry">/ 100</span></span>
       </div>
     </div>
 
@@ -84,3 +84,14 @@
     </button>
   </div>
 </header>
+
+{# Мини-словарь для JS #}
+<script id="i18n-dict" type="application/json">
+{
+  "EXT_FEAR"  : "{{ 'Ext. Fear'|trans|e('js') }}",
+  "FEAR"      : "{{ 'Fear'|trans|e('js') }}",
+  "NEUTRAL"   : "{{ 'Neutral'|trans|e('js') }}",
+  "GREED"     : "{{ 'Greed'|trans|e('js') }}",
+  "EXT_GREED" : "{{ 'Ext. Greed'|trans|e('js') }}"
+}
+</script>

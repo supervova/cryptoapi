@@ -15,7 +15,7 @@ $page_meta = [
   'desc' => 'Explore our Free, Trader, Expert, and Premium plans for AI-powered crypto trading. ' .
             'Unlock real-time trading signals, advanced analytics, personalized insights, ' .
             'and automation tools to elevate your strategy.',
-  'styles' => 'pricing.css',
+  // 'styles' => 'pricing.css',
   'title' => 'Pricing Plans for Crypto Traders | CryptoAPI.ai - AI-Powered Crypto Trading',
 ];
 
