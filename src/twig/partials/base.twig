@@ -43,7 +43,9 @@
   <meta property="og:description" content="{{ page.desc|default(site.desc)|trans }}">
   <meta property="og:type" content="{{ page.type }}">
   <meta property="og:url" content="https://{{ site.domain }}{% if not page.index or page.lang != 'ru' %}/{{ page.lang }}/{{ page.slug }}{% else %}/{% endif %}">
-  <meta property="og:image" content="{{ page.image|default('https://' ~ site.domain ~ site.assets_prefix ~ '/img/cover.png') }}">
+
+  {% set cover_default = 'cover' ~ (page.lang == 'ru' ? '-ru' : '') ~ '.png' %}
+  <meta property="og:image" content="{{ page.image|default('https://' ~ site.domain ~ site.assets_prefix ~ '/img/' ~ cover_default) }}">
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="canonical" href="https://{{ site.domain }}{% if not page.index or page.lang != 'ru' %}/{{ page.lang }}/{{ page.slug }}{% else %}/{% endif %}">

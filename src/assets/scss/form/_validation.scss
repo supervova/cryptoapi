@@ -94,4 +94,15 @@
     }
   }
 }
+
+// Semantic colors
+.e-form__message.is-success {
+  background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-success));
+  color: var(--color-ink-text-success);
+}
+
+.e-form__message.is-error {
+  background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-error));
+  color: var(--color-ink-text-error);
+}
 // #endregion

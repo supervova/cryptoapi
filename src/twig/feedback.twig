@@ -1,0 +1,92 @@
+{% extends "partials/base.twig" %}
+
+{% block config %}
+  {{ parent() }}
+
+  {% if ENV == 'development' %}
+    {% set page = page|merge(
+      {
+        classes: 'is-feedback',
+        styles: 'feedback.css'
+      }
+    ) %}
+  {% endif %}
+{% endblock %}
+
+{# MAIN CONTENT ------------------------------------------------------------- #}
+{% block content %}
+
+  <div class="e-container is-5/6">
+      <div>
+        <header class="e-main__header">
+          <h1>{{ 'Contact Us'|trans }}</h1>
+          <p class="text-2ry">{{ 'We read everything. We’ll reply if you provided an email.'|trans }}</p>
+        </header>
+
+        <form method="post" action="/feedback" class="form" novalidate>
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+          <p class="e-form__text-field">
+            <select id="feedback-subject" name="feedback-type">
+              <option value="feedback">{{ 'Feedback'|trans }}</option>
+              <option value="bug">{{ 'Bug'|trans }}</option>
+              <option value="feature">{{ 'New feature'|trans }}</option>
+            </select>
+            <label for="feedback-subject">{{ 'Subject'|trans }}</label>
+          </p>
+
+          <p class="e-form__text-field">
+            <textarea id="feedback-message" name="feedback-message" rows="8" required maxlength="1000" placeholder="{{ 'Describe the problem or suggestion...'|trans }}">{# {{ old.message }} #}</textarea>
+            <label for="feedback-message">{{ 'Describe the problem or suggestion...'|trans }}</label>
+            <span class="e-form__error" id="error-message" role="alert" aria-live="polite">
+              <small>{{ 'This field is required.'|trans }}</small>
+            </span>
+          </p>
+
+          <p class="e-form__text-field">
+            <input id="feedback-email" name="feedback-email" {# value="{{ old.email }}" #} type="email" autocomplete="email" required placeholder="Email">
+            <label for="feedback-email">Email</label>
+            <span class="e-form__error" id="error-email" role="alert" aria-live="polite">
+              <small>{{ 'Enter a valid email address.'|trans }}</small>
+            </span>
+          </p>
+
+          <p class="e-form__text-field" style="position: absolute; left: -9999px;">
+            <label for="website">Website</label>
+            <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </p>
+
+          {# <button type="submit" {% if not old.message %} disabled {% endif %}> #}
+          <button type="submit">
+            {{ 'Submit'|trans }}
+          </button>
+
+          {% if success %}
+            <p class="e-form__message is-success">{{ 'Thanks, got it.'|trans }}</p>
+          {% elseif error %}
+            <p class="e-form__message is-error">{{ error }}</p>
+          {% endif %}
+        </form>
+      </div>
+
+      <img src="{{ site.assets_prefix }}/assets/img/pages/feedback/trader-phones.png" srcset="{{ site.assets_prefix }}/assets/img/pages/feedback/trader-phones.png 2x" alt="">
+  </div>
+
+
+{% endblock %}
+
+{% block body_suffix %}
+  {{ parent() }}
+  <script type="module">
+    const form = document.querySelector('form');
+    const textarea = document.getElementById('feedback-message');
+    const submit = form.querySelector('button[type="submit"]');
+
+    const toggleButton = () => {
+      submit.disabled = textarea.value.trim() === '';
+    }
+
+    textarea.addEventListener('input', toggleButton);
+    document.addEventListener('DOMContentLoaded', toggleButton);
+  </script>
+{% endblock %}

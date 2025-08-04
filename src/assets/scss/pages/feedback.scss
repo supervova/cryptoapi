@@ -1,0 +1,35 @@
+/* stylelint-disable declaration-no-important */
+@use '../abstracts' as *;
+@use '../abstracts/custom';
+
+.e-main__header {
+  flex-direction: column;
+  align-items: start;
+}
+
+h1 {
+  margin-bottom: rem(-8);
+}
+
+.e-container.is-5\/6 {
+  @media (--tablet-l) {
+    display: flex;
+    align-items: center;
+    gap: var(--size-5);
+    padding-top: var(--size-8);
+  }
+
+  > * {
+    flex: 1 1 calc(50% - var(--size-2p5));
+    min-width: 0;
+  }
+}
+
+.e-container.is-5\/6 img {
+  display: none;
+
+  @media (--tablet-l) {
+    display: block;
+  }
+}
+

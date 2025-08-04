@@ -118,6 +118,10 @@
   }
 }
 
+[lang='ru'] [id='stat-fgi-label'] {
+  text-transform: lowercase;
+}
+
 // Market level color codes
 :where(.e-header__stats) {
   .is-hamburger.is-error  {

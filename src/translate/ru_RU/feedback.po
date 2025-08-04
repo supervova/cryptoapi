@@ -1,0 +1,39 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+# ------------------------------------------------------------------------------
+# Meta
+# ------------------------------------------------------------------------------
+msgid "Contact Us | CryptoAPI.ai - AI-Powered Crypto Trading"
+msgstr "Обратная связь | CryptoAPI.ai — Торговля криптовалютой с ИИ"
+
+msgid "Have questions or feedback? Reach out to the CryptoAPI.ai team — we′re here to help with AI-powered crypto trading tools, insights, and integrations."
+msgstr "Есть вопросы или предложения? Напишите команде CryptoAPI.ai — мы помогаем трейдерам использовать ИИ-инструменты, аналитику и интеграции для крипторынка."
+
+
+# ------------------------------------------------------------------------------
+# Body
+# ------------------------------------------------------------------------------
+
+msgid "We read everything. We’ll reply if you provided an email."
+msgstr "Мы читаем всё. Ответим, если указали email."
+
+msgid "Subject"
+msgstr "Тема обращения"
+
+msgid "Feedback"
+msgstr "Обратная связь"
+
+msgid "Bug"
+msgstr "Ошибка"
+
+msgid "New feature"
+msgstr "Новая фича"
+
+msgid "Describe the problem or suggestion..."
+msgstr "Опишите проблему или предложение..."
+
+msgid "Thanks, got it."
+msgstr "Спасибо, принято."

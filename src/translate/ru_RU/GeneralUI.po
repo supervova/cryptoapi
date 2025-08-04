@@ -74,7 +74,7 @@ msgid "Profile Settings"
 msgstr "Настройки профиля"
 
 msgid "Contact Us"
-msgstr "Контакты"
+msgstr "Обратная связь"
 
 msgid "Privacy"
 msgstr "Конфиденциальность"
@@ -115,6 +115,9 @@ msgstr "Закрыть"
 
 msgid "Retry"
 msgstr "Повторная попытка"
+
+msgid "Submit"
+msgstr "Отправить"
 
 # ------------------------------------------------------------------------------
 # HEADER

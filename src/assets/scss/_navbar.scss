@@ -99,7 +99,7 @@ $navbar-dot-size: var(--size-1);
     left: 0;
     width: rem(96);
     height: auto;
-    z-index: var(--zindex-fixed);
+    z-index: calc(var(--zindex-drawer) + 1);
   }
 }
 

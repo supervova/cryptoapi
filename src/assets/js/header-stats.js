@@ -100,7 +100,7 @@
           cls = 'is-success';
         }
 
-        fgiLabel.textContent = `${lbl}:`;
+        fgiLabel.textContent = `(${lbl})`;
         fgiValue.textContent = `${v} / 100`;
         fgiValue.className = `e-header__stat-value ${cls}`;
       }
