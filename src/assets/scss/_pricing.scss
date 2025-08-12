@@ -62,6 +62,10 @@
 
 .e-plan {
   min-width: rem(280);
+
+  @media (--tablet) {
+    min-width: rem(288);
+  }
 }
 
 .e-plan:first-child .e-plan_icon {

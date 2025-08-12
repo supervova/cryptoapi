@@ -9,7 +9,10 @@
     <p class="e-plan__price">
       <sup>$</sup>
       <strong>{{ plan.price }}</strong>
-      <small>/ мес.</small>
+      <small>
+        / мес.
+        ($<span data-role="annual-price"></span> / г.)
+      </small>
     </p>
     <p class="e-plan__subtitle">
       {{ plan.subtitle|trans }}

@@ -41,14 +41,28 @@ if (scroller && startBtn && endBtn) {
 const monthlyRadio = document.getElementById('billing-monthly');
 const annualRadio = document.getElementById('billing-annual');
 const plans = [...document.querySelectorAll('.e-plan')];
+const lang = (document.documentElement.lang || '').toLowerCase();
+const parseNumber = (v) => Number(String(v).replace(/[^\d.-]/g, '')) || 0;
+const formatInt = (v) => {
+  const n = Math.round(parseNumber(v));
+  return lang.startsWith('en')
+    ? n.toLocaleString('en-US', { maximumFractionDigits: 0 })
+    : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00A0');
+};
 
-// Сохраняем годовую цену
+// Сохраняем годовую цену и выводим сумму за 12 мес.
 plans.forEach((plan) => {
   const priceEl = plan.querySelector('.e-plan__price strong');
-  if (priceEl) priceEl.dataset.annual = priceEl.textContent.trim();
+  if (!priceEl) return;
+  priceEl.dataset.annual = priceEl.textContent.trim();
+  const annualSumEl = plan.querySelector('[data-role="annual-price"]');
+  if (annualSumEl) {
+    const annualPerMonth = parseNumber(priceEl.dataset.annual);
+    const annualTotal = Math.round(annualPerMonth * 12);
+    annualSumEl.textContent = formatInt(annualTotal);
+  }
 });
 
-const format = (v) => Number(v).toLocaleString('en-US');
 const setIntervalParam = (href, interval) => {
   try {
     const url = new URL(href, window.location.origin);
@@ -79,10 +93,15 @@ const updateBilling = () => {
       return;
     }
 
-    const annual = Number(priceEl.dataset.annual);
+    const annual = parseNumber(priceEl.dataset.annual);
     const monthlyPrice = Math.round(annual * 1.25);
-    priceEl.textContent = format(monthly ? monthlyPrice : annual);
+    priceEl.textContent = formatInt(monthly ? monthlyPrice : annual);
     linkEl.href = setIntervalParam(linkEl.href, monthly ? 'monthly' : 'annual');
+    const annualSumEl = plan.querySelector('[data-role="annual-price"]');
+    if (annualSumEl) {
+      const annualTotal = Math.round((monthly ? monthlyPrice : annual) * 12);
+      annualSumEl.textContent = formatInt(annualTotal);
+    }
   });
 };
 

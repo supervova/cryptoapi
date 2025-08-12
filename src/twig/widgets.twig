@@ -1,0 +1,136 @@
+{% extends "partials/base.twig" %}
+
+{% block config %}
+  {{ parent() }}
+
+  {% if ENV == 'development' %}
+    {% set page = page|merge(
+      {
+        classes: 'is-widgets',
+        styles: 'widgets.css'
+      }
+    ) %}
+
+    {% set theme = theme|default('dark') %}
+    {% set rows = rows|default(8) %}
+    {% set aff_id = aff_id|default('') %}
+    {% set signals = signals|default([
+      {t: '21:42:18', s: 'UNI', icon: '🚀', txt: 'Цена только что превысила $11', dir: 'up', p: '$11.001'},
+      {t: '21:39:46', s: 'FLM', icon: '🔻', txt: 'Цена упала ниже $0.03', dir: 'down', p: '$0.03'},
+      {t: '21:39:05', s: 'SYN', icon: '🚀', txt: 'Цена только что превысила $0.15', dir: 'up', p: '$0.1502'},
+      {t: '21:38:28', s: 'FET', icon: '🔻', txt: 'Цена упала ниже $0.70', dir: 'down', p: '$0.70'},
+      {t: '21:27:24', s: 'OG', icon: '🔻', txt: 'Цена упала ниже $9.50', dir: 'down', p: '$9.485'},
+      {t: '21:26:43', s: 'FLM', icon: '🔻', txt: 'Цена упала ниже $0.03', dir: 'down', p: '$0.03'},
+      {t: '21:21:59', s: 'BNSOL', icon: '🚀', txt: 'Цена только что превысила $190', dir: 'up', p: '$190.20'},
+      {t: '21:13:12', s: 'ERA', icon: '🔻', txt: 'Цена упала ниже $1', dir: 'down', p: '$0.9998'}
+    ]) %}
+  {% endif %}
+{% endblock %}
+
+{# MAIN CONTENT ------------------------------------------------------------- #}
+{% block content %}
+
+  <div class="e-container">
+    <header class="e-main__header">
+      <h1>{{ 'AI-Powered Crypto Widgets'|trans }}
+        –
+        <span class="text-2ry">{{ 'Add to Your Site'|trans }}</span>
+      </h1>
+
+      {% set active = active|default('signals') %}
+      {% set tabs = [
+        {id: 'signals', title: 'Signals'},
+        {id: 'tape', title: 'Marquee'},
+        {id: 'btc-forecast', title: 'BTC Forecast'}
+      ] %}
+
+      <nav class="e-tabs" role="tablist" aria-label="Разделы виджетов" aria-orientation="horizontal">
+        {% for t in tabs %}
+          <button
+            class="e-tabs__tab {% if active==t.id %}is-active{% endif %}"
+            id="tab-{{ t.id }}"
+            role="tab"
+            data-target="#panel-{{ t.id }}"
+            aria-controls="panel-{{ t.id }}"
+            aria-selected="{{ active==t.id ? 'true' : 'false' }}"
+            tabindex="{{ active==t.id ? '0' : '-1' }}"
+          >
+            {{ t.title|trans }}
+          </button>
+        {% endfor %}
+      </nav>
+
+    </header>
+
+    <section class="e-widgets__grid is-{{ tab }}">
+
+      <div class="e-preview">
+        <section class="e-signals e-signals__card is-{{ theme }}" aria-labelledby="signals-title">
+          <h2 id="signals-title" class="e-signals__title">
+            <span>КРИПТОВАЛЮТЫ:</span> Торговые сигналы ИИ
+          </h2>
+          <ul class="e-signals__list" role="list" aria-live="polite">
+            {% for r in signals|slice(0, rows) %}
+              <li class="e-signals__row">
+                <time class="e-signals__time" datetime="{{ r.t }}">{{ r.t }}</time>
+                <span class="e-signals__symbol">{{ r.s }}</span>
+                <span class="e-signals__icon" aria-hidden="true">{{ r.icon }}</span>
+                <span class="e-signals__text">
+                  {{ r.txt }}
+                  <span class="e-signals__arrow is-{{ r.dir }}">
+                    {{ r.dir == 'up' ? '↑' : '↓' }}
+                  </span>
+                  <b class="e-signals__price">{{ r.p }}</b>
+                </span>
+                <span class="e-signals__pill"></span>
+              </li>
+            {% endfor %}
+          </ul>
+
+          <footer class="e-signals__foot">
+            <span class="e-signals__madeby">Разработка</span>
+            <a class="e-signals__brand" href="https://cryptoapi.ai" rel="noopener" target="_blank">
+              CryptoAPI.ai
+            </a>
+          </footer>
+        </section>
+      </div>
+
+      <aside class="e-config" aria-label="Настройки виджета">
+        <div class="e-config__group">
+          <label class="e-config__label">Цвет фона виджета:</label>
+          <div class="e-toggle" role="group" aria-label="Тема">
+            <button type="button" class="e-toggle__btn is-light" aria-pressed="{{ theme=='light' ? 'true' : 'false' }}" data-theme="light" title="Светлая">☀️</button>
+            <button type="button" class="e-toggle__btn is-dark {% if theme=='dark' %}is-active{% endif %}" aria-pressed="{{ theme=='dark' ? 'true' : 'false' }}" data-theme="dark" title="Тёмная">🌙</button>
+          </div>
+        </div>
+
+        <div class="e-config__group">
+          <label for="rows" class="e-config__label">Количество строк (1–8):</label>
+          <div class="e-number">
+            <input id="rows" class="e-number__input" type="number" min="1" max="8" value="{{ rows }}" inputmode="numeric" pattern="[0-9]*"/>
+            <button type="button" class="e-number__btn e-number__btn--dec" aria-label="Меньше">−</button>
+            <button type="button" class="e-number__btn e-number__btn--inc" aria-label="Больше">+</button>
+          </div>
+        </div>
+
+        <div class="e-config__group">
+          <label class="e-config__label">Код для вставки:</label>
+          <pre class="e-embed__code" aria-label="Embed code"><code>&lt;div class="cryptoapi-widget"
+  data-type="signals" data-theme="{{ theme }}" data-rows="{{ rows }}"
+  data-aff="{{ aff_id }}"&gt;&lt;/div&gt;
+&lt;script src="https://assets.cryptoapi.ai/widget.js" async&gt;&lt;/script&gt;</code></pre>
+          <p class="e-embed__hint">
+            Скопируйте и вставьте этот скрипт в место, где вы хотите разместить виджет. Можно добавить несколько виджетов; вторую строку (script) подключайте один раз.
+          </p>
+          <button type="button" class="e-button e-button__copy">Скопировать код</button>
+        </div>
+      </aside>
+
+    </section>
+  </div>
+{% endblock %}
+
+{% block body_suffix %}
+  {{ parent() }}
+{% endblock %}

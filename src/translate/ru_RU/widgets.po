@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+# ------------------------------------------------------------------------------
+# Meta
+# ------------------------------------------------------------------------------
+msgid "Crypto Widgets & Embeds | CryptoAPI.ai - AI-Powered Crypto Trading"
+msgstr "Крипто-виджеты и вставки | CryptoAPI.ai - Торговля криптовалютой с ИИ"
+
+msgid "Embed real-time crypto charts, tickers, and tapes in minutes. Lightweight, accessible widgets with AI insights and affiliate tracking to grow revenue."
+msgstr "Встраивайте чарты, тикеры и ленты с данными в реальном времени за минуты. Лёгкие, доступные виджеты с аналитикой ИИ и партнёрским трекингом помогут увеличить доход."
+
+# ------------------------------------------------------------------------------
+# Body
+# ------------------------------------------------------------------------------
+msgid "AI-Powered Crypto Widgets"
+msgstr "Виджеты ИИ-ассистента крипторынков"
+
+# Title muted text
+msgid "Add to Your Site"
+msgstr "добавьте на свой сайт"
+
+# Tabs
+msgid "Widget type"
+msgstr "Тип виджета"
+
+msgid "Signals"
+msgstr "Сигналы"
+
+msgid "Marquee"
+msgstr "Бегущая строка"
+
+msgid "BTC Forecast"
+msgstr "Прогноз BTC"
