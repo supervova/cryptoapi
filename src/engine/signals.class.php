@@ -19,7 +19,14 @@ $page_content_html = get_template("signals");
 
 //["BTC", "ETH", "SOL", "ADA", "XRP", "DOT", "AVAX", "DOGE"]
 $cryptoassetsstr = '["BTC"';
-$cryptoassets = $db->super_query("select curr from cryptoassets where curr<>'BTC' and curr not like '%USD%' and curr not like '%EUR%'", true);
+$cryptoassets = $db->super_query(
+    "SELECT curr
+     FROM cryptoassets
+     WHERE curr <> 'BTC'
+       AND curr NOT LIKE '%USD%'
+       AND curr NOT LIKE '%EUR%'",
+    true
+);
 foreach ($cryptoassets as $cryptoasset) {
     $cryptoassetsstr .= ', "' . $cryptoasset['curr'] . '"';
 }

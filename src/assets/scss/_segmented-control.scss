@@ -10,18 +10,22 @@
   padding: var(--size-half);
 }
 
-.e-segmented-control__item {
-  --button-height: var(--size-5);
+.e-segmented-control__item{
   @include button;
+}
 
-  & {
-    background: none;
-    border-radius: var(--border-radius-base);
-    color: var(--color-ink-2ry);
-    margin-inline-end: 0;
-  }
+
+.e-segmented-control__item,
+:where(.e-segmented-control) .e-btn {
+  --button-height: var(--size-5);
+
+  background: none;
+  border-radius: var(--border-radius-base);
+  color: var(--color-ink-2ry);
+  margin-inline-end: 0;
 
   &:hover {
+    --icon-stroke: var(--color-ink-text);
     color: var(--color-ink-text);
   }
 }
@@ -30,9 +34,11 @@
   opacity: 0;
 }
 
+:where(.e-segmented-control) .e-btn[aria-pressed]:not([aria-pressed='false']),
 .e-segmented-control__item:has(input:checked)  {
   &,
   &:hover {
+    --icon-stroke: var(--color-ink-text);
     background: hsl(var(--h-green) var(--s) 88% / 0.08);
     color: var(--color-ink-text-success);
     cursor: default;

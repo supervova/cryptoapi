@@ -1,0 +1,62 @@
+@use 'sass:math';
+@use '../abstracts' as *;
+@use '../abstracts/custom';
+@use 'base';
+
+:root {
+  --gauge-stroke: hsl(var(--h) var(--s-min) 11% / 0.12);
+  --gauge-stroke-on: var(--color-ink-2ry);
+
+  --gauge-stroke-extreme-fear: var(--color-ink-2ry-error);
+  --gauge-stroke-fear: hsl(26 var(--s) 46%);
+  --gauge-stroke-neutral: var(--color-ink-2ry-warning);
+  --gauge-stroke-greed: hsl(107 var(--s) 33%);
+  --gauge-stroke-extreme-greed: var(--color-ink-2ry-success);
+}
+
+[data-theme='dark'] {
+  --gauge-stroke: hsl(var(--h) var(--s-min) 99% / 0.12);
+  --gauge-stroke-on: var(--color-ink-2ry);
+
+  --gauge-stroke-extreme-fear: var(--color-ink-2ry-error);
+  --gauge-stroke-fear: hsl(26 var(--s) 46%);
+  --gauge-stroke-neutral: var(--color-ink-2ry-warning);
+  --gauge-stroke-greed: hsl(107 var(--s) 33%);
+  --gauge-stroke-extreme-greed: var(--color-ink-2ry-success);
+}
+
+.fgi.widget {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 0;
+}
+
+.e-h3 {
+  text-align: center;
+  margin-bottom: -8px;
+}
+
+.e-card__description {
+  color: var(--color-ink-2ry);
+  text-align: center;
+}
+
+.e-card__gauge {
+  flex-shrink: 0;
+  position: relative;
+  width: max-content;
+}
+
+.e-card__gauge-base path {
+  stroke: var(--gauge-stroke);
+  transition: stroke var(--duration-100) var(--easing-base);
+}
+
+.e-card__gauge-pointer {
+  --gauge-stroke: var(--color-ink-3ry);
+  position: absolute;
+  bottom: rem(-6);
+  left: 50%;
+  translate: -50% 0;
+}

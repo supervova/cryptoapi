@@ -20,18 +20,18 @@
 
 ### Технологический стек
 
-| Слой             | Технологии                                                                                             |
-| ---------------- | ------------------------------------------------------------------------------------------------------ |
-| **Фронтенд**     | Twig 3, Vanilla JS (ES 2022 + Modules), SCSS                                                           |
-| **Бэкенд / API** | PHP 7.4 (PSR-12, strict_types, Composer autoload)                                                      |
-| **Инструменты**  | PHPStan (level 9), ESLint + Prettier, Stylelint, Gulp + BrowserSync + esbuild                          |
+| Слой             | Технологии                                                                    |
+| ---------------- | ----------------------------------------------------------------------------- |
+| **Фронтенд**     | Twig 3, Vanilla JS (ES 2022 + Modules), SCSS                                  |
+| **Бэкенд / API** | PHP 7.4 (PSR-12, strict_types, Composer autoload)                             |
+| **Инструменты**  | PHPStan (level 9), ESLint + Prettier, Stylelint, Gulp + BrowserSync + esbuild |
 
 ### Требования и ограничения
 
-| Категория              | Требования                                                                   |
-| ---------------------- | ---------------------------------------------------------------------------- |
-| **UI/UX**              | WCAG AA; Desktop ≥ 1360 px, Tablet ≥ 768 px                                  |
-| **Производительность** | LCP ≤ 2.5 s; CSS ≤ 200 KB; JS ≤ 300 KB (gzip)                                |
+| Категория              | Требования                                    |
+| ---------------------- | --------------------------------------------- |
+| **UI/UX**              | WCAG AA; Desktop ≥ 1360 px, Tablet ≥ 768 px   |
+| **Производительность** | LCP ≤ 2.5 s; CSS ≤ 200 KB; JS ≤ 300 KB (gzip) |
 
 ### Структура проекта
 
@@ -97,36 +97,72 @@ src/
 
 ### SCSS и CSS
 
-| Группа              | Правило                                                                             |
-| ------------------- | ----------------------------------------------------------------------------------- |
-| Переменные          | ограниченное использование SCSS-переменных, приоритет – CSS properties              |
-| Цвета               | только через CSS properties                                                         |
-| Вложенность в Sass  | ≤ 3 уровней                                                                         |
-| **Порядок свойств** | Сначала `@extend`, затем `@include`, после них – остальные в **алфавитном** порядке |
-| Кавычки             | одинарные                                                                           |
+| Группа              | Правило                                                                       |
+| ------------------- | ----------------------------------------------------------------------------- |
+| Переменные          | ограниченное использование SCSS-переменных, приоритет – CSS properties        |
+| Цвета               | только через CSS properties                                                   |
+| Вложенность в Sass  | ≤ 3 уровней                                                                   |
+| **Порядок свойств** | Сначала `@extend`, затем `@include`, после них – остальные (порядок см. ниже) |
+| Кавычки             | одинарные                                                                     |
+
+#### Порядок свойств
+
+- `moz-*`, `-webkit-*` в алфавитном порядке (если по какой-то причине добавлены)
+- `all`
+- `accent-color`
+- `animation`
+- `appearance`
+- `background` и все настройки `background-*` в алфавитном порядке
+- `border` и все свойства `border-*`, включая `border-radius`, в алфавитном порядке
+- `box-shadow`
+- `box-sizing`
+- `contain`
+- `color`
+- `cursor`
+- `display` и все настройки в алфавитном порядке: `align-items`, `flex-shrink`, `justify-content`, `place-itemc` etc
+- `filter`
+- `font` и любые `font-*` свойства в алфавитном порядке; а также: `letter-spacing`, `line-height`, `text-align`, `text-decoration`, `text-transform`, `white-space`, `word-wrap`
+- `margin` и любые `margin-*`
+- `padding` и любые `padding-*`
+- `opacity`
+- `outline`
+- `overflow`
+- `pointer-events`
+- `position` и все настройки: `top`, `right`, `inset` и т.д.
+- `rotate`
+- `scale`
+- `touch-action`
+- `transform`
+- `transition`
+- `translate`
+- `user-select`
+- `vertical-align`
+- `width` и `max`-/`min`-значения
+- `height` и `max`-/`min`-значения
+- `zindex`
 
 ### JavaScript (ES 2022)
 
-| Группа                          | Правило                                                    |
-| ------------------------------- | ---------------------------------------------------------- |
-| Модульность                     | всегда `import`/`export`                                   |
-| `const` > `let`; `var` запрещён | да                                                         |
-| Функции                         | стрелочные, если не нужен `this`; иначе `function`         |
-| Без `for...in`                  | вместо `Object.keys()` и др.                               |
+| Группа                          | Правило                                                                                            |
+| ------------------------------- | -------------------------------------------------------------------------------------------------- |
+| Модульность                     | всегда `import`/`export`                                                                           |
+| `const` > `let`; `var` запрещён | да                                                                                                 |
+| Функции                         | стрелочные, если не нужен `this`; иначе `function`                                                 |
+| Без `for...in`                  | вместо `Object.keys()` и др.                                                                       |
 | **Стиль**                       | ESLint (Airbnb) + Prettier (одинарные кавычки, `trailing-comma: es5`, точка с запятой обязательна) |
 
 ### PHP 7.4
 
-| Группа                     | Правило                                                                                    |
-| -------------------------- | ------------------------------------------------------------------------------------------ |
-| Стандарт                   | PSR-12 (классы `CamelCase`, методы `camelCase`, константы `SCREAMING_SNAKE`)               |
-| Файл                       | `<?php` на первой строке, `declare(strict_types=1);` сразу после                           |
-| Тайп-хинты                 | обязательны для параметров и `return`                                                      |
-| Typed-properties           | разрешены только скаляр / `?Type`; **без** `readonly`, union-types                         |
-| **Запрещено**              | union-types (`int\|float`), attributes (`#[…]`), `match`, property promotion               |
-| Исключения                 | собственные классы от `\RuntimeException`                                                  |
-| БД                         | PDO + prepared SQL или ORM-query-builder                                                   |
-| Контроль качества          | `phpstan analyse --level max --no-progress` (без фич > 7.4) → `php-cs-fixer fix --dry-run` |
+| Группа            | Правило                                                                                    |
+| ----------------- | ------------------------------------------------------------------------------------------ |
+| Стандарт          | PSR-12 (классы `CamelCase`, методы `camelCase`, константы `SCREAMING_SNAKE`)               |
+| Файл              | `<?php` на первой строке, `declare(strict_types=1);` сразу после                           |
+| Тайп-хинты        | обязательны для параметров и `return`                                                      |
+| Typed-properties  | разрешены только скаляр / `?Type`; **без** `readonly`, union-types                         |
+| **Запрещено**     | union-types (`int\|float`), attributes (`#[…]`), `match`, property promotion               |
+| Исключения        | собственные классы от `\RuntimeException`                                                  |
+| БД                | PDO + prepared SQL или ORM-query-builder                                                   |
+| Контроль качества | `phpstan analyse --level max --no-progress` (без фич > 7.4) → `php-cs-fixer fix --dry-run` |
 
 ## Безопасность
 

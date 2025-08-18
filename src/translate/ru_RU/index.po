@@ -119,10 +119,7 @@ msgid "Greed"
 msgstr "Жадность"
 
 msgid "Extreme Greed"
-msgstr "Макс. Жадность"
-
-msgid "Market Sentiment"
-msgstr "Настроение рынка"
+msgstr "Макс. жадность"
 
 msgid "O:"
 msgstr "O:"

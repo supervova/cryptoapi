@@ -2,6 +2,7 @@
 *~.*
 .obsidian
 /assets
+/notes.md
 deploy.sh
 dist/
 public/
@@ -89,4 +90,3 @@ Desktop.ini
 Thumbs.db
 ehthumbs.db
 ehthumbs_vista.db
-

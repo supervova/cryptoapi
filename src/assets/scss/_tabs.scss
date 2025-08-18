@@ -1,0 +1,122 @@
+@use 'abstracts' as *;
+
+.e-tabs {
+  --panel-height: auto;
+
+  display: flex;
+  flex-direction: column;
+
+  // Hide non active slides in row. The content scrolls within the panels.
+  overflow: hidden;
+  position: relative;
+}
+
+// -----------------------------------------------------------------------------
+// BUTTONS
+// -----------------------------------------------------------------------------
+
+.e-tabs-nav,
+[role='tablist'] {
+  --tabs-background: var(--color-bg-2ry);
+
+  background-color: var(--tabs-background);
+  border-radius: calc(var(--border-radius-sm) + rem(4));
+  display: flex;
+  flex: none;
+  gap: var(--size-half);
+  padding: var(--size-half);
+
+  @media (--tablet) {
+    .e-main__header & {
+      translate: 0 rem(-4);
+    }
+  }
+}
+
+:where(.e-tabs, .e-tabs-nav) > [role='tab'] {
+  --button-height: var(--size-4);
+
+  background-color: transparent;
+  border-radius: var(--border-radius-sm);
+  color: var(--color-ink-3ry);
+  cursor: pointer;
+  text-align: center;
+  outline: none;
+  padding: 0 var(--size-2);
+  // If tabs scrolling on mobiles
+  scroll-snap-align: start;
+  z-index: 1;
+
+  &:hover {
+    background: var(--color-ink-min);
+    color: var(--color-ink-2ry);
+  }
+}
+
+[role='tab'][aria-selected='true'] {
+  background: hsl(var(--h-green) var(--s) 83% / 0.08);
+  color: var(--color-ink-2ry);
+  cursor: default;
+  pointer-events: none;
+}
+
+.e-tabs-nav__item:not(:first-child, [aria-selected='true'] + .e-tabs-nav__item, .e-tabs-nav__item:hover + .e-tabs-nav__item) {
+  &::before {
+    border-inline-start: 1px solid var(--color-ink-border);
+    content: '';
+    width: 0;
+    height: calc(100% - var(--size-1));
+    position: absolute;
+    top: 50%;
+    inset-inline-start: rem(-2);
+    transform: translateY(-50%);
+    transition: border-inline-start-color var(--duration-100) var(--easing-base);
+  }
+
+  &:hover::before {
+    border-inline-start-color: transparent;
+  }
+}
+
+// Panes container
+.e-tabs__content {
+  display: grid;
+  place-content: center;
+
+  > * {
+    grid-area: 1 / 1;
+  }
+
+  // logical height: 100%
+  block-size: 100%;
+
+  // Carousel-like behavior related
+  // grid-auto-flow: column;
+  // grid-auto-columns: 100%;
+  // scrollbar-width: none;
+  // &::-webkit-scrollbar {
+  //   display: none;
+  // }
+}
+
+[role='tabpanel'] {
+  pointer-events: none;
+  opacity: 0;
+  overflow: auto;
+  // overscroll-behavior-y: contain;
+  transition: opacity var(--duration-200) var(--easing-base);
+  width: 100%;
+  height: var(--panel-height);
+}
+
+[role='tabpanel'].is-open,
+[role='tabpanel'].is-active {
+  pointer-events: all;
+  opacity: 1;
+}
+
+[role='tabpanel'] > ul {
+  margin-top: var(--size-line);
+  margin-bottom: calc(var(--size-line) * 2);
+  padding-left: var(--size-2);
+}

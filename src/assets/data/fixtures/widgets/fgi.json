@@ -1,0 +1,10 @@
+{
+  "site": {
+    "assets_prefix": ""
+  },
+  "widget": {
+    "lang": "en",
+    "theme": "dark",
+    "fgi": 99
+  }
+}

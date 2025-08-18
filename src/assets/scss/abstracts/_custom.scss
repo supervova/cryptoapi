@@ -19,5 +19,23 @@
   (min-resolution: 1.25dppx),
   (min-resolution: 120dpi);
 
-@custom-selector :--text-field select, textarea, .e-form__text-input, input[type='text'], input[type='email'], input[type='password'], input[type='number'], input[type='url'], input[type='tel'], input[type='date'];
+@custom-selector :--text-field :where(
+  .e-form__text-input,
+  input:is(
+    [type='date'],
+    [type='datetime-local'],
+    [type='email'],
+    [type='month'],
+    [type='number'],
+    [type='password'],
+    [type='tel'],
+    [type='text'],
+    [type='time'],
+    [type='url'],
+    [type='week']
+  ),
+  select,
+  textarea
+);
+
 @custom-selector :--text-field-blur :where(input:not([type='checkbox']):not([type='radio']), select, textarea):not(:focus);

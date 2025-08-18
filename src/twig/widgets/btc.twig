@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>{{ 'Bitcoin Chart'|trans }}</title>
+  <link rel="preload" href="{{ site.assets_prefix }}/assets/css/widgets/btc.css" as="style"/>
+  <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/widgets/btc.css"/>
+</head>
+<body data-theme="{{ theme }}">
+  <div class="btc-chart widget" id="btc-chart">
+
+    <footer class="widget__provider">
+      <a href="https://cryptoapi.ai" rel="noopener" target="_blank">
+        {{ 'Developed by'|trans }}
+        <img src="{{ site.assets_prefix }}/favicon.svg" width="16" height="16" alt="CryptoAPI.ai">
+        CryptoAPI.ai
+      </a>
+    </footer>
+  </div>
+  <script src="{{ site.assets_prefix }}/assets/js/widgets/iframe.js?{{ "now"|date('U') }}" defer></script>
+</body>
+</html>

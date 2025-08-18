@@ -1,10 +1,8 @@
 /* eslint-disable no-console */
-/**
- * -----------------------------------------------------------------------------
- * 📥 IMPORTS AND CONSTANTS
- * -----------------------------------------------------------------------------
- */
-// #region
+// -----------------------------------------------------------------------------
+// #region 📥 IMPORTS AND CONSTANTS
+// -----------------------------------------------------------------------------
+
 import { src, dest, watch, series, parallel } from 'gulp';
 
 // import purge from '@fullhuman/postcss-purgecss';
@@ -44,12 +42,10 @@ const { argv } = yargs(process.argv.slice(2));
 const isProd = argv.p;
 // #endregion
 
-/**
- * -----------------------------------------------------------------------------
- * 👉 PATHS
- * -----------------------------------------------------------------------------
- */
-// #region
+// -----------------------------------------------------------------------------
+// #region 👉 PATHS
+// -----------------------------------------------------------------------------
+
 const root = {
   src: './src',
   dest: {
@@ -66,8 +62,15 @@ const paths = {
   css: {
     src: {
       main: `${srcBase}/assets/scss/main.scss`,
-      pages: `${srcBase}/assets/scss/pages/*.scss`,
+      pages: [
+        `${srcBase}/assets/scss/pages/*.scss`,
+        `!${srcBase}/assets/scss/pages/signals.scss`,
+      ],
       legacy: `${srcBase}/assets/scss/legacy/index.scss`,
+      widgets: [
+        `${srcBase}/assets/scss/widgets/*.scss`,
+        `!${srcBase}/assets/scss/widgets/_*.scss`,
+      ],
     },
     watch: `${srcBase}/assets/scss/**/*.scss`,
     tmp: `${srcBase}/assets/css/`,
@@ -81,13 +84,16 @@ const paths = {
       twig: [
         `${srcBase}/twig/**/*.twig`,
         `!${srcBase}/twig/asset.twig`,
+        `!${srcBase}/twig/widgets/*.twig`, // Exclude widgets from main pages task
         `!${srcBase}/twig/partials/*.twig`,
         `!${srcBase}/twig/data/**/*.twig`,
       ],
       tpl: [`${srcBase}/templates/*.tpl`, `!${srcBase}/templates/*~.tpl`],
+      widgets: `${srcBase}/twig/widgets/*.twig`, // Path for widget templates
     },
     watch: [
       `${srcBase}/twig/**/*.twig`,
+      `!${srcBase}/twig/widgets/*.twig`, // Exclude widgets from main watch
       `${destAssets}/css/*.css`,
       `${root.dest.dev}/css/*.css`,
       `!${destAssets}/css/main.css`,
@@ -99,6 +105,7 @@ const paths = {
       dev: `${root.dest.dev}`,
       prod: `${root.dest.prod}/twig`,
       prodTpl: `${root.dest.prod}/templates`,
+      widgets: `${root.dest.dev}/widgets`, // Destination for widget HTMLs
     },
   },
   img: {
@@ -123,11 +130,16 @@ const paths = {
       'asset-chart': `${srcBase}/assets/js/asset-chart.js`,
       'header-stats': `${srcBase}/assets/js/header-stats.js`,
       'pages/home': `${srcBase}/assets/js/pages/home.js`, // ключ с папкой
+      'pages/widgets': `${srcBase}/assets/js/pages/widgets.js`,
       asset: `${srcBase}/assets/js/asset.js`,
       markets: `${srcBase}/assets/js/markets.js`,
       pricing: `${srcBase}/assets/js/pricing.js`,
       search: `${srcBase}/assets/js/search.js`,
-      toast: `${srcBase}/assets/js/toast.js`,
+      'ui/toast': `${srcBase}/assets/js/ui/toast.js`,
+      'widgets/fgi': `${srcBase}/assets/js/widgets/fgi.js`,
+      'widgets/iframe': `${srcBase}/assets/js/widgets/iframe.js`,
+      'widgets/signals': `${srcBase}/assets/js/widgets/signals.js`,
+      'widgets/trindex': `${srcBase}/assets/js/widgets/trindex.js`,
     },
     watch: `${srcBase}/assets/js/**/*.js`,
     dest: `${destAssets}/js/`,
@@ -143,6 +155,7 @@ const paths = {
   data: {
     src: `${srcBase}/assets/data/**/*.json`,
     fixtures: `${srcBase}/assets/data/fixtures`,
+    widgetFixtures: `${srcBase}/assets/data/fixtures/widgets`, // Path for widget fixtures
     dest: `${destAssets}/data/`,
   },
   engine: {
@@ -157,12 +170,10 @@ const paths = {
 
 // #endregion
 
-/**
- * -----------------------------------------------------------------------------
- * 🛠 UTILITIES
- * -----------------------------------------------------------------------------
- */
-// #region
+// -----------------------------------------------------------------------------
+// #region 🛠 UTILITIES
+// -----------------------------------------------------------------------------
+
 const cleanDist = () =>
   deleteAsync([
     `${root.dest.dev}/**/*`, // Очищаем dist
@@ -181,12 +192,10 @@ const cleanSrc = () => deleteAsync([`${srcBase}/**/*.css`]);
 const clean = parallel(cleanDist, cleanSrc, cleanPages);
 // #endregion
 
-/**
- * -----------------------------------------------------------------------------
- * 💾 SCRIPTS
- * -----------------------------------------------------------------------------
- */
-// #region
+// -----------------------------------------------------------------------------
+// #region 💾 SCRIPTS
+// -----------------------------------------------------------------------------
+
 const handleError = (title) => {
   return plumber({
     errorHandler: notify.onError({
@@ -233,12 +242,10 @@ const js = () => {
 
 // #endregion
 
-/**
- * -----------------------------------------------------------------------------
- * 👯‍♀️ COPY
- * -----------------------------------------------------------------------------
- */
-// #region
+// -----------------------------------------------------------------------------
+// #region 👯‍♀️ COPY
+// -----------------------------------------------------------------------------
+
 // const copyVideo = () =>
 //   src(paths.video.src, { encoding: false })
 //     .pipe(changed(paths.video.dest))
@@ -299,12 +306,10 @@ const copy = parallel(
 );
 // #endregion
 
-/**
- * -----------------------------------------------------------------------------
- * 🖼 IMAGES
- * -----------------------------------------------------------------------------
- */
-// #region
+// -----------------------------------------------------------------------------
+// #region 🖼 IMAGES
+// -----------------------------------------------------------------------------
+
 const img = () =>
   src(paths.img.src, { encoding: false })
     .pipe(newer(paths.img.dest))
@@ -328,12 +333,9 @@ const img = () =>
     .pipe(size({ title: 'images' }));
 // #endregion
 
-/**
- * -----------------------------------------------------------------------------
- * 📰 PAGES
- * -----------------------------------------------------------------------------
- */
-// #region
+// -----------------------------------------------------------------------------
+// #region 📰PAGES
+// -----------------------------------------------------------------------------
 
 // Загрузка данных из мок-файла для PHP-переменных
 const loadPhpMockData = () => {
@@ -450,7 +452,7 @@ const assetPage = () => {
   return src(`${srcBase}/twig/asset.twig`) // Указываем конкретный файл asset.twig
     .pipe(handleError('Asset Twig Compile Error')) // Твой handleError
     .pipe(
-      replace(/\{\$([\w\-.]+)\}/g, (match, varName) => {
+      replace(/{\$([\w\-.]+)\}/g, (match, varName) => {
         // Замена {$var} ДО Twig
         // Для этой задачи {$var} будут браться из viewData (которая из asset-btc.json)
         // или если это глобальные, то нужно их как-то сюда передать
@@ -463,7 +465,7 @@ const assetPage = () => {
         // const globalData = loadPhpMockData();
         // if (globalData[varName] !== undefined) return globalData[varName];
         console.warn(
-          `Warning: PHP variable {$${varName}} not found in asset.twig data or global mock data`
+          `Warning: PHP variable {${varName}} not found in asset.twig data or global mock data`
         );
         return '';
       })
@@ -579,7 +581,7 @@ const pages = () => {
       )
       // После компиляции Twig заменяем {$variable} на соответствующие значения из phpMockData
       .pipe(
-        replace(/\{\$([\w\-.]+)\}/g, (match, varName) => {
+        replace(/{\$([\w\-.]+)\}/g, (match, varName) => {
           if (phpMockData[varName] !== undefined) return phpMockData[varName];
           console.warn(`PHP var ${varName} not found in mock data`);
           return '';
@@ -593,14 +595,70 @@ const pages = () => {
       .pipe(bsInstance.stream())
   );
 };
+
+// NEW WIDGETS TASK
+const widgetsPages = () => {
+  return src(paths.markup.src.widgets)
+    .pipe(handleError('Widgets Twig Compile Error'))
+    .pipe(
+      data((file) => {
+        const fileName = file.stem; // e.g., "signals" from "signals.twig"
+        const fixturePath = join(paths.data.widgetFixtures, `${fileName}.json`);
+        if (existsSync(fixturePath)) {
+          console.log(
+            `  ✔️ Loading data for ${fileName}.twig from: ${fixturePath}`
+          );
+          const fixtureData = JSON.parse(readFileSync(fixturePath, 'utf8'));
+          // Add ENV variable for development context in templates
+          return { ...fixtureData, ENV: 'development' };
+        }
+        console.warn(
+          `🚨 Fixture for ${fileName}.twig not found at ${fixturePath}. Compiling without data.`
+        );
+        return { ENV: 'development' };
+      })
+    )
+    .pipe(
+      twig({
+        base: './src/twig',
+        filters: [
+          { name: 'trans', func: (str) => str },
+          {
+            name: 'tzdate',
+            func(value, timezone = 'UTC', lang = 'en') {
+              try {
+                if (Array.isArray(timezone)) {
+                  // eslint-disable-next-line prefer-destructuring, no-param-reassign
+                  timezone = timezone[0];
+                }
+                const date = new Date(value);
+                if (Number.isNaN(date.getTime())) return value;
+                return date.toLocaleString(lang, {
+                  timeZone: timezone,
+                  dateStyle: 'medium',
+                  timeStyle: 'short',
+                });
+              } catch (e) {
+                console.warn('tzdate error:', e);
+                return value;
+              }
+            },
+          },
+        ],
+        errorLogToConsole: true,
+      })
+    )
+    .pipe(rename({ extname: '.html' }))
+    .pipe(dest(paths.markup.dest.widgets))
+    .pipe(bsInstance.stream());
+};
+
 // #endregion
 
-/**
- * -----------------------------------------------------------------------------
- * 🎨 STYLES
- * -----------------------------------------------------------------------------
- */
-// #region
+// -----------------------------------------------------------------------------
+// #region 🎨 STYLES
+// -----------------------------------------------------------------------------
+
 // const selectorsToIgnore = ['button', /^(is-|has-)/, /^(.*?)(m|p)(t|b)-/];
 
 const processStyles = (
@@ -616,7 +674,26 @@ const processStyles = (
       .pipe(newer(destination))
       .pipe(
         plumber({
-          errorHandler: notify.onError('Error: <%= error.message %>'),
+          errorHandler(err) {
+            notify
+              .onError({
+                title: `Gulp Error: ${err.plugin}`,
+                message: `See console for details.`,
+              })
+              .call(this, err);
+
+            console.error(`\n--- Gulp Error in ${err.plugin} ---\n`);
+            console.error(err.message);
+            if (err.line) {
+              console.error(`File: ${err.file}:${err.line}:${err.column}`);
+            }
+            if (err.stack) {
+              console.error(`Stack: ${err.stack}`);
+            }
+            console.error(`\n--- End Gulp Error ---\n`);
+
+            this.emit('end');
+          },
         })
       )
       // .pipe(gulpif(!(isProd || forceProduction), sourcemaps.init()))
@@ -691,21 +768,26 @@ const cssLegacy = () => {
     paths.css.src.legacy,
     'legacy',
     paths.css.dest.base,
-    'legacy.css'
+    'legacy.css' // Добавляем имя файла
+  );
+};
+
+const cssWidgets = () => {
+  return processStyles(
+    paths.css.src.widgets,
+    'widgets',
+    `${paths.css.dest.base}/widgets/`
   ); // Добавляем имя файла
 };
 
 // export { cssLegacy as cssp };
 
-const css = series(cssBase, cssPages, cssLegacy);
+const css = series(cssBase, cssPages, cssLegacy, cssWidgets);
 // #endregion
 
-/**
- * -----------------------------------------------------------------------------
- * ❤️ SVG SPRITES
- * -----------------------------------------------------------------------------
- */
-// #region
+// -----------------------------------------------------------------------------
+// #region ❤️ SVG SPRITES
+// -----------------------------------------------------------------------------
 
 function svg(source, name) {
   return src(source)
@@ -734,12 +816,10 @@ const svgFlags = () => svg(paths.svg.src.flags, 'flags.svg');
 const sprite = series(parallel(svgBase, svgFlags), parallel(css, img));
 // #endregion
 
-/**
- * -----------------------------------------------------------------------------
- * 📶 SERVER
- * -----------------------------------------------------------------------------
- */
-// #region
+// -----------------------------------------------------------------------------
+// #region 📶 SERVER
+// -----------------------------------------------------------------------------
+
 const reload = (done) => {
   bsInstance.reload();
   done();
@@ -761,6 +841,11 @@ const watchFiles = () => {
   watch(`${srcBase}/twig/asset.twig`, assetPage);
   watch(join(paths.data.fixtures, 'asset-btc.json'), assetPage);
   watch([...paths.markup.watch], series(pages));
+  // Watch for widget template and fixture changes
+  watch(
+    [paths.markup.src.widgets, `${paths.data.widgetFixtures}/**/*.json`],
+    series(widgetsPages)
+  );
 };
 
 const serve = (done) => {
@@ -798,14 +883,8 @@ const serve = (done) => {
           if (req.url.endsWith('/') && existsSync(dirPath)) {
             req.url += 'index.html';
           } else if (!/\.\w+$/.test(req.url)) {
-            // Если нет расширения, проверяем, существует ли index.html в директории
-            const potentialIndex = join(baseDir, req.url, 'index.html');
-            if (existsSync(potentialIndex)) {
-              req.url += '/index.html';
-            } else {
-              // Иначе просто добавляем .html к URL
-              req.url += '.html';
-            }
+            // Иначе просто добавляем .html к URL
+            req.url += '.html';
           }
         }
 
@@ -818,12 +897,10 @@ const serve = (done) => {
 };
 // #endregion
 
-/**
- * -----------------------------------------------------------------------------
- * 🏗️ BUILD AND SERVE
- * -----------------------------------------------------------------------------
- */
-// #region
+// -----------------------------------------------------------------------------
+// #region 🏗️ BUILD AND SERVE
+// -----------------------------------------------------------------------------
+
 const build = series(
   clean,
   parallel(svgBase, svgFlags),
@@ -836,20 +913,20 @@ const buildProd = series(
   parallel(img, css, js, copy)
 );
 
-const dev = series(build, parallel(pages, assetPage), serve);
+const dev = series(build, parallel(pages, assetPage, widgetsPages), serve);
 // #endregion
 
-/**
- * -----------------------------------------------------------------------------
- * ☑️ TASKS
- * -----------------------------------------------------------------------------
- */
+// -----------------------------------------------------------------------------
+// #region ☑️ TASKS
+// -----------------------------------------------------------------------------
+
 export {
   assetPage,
   clean,
   copy,
   copyTwig,
   pages,
+  widgetsPages, // Export new task
   sprite,
   img,
   js,
@@ -861,3 +938,5 @@ export {
 };
 
 export default build;
+
+// #endregion

@@ -34,3 +34,42 @@ msgstr "Бегущая строка"
 
 msgid "BTC Forecast"
 msgstr "Прогноз BTC"
+
+msgid "Widget settings"
+msgstr "Настройки виджета"
+
+msgid "Theme"
+msgstr "Цвет фона виджета"
+
+msgid "Code to embed on your website"
+msgstr "Код для вставки на сайт"
+
+msgid "Cryptos"
+msgstr "Криптовалюты"
+
+msgid "AI trading signals"
+msgstr "Торговые сигналы ИИ"
+
+msgid "Powered by"
+msgstr "Разработка"
+
+msgid "Light theme"
+msgstr "Светлая тема"
+
+msgid "Dark theme"
+msgstr "Темная тема"
+
+msgid "Number of lines (1–8)"
+msgstr "Количество строк (1–8)"
+
+msgid "Copy and paste this code into the location where you want to place the widget. You can add multiple widgets."
+msgstr "Скопируйте и вставьте этот код в место, где вы хотите разместить виджет. Можно добавить несколько виджетов."
+
+msgid "Copy Code"
+msgstr "Скопировать код"
+
+msgid "Loading signals…"
+msgstr "Получаем сигналы…"
+
+msgid "The best TRIndex – Total return index"
+msgstr "Лучший TRIndex – индекс совокупного дохода"

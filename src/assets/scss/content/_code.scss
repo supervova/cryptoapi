@@ -35,9 +35,9 @@ a > code {
 
 // Preformatted text
 pre {
-  --padding-top: 0;
+  --padding-top: #{rem(17)};
   --padding-bottom: #{rem(18)};
-  border: 0;
+
   border-radius: var(--border-radius-base);
   display: block;
   margin-top: 0;
@@ -45,13 +45,16 @@ pre {
   padding-top: var(--padding-top);
   padding-bottom: var(--padding-bottom);
   padding-inline: var(--padding-x-box);
-  overflow-x: auto;
+  overflow: auto;
   max-width: 100%;
+
+  label + & {
+    margin-top: var(--size-1);
+  }
 
   code,
   samp {
     background-color: transparent;
-    display: block;
     font-size: 100%;
     margin-block: 0;
     padding: 0;

@@ -82,6 +82,7 @@ if (!function_exists('fetch_marketdata')) {
 // Глобальные параметры сайта
 $data_objects['site'] = [
   'assets_prefix' => '/projects/cryptoapi.ai',
+  'assets_version' => '2',
   'desc' => $blog_description ?? 'Unlock the power of advanced APIs designed for crypto traders and analysts. ' .
     'Access real-time market insights, trading signals, custom indices, and automated tools to boost your trading ' .
     'performance.',

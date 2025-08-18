@@ -144,6 +144,9 @@ msgstr "Суточный объем"
 msgid "Fear and Greed Index"
 msgstr "Индекс страха-жадности"
 
+msgid "Market Sentiment"
+msgstr "Настроение рынка"
+
 msgid "Ext. Fear"
 msgstr "Макс. страх"
 
@@ -637,4 +640,31 @@ msgstr "$150/месяц или $1080/год (скидка 25 %)"
 
 msgid "Plus all benefits of the Expert plan"
 msgstr "Плюс все преимущества тарифа «Эксперт»"
+
+# ------------------------------------------------------------------------------
+# Widgets
+# ------------------------------------------------------------------------------
+
+msgid "Crypto"
+msgstr "Криптовалюты"
+
+msgid "Developed by"
+msgstr "Разработка"
+
+# FGI widget specials
+
+msgid "Extreme Fear:"
+msgstr "Макс. страх:"
+
+msgid "Fear:"
+msgstr "Страх:"
+
+msgid "Neutral:"
+msgstr "Спокойствие:"
+
+msgid "Greed:"
+msgstr "Жадность:"
+
+msgid "Extreme Greed:"
+msgstr "Макс. жадность:"
 

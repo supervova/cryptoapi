@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="{{ widget.lang|default('en') }}">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>{{ 'Signals'|trans }}</title>
+  <link rel="preload" href="{{ site.assets_prefix }}/assets/css/widgets/signals.css" as="style"/>
+  <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/widgets/signals.css"/>
+</head>
+<body data-theme="{{ widget.theme|default('dark') }}">
+<div class="signals widget" id="signals">
+  <h1 class="e-h3"><span>{{ 'Crypto'|trans }}:</span> {{ 'AI trading signals'|trans }}</h1>
+
+  {# Container for dynamic signals, JS will populate this #}
+  <div id="signals-container">
+    <p>{{ 'Loading signals…'|trans }}</p>
+  </div>
+
+  <footer class="widget__provider">
+    <a href="https://cryptoapi.ai" rel="noopener" target="_blank">
+      {{ 'Developed by'|trans }}
+      <img src="{{ site.assets_prefix }}/favicon.svg" width="16" height="16" alt="CryptoAPI.ai">
+      CryptoAPI.ai
+    </a>
+  </footer>
+</div>
+<script src="{{ site.assets_prefix }}/assets/js/widgets/iframe.js?{{ "now"|date('U') }}" defer></script>
+<script src="{{ site.assets_prefix }}/assets/js/widgets/signals.js?{{ "now"|date('U') }}" defer></script>
+</body>
+</html>

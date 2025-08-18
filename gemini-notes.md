@@ -1,74 +1,27 @@
-# Использование нового
+│  > Посмотри @src/assets/js/widgets/iframe.js – этот скрипт оределяет высоту iframe со страницей виджета по содержанию    │
+│    этой странице. В скрипте @src/assets/js/widgets/signals.js он помимо прочего вызывается после того, как получены      │
+│    данные с сервера и отрисован DOM. Надо тоже самое сделатьи в @src/assets/js/widgets/trindex.js Сейчас высота iframe с │
+│     виджетом trindex определяется до загрузик данных с сервера, в результате виджет и таблица с данными выводятся        │
+│    обрезанными. Исправь, пожалуйста                                                                                      │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
-Мы с тобой разрабатываем веб-приложение для трейдинга криптовалютами с использованием ИИ-консультанта. В частности, мы получаем с сервера https://cryptoapi.ai/en/json/trindxrating.json — см. src/assets/js/markets/api.js
-
-Ранее он содержал такой набор полей:
-
-```json
-[
-  "OK",
-  {
-    "BTC": {
-      "price": {"current": "43521.23", "yesterday": {"middle": "42100.50"}},
-      "rating": 8.5,
-      "risk": "low",
-      "TRINDX": 745,
-      "RSI7": "62.3",
-      "RSI30": "55.1",
-      "RSI91": "50.5",
-      "RSI182": "48.2",
-      "RSI365": "52.1",
-      "RSI1000": "58.9",
-      "market": "high"
-    },
-  // остальные активы
-  }
-]
-```
-
-Теперь добавилось несколько полей.
-
-```json
-    "BTC": {
-      "RSI1000": "238",
-      "RSI182": "187",
-      "RSI30": "197",
-      "RSI365": "193",
-      "RSI7": "177",
-      "RSI91": "176",
-      "TRINDX": 60,
-      "market": "high",
-      "price": {
-        "current": "118758.42000000",
-        "dayago": "117431.75999999999476131052",
-        "today": {
-          "min": 117042.82,
-          "max": 119337.36,
-          "middle": 117935.82944217362
-        },
-        "yesterday": {
-          "min": 116989.14,
-          "max": 118237.99,
-          "middle": 117680.03657322
-        }
-      },
-      "rating": 9,
-      "risk": "neutral"
-    },
-  // остальные активы
-  }
-]
-```
-
-В частности, появилось поле `price.dayago`. Теперь его нужно использовать в функции `calcChange` вместо `yesterday.middle` — см. src/assets/js/table/render.js.
-
-Достаточно ли исправить `calcChange`?
-
-```js
-const calcChange = (p) =>
-  p?.current && p?.yesterday?.middle
-    ? ((p.current - p.yesterday.dayago) / p.yesterday.dayago) * 100
-    : null;
-```
-
-Или нужно еще что-то где-то править?
+✦ Хорошо, я понял проблему. Виджет trindex не обновляет свою высоту после загрузки данных, из-за чего контент обрезается.
+  Я исправлю это, добавив вызов события widget:rendered после отрисовки таблицы, как это сделано в signals.js.
+ ╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+ │ ?  Edit src/assets/js/widgets/trindex.js: function displayErrorState(mes... => function displayErrorState(mes... ←    │
+ │                                                                                                                       │
+ │ 91       <tr>                                                                                                         │
+ │ 92         <td colspan="3" class="e-assets__error">${message}</td>                                                    │
+ │ 93       </tr>`;                                                                                                      │
+ │ 94 +   document.body.dispatchEvent(new CustomEvent('widget:rendered'));                                               │
+ │ 95   }                                                                                                                │
+ │ 96                                                                                                                    │
+ │ 97   // --- Rendering ---                                                                                             │
+ │                                                                                                                       │
+ │ Apply this change?                                                                                                    │
+ │                                                                                                                       │
+ │ ● 1. Yes, allow once                                                                                                  │
+ │   2. Yes, allow always                                                                                                │
+ │   3. No (esc)                                                                                                         │
+ │                                                                                                                       │
+ │ o  Edit src/assets/js/widgets/trindex.js: // src/assets/js/widgets/trind... => // src/assets/js/widgets/trind...

@@ -64,6 +64,24 @@ legend {
   gap: var(--size-2);
   padding-top: var(--padding-top, var(--size-1));
   padding-bottom: var(--padding-bottom, var(--size-1p5));
+  opacity: 1;
+  transition:
+    display var(--duration-500) var(--easing-base),
+    opacity var(--duration-500) var(--easing-base);
+  transition-behavior: allow-discrete;
+
+  @starting-style {
+    opacity: 0;
+  }
+
+  &[hidden] {
+    display: none;
+    opacity: 0;
+
+    @starting-style {
+      opacity: 1;
+    }
+  }
 }
 
 :where(.e-form__item) {
@@ -85,6 +103,10 @@ legend {
 
   label span {
     @include text-format(caption);
+  }
+
+  input {
+    width: auto;
   }
 
   select,
@@ -149,11 +171,6 @@ textarea {
 }
 
 :--text-field,
-[type='date'],
-[type='datetime-local'],
-[type='month'],
-[type='time'],
-[type='week'],
 [type='search'] {
   appearance: none;
   background-color: hsl(var(--h) var(--s) 90% / 0.05);
@@ -181,12 +198,24 @@ textarea {
   }
 }
 
-:--text-field,
-[type='date'],
-[type='datetime-local'],
-[type='month'],
-[type='time'],
-[type='week'] {
+:where(
+  .e-form__text-input,
+  input:is(
+    [type='date'],
+    [type='datetime-local'],
+    [type='email'],
+    [type='month'],
+    [type='number'],
+    [type='password'],
+    [type='tel'],
+    [type='text'],
+    [type='time'],
+    [type='url'],
+    [type='week']
+  ),
+  select,
+  textarea
+) {
   border-radius: var(--border-radius-sm);
   padding-inline: var(--padding-x-input);
 }
@@ -213,7 +242,6 @@ textarea {
 // #region
 
 textarea {
-  padding-top: rem(11);
   overflow: auto;
   resize: vertical;
 }

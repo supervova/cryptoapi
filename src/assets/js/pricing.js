@@ -63,15 +63,13 @@ plans.forEach((plan) => {
   }
 });
 
-const setIntervalParam = (href, interval) => {
+const updateIntervalInPath = (href, interval) => {
   try {
     const url = new URL(href, window.location.origin);
-    if (interval) {
-      url.searchParams.set('interval', interval);
-    } else {
-      url.searchParams.delete('interval');
-    }
-    return url.pathname + url.search;
+    const pathParts = url.pathname.split('/');
+    pathParts[pathParts.length - 1] = interval; // Replace last segment
+    url.pathname = pathParts.join('/');
+    return url.pathname; // Return path only, no search params
   } catch {
     return href;
   }
@@ -79,30 +77,41 @@ const setIntervalParam = (href, interval) => {
 
 const updateBilling = () => {
   const monthly = monthlyRadio?.checked;
+  const newInterval = monthly ? 'monthly' : 'annual';
+
   plans.forEach((plan, idx) => {
     const priceEl = plan.querySelector('.e-plan__price strong');
     const linkEl = plan.querySelector('a.e-btn');
     if (!priceEl || !linkEl) return;
 
-    /* Free plan (index 0) — только ссылка */
+    // Обновляем ссылку в любом случае
+    linkEl.href = updateIntervalInPath(linkEl.href, newInterval);
+
+    // Для бесплатного тарифа (индекс 0) меняем только ссылку
     if (idx === 0) {
-      linkEl.href = setIntervalParam(
-        linkEl.href,
-        monthly ? 'monthly' : 'annual'
-      );
       return;
     }
 
+    // Для платных тарифов обновляем цену
     const annual = parseNumber(priceEl.dataset.annual);
     const monthlyPrice = Math.round(annual * 1.25);
     priceEl.textContent = formatInt(monthly ? monthlyPrice : annual);
-    linkEl.href = setIntervalParam(linkEl.href, monthly ? 'monthly' : 'annual');
+
     const annualSumEl = plan.querySelector('[data-role="annual-price"]');
     if (annualSumEl) {
       const annualTotal = Math.round((monthly ? monthlyPrice : annual) * 12);
       annualSumEl.textContent = formatInt(annualTotal);
     }
   });
+
+  // Обновляем URL страницы
+  const currentPath = window.location.pathname;
+  // Регулярное выражение для замены /annual или /monthly в конце пути
+  const newPath = currentPath.replace(/\/(annual|monthly)$/, `/${newInterval}`);
+
+  if (currentPath !== newPath) {
+    window.history.pushState({ interval: newInterval }, '', newPath);
+  }
 };
 
 monthlyRadio?.addEventListener('change', updateBilling);

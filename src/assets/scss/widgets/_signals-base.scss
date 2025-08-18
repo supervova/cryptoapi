@@ -1,0 +1,70 @@
+/* stylelint-disable declaration-no-important */
+@use 'sass:math';
+@use '../abstracts' as *;
+@use '../abstracts/custom';
+
+.signals {
+  background-color: var(--color-bg-2ry) !important;
+  border: 0 !important;
+  color: var(--color-ink-2ry) !important;
+  border-radius: var(--border-radius-base);
+  font-family: var(--font-family-base) !important;
+  font-size: var(--font-size-base) !important;
+  overflow: auto !important;
+  margin-bottom: var(--size-3);
+  padding: var(--size-3) !important;
+  width: 100%;
+  max-width: 920px;
+}
+
+// Row
+.signalmsg {
+  border-radius: var(--border-radius-sm);
+  display: flex !important;
+  align-items: center;
+  padding-inline: var(--size-1p5);
+  gap: var(--size-2);
+  height: var(--size-5);
+
+  &:nth-child(odd) {
+    background-color: var(--color-ink-min);
+  }
+}
+
+// Date and Time
+.signaldt,
+.signaldate {
+  font-size: var(--font-size-caption);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.signaldate {
+  color: var(--color-ink-text);
+  font-weight: 700;
+  text-align: center;
+  padding-top: var(--padding-top-caption);
+  padding-bottom: var(--padding-bottom-caption);
+}
+
+.signaldt {
+  width: rem(90) !important;
+  width: max-content !important;
+}
+
+// Symbol
+.signalcurr {
+  @include text-truncate;
+  color: var(--color-ink-text) !important;
+  text-align: center;
+  width: 8ch !important;
+}
+
+// Message
+.signalmsgtext {
+  flex-grow: 1;
+}
+
+// Attention!
+.hidden-xs {
+  display: none !important;
+}

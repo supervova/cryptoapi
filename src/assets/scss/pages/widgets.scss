@@ -1,0 +1,94 @@
+/* stylelint-disable declaration-no-important */
+@use 'sass:math';
+@use '../abstracts' as *;
+@use '../abstracts/custom';
+@use '../form/tag-input';
+
+// -----------------------------------------------------------------------------
+// #region: BASE
+// -----------------------------------------------------------------------------
+
+.e-main__header {
+  gap: var(--size-2);
+  padding-bottom: var(--size-line);
+
+  @media (--phone-l) {
+    --dir: column;
+    --align: start;
+  }
+
+  @media (--tablet-l) {
+    --dir: row;
+    --align: center;
+
+    gap: var(--size-4);
+  }
+}
+
+.e-tabs-nav {
+  @media (--tablet-l) {
+    margin-top: var(--size-half);
+  }
+}
+
+.tablet-l\:flex {
+  @media (--laptop) {
+    --gap: var(--size-4);
+  }
+}
+
+.e-widgets__preview {
+  --border-radius: var(--size-1p5);
+
+  @media (--tablet) {
+    --width: calc(7 / 12 * 100% - var(--size-1p5));
+    background: hsl(var(--h) var(--s) 50% / 0.04);
+    border-radius: var(--border-radius);
+    position: relative;
+
+    &::after {
+      border: rem(2) dashed var(--color-ink-border);
+      border-radius: var(--border-radius);
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+    }
+  }
+
+  iframe {
+    border-radius: var(--border-radius-lg);
+    margin-bottom: 0;
+  }
+
+  @media (--laptop) {
+    --width: calc(7 / 12 * 100% - var(--size-2));
+  }
+}
+
+.e-widgets__config {
+  @media (--tablet) {
+    --width: calc(5 / 12 * 100% - var(--size-1p5));
+  }
+
+  @media (--laptop) {
+    --width: calc(5 / 12 * 100% - var(--size-2));
+  }
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// #region: SETTINGS
+// -----------------------------------------------------------------------------
+
+.e-widgets__config label {
+  color: var(--color-ink-2ry);
+}
+
+.e-widgets__config .e-form__item {
+  // Prevent overflow cut
+  padding-inline-end: var(--size-half);
+}
+
+// #endregion

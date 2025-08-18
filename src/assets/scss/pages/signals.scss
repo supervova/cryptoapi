@@ -2,53 +2,32 @@
 @use 'sass:math';
 @use '../abstracts' as *;
 @use '../abstracts/custom';
+@use '../widgets/signals-base';
 
-.signals {
-  background-color: var(--color-bg-2ry) !important;
-  border: 0 !important;
-  color: var(--color-ink-2ry) !important;
-  border-radius: var(--border-radius-base);
-  font-family: var(--font-family-base) !important;
-  font-size: var(--font-size-base) !important;
-  overflow: auto !important;
-  margin-bottom: var(--size-3);
-  padding: var(--size-3) !important;
-}
+:where(.e-page.is-signals .e-main__header) {
+  .e-eyebrow,
+  .e-main__subtitle {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duration-200) var(--easing-base);
+  }
 
-// Row
-.signalmsg {
-  border-radius: var(--border-radius-sm);
-  display: flex;
-  align-items: center;
-  padding-inline: var(--size-1p5);
-  gap: var(--size-2);
-  height: var(--size-5);
+  .e-eyebrow {
+    background: transparent;
+    gap: 0;
+    padding: 0;
+    position: absolute;
+    top: rem(-32);
+    left: calc(var(--padding-x-container) - rem(8));
+  }
 
-  &:nth-child(odd) {
-    background-color: var(--color-ink-min);
+  .e-main__subtitle {
+    color: var(--color-ink-2ry);
+  }
+
+  [data-visible='true'] {
+    opacity: 1;
+    pointer-events: all;
   }
 }
-
-// Time
-.signaldt {
-  font-size: var(--font-size-caption);
-  font-variant-numeric: lining-nums tabular-nums;
-  width: 8ch !important;
-}
-
-// Symbol
-.signalcurr {
-  @include text-truncate;
-  color: var(--color-ink-text) !important;
-  width: 8ch !important;
-}
-
-// Message
-.signalmsgtext {
-  flex-grow: 1;
-}
-
-// Attention!
-.hidden-xs {
-  display: none !important;
-}
+// stylelint-enable selector-max-id

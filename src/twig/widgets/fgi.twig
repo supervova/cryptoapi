@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="{{ widget.lang }}">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>{{ 'Fear and Greed Index'|trans }}</title>
+  <link rel="preload" href="{{ site.assets_prefix }}/assets/css/widgets/fgi.css" as="style"/>
+  <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/widgets/fgi.css"/>
+</head>
+<body data-theme="{{ widget.theme }}">
+  <div class="fgi widget" id="fgi">
+    <figure class="e-card__gauge" id="fgi-gauge" data-fgi="{{ widget.fgi }}">
+      <svg class="e-card__gauge-base" width="128" height="64" viewBox="0 0 128 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path id="fgi-5" d="M1.36621 53.4943L4.32928 53.9636" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-10" d="M3.78711 43.7474L6.64028 44.6744" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-15" d="M7.70215 34.4991L10.3752 35.8611" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-20" d="M13.0176 25.9772L15.4446 27.7406" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-25" d="M19.5996 18.3915L21.7209 20.5129" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-30" d="M27.2871 11.929L29.0505 14.3561" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-35" d="M35.8906 6.74872L37.2526 9.42174" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-40" d="M45.1992 2.97809L46.1263 5.83126" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-45" d="M54.9834 0.709961L55.4527 3.67303" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-50" d="M65.001 0.000366211L65.001 3.00037" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-55" d="M75.0074 0.866699L74.5381 3.82977" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-60" d="M84.7542 3.28754L83.8271 6.14071" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-65" d="M94.0026 7.20343L92.6406 9.87645" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-70" d="M102.524 12.5179L100.761 14.9449" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-75" d="M110.11 19.1L107.988 21.2214" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-80" d="M116.573 26.7877L114.146 28.551" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-85" d="M121.752 35.3917L119.079 36.7536" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-90" d="M125.524 44.7001L122.671 45.6272" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-95" d="M127.791 54.4838L124.828 54.9531" stroke="var(--gauge-stroke)"></path>
+        <path id="fgi-extreme-fear" d="M10.7412 60.1536C11.3756 48.0521 16.0313 37.0158 23.3972 28.3561" stroke="var(--gauge-stroke-extreme-fear)" stroke-width="5" stroke-linecap="round"></path>
+        <path id="fgi-fear" d="M28.6602 22.9804C34.4477 17.8417 41.3576 13.9394 48.976 11.6875" stroke="var(--gauge-stroke-fear)" stroke-width="5" stroke-linecap="round"></path>
+        <path id="fgi-neutral" d="M56.2891 10.0759C58.8599 9.69652 61.4904 9.5 64.1667 9.5C67.1911 9.5 70.157 9.75097 73.0445 10.2332" stroke="var(--gauge-stroke-neutral)" stroke-width="5" stroke-linecap="round"></path>
+        <path id="fgi-greed" d="M100.247 23.4972C94.5719 18.3106 87.775 14.3307 80.2627 11.9637" stroke="var(--gauge-stroke-greed)" stroke-width="5" stroke-linecap="round"></path>
+        <path id="fgi-extreme-greed" d="M117.595 60.22C116.986 48.3289 112.495 37.4633 105.364 28.8661" stroke="var(--gauge-stroke-extreme-greed)" stroke-width="5" stroke-linecap="round"></path>
+      </svg>
+      <svg class="e-card__gauge-pointer" width="92" height="12" viewBox="0 0 92 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M42 6C42 8.20914 43.7909 10 46 10C48.2091 10 50 8.20914 50 6C50 3.79086 48.2091 2 46 2C43.7909 2 42 3.79086 42 6ZM42 6H2" stroke="var(--gauge-stroke)" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+    </figure>
+    <div class="e-card__content">
+      <h1 class="e-h3 e-card__status">
+        {% if widget.fgi < 26 %}
+          <span class="text-error">{{ 'Extreme Fear:'|trans }} {{ widget.fgi }}</span>
+        {% elseif widget.fgi < 48 %}
+          <span class="text-error">{{ 'Fear:'|trans }} {{ widget.fgi }}</span>
+        {% elseif widget.fgi < 53 %}
+          {{ 'Neutral:'|trans }}: {{ widget.fgi }}
+        {% elseif widget.fgi < 75 %}
+          <span class="text-success">{{ 'Greed:'|trans }} {{ widget.fgi }}</span>
+        {% else %}
+          <span class="text-success">{{ 'Extreme Greed:'|trans }} {{ widget.fgi }}</span>
+        {% endif %}
+      </h1>
+      <p class="e-card__description">{{ 'Market Sentiment'|trans }}</p>
+    </div>
+
+
+    <footer class="widget__provider">
+      <a href="https://cryptoapi.ai" rel="noopener" target="_blank">
+        {{ 'Developed by'|trans }}
+        <img src="{{ site.assets_prefix }}/favicon.svg" width="16" height="16" alt="CryptoAPI.ai">
+        CryptoAPI.ai
+      </a>
+    </footer>
+  </div>
+  <script src="{{ site.assets_prefix }}/assets/js/widgets/fgi.js?{{ "now"|date('U') }}" defer></script>
+  <script src="{{ site.assets_prefix }}/assets/js/widgets/iframe.js?{{ "now"|date('U') }}" defer></script>
+</body>
+</html>

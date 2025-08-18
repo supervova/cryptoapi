@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>{{ 'TRIndex'|trans }}</title>
+  {% set v = site.assets_version|default(1) %}
+  <link rel="preload" href="{{ site.assets_prefix }}/assets/css/widgets/trindex.css?v={{ v }}" as="style" fetchpriority="high" />
+  <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/widgets/trindex.css?v={{ v }}" />
+</head>
+<body data-theme="{{ theme }}">
+  <div class="trindex widget" id="trindex">
+    <h1 class="e-h3"><span>{{ 'Crypto'|trans }}:</span> {{ 'The best TRIndex – Total return index'|trans }}</h1>
+    <table class="e-assets">
+      <colgroup>
+        <col class="e-assets__symbols">
+        <col>
+        <col>
+      </colgroup>
+      {% if ENV == 'development' %}
+        <tbody>
+          <tr aria-current="true">
+            <th scope="row">
+              <div class="e-assets__symbol">BTC-USD</div>
+              <div class="e-assets__name">Bitcoin</div>
+            </th>
+            <td class="e-assets__price">96 762,<small>86</small></td>
+            <td class="e-assets__change is-positive">+0,61%</td>
+          </tr>
+
+          <tr>
+            <th scope="row">
+              <div class="e-assets__symbol">ETH-USD</div>
+              <div class="e-assets__name">Ethereum</div>
+            </th>
+            <td class="e-assets__price">2 495,<small>33</small></td>
+            <td class="e-assets__change is-negative">-8,67%</td>
+          </tr>
+
+          <tr>
+            <th scope="row">
+              <div class="e-assets__symbol">USDT-USD</div>
+              <div class="e-assets__name">Tether USDT</div>
+            </th>
+            <td class="e-assets__price">1,<small>0000</small></td>
+            <td class="e-assets__change">0%</td>
+          </tr>
+
+          <tr>
+            <th scope="row">
+              <div class="e-assets__symbol">XRP-USD</div>
+              <div class="e-assets__name">XRP Network</div>
+            </th>
+            <td class="e-assets__price">2,<small>2519</small></td>
+            <td class="e-assets__change is-positive">+0,05%</td>
+          </tr>
+
+          <tr>
+            <th scope="row">
+              <div class="e-assets__symbol">BNB-USD</div>
+              <div class="e-assets__name">Binance Coin</div>
+            </th>
+            <td class="e-assets__price">607,<small>71</small></td>
+            <td class="e-assets__change is-negative">-5,63%</td>
+          </tr>
+
+          <tr>
+            <th scope="row">
+              <div class="e-assets__symbol">SOL-USD</div>
+              <div class="e-assets__name">Solana</div>
+            </th>
+            <td class="e-assets__price">138,<small>22</small></td>
+            <td class="e-assets__change is-negative">-14,37%</td>
+          </tr>
+        </tbody>
+      {% else %}
+        <tbody id="assets-table-body"></tbody>
+      {% endif %}
+    </table>
+
+    <footer class="widget__provider">
+      <a href="https://cryptoapi.ai" rel="noopener" target="_blank">
+        {{ 'Developed by'|trans }}
+        <img src="{{ site.assets_prefix }}/favicon.svg" width="16" height="16" alt="CryptoAPI.ai">
+        CryptoAPI.ai
+      </a>
+    </footer>
+  </div>
+  <script src="{{ site.assets_prefix }}/assets/js/widgets/trindex.js?{{ 'now'|date('U') }}" type="module"></script>
+  <script src="{{ site.assets_prefix }}/assets/js/widgets/iframe.js?{{ 'now'|date('U') }}" defer></script>
+</body>
+</html>

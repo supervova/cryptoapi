@@ -144,6 +144,7 @@
 @mixin flex-grid($columns: 2, $gap: var(--size-3), $let-flex: false) {
   --gap: #{$gap};
   --columns: #{$columns};
+  --width: calc(100% / var(--columns) - var(--gap) * (var(--columns) - 1) / var(--columns));
 
   @if $let-flex {
     display: flex;
@@ -153,9 +154,7 @@
   flex-wrap: wrap;
 
   > * {
-    width: calc(
-      100% / var(--columns) - var(--gap) * (var(--columns) - 1) / var(--columns)
-    );
+    width: var(--width);
   }
 }
 
@@ -233,10 +232,10 @@
 }
 
 @mixin multiline-truncate-reset() {
-  -webkit-box-orient: auto;
-  -webkit-line-clamp: none;
+  -webkit-box-orient: initial;
+  -webkit-line-clamp: unset;
   display: block;
-  line-clamp: none;
+  line-clamp: unset;
   overflow: visible;
   max-height: none;
 }

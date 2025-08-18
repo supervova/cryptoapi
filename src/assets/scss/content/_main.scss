@@ -25,14 +25,21 @@
 }
 
 .e-main__header {
+  --dir: column;
+  --align: start;
+
   display: flex;
-  align-items: start;
-  flex-direction: column;
+  align-items: var(--align);
+  flex-direction: var(--dir);
   margin-bottom: var(--size-line);
 
+  h1 {
+    margin-bottom: 0;
+  }
+
   @media (--phone-l) {
-    flex-direction: row;
-    align-items: center;
+    --dir: row;
+    --align: center;
     justify-content: space-between;
   }
 }

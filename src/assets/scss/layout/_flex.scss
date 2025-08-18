@@ -2,17 +2,18 @@
 
 // Add new media queries in class instances if required to and change --columns in them
 // Add min-width if modulo ≠ 0
-.e-flex {
+.e-flex,
+.tablet-l\:flex {
   @include flex-base();
+}
 
+.e-flex {
   @media (--tablet) {
     @include flex-grid(); // 2 columns by default
   }
 }
 
 .tablet-l\:flex {
-  @include flex-base();
-
   @media (--tablet-l) {
     @include flex-grid();
   }

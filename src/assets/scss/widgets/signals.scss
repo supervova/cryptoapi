@@ -1,0 +1,128 @@
+@use 'sass:math';
+@use '../abstracts' as *;
+@use '../abstracts/custom';
+@use 'base';
+
+.e-h3 {
+  margin-bottom: var(--size-1);
+
+  span {
+    color: var(--color-ink-2ry);
+    text-transform: uppercase;
+  }
+}
+
+.signalmsg {
+  align-items: baseline;
+  border-radius: var(--border-radius-sm);
+  display: grid;
+  gap: 0 var(--size-1);
+  grid-template-columns: max-content 1fr;
+  grid-template-rows: auto auto;
+  padding-block: var(--size-1p5);
+  padding-inline: var(--size-1p5);
+
+  &,
+  &:active,
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:nth-child(odd) {
+    background-color: var(--color-ink-min);
+  }
+
+  @media only screen and (min-width: 568px) {
+    align-items: center;
+    display: flex;
+    gap: var(--size-2);
+    height: var(--size-5);
+  }
+}
+
+// Day
+.signalgroup + .signalgroup {
+  margin-top: var(--size-2);
+}
+
+// Date & Time
+.signaldate,
+.signaldt {
+  font-size: var(--font-size-caption);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.signaldate {
+  color: var(--color-ink-2ry-success);
+  font-weight: 700;
+  position: relative;
+  line-height: var(--line-height-caption);
+  padding-top: var(--padding-top-caption);
+  padding-bottom: var(--padding-top-caption);
+  padding-inline-start: var(--size-1p5);
+  translate: 0 var(--size-1);
+
+  // &::after {
+  //   border-top: 1px dashed var(--color-ink-border);
+  //   content: '';
+  //   position: absolute;
+  //   top: 50%;
+  //   inset-inline-start: 14ch;
+  //   inset-inline-end: 0;
+  //   height: 0;
+  // }
+}
+
+.signaldt {
+  color: var(--color-ink-2ry);
+  grid-column: 2;
+  grid-row: 1;
+
+  @media only screen and (min-width: 568px) {
+    flex: none;
+    text-align: end;
+    width: 8ch;
+  }
+}
+
+// Symbol
+.signalcurr {
+  color: var(--color-ink-text);
+  font-size: var(--font-size-body-sm);
+  font-weight: 500;
+  grid-column: 1;
+  grid-row: 1;
+  letter-spacing: var(--letter-spacing-body-sm);
+
+  @media only screen and (min-width: 568px) {
+    flex: none;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 8ch;
+  }
+}
+
+.signalmsgtext {
+  @include multiline-truncate($lines: 2);
+
+  color: var(--color-ink-2ry);
+  grid-column: 1 / -1;
+  grid-row: 2;
+
+  @media only screen and (min-width: 568px) {
+    @multiline-truncate-reset;
+    @include text-truncate;
+
+    flex-grow: 1;
+    min-width: 0;
+  }
+}
+
+.cryptoapi-signals__icon {
+  color: var(--color-ink-text);
+  margin-inline-end: var(--size-1);
+  vertical-align: middle;
+}
+

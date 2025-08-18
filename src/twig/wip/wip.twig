@@ -8,7 +8,7 @@
     {% set page = page|merge(
       {
         app: true,
-        classes: 'is-markets',
+        classes: 'is-signals',
         styles: 'markets.css',
       }
     ) %}
@@ -24,7 +24,7 @@
         icon: "/assets/img/cryptologos/bonk.svg",
         name: "Bonk",
         symbol: "BONK",
-        price: 0.00001942,
+        price: 0.0000192,
         change_24h: -6.92,
         rating: 2,
         risk: "high",
@@ -135,7 +135,21 @@
 {% block content %}
   <div class="e-container">
 
-    <header class="e-main__header">
+  <header class="e-main__header">
+    <button class="e-eyebrow" id="main-header-eyebrow" type="button" onclick="showsettings(0)" data-visible="false">
+      {% include 'partials/icon.twig' with {name: 'sm-chevron-left'} %}
+      {{ 'Back'|trans }}
+    </button>
+    <h1>
+      <span class="e-main__title">{{ 'Signals'|trans }}</span><span class="e-main__subtitle" id="main-header-subtitle" data-visible="false" aria-hidden="true">: {{ 'Settings'|trans }}</span>
+    </h1>
+    <button class="e-btn has-start-icon" id="main-header-settings" type="button" onclick="showsettings(1)">
+      {% include 'partials/icon.twig' with {name: 'settings'} %}
+      {{ 'Settings'|trans }}
+    </button>
+  </header>
+
+    {# <header class="e-main__header">
       <h1>{{ 'Markets'|trans }}.
         <span class="text-2ry">{{ 'Asset Ranking'|trans }}</span>
       </h1>
@@ -147,7 +161,7 @@
           {{ filters_count }}
         </button>
       </div>
-    </header>
+    </header> #}
 
     <div class="e-scroller is-2-directions">
       <table class="table has-hovered-rows has-2-liners" id="crypto-table" data-sort-field="{{ sort_field }}" data-sort-direction="{{ sort_direction }}">

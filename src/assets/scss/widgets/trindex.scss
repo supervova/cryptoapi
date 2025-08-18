@@ -1,0 +1,197 @@
+@use 'sass:math';
+@use '../abstracts' as *;
+@use '../abstracts/custom';
+@use 'base';
+
+// -----------------------------------------------------------------------------
+// #region: MAPS
+// -----------------------------------------------------------------------------
+
+$assets-state-colors: (
+  'positive': var(--color-ink-text-success),
+  'negative': var(--color-ink-text-error),
+);
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// #region: BASE
+// -----------------------------------------------------------------------------
+
+.e-h3 {
+  margin-bottom: var(--size-1);
+
+  span {
+    color: var(--color-ink-2ry);
+    text-transform: uppercase;
+  }
+}
+
+.e-assets {
+  --table-border-color: var(--color-ink-border);
+  --table-border-width: var(--border-width);
+  --cell-padding-x: var(--size-2);
+  --cell-padding-y: var(--size-1p5);
+
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-variant-numeric: lining-nums tabular-nums;
+  margin: 0;
+  text-indent: 0;
+  width: 100%;
+}
+
+.e-assets__symbols {
+  width: 100%;
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// #region: TABLE ROWS
+// -----------------------------------------------------------------------------
+
+.e-assets tr {
+  background-color: transparent;
+  background-image: none;
+  border: 0;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  position: relative;
+  transition: background-image var(--duration-200) var(--easing-base);
+
+  &:hover {
+    th,
+    td {
+      background-color: hsl(var(--h) var(--s) 97%);
+    }
+  }
+
+  &:not(:last-child)::after {
+    border-bottom: 1px solid var(--color-ink-border);
+    bottom: 0;
+    content: '';
+    height: 0;
+    inset-inline: var(--size-1p5);
+    position: absolute;
+  }
+}
+
+[data-theme='dark'] .e-assets tr:hover {
+  background-image: radial-gradient(
+    50% 12px at 50% 0%,
+    rgb(255 255 255 / 0.16),
+    rgb(255 255 255 / 0.14) 2%,
+    rgb(255 255 255 / 0.12) 10%,
+    rgb(255 255 255 / 0.09) 21%,
+    rgb(255 255 255 / 0.06) 36%,
+    rgb(255 255 255 / 0.03) 54%,
+    rgb(255 255 255 / 0)
+  );
+
+  th,
+  td {
+    background-color: transparent;
+  }
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// #region: TABLE CELLS
+// -----------------------------------------------------------------------------
+
+th,
+td {
+  border: 0;
+  box-shadow: none;
+  font-weight: 400;
+  padding-block: var(--size-1p5);
+  padding-inline: var(--cell-padding-x);
+  transition: background-color var(--duration-200) var(--easing-base);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+th {
+  border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+  padding-inline: var(--size-1p5);
+  position: relative;
+  text-align: left;
+}
+
+td {
+  font-weight: 400;
+  padding-inline: 0 var(--size-1p5);
+  text-align: right;
+
+  &:last-child {
+    border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+  }
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// #region: CONTENT ELEMENTS
+// -----------------------------------------------------------------------------
+
+.e-assets__symbol {
+  font-size: var(--font-size-body-sm);
+  font-weight: 500;
+  line-height: var(--line-height-body-sm);
+}
+
+.e-assets__price,
+.e-assets__change {
+  font-size: var(--font-size-body-sm);
+  line-height: var(--line-height-body-sm);
+  text-align: right;
+}
+
+.e-assets__price small,
+.e-assets__name {
+  font-size: var(--font-size-caption);
+  line-height: var(--font-size-caption);
+}
+
+.e-assets__name {
+  @include text-truncate();
+  color: var(--color-ink-2ry);
+  padding-top: var(--size-half);
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// #region: MODIFIERS
+// -----------------------------------------------------------------------------
+
+@each $state, $color in $assets-state-colors {
+  .e-assets__change.is-#{$state} {
+    color: #{$color};
+  }
+}
+
+.e-assets__loading,
+.e-assets__empty {
+  background-color: var(--color-bg-warning);
+  border-radius: var(--border-radius-sm);
+  color: var(--color-ink-2ry);
+  padding: var(--size-5);
+  text-align: left;
+  vertical-align: middle;
+}
+
+[data-theme='dark'] {
+  .e-assets__loading,
+  .e-assets__empty {
+    background-color: transparent;
+    background-image: radial-gradient(
+      100% 50% at 50% 100%,
+      var(--color-bg-warning)
+    );
+  }
+}
+
+// #endregion

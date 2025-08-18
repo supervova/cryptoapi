@@ -52,6 +52,11 @@
   display: flex;
 }
 
+@media (--phone-l) {
+  .phone-l\:d-none { display: none; }
+  .phone-l\:d-inline { display: inline; }
+}
+
 @media (--tablet) {
   .tablet\:d-none {
     display: none;
@@ -101,6 +106,9 @@
 
 .nobr { white-space: nowrap; }
 .text-2ry { color: var(--color-ink-2ry); }
+.text-sm {
+  @include text-format('body-sm');
+}
 .text-center { text-align: center; }
 .text-error { color: var(--color-ink-text-error); }
 .text-highlight { color: var(--color-ink-text-info); }
