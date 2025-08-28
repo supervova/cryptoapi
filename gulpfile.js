@@ -30,7 +30,7 @@ import twig from 'gulp-twig';
 import yargs from 'yargs';
 import { createGulpEsbuild } from 'gulp-esbuild';
 import { deleteAsync } from 'del';
-import { existsSync, readFileSync } from 'fs';
+import { existsSync, readFileSync, statSync } from 'fs';
 import { join } from 'path';
 
 const bsInstance = browserSync.create();
@@ -98,7 +98,7 @@ const paths = {
       `${root.dest.dev}/css/*.css`,
       `!${destAssets}/css/main.css`,
       `!${root.dest.dev}/css/bootstrap.css`,
-      `!${root.dest.dev}/css/jquery.toast.min.css`,
+      `!${destAssets}/css/jquery.toast.min.css`,
       `!${root.dest.dev}/css/main_modal.css`,
     ],
     dest: {
@@ -216,7 +216,7 @@ const js = () => {
         : paths.js.dest;
 
       const outputFile = name.includes('/')
-        ? `${name.substring(name.lastIndexOf('/') + 1)}.js`
+        ? `${name.substring(name.lastIndexOf('/') + 1)}.js` 
         : `${name}.js`;
 
       return src(entry, { sourcemaps: !isProd })
