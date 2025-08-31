@@ -57,4 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const angle = index * 1.8; // 1 пункт = 1.8°
     pointer.style.transform = `rotate(${angle}deg)`;
   }
+
+  document.body.dispatchEvent(new CustomEvent('widget:rendered'));
 });

@@ -16,7 +16,7 @@ const themeBtns = $('[data-theme]', true);
 const tabBtns = $('[role="tab"]', true);
 const widgetConfigs = $('[data-widget-config]', true);
 const titleTpl =
-  document.getElementById('iframe-title-tpl')?.textContent ||
+  document.getElementById('iframe-title')?.textContent ||
   'Crypto %s widget';
 
 // конфиг из APP_CONFIG или дефолты
@@ -85,7 +85,34 @@ const iframeHtml = () => {
   return `<iframe src="${buildSrc()}" title="${title}" loading="lazy"
   referrerpolicy="no-referrer-when-downgrade"
   sandbox="allow-scripts allow-popups allow-top-navigation-by-user-activation allow-same-origin"
-  style="border:0;border-radius:12px;overflow:hidden;width:100%;" width="100%"></iframe>`;
+  style="border:0;border-radius:12px;overflow:hidden;width:100%" width="100%"></iframe>`;
+};
+
+const embedCode = () => {
+  const iframeTag = iframeHtml();
+  const scriptTag = `<script>
+(function() {
+  if (window.cryptoApiWidgetListener) {
+    return;
+  }
+  window.cryptoApiWidgetListener = true;
+  window.addEventListener('message', function(e) {
+    if (e.origin !== "${ORIGIN}") {
+      return;
+    }
+    if (e.data && e.data.type === 'cryptoapi:height' && e.source) {
+      var iframes = document.querySelectorAll('iframe[src*="${ORIGIN}"]');
+      for (var i = 0; i < iframes.length; i++) {
+        if (iframes[i].contentWindow === e.source) {
+          iframes[i].style.height = (e.data.height || 120) + 'px';
+          break;
+        }
+      }
+    }
+  });
+})();
+</script>`;
+  return `${iframeTag}\n${scriptTag}`;
 };
 
 /** Показывает/скрывает настройки для конкретного виджета */
@@ -99,7 +126,7 @@ function updateConfigVisibility() {
 function render() {
   const html = iframeHtml();
   preview.innerHTML = html;
-  code.textContent = html;
+  code.textContent = embedCode();
 
   const iframe = preview.querySelector('iframe');
   if (iframe) {

@@ -80,8 +80,7 @@
 
   @media only screen and (min-width: 568px) {
     flex: none;
-    text-align: end;
-    width: 8ch;
+    width: max-content;
   }
 }
 

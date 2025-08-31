@@ -35,6 +35,9 @@ msgstr "Бегущая строка"
 msgid "BTC Forecast"
 msgstr "Прогноз BTC"
 
+msgid "TRANDX"
+msgstr "TRANDX"
+
 msgid "Widget settings"
 msgstr "Настройки виджета"
 
@@ -62,8 +65,8 @@ msgstr "Темная тема"
 msgid "Number of lines (1–8)"
 msgstr "Количество строк (1–8)"
 
-msgid "Copy and paste this code into the location where you want to place the widget. You can add multiple widgets."
-msgstr "Скопируйте и вставьте этот код в место, где вы хотите разместить виджет. Можно добавить несколько виджетов."
+msgid "Copy and paste this code where you want the widget. Supports multiple widgets. They adapt to the parent container width (320–960 px)."
+msgstr "Скопируйте и вставьте этот код в место, где вы хотите разместить виджет. На страницу можно добавить несколько виджетов. Они подстраиваются под ширину родительского контейнера и растягиваются от 320 до 960 пикселей."
 
 msgid "Copy Code"
 msgstr "Скопировать код"
@@ -71,5 +74,5 @@ msgstr "Скопировать код"
 msgid "Loading signals…"
 msgstr "Получаем сигналы…"
 
-msgid "The best TRIndex – Total return index"
-msgstr "Лучший TRIndex – индекс совокупного дохода"
+msgid "TRANDX™ Leaders — The Trading-Attractiveness Index"
+msgstr "Лидеры TRANDX™ – индекса торговой привлекательности"

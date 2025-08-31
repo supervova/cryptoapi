@@ -2,23 +2,13 @@
  * Handles events for all widgets inside an iframe.
  */
 window.addEventListener('message', (e) => {
-  // Security: check the origin of the message
-  if (e.origin !== window.location.origin) {
-    return;
-  }
-
+  // The origin check is removed to allow theme changes from cross-origin parents.
+  // This is a potential security risk if more sensitive actions are added.
+  // A whitelist of origins would be a better solution.
   const { data } = e;
 
-  // Height adjustment event from the parent
-  if (data?.type === 'cryptoapi:height') {
-    const f = window.frameElement;
-    if (f) {
-      f.style.height = `${Math.max(120, +data.height || 0)}px`;
-    }
-  }
-
   // Theme change event from the parent
-  if (data?.type === 'cryptoapi:theme') {
+  if (data?.type === 'cryptoapi:theme' && data.theme) {
     document.body.dataset.theme = data.theme;
   }
 });
@@ -27,13 +17,13 @@ window.addEventListener('message', (e) => {
  * Sends the widget's height to the parent window.
  */
 function postHeight() {
-  const { body } = document;
+  const { body, documentElement } = document;
   const height = Math.max(
     body.scrollHeight,
     body.offsetHeight,
-    document.documentElement.clientHeight,
-    document.documentElement.scrollHeight,
-    document.documentElement.offsetHeight
+    documentElement.clientHeight,
+    documentElement.scrollHeight,
+    documentElement.offsetHeight
   );
 
   if (window.parent) {
@@ -41,7 +31,23 @@ function postHeight() {
   }
 }
 
-// Send height on load and on resize
+// Use ResizeObserver to send height updates when content size changes.
+if ('ResizeObserver' in window) {
+  const observer = new ResizeObserver(() => {
+    // Use rAF to avoid "ResizeObserver loop limit exceeded" error in some browsers.
+    window.requestAnimationFrame(postHeight);
+  });
+  observer.observe(document.body);
+} else {
+  // Fallback for older browsers that don't support ResizeObserver.
+  window.addEventListener('resize', postHeight);
+}
+
+// Send height on initial load and after a short delay to catch late renders.
 window.addEventListener('load', postHeight);
-window.addEventListener('resize', postHeight);
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(postHeight, 250);
+});
+
+// Listen for the custom event which signals that a widget has finished rendering.
 document.body.addEventListener('widget:rendered', postHeight);

@@ -8,7 +8,7 @@ declare(strict_types=1);
 // 1) параметры
 $theme = ($_GET['theme'] ?? 'dark') === 'light' ? 'light' : 'dark';
 $rows  = max(1, min(20, (int)($_GET['rows'] ?? 8)));
-$aff   = $user_id;
+// $aff   = $user_id;
 // $aff   = preg_replace('/[^a-z0-9_-]/i', '', (string)($_GET['aff'] ?? ''));
 
 

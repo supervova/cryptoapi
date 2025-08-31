@@ -10,6 +10,7 @@
       {
         app: true,
         classes: 'is-markets',
+        lang: 'en',
         search_on_page: true,
         styles: 'markets.css',
       }
@@ -37,7 +38,7 @@
     {key: 'change_24h', type: 'num', label: 'Chg (24H), %'|trans, sortable: true},
     {key: 'rating', type: 'num', label: 'Rating'|trans, sortable: true},
     {key: 'risk', type: 'icon', label: 'Risk'|trans, sortable: false},
-    {key: 'trindex', type: 'num', label: 'TRIndex'|trans, sortable: true},
+    {key: 'trandx', type: 'num', label: 'TRANDX'|trans, sortable: true},
     {key: 'rsi', type: 'num', label: 'RSI (7D)'|trans, sortable: true}
   ] %}
 
@@ -228,7 +229,7 @@
       "tableInitError": "We couldn’t show the table. Something went wrong during setup."|trans,
       "tableLoading": "Table loading"|trans,
       "tableSortedBy": "Table sorted by"|trans,
-      "trindex": "TRIndex"|trans,
+      "trandx": "TRANDX"|trans,
       "watchlist": "Watchlist"|trans
     } %}
     {{ translations|json_encode()|raw }}
@@ -245,6 +246,6 @@
     window.APP_CONFIG.isDevelopment = {{ ENV == 'development' ? 'true' : 'false' }};
   </script>
 
-  <script src="{{ site.assets_prefix }}/assets/js/markets.js?{{ "now"|date('U') }}" type="module" defer></script>
+  <script src="{{ site.assets_prefix }}/assets/js/markets.js?v={{ site.assets_version|default(1) }}" type="module" defer></script>
   {{ parent() }}
 {% endblock %}

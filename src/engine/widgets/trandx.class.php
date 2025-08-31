@@ -3,13 +3,13 @@
 /**
  * Контроллер виджета индекса страха и жадности
  *
- * Подготавливает данные и рендерит шаблон widgets/trindex.twig с таблицей активов
+ * Подготавливает данные и рендерит шаблон widgets/trandx.twig с таблицей активов
  * с высоким индексом совокупного дохода.
  */
 
 declare(strict_types=1);
 
-// маршрут: /projects/cryptoapi.ai/widgets/trindex
+// маршрут: /projects/cryptoapi.ai/widgets/trandx
 // пример:  ?theme=dark8&lang=ru&aff=partner123
 
 // 1) параметры
@@ -40,4 +40,4 @@ $data_objects['widget'] = [
 ];
 
 // 4) рендер Twig
-$final_html = get_template('widgets/trindex.twig');
+$final_html = get_template('widgets/trandx.twig');

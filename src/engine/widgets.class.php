@@ -14,7 +14,7 @@ if (!empty($thispath[2])) {
         'signals' => 'signals.class.php',
         'fgi'     => 'fgi.class.php',
         'btc'     => 'btc.class.php',
-        'trindex' => 'trindex.class.php',
+        'trandx'  => 'trandx.class.php',
     ];
 
     if (isset($widgets[$thispath[2]])) {
@@ -32,7 +32,7 @@ if (!empty($thispath[2])) {
     $data_objects['page'] = array_merge($data_objects['page'] ?? [], $page_meta);
 
     // --- widget params ---
-    $allowedTabs  = ['signals','fgi','btc-chart', 'trindex'];
+    $allowedTabs  = ['signals','fgi','btc-chart', 'trandx'];
     $allowedTheme = ['light','dark'];
 
     $raw_theme = $_GET['theme'] ?? 'dark';
@@ -41,8 +41,8 @@ if (!empty($thispath[2])) {
     $rows  = max(1, min(8, $rows));
     $active = in_array(($_GET['tab'] ?? 'signals'), $allowedTabs, true) ? $_GET['tab'] : 'signals';
 
-    $aff = $_GET['aff'] ?? '';
-    $aff = preg_match('/^[A-Za-z0-9_\-]{0,64}$/', $aff) ? $aff : '';
+    $aff = $user_id ?? '';
+    // $aff = preg_match('/^[A-Za-z0-9_\-]{0,64}$/', $aff) ? $aff : '';
 
     $lng = in_array($lng_html, ['en','ru'], true) ? $lng_html : 'en';
 

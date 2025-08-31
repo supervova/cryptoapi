@@ -7,6 +7,7 @@
     {% set page = page|merge(
       {
         classes: 'is-home',
+        lang: 'en',
         type: 'index',
 
         market_tops: {
@@ -28,7 +29,7 @@
 
 {% block head %}
   {{ parent() }}
-  <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/home.css?{{ "now"|date('U') }}">
+  <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/home.css?v={{ site.assets_version|default(1) }}">
 {% endblock %}
 
 {# MAIN CONTENT ------------------------------------------------------------- #}
@@ -79,7 +80,7 @@
       "icon": "award",
       "eyebrow": "Additionally",
       "title": "Asset ratings",
-      "description": "TRIndx risk indexes."
+      "description": "TRANDX™ – The Trading-Attractiveness Index."
     },
     {
       "icon": "speed",
@@ -335,8 +336,8 @@
           </header>
           <figure class="e-chart">
             <canvas id="markets-chart"></canvas>
-            <div class="e-chart__loader" id="chart-loader">Загрузка графика...</div>
-            <div class="e-chart__error" id="chart-error" style="display: none;">Не удалось загрузить данные графика</div>
+            <div class="e-chart__loader" id="chart-loader">{{ 'Loading chart...'|trans }}</div>
+            <div class="e-chart__error" id="chart-error" style="display: none;">{{ 'Failed to load chart data'|trans }}</div>
           </figure>
         </article>
         <div class="e-assets">
@@ -563,8 +564,8 @@
   {% if ENV == 'development' %}
     <script src="{{ site.assets_prefix }}/assets/js/asset-chart.js"></script>
   {% else %}
-    <script src="{{ site.assets_prefix }}/assets/js/pages/home.js?{{ "now"|date('U') }}" type="module"></script>
+    <script src="{{ site.assets_prefix }}/assets/js/pages/home.js?v={{ site.assets_version|default(1) }}" type="module"></script>
   {% endif %}
 
-  <script src="{{ site.assets_prefix }}/assets/js/pricing.js?{{ "now"|date('U') }}" type="module"></script>
+  <script src="{{ site.assets_prefix }}/assets/js/pricing.js?v={{ site.assets_version|default(1) }}" type="module"></script>
 {% endblock %}

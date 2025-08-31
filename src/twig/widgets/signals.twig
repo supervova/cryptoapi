@@ -4,8 +4,9 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>{{ 'Signals'|trans }}</title>
-  <link rel="preload" href="{{ site.assets_prefix }}/assets/css/widgets/signals.css" as="style"/>
-  <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/widgets/signals.css"/>
+  {% set v = site.assets_version|default(1) %}
+  <link rel="preload" href="{{ site.assets_prefix }}/assets/css/widgets/signals.css?v={{ v }}" as="style" fetchpriority="high" />
+  <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/widgets/signals.css?v={{ v }}"/>
 </head>
 <body data-theme="{{ widget.theme|default('dark') }}">
 <div class="signals widget" id="signals">
@@ -24,7 +25,7 @@
     </a>
   </footer>
 </div>
-<script src="{{ site.assets_prefix }}/assets/js/widgets/iframe.js?{{ "now"|date('U') }}" defer></script>
-<script src="{{ site.assets_prefix }}/assets/js/widgets/signals.js?{{ "now"|date('U') }}" defer></script>
+<script src="{{ site.assets_prefix }}/assets/js/widgets/iframe.js?v={{ v }}" defer></script>
+<script src="{{ site.assets_prefix }}/assets/js/widgets/signals.js?v={{ v }}" defer></script>
 </body>
 </html>

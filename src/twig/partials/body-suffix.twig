@@ -1,8 +1,8 @@
-{# <script src="{{ site.assets_prefix }}/assets/js/search.js?{{ "now"|date('U') }}"  type="module"></script> #}
+{# <script src="{{ site.assets_prefix }}/assets/js/search.js?v={{ site.assets_version|default(1) }}"  type="module"></script> #}
 {% if page.app %}
-  <script src="{{ site.assets_prefix }}/assets/js/search.js?{{ "now"|date('U') }}"  type="module"></script>
+  <script src="{{ site.assets_prefix }}/assets/js/search.js?v={{ site.assets_version|default(1) }}"  type="module"></script>
   {% if ENV != 'development' %}
-    <script src="{{ site.assets_prefix }}/assets/js/header-stats.js?{{ "now"|date('U') }}" defer></script>
+    <script src="{{ site.assets_prefix }}/assets/js/header-stats.js?v={{ site.assets_version|default(1) }}" defer></script>
   {% endif %}
 {% endif %}
 

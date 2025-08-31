@@ -23,5 +23,5 @@
 
 {% block body_suffix %}
   {{ parent() }}
-  <script src="{{ site.assets_prefix }}/assets/js/pricing.js?{{ "now"|date('U') }}" type="module"></script>
+  <script src="{{ site.assets_prefix }}/assets/js/pricing.js?v={{ site.assets_version|default(1) }}" type="module"></script>
 {% endblock %}

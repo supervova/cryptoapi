@@ -61,7 +61,7 @@ function getapi(arg) {
 <div style="text-align:center;margin:10px;"><button class="btn btn-info" onclick="getapi('showkey')">Show API Key</button> <button class="btn btn-warning" onclick="getapi('resetkey')">Reset API Key</button></div>
 <div id="apidoc" style="text-align:left;padding:5px;border-radius:5px;">
 <div style="text-align:left;"><span class="nottranslate">YOUR_API_KEY</span> - this text should be replaced with your API key</div>
-<h4>Example 1. Cryptocurrency Asset Rating by TRIndx (Trade Risk Index):</h4>
+<h4>Example 1. Cryptocurrency Asset Rating by TRANDX (Trade Appe Index):</h4>
 <pre><code>
 curl -X GET "https://cryptoapi.ai/userapi/p43/YOUR_API_KEY/assets/"
 </code></pre>
@@ -92,7 +92,7 @@ curl -X GET "https://cryptoapi.ai/userapi/p43/YOUR_API_KEY/assets/BTC"
       }
     },
     "market": "middle",
-    "TRINDX": 12,
+    "TRANDX": 12,
     "risk": "low",
     "RSI1000": "14",
     "RSI365": "9",

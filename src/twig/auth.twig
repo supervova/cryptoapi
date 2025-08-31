@@ -13,7 +13,7 @@
 
 {% block head %}
   {{ parent() }}
-  <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/auth.css?{{ "now"|date('U') }}">
+  <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/auth.css?v={{ site.assets_version|default(1) }}">
 {% endblock %}
 
 {% block navbar %}{% endblock %}

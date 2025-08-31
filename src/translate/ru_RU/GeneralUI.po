@@ -281,8 +281,8 @@ msgstr "цене"
 msgid "by change"
 msgstr "изменению"
 
-msgid "by TRIndex"
-msgstr "по TRIndex'у"
+msgid "by TRANDX"
+msgstr "по TRANDX"
 
 msgid "by RSI"
 msgstr "по индексу RSI"
@@ -668,3 +668,8 @@ msgstr "Жадность:"
 msgid "Extreme Greed:"
 msgstr "Макс. жадность:"
 
+msgid "Loading chart..."
+msgstr "Загрузка графика..."
+
+msgid "Failed to load chart data"
+msgstr "Не удалось загрузить данные графика"

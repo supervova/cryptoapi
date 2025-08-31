@@ -28,7 +28,7 @@
         change_24h: -6.92,
         rating: 2,
         risk: "high",
-        trindex: 20,
+        trandx: 20,
         rsi: 44,
         watchlist: false,
         chart_data: []
@@ -41,7 +41,7 @@
         change_24h: -2.12,
         rating: 17,
         risk: "low",
-        trindex: 43,
+        trandx: 43,
         rsi: 44,
         watchlist: true,
         chart_data: []
@@ -54,7 +54,7 @@
         change_24h: -2.54,
         rating: 32,
         risk: "low",
-        trindex: 42,
+        trandx: 42,
         rsi: 44,
         watchlist: true,
         chart_data: []
@@ -67,7 +67,7 @@
         change_24h: -3.76,
         rating: 64,
         risk: "low",
-        trindex: 38,
+        trandx: 38,
         rsi: 44,
         watchlist: false,
         chart_data: []
@@ -80,7 +80,7 @@
         change_24h: -3.13,
         rating: 86,
         risk: "medium",
-        trindex: 34,
+        trandx: 34,
         rsi: 44,
         watchlist: false,
         chart_data: []
@@ -93,7 +93,7 @@
         change_24h: -3.12,
         rating: 117,
         risk: "low",
-        trindex: 41,
+        trandx: 41,
         rsi: 44,
         watchlist: false,
         chart_data: []
@@ -106,7 +106,7 @@
         change_24h: 1.32,
         rating: 152,
         risk: "low",
-        trindex: 40,
+        trandx: 40,
         rsi: 44,
         watchlist: false,
         chart_data: []
@@ -194,8 +194,8 @@
             </th>
             <th class="table__cell is-icon" scope="col">{{ 'Risk'|trans }}</th>
             <th class="table__cell is-num" scope="col">
-              <button class="e-btn is-sort {{ sort_field == 'trindex' ? 'is-active' : '' }} {{ sort_field == 'trindex' and sort_direction == 'desc' ? 'is-desc' : '' }}" type="button" data-sort-field="trindex" aria-label="{{ 'Sort by TRIndex'|trans }}" aria-sort="{{ sort_field == 'trindex' ? (sort_direction == 'asc' ? 'ascending' : 'descending') : 'none' }}">
-                {{ 'TRIndex'|trans }}
+              <button class="e-btn is-sort {{ sort_field == 'trandx' ? 'is-active' : '' }} {{ sort_field == 'trandx' and sort_direction == 'desc' ? 'is-desc' : '' }}" type="button" data-sort-field="trandx" aria-label="{{ 'Sort by TRANDX'|trans }}" aria-sort="{{ sort_field == 'trandx' ? (sort_direction == 'asc' ? 'ascending' : 'descending') : 'none' }}">
+                {{ 'TRANDX'|trans }}
                 {% include 'partials/icon.twig' with {name: 'up'} %}
               </button>
             </th>

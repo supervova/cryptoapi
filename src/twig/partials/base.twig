@@ -2,7 +2,7 @@
   {% if site is not defined %}
     {% set site = {
       "assets_prefix": "",
-      "assets_version": 1,
+      "assets_version": "now"|date("U"),
       "domain": "cryptoapi.ai",
       "desc": "Unlock the power of advanced APIs designed for crypto traders and analysts. Access real-time market insights, trading signals, custom indices, and automated tools to boost your trading performance.",
       "fonts_google": "Inter:wght@300;400;600",
@@ -45,7 +45,7 @@
   <meta property="og:type" content="{{ page.type }}">
   <meta property="og:url" content="https://{{ site.domain }}{% if not page.index or page.lang != 'ru' %}/{{ page.lang }}/{{ page.slug }}{% else %}/{% endif %}">
 
-  {% set cover_default = 'cover' ~ (page.lang == 'ru' ? '-ru' : '') ~ '.png' %}
+  {% set cover_default = 'cover' ~ (page.lang == 'ru' ? '-ru' : '') ~ '.jpg' %}
   <meta property="og:image" content="{{ page.image|default('https://' ~ site.domain ~ site.assets_prefix ~ '/img/' ~ cover_default) }}">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -71,7 +71,7 @@
     window.APP_CONFIG.assetsBasePrefix = "{{ site.assets_prefix|escape('js') }}";
   </script>
   {% block assets %}
-  <script src="{{ site.assets_prefix }}/assets/js/main.js?{{ "now"|date('U') }}" type="module"></script>
+  <script src="{{ site.assets_prefix }}/assets/js/main.js?v={{ site.assets_version|default(1) }}" type="module"></script>
   {% if page.legacy_js %}{{ page.legacy_js }}{% endif %}
   {% endblock %}
 
@@ -115,9 +115,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Inter:wght@300;400;500">
   {% block css %}
-  <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/main.css?{{ "now"|date('U') }}">
+  <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/main.css?v={{ site.assets_version|default(1) }}">
   {% if page.styles %}
-    <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/{{ page.styles }}?{{ "now"|date('U') }}">
+    <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/{{ page.styles }}?v={{ site.assets_version|default(1) }}">
   {% endif %}
   {% endblock %}
 {% endblock %}
@@ -137,7 +137,7 @@
     {% include "partials/navbar.twig" %}
   {% endblock %}
 
-  {# CONTENT ----------------------------------------------------------------- #}
+  {# CONTENT ---------------------------------------------------------------- #}
   {# Content Header (Search & Stats) #}
   {% if page.app %}
     {% include "partials/header.twig" %}

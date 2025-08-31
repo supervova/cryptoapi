@@ -67,7 +67,7 @@ if (isset($thispath[1]) && $thispath[1] === 'markets' && isset($thispath[2]) && 
         ['key' => 'change_24h', 'type' => 'num',    'label' => 'Chg (24H), %', 'sortable' => true],
         ['key' => 'rating',     'type' => 'num',    'label' => 'Rating', 'sortable' => true],
         ['key' => 'risk',       'type' => 'icon',   'label' => 'Risk', 'sortable' => false],
-        ['key' => 'trindex',    'type' => 'num',    'label' => 'TRIndex', 'sortable' => true],
+        ['key' => 'trandx',     'type' => 'num',    'label' => 'TRANDX', 'sortable' => true],
         ['key' => 'rsi',        'type' => 'num',    'label' => 'RSI (7D)', 'sortable' => true]
     ];
 

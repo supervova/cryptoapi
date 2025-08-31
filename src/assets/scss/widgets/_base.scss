@@ -1,3 +1,4 @@
+@use 'sass:math';
 @use '../abstracts' as *;
 
 :root {
@@ -5,16 +6,22 @@
   --l: 78%;
   --s: var(--s-base);
 
-  --h-green:  168;
-  --h-red:    353;
+  --h-green: 168;
+  --h-red: 353;
   --h-yellow: 45;
 
   --s-base: 88%;
   --s-min: 11%;
 
   --color-brand-primary: hsl(var(--h) var(--s) var(--l));
-  --color-bg-2ry: hsl(var(--h) var(--s-min) 98%);
+
+  --color-bg-2ry: hsl(var(--h) var(--s-min) 97%);
+  --color-bg-level-01: hsl(var(--h) var(--s-min) 99%);
+
+  --color-bg-info: hsl(var(--h) var(--s) 95%);
   --color-bg-warning: hsl(var(--h-yellow) var(--s) 85%);
+  --color-bg-error: hsl(var(--h-red) var(--s) 94%);
+
   --color-ink-text: rgb(0 0 0 / 0.87);
   --color-ink-2ry: rgb(0 0 0 / 0.6);
   --color-ink-3ry: rgb(0 0 0 / 0.38);
@@ -33,8 +40,14 @@
   --dir: ltr;
 
   --font-weight-title: 500;
-  --font-weight-h2: 500;
   --font-weight-h3: 500;
+
+  --font-size-h2: #{rem(22)};
+  --font-weight-h2: 500;
+  --letter-spacing-h2: 0;
+  --line-height-h2: #{math.div(32, 22)};
+  --padding-top-h2: 0;
+  --padding-bottom-h2: 0;
 
   --padding-top-base: 6px;
   --padding-bottom-base: 2px;
@@ -57,6 +70,7 @@
 
   --border-radius-base: var(--size-1p5);
   --border-radius-sm: var(--size-1);
+  --border-radius-lg: #{rem(28)};
 
   --duration-100: 0.11s;
   --duration-200: 0.15s;
@@ -66,9 +80,19 @@
 
 [data-theme='dark'] {
   --color-bg-2ry: hsl(var(--h) var(--s-min) 24%);
-  --color-bg-warning: hsl(var(--h-yellow) var(--s) 36% / 0.2),
+  --color-bg-level-01: hsl(var(--h) var(--s-min) 18%);
+
+  --color-bg-warning:
+    hsl(var(--h-yellow) var(--s) 36% / 0.2),
     hsl(var(--h-yellow) var(--s) 36% / 0.15) 33.33%,
     hsl(var(--h-yellow) var(--s) 36% / 0);
+  --color-bg-error:
+    hsl(var(--h-red) var(--s) 63% / 0.6),
+    hsl(var(--h-red) var(--s) 63% / 0.3) 33.33%,
+    hsl(var(--h-red) var(--s) 63% / 0);
+  --color-bg-info:
+    hsl(var(--h) var(--s) 92% / 0.1), hsl(var(--h) var(--s) 92% / 0.05) 33.33%,
+    hsl(var(--h) var(--s) 92% / 0);
 
   --color-ink-text: rgb(255 255 255 / 0.87);
   --color-ink-2ry: rgb(255 255 255 / 0.6);
@@ -84,14 +108,22 @@
   --color-ink-2ry-success: hsl(var(--h-green) var(--s) 31%);
 }
 
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
 
 body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   background: var(--color-bg-2ry);
-  border-radius: var(--border-radius-lg);
+  border-radius: var(--border-radius-base);
+  box-shadow: inset 0 0 0 1px var(--color-ink-border);
   color: var(--color-ink-text);
   contain: content;
   font: 17px/1.4112 system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
@@ -117,7 +149,8 @@ h3, .e-h3 {
   text-rendering: optimizeLegibility;
 }
 
-h3, .e-h3 {
+h3,
+.e-h3 {
   @include text-format(h3);
   font-weight: var(--font-weight-h3, bold);
   letter-spacing: var(--letter-spacing-h3);
@@ -157,7 +190,35 @@ p {
   }
 }
 
-.text-success { color: var(--color-ink-text-success); }
-.text-warning { color: var(--color-ink-text-warning); }
-.text-error { color: var(--color-ink-text-error); }
+// -----------------------------------------------------------------------------
+// UTILITIES
+// -----------------------------------------------------------------------------
 
+.text-secondary {color: var(--color-ink-2ry);}
+.text-success { color: var(--color-ink-text-success);}
+.text-warning { color: var(--color-ink-text-warning);}
+.text-error { color: var(--color-ink-text-error);}
+
+.d-none {
+  display: none;
+}
+
+@media only screen and (min-width: 568px) {
+  .phone-l\:d-none {
+    display: none;
+  }
+
+  .phone-l\:d-block {
+    display: flex;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .tablet\:d-none {
+    display: none;
+  }
+
+  .tablet\:d-block {
+    display: flex;
+  }
+}

@@ -17,7 +17,7 @@
             }
         },
         "market": "low",
-        "TRINDX": 49,
+        "TRANDX": 49,
         "risk": "low",
         "RSI1000": "214",
         "RSI365": "174",
@@ -42,7 +42,7 @@
             }
         },
         "market": "low",
-        "TRINDX": 50,
+        "TRANDX": 50,
         "risk": "low",
         "RSI1000": "34",
         "RSI365": "40",

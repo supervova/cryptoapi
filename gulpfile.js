@@ -30,7 +30,7 @@ import twig from 'gulp-twig';
 import yargs from 'yargs';
 import { createGulpEsbuild } from 'gulp-esbuild';
 import { deleteAsync } from 'del';
-import { existsSync, readFileSync, statSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 const bsInstance = browserSync.create();
@@ -136,10 +136,11 @@ const paths = {
       pricing: `${srcBase}/assets/js/pricing.js`,
       search: `${srcBase}/assets/js/search.js`,
       'ui/toast': `${srcBase}/assets/js/ui/toast.js`,
+      'widgets/btc': `${srcBase}/assets/js/widgets/btc.js`,
       'widgets/fgi': `${srcBase}/assets/js/widgets/fgi.js`,
       'widgets/iframe': `${srcBase}/assets/js/widgets/iframe.js`,
       'widgets/signals': `${srcBase}/assets/js/widgets/signals.js`,
-      'widgets/trindex': `${srcBase}/assets/js/widgets/trindex.js`,
+      'widgets/trandx': `${srcBase}/assets/js/widgets/trandx.js`,
     },
     watch: `${srcBase}/assets/js/**/*.js`,
     dest: `${destAssets}/js/`,
@@ -216,7 +217,7 @@ const js = () => {
         : paths.js.dest;
 
       const outputFile = name.includes('/')
-        ? `${name.substring(name.lastIndexOf('/') + 1)}.js` 
+        ? `${name.substring(name.lastIndexOf('/') + 1)}.js`
         : `${name}.js`;
 
       return src(entry, { sourcemaps: !isProd })
@@ -495,7 +496,7 @@ const assetPage = () => {
     })
     .pipe(prettify({ printWidth: 40000, bracketSameLine: true }))
     .pipe(replace(/ (\s*<style>\n)\s*@charset "UTF-8";/g, '$1'))
-    .pipe(replace(/\s\/>/g, '>'))
+    .pipe(replace(/ \/>/g, '>'))
     .pipe(rename('asset.html')) // <--- ПЕРЕИМЕНОВЫВАЕМ в asset.html
     .pipe(size({ title: 'html (asset page)' }))
     .pipe(dest(paths.markup.dest.dev)) // Сохраняем в dist/asset.html
@@ -589,7 +590,7 @@ const pages = () => {
       )
       .pipe(prettify({ printWidth: 40000, bracketSameLine: true }))
       .pipe(replace(/ (\s*<style>\n)\s*@charset "UTF-8";/g, '$1'))
-      .pipe(replace(/\s\/>/g, '>'))
+      .pipe(replace(/ \/>/g, '>'))
       .pipe(size({ title: 'html' }))
       .pipe(dest(paths.markup.dest.dev))
       .pipe(bsInstance.stream())
@@ -925,6 +926,7 @@ export {
   clean,
   copy,
   copyTwig,
+  build,
   pages,
   widgetsPages, // Export new task
   sprite,

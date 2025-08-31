@@ -188,7 +188,7 @@ function processData(responseData, cryptoData) {
           },
           rating: null,
           risk: null,
-          TRINDX: null,
+          TRANDX: null,
           RSI7: null,
           watchlist: false,
           chart_data: [],

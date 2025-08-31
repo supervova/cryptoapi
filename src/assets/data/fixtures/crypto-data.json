@@ -18,7 +18,7 @@
         }
       },
       "market": "high",
-      "TRINDX": 60,
+      "TRANDX": 60,
       "risk": "neutral",
       "RSI1000": "238",
       "RSI365": "193",
@@ -44,7 +44,7 @@
         }
       },
       "market": "high",
-      "TRINDX": 189,
+      "TRANDX": 189,
       "risk": "high",
       "RSI1000": "138",
       "RSI365": "119",
@@ -62,7 +62,7 @@
         "yesterday": { "min": 157.93, "max": 163.97, "middle": 161.8512197333 }
       },
       "market": "middle",
-      "TRINDX": 158,
+      "TRANDX": 158,
       "risk": "high",
       "RSI1000": "143",
       "RSI365": "86",
