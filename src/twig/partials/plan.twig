@@ -1,9 +1,17 @@
-<div class="e-plan{{ plan.isFeatured ? ' is-featured' : '' }}">
+{% set isCurrent = (user.id > 0) and (curr_plan.level|default('') == plan.level|default('')) %}
+
+<div class="e-plan{{ plan.isFeatured ? ' is-featured' : '' }}{{ isCurrent ? ' is-current' : '' }}">
   <header class="e-plan__header">
-    <h3 class="e-plan_title">
+    {% if user.id > 0 and curr_plan.level == plan.level %}
+      <span class="e-tag is-lg has-start-icon" aria-current="true">
+        {% include 'partials/icon.twig' with {name: 'checkmark', assets_prefix: site.assets_prefix} %}
+        {{ 'Current plan'|trans }}
+      </span>
+    {% endif %}
+    <h3 class="e-plan__title">
       {{ plan.title|trans }}
-      <span class="e-plan_icon">
-        {% include 'partials/icon.twig' with {name: plan.icon} %}
+      <span class="e-plan__icon">
+        {% include 'partials/icon.twig' with {name: plan.icon, assets_prefix: site.assets_prefix} %}
       </span>
     </h3>
     <p class="e-plan__price">
@@ -11,13 +19,21 @@
       <strong>{{ plan.price }}</strong>
       <small>
         {{ '/ mon.'|trans }}
-        ($<span data-role="annual-price"></span> / г.)
+        ($<span data-role="annual-price"></span> {{ '/ yr.'|trans }})
       </small>
     </p>
     <p class="e-plan__subtitle">
       {{ plan.subtitle|trans }}
     </p>
-    <a class="e-btn" href="{{ plan.link }}">{{ plan.anchor|default('Choose a Plan')|trans }}</a>
+    <a class="e-btn" href="{{ plan.link }}" {% if curr_plan.level == plan.level %}disabled{% endif %}>
+      {% if plan.anchor is defined %}
+        {{ plan.anchor|trans }}
+      {% elseif user.id == 0 and plan.level == 0 %}
+        {{ 'Sign Up'|trans }}
+      {% else %}
+        {{ 'Choose a Plan'|trans }}
+      {% endif %}
+    </a>
   </header>
   <ul class="e-plan__features">
     {% for feature in plan.features %}

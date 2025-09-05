@@ -1,0 +1,57 @@
+@use 'abstracts' as *;
+
+.e-tag {
+  --tag-background: var(--color-bg-bold-brand);
+  --tag-text: var(--color-ink-text);
+  --tag-radius: var(--border-radius-pill);
+  --tag-font-weight: 500;
+  --tag-padding-x: var(--size-1p5);
+  --tag-max-width: #{rem(220)};
+  --tag-height: var(--size-line);
+
+  @include label(false);
+  @include text-truncate;
+
+  background-color: var(--tag-background);
+  border-radius: var(--tag-radius);
+  color: var(--tag-text);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-half);
+  flex-shrink: 1;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-weight: var(--tag-font-weight);
+  line-height: var(--tag-height);
+  text-decoration: none;
+  padding: 0 var(--tag-padding-x);
+  outline: 0;
+  position: relative;
+  transition: background-color var(--duration-100) var(--easing-base);
+  vertical-align: baseline;
+  width: max-content;
+  max-width: var(--tag-max-width);
+  height: var(--tag-height);
+}
+
+.e-tag.has-start-icon {
+  padding-inline-start: calc(var(--tag-padding-x) - var(--size-half));
+}
+
+.e-tag.is-lg {
+  --tag-height: var(--size-5);
+}
+
+:where(a, button).tag {
+  &:focus-visible {
+    @include state-focus;
+  }
+
+  @media (any-hover: hover) and (pointer: fine) {
+    &:hover {
+      filter: var(--filter-brightness-up);
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+}
+

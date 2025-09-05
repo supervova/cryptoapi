@@ -3,8 +3,10 @@
   // SEMANTIC BRAND
   // use it with --color-bg-* solid colors
   // radial-gradient(circle 75% at 0% 100%, var(--color-bg-brand))
-  --color-bg-brand: hsl(var(--h) var(--s) 92% / 0.1),
-    hsl(var(--h) var(--s) 92% / 0.05) 33.33%, hsl(var(--h) var(--s) 92% / 0);
+  --color-bg-brand:
+    hsl(var(--h) var(--s) 92% / 0.1),
+    hsl(var(--h) var(--s) 92% / 0.05) 33.33%,
+    hsl(var(--h) var(--s) 92% / 0);
   --color-bg-bold-brand: hsl(var(--h) var(--s) 39%);
   --color-ink-text-brand: hsl(var(--h) var(--s) 78%);
   --color-ink-2ry-brand: hsl(var(--h) var(--s) 69%);

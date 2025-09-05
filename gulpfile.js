@@ -135,6 +135,7 @@ const paths = {
       markets: `${srcBase}/assets/js/markets.js`,
       pricing: `${srcBase}/assets/js/pricing.js`,
       search: `${srcBase}/assets/js/search.js`,
+      'ui/current-plan': `${srcBase}/assets/js/ui/current-plan.js`,
       'ui/toast': `${srcBase}/assets/js/ui/toast.js`,
       'widgets/btc': `${srcBase}/assets/js/widgets/btc.js`,
       'widgets/fgi': `${srcBase}/assets/js/widgets/fgi.js`,

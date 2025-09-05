@@ -1,11 +1,11 @@
 {% set data_plans = [
   {
+    "level": 0,
     "title": "Free",
     "icon": "gift",
     "price": 0,
     "subtitle": "Try it out to assess the accuracy of our AI algorithms",
     "link": "/" ~ page.lang ~ "/pricing/free/annual",
-    "anchor": "Sign Up",
     "features": [
       "Access to signals on the website",
       "Signal delay – 15 seconds",
@@ -15,6 +15,7 @@
     ]
   },
   {
+    "level": 1,
     "title": "Trader",
     "icon": "user",
     "price": 33,
@@ -30,6 +31,7 @@
     ]
   },
   {
+    "level": 2,
     "title": "Expert",
     "icon": "star",
     "price": 60,
@@ -44,6 +46,7 @@
     "isFeatured": true
   },
   {
+    "level": 3,
     "title": "Premium",
     "icon": "crown",
     "price": 150,
@@ -61,8 +64,53 @@
 <section class="e-section is-plans">
   <div class="e-container">
     <header class="e-section__header is-centered">
-      <h1 class="e-section__title is-highlight mb-0">{{ 'Choose Your Plan'|trans }}</h1>
-      <p>{{ 'Two CryptoAI products — AI Consultant and API Integrations — are available by subscription. However, you can start using them completely free.'|trans }}</p>
+      <h1 class="e-section__title is-highlight mb-0">
+        {% if user.id > 0 %}
+          {{ 'Pricing'|trans }}
+        {% else %}
+          {{ 'Choose Your Plan'|trans }}
+        {% endif %}
+      </h1>
+      {% if user.id == 0 %}
+        <p>{{ 'Two CryptoAI products — AI Consultant and API Integrations — are available by subscription. However, you can start using them completely free.'|trans }}</p>
+      {% else %}
+        <details class="e-current-plan">
+          <summary class="e-current-plan__summary" data-plan-summary>
+            <span class="e-plan__icon">
+              {% include 'partials/icon.twig' with {name: curr_plan.icon, assets_prefix: site.assets_prefix} %}
+            </span>
+
+            <span class="e-current-plan__title">
+              <b>{{ 'Your plan:'|trans }} {{ curr_plan.title|trans }}</b>
+              <small>{{ 'Valid until:'|trans }} {{ curr_plan.expires|date('d/m/Y') }}</small>
+            </span>
+
+            <button
+              class="e-btn e-btn is-outline e-current-plan__toggle"
+              type="button"
+              aria-controls="plan-body"
+              aria-expanded="false"
+              data-plan-toggle
+            >
+              <span class="e-btn__label" data-open="{{ 'Benefits'|trans }}" data-close="{{ 'Close'|trans }}"></span>
+            </button>
+          </summary>
+
+          <div class="e-current-plan__body" id="plan-body">
+            <ul class="e-current-plan__list">
+              <li><span>{{ 'Signal delay'|trans }}:</span> {{ curr_plan.signal_delay|trans }}</li>
+              <li><span>{{ 'Integration with the exchange'|trans }}:</span> {{ curr_plan.binance_api|trans }}</li>
+              <li><span>{{ 'Trading fee'|trans }}:</span> {{ curr_plan.fee }}</li>
+              <li><span>{{ 'API Limitations'|trans }}:</span> {{ curr_plan.requests }} {{ 'requests per day'|trans }}</li>
+              <li><span>{{ 'Trading strategy'|trans }}:</span> {{ curr_plan.strategy|trans }}</li>
+              <li><span>{{ 'Support type'|trans }}:</span> {{ curr_plan.support|trans }}</li>
+            </ul>
+          </div>
+        </details>
+
+        <h2 class="text-2ry">{{ 'All options'|trans }}</h2>
+      {% endif %}
+
       <div class="e-section__controls d-none tablet:d-flex">
         <button class="btn has-tooltip" data-role="plans-scroller" data-target="start" aria-label="{{ 'To Start'|trans }}" disabled>
           {% include 'partials/icon.twig' with {name: 'sm-chevron-left'} %}
@@ -89,7 +137,7 @@
   <div class="e-section__scroller">
     <div class="e-plans">
       {% for plan in data_plans %}
-        {% include 'partials/plan.twig' with {'plan': plan, 'site': site} only %}
+        {% include 'partials/plan.twig' with {'plan': plan, 'site': site, 'curr_plan': curr_plan, 'user': user} only %}
       {% endfor %}
     </div>
   </div>
@@ -109,3 +157,8 @@
     </div>
   </div>
 </section>
+
+<script type="module">
+  import initPlan from '{{ site.assets_prefix }}/assets/js/ui/current-plan.js';
+  initPlan();
+</script>

@@ -35,5 +35,8 @@ $data_objects['page']['market_tops'] = [
   'gainer_diff' => $market['leader']['growth']['diff']   ?? null,
 ];
 
+require_once __DIR__ . '/helpers/tariff.php';
+$data_objects['curr_plan'] = build_curr_plan($db, $user_id, $thisprojectid, $user_lng);
+
 // Получение и отображение шаблона
 $final_html = get_template("index.twig");

@@ -10,6 +10,21 @@
         lang: 'en'
       }
     ) %}
+
+    {# Dev fixtures for local testing #}
+    {% set user = user|merge({ id: 1 }) %}
+    {% set curr_plan = {
+      level: 1,
+      title: 'TRADER',
+      icon: 'user',
+      expires: '2026-09-04',
+      signal_delay: 'without delays',
+      fee: '20%',
+      requests: 10000,
+      strategy: 'balanced strategy',
+      support: 'standard support',
+      binance_api: 'integration available'
+    } %}
   {% endif %}
 {% endblock %}
 

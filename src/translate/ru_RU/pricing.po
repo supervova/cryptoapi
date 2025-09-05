@@ -18,3 +18,90 @@ msgstr "/ мес."
 msgid "/ yr."
 msgstr "/ г."
 
+# ------------------------------------------------------------------------------
+# Current plan
+# ------------------------------------------------------------------------------
+
+msgid "Your plan:"
+msgstr "Ваш тариф –"
+
+msgid "Current plan"
+msgstr "Текущий тариф"
+
+msgid "FREE"
+msgstr "БЕСПЛАТНЫЙ"
+
+msgid "Valid until:"
+msgstr "Действует до"
+
+msgid "Benefits"
+msgstr "Преимущества"
+
+msgid "Signal delay"
+msgstr "Задержка сигнала"
+
+msgid "Trading fee"
+msgstr "Комиссия за торговлю"
+
+msgid "Integration with the exchange"
+msgstr "Интеграция с биржей"
+
+msgid "API Limitations"
+msgstr "Ограничения API"
+
+msgid "Trading strategy"
+msgstr "Торговая стратегия"
+
+msgid "Support type"
+msgstr "Поддержка"
+
+msgid "integration available"
+msgstr "интеграция доступна"
+
+msgid "integration"
+msgstr "интеграция"
+
+msgid "integration"
+msgstr "интеграция"
+
+msgid "standard support"
+msgstr "стандартная поддержка"
+
+msgid "PLAN"
+msgstr "ТАРИФ"
+
+msgid "requests per day"
+msgstr "запросов в день"
+
+msgid "unavailable"
+msgstr "недоступно"
+
+msgid "without delays"
+msgstr "без задержек"
+
+msgid "15 seconds"
+msgstr "15 секунд"
+
+msgid "TRADER"
+msgstr "ТРЕЙДЕР"
+
+msgid "balanced strategy"
+msgstr "сбалансированная стратегия"
+
+msgid "EXPERT"
+msgstr "ЭКСПЕРТ"
+
+msgid "any strategy"
+msgstr "любая стратегия"
+
+msgid "PREMIUM"
+msgstr "ПРЕМИАЛЬНЫЙ"
+
+msgid "unlimited"
+msgstr "без ограничений"
+
+msgid "VIP support"
+msgstr "VIP"
+
+msgid "All options"
+msgstr "Все планы"

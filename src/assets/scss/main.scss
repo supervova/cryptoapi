@@ -86,9 +86,9 @@
   @include meta.load-css('content/code');
   @include meta.load-css('content/main');
   @include meta.load-css('pricing');
+  @include meta.load-css('tag');
   // @include meta.load-css('badge');
   // @include meta.load-css('content/callout');
-  // @include meta.load-css('content/tag');
 
   // Markets
   @include meta.load-css('markets/asset');

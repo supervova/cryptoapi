@@ -16,8 +16,7 @@ const themeBtns = $('[data-theme]', true);
 const tabBtns = $('[role="tab"]', true);
 const widgetConfigs = $('[data-widget-config]', true);
 const titleTpl =
-  document.getElementById('iframe-title')?.textContent ||
-  'Crypto %s widget';
+  document.getElementById('iframe-title')?.textContent || 'Crypto %s widget';
 
 // конфиг из APP_CONFIG или дефолты
 const ORIGIN = window.location.origin;

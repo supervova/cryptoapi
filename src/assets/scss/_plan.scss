@@ -34,21 +34,23 @@
   display: flex;
   flex-direction: column;
   padding: var(--size-2p5);
+  position: relative;
 }
 
-.e-plan_title {
+.e-plan__title {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.e-plan_icon {
+.e-plan__icon {
   --icon-stroke: var(--color-alpha-light-max);
 
   background: var(--color-brand-primary);
   border-radius: var(--border-radius-pill);
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   justify-content: center;
   width: var(--size-6);
   height: var(--size-6);
