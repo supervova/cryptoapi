@@ -266,18 +266,13 @@ function cryptosignals() {
 		}
 	});
 }
-
-const btnSetting = document.getElementById('btn-settings');
-
 function showsettings(drct)
 {
 	if (drct == 1)
 	{
 		activesignals = 0;
 		$('#signals').hide();
-		// $('#sbtn').hide();
-    $('#main-header-eyebrow, #main-header-subtitle').attr('data-visible', 'true');
-    $('#main-header-settings').prop('disabled', false);
+		$('#sbtn').hide();
 		$('#stngs').show();
 	}
 	else
@@ -285,9 +280,7 @@ function showsettings(drct)
 		activesignals = 1;
 		$('#stngs').hide();
 		$('#signals').show();
-		// $('#sbtn').show();
-    $('#main-header-eyebrow, #main-header-subtitle').attr('data-visible', 'false');
-    $('#main-header-settings').prop('disabled', true);
+		$('#sbtn').show();
 		document.body.scrollTop = document.documentElement.scrollTop = 0;
 		afterscroll = setTimeout(function(){
 			adjustSignalsHeight();
@@ -469,60 +462,43 @@ $(document).ready(function() {
 	});
 });
 </script>
-
-<header class="e-main__header">
-  <button class="e-eyebrow" id="main-header-eyebrow" type="button" onclick="showsettings(0)" data-visible="false">
-    {% include 'partials/icon.twig' with {name: 'sm-chevron-left'} %}
-    {{ 'Back'|trans }}
-  </button>
-  <h1>
-    <span class="e-main__title">{{ 'Signals'|trans }}</span><span class="e-main__subtitle" id="main-header-subtitle" data-visible="false" aria-hidden="true">: {{ 'Settings'|trans }}</span>
-  </h1>
-  <button class="e-btn has-start-icon" id="main-header-settings" type="button" onclick="showsettings(1)">
-    {% include 'partials/icon.twig' with {name: 'settings'} %}
-    {{ 'Settings'|trans }}
-  </button>
-</header>
-
-<div id="apidoc">
-  <div id="stngs" class="stngs">
-    <h2 class="visually-hidden">Signals settings:</h2>
-
-    <form id="fsettings">
-      <h3 class="h4">Bitcoin (BTC):</h3>
-      <label><input type="checkbox" name="palertbtc"> Price alert signals for BTC</label>
-      <label><input type="checkbox" name="abnormalbtc"> Signals of abnormal changes for BTC</label>
-      <label><input type="checkbox" name="buysellbtc"> Buy and Sell Recommendations for BTC</label>
-
-      <h3 class="h4">Other assets:</h3>
-      <label><input type="checkbox" name="palert"> Price alert signals</label>
-      <label><input type="checkbox" name="abnormal"> Signals of abnormal changes</label>
-      <label><input type="checkbox" name="buysell"> Buy and Sell Recommendations</label>
-
-      <h3 class="h4">Collection of assets:</h3>
-      <label><input type="radio" name="fassets" value="0"> All assets</label>
-      <label><input type="radio" name="fassets" value="1"> All except:</label>
-      <div class="select2" id="exclude-block">
-        <select name="exclude-assets[]" id="exclude-assets" multiple="multiple" style="width: 100%"></select>
-      </div>
-      <label><input type="radio" name="fassets" value="2"> List only:</label>
-      <div class="select2" id="include-block">
-        <select name="include-assets[]" id="include-assets" multiple="multiple" style="width: 100%"></select>
-      </div>
-
-      <h3 class="h4">General signals:</h4>
-      <label><input type="checkbox" name="general"> Dangerous Selling Pressure</label>
-
-      <h3 class="h4">Integration:</h4>
-      <input type="url" name="webhookurl" placeholder="https://example.com/webhook" style="width:100%">
-      <small style="display:block; color:#aaa; margin-top:5px;">
-        All signals will be posted as JSON to the webhook URL you specify — perfect for automated integrations.
-      </small>
-    </form>
-  </div>
-  <div id="signals" class="signals">
-  <span class="blink loading">Loading...</span>
-  </div>
+<!-- <h1 style="margin-top:-75px;margin-bottom:0;">Signals</h1> //-->
+<div id="apidoc" style="text-align:left;padding:5px;border-radius:5px;margin-top:-75px;">
+<div id="stngs" class="stngs">
+<h2>Signals settings:</h2>
+<h4>Bitcoin (BTC):</h4>
+<form id="fsettings">
+<label><input type="checkbox" name="palertbtc"> Price alert signals for BTC</label>
+<label><input type="checkbox" name="abnormalbtc"> Signals of abnormal changes for BTC</label>
+<label><input type="checkbox" name="buysellbtc"> Buy and Sell Recommendations for BTC</label>
+<h4>Other assets:</h4>
+<label><input type="checkbox" name="palert"> Price alert signals</label>
+<label><input type="checkbox" name="abnormal"> Signals of abnormal changes</label>
+<label><input type="checkbox" name="buysell"> Buy and Sell Recommendations</label>
+<h4>Collection of assets:</h4>
+<label><input type="radio" name="fassets" value="0"> All assets</label>
+<label><input type="radio" name="fassets" value="1"> All except:</label>
+<div class="select2" id="exclude-block">
+  <select name="exclude-assets[]" id="exclude-assets" multiple="multiple" style="width: 100%"></select>
+</div>
+<label><input type="radio" name="fassets" value="2"> List only:</label>
+<div class="select2" id="include-block">
+  <select name="include-assets[]" id="include-assets" multiple="multiple" style="width: 100%"></select>
+</div>
+<h4>General signals:</h4>
+<label><input type="checkbox" name="general"> Dangerous Selling Pressure</label>
+<h4>Integration:</h4>
+<input type="url" name="webhookurl" placeholder="https://example.com/webhook" style="width:100%">
+<small style="display:block; color:#aaa; margin-top:5px;">
+  All signals will be posted as JSON to the webhook URL you specify — perfect for automated integrations.
+</small>
+</form>
+<button class="btn btn-cancel" onclick="showsettings(0)">Go to signals</button>
+</div>
+<div id="signals" class="signals">
+<span class="blink loading">Loading...</span>
+</div>
+<a id="sbtn" href="javascript:void(0)" onclick="showsettings(1)">Settings</a>
 </div>
 
 <div class="trnsltphrss">
