@@ -141,7 +141,7 @@ const paths = {
       'widgets/fgi': `${srcBase}/assets/js/widgets/fgi.js`,
       'widgets/iframe': `${srcBase}/assets/js/widgets/iframe.js`,
       'widgets/signals': `${srcBase}/assets/js/widgets/signals.js`,
-      'widgets/trandx': `${srcBase}/assets/js/widgets/trandx.js`,
+      'widgets/trindx': `${srcBase}/assets/js/widgets/trindx.js`,
     },
     watch: `${srcBase}/assets/js/**/*.js`,
     dest: `${destAssets}/js/`,

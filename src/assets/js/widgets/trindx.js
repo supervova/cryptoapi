@@ -1,10 +1,10 @@
-// src/assets/js/widgets/trandx.js
+// src/assets/js/widgets/trindx.js
 
 /**
- * TRANDX Widget Script
+ * TRINDX Widget Script
  *
  * This script fetches cryptocurrency data from the API, processes it,
- * and renders it into a table within the TRANDX widget. It is designed
+ * and renders it into a table within the TRINDX widget. It is designed
  * to be self-contained and embedded in an iframe.
  */
 
@@ -127,7 +127,7 @@ const createTableRow = (asset) => {
 const renderTable = (assets) => {
   const tableBody = document.querySelector('.e-assets tbody');
   if (!tableBody) {
-    if (IS_DEVELOPMENT) console.error('[trandx] Table body not found.');
+    if (IS_DEVELOPMENT) console.error('[trindx] Table body not found.');
     return;
   }
   if (assets.length === 0) {
@@ -309,9 +309,7 @@ const refreshData = async () => {
 const init = async () => {
   const table = document.querySelector('.e-assets');
   if (!table) {
-    console.error(
-      '[trandx] Essential table element not found, aborting init.'
-    );
+    console.error('[trindx] Essential table element not found, aborting init.');
     return;
   }
 
@@ -344,3 +342,4 @@ const init = async () => {
 };
 
 document.addEventListener('DOMContentLoaded', init);
+

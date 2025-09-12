@@ -76,8 +76,8 @@ msgstr "Кроме того"
 msgid "Asset ratings"
 msgstr "Рейтинги активов"
 
-msgid "TRANDX™ – The Trading-Attractiveness Index."
-msgstr "Индексы торговой привлекательности TRANDX™."
+msgid "TRINDX™ – The Trading Risk Index."
+msgstr "Индекс торговых рисков TRINDX™."
 
 # 05 Feature
 msgid "Charts and indicators"

@@ -14,7 +14,7 @@ if (!empty($thispath[2])) {
         'signals' => 'signals.class.php',
         'fgi'     => 'fgi.class.php',
         'btc'     => 'btc.class.php',
-        'trandx'  => 'trandx.class.php',
+        'trindx'  => 'trindx.class.php',
     ];
 
     if (isset($widgets[$thispath[2]])) {
@@ -32,7 +32,7 @@ if (!empty($thispath[2])) {
     $data_objects['page'] = array_merge($data_objects['page'] ?? [], $page_meta);
 
     // --- widget params ---
-    $allowedTabs  = ['signals','fgi','btc-chart', 'trandx'];
+    $allowedTabs  = ['signals','fgi','btc-chart', 'trindx'];
     $allowedTheme = ['light','dark'];
 
     $raw_theme = $_GET['theme'] ?? 'dark';

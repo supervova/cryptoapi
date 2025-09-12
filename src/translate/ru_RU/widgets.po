@@ -35,8 +35,8 @@ msgstr "Бегущая строка"
 msgid "BTC Forecast"
 msgstr "Прогноз BTC"
 
-msgid "TRANDX"
-msgstr "TRANDX"
+msgid "TRINDX"
+msgstr "TRINDX"
 
 msgid "Widget settings"
 msgstr "Настройки виджета"
@@ -74,5 +74,5 @@ msgstr "Скопировать код"
 msgid "Loading signals…"
 msgstr "Получаем сигналы…"
 
-msgid "TRANDX™ Leaders — The Trading-Attractiveness Index"
-msgstr "Лидеры TRANDX™ – индекса торговой привлекательности"
+msgid "Lowest-Risk by the TRINDX™ Trading Risk Index"
+msgstr "Самые надежные по TRINDX™ – индексу торговых рисков"

@@ -284,8 +284,8 @@ msgstr "цене"
 msgid "by change"
 msgstr "изменению"
 
-msgid "by TRANDX"
-msgstr "по TRANDX"
+msgid "by TRINDX"
+msgstr "по TRINDX"
 
 msgid "by RSI"
 msgstr "по индексу RSI"
