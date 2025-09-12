@@ -86,8 +86,8 @@ $assets_version = file_exists($version_file) ? filemtime($version_file) : time()
 $data_objects['site'] = [
   'assets_prefix' => '/projects/cryptoapi.ai',
   'assets_version' => $assets_version,
-  'desc' => $blog_description ?? 'Unlock the power of advanced APIs designed for crypto traders and analysts. ' . 
-    'Access real-time market insights, trading signals, custom indices, and automated tools to boost your trading ' . 
+  'desc' => $blog_description ?? 'Unlock the power of advanced APIs designed for crypto traders and analysts. ' .
+    'Access real-time market insights, trading signals, custom indices, and automated tools to boost your trading ' .
     'performance.',
   'domain' => $thisdomain ?? 'cryptoapi.ai',
   // 'fgi' => $fgi ?? 44,
@@ -142,6 +142,7 @@ $data_objects['user'] = [
   'avatar' => $userdata['avatarbox'] ?? '',
   'id' => $user_id,
   'name' => $username ?? '',
+  'balance' => $user_balancefnall ?? '',
 ];
 
 // Для обратной совместимости (если старые шаблоны ещё используют ExtraData)

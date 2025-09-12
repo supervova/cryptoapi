@@ -50,8 +50,6 @@
   }, #}
 
 {% set data_menu_user = {
-
-
   "markets": {
     "label": "Markets",
     "href":  "markets",
@@ -71,11 +69,16 @@
     "label": "More",
     "icon": "more",
     "children": {
-        "trading": {
-          "label": "Trading",
-          "href": "trading",
-          "icon": "candles"
-        },
+      "trading": {
+        "label": "Trading",
+        "href": "trading",
+        "icon": "candles"
+      },
+      "api": {
+        "label": "API",
+        "href": "cryptoapi",
+        "icon": "plug"
+      },
       "pricing": {
         "label": "Pricing",
         "href": "pricing",
@@ -187,6 +190,14 @@
           {% endif %}
         </summary>
         <ul class="e-popover__body e-menu">
+          <li class="e-menu__item is-balance">
+            <a href="/{{ page.lang }}/finance">
+              {% include 'partials/icon.twig' with {name: 'money'} %}
+              {{ 'Current balance'|trans }}:
+              <span class="text-warning nobr">{{ user.balance }}</span>
+            </a>
+          </li>
+          <li role="separator"></li>
           {% for item in data_user_menu %}
             <li class="e-menu__item">
               <a href="/{{ page.lang }}/{{ item.href }}">

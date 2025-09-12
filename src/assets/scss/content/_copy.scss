@@ -130,6 +130,13 @@ dd {
 }
 
 // Dividers
+/* li */[role='separator'] {
+  border-top: var(--border-width) dashed var(--color-ink-border);
+  margin-top: calc(var(--size-half) - var(--border-width));
+  margin-bottom: var(--size-half);
+  height: 0;
+}
+
 hr {
   --margin: calc(var(--size-line) * 3);
   border: 0;

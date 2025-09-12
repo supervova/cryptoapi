@@ -230,6 +230,12 @@ $current-pages: dashboard, home, markets, news, trading;
   }
 }
 
+// Hide API item on Tablet Landscape
+@media (--tablet-l-only) {
+  .e-page.is-site .e-menu__item.is-api {
+    display: none;
+  }
+}
 // #endregion
 
 // -----------------------------------------------------------------------------
@@ -376,6 +382,21 @@ $current-pages: dashboard, home, markets, news, trading;
       bottom: calc(100% + var(--size-1));
       left: 0;
     }
+  }
+}
+
+// Current balance
+.e-menu__item.is-balance {
+  > a {
+    display: block;
+    padding-inline-start: var(--size-6);
+    position: relative;
+  }
+
+  .e-icon {
+    position: absolute;
+    top: var(--size-1);
+    left: var(--size-2);
   }
 }
 // #endregion
