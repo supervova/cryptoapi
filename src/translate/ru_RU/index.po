@@ -351,6 +351,9 @@ msgstr "Kfdjxrby & Co"
 msgid "Frequently Asked Questions"
 msgstr "Часто задаваемые вопросы"
 
+msgid "FAQ"
+msgstr "Вопрос–ответ"
+
 msgid "How does artificial intelligence work for market trend forecasting?"
 msgstr "Как работает искусственный интеллект для прогнозирования рыночных трендов?"
 

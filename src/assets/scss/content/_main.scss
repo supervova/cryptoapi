@@ -43,3 +43,13 @@
     justify-content: space-between;
   }
 }
+
+.e-main__title {
+  text-align: center;
+  margin-block: var(--size-6);
+}
+
+.e-main__body {
+  margin-inline: auto;
+  max-width: rem(576);
+}

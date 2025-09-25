@@ -65,6 +65,7 @@ const paths = {
       pages: [
         `${srcBase}/assets/scss/pages/*.scss`,
         `!${srcBase}/assets/scss/pages/signals.scss`,
+        `!${srcBase}/assets/scss/pages/misc.scss`,
       ],
       legacy: `${srcBase}/assets/scss/legacy/index.scss`,
       widgets: [
