@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Favicon_Original" data-name="Favicon Original" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 1000">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        fill: url(#linear-gradient-2);
+      }
+
+      .cls-3 {
+        fill: url(#linear-gradient-3);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="329.11" y1="-83.46" x2="533.56" y2="267.4" gradientTransform="translate(0 501.97) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#a02b23"/>
+      <stop offset=".35" stop-color="#c0662f"/>
+      <stop offset="1" stop-color="#f4c844"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="654.49" y1="-111.62" x2="249.1" y2="-111.39" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-3" x1="521.35" y1="181.2" x2="721.62" y2="-165.93" xlink:href="#linear-gradient"/>
+  </defs>
+  <path class="cls-1" d="M246.49,497.32v.03c13.44,53.1,56.93,94.29,116.06,105.9-13.98-14.62-18.54-37.66-7.02-57.61,0,0,107.39-184.77,111.61-189.8.07-.09.14-.18.21-.27,27.44-38.29,79.23-64.68,138.16-64.68,11.14,0,22.01.92,32.49,2.67l-3.66-4.3c-79.26-87.68-227.1-77.15-289.89,31.6l-83.57,144.74c-7.12,12.33-14.37,31.62-14.41,31.72Z"/>
+  <path class="cls-2" d="M665.08,618.62c0-19.06-3.71-37.43-10.56-54.66-4.31,23.43-22.86,42.84-47.6,42.84h-207.28l-6.2-.27h-.05c-74.63-1.46-131.24-47.19-146.92-109.16v-.02h0c-39.84,112.65,51.55,232.12,167.79,232.12h176.86c10.21,0,28.11-2.5,28.73-2.57,0,0,0,0,0,0,28.39-30.09,45.24-67.59,45.24-108.27h0Z"/>
+  <path class="cls-3" d="M740.83,465.77l-83.67-144.92c-5.7-9.87-19.14-27.25-19.16-27.28-10.49-1.75-21.36-2.67-32.49-2.67-58.93,0-110.72,26.39-138.16,64.68-.02.02-.03.05-.05.07,21.72-20.33,59.01-17.19,75.09,10.66l103.69,179.6c.23.4,5.23,10.53,5.23,10.53l1.65,3.73c7.86,18.32,12.13,37.98,12.13,58.45,0,40.67-16.85,78.18-45.25,108.27,0,0,0,0,0,0,116.58-20.46,183.29-153.21,120.99-261.13Z"/>
+</svg>

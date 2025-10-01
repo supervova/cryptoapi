@@ -15,8 +15,8 @@
   --color-bg-brand-accent: hsl(var(--h-green) var(--s) 32% / 0.24),
     hsl(var(--h-green) var(--s) 32% / 0.12) 33.33%,
     hsl(var(--h-green) var(--s) 32% / 0);
-  --color-ink-text-brand-accent: hsl(var(--h) var(--s) 38%);
-  --color-ink-2ry-brand-accent: hsl(var(--h) var(--s) 31%);
+  --color-ink-text-brand-accent: hsl(var(--h-green) var(--s) 38%);
+  --color-ink-2ry-brand-accent: hsl(var(--h-green) var(--s) 31%);
 
   --color-gradient-brand: radial-gradient(
       circle farthest-corner at 0% 100%,

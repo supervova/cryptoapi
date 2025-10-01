@@ -2,6 +2,7 @@
 
 import { fetchData, fetchChartData } from '../markets/api.js';
 import { state, setCryptoMeta } from '../markets/state.js';
+import { getPair } from '../utils/currency.js';
 
 const { Chart } = window;
 
@@ -83,7 +84,7 @@ const createTableRow = (asset, cryptoMeta) => {
   return `
     <tr class="e-assets__tr" data-asset-id="${asset.symbol}">
       <th scope="row">
-        <div class="e-assets__symbol">${asset.symbol}-USD</div>
+        <div class="e-assets__symbol">${getPair(asset.symbol, cryptoMeta)}</div>
         <div class="e-assets__name">${meta.name ?? asset.symbol}</div>
       </th>
       <td class="e-assets__price">${formatPrice(asset.price?.current)}</td>
@@ -257,7 +258,7 @@ const updateAssetDetails = () => {
     item.textContent = meta.name ?? asset.symbol;
   });
 
-  symbolElem.textContent = `${asset.symbol}-USD`;
+  symbolElem.textContent = getPair(asset.symbol, cryptoMeta);
   figureElem.dataset.fallback = asset.symbol.slice(0, 3);
 
   const iconFile = meta.icon || 'placeholder.svg';

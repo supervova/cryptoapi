@@ -1,3 +1,24 @@
+{#
+{% set data_menu_guest = {
+...
+"more": {
+  ...
+  "children": {
+    "news": {
+      "label": "News",
+      "href": "news",
+      "icon": "news"
+    },
+
+{% set data_menu_user = {
+  "markets": {...},
+  "news": {
+    "label": "News",
+    "href": "news",
+    "icon": "news"
+  },
+#}
+
 {% set data_menu_guest = {
   "home": {
     "label": "Home",
@@ -19,11 +40,6 @@
     "label": "More",
     "icon": "more",
     "children": {
-      "news": {
-        "label": "News",
-        "href": "news",
-        "icon": "news"
-      },
       "pricing": {
         "label": "Pricing",
         "href": "pricing",
@@ -55,25 +71,20 @@
     "href":  "markets",
     "icon":  "chart-line"
   },
-  "news": {
-    "label": "News",
-    "href": "news",
-    "icon": "news"
-  },
   "signals": {
     "label": "Signals",
     "href": "signals",
     "icon": "robot"
   },
+  "trading": {
+    "label": "Trading",
+    "href": "trading",
+    "icon": "candles"
+  },
   "more": {
     "label": "More",
     "icon": "more",
     "children": {
-      "trading": {
-        "label": "Trading",
-        "href": "trading",
-        "icon": "candles"
-      },
       "api": {
         "label": "API",
         "href": "cryptoapi",
@@ -132,6 +143,7 @@
         <span class="is-compact">{{ 'for trading'|trans }}</span>
         <span class="is-full">{{ 'AI Crypto Analytics and Signals'|trans }}</span>
       </span>
+      <span class="e-navbar__beta">beta</span>
     </a>
 
     <ul class="e-navbar__menu">

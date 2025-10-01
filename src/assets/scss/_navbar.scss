@@ -6,7 +6,7 @@
 // #region
 
 // Navbar component variables
-$navbar-height-mobile: var(--size-8);
+$navbar-height-mobile: rem(88);
 $navbar-height-desktop: var(--size-6);
 $navbar-menu-height-mobile: rem(80);
 $navbar-item-gap: var(--size-half);
@@ -154,6 +154,21 @@ $navbar-dot-size: var(--size-1);
     .is-compact {
       display: inline;
     }
+  }
+}
+
+.e-navbar__beta {
+  @include text-format(caption);
+  color: var(--color-ink-2ry-brand-accent);
+  text-align: left;
+  position: absolute;
+  top: rem(-8);
+  left: var(--size-6);
+
+  @media (--tablet) {
+    top: rem(-32);
+    left: 50%;
+    translate: -50% 0;
   }
 }
 
@@ -446,6 +461,12 @@ $current-pages: dashboard, home, markets, news, trading;
       }
     }
 
+    .e-navbar__beta {
+      top: rem(-8);
+      left: rem(68);
+      translate: none;
+    }
+
     .e-navbar__menu {
       background: transparent;
       flex: 1;
@@ -511,4 +532,6 @@ $current-pages: dashboard, home, markets, news, trading;
     }
   }
 }
+
+
 // #endregion

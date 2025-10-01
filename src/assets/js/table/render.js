@@ -10,6 +10,7 @@ import {
 import { formatNullable, formatPrice } from './formatting.js';
 import { getNestedValue } from '../markets/utils.js';
 import { getVisibleColumns, getVisibleColumnsCount } from './columns.js';
+import { getPair, getQuoteCurrency } from '../utils/currency.js';
 
 const calcChange = (p) =>
   p?.current && p?.dayago ? ((p.current - p.dayago) / p.dayago) * 100 : null;
@@ -24,14 +25,14 @@ const spacer = (h, cols) => {
   return tr;
 };
 
-const assetCell = (asset) => {
+const assetCell = (asset, cryptoMeta) => {
   const { symbol, name = symbol, icon: iconPath } = asset;
   const fallbackText = symbol.slice(0, 3).toUpperCase();
 
   const copyHtml = `
     <div class="e-asset__copy">
       <span class="e-asset__name">${name}</span>
-      <span class="e-asset__symbol">${symbol}</span>
+      <span class="e-asset__symbol">${getPair(symbol, cryptoMeta)}</span>
     </div>`;
 
   const iconHtml = `
@@ -47,12 +48,12 @@ const assetCell = (asset) => {
     </div>`;
 };
 
-const buildCell = (col, asset) => {
+const buildCell = (col, asset, cryptoMeta) => {
   switch (col.key) {
     case 'watchlist':
       return ['table__cell is-action', `<!-- watch ${asset.symbol} -->`];
     case 'asset': {
-      return ['table__cell is-text is-2-liner', assetCell(asset)];
+      return ['table__cell is-text is-2-liner', assetCell(asset, cryptoMeta)];
     }
     case 'risk':
       return [
@@ -83,17 +84,17 @@ const buildCell = (col, asset) => {
   }
 };
 
-function generateCellsHtml(asset) {
+function generateCellsHtml(asset, cryptoMeta) {
   return getVisibleColumns()
     .map((c) => {
-      const [cls, html] = buildCell(c, asset);
+      const [cls, html] = buildCell(c, asset, cryptoMeta);
       return `<td class="${cls}">${html}</td>`;
     })
     .join('');
 }
 
-function updateCellNode(td, asset, col) {
-  const [, newHtml] = buildCell(col, asset);
+function updateCellNode(td, asset, col, cryptoMeta) {
+  const [, newHtml] = buildCell(col, asset, cryptoMeta);
   const cell = td;
   const isChanged = cell.innerHTML !== newHtml;
 
@@ -116,6 +117,7 @@ export function patchTableBody() {
   if (!DOMElements.tableBody || !DOMElements.scrollContainer) return;
 
   const items = marketState.state.sortedFilteredAssets ?? [];
+  const { cryptoMeta } = marketState.state;
   const total = items.length;
   const colCnt = getVisibleColumnsCount();
   const cols = getVisibleColumns();
@@ -160,14 +162,15 @@ export function patchTableBody() {
       tr.classList.add('is-clickable');
       tr.setAttribute('role', 'link');
       tr.tabIndex = 0;
+      const quote = getQuoteCurrency(a.symbol, cryptoMeta);
       tr.setAttribute(
         'aria-label',
-        `${a.name ?? a.symbol} - ${formatPrice(a.price?.current)} USD`
+        `${a.name ?? a.symbol} - ${formatPrice(a.price?.current)} ${quote}`
       );
-      tr.innerHTML = generateCellsHtml(a);
+      tr.innerHTML = generateCellsHtml(a, cryptoMeta);
     } else {
       Array.from(tr.children).forEach((td, j) =>
-        updateCellNode(td, a, cols[j])
+        updateCellNode(td, a, cols[j], cryptoMeta)
       );
     }
     frag.appendChild(tr);

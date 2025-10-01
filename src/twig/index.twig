@@ -48,8 +48,16 @@
         </h1>
         <p>{{ 'Analytics. Automation. Forecasting. CRYPTOAPI.AI is an innovative platform for traders and investors, providing advanced APIs and intelligent cryptocurrency market analysis.'|trans }}</p>
         <div class="e-buttons">
-          <a class="e-btn is-primary" href="#">{{ 'Try Now'|trans }}</a>
-          <a class="e-btn" href="{{ page.lang }}/docs">{{ 'API Documentation'|trans }}</a>
+
+          {% if user.id > 0 %}
+            {% set primary_link = 'signals' %}
+          {% else %}
+            {% set primary_link = 'auth' %}
+          {% endif %}
+          <a class="e-btn is-primary" href="{{ page.lang }}/{{ primary_link }}">
+            {{ 'Try Now'|trans }}
+          </a>
+          <a class="e-btn" href="{{ page.lang }}/cryptoapi">{{ 'API Documentation'|trans }}</a>
         </div>
       </div>
     </div>
@@ -423,6 +431,7 @@
   {% include 'partials/plans.twig' %}
 
   {# TESTIMONIALS #}
+  {#
   {% set data_testimonials = [
     {
       "avatar": "/assets/img/placeholders/avatars/male-01.jpg",
@@ -473,6 +482,7 @@
       {% endfor %}
     </div>
   </section>
+  #}
 
   {# FAQ #}
   {% set data_faq = [
@@ -490,15 +500,15 @@
     },
     {
       "question": "How often are signals and forecasts updated?",
-      "answer": "Updates occur in real-time or at specific intervals depending on the strategy type: short-term signals — every 5 minutes, mediumand long-term forecasts — daily and weekly."
+      "answer": "The AI sends signals to the system in real time, but users receive the signals either with a slight delay or instantly, depending on the chosen tariff plan."
     },
     {
       "question": "How much does a service subscription cost?",
-      "answer": "Our service subscription costs $29 per month for monthly payments or $299 per year (saving 15% with an annual subscription)."
+      "answer": "The service offers a number of services for free, but commercial plans start at $33 per month, depending on the benefits the user requires."
     },
     {
       "question": "How do I cancel my subscription?",
-      "answer": "ou can cancel your subscription in your account settings. If you encounter any difficulties, contact customer support. The subscription remains active until the end of the paid period."
+      "answer": "You can cancel your subscription in your account settings. If you encounter any difficulties, contact customer support. The subscription remains active until the end of the paid period."
     }
   ] %}
   <div class="e-container">

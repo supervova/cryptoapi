@@ -22,6 +22,24 @@ const state = {
   currentRequestController: null,
 };
 
+// --- Currency Utils ---
+const DEFAULT_QUOTE_CURRENCY = 'USD';
+
+const getQuoteCurrency = (symbol, cryptoMeta) => {
+  if (!symbol || !cryptoMeta) {
+    return DEFAULT_QUOTE_CURRENCY;
+  }
+  return cryptoMeta[symbol.toUpperCase()]?.quote || DEFAULT_QUOTE_CURRENCY;
+};
+
+const getPair = (symbol, cryptoMeta) => {
+  if (!symbol) {
+    return `---${DEFAULT_QUOTE_CURRENCY}`;
+  }
+  const quote = getQuoteCurrency(symbol, cryptoMeta);
+  return `${symbol.toUpperCase()}-${quote}`;
+};
+
 // --- Utility & Formatting Functions ---
 
 /**
@@ -112,7 +130,7 @@ const createTableRow = (asset) => {
   return `
     <tr class="e-assets__tr" data-asset-id="${asset.symbol}">
       <th scope="row">
-        <div class="e-assets__symbol">${asset.symbol}-USD</div>
+        <div class="e-assets__symbol">${getPair(asset.symbol, state.cryptoMeta)}</div>
         <div class="e-assets__name">${meta.name ?? asset.symbol}</div>
       </th>
       <td class="e-assets__price">${formatPrice(asset.price?.current)}</td>
