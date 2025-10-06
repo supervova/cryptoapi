@@ -1,0 +1,416 @@
+{# trading.twig - Шаблон страницы торговых настроек #}
+{% extends "partials/base.twig" %}
+
+{% block config %}
+  {{ parent() }}
+
+  {% if ENV == 'development' %}
+    {% set page = page|merge(
+      {
+        app: true,
+        classes: 'is-trading',
+        styles: 'trading.css',
+        lang: 'en'
+      }
+    ) %}
+
+    {% set user = user|merge(
+      {
+        id: 1,
+        allowed_assets: ['BTC']
+      }
+    ) %}
+  {% endif %}
+{% endblock %}
+
+{% block assets %}
+  {{ parent() }}
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+    crossorigin="anonymous"
+    onerror="(function(){
+      var s=document.createElement('script');
+      s.src='/js/jquery-3.7.1.min.js';  // локальный fallback
+      s.defer=true; document.head.appendChild(s);
+    })()"
+  ></script>
+{% endblock %}
+
+{% block content %}
+
+  <div class="e-container is-history">
+
+    <header class="e-main__header">
+      <h1>
+        {{ 'Trading'|trans }}.
+        <span class="text-2ry">{{ 'Transaction history'|trans }}</span>
+      </h1>
+
+      {% set trading_tabs = [
+        {label: 'My Assets', link: 'trading', key: 'assets'},
+        {label: 'History', link: 'trading?history', key: 'history'},
+        {label: 'Settings', link: 'trading?settings', key: 'settings'}
+      ] %}
+
+      {% include 'partials/tabs-links.twig' with {
+        tabs: trading_tabs,
+        active: 'history',
+        lang: page.lang
+      } %}
+
+    </header>
+
+    <div class="e-date-picker">
+      <p class="e-form__text-field">
+        <input id="dateFrom" type="date">
+        <label for="dateFrom">{{ 'From'|trans }}</label>
+      </p>
+
+      <p class="e-form__text-field">
+        <input id="dateTo" type="date">
+        <label for="dateTo">{{ 'To'|trans }}</label>
+      </p>
+
+      <div class="e-popover" data-role="popover">
+        <button type="button" data-role="popover-summary">
+          {{ 'Quick select'|trans }}
+        </button>
+        <ul class="e-popover__body e-menu">
+          {% set period_presets = [
+            {"key": "today", "label": "Today"},
+            {"key": "yesterday", "label": "Yesterday"},
+            {"key": "thisweek", "label": "This week"},
+            {"key": "lastweek", "label": "Last week"},
+            {"key": "thismonth", "label": "This month"},
+            {"key": "lastmonth", "label": "Last month"},
+            {"key": "thisyear", "label": "This year"},
+            {"key": "lastyear", "label": "Last year"},
+          ] %}
+          {% for item in period_presets %}
+            <li class="e-menu__item">
+              <button class="e-btn is-ghost quick-period" data-period="{{ item.key }}">{{ item.label|trans }}</button>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+    </div>
+
+    {% if ENV == 'development' %}
+      <div id="historydata">
+        <div class="e-scroller">
+          <table class="table has-2-liners">
+            <thead>
+              <tr>
+                <th rowspan="2">Asset</th>
+                <th class="table__cell is-num" rowspan="2">Qty</th>
+                <th class="table__buy" colspan="3">
+                  <span>Buy</span>
+                </th>
+                <th class="table__sell" colspan="3">
+                  <span>Sell</span>
+                </th>
+                <th class="table__cell is-num" rowspan="2">Profit</th>
+              </tr>
+              <tr>
+                <th class="table__cell is-date has-separator">Date/Time</th>
+                <th class="table__cell is-num">Price</th>
+                <th class="table__cell is-num">Sum</th>
+                <th class="table__cell is-date">Date/Time</th>
+                <th class="table__cell is-num">Price</th>
+                <th class="table__cell is-num">Sum</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>TRU</td>
+                <td class="table__cell is-num">3087</td>
+                <td class="table__cell is-date"><span class="has-tooltip" aria-label="17.07.2025 00:38:04">17.07.2025</span></td>
+                <td class="table__cell is-num">0.0324</td>
+                <td class="table__cell is-num">100.02</td>
+                <td class="table__cell is-date"><span class="has-tooltip" aria-label="17.07.2025 00:38:04">17.07.2025</span></td>
+                <td class="table__cell is-num">0.0333</td>
+                <td class="table__cell is-num">102.80</td>
+                <td class="table__cell is-num">2.78</td>
+              </tr>
+              <tr>
+                <td>SLP</td>
+                <td class="table__cell is-num">66402</td>
+                <td class="table__cell is-date"><span class="has-tooltip" aria-label="17.07.2025 00:38:04">17.07.2025</span></td>
+                <td class="table__cell is-num">0.00150916</td>
+                <td class="table__cell is-num">100.21</td>
+                <td class="table__cell is-date"><span class="has-tooltip" aria-label="17.07.2025 00:38:04">17.07.2025</span></td>
+                <td class="table__cell is-num">0.001581</td>
+                <td class="table__cell is-num">104.98</td>
+                <td class="table__cell is-num">4.77</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <small>Do not refresh the page - the data in the table is updated automatically!</small>
+      </div>
+    {% else %}
+      <div id="historydata">
+        <div class="e-loader is-spinner loadingspin"></div>
+      </div>
+    {% endif %}
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      let gettimer = null;
+      // глобальная переменная таймера
+      // 1) собрать таймзону
+      const USER_TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const USER_TZ_OFFSET = new Date().getTimezoneOffset(); // минуты к UTC, запад == положительное
+      function formatDateTimeLocal(dtStringUtc) {
+        if (! dtStringUtc)
+          return '';
+
+
+        // сервер отдаёт "YYYY-MM-DD HH:MM:SS" в UTC
+        const d = new Date(dtStringUtc.replace(' ', 'T') + 'Z');
+        return d.toLocaleString(); // локальное время пользователя
+      }
+
+      function setPeriod(period) {
+        const today = new Date();
+        let from,
+          to;
+
+        switch (period) {
+          case 'today': from = to = today;
+            break;
+          case 'yesterday': from = to = new Date(today.setDate(today.getDate() - 1));
+            break;
+          case 'thisweek':
+            {
+              const first = new Date();
+              first.setDate(today.getDate() - today.getDay() + 1); // понедельник
+              from = first;
+              to = new Date();
+              break;
+            }
+          case 'lastweek':
+            {
+              const first = new Date();
+              first.setDate(today.getDate() - today.getDay() - 6); // понедельник прошлой недели
+              from = first;
+              const last = new Date(first);
+              last.setDate(first.getDate() + 6);
+              to = last;
+              break;
+            }
+          case 'thismonth':
+            {
+              from = new Date(today.getFullYear(), today.getMonth(), 1);
+              to = new Date();
+              break;
+            }
+          case 'lastmonth':
+            {
+              from = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+              to = new Date(today.getFullYear(), today.getMonth(), 0);
+              break;
+            }
+          case 'thisyear':
+            {
+              from = new Date(today.getFullYear(), 0, 1);
+              to = new Date();
+              break;
+            }
+          case 'lastyear':
+            {
+              from = new Date(today.getFullYear() - 1, 0, 1);
+              to = new Date(today.getFullYear() - 1, 11, 31);
+              break;
+            }
+        }
+
+        // формат YYYY-MM-DD
+        const fmt = d => d.toISOString().split('T')[0];
+        $('#dateFrom').val(fmt(from));
+        $('#dateTo').val(fmt(to));
+
+        clearTimeout(gettimer);
+        gethistorydata();
+      }
+
+      function formatNumberSmart(n) {
+        const num = Number(n);
+        if (isNaN(num))
+          return n;
+
+        // Приводим к числу с max 8 знаками после запятой
+        let fixed = num.toFixed(8);
+
+        // Разделяем целую и дробную части
+        let [intPart, fracPart = ''] = fixed.split('.');
+
+        // Удаляем незначащие нули справа
+        fracPart = fracPart.replace(/0+$/, '');
+
+        // Минимум 2 знака после точки
+        if (fracPart.length < 2) {
+          fracPart = fracPart.padEnd(2, '0');
+        }
+
+        return `${
+          Number(intPart).toLocaleString('en-US')
+        }.${fracPart}`;
+      }
+
+      function formatMoney(n) {
+        const num = Number(n);
+        if (isNaN(num))
+          return n;
+
+        return num.toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+      }
+
+      /**
+       * Форматирует UTC-дату в локальную дату.
+       * @param {string} dtStringUtc - Дата в формате "YYYY-MM-DD HH:MM:SS" (UTC).
+       * @returns {string} Локальная дата.
+       */
+      function formatDateLocal(dtStringUtc) {
+        if (! dtStringUtc)
+          return '';
+
+        const d = new Date(dtStringUtc.replace(' ', 'T') + 'Z');
+        return d.toLocaleDateString(); // только дата
+      }
+
+      /**
+       * Форматирует UTC-дату в локальное время.
+       * @param {string} dtStringUtc - Дата в формате "YYYY-MM-DD HH:MM:SS" (UTC).
+       * @returns {string} Локальное время.
+       */
+      function formatTimeLocal(dtStringUtc) {
+        if (! dtStringUtc)
+          return '';
+
+        const d = new Date(dtStringUtc.replace(' ', 'T') + 'Z');
+        return d.toLocaleTimeString(); // только время
+      }
+
+      function formatDateTimeLocalSplit(dtStringUtc) {
+        if (! dtStringUtc)
+          return '';
+
+        const d = new Date(dtStringUtc.replace(' ', 'T') + 'Z');
+
+        const datePart = d.toLocaleDateString(); // только дата
+        const timePart = d.toLocaleTimeString(); // только время
+        return `${datePart}<br>${timePart}`;
+      }
+
+      function gethistorydata() {
+        let fromDate = $('#dateFrom').val();
+        let toDate = $('#dateTo').val();
+
+        $.ajax({
+          url: './gettradinghistory.php',
+          type: 'POST',
+          async: true,
+          data: {
+            from: fromDate, // локальные YYYY-MM-DD
+            to: toDate, // локальные YYYY-MM-DD
+            tz: USER_TZ,
+            tzOffset: USER_TZ_OFFSET
+          },
+          success: function (response) {
+            relultarr = $.parseJSON(response);
+            if (relultarr[0] == 'unlogged') {
+              location.href = '/{$user_lng}/auth';
+            } else if (relultarr[0] == 'OK') {
+              $('.loadingspin').remove();
+
+              let deals = $.parseJSON(relultarr[1]);
+              let html = `
+                <div class="e-scroller">
+                  <table class="table has-2-liners">
+                    <thead>
+                      <tr>
+                        <th rowspan="2">{{ 'Asset'|trans }}</th>
+                        <th class="table__cell is-num" rowspan="2">{{ 'Qty'|trans }}</th>
+                        <th class="table__buy" colspan="3"><span>{{ 'Buy'|trans({}, 'trading') }}</span></th>
+                        <th class="table__sell" colspan="3"><span>{{ 'Sale'|trans }}</span></th>
+                        <th class="table__cell is-num" rowspan="2">{{ 'Profit'|trans }}</th>
+                      </tr>
+                      <tr>
+                        <th class="table__cell is-date has-separator">{{ 'Date/Time'|trans }}</th>
+                        <th class="table__cell is-num">{{ 'Price'|trans }}</th>
+                        <th class="table__cell is-num">{{ 'Sum'|trans }}</th>
+                        <th class="table__cell is-date">{{ 'Date/Time'|trans }}</th>
+                        <th class="table__cell is-num">{{ 'Price'|trans }}</th>
+                        <th class="table__cell is-num">{{ 'Sum'|trans }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                `;
+
+              for (let deal of deals) {
+                const profit = (deal.price_sale != null) ? deal.qty * deal.price_sale - deal.qty * deal.price_buy : null;
+
+                const sumBuy = deal.qty * deal.price_buy;
+                const sumSale = (deal.price_sale != null) ? deal.qty * deal.price_sale : null;
+
+                html += `
+                  <tr>
+                    <td>${deal.curr}</td>
+                    <td class="table__cell is-num">${deal.qty}</td>
+                    <td class="table__cell is-date"><time class="has-tooltip" aria-label="${formatTimeLocal(deal.purchasetime)}">${formatDateLocal(deal.purchasetime)}</time></td>
+                    <td class="table__cell is-num">${formatNumberSmart(deal.price_buy)}</td>
+                    <td class="table__cell is-num">${formatMoney(sumBuy)}</td>
+                    <td class="table__cell is-date"><time class="has-tooltip" aria-label="${formatTimeLocal(deal.saletime)}">${formatDateLocal(deal.saletime)}</time></td>
+                    <td class="table__cell is-num">${deal.price_sale == null ? '' : formatNumberSmart(deal.price_sale)}</td>
+                    <td class="table__cell is-num">${sumSale == null ? '' : formatMoney(sumSale)}</td>
+                    <td class="table__cell is-num">${profit == null ? '' : formatMoney(profit)}</td>
+                  </tr>
+                `;
+              }
+              html += `
+                    </tbody>
+                  </table>
+                </div>
+                <small>{{ 'Do not refresh the page - the data in the table is updated automatically!'|trans }}</small>
+              `;
+              $('#historydata').html(html);
+            }
+            gettimer = setTimeout(function () {
+              gethistorydata();
+            }, 5000);
+          },
+          error: function (response) {
+            gettimer = setTimeout(function () {
+              gethistorydata();
+            }, 1000);
+          }
+        });
+      }
+
+      // Установка по умолчанию при загрузке: "Этот год"
+      setPeriod('thisyear');
+      gethistorydata();
+
+      // Автоматическая подгрузка при ручном изменении дат
+      $('#dateFrom, #dateTo').on('change', function () {
+        clearTimeout(gettimer);
+        gethistorydata();
+      });
+
+      // Быстрый выбор периода
+      $('.quick-period').on('click', function () {
+        setPeriod($(this).data('period'));
+      });
+    });
+  </script>
+{% endblock %}

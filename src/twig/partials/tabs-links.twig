@@ -1,0 +1,23 @@
+{# Параметры:
+  - tabs: [{label, link, key?}] (обяз.)
+  - active: string (key или link)
+  - lang: string (по умолч. page.lang)
+#}
+{% set _lang = lang|default(page.lang) %}
+<nav>
+  <ul class="e-tabs-nav" role="tablist">
+    {% for tab in tabs %}
+      {% set tabKey = tab.key|default(tab.link) %}
+      {% set isActive = (active is defined and tabKey == active) or tab.is_active|default(false) %}
+      <li class="e-tabs-nav__item{% if isActive %} is-active{% endif %}" role="none">
+        <a
+          href="/{{ _lang }}/{{ tab.link }}"
+          role="tab"
+          aria-selected="{{ isActive ? 'true' : 'false' }}"
+        >
+          {{ tab.label|trans }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>

@@ -7,10 +7,12 @@ import {
   ROW_HEIGHT_ESTIMATE,
   VISIBLE_BUFFER,
 } from '../markets/config.js';
-import { formatNullable, formatPrice } from './formatting.js';
+import { formatNullable } from './formatting.js';
 import { getNestedValue } from '../markets/utils.js';
 import { getVisibleColumns, getVisibleColumnsCount } from './columns.js';
-import { getPair, getQuoteCurrency } from '../utils/currency.js';
+import { getPair } from '../utils/currency.js';
+
+const getAssetUrl = (symbol) => `/markets/${symbol.toLowerCase()}`;
 
 const calcChange = (p) =>
   p?.current && p?.dayago ? ((p.current - p.dayago) / p.dayago) * 100 : null;
@@ -85,28 +87,40 @@ const buildCell = (col, asset, cryptoMeta) => {
 };
 
 function generateCellsHtml(asset, cryptoMeta) {
+  const assetUrl = getAssetUrl(asset.symbol);
   return getVisibleColumns()
     .map((c) => {
       const [cls, html] = buildCell(c, asset, cryptoMeta);
-      return `<td class="${cls}">${html}</td>`;
+      return `<td class="${cls}"><a class="table__link" href="${assetUrl}">${html}</a></td>`;
     })
     .join('');
 }
 
 function updateCellNode(td, asset, col, cryptoMeta) {
   const [, newHtml] = buildCell(col, asset, cryptoMeta);
-  const cell = td;
-  const isChanged = cell.innerHTML !== newHtml;
+  const assetUrl = getAssetUrl(asset.symbol);
+  const link = td.querySelector('.table__link');
+
+  if (!link) {
+    td.innerHTML = `<a class="table__link" href="${assetUrl}">${newHtml}</a>`;
+    return;
+  }
+
+  if (link.getAttribute('href') !== assetUrl) {
+    link.setAttribute('href', assetUrl);
+  }
+
+  const isChanged = link.innerHTML !== newHtml;
 
   if (isChanged) {
-    cell.innerHTML = newHtml;
+    link.innerHTML = newHtml;
 
     // highlight updated price and 24 h change cells
     if (col.key === 'price' || col.key === 'change_24h') {
-      cell.classList.add('is-updated');
+      td.classList.add('is-updated');
       setTimeout(() => {
-        if (cell?.classList && cell.parentNode) {
-          cell.classList.remove('is-updated');
+        if (td?.classList && td.parentNode) {
+          td.classList.remove('is-updated');
         }
       }, 1600);
     }
@@ -158,15 +172,7 @@ export function patchTableBody() {
       tr = document.createElement('tr');
       tr.id = `asset-row-${a.symbol}`;
       tr.dataset.assetSymbol = a.symbol;
-      tr.dataset.url = `/markets/${a.symbol.toLowerCase()}`;
       tr.classList.add('is-clickable');
-      tr.setAttribute('role', 'link');
-      tr.tabIndex = 0;
-      const quote = getQuoteCurrency(a.symbol, cryptoMeta);
-      tr.setAttribute(
-        'aria-label',
-        `${a.name ?? a.symbol} - ${formatPrice(a.price?.current)} ${quote}`
-      );
       tr.innerHTML = generateCellsHtml(a, cryptoMeta);
     } else {
       Array.from(tr.children).forEach((td, j) =>

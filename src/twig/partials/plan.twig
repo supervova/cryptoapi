@@ -37,7 +37,7 @@
   </header>
   <ul class="e-plan__features">
     {% for feature in plan.features %}
-      <li>{{ feature|trans }}</li>
+      <li>{{ feature|trans|raw }}</li>
     {% endfor %}
   </ul>
 </div>

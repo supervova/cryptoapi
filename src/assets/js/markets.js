@@ -21,31 +21,6 @@ import {
 } from './table/columns.js';
 
 /**
- * Обрабатывает клик по строке таблицы для перехода на страницу актива.
- * @param {MouseEvent} event
- */
-function handleRowClick(event) {
-  const row = event.target.closest('tr.is-clickable');
-  if (row && row.dataset.url) {
-    window.location.href = row.dataset.url;
-  }
-}
-
-/**
- * Обрабатывает нажатие клавиши Enter на строке для перехода.
- * @param {KeyboardEvent} event
- */
-function handleRowKeydown(event) {
-  if (event.key !== 'Enter') {
-    return;
-  }
-  const row = event.target.closest('tr.is-clickable');
-  if (row && row.dataset.url) {
-    window.location.href = row.dataset.url;
-  }
-}
-
-/**
  * Инициализация приложения "Рынки".
  * @async
  */
@@ -68,9 +43,6 @@ async function initializeApp() {
     ) {
       throw new Error('Required table DOM elements not found');
     }
-
-    DOMElements.tableBody.addEventListener('click', handleRowClick);
-    DOMElements.tableBody.addEventListener('keydown', handleRowKeydown);
 
     await marketState.loadCryptoMeta();
 

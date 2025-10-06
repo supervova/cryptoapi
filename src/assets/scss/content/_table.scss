@@ -44,7 +44,8 @@ thead th {
   padding-top: var(--cell-padding-y);
   vertical-align: middle;
 
-  &:not(:first-child)::before {
+  &:not(:first-child)::before,
+  &.has-separator::before {
     border-left: rem(1) solid var(--color-ink-border);
     content: '';
     position: absolute;
@@ -52,6 +53,22 @@ thead th {
     inset-inline-start: 0;
     translate: 0 (-50%);
     height: var(--size-3);
+  }
+
+  &[rowspan='2'] {
+    vertical-align: bottom;
+    padding-bottom: rem(13);
+
+    &::before {
+      top: auto;
+      bottom: var(--size1p5);
+      translate: none;
+    }
+  }
+
+  &[colspan] {
+    vertical-align: bottom;
+    padding-bottom: rem(13);
   }
 }
 
@@ -64,10 +81,9 @@ table:not(:has(thead)) > tbody > tr:first-child {
   }
 }
 
-thead th:not(:has(.e-btn)) {
+:where(thead) th:not(:has(.e-btn), [rowspan='2']) {
   padding-top: rem(1);
   padding-bottom: 0;
-  font-weight: 500;
 }
 // #endregion
 
@@ -147,6 +163,11 @@ tbody tr[tabindex='0']:focus-visible {
   @include state-focus($size: rem(2), $offset: rem(-2));
   background-color: hsl(var(--h) var(--s) var(--l) / 0.08);
 }
+
+tbody tr:has(.table__link:focus-visible) {
+  @include state-focus($size: rem(2), $offset: rem(-2));
+  background-color: hsl(var(--h) var(--s) var(--l) / 0.08);
+}
 // #endregion
 
 // -----------------------------------------------------------------------------
@@ -172,6 +193,11 @@ td {
   text-align: right;
 }
 
+.table__cell.is-date {
+  color: var(--color-ink-2ry);
+  text-align: center;
+}
+
 .table__cell.is-icon,
 .table__cell.is-action {
   text-align: center;
@@ -195,6 +221,18 @@ td {
 .table__cell.is-2-liner {
   padding-block: var(--size-half);
   min-width: 12ch;
+}
+
+:where(.table__cell) .table__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  width: 100%;
+  height: 100%;
+}
+
+:where(.table__cell) .table__link:hover {
+  text-decoration: none;
 }
 
 :where(.table.has-2-liners) {

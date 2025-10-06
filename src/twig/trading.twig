@@ -1,0 +1,351 @@
+{# trading.twig - Шаблон страницы торговых настроек #}
+{% extends "partials/base.twig" %}
+
+{% block config %}
+  {{ parent() }}
+
+  {% if ENV == 'development' %}
+    {% set page = page|merge(
+      {
+        app: true,
+        classes: 'is-trading',
+        styles: 'trading.css'
+      }
+    ) %}
+
+    {% set user = user|merge(
+      {
+        id: 1,
+        allowed_assets: ['BTC']
+      }
+    ) %}
+  {% endif %}
+{% endblock %}
+
+{% block assets %}
+  {{ parent() }}
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+    crossorigin="anonymous"
+    onerror="(function(){
+      var s=document.createElement('script');
+      s.src='/js/jquery-3.7.1.min.js';  // локальный fallback
+      s.defer=true; document.head.appendChild(s);
+    })()"
+  ></script>
+{% endblock %}
+
+{% block content %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      function getsettings() {
+        $.ajax({
+          url: './trade_settings_get.php',
+          type: 'POST',
+          async: true,
+          success: function (response) {
+            relultarr = $.parseJSON(response);
+            if (relultarr[0] == 'unlogged') {
+              location.href = '/{$user_lng}/auth';
+            } else if (relultarr[0] == 'OK') {
+              isUpdatingSettings = true; // Блокируем автосохранение
+              setarr = relultarr[1];
+              // Вот здесь устанавливаем данные формы в соответствии со значениями массива setarr:
+              for (const key in setarr) {
+                const el = document.getElementById(key);
+                if (! el && key !== 'risktrade')
+                  continue;
+
+                if (key == 'binanceapikey') {
+                  oldbinanceapikey = setarr[key];
+                }
+                if (key == 'binancesecretkey') {
+                  oldbinancesecretkey = setarr[key];
+                }
+                if (key === 'risktrade') {
+                  $('input[name="risktrade"][value="' + setarr[key] + '"]').prop('checked', true);
+                } else if (el.type === 'checkbox') {
+                  el.checked = (setarr[key] == 1);
+                } else {
+                  el.value = setarr[key];
+                }
+              }
+              setTimeout(() => {
+                isUpdatingSettings = false;
+              }, 300);
+            } else {
+              alert(relultarr[0]);
+            }
+          },
+          error: function (response) {
+            gettimer = setTimeout(function () {
+              getsettings();
+            }, 1000);
+          }
+        });
+      }
+      function savesettings() {
+        const formData = $('#form-trading-settings').serialize();
+        $.ajax({
+          url: './trade_settings_save.php',
+          type: 'POST',
+          data: formData,
+          async: true,
+          success: function (response) {
+            relultarr = $.parseJSON(response);
+            if (relultarr[0] == 'unlogged') {
+              location.href = '/{$user_lng}/auth';
+            } else if (relultarr[0] != 'OK') {
+              alert(relultarr[0]);
+            }
+            $('#savebtn').hide();
+            document.getElementById('binanceapikey').type = 'password';
+            document.getElementById("binanceapikey").setAttribute("readonly", true);
+            document.getElementById('binancesecretkey').type = 'password';
+            document.getElementById("binancesecretkey").setAttribute("readonly", true);
+          },
+          error: function (response) {
+            savetimer = setTimeout(function () {
+              savesettings();
+            }, 1000);
+          }
+        });
+      }
+      function showSaveButton() {
+        $('#savebtn').show();
+      }
+
+      if ('{$tradesettings[binanceapikey]}' == '') {
+        document.getElementById('binanceapikey').removeAttribute('readonly');
+        document.getElementById('binanceapikey').type = 'text';
+      }
+      if ('{$tradesettings[binancesecretkey]}' == '') {
+        document.getElementById('binancesecretkey').removeAttribute('readonly');
+        document.getElementById('binancesecretkey').type = 'text';
+      }
+      oldbinancesecretkey = '{$tradesettings[binancesecretkey]}';
+      oldbinanceapikey = '{$tradesettings[binanceapikey]}';
+      getsettings();
+      $('#settingsdiv').show();
+      document.getElementById("binanceapikey").addEventListener("blur", function () {
+        newbinanceapikey = $('#binanceapikey').val();
+        if (oldbinanceapikey != newbinanceapikey && newbinanceapikey != '') {
+          document.getElementById('binanceapikey').type = 'password';
+          document.getElementById("binanceapikey").setAttribute("readonly", true);
+          oldbinanceapikey = newbinanceapikey;
+        }
+      });
+      document.getElementById("binancesecretkey").addEventListener("blur", function () {
+        newbinancesecretkey = $('#binancesecretkey').val();
+        if (oldbinancesecretkey != newbinancesecretkey && newbinancesecretkey != '') {
+          document.getElementById('binancesecretkey').type = 'password';
+          document.getElementById("binancesecretkey").setAttribute("readonly", true);
+          oldbinancesecretkey = newbinancesecretkey;
+        }
+      });
+      const form = document.getElementById("form-trading-settings");
+      // Назначаем обработчики на все поля формы
+      const elements = form.querySelectorAll("input, select, textarea");
+      elements.forEach((el) => {
+        el.addEventListener("change", showSaveButton);
+        el.addEventListener("keyup", showSaveButton);
+      });
+
+      document.getElementById('savebtn').addEventListener('click', savesettings);
+    });
+  </script>
+  <div class="e-container is-md" id="settingsdiv" style="display:none;">
+    <header class="e-main__header">
+      <h1>
+        {{ 'Trading'|trans }}.
+        <span class="text-2ry">{{ 'Settings'|trans }}</span>
+      </h1>
+
+      {% set trading_tabs = [
+        {label: 'My Assets', link: 'trading', key: 'assets'},
+        {label: 'History', link: 'trading?history', key: 'history'},
+        {label: 'Settings', link: 'trading?settings', key: 'settings'}
+      ] %}
+
+      {% include 'partials/tabs-links.twig' with {
+        tabs: trading_tabs,
+        active: 'settings',
+        lang: page.lang
+      } %}
+
+    </header>
+
+    <div style="width:100%;overflow:hidden;">
+      <form
+        class="e-form" id="form-trading-settings" action="javascript:void(0)" autocomplete="off" novalidate>
+
+        {# 1. API KEYS #}
+        <details class="e-accordion is-apis">
+          <summary class="e-accordion__header has-hgroup">
+            <span class="e-accordion__spot-icon">
+              {% include 'partials/icon.twig' with {name: 'plug'} %}
+            </span>
+            <span class="e-accordion__hgroup">
+              <span class="e-h3">API Keys</span>
+              <span class="text-2ry">{{ 'Integration with crypto exchanges'|trans }}</span>
+            </span>
+            <span class="e-accordion__marker">
+              {% include 'partials/icon.twig' with {name: 'sm-chevron-down', classes: 'is-sm'} %}
+            </span>
+          </summary>
+          <div class="e-accordion__body">
+            <div style="width:100%">Binance API Key:</div>
+            <div class="e-accordion__lead">
+              <input type="password" id="binanceapikey" name="binanceapikey" placeholder="{{ 'My API key'|trans }}" value="{$tradesettings[binanceapikey]}" readonly>
+
+              <button class="e-btn is-icon is-ghost" type="button" title="{{ 'Unlock API Key'|trans }}" onclick="document.getElementById('binanceapikey').removeAttribute('readonly');">
+                {% include 'partials/icon.twig' with {name: 'key-slash'} %}
+              </button>
+              <button class="e-btn is-icon is-ghost" type="button" title="{{ 'Show API Key'|trans }}" onclick="document.getElementById('binanceapikey').type = 'text';">
+                {% include 'partials/icon.twig' with {name: 'eye'} %}
+              </button>
+            </div>
+            <div style="width:100%">Binance Secret Key:</div>
+            <div class="e-accordion__lead">
+              <input type="password" id="binancesecretkey" name="binancesecretkey" placeholder="{{ 'My Secret key'|trans }}" value="{$tradesettings[binancesecretkey]}" readonly>
+
+              <button class="e-btn is-icon is-ghost" type="button" title="{{ 'Unlock Secret Key'|trans }}" onclick="document.getElementById('binancesecretkey').removeAttribute('readonly');">
+                {% include 'partials/icon.twig' with {name: 'key-slash'} %}
+              </button>
+              <button class="e-btn is-icon is-ghost" type="button" title="{{ 'Show Secret Key'|trans }}" onclick="document.getElementById('binancesecretkey').type = 'text';">
+                {% include 'partials/icon.twig' with {name: 'eye'} %}
+              </button>
+            </div>
+            <div class="e-form__item has-select">
+              <label for="rebalance-freq">
+                <strong>{{ 'Stablecoin for trades:'|trans }}</strong>
+                <span>{{ '(we recommend using USDT)'|trans }}</span>
+              </label>
+              <select id="binancestablecoin" name="binancestablecoin">
+                <option value="USDT">USDT</option>
+                <option value="USDC">USDC</option>
+              </select>
+            </div>
+            <h2>{{ 'API Setup Guide'|trans }}.</h2>
+            <p>{{ '1. On the Binance.com website, click on the profile icon in the top right corner and go to the API Management section.'|trans }}</p>
+            <p>{{ '2. Create a new API key, enter its name, complete all security verification steps (email, 2FA), and obtain your API Key and Secret Key (the secret key is shown only once—make sure to copy it) Save the obtained API Key and Secret Key in the trading settings interface on CRYPTOAPI project.'|trans }}</p>
+            <p>{{ '3. On the Binance API settings page, check the “Enable Spot & Margin Trading” box.'|trans }}</p>
+            <p>{{ '4. In the “IP Access Restrictions” section, add this IP address to the whitelist:'|trans }}
+              <strong>{$IP_external}</strong>
+            </p>
+            <p>{{ '5. Transfer a sufficient amount of the stablecoin you choose to trade to your spot balance and enable trading on Binance.'|trans }}</p>
+            <div style="width:100%">
+              <label><input type="checkbox" id="binanceallowed" name="binanceallowed">
+                {{ 'Trading on Binance is allowed'|trans }}</label>
+            </div>
+
+          </div>
+        </details>
+
+        {# 2. STRATEGY PREFERENCES #}
+        <details class="e-accordion is-strategy">
+          <summary class="e-accordion__header has-hgroup">
+            <span class="e-accordion__spot-icon">
+              {% include 'partials/icon.twig' with {name: 'chess'} %}
+            </span>
+            <span class="e-accordion__hgroup">
+              <span class="e-h3">{{ 'Strategy Preferences'|trans }}</span>
+              <span class="text-2ry">{{ 'Preferred risk balance'|trans }}</span>
+            </span>
+            <span class="e-accordion__marker">
+              {% include 'partials/icon.twig' with {name: 'sm-chevron-down', classes: 'is-sm'} %}
+            </span>
+          </summary>
+
+          <fieldset class="e-accordion__body">
+            <legend class="visually-hidden">{{ 'Strategy Preferences'|trans }}</legend>
+
+            {# AI modes #}
+            <div class="e-form__item has-radio border-t-0">
+              <input type="radio" name="risktrade" value="conservative">
+              <label for="ai-conservative">
+                <strong>{{ 'Conservative'|trans }}</strong>
+                <span>{{ 'Low risk, entry only into assets with the highest growth potential at low market positions, average cycle from 1 to 30 days. Low trading frequency (a few trades per month).'|trans }}</span>
+              </label>
+            </div>
+
+            <div class="e-form__item has-radio">
+              <input type="radio" name="risktrade" value="balanced" checked>
+              <label for="ai-balanced">
+                <strong>{{ 'Balanced'|trans }}</strong>
+                <span>{{ 'Medium risk, exclusion of the most risky assets, entry at low or middle market positions, average cycle from 7 to 180 days. Medium trading frequency (several dozen trades per month).'|trans }}</span>
+              </label>
+            </div>
+
+            <div class="e-form__item has-radio">
+              <input type="radio" name="risktrade" value="aggressive">
+              <label for="ai-aggressive">
+                <strong>{{ 'Aggressive'|trans }}</strong>
+                <span>{{ 'Relatively high risk, work with all assets except TOP-100 high risk, entry at any market positions, average cycle from 15 to 365 days, maximum profit (subject to rebalancing). A large free trading balance is required with the ability to increase for rebalancing. Hight trading frequency (a few trades per day).'|trans }}</span>
+              </label>
+            </div>
+
+          </fieldset>
+        </details>
+
+        {# 3. RISK MANAGEMENT #}
+        <details class="e-accordion">
+          <summary class="e-accordion__header has-hgroup">
+            <span class="e-accordion__spot-icon">
+              {% include 'partials/icon.twig' with {name: 'umbrella'} %}
+            </span>
+            <span class="e-accordion__hgroup">
+              <span class="e-h3">{{ 'Risk Management'|trans }}</span>
+              <span class="text-2ry">{{ 'Capital-protection limits'|trans }}</span>
+            </span>
+            <span class="e-accordion__marker">
+              {% include 'partials/icon.twig' with {name: 'sm-chevron-down', classes: 'is-sm'} %}
+            </span>
+          </summary>
+          <fieldset class="e-accordion__body">
+            <legend class="visually-hidden">{{ 'Risk Management'|trans }}</legend>
+
+            <div class="e-form__item has-input">
+              <label for="depositallocation">
+                <strong>{{ 'Deposit allocation'|trans }}, %</strong>
+                <span>{{ 'Maximum share of balance usable for trading. Funds allocated for the initial entry (excluding rebalancing).'|trans }}</span>
+              </label>
+              <input id="depositallocation" name="depositallocation" type="number" value="50" min="1" max="90" step="1" required>
+            </div>
+            <div class="e-form__item has-input">
+              <label for="maxdepositallocation">
+                <strong>{{ 'Maximum deposit allocation'|trans }}, %</strong>
+                <span>{{ 'Maximum share of balance usable for trading. Funds allocated for all trading operations.'|trans }}</span>
+              </label>
+              <input id="maxdepositallocation" name="maxdepositallocation" type="number" value="80" min="1" max="100" step="1" required>
+            </div>
+
+          </fieldset>
+        </details>
+
+        {# Защита от CSRF (cross-site request forgery; межсайтовой подделки запроса #}
+        <input type="hidden" name="_token" value="{{ csrf_token }}">
+      </form>
+
+      <div class="e-accordion__header has-hgroup is-banner">
+        <span class="e-accordion__spot-icon">
+          {% include 'partials/icon.twig' with {name: 'user'} %}
+        </span>
+        <span class="e-accordion__hgroup">
+          <span class="e-h3">{{ 'Profile Settings'|trans }}</span>
+          <span class="text-2ry">{{ 'Primary email, password, avatar'|trans }}, Telegram</span>
+        </span>
+        <a class="e-btn is-outline" href="/{{ page.lang }}/profile">
+          {{ 'Go'|trans }}
+        </a>
+      </div>
+    </div>
+
+    <div class="e-container is-action">
+      <button id="savebtn" class="e-btn is-primary is-action" type="submit" form="form-trading-settings" style="display:none;">{{ 'Save'|trans }}</button>
+    </div>
+  </div>
+{% endblock %}

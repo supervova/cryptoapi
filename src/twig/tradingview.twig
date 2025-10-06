@@ -1,0 +1,222 @@
+{# trading.twig - Шаблон страницы торговых настроек #}
+{% extends "partials/base.twig" %}
+
+  {% block config %}
+  {{ parent() }}
+
+  {% if ENV == 'development' %}
+    {% set page = page|merge(
+      {
+        app: true,
+        classes: 'is-trading',
+        styles: 'trading.css'
+      }
+    ) %}
+
+    {% set user = user|merge(
+      {
+        id: 1,
+        allowed_assets: ['BTC']
+      }
+    ) %}
+  {% endif %}
+{% endblock %}
+
+{% block assets %}
+  {{ parent() }}
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+    crossorigin="anonymous"
+    onerror="(function(){
+      var s=document.createElement('script');
+      s.src='/js/jquery-3.7.1.min.js';  // локальный fallback
+      s.defer=true; document.head.appendChild(s);
+    })()"
+  ></script>
+{% endblock %}
+
+{% block content %}
+
+  <div class="e-container is-history">
+
+    <header class="e-main__header">
+      <h1>
+        {{ 'Trading'|trans }}.
+        <span class="text-2ry">{{ 'My Assets'|trans }}</span>
+      </h1>
+
+      {% set trading_tabs = [
+        {label: 'My Assets', link: 'trading', key: 'assets'},
+        {label: 'History', link: 'trading?history', key: 'history'},
+        {label: 'Settings', link: 'trading?settings', key: 'settings'}
+      ] %}
+
+      {% include 'partials/tabs-links.twig' with {
+        tabs: trading_tabs,
+        active: 'assets',
+        lang: page.lang
+      } %}
+
+    </header>
+
+    <div class="e-alert is-info max-w-prose" id="warning" role="alert"></div>
+    <label>
+      <input id="hideSmallAssets" type="checkbox" onchange="gettradingdata()" checked>
+      {{ 'Hide assets with total'|trans }}
+      &lt; $0.01
+    </label>
+
+    {% if ENV == 'development' %}
+      <div id="historydata">
+        <div class="e-scroller">
+          <table class="table has-2-liners">
+            <thead>
+              <tr>
+                <th>Asset</th>
+                <th class="table__cell is-num">Available</th>
+                <th class="table__cell is-num">In Orders</th>
+                <th class="table__cell is-num">Current Price</th>
+                <th class="table__cell is-num">Purchase Price</th>
+                <th class="table__cell is-num">Total in USDT</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>USDT</td>
+                <td class="table__cell is-num">1,000.00000063</td>
+                <td class="table__cell is-num">0</td>
+                <td class="table__cell is-num">1.00</td>
+                <td class="table__cell is-num">0.00</td>
+                <td class="table__cell is-num">1,000.00000063</td>
+              </tr>
+              <tr>
+                <td>BNB</td>
+                <td class="table__cell is-num">0.09894182</td>
+                <td class="table__cell is-num">0</td>
+                <td class="table__cell is-num">1,220.04</td>
+                <td class="table__cell is-num">0.00</td>
+                <td class="table__cell is-num">120.71297807</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <small>Do not refresh the page - the data in the table is updated automatically!</small>
+      </div>
+    {% else %}
+      <div id="tradingdata">
+        <div class="e-loader is-spinner loadingspin"></div>
+      </div>
+    {% endif %}
+
+  </div>
+
+  <script>
+    function formatNumberSmart(n) {
+      const num = Number(n);
+      if (isNaN(num))
+        return n;
+
+
+      // Приводим к числу с max 8 знаками после запятой
+      let fixed = num.toFixed(8);
+
+      // Разделяем целую и дробную части
+      let [intPart, fracPart = ''] = fixed.split('.');
+
+      // Удаляем незначащие нули справа
+      fracPart = fracPart.replace(/0+$/, '');
+
+      // Минимум 2 знака после точки
+      if (fracPart.length < 2) {
+        fracPart = fracPart.padEnd(2, '0');
+      }
+
+      return `${
+        Number(intPart).toLocaleString('en-US')
+      }.${fracPart}`;
+    }
+    function gettradingdata() {
+      $.ajax({
+        url: './gettradingdata.php',
+        type: 'POST',
+        async: true,
+        success: function (response) {
+          relultarr = $.parseJSON(response);
+          if (relultarr[0] == 'unlogged') {
+            location.href = '/{$user_lng}/auth';
+          } else if (relultarr[0] == 'disabled') {
+            $('.loadingspin').remove();
+            // далее выводим значения:
+            $('#tradingdata').html('<span style="color:var(--color-ink-text-error)"> {{ 'Trading is disabled in the settings...'|trans }}</span>');
+          } else if (relultarr[0] == 'OK') {
+            $('.loadingspin').remove();
+            // далее выводим значения:
+            let assets = $.parseJSON(relultarr[2]);
+            let html = `
+              <div class="e-scroller">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>{{ 'Asset'|trans }}</th>
+                      <th class="table__cell is-num">{{ 'Available'|trans }}</th>
+                      <th class="table__cell is-num">{{ 'In Orders'|trans }}</th>
+                      <th class="table__cell is-num">{{ 'Current Price'|trans }}</th>
+                      <th class="table__cell is-num">{{ 'Purchase Price'|trans }}</th>
+                      <th class="table__cell is-num">{{ 'Total in'|trans }} ` + relultarr[1] + `</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+            `;
+
+            for (let asset in assets) {
+              let data = assets[asset];
+              let total = parseFloat(data.price) * (parseFloat(data.available) + parseFloat(data.onOrder));
+              if ($('#hideSmallAssets').is(':checked') && total < 0.01)
+                continue;
+
+              html += `
+                <tr>
+                  <td>${asset}</td>
+                  <td class="table__cell is-num">${formatNumberSmart(data.available)}</td>
+                  <td class="table__cell is-num">${parseFloat(data.onOrder)}</td>
+                  <td class="table__cell is-num">${formatNumberSmart(data.price)}</td>
+                  <td class="table__cell is-num">${formatNumberSmart(data.price_buy)}</td>
+                  <td class="table__cell is-num">${formatNumberSmart(total)}</td>
+                </tr>
+              `;
+            }
+
+            html += `
+                  </tbody>
+                </table>
+              </div>
+              <small>{{ 'Do not refresh the page - the data in the table is updated automatically!'|trans }}</small>
+            `;
+
+            $('#tradingdata').html(html);
+            $('#warning').html('');
+            let warningsmg = $.parseJSON(relultarr[3]);
+            warningsmg.forEach(function (warning) {
+              $('#warning').html(warning + '<br>' + $('#warning').html());
+            });
+          }
+          gettimer = setTimeout(function () {
+            gettradingdata();
+          }, 5000);
+        },
+        error: function (response) {
+          gettimer = setTimeout(function () {
+            gettradingdata();
+          }, 1000);
+        }
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      gettradingdata();
+    });
+  </script>
+{% endblock %}

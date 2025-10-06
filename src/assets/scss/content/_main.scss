@@ -25,23 +25,22 @@
 }
 
 .e-main__header {
-  --dir: column;
-  --align: start;
-
   display: flex;
-  align-items: var(--align);
-  flex-direction: var(--dir);
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--size-2);
   margin-bottom: var(--size-line);
 
-  h1 {
-    margin-bottom: 0;
+  > h1 {
+    flex: 1 1 auto;
+    margin: 0;
+    min-width: 50%;
   }
+}
 
-  @media (--phone-l) {
-    --dir: row;
-    --align: center;
-    justify-content: space-between;
-  }
+.e-main__header-tabs {
+  flex: 0 0 auto;
+  min-width: max-content;
 }
 
 .e-main__title {

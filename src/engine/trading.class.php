@@ -1,19 +1,15 @@
 <?php
-
-/**
- * Контроллер страницы настроек трейдинга
- *
- * Обрабатывает доступ авторизованных пользователей, подготавливает данные,
- * и рендерит шаблон plans.twig с карточками тарифнх планов.
- */
-
-// Проверка авторизации пользователя
-if (!$islogged) {
-    $redirectUrl = 'Location: https://' . ($authhost ?? 'yourdomain.com') .
-        '/auth?returl=' . urlencode($thispagesimpleurl ?? '/');
-    header($redirectUrl);
-    exit;
+if (!$islogged)
+{
+	memcache_close($memcache_obj);
+	if ($db) $db->close();
+	header('Location: https://'.$authhost.'/auth?returl='.$thispagesimpleurl);
+	die();
 }
+
+
+require_once ROOTDIRSECURE.'config_sbf.php';
+$tradesettings = get_trade_settings();
 
 // Получение окружения приложения (development/production) из переменной окружения APP_ENV
 $data_objects['ENV'] = getenv('APP_ENV') ?: 'production';
@@ -24,7 +20,7 @@ $page_meta = [
   'classes' => 'is-trading',
   'desc' => 'Customize your crypto trading setup for safer, faster crypto trades.',
   'styles' => 'trading.css',
-  'title' => 'Trading Settings | AI Strategy & Risk Controls – CryptoAPI.ai'
+  'title' => 'Trading | AI Strategy & Risk Controls, History – CryptoAPI.ai'
 ];
 
 $data_objects['page'] = array_merge($data_objects['page'] ?? [], $page_meta);
@@ -54,5 +50,20 @@ $data_objects += [
   ],
 ];
 
-// Получение и отображение шаблона
-$final_html = get_template("trading.twig");
+if (!empty($tradesettings['binanceapikey']) && !empty($tradesettings['binancesecretkey']) && !empty($tradesettings['binanceallowed']) && !isset($_GET['settings']) && !isset($_GET['history']))
+{
+	$final_html = get_template("tradingview.twig");
+}
+elseif (!isset($_GET['history']))
+{
+	$final_html = get_template("trading.twig");
+}
+else
+{
+	$final_html = get_template("tradinghistory.twig");
+}
+
+$lasttimedelete = memcache_get($memcache_obj, "ltbalancedel".$user_id);
+if (empty($lasttimedelete)) memcache_delete($memcache_obj, "binancebalances".$user_id);
+memcache_set($memcache_obj, "ltbalancedel".$user_id, $startruntime, 0, 5);
+memcache_set($memcache_obj, "ltbalancedelint".$user_id, $startruntime, 0, 60);

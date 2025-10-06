@@ -47,5 +47,7 @@
   "phraseok": "OK",
   "phraseyes": "Yes",
   "pageths": "local",
-  "simpleuri": "local"
+  "simpleuri": "local",
+  "thispagesimpleurl": "localhost:9000",
+  "IP_external": ""
 }

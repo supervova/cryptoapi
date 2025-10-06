@@ -371,6 +371,8 @@ const loadPhpMockData = () => {
       unloggedid: '',
       authhost: 'localhost:9000',
       thispageurlencoded: '',
+      thispagesimpleurl: 'localhost:9000',
+      IP_external: '',
     };
   } catch (error) {
     console.error('Error loading PHP mock data:', error);
@@ -681,7 +683,7 @@ const processStyles = (
             notify
               .onError({
                 title: `Gulp Error: ${err.plugin}`,
-                message: `See console for details.`,
+                message: 'See console for details.',
               })
               .call(this, err);
 
@@ -693,7 +695,7 @@ const processStyles = (
             if (err.stack) {
               console.error(`Stack: ${err.stack}`);
             }
-            console.error(`\n--- End Gulp Error ---\n`);
+            console.error('\n--- End Gulp Error ---\n');
 
             this.emit('end');
           },

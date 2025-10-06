@@ -6,8 +6,8 @@ msgstr ""
 # ------------------------------------------------------------------------------
 # Meta
 # ------------------------------------------------------------------------------
-msgid "Trading Settings | AI Strategy & Risk Controls – CryptoAPI.ai"
-msgstr "Настройки трейдинга | ИИ-стратегии и контроль рисков – CryptoAPI.ai"
+msgid "Trading | AI Strategy & Risk Controls, Transaction History – CryptoAPI.ai"
+msgstr "Трейдинг | ИИ-стратегии, контроль рисков, история операций – CryptoAPI.ai"
 
 msgid "Customize your crypto trading setup for safer, faster crypto trades."
 msgstr "Персонализируйте CryptoAPI.ai для более безопасных и быстрых сделок."
@@ -161,4 +161,31 @@ msgstr "Секретный ключ"
 
 msgid "Testnet"
 msgstr "Тестовая сеть"
+
+msgid "Buy"
+msgstr "Покупка"
+
+msgid "Sell"
+msgstr "Продажа"
+
+msgid "Quick select"
+msgstr "Быстрый выбор"
+
+msgid "Qty"
+msgstr "К-во"
+
+msgid "Hide assets with total"
+msgstr "Не показывать активы общей стоимостью"
+
+msgid "Transaction history"
+msgstr "История операций"
+
+msgid "My assets"
+msgstr "Мои активы"
+
+msgid "buy_th"
+msgstr "Покупка"
+
+msgid "buy_th"
+msgstr "Покупка"
 

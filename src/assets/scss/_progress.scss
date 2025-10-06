@@ -1,0 +1,49 @@
+@use 'abstracts' as *;
+
+// HTML: <div class="e-loader is-spinner"></div>
+
+.e-loader.is-spinner {
+  --spinner-size: var(--size-5);
+  --spinner-stroke: #{rem(6)};
+  --spinner-dur: 1s;
+  --spinner-primary: var(--color-brand-primary);
+  --spinner-accent: var(--color-brand-accent);
+  --spinner-blend: normal;
+
+  aspect-ratio: 1;
+  box-sizing: border-box;
+  display: grid;
+  margin: auto;
+  width: var(--spinner-size);
+
+  &::before,
+  &::after {
+    animation: spinner var(--spinner-dur) linear infinite;
+    border-radius: 50%;
+    border: var(--spinner-stroke) solid transparent;
+    content: '';
+    grid-area: 1 / 1;
+    mix-blend-mode: var(--spinner-blend);
+  }
+
+  &::before {
+    border-top-color: var(--spinner-primary);
+    border-right-color: var(--spinner-primary);
+  }
+
+  &::after {
+    border-bottom-color: var(--spinner-accent);
+    border-left-color: var(--spinner-accent);
+    animation-direction: reverse;
+  }
+}
+
+@keyframes spinner {
+  to { transform: rotate(1turn); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .e-loader.is-spinner::before {
+    animation: none;
+  }
+}

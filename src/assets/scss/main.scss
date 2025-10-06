@@ -62,6 +62,7 @@
 
 // Structures
 @layer components {
+  @include meta.load-css('alert');
   @include meta.load-css('card');
   @include meta.load-css('cta');
   @include meta.load-css('header');
@@ -98,7 +99,7 @@
 
   // Feedback
   @include meta.load-css('toast');
-  // @include meta.load-css('loading-spinner');
+  @include meta.load-css('progress');
 
   // Form
   @include meta.load-css('form/validation');

@@ -43,6 +43,9 @@ msgstr "Задержка сигнала"
 msgid "Trading fee"
 msgstr "Комиссия за торговлю"
 
+msgid "but not less than $0.25"
+msgstr "но не меньше $0,25"
+
 msgid "Integration with the exchange"
 msgstr "Интеграция с биржей"
 

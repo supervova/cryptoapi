@@ -23,8 +23,13 @@
   border-radius: calc(var(--border-radius-sm) + rem(4));
   display: flex;
   flex: none;
+  list-style: none;
   gap: var(--size-half);
   padding: var(--size-half);
+
+  > li {
+    padding: 0;
+  }
 
   @media (--tablet) {
     .e-main__header & {
@@ -33,23 +38,47 @@
   }
 }
 
-:where(.e-tabs, .e-tabs-nav) > [role='tab'] {
+/* База для .e-tabs / .e-tabs-nav */
+:where(.e-tabs, .e-tabs-nav) [role='tab'] {
+
   --button-height: var(--size-4);
 
-  background-color: transparent;
+  background: transparent;
   border-radius: var(--border-radius-sm);
   color: var(--color-ink-3ry);
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: var(--button-gap, var(--size-1p5));
+  justify-content: center;
+  font-size: var(--button-font-size, var(--font-size-label));
+  font-weight: var(--button-font-weight, 500);
   text-align: center;
-  outline: none;
-  padding: 0 var(--size-2);
-  // If tabs scrolling on mobiles
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0 var(--size-1p5);
   scroll-snap-align: start;
-  z-index: 1;
+  touch-action: manipulation;
+  user-select: none;
+  max-width: 100%;
+  min-width: 0;
+  height: var(--button-height);
 
-  &:hover {
-    background: var(--color-ink-min);
-    color: var(--color-ink-2ry);
+  &:focus-visible {
+    outline: 2px solid color-mix(in oklch, currentColor 40%, transparent);
+    outline-offset: 2px;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      background: var(--color-ink-min);
+      color: var(--color-ink-2ry);
+    }
+  }
+
+  @media (--phone-l) {
+    padding-inline: var(--size-2);
   }
 }
 
@@ -60,7 +89,17 @@
   pointer-events: none;
 }
 
-.e-tabs-nav__item:not(:first-child, [aria-selected='true'] + .e-tabs-nav__item, .e-tabs-nav__item:hover + .e-tabs-nav__item) {
+.e-tabs-nav__item {
+  position: relative;
+}
+
+.e-tabs-nav__item:not(
+  :first-child,
+  :has([aria-selected='true']),
+  :has([aria-selected='true']) + .e-tabs-nav__item,
+  [aria-selected='true'] + .e-tabs-nav__item,
+  .e-tabs-nav__item:hover + .e-tabs-nav__item
+) {
   &::before {
     border-inline-start: 1px solid var(--color-ink-border);
     content: '';

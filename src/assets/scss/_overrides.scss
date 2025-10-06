@@ -128,7 +128,7 @@
 // WIDGETS
 // -----------------------------------------------------------------------------
 // #region
-.e-loader,
+.e-loader:not(.is-spinner),
 .e-filter.is-row {
   border-radius: var(--border-radius-base);
   display: inline-flex;
@@ -136,7 +136,7 @@
   padding: var(--padding-x-box);
 }
 
-.e-loader {
+.e-loader:not(.is-spinner) {
   background-color: var(--color-ink-min);
   flex-direction: column;
 

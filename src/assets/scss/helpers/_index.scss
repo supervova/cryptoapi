@@ -1,6 +1,6 @@
 @use 'abstracts/mixins' as *;
 
-// SPACING
+// #region: SPACING
 
 .mt-1 { margin-top: var(--size-1); }
 .mt-2 { margin-top: var(--size-2); }
@@ -15,6 +15,7 @@
 .mb-1l { margin-bottom: var(--size-line); }
 
 .me-1 { margin-inline-end: var(--size-1); }
+.mx-auto { margin-inline: auto; }
 
 .pb-0 { padding-bottom: 0;}
 
@@ -29,16 +30,19 @@
 .pb-max { padding-bottom: var(--spacer-max); }
 
 .ps-0 { padding-inline-start: 0;}
+// #endregion
 
-// SIZE
-.max-w-none	{ max-width: none; }
+// #region: SIZE
+.max-w-none { max-width: none; }
+.max-w-prose { max-width: var(--width-readable); }
 .w-1\/2	{ width: calc((100% - var(--gap, 0)) / 2); }
 .w-100	{ width: 100%; }
 // Use with inline-block elements with tooltips
 .w-fit { width: fit-content; }
 
+// #endregion
 
-// DISPLAY
+// #region:DISPLAY
 
 .d-none {
   display: none;
@@ -94,15 +98,17 @@
     display: none;
   }
 }
+// #endregion
 
-// FLEX AND GRID
+// #region: FLEX AND GRID
 .align-center { align-items: center; }
 .gap-1 { gap: var(--size-1); }
 .gap-2 { gap: var(--size-2); }
 .justify-between { justify-content: space-between; }
 .justify-center { justify-content: center; }
+// #endregion
 
-// TYPOOGRAPHY
+// #region: TYPOOGRAPHY
 
 .nobr { white-space: nowrap; }
 .text-2ry { color: var(--color-ink-2ry); }
@@ -115,8 +121,13 @@
 .text-right { text-align: right; }
 .text-success { color: var(--color-ink-text-success); }
 .text-warning { color: var(--color-ink-text-warning); }
+// #endregion
 
-// MISC
+// #region: MISC
+
+.bg-error { background-color: var(--color-ink-2ry-error);}
+.bg-success { background-color: var(--color-ink-2ry-success); }
+.bg-fill { background-color: var(--color-ink-min); }
 
 .border-t-0 {
   border-top: 0;
@@ -133,3 +144,4 @@
 .sticky {
   position: sticky;
 }
+// #endregion

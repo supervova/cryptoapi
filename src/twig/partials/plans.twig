@@ -11,7 +11,7 @@
       "Signal delay – 15 seconds",
       "Up to 1,000 daily requests to the APIs “asset rating”, “market indicators and indices”",
       "Binance API integration",
-      "Service fee – 30% of profit"
+      "Service fee – 30% of profit (but not less than $0.25)"
     ]
   },
   {
@@ -26,7 +26,7 @@
       "Signal delay – none (real-time)",
       "Up to 10,000 daily requests to the APIs “asset rating”, “market indicators and indices”",
       "Balanced trading strategy",
-      "Service fee – 20% of profit",
+      "Service fee – 20% of profit (but not less than $0.25)",
       "Plus all benefits of the Free plan"
     ]
   },
@@ -40,7 +40,7 @@
     "features": [
       "Up to 50,000 daily requests to the APIs “asset rating”, “market indicators and indices”",
       "Customizable trading strategies",
-      "Service fee – 10% of profit",
+      "Service fee – 10% of profit (but not less than $0.25)",
       "Plus all benefits of the Trader plan"
     ],
     "isFeatured": true
@@ -54,7 +54,7 @@
     "link": "/" ~ page.lang ~ "/pricing/premium/annual",
     "features": [
       "Unlimited API “asset rating”, “market indicators and indices” * no more than 1 request at any given moment",
-      "Service fee – 5% of profit",
+      "Service fee – 5% of profit (but not less than $0.25)",
       "VIP support",
       "Plus all benefits of the Expert plan"
     ]
@@ -100,7 +100,7 @@
             <ul class="e-current-plan__list">
               <li><span>{{ 'Signal delay'|trans }}:</span> {{ curr_plan.signal_delay|trans }}</li>
               <li><span>{{ 'Integration with the exchange'|trans }}:</span> {{ curr_plan.binance_api|trans }}</li>
-              <li><span>{{ 'Trading fee'|trans }}:</span> {{ curr_plan.fee }}</li>
+              <li><span>{{ 'Trading fee'|trans }}:</span> {{ curr_plan.fee }} ({{ 'but not less than $0.25'|trans }})</li>
               <li><span>{{ 'API Limitations'|trans }}:</span> {{ curr_plan.requests }} {{ 'requests per day'|trans }}</li>
               <li><span>{{ 'Trading strategy'|trans }}:</span> {{ curr_plan.strategy|trans }}</li>
               <li><span>{{ 'Support type'|trans }}:</span> {{ curr_plan.support|trans }}</li>

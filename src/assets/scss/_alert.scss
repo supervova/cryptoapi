@@ -1,0 +1,32 @@
+@use 'abstracts' as *;
+
+.e-alert {
+  --color: rgb(255 255 255 / 0.7);
+  --margin: 0 auto var(--size-line);
+
+  background-color: var(--color-bg-level-01);
+  border-radius: var(--border-radius-md);
+  color: rgb(255 255 255 / 0.7);
+  text-align: center;
+  margin: var(--margin);
+  padding: var(--size-3);
+  width: 100%;
+  z-index: 2;
+
+  &:empty { display: none; }
+}
+
+.e-alert.is-info {
+  --color: var(--color-ink-text-info);
+  background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-info));
+}
+
+.e-alert.is-warning {
+  --color: var(--color-ink-text-warning);
+  background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-warning));
+}
+
+.e-alert.is-error {
+  --color: var(--color-ink-text-error);
+  background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-error));
+}
