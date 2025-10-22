@@ -39,6 +39,7 @@
 
 .e-tag.is-lg {
   --tag-height: var(--size-5);
+  --tag-padding-x: var(--size-2p5);
 }
 
 :where(a, button).tag {

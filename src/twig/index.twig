@@ -488,27 +488,27 @@
   {% set data_faq = [
     {
       "question": "How does artificial intelligence work for market trend forecasting?",
-      "answer": "AI analyzes historical data, price charts, trading volumes, market indicators, and news to identify patterns and predict probable market movements. Machine learning algorithms, including neural networks and time-series models, are used."
+      "answer": "<p>AI analyzes historical data, price charts, trading volumes, market indicators, and news to identify patterns and predict probable market movements. Machine learning algorithms, including neural networks and time-series models, are used.</p>"
     },
     {
       "question": "What data is used to train the model, and how reliable is it?",
-      "answer": "We use data from leading crypto exchanges, including historical quotes, trading volumes, and liquidity. News, social media, and macroeconomic indicators are also considered. Data reliability is ensured through processing from verified sources and noise-filtering mechanisms."
+      "answer": "<p>We use data from leading crypto exchanges, including historical quotes, trading volumes, and liquidity. News, social media, and macroeconomic indicators are also considered. Data reliability is ensured through processing from verified sources and noise-filtering mechanisms.</p>"
     },
     {
       "question": "Which cryptocurrencies are covered by the analytics platform?",
-      "answer": "The platform analyzes major cryptocurrencies such as Bitcoin (BTC), Ethereum (ETH), and other popular altcoins. A full list of available assets can be found in the “Markets” section."
+      "answer": "<p>The platform analyzes major cryptocurrencies such as Bitcoin (BTC), Ethereum (ETH), and other popular altcoins. A full list of available assets can be found in the “Markets” section.</p>"
     },
     {
       "question": "How often are signals and forecasts updated?",
-      "answer": "The AI sends signals to the system in real time, but users receive the signals either with a slight delay or instantly, depending on the chosen tariff plan."
+      "answer": "<p>The AI sends signals to the system in real time, but users receive the signals either with a slight delay or instantly, depending on the chosen tariff plan.</p>"
     },
     {
       "question": "How much does a service subscription cost?",
-      "answer": "The service offers a number of services for free, but commercial plans start at $33 per month, depending on the benefits the user requires."
+      "answer": "<p>The service offers a number of services for free, but commercial plans start at $33 per month, depending on the benefits the user requires.</p>"
     },
     {
       "question": "How do I cancel my subscription?",
-      "answer": "You can cancel your subscription in your account settings. If you encounter any difficulties, contact customer support. The subscription remains active until the end of the paid period."
+      "answer": "<p>You can cancel your subscription in your account settings. If you encounter any difficulties, contact customer support. The subscription remains active until the end of the paid period.</p>"
     }
   ] %}
   <div class="e-container">
@@ -524,7 +524,7 @@
   <section class="e-section e-cta">
     <h2>{{ 'Trade Cryptocurrency with AI Precision'|trans }}</h2>
     <p>{{ 'Get accurate AI-powered trading signals and stay ahead of the crypto market.'|trans }}</p>
-    <a class="e-btn is-primary" href="#">{{ 'Try Now'|trans }}</a>
+    <a class="e-btn is-primary" href="{{ page.lang }}/{{ primary_link }}">{{ 'Try Now'|trans }}</a>
   </section>
 
 {% endblock %}

@@ -48,6 +48,13 @@
   margin-block: var(--size-6);
 }
 
+.e-main__title.is-left {
+  text-align: left;
+  margin-block: var(--size-6);
+  margin-inline: auto;
+  max-width: rem(576);
+}
+
 .e-main__body {
   margin-inline: auto;
   max-width: rem(576);

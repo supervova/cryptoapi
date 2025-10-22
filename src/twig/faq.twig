@@ -15,74 +15,87 @@
 
 {% block content %}
   <div class="e-container is-5/6">
-    <h1 class="e-main__title">{{ 'Frequently Asked Questions'|trans }}</h1>
+    <h1 class="e-main__title is-left">{{ 'Frequently Asked Questions'|trans }}</h1>
 
     <div class="e-main__body">
-      {% set data_faq = [
-        {
-          "question": "How are the prices calculated for the various cryptocurrencies?",
-          "answer": "The price of a cryptocurrency is calculated by averaging the prices across all markets where the cryptocurrency is traded. The average is weighted by the 24 hour trading volume of each market."
-        },
-        {
-          "question": "What is &quot;Market Capitalization&quot; and how is it calculated?",
-          "answer": "Market Capitalization is one way to rank the relative size of a cryptocurrency. It's calculated by multiplying the Price by the Circulating Supply.<br><br>Market Cap = Price X Circulating Supply."
-        },
-        {
-          "question": "What is the difference between &quot;Circulating Supply&quot;, &quot;Total Supply&quot;, and &quot;Max Supply&quot;?",
-          "answer": "Circulating Supply is the best approximation of the number of coins that are circulating in the market and in the general public's hands.<br><br>Total Supply is the total amount of coins in existence right now (minus any coins that have been verifiably burned).<br><br>Max Supply is the best approximation of the maximum amount of coins that will ever exist in the lifetime of the cryptocurrency."
-        },
-        {
-          "question": "Why is the Circulating Supply used in determining the market capitalization instead of Total Supply?",
-          "answer": "We've found that Circulating Supply is a much better metric for determining the market capitalization. Coins that are locked, reserved, or not able to be sold on the public market are coins that can't affect the price and thus should not be allowed to affect the market capitalization as well.<br><br>The method of using the Circulating Supply is analogous to the method of using public float for determining the market capitalization of companies in traditional investing."
-        },
-        {
-          "question": "What is the difference between a &quot;Coin&quot; and a &quot;Token&quot; on the site?",
-          "answer": "A Coin is a cryptocurrency that can operate independently.<br><br>A Token is a cryptocurrency that depends on another cryptocurrency as a platform to operate.<br><br>Check out the <a href='/en/markets'>markets section</a> to view a list of tokens and their respective platforms."
-        },
-        {
-          "question": "What is the criteria for a cryptocurrency or exchange to be listed on CryptoAPI?",
-          "answer": "We strive to list every cryptocurrency and exchange in the universe, but it's virtually impossible to list everything. Listing cryptocurrencies and exchanges is largely a manual process that takes time and resources to ensure the accuracy of our data."
-        },
-        {
-          "question": "Why are markets with no fees excluded from the price average and total trading volume?",
-          "answer": "When no fees are being charged at the exchange, it is possible for a trader (or bot) to trade back and forth with themselves and generate a lot of &quot;fake&quot; volume without penalty. It's impossible to determine how much of the volume is fake so we exclude it entirely from the calculations."
-        },
-        {
-          "question": "How do I purchase cryptocurrency?",
-          "answer": "CryptoAPI reports on the trading activities of thousands of markets but does not directly sell any cryptocurrency.<br><br>The best way to find where to buy is by looking on the markets section for the cryptocurrency.<br><br>For example, to find where to buy Bitcoin, you can look at the <a href='/en/markets/bitcoin'>Bitcoin page</a>."
-        },
-        {
-          "question": "In what time zone is the site based?",
-          "answer": "Data is collected, recorded, and reported in UTC time unless otherwise specified."
-        },
-        {
-          "question": "At what time is the 24 hour % change based?",
-          "answer": "It's based on the current time. It's a rolling 24 hour period."
-        },
-        {
-          "question": "Why are you listing [insert random cryptocurrency]? It's clearly a scam!",
-          "answer": "Nearly every cryptocurrency has been called a scam at some point in its lifetime. We're not here to judge the merits of any cryptocurrency, but we provide the best tools for you to make your own conclusions.<br><br>As long as it meets the listing criteria, it's eligible to be on the site."
-        },
-        {
-          "question": "Why aren't you listing [insert random cryptocurrency]?",
-          "answer": "While we strive to add every single cryptocurrency in the universe, it's virtually impossible to list everything. Listing cryptocurrencies is largely a manual process that takes time and resources to ensure the accuracy of our data."
-        },
-        {
-          "question": "Do you offer an API for your data?",
-          "answer": "Yes! Check out the <a href='/en/api'>CryptoAPI API</a>."
-        },
-        {
-          "question": "Am I allowed to use content (screenshots, data, graphs, etc.) for one of my personal projects and/or commercial use?",
-          "answer": "You may use the content for academic or journalistic use provided that you cite cryptoapi.ai as a source.<br><br>Please refer to the <a href='/en/useragreement'>User Agreement</a>."
-        },
-        {
-          "question": "Why does a question mark sometimes show up for the circulating supply and market cap of a cryptocurrency?",
-          "answer": "In order to ensure accurate market cap rankings, we work closely with teams and developers to verify supply details on their respective blockchains.<br><br>If a question mark shows up, it means that we have not sufficiently verified the circulating supply and resulting market cap yet."
-        },
-      ] %}
+      {% set data_faq = {
+        "General Questions": [
+          {
+            "question": "How do I purchase cryptocurrency?",
+            "answer": "<p>CryptoAPI reports on the trading activities of thousands of markets but does not directly sell any cryptocurrency.</p><p>The best way to find where to buy is by looking on the markets section for the cryptocurrency.</p><p>For example, to find where to buy Bitcoin, you can look at the <a href='/en/markets/bitcoin'>Bitcoin page</a>.</p>"
+          },
+          {
+            "question": "Why are you listing [insert random cryptocurrency]? It's clearly a scam!",
+            "answer": "<p>Nearly every cryptocurrency has been called a scam at some point in its lifetime. We're not here to judge the merits of any cryptocurrency, but we provide the best tools for you to make your own conclusions.</p><p>As long as it meets the listing criteria, it's eligible to be on the site.</p>"
+          },
+          {
+            "question": "In what time zone is the site based?",
+            "answer": "<p>Data is collected, recorded, and reported in UTC time unless otherwise specified.</p>"
+          },
+          {
+            "question": "At what time is the 24 hour % change based?",
+            "answer": "<p>It's based on the current time. It's a rolling 24 hour period.</p>"
+          }
+        ],
+        "Data & Methodology": [
+          {
+            "question": "💡 What is TRINDX™",
+            "answer": "<p>TRINDX™ (Trading Risk Index) is a proprietary risk-assessment indicator developed by the project’s AI system. It reflects the trading risk level of a specific cryptocurrency.</p><ul><li>Range: 55–465</li><li>Meaning: the lower the TRINDX™, the more stable and predictable the asset is considered.</li></ul><h3>What TRINDX™ takes into account</h3><p>The index is based on a composite analysis of market, technical, and behavioral factors, including:</p><ol><li>Volatility (variance, ATR across timeframes)</li><li>Market depth and liquidity (volume, spread, order book)</li><li>Correlation with BTC and ETH</li><li>Price momentum (speed and direction of movement)</li><li>Risk-to-reward ratio (R:R) from historical trades</li><li>Panic or speculative price behavior</li><li>Whale activity (large-wallet movements)</li><li>News and social sentiment (AI-based NLP)</li><li>Shock resilience score (recovery ability)</li><li>Network stability (uptime, hashrate, transaction volume)</li></ol><h3>🤖 How the AI analyst works</h3><p>The AI is trained on historical data from major assets and calculates an integrated risk score for each token using:</p><ul><li>weighted regression on multidimensional features,</li><li>self-learning anomaly detection,</li><li>clustering of assets by market behavior patterns.</li></ul><p>The result is a single number — TRINDX™, representing the relative trading risk of an asset compared to the rest of the market.</p>"
+          },
+          {
+            "question": "How are the prices calculated for the various cryptocurrencies?",
+            "answer": "<p>The price of a cryptocurrency is calculated by averaging the prices across all markets where the cryptocurrency is traded. The average is weighted by the 24 hour trading volume of each market.</p>"
+          },
+          {
+            "question": "What is &quot;Market Capitalization&quot; and how is it calculated?",
+            "answer": "<p>Market Capitalization is one way to rank the relative size of a cryptocurrency. It's calculated by multiplying the Price by the Circulating Supply.</p><p>Market Cap = Price X Circulating Supply.</p>"
+          },
+          {
+            "question": "What is the difference between &quot;Circulating Supply&quot;, &quot;Total Supply&quot;, and &quot;Max Supply&quot;?",
+            "answer": "<p>Circulating Supply is the best approximation of the number of coins that are circulating in the market and in the general public's hands.</p><p>Total Supply is the total amount of coins in existence right now (minus any coins that have been verifiably burned).</p><p>Max Supply is the best approximation of the maximum amount of coins that will ever exist in the lifetime of the cryptocurrency.</p>"
+          },
+          {
+            "question": "Why is the Circulating Supply used in determining the market capitalization instead of Total Supply?",
+            "answer": "<p>We've found that Circulating Supply is a much better metric for determining the market capitalization. Coins that are locked, reserved, or not able to be sold on the public market are coins that can't affect the price and thus should not be allowed to affect the market capitalization as well.</p><p>The method of using the Circulating Supply is analogous to the method of using public float for determining the market capitalization of companies in traditional investing.</p>"
+          },
+          {
+            "question": "What is the difference between a &quot;Coin&quot; and a &quot;Token&quot; on the site?",
+            "answer": "<p>A Coin is a cryptocurrency that can operate independently.</p><p>A Token is a cryptocurrency that depends on another cryptocurrency as a platform to operate.</p><p>Check out the <a href='/en/markets'>markets section</a> to view a list of tokens and their respective platforms.</p>"
+          },
+          {
+            "question": "Why does a question mark sometimes show up for the circulating supply and market cap of a cryptocurrency?",
+            "answer": "<p>In order to ensure accurate market cap rankings, we work closely with teams and developers to verify supply details on their respective blockchains.</p><p>If a question mark shows up, it means that we have not sufficiently verified the circulating supply and resulting market cap yet.</p>"
+          },
+          {
+            "question": "Why are markets with no fees excluded from the price average and total trading volume?",
+            "answer": "<p>When no fees are being charged at the exchange, it is possible for a trader (or bot) to trade back and forth with themselves and generate a lot of &quot;fake&quot; volume without penalty. It's impossible to determine how much of the volume is fake so we exclude it entirely from the calculations.</p>"
+          }
+        ],
+        "Platform & Usage": [
+          {
+            "question": "What is the criteria for a cryptocurrency or exchange to be listed on CryptoAPI?",
+            "answer": "<p>We strive to list every cryptocurrency and exchange in the universe, but it's virtually impossible to list everything. Listing cryptocurrencies and exchanges is largely a manual process that takes time and resources to ensure the accuracy of our data.</p>"
+          },
+          {
+            "question": "Why aren't you listing [insert random cryptocurrency]?",
+            "answer": "<p>While we strive to add every single cryptocurrency in the universe, it's virtually impossible to list everything. Listing cryptocurrencies is largely a manual process that takes time and resources to ensure the accuracy of our data.</p>"
+          },
+          {
+            "question": "Do you offer an API for your data?",
+            "answer": "<p>Yes! Check out the <a href='/en/api'>CryptoAPI API</a>.</p>"
+          },
+          {
+            "question": "Am I allowed to use content (screenshots, data, graphs, etc.) for one of my personal projects and/or commercial use?",
+            "answer": "<p>You may use the content for academic or journalistic use provided that you cite cryptoapi.ai as a source.</p><p>Please refer to the <a href='/en/useragreement'>User Agreement</a>.</p>"
+          }
+        ]
+      } %}
 
-      {% for faq in data_faq %}
-        {% include 'partials/faq-item.twig' with {'faq': faq, 'site': site} only %}
+      {% for section_title, faqs in data_faq %}
+        <h2 class="e-h2 text-success">{{ section_title|trans }}</h2>
+        {% for faq in faqs %}
+          {% include 'partials/faq-item.twig' with {'faq': faq, 'site': site} only %}
+        {% endfor %}
       {% endfor %}
     </div>
   </div>

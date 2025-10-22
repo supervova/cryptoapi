@@ -1,9 +1,8 @@
 @use 'abstracts' as *;
 
 // -----------------------------------------------------------------------------
-// BASE ACCORDION
+// #region: BASE ACCORDION
 // -----------------------------------------------------------------------------
-// #region
 
 /* details */.e-accordion {
   --summary-color: var(--color-ink-text);
@@ -85,9 +84,9 @@
 // #endregion
 
 // -----------------------------------------------------------------------------
-// HEADER CONTAINING A HGROUP
+// #region: HEADER CONTAINING A HGROUP
 // -----------------------------------------------------------------------------
-// #region
+
 .e-accordion__header.has-hgroup {
   display: flex;
   align-items: center;
@@ -129,4 +128,18 @@
 .e-accordion__spot-icon {
   @include spot-icon();
 }
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// #region: CONTENT
+// -----------------------------------------------------------------------------
+
+.e-accordion__body h3 {
+  @include text-format(base);
+
+  color: var(--color-ink-text);
+  font-weight: 500;
+}
+
 // #endregion
