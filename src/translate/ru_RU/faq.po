@@ -16,6 +16,56 @@ msgid "Frequently Asked Questions (FAQ)"
 msgstr "Часто задаваемые вопросы (FAQ)"
 
 # ------------------------------------------------------------------------------
+# Platform & Usage
+# ------------------------------------------------------------------------------
+
+msgid "Platform & Usage"
+msgstr "Трейдинг с CryptoAPI"
+
+# 1
+msgid "💱 Can I use Binance on my own?"
+msgstr "💱 Могу ли я самостоятельно пользоваться Binance?"
+
+msgid "<p>Yes. You can use your Binance account as you normally would — buy, sell, or hold assets on your <b>SPOT balance</b>.</p><p>Once your exchange is connected via API, the system will automatically detect your manual purchases and include those assets in AI trading without any extra steps.</p>"
+msgstr "<p>Да, конечно. Вы можете использовать свой аккаунт Binance как обычно — покупать, продавать или держать активы на <b>СПОТОВОМ балансе</b></p><p>Если вы подключили биржу через API, система автоматически распознает ваши покупки и включает эти активы в торговлю ИИ без дополнительных действий с вашей стороны.</p>"
+
+# 2
+msgid "🔐 How to connect Binance via API?"
+msgstr "🔐 Как подключить Binance по API?"
+
+msgid "<p>To enable automated trading through your Binance account, connect it via API:</p> <ol> <li> <p>On <strong>Binance.com</strong>, click your profile icon (top right) → <strong>API Management</strong>.</p> </li> <li> <p>Create a <strong>new API key</strong>, name it, complete the security verification (email, 2FA), and get your <strong>API Key</strong> and <strong>Secret Key</strong>.</p> <p>⚠️ The Secret Key is shown <strong>only once</strong> — make sure to save it and enter both keys in your <strong>CRYPTOAPI</strong> trading settings.</p> </li> <li> <p>In the Binance API settings, enable <strong>Spot and Margin Trading</strong>.</p> </li> <li> <p>Under <strong>IP Access Restrictions</strong>, whitelist this IP: <code>176.9.166.90</code></p> </li> <li> <p>Transfer enough of your selected <strong>stablecoin</strong> to your <strong>spot balance</strong> and <strong>activate trading</strong>.</p> <p>💰 <strong>Note:</strong> funds must be placed on the <strong>SPOT balance</strong> — otherwise, the system won’t be able to use them.</p> </li> </ol>"
+msgstr "<p>Чтобы система могла автоматически торговать через ваш аккаунт Binance, подключите биржу по API:</p> <ol> <li> <p>На сайте <strong>Binance.com</strong> нажмите на значок профиля (в правом верхнем углу) → <strong>Управление API</strong>.</p> </li> <li> <p>Создайте <strong>новый API-ключ</strong>, введите имя, пройдите проверку безопасности (e-mail, 2FA) и получите <strong>API Key</strong> и <strong>Secret Key</strong>.</p> <p>⚠️ Секретный ключ показывается <strong>только один раз</strong> — обязательно сохраните его и добавьте оба ключа в настройках торговли <strong>CRYPTOAPI</strong>.</p> </li> <li> <p>В настройках API на Binance включите <strong>«Спотовую и маржинальную торговлю»</strong>.</p> </li> <li> <p>В разделе <strong>«Ограничения доступа по IP»</strong> добавьте этот IP в белый список: <code>176.9.166.90</code></p> </li> <li> <p>Переведите на свой спотовый баланс достаточную сумму выбранного <strong>стейблкоина</strong> и <strong>активируйте торговлю</strong>.</p> <p>💰 <strong>Важно:</strong> средства должны находиться <strong>на СПОТОВОМ балансе</strong>, иначе система не сможет их использовать.</p> </li> </ol>"
+
+# 3
+msgid "What is the criteria for a cryptocurrency or exchange to be listed on CryptoAPI?"
+msgstr "Какие критерии включения криптовалюты или биржи в список на CryptoAPI?"
+
+msgid "<p>We strive to list every cryptocurrency and exchange in the universe, but it's virtually impossible to list everything. Listing cryptocurrencies and exchanges is largely a manual process that takes time and resources to ensure the accuracy of our data.</p>"
+msgstr "<p>Мы стараемся добавить все криптовалюты и биржи, но это невозможно. Листинг — в основном ручной процесс, требующий времени и ресурсов для точности данных.</p>"
+
+# 4
+msgid "Why aren't you listing [insert random cryptocurrency]?"
+msgstr "Почему вы не добавили [можете вставить любую криптовалюту]?"
+
+msgid "<p>While we strive to add every single cryptocurrency in the universe, it's virtually impossible to list everything. Listing cryptocurrencies is largely a manual process that takes time and resources to ensure the accuracy of our data.</p>"
+msgstr "<p>Мы стараемся добавить все криптовалюты, но это невозможно. Листинг — в основном ручной процесс, требующий времени и ресурсов для точности данных.</p>"
+
+# 5
+msgid "Do you offer an API for your data?"
+msgstr "Предоставляете ли вы API для данных?"
+
+msgid "<p>Yes! Check out the <a href='/en/api'>CryptoAPI API</a>.</p>"
+msgstr "<p>Да! См. <a href='/ru/api'>CryptoAPI API</a>.</p>"
+
+# 6
+msgid "Am I allowed to use content (screenshots, data, graphs, etc.) for one of my personal projects and/or commercial use?"
+msgstr "Можно ли использовать контент (скриншоты, данные, графики и т. д.) для личных или коммерческих проектов?"
+
+msgid "<p>You may use the content for academic or journalistic use provided that you cite cryptoapi.ai as a source.</p><p>Please refer to the <a href='/en/useragreement'>User Agreement</a>.</p>"
+msgstr "<p>Можно использовать материалы для академических или журналистских целей с обязательной ссылкой на cryptoapi.ai.</p><p>См. <a href='/ru/useragreement'>Условия использования</a>.</p>"
+
+
+# ------------------------------------------------------------------------------
 # General Questions
 # ------------------------------------------------------------------------------
 
@@ -51,62 +101,104 @@ msgid "<p>It's based on the current time. It's a rolling 24 hour period.</p>"
 msgstr "<p>От текущего времени. Это скользящий 24-часовой период.</p>"
 
 # ------------------------------------------------------------------------------
-# Data & Methodology
+# Indicators & Metrics
 # ------------------------------------------------------------------------------
 
-msgid "Data & Methodology"
-msgstr "Данные и методология"
+msgid "Indicators & Metrics"
+msgstr "Индикаторы и метрики"
 
 # 1
+msgid "📊 What is the rating in the Markets table?"
+msgstr "📊 Что такое рейтинг в таблице «Рынки»?"
+
+msgid "<p>The rating is a composite measure of an asset’s attractiveness. It’s primarily based on the TRINDX™ risk index but also factors in:</p> <ul> <li>price momentum and trading volume,</li> <li>risk-to-reward ratio,</li> <li>market shock resilience,</li> <li>trader activity and liquidity.</li> </ul> <p>The final rating helps compare assets by their stability and growth potential.</p>"
+msgstr "<p>Рейтинг — это обобщённая оценка привлекательности актива. В его основе лежит индекс TRINDX™, отражающий уровень риска, но также учитываются:</p> <ul> <li>динамика цены и объём торгов,</li> <li>отношение риск/прибыль,</li> <li>устойчивость к рыночным шокам,</li> <li>активность трейдеров и ликвидность.</li> </ul> <p>Итоговый рейтинг помогает быстро сравнить активы по сочетанию надёжности и потенциала.</p>"
+
+# 2
 msgid "💡 What is TRINDX™"
 msgstr "💡 Что такое TRINDX™"
 
-msgid "<p>TRINDX™ (Trading Risk Index) is a proprietary risk-assessment indicator developed by the project’s AI system. It reflects the trading risk level of a specific cryptocurrency.</p><ul><li>Range: 55–465</li><li>Meaning: the lower the TRINDX™, the more stable and predictable the asset is considered.</li></ul><h3>What TRINDX™ takes into account</h3><p>The index is based on a composite analysis of market, technical, and behavioral factors, including:</p><ol><li>Volatility (variance, ATR across timeframes)</li><li>Market depth and liquidity (volume, spread, order book)</li><li>Correlation with BTC and ETH</li><li>Price momentum (speed and direction of movement)</li><li>Risk-to-reward ratio (R:R) from historical trades</li><li>Panic or speculative price behavior</li><li>Whale activity (large-wallet movements)</li><li>News and social sentiment (AI-based NLP)</li><li>Shock resilience score (recovery ability)</li><li>Network stability (uptime, hashrate, transaction volume)</li></ol><h3>🤖 How the AI analyst works</h3><p>The AI is trained on historical data from major assets and calculates an integrated risk score for each token using:</p><ul><li>weighted regression on multidimensional features,</li><li>self-learning anomaly detection,</li><li>clustering of assets by market behavior patterns.</li></ul><p>The result is a single number — TRINDX™, representing the relative trading risk of an asset compared to the rest of the market.</p>"
-msgstr "<p>TRINDX™ (Trading Risk Index) — это собственный индекс оценки торговых рисков, разработанный системой искусственного интеллекта проекта. Он отражает степень рискованности конкретного криптоактива с точки зрения трейдинга.</p><ul><li>Диапазон: 55–465</li><li>Интерпретация: чем ниже TRINDX™, тем актив считается стабильнее и предсказуемее.</li></ul><h3>⚙️ Что учитывает TRINDX™</h3><p>Индекс формируется на основе совокупного анализа рыночных, технических и поведенческих факторов, включая:</p><ol><li>Волатильность (дисперсия и ATR за разные периоды)</li><li>Глубину и ликвидность рынка (объёмы, спред, ордербук)</li><li>Корреляцию с BTC и ETH (для оценки рыночной зависимости)</li><li>Импульс цены (скорость и направление изменений)</li><li>Соотношение риск/прибыль (R:R) по историческим сделкам</li><li>Уровень «панических» или «спекулятивных» движений</li><li>Поведение крупных кошельков (whale activity)</li><li>Новостной/социальный сентимент (AI NLP-анализ)</li><li>Устойчивость к рыночным шокам (resilience score)</li><li>Техническую стабильность сети (uptime, хэшрейт, объём транзакций)</li></ol><h3>🤖 Как работает ИИ-аналитик</h3><p>ИИ обучен на исторических данных топовых активов и вычисляет интегральный риск по каждому токену, используя:</p><ul><li>взвешенную регрессию по многомерным признакам,</li><li>самообучающиеся модели аномалий,</li><li>кластеризацию активов по рыночным паттернам.</li></ul><p>Результат — одно число TRINDX™, которое показывает относительный риск данного актива по сравнению с другими на рынке.</p>"
+msgid "<p>TRINDX™ (Trading Risk Index) is a proprietary risk-assessment indicator developed by the project’s AI system. It reflects the trading risk level of a specific cryptocurrency.</p><ul><li>Range: 20–465</li><li>Meaning: the lower the TRINDX™, the more stable and predictable the asset is considered.</li></ul><h3>What TRINDX™ takes into account</h3><p>The index is based on a composite analysis of market, technical, and behavioral factors, including:</p><ol><li>Volatility (variance, ATR across timeframes)</li><li>Market depth and liquidity (volume, spread, order book)</li><li>Correlation with BTC and ETH</li><li>Price momentum (speed and direction of movement)</li><li>Risk-to-reward ratio (R:R) from historical trades</li><li>Panic or speculative price behavior</li><li>Whale activity (large-wallet movements)</li><li>News and social sentiment (AI-based NLP)</li><li>Shock resilience score (recovery ability)</li><li>Network stability (uptime, hashrate, transaction volume)</li></ol><h3>How the AI analyst works</h3><p>The AI is trained on historical data from major assets and calculates an integrated risk score for each token using:</p><ul><li>weighted regression on multidimensional features,</li><li>self-learning anomaly detection,</li><li>clustering of assets by market behavior patterns.</li></ul><p>The result is a single number — TRINDX™, representing the relative trading risk of an asset compared to the rest of the market.</p>"
+msgstr "<p>TRINDX™ (Trading Risk Index) — это собственный индекс оценки торговых рисков, разработанный системой искусственного интеллекта проекта. Он отражает степень рискованности конкретного криптоактива с точки зрения трейдинга.</p><ul><li>Диапазон: 20–465</li><li>Интерпретация: чем ниже TRINDX™, тем актив считается стабильнее и предсказуемее.</li></ul><h3>⚙️ Что учитывает TRINDX™</h3><p>Индекс формируется на основе совокупного анализа рыночных, технических и поведенческих факторов, включая:</p><ol><li>Волатильность (дисперсия и ATR за разные периоды)</li><li>Глубину и ликвидность рынка (объёмы, спред, ордербук)</li><li>Корреляцию с BTC и ETH (для оценки рыночной зависимости)</li><li>Импульс цены (скорость и направление изменений)</li><li>Соотношение риск/прибыль (R:R) по историческим сделкам</li><li>Уровень «панических» или «спекулятивных» движений</li><li>Поведение крупных кошельков (whale activity)</li><li>Новостной/социальный сентимент (AI NLP-анализ)</li><li>Устойчивость к рыночным шокам (resilience score)</li><li>Техническую стабильность сети (uptime, хэшрейт, объём транзакций)</li></ol><h3>Как работает ИИ-аналитик</h3><p>ИИ обучен на исторических данных топовых активов и вычисляет интегральный риск по каждому токену, используя:</p><ul><li>взвешенную регрессию по многомерным признакам,</li><li>самообучающиеся модели аномалий,</li><li>кластеризацию активов по рыночным паттернам.</li></ul><p>Результат — одно число TRINDX™, которое показывает относительный риск данного актива по сравнению с другими на рынке.</p>"
 
-# XX
+# 3
+msgid "🧭 What is the Fear and Greed Index?"
+msgstr "🧭 Что такое индекс страха и жадности?"
+
+msgid "<p>It measures overall market sentiment: a higher score means more greed (risk appetite), while a lower score shows fear and selling pressure.</p>"
+msgstr "<p>Это показатель настроения рынка: чем выше значение, тем больше жадности (готовности рисковать), чем ниже — тем сильнее страх и стремление продавать.</p>"
+
+# 4
+msgid "🔁 What is RSI?"
+msgstr "🔁 Что такое RSI?"
+
+msgid "<p><b>RSI (Relative Strength Index)</b> — an indicator that shows whether an asset is overbought or oversold. In the Markets section, the quotes table displays 7-day RSI by default, but you can switch in the filter panel to RSI30 (1 month), RSI91 (quarter), RSI182 (half-year), RSI365 (year), or RSI1000 (1000 days).</p>"
+msgstr "<p><b>RSI (Индекс относительной силы)</b> — показатель, который помогает понять, перекуплен ли актив или перепродан. В разделе «Рынки» в таблице котировок по умолчанию показан RSI за 7 дней, но в панели фильтров можно выбрать RSI30 (месяц), RSI91 (квартал), RSI182 (полгода), RSI365 (год) или RSI1000 (1000 дней).</p>"
+
+# 5
+msgid "⚠️ What do the icons in the “Risk” column mean?"
+msgstr "⚠️ Что означают значки в колонке «Риск»?"
+
+msgid "<p>The icons represent the risk level of each crypto asset, based on the TRINDX™ index but shown in a simplified way.</p> <p>Assets are divided into three groups:</p> <ul> <li>🔴 High-risk — high volatility, unpredictable behavior.</li> <li>🟡 Moderate — balanced risk and average stability.</li> <li>🟢 Low-risk — lowest volatility, strong resilience.</li> </ul> <p>It helps users quickly assess risk without checking the full TRINDX value.</p>"
+msgstr "<p>Значки показывают степень рискованности криптоактива на основе индекса TRINDX™, но в упрощённой форме.</p> <p>Все активы разделены на три группы:</p> <ul> <li>🔴 Рискованные — высокая волатильность, непредсказуемые движения.</li> <li>🟡 Умеренные — сбалансированный риск, стабильность средняя.</li> <li>🟢 Безопасные — наименьшая волатильность, высокая устойчивость.</li> </ul> <p>Это помогает быстро оценить уровень риска без просмотра числовых значений TRINDX.</p>"
+
+# 6
+msgid "💹 What do “Market” and the percentage value next to it in the header mean?"
+msgstr "💹 Что означает слово «Рынок» и процентное значение рядом в шапке сайта?"
+
+msgid "<p>It shows the change in total cryptocurrency market capitalization over the past 24 hours.</p><p>Only the percentage is displayed — without absolute numbers — to clearly indicate the market’s overall direction.</p>"
+msgstr "<p>Этот показатель отражает изменение общей капитализации крипторынка за сутки.</p><p>Абсолютные значения не показываются — только процент роста или снижения, чтобы наглядно показать общее направление рынка</p>"
+
+# 7
+msgid "🍔 What do the three horizontal bars (hamburger) in the header mean?"
+msgstr "🍔 Что означают три горизонтальные черточки («гамбургер») в шапке сайта?"
+
+msgid "<p>They indicate the relative level of trading activity in the crypto market:</p> <ul> <li>☰ high activity (many trades).</li> <li>🟰 normal activity (average volume),</li> <li>▬ low activity (few trades),</li> </ul> <p>It helps users quickly gauge how active the market is right now.</p>"
+msgstr "<p>Это индикатор относительного уровня торговой активности на крипторынке:</p> <ul> <li>☰ высокая активность (много сделок).</li> <li>🟰 средняя активность (нормальный объём торгов),</li> <li>▬ низкая активность (мало сделок),</li> </ul> <p>Он помогает быстро понять, насколько «живой» рынок в данный момент.</p>"
+
+# ------------------------------------------------------------------------------
+# Data Sources & Calculations
+# ------------------------------------------------------------------------------
+
+msgid "Data Sources & Calculations"
+msgstr "Расчёты и источники данных"
+
+# 1
 msgid "How are the prices calculated for the various cryptocurrencies?"
 msgstr "Как рассчитываются цены для различных криптовалют?"
 
 msgid "<p>The price of a cryptocurrency is calculated by averaging the prices across all markets where the cryptocurrency is traded. The average is weighted by the 24 hour trading volume of each market.</p>"
 msgstr "<p>Цена криптовалюты рассчитывается как средневзвешенное значение цен на всех рынках, где она торгуется. Среднее взвешивается по объему торгов за 24 часа на каждом рынке.</p>"
 
-# XX
+# 2
 msgid "What is &quot;Market Capitalization&quot; and how is it calculated?"
 msgstr "Что такое «Рыночная капитализация» и как она рассчитывается?"
 
 msgid "<p>Market Capitalization is one way to rank the relative size of a cryptocurrency. It's calculated by multiplying the Price by the Circulating Supply.</p><p>Market Cap = Price X Circulating Supply.</p>"
 msgstr "<p>Рыночная капитализация — способ оценить относительный размер криптовалюты. Рассчитывается умножением цены на циркулирующее предложение.</p><p>Рыночная капитализация = Цена × Циркулирующее предложение.</p>"
 
-# XX
+# 3
 msgid "What is the difference between &quot;Circulating Supply&quot;, &quot;Total Supply&quot;, and &quot;Max Supply&quot;?"
 msgstr "В чем разница между «Циркулирующим предложением», «Общим предложением» и «Максимальным предложением»?"
 
 msgid "<p>Circulating Supply is the best approximation of the number of coins that are circulating in the market and in the general public's hands.</p><p>Total Supply is the total amount of coins in existence right now (minus any coins that have been verifiably burned).</p><p>Max Supply is the best approximation of the maximum amount of coins that will ever exist in the lifetime of the cryptocurrency.</p>"
 msgstr "<p>Циркулирующее предложение (Circulating Supply) — наиболее точная оценка количества монет, находящихся в обращении на рынке и у широкой публики.</p><p>Общее предложение (Total Supply) — общее количество монет, существующих в данный момент (за вычетом тех, что были доказуемо сожжены).</p><p>Максимальное предложение (Max Supply) — наиболее точная оценка максимального количества монет, которое когда-либо будет существовать за всё время жизни криптовалюты.</p>"
 
-# XX
+# 4
 msgid "Why is the Circulating Supply used in determining the market capitalization instead of Total Supply?"
 msgstr "Почему для расчета рыночной капитализации используется циркулирующее предложение, а не общее?"
 
 msgid "<p>We've found that Circulating Supply is a much better metric for determining the market capitalization. Coins that are locked, reserved, or not able to be sold on the public market are coins that can't affect the price and thus should not be allowed to affect the market capitalization as well.</p><p>The method of using the Circulating Supply is analogous to the method of using public float for determining the market capitalization of companies in traditional investing.</p>"
 msgstr "<p>Циркулирующее предложение лучше отражает рыночную капитализацию. Заблокированные или недоступные для продажи монеты не влияют на цену и не должны учитываться в капитализации.</p><p>Использование циркулирующего предложения аналогично методу free float для оценки капитализации компаний в традиционных инвестициях.</p>"
 
-# XX
-msgid "What is the difference between a &quot;Coin&quot; and a &quot;Token&quot; on the site?"
-msgstr "В чем разница между «Коином» и «Токеном» на сайте?"
-
-msgid "<p>A Coin is a cryptocurrency that can operate independently.</p><p>A Token is a cryptocurrency that depends on another cryptocurrency as a platform to operate.</p><p>Check out the <a href='/en/markets'>markets section</a> to view a list of tokens and their respective platforms.</p>"
-msgstr "<p>Коин — это криптовалюта, которая может работать самостоятельно.</p><p>Токен — это криптовалюта, которая функционирует на базе другой криптовалюты.</p><p>Список токенов и их платформ см. в разделе «<a href='/ru/markets'>Рынки</a>».</p>"
-
-# XX
+# 5
 msgid "Why does a question mark sometimes show up for the circulating supply and market cap of a cryptocurrency?"
 msgstr "Почему иногда для циркулирующего предложения и капитализации отображается знак вопроса?"
 
 msgid "<p>In order to ensure accurate market cap rankings, we work closely with teams and developers to verify supply details on their respective blockchains.</p><p>If a question mark shows up, it means that we have not sufficiently verified the circulating supply and resulting market cap yet.</p>"
 msgstr "<p>Чтобы обеспечить точность рейтингов капитализации, мы проверяем данные об эмиссии вместе с командами и разработчиками.</p><p>Если отображается знак вопроса, значит данные о циркулирующем предложении и капитализации ещё не подтверждены.</p>"
 
-# XX
+# 6
 msgid "Why are markets with no fees excluded from the price average and total trading volume?"
 msgstr "Почему рынки без комиссий исключены из расчета средней цены и объема торгов?"
 
@@ -114,37 +206,30 @@ msgid "<p>When no fees are being charged at the exchange, it is possible for a t
 msgstr "<p>Если биржа не взимает комиссий, трейдер или бот может торговать сам с собой и генерировать «фейковый» объем. Поэтому такие объемы полностью исключаются из расчетов.</p>"
 
 # ------------------------------------------------------------------------------
-# Platform & Usage
+# AI Behavior & Trading Methodology
 # ------------------------------------------------------------------------------
 
-msgid "Platform & Usage"
-msgstr "О нашей платформе"
+msgid "AI Behavior & Trading Methodology"
+msgstr "Алгоритмы, стратегии и риск-менеджмент"
 
 # 1
-msgid "What is the criteria for a cryptocurrency or exchange to be listed on CryptoAPI?"
-msgstr "Какие критерии включения криптовалюты или биржи в список на CryptoAPI?"
+msgid "⚙️ What do the strategy types in trading settings mean?"
+msgstr "⚙️ Что значат типы стратегии, которые нужно выбрать в настройках трейдинга?"
 
-msgid "<p>We strive to list every cryptocurrency and exchange in the universe, but it's virtually impossible to list everything. Listing cryptocurrencies and exchanges is largely a manual process that takes time and resources to ensure the accuracy of our data.</p>"
-msgstr "<p>Мы стараемся добавить все криптовалюты и биржи, но это невозможно. Листинг — в основном ручной процесс, требующий времени и ресурсов для точности данных.</p>"
+msgid "<p>The strategy defines how the AI selects and manages assets.</p> <ul> <li><b>Conservative</b> — low risk. Enters only assets with the highest growth potential at low market positions. Average cycle: 1–30 days. Low trading frequency — a few trades per month.</li> <li><b>Balanced</b> — medium risk. Excludes the riskiest assets, enters at low or mid positions. Average cycle: 7–180 days. Medium frequency — several dozen trades per month.</li> <li><b>Aggressive</b> — higher risk. Works with all assets except TOP-100 high-risk ones, enters at any position, focuses on maximum profit with rebalancing. Average cycle: 15–365 days. High frequency — a few trades per day. Requires a large and flexible balance.</li> </ul>"
+msgstr "<p>Тип стратегии определяет стиль поведения ИИ при подборе и управлении активами.</p> <ul> <li><b>Консервативная</b> — низкий риск. Вход только в активы с наибольшим потенциалом роста на низких рыночных позициях. Средний цикл: 1–30 дней. Торговая активность низкая — несколько сделок в месяц.</li> <li><b>Сбалансированная</b> — средний риск. Исключаются самые рискованные активы, вход при низких или средних позициях. Средний цикл: 7–180 дней. Торговая активность средняя — несколько десятков сделок в месяц.</li> <li><b>Агрессивная</b> — повышенный риск. Работа с любыми активами, кроме самых рискованных из TOP-100. Вход на любых рыночных позициях, прицельная работа на максимальную прибыль с ребалансировкой. Средний цикл: 15–365 дней. Высокая торговая активность — несколько сделок в день. Требуется крупный свободный баланс для гибкости.</li> </ul>"
 
 # 2
-msgid "Why aren't you listing [insert random cryptocurrency]?"
-msgstr "Почему вы не добавили [можете вставить любую криптовалюту]?"
+msgid "🧮 What does the “Risk Management” section in trading settings mean?"
+msgstr "🧮 Что означает раздел «Управление риском» в настройках трейдинга?"
 
-msgid "<p>While we strive to add every single cryptocurrency in the universe, it's virtually impossible to list everything. Listing cryptocurrencies is largely a manual process that takes time and resources to ensure the accuracy of our data.</p>"
-msgstr "<p>Мы стараемся добавить все криптовалюты, но это невозможно. Листинг — в основном ручной процесс, требующий времени и ресурсов для точности данных.</p>"
+msgid "<p>This section defines how much of your total balance the AI is allowed to use for trading. All values are percentages of the total balance.</p> <ul> <li><p><b>Deposit allocation, %</b> — the portion of the balance available for initial trade entries, excluding rebalancing.</p> <p>Example: with 90 %, the AI may use up to 90 % of your balance for opening positions.</p></li> <li><p><b>Maximum deposit allocation, %</b> — the upper limit of total balance usage across all operations, including rebalancing and additional entries.</p> <p>Example: with 100 %, the system can use the full balance but never exceed it.</p></li> </ul> <p>These settings help you manage risk exposure and capital distribution, keeping part of your balance in reserve.</p>"
+msgstr "<p>Этот раздел помогает задать, какую часть депозита ИИ может использовать в торговле. Все значения указываются в процентах от общего баланса.</p> <ul> <li><p><b>Deposit allocation, %</b> — доля депозита, доступная для первичного входа в сделку. Эти средства используются при открытии позиций, без учёта ребалансировки.</p> <p>Пример: если указано 90 %, то ИИ может использовать до 90 % баланса для начальных входов в активы.</p></li> <li><p><b>Maximum deposit allocation, %</b> — предельная доля баланса, которая может быть задействована во всех торговых операциях, включая дополнительные входы и ребалансировку.</p> <p>Пример: при значении 100 % система может использовать весь баланс, но не превышать его.</p></li> </ul> <p>Эти параметры позволяют гибко контролировать уровень риска и загрузку депозита, сохраняя часть средств в резерве.</p>"
 
 # 3
-msgid "Do you offer an API for your data?"
-msgstr "Предоставляете ли вы API для данных?"
+msgid "What is the difference between a &quot;Coin&quot; and a &quot;Token&quot; on the site?"
+msgstr "В чем разница между «Коином» и «Токеном» на сайте?"
 
-msgid "<p>Yes! Check out the <a href='/en/api'>CryptoAPI API</a>.</p>"
-msgstr "<p>Да! См. <a href='/ru/api'>CryptoAPI API</a>.</p>"
-
-# 4
-msgid "Am I allowed to use content (screenshots, data, graphs, etc.) for one of my personal projects and/or commercial use?"
-msgstr "Можно ли использовать контент (скриншоты, данные, графики и т. д.) для личных или коммерческих проектов?"
-
-msgid "<p>You may use the content for academic or journalistic use provided that you cite cryptoapi.ai as a source.</p><p>Please refer to the <a href='/en/useragreement'>User Agreement</a>.</p>"
-msgstr "<p>Можно использовать материалы для академических или журналистских целей с обязательной ссылкой на cryptoapi.ai.</p><p>См. <a href='/ru/useragreement'>Условия использования</a>.</p>"
+msgid "<p>A Coin is a cryptocurrency that can operate independently.</p><p>A Token is a cryptocurrency that depends on another cryptocurrency as a platform to operate.</p><p>Check out the <a href='/en/markets'>markets section</a> to view a list of tokens and their respective platforms.</p>"
+msgstr "<p>Коин — это криптовалюта, которая может работать самостоятельно.</p><p>Токен — это криптовалюта, которая функционирует на базе другой криптовалюты.</p><p>Список токенов и их платформ см. в разделе «<a href='/ru/markets'>Рынки</a>».</p>"
 

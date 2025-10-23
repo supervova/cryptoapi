@@ -19,29 +19,63 @@
 
     <div class="e-main__body">
       {% set data_faq = {
-        "General Questions": [
+        "Platform & Usage": [
           {
-            "question": "How do I purchase cryptocurrency?",
-            "answer": "<p>CryptoAPI reports on the trading activities of thousands of markets but does not directly sell any cryptocurrency.</p><p>The best way to find where to buy is by looking on the markets section for the cryptocurrency.</p><p>For example, to find where to buy Bitcoin, you can look at the <a href='/en/markets/bitcoin'>Bitcoin page</a>.</p>"
+            "question": "💱 Can I use Binance on my own?",
+            "answer": "<p>Yes. You can use your Binance account as you normally would — buy, sell, or hold assets on your <b>SPOT balance</b>.</p><p>Once your exchange is connected via API, the system will automatically detect your manual purchases and include those assets in AI trading without any extra steps.</p>"
           },
           {
-            "question": "Why are you listing [insert random cryptocurrency]? It's clearly a scam!",
-            "answer": "<p>Nearly every cryptocurrency has been called a scam at some point in its lifetime. We're not here to judge the merits of any cryptocurrency, but we provide the best tools for you to make your own conclusions.</p><p>As long as it meets the listing criteria, it's eligible to be on the site.</p>"
+            "question": "🔐 How to connect Binance via API?",
+            "answer": "<p>To enable automated trading through your Binance account, connect it via API:</p> <ol> <li> <p>On <strong>Binance.com</strong>, click your profile icon (top right) → <strong>API Management</strong>.</p> </li> <li> <p>Create a <strong>new API key</strong>, name it, complete the security verification (email, 2FA), and get your <strong>API Key</strong> and <strong>Secret Key</strong>.</p> <p>⚠️ The Secret Key is shown <strong>only once</strong> — make sure to save it and enter both keys in your <strong>CRYPTOAPI</strong> trading settings.</p> </li> <li> <p>In the Binance API settings, enable <strong>Spot and Margin Trading</strong>.</p> </li> <li> <p>Under <strong>IP Access Restrictions</strong>, whitelist this IP: <code>176.9.166.90</code></p> </li> <li> <p>Transfer enough of your selected <strong>stablecoin</strong> to your <strong>spot balance</strong> and <strong>activate trading</strong>.</p> <p>💰 <strong>Note:</strong> funds must be placed on the <strong>SPOT balance</strong> — otherwise, the system won’t be able to use them.</p> </li> </ol>"
           },
           {
-            "question": "In what time zone is the site based?",
-            "answer": "<p>Data is collected, recorded, and reported in UTC time unless otherwise specified.</p>"
+            "question": "What is the criteria for a cryptocurrency or exchange to be listed on CryptoAPI?",
+            "answer": "<p>We strive to list every cryptocurrency and exchange in the universe, but it's virtually impossible to list everything. Listing cryptocurrencies and exchanges is largely a manual process that takes time and resources to ensure the accuracy of our data.</p>"
           },
           {
-            "question": "At what time is the 24 hour % change based?",
-            "answer": "<p>It's based on the current time. It's a rolling 24 hour period.</p>"
+            "question": "Why aren't you listing [insert random cryptocurrency]?",
+            "answer": "<p>While we strive to add every single cryptocurrency in the universe, it's virtually impossible to list everything. Listing cryptocurrencies is largely a manual process that takes time and resources to ensure the accuracy of our data.</p>"
+          },
+          {
+            "question": "Do you offer an API for your data?",
+            "answer": "<p>Yes! Check out the <a href='/en/api'>CryptoAPI API</a>.</p>"
+          },
+          {
+            "question": "Am I allowed to use content (screenshots, data, graphs, etc.) for one of my personal projects and/or commercial use?",
+            "answer": "<p>You may use the content for academic or journalistic use provided that you cite cryptoapi.ai as a source.</p><p>Please refer to the <a href='/en/useragreement'>User Agreement</a>.</p>"
           }
         ],
-        "Data & Methodology": [
+        "Indicators & Metrics": [
+          {
+            "question": "📊 What is the rating in the Markets table?",
+            "answer": "<p>The rating is a composite measure of an asset’s attractiveness. It’s primarily based on the TRINDX™ risk index but also factors in:</p> <ul> <li>price momentum and trading volume,</li> <li>risk-to-reward ratio,</li> <li>market shock resilience,</li> <li>trader activity and liquidity.</li> </ul> <p>The final rating helps compare assets by their stability and growth potential.</p>"
+          },
           {
             "question": "💡 What is TRINDX™",
-            "answer": "<p>TRINDX™ (Trading Risk Index) is a proprietary risk-assessment indicator developed by the project’s AI system. It reflects the trading risk level of a specific cryptocurrency.</p><ul><li>Range: 55–465</li><li>Meaning: the lower the TRINDX™, the more stable and predictable the asset is considered.</li></ul><h3>What TRINDX™ takes into account</h3><p>The index is based on a composite analysis of market, technical, and behavioral factors, including:</p><ol><li>Volatility (variance, ATR across timeframes)</li><li>Market depth and liquidity (volume, spread, order book)</li><li>Correlation with BTC and ETH</li><li>Price momentum (speed and direction of movement)</li><li>Risk-to-reward ratio (R:R) from historical trades</li><li>Panic or speculative price behavior</li><li>Whale activity (large-wallet movements)</li><li>News and social sentiment (AI-based NLP)</li><li>Shock resilience score (recovery ability)</li><li>Network stability (uptime, hashrate, transaction volume)</li></ol><h3>🤖 How the AI analyst works</h3><p>The AI is trained on historical data from major assets and calculates an integrated risk score for each token using:</p><ul><li>weighted regression on multidimensional features,</li><li>self-learning anomaly detection,</li><li>clustering of assets by market behavior patterns.</li></ul><p>The result is a single number — TRINDX™, representing the relative trading risk of an asset compared to the rest of the market.</p>"
+            "answer": "<p>TRINDX™ (Trading Risk Index) is a proprietary risk-assessment indicator developed by the project’s AI system. It reflects the trading risk level of a specific cryptocurrency.</p><ul><li>Range: 20–465</li><li>Meaning: the lower the TRINDX™, the more stable and predictable the asset is considered.</li></ul><h3>What TRINDX™ takes into account</h3><p>The index is based on a composite analysis of market, technical, and behavioral factors, including:</p><ol><li>Volatility (variance, ATR across timeframes)</li><li>Market depth and liquidity (volume, spread, order book)</li><li>Correlation with BTC and ETH</li><li>Price momentum (speed and direction of movement)</li><li>Risk-to-reward ratio (R:R) from historical trades</li><li>Panic or speculative price behavior</li><li>Whale activity (large-wallet movements)</li><li>News and social sentiment (AI-based NLP)</li><li>Shock resilience score (recovery ability)</li><li>Network stability (uptime, hashrate, transaction volume)</li></ol><h3>How the AI analyst works</h3><p>The AI is trained on historical data from major assets and calculates an integrated risk score for each token using:</p><ul><li>weighted regression on multidimensional features,</li><li>self-learning anomaly detection,</li><li>clustering of assets by market behavior patterns.</li></ul><p>The result is a single number — TRINDX™, representing the relative trading risk of an asset compared to the rest of the market.</p>"
           },
+          {
+            "question": "🧭 What is the Fear and Greed Index?",
+            "answer": "<p>It measures overall market sentiment: a higher score means more greed (risk appetite), while a lower score shows fear and selling pressure.</p>"
+          },
+          {
+            "question": "🔁 What is RSI?",
+            "answer": "<p><b>RSI (Relative Strength Index)</b> — an indicator that shows whether an asset is overbought or oversold. In the Markets section, the quotes table displays 7-day RSI by default, but you can switch in the filter panel to RSI30 (1 month), RSI91 (quarter), RSI182 (half-year), RSI365 (year), or RSI1000 (1000 days).</p>"
+          },
+          {
+            "question": "⚠️ What do the icons in the “Risk” column mean?",
+            "answer": "<p>The icons represent the risk level of each crypto asset, based on the TRINDX™ index but shown in a simplified way.</p> <p>Assets are divided into three groups:</p> <ul> <li>🔴 High-risk — high volatility, unpredictable behavior.</li> <li>🟡 Moderate — balanced risk and average stability.</li> <li>🟢 Low-risk — lowest volatility, strong resilience.</li> </ul> <p>It helps users quickly assess risk without checking the full TRINDX value.</p>"
+          },
+          {
+            "question": "💹 What do “Market” and the percentage value next to it in the header mean?",
+            "answer": "<p>It shows the change in total cryptocurrency market capitalization over the past 24 hours.</p><p>Only the percentage is displayed — without absolute numbers — to clearly indicate the market’s overall direction.</p>"
+          },
+          {
+            "question": "🍔 What do the three horizontal bars (hamburger) in the header mean?",
+            "answer": "<p>They indicate the relative level of trading activity in the crypto market:</p> <ul> <li>☰ high activity (many trades).</li> <li>🟰 normal activity (average volume),</li> <li>▬ low activity (few trades),</li> </ul> <p>It helps users quickly gauge how active the market is right now.</p>"
+          },
+        ],
+        "Data Sources & Calculations": [
           {
             "question": "How are the prices calculated for the various cryptocurrencies?",
             "answer": "<p>The price of a cryptocurrency is calculated by averaging the prices across all markets where the cryptocurrency is traded. The average is weighted by the 24 hour trading volume of each market.</p>"
@@ -59,10 +93,6 @@
             "answer": "<p>We've found that Circulating Supply is a much better metric for determining the market capitalization. Coins that are locked, reserved, or not able to be sold on the public market are coins that can't affect the price and thus should not be allowed to affect the market capitalization as well.</p><p>The method of using the Circulating Supply is analogous to the method of using public float for determining the market capitalization of companies in traditional investing.</p>"
           },
           {
-            "question": "What is the difference between a &quot;Coin&quot; and a &quot;Token&quot; on the site?",
-            "answer": "<p>A Coin is a cryptocurrency that can operate independently.</p><p>A Token is a cryptocurrency that depends on another cryptocurrency as a platform to operate.</p><p>Check out the <a href='/en/markets'>markets section</a> to view a list of tokens and their respective platforms.</p>"
-          },
-          {
             "question": "Why does a question mark sometimes show up for the circulating supply and market cap of a cryptocurrency?",
             "answer": "<p>In order to ensure accurate market cap rankings, we work closely with teams and developers to verify supply details on their respective blockchains.</p><p>If a question mark shows up, it means that we have not sufficiently verified the circulating supply and resulting market cap yet.</p>"
           },
@@ -71,24 +101,34 @@
             "answer": "<p>When no fees are being charged at the exchange, it is possible for a trader (or bot) to trade back and forth with themselves and generate a lot of &quot;fake&quot; volume without penalty. It's impossible to determine how much of the volume is fake so we exclude it entirely from the calculations.</p>"
           }
         ],
-        "Platform & Usage": [
+        "AI Behavior & Trading Methodology": [
           {
-            "question": "What is the criteria for a cryptocurrency or exchange to be listed on CryptoAPI?",
-            "answer": "<p>We strive to list every cryptocurrency and exchange in the universe, but it's virtually impossible to list everything. Listing cryptocurrencies and exchanges is largely a manual process that takes time and resources to ensure the accuracy of our data.</p>"
+            "question": "⚙️ What do the strategy types in trading settings mean?",
+            "answer": "<p>The strategy defines how the AI selects and manages assets.</p> <ul> <li><b>Conservative</b> — low risk. Enters only assets with the highest growth potential at low market positions. Average cycle: 1–30 days. Low trading frequency — a few trades per month.</li> <li><b>Balanced</b> — medium risk. Excludes the riskiest assets, enters at low or mid positions. Average cycle: 7–180 days. Medium frequency — several dozen trades per month.</li> <li><b>Aggressive</b> — higher risk. Works with all assets except TOP-100 high-risk ones, enters at any position, focuses on maximum profit with rebalancing. Average cycle: 15–365 days. High frequency — a few trades per day. Requires a large and flexible balance.</li> </ul>"
           },
           {
-            "question": "Why aren't you listing [insert random cryptocurrency]?",
-            "answer": "<p>While we strive to add every single cryptocurrency in the universe, it's virtually impossible to list everything. Listing cryptocurrencies is largely a manual process that takes time and resources to ensure the accuracy of our data.</p>"
+            "question": "🧮 What does the “Risk Management” section in trading settings mean?",
+            "answer": "<p>This section defines how much of your total balance the AI is allowed to use for trading. All values are percentages of the total balance.</p> <ul> <li><p><b>Deposit allocation, %</b> — the portion of the balance available for initial trade entries, excluding rebalancing.</p> <p>Example: with 90 %, the AI may use up to 90 % of your balance for opening positions.</p></li> <li><p><b>Maximum deposit allocation, %</b> — the upper limit of total balance usage across all operations, including rebalancing and additional entries.</p> <p>Example: with 100 %, the system can use the full balance but never exceed it.</p></li> </ul> <p>These settings help you manage risk exposure and capital distribution, keeping part of your balance in reserve.</p>"
           },
           {
-            "question": "Do you offer an API for your data?",
-            "answer": "<p>Yes! Check out the <a href='/en/api'>CryptoAPI API</a>.</p>"
-          },
-          {
-            "question": "Am I allowed to use content (screenshots, data, graphs, etc.) for one of my personal projects and/or commercial use?",
-            "answer": "<p>You may use the content for academic or journalistic use provided that you cite cryptoapi.ai as a source.</p><p>Please refer to the <a href='/en/useragreement'>User Agreement</a>.</p>"
+            "question": "What is the difference between a &quot;Coin&quot; and a &quot;Token&quot; on the site?",
+            "answer": "<p>A Coin is a cryptocurrency that can operate independently.</p><p>A Token is a cryptocurrency that depends on another cryptocurrency as a platform to operate.</p><p>Check out the <a href='/en/markets'>markets section</a> to view a list of tokens and their respective platforms.</p>"
           }
-        ]
+        ],
+        "General Questions": [
+          {
+            "question": "Why are you listing [insert random cryptocurrency]? It's clearly a scam!",
+            "answer": "<p>Nearly every cryptocurrency has been called a scam at some point in its lifetime. We're not here to judge the merits of any cryptocurrency, but we provide the best tools for you to make your own conclusions.</p><p>As long as it meets the listing criteria, it's eligible to be on the site.</p>"
+          },
+          {
+            "question": "In what time zone is the site based?",
+            "answer": "<p>Data is collected, recorded, and reported in UTC time unless otherwise specified.</p>"
+          },
+          {
+            "question": "At what time is the 24 hour % change based?",
+            "answer": "<p>It's based on the current time. It's a rolling 24 hour period.</p>"
+          }
+        ],
       } %}
 
       {% for section_title, faqs in data_faq %}

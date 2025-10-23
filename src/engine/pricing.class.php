@@ -146,14 +146,14 @@ $data_objects['data_plans'] = [
     "title" => "Free",
     "icon" => "gift",
     "price" => 0,
-    "subtitle" => getphrase("Try it\u00a0out to\u00a0assess the accuracy of\u00a0our\u00a0AI algorithms"),
+    "subtitle" => getphrase("Try it out to assess the accuracy of our AI algorithms"),
     "link" => "/" . $user_lng . "/pricing/free/annual",
     "features" => [
       getphrase("Access to signals on the website"),
-      getphrase("Signal delay \u2013 15 seconds"),
-      getphrase("Up to 1,000 daily requests to the APIs \u201Casset rating\u201D, \u00a0\u201Cmarket indicators and indices\u201D"),
+      getphrase("Signal delay – 15 seconds"),
+      getphrase("Up to 1,000 daily requests to the APIs “asset rating”,  “market indicators and indices”"),
       getphrase("Binance API integration"),
-      getphrase("Service fee \u2013 30% of profit (but not less than $0.25)")
+      getphrase("Service fee – 30% of profit (but not less than $0.25)")
     ]
   ],
   [
@@ -165,10 +165,10 @@ $data_objects['data_plans'] = [
     "link" => "/" . $user_lng . "/pricing/trader/annual",
     "features" => [
       getphrase("Access to signals via Telegram"),
-      getphrase("Signal delay \u2013 none (real-time)"),
-      getphrase("Up to 10,000 daily requests to the APIs \u201Casset rating\u201D, \u00a0\u201Cmarket indicators and indices\u201D"),
+      getphrase("Signal delay – none (real-time)"),
+      getphrase("Up to 10,000 daily requests to the APIs “asset rating”,  “market indicators and indices”"),
       getphrase("Balanced trading strategy"),
-      getphrase("Service fee \u2013 20% of profit (but not less than $0.25)"),
+      getphrase("Service fee – 20% of profit (but not less than $0.25)"),
       getphrase("Plus all benefits of the Free plan")
     ]
   ],
@@ -180,9 +180,9 @@ $data_objects['data_plans'] = [
     "subtitle" => getphrase("Optimal choice for professional traders"),
     "link" => "/" . $user_lng . "/pricing/expert/annual",
     "features" => [
-      getphrase("Up to 50,000 daily requests to the APIs \u201Casset rating\u201D, \u00a0\u201Cmarket indicators and indices\u201D"),
+      getphrase("Up to 50,000 daily requests to the APIs “asset rating”,  “market indicators and indices”"),
       getphrase("Customizable trading strategies"),
-      getphrase("Service fee \u2013 10% of profit (but not less than $0.25)"),
+      getphrase("Service fee – 10% of profit (but not less than $0.25)"),
       getphrase("Plus all benefits of the Trader plan")
     ],
     "isFeatured" => true
@@ -195,8 +195,8 @@ $data_objects['data_plans'] = [
     "subtitle" => getphrase("Designed for professional teams and crypto funds"),
     "link" => "/" . $user_lng . "/pricing/premium/annual",
     "features" => [
-      getphrase("Unlimited API \u201Casset rating\u201D, \u00a0\u201Cmarket indicators and indices\u201D * no more than 1 request at any given moment"),
-      getphrase("Service fee \u2013 5% of profit (but not less than $0.25)"),
+      getphrase("Unlimited API “asset rating”,  “market indicators and indices” * no more than 1 request at any given moment"),
+      getphrase("Service fee – 5% of profit (but not less than $0.25)"),
       getphrase("VIP support"),
       getphrase("Plus all benefits of the Expert plan")
     ]
