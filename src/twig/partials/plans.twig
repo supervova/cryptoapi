@@ -1,65 +1,4 @@
-{% set data_plans = [
-  {
-    "level": 0,
-    "title": "Free",
-    "icon": "gift",
-    "price": 0,
-    "subtitle": "Try it out to assess the accuracy of our AI algorithms",
-    "link": "/" ~ page.lang ~ "/pricing/free/annual",
-    "features": [
-      "Access to signals on the website",
-      "Signal delay – 15 seconds",
-      "Up to 1,000 daily requests to the APIs “asset rating”, “market indicators and indices”",
-      "Binance API integration",
-      "Service fee – 30% of profit (but not less than $0.25)"
-    ]
-  },
-  {
-    "level": 1,
-    "title": "Trader",
-    "icon": "user",
-    "price": 33,
-    "subtitle": "Perfect for beginner active traders",
-    "link": "/" ~ page.lang ~ "/pricing/trader/annual",
-    "features": [
-      "Access to signals via Telegram",
-      "Signal delay – none (real-time)",
-      "Up to 10,000 daily requests to the APIs “asset rating”, “market indicators and indices”",
-      "Balanced trading strategy",
-      "Service fee – 20% of profit (but not less than $0.25)",
-      "Plus all benefits of the Free plan"
-    ]
-  },
-  {
-    "level": 2,
-    "title": "Expert",
-    "icon": "star",
-    "price": 60,
-    "subtitle": "Optimal choice for professional traders",
-    "link": "/" ~ page.lang ~ "/pricing/expert/annual",
-    "features": [
-      "Up to 50,000 daily requests to the APIs “asset rating”, “market indicators and indices”",
-      "Customizable trading strategies",
-      "Service fee – 10% of profit (but not less than $0.25)",
-      "Plus all benefits of the Trader plan"
-    ],
-    "isFeatured": true
-  },
-  {
-    "level": 3,
-    "title": "Premium",
-    "icon": "crown",
-    "price": 150,
-    "subtitle": "Designed for professional teams and crypto funds",
-    "link": "/" ~ page.lang ~ "/pricing/premium/annual",
-    "features": [
-      "Unlimited API “asset rating”, “market indicators and indices” * no more than 1 request at any given moment",
-      "Service fee – 5% of profit (but not less than $0.25)",
-      "VIP support",
-      "Plus all benefits of the Expert plan"
-    ]
-  }
-] %}
+
 
 <section class="e-section is-plans">
   <div class="e-container">
@@ -72,7 +11,7 @@
         {% endif %}
       </h1>
       {% if user.id == 0 %}
-        <p>{{ 'Two CryptoAI products — AI Consultant and API Integrations — are available by subscription. However, you can start using them completely free.'|trans }}</p>
+        <p>{{ 'Two CryptoAI products \u2014 AI Consultant and API Integrations \u2014 are available by subscription. However, you can start using them completely free.'|trans }}</p>
       {% else %}
         <details class="e-current-plan">
           <summary class="e-current-plan__summary" data-plan-summary>
@@ -103,7 +42,7 @@
               <li><span>{{ 'Trading fee'|trans }}:</span> {{ curr_plan.fee }} ({{ 'but not less than $0.25'|trans }})</li>
               <li><span>{{ 'API Limitations'|trans }}:</span> {{ curr_plan.requests }} {{ 'requests per day'|trans }}</li>
               <li><span>{{ 'Trading strategy'|trans }}:</span> {{ curr_plan.strategy|trans }}</li>
-              <li><span>{{ 'Support type'|trans }}:</span> {{ curr_plan.support|trans }}</li>
+              <li><span>{{ 'Support type:'|trans }}:</span> {{ curr_plan.support|trans }}</li>
             </ul>
           </div>
         </details>
@@ -151,7 +90,7 @@
     </div>
     <div class="e-section__body">
       <h2>{{ 'Trading Agent Pricing'|trans }}</h2>
-      <p>{{ 'The AI trading agent’s services are paid on a different basis.'|trans }}</p>
+      <p>{{ 'The AI trading agent\u2019s services are paid on a different basis.'|trans }}</p>
       <p class="text-success">{{ 'You pay 10% on each profitable trade, with a minimum of $1.'|trans }}</p>
       <a class="e-btn" href="/{{ page.lang }}/auth?tab=signup&plan=agent">{{ 'Choose This One'|trans }}</a>
     </div>

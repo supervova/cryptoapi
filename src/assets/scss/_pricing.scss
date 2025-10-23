@@ -74,7 +74,8 @@
   }
 }
 
-.e-plan:first-child .e-plan__icon {
+.e-plan:first-child .e-plan__icon,
+.e-plan__icon:has(.e-icon.is-gift) {
   background-color: var(--color-brand-accent);
 }
 

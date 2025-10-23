@@ -43,7 +43,7 @@ if (!empty($thispath['2'])) {
     }
     $post = ['checkID' => $startruntime - 5, 'payobject' => 'tariff|' . $price . '|' . $thispath['2'] . '|' . $thispath['3'] . '|' . $tariff_level, 'udata' => $user_id . '|' . $user_country];
     $uagent = "Cron";
-    $ch = curl_init();
+    curl_init();
     curl_setopt($ch, CURLOPT_USERAGENT, $uagent);
     curl_setopt($ch, CURLOPT_URL, "https://" . $thisdomain . "/createbill.php");
     curl_setopt($ch, CURLOPT_POST, true);
@@ -135,22 +135,73 @@ if ($tariff['tariff_level'] == 3) {
     $tarrif_fee = "5%";
 }
 
-//$current_tarrif =
-
 $data_objects['page'] = array_merge($data_objects['page'] ?? [], $page_meta);
 
-$tariffbenefits = <<<HTML
-<div style="width:100%;margin-bottom:10px;text-align:left;">
-<span style="white-space:nowrap">{$phrase['Your tariff:']} <strong>{$tarrif_name}</strong></span>
-<span style="white-space:nowrap">{$phrase['Tariff end date:']} <strong>{$tarrif_enddate}</strong></span>
-<h3 style="margin-top:15px;margin-bottom:10px;">{$phrase['Available benefits']}</h3>
-{$phrase['Signal delay:']} <strong>{$tarrif_signal_delay}</strong><br>
-{$phrase['Integration with the exchange:']} <strong>{$tarrif_binance_api}</strong><br>
-{$phrase['Trading fee:']} <strong>{$tarrif_fee}</strong><br>
-{$phrase['API Limitations:']} <strong>{$tarrif_apirequests}</strong><br>
-{$phrase['Selecting trading strategies:']} <strong>{$tarrif_strategies}</strong><br>
-{$phrase['Support type:']} <strong>{$tarrif_support}</strong>
-</div>
-HTML;
+require_once __DIR__ . '/helpers/tariff.php';
+$data_objects['curr_plan'] = build_curr_plan($db, $user_id, $thisprojectid, $user_lng);
+
+$data_objects['data_plans'] = [
+  [
+    "level" => 0,
+    "title" => "Free",
+    "icon" => "gift",
+    "price" => 0,
+    "subtitle" => getphrase("Try it\u00a0out to\u00a0assess the accuracy of\u00a0our\u00a0AI algorithms"),
+    "link" => "/" . $user_lng . "/pricing/free/annual",
+    "features" => [
+      getphrase("Access to signals on the website"),
+      getphrase("Signal delay \u2013 15 seconds"),
+      getphrase("Up to 1,000 daily requests to the APIs \u201Casset rating\u201D, \u00a0\u201Cmarket indicators and indices\u201D"),
+      getphrase("Binance API integration"),
+      getphrase("Service fee \u2013 30% of profit (but not less than $0.25)")
+    ]
+  ],
+  [
+    "level" => 1,
+    "title" => "Trader",
+    "icon" => "user",
+    "price" => $config['tarrif']['trader']['price']['annual'] ?? 33,
+    "subtitle" => getphrase("Perfect for beginner active traders"),
+    "link" => "/" . $user_lng . "/pricing/trader/annual",
+    "features" => [
+      getphrase("Access to signals via Telegram"),
+      getphrase("Signal delay \u2013 none (real-time)"),
+      getphrase("Up to 10,000 daily requests to the APIs \u201Casset rating\u201D, \u00a0\u201Cmarket indicators and indices\u201D"),
+      getphrase("Balanced trading strategy"),
+      getphrase("Service fee \u2013 20% of profit (but not less than $0.25)"),
+      getphrase("Plus all benefits of the Free plan")
+    ]
+  ],
+  [
+    "level" => 2,
+    "title" => "Expert",
+    "icon" => "star",
+    "price" => $config['tarrif']['expert']['price']['annual'] ?? 60,
+    "subtitle" => getphrase("Optimal choice for professional traders"),
+    "link" => "/" . $user_lng . "/pricing/expert/annual",
+    "features" => [
+      getphrase("Up to 50,000 daily requests to the APIs \u201Casset rating\u201D, \u00a0\u201Cmarket indicators and indices\u201D"),
+      getphrase("Customizable trading strategies"),
+      getphrase("Service fee \u2013 10% of profit (but not less than $0.25)"),
+      getphrase("Plus all benefits of the Trader plan")
+    ],
+    "isFeatured" => true
+  ],
+  [
+    "level" => 3,
+    "title" => "Premium",
+    "icon" => "crown",
+    "price" => $config['tarrif']['premium']['price']['annual'] ?? 150,
+    "subtitle" => getphrase("Designed for professional teams and crypto funds"),
+    "link" => "/" . $user_lng . "/pricing/premium/annual",
+    "features" => [
+      getphrase("Unlimited API \u201Casset rating\u201D, \u00a0\u201Cmarket indicators and indices\u201D * no more than 1 request at any given moment"),
+      getphrase("Service fee \u2013 5% of profit (but not less than $0.25)"),
+      getphrase("VIP support"),
+      getphrase("Plus all benefits of the Expert plan")
+    ]
+  ]
+];
+
 // Получение и отображение шаблона
 $final_html = get_template("pricing.twig");
