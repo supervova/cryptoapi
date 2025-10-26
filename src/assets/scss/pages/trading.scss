@@ -322,4 +322,28 @@ h1:not(.is-history h1),
   padding-bottom: rem(2);
 }
 
+.historydata__footer {
+
+  small {
+    display: block;
+    text-align: end;
+  }
+
+  @media (--phone-l) {
+    display: flex;
+    gap: var(--size-line);
+
+    .text-right {
+      flex-grow: 1;
+      white-space: nowrap;
+    }
+
+    small {
+      order: -1;
+      text-align: start;
+      padding-top: var(--size-1p5);
+    }
+  }
+}
+
 // #endregion

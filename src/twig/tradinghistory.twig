@@ -150,7 +150,13 @@
             </tbody>
           </table>
         </div>
-        <small>Do not refresh the page - the data in the table is updated automatically!</small>
+        <div class="historydata__footer">
+          <p class="text-right">
+            <span class="text-2ry">Profit for the selected period:</span> <b>$0.00</b><br>
+            <span class="text-2ry">All-time profit:</span> <b>$0.00</b>
+          </p>
+          <small>Do not refresh the page - the data in the table is updated automatically!</small>
+        </div>
       </div>
     {% else %}
       <div id="historydata">
@@ -342,7 +348,7 @@
                         <th rowspan="2">{{ 'Asset'|trans }}</th>
                         <th class="table__cell is-num" rowspan="2">{{ 'Qty'|trans }}</th>
                         <th class="table__buy" colspan="3"><span>{{ 'Buy'|trans({}, 'trading') }}</span></th>
-                        <th class="table__sell" colspan="3"><span>{{ 'Sale'|trans }}</span></th>
+                        <th class="table__sell" colspan="3"><span>{{ 'Sell'|trans }}</span></th>
                         <th class="table__cell is-num" rowspan="2">{{ 'Profit'|trans }}</th>
                       </tr>
                       <tr>
@@ -357,8 +363,10 @@
                     <tbody>
                 `;
 
+              let totalProfit = 0;
               for (let deal of deals) {
-                const profit = (deal.price_sale != null) ? deal.qty * deal.price_sale - deal.qty * deal.price_buy : null;
+                const profit = (deal.profit != 0) ? deal.profit : null;
+                if (profit !== null) totalProfit += profit;
 
                 const sumBuy = deal.qty * deal.price_buy;
                 const sumSale = (deal.price_sale != null) ? deal.qty * deal.price_sale : null;
@@ -373,7 +381,13 @@
                     <td class="table__cell is-date"><time class="has-tooltip" aria-label="${formatTimeLocal(deal.saletime)}">${formatDateLocal(deal.saletime)}</time></td>
                     <td class="table__cell is-num">${deal.price_sale == null ? '' : formatNumberSmart(deal.price_sale)}</td>
                     <td class="table__cell is-num">${sumSale == null ? '' : formatMoney(sumSale)}</td>
-                    <td class="table__cell is-num">${profit == null ? '' : formatMoney(profit)}</td>
+                    <td class="table__cell is-num">
+                      ${
+                        profit == null
+                          ? ''
+                          : `${formatMoney(profit)} <small>(${((profit / (deal.qty * deal.price_buy)) * 100).toFixed(1)}%)</small>`
+                      }
+                    </td>
                   </tr>
                 `;
               }
@@ -381,7 +395,13 @@
                     </tbody>
                   </table>
                 </div>
-                <small>{{ 'Do not refresh the page - the data in the table is updated automatically!'|trans }}</small>
+                <div class="historydata__footer">
+                  <small>{{ 'Do not refresh the page - the data in the table is updated automatically!'|trans }}</small>
+                  <p class="text-right">
+                    <span class="text-2ry">{{ 'Profit for the selected period:'|trans }}</span> <b>$${formatMoney(totalProfit)}</b><br>
+                    <span class="text-2ry">{{ 'All-time profit:'|trans }}</span> <b>$${formatMoney(relultarr[2])}</b>
+                  </p>
+                </div>
               `;
               $('#historydata').html(html);
             }

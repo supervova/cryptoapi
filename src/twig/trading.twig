@@ -8,6 +8,7 @@
     {% set page = page|merge(
       {
         app: true,
+        has_balance: true,
         classes: 'is-trading',
         styles: 'trading.css'
       }
@@ -16,7 +17,7 @@
     {% set user = user|merge(
       {
         id: 1,
-        allowed_assets: ['BTC']
+        allowed_assets: ['BTC'],
       }
     ) %}
   {% endif %}

@@ -1,14 +1,16 @@
 <?php
-if (!$islogged)
-{
-	memcache_close($memcache_obj);
-	if ($db) $db->close();
-	header('Location: https://'.$authhost.'/auth?returl='.$thispagesimpleurl);
-	die();
+
+if (!$islogged) {
+    memcache_close($memcache_obj);
+    if ($db) {
+        $db->close();
+    }
+    header('Location: https://' . $authhost . '/auth?returl=' . $thispagesimpleurl);
+    die();
 }
 
 
-require_once ROOTDIRSECURE.'config_sbf.php';
+require_once ROOTDIRSECURE . 'config_sbf.php';
 $tradesettings = get_trade_settings();
 
 // Получение окружения приложения (development/production) из переменной окружения APP_ENV
@@ -19,6 +21,7 @@ $page_meta = [
   'app' => true,
   'classes' => 'is-trading',
   'desc' => 'Customize your crypto trading setup for safer, faster crypto trades.',
+  'has_balance' => true,
   'styles' => 'trading.css',
   'title' => 'Trading | AI Strategy & Risk Controls, History – CryptoAPI.ai'
 ];
@@ -50,20 +53,20 @@ $data_objects += [
   ],
 ];
 
-if (!empty($tradesettings['binanceapikey']) && !empty($tradesettings['binancesecretkey']) && !empty($tradesettings['binanceallowed']) && !isset($_GET['settings']) && !isset($_GET['history']))
-{
-	$final_html = get_template("tradingview.twig");
+if (!empty($tradesettings['binanceapikey']) && !empty($tradesettings['binancesecretkey']) && !empty($tradesettings['binanceallowed']) && !isset($_GET['settings']) && !isset($_GET['history'])) {
+    $final_html = get_template("tradingview.twig");
+} elseif (!isset($_GET['history'])) {
+    $final_html = get_template("trading.twig");
+} else {
+    $final_html = get_template("tradinghistory.twig");
 }
-elseif (!isset($_GET['history']))
-{
-	$final_html = get_template("trading.twig");
-}
-else
-{
-	$final_html = get_template("tradinghistory.twig");
+if ($country_code == 'US') {
+    $cryptotrade = $db->super_query("select round(sum(profit_real),2) as sumprofit from cryptotrade where sold=1 and uid=" . $user_id);
 }
 
-$lasttimedelete = memcache_get($memcache_obj, "ltbalancedel".$user_id);
-if (empty($lasttimedelete)) memcache_delete($memcache_obj, "binancebalances".$user_id);
-memcache_set($memcache_obj, "ltbalancedel".$user_id, $startruntime, 0, 5);
-memcache_set($memcache_obj, "ltbalancedelint".$user_id, $startruntime, 0, 60);
+$lasttimedelete = memcache_get($memcache_obj, "ltbalancedel" . $user_id);
+if (empty($lasttimedelete)) {
+    memcache_delete($memcache_obj, "binancebalances" . $user_id);
+}
+memcache_set($memcache_obj, "ltbalancedel" . $user_id, $startruntime, 0, 5);
+memcache_set($memcache_obj, "ltbalancedelint" . $user_id, $startruntime, 0, 60);

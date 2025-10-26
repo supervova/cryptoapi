@@ -1,15 +1,47 @@
 <header class="e-header" id="header-app">
   <div class="e-container">
 
-    <form class="e-header__search e-search" role="search">
-      <label class="visually-hidden" for="header-search">{{ 'Search coins by name or symbol…'|trans }}</label>
-      {% include 'partials/icon.twig' with {name: 'search'} %}
-      {% if search_on_page %}
-        <input type="search" id="header-search" autocomplete="off" placeholder="{{ 'Search coins by name or symbol…'|trans }}">
+    {% if page.has_balance %}
+      {% set balance_num = user.balance|replace({'$': '', ' ' : ''}) %}
+      {% if balance_num < 50 %}
+        {% set balance_icon = 'warning' %}
+        {% set balance_tooltip = 'You don’t have enough funds to cover trading fees. Please top up your account.' %}
       {% else %}
-        <input type="search" id="header-search" autocomplete="off" placeholder="{{ 'Search coins by name or symbol…'|trans }}">
+        {% set balance_icon = 'wallet' %}
+        {% set balance_tooltip = 'Deposit' %}
       {% endif %}
-    </form>
+
+      <a class="e-balance" href="/{{ page.lang }}/finance">
+        <span class="e-balance__icon is-{{ balance_icon }}">
+          {% include 'partials/icon.twig' with {name: balance_icon} %}
+        </span>
+
+        <span class="e-balance__label">
+          <b>$
+            {% if page.lang == 'en' %}
+              {{ user.balance|number_format(2, '.', ',') }}
+            {% else %}
+              {{ user.balance|number_format(2, ',', ' ') }}
+            {% endif %}
+          </b>
+          <small>{{ 'account balance'|trans }}</small>
+        </span>
+
+        <span class="e-btn is-outline has-tooltip is-bottom" aria-label="{{ balance_tooltip|trans }}">
+          {% include 'partials/icon.twig' with {name: 'add'} %}
+        </span>
+      </a>
+    {% else %}
+      <form class="e-header__search e-search" role="search">
+        <label class="visually-hidden" for="header-search">{{ 'Search coins by name or symbol…'|trans }}</label>
+        {% include 'partials/icon.twig' with {name: 'search'} %}
+        {% if search_on_page %}
+          <input type="search" id="header-search" autocomplete="off" placeholder="{{ 'Search coins by name or symbol…'|trans }}">
+        {% else %}
+          <input type="search" id="header-search" autocomplete="off" placeholder="{{ 'Search coins by name or symbol…'|trans }}">
+        {% endif %}
+      </form>
+    {% endif %}
 
     <div class="e-header__stats">
       {% set stats = site.header_stats %}

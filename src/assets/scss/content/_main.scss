@@ -5,12 +5,9 @@
   padding-top: var(--size-3);
 
   @media (--tablet) {
+    padding-top: var(--size-7);
     // Make room for navbar...
     padding-inline-start: var(--navbar-area);
-  }
-
-  @media (--tablet-l) {
-    padding-top: var(--size-4);
   }
 }
 

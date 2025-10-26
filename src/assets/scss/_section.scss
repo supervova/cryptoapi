@@ -6,6 +6,10 @@
   margin-top: var(--spacer-max);
 }
 
+.e-section__header p {
+  color: var(--color-ink-2ry);
+}
+
 .e-section__header.is-centered {
   display: flex;
   align-items: center;
