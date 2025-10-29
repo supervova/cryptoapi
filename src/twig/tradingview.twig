@@ -69,50 +69,16 @@
       &lt; $0.01
     </label>
 
-    {% if ENV == 'development' %}
-      <div id="historydata">
-        <div class="e-scroller">
-          <table class="table has-2-liners">
-            <thead>
-              <tr>
-                <th>Asset</th>
-                <th class="table__cell is-num">Available</th>
-                <th class="table__cell is-num">In Orders</th>
-                <th class="table__cell is-num">Current Price</th>
-                <th class="table__cell is-num">Purchase Price</th>
-                <th class="table__cell is-num">Total in USDT</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>USDT</td>
-                <td class="table__cell is-num">1,000.00000063</td>
-                <td class="table__cell is-num">0</td>
-                <td class="table__cell is-num">1.00</td>
-                <td class="table__cell is-num">0.00</td>
-                <td class="table__cell is-num">1,000.00000063</td>
-              </tr>
-              <tr>
-                <td>BNB</td>
-                <td class="table__cell is-num">0.09894182</td>
-                <td class="table__cell is-num">0</td>
-                <td class="table__cell is-num">1,220.04</td>
-                <td class="table__cell is-num">0.00</td>
-                <td class="table__cell is-num">120.71297807</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <small>Do not refresh the page - the data in the table is updated automatically!</small>
-      </div>
-    {% else %}
       <div id="tradingdata">
         <div class="e-loader is-spinner loadingspin"></div>
       </div>
-    {% endif %}
 
   </div>
-
+  <style>
+    .blur-text {
+      filter: blur(4px);
+    }
+  </style>
   <script>
     function formatNumberSmart(n) {
       const num = Number(n);
@@ -138,85 +104,262 @@
         Number(intPart).toLocaleString('en-US')
       }.${fracPart}`;
     }
-    function gettradingdata() {
-      $.ajax({
-        url: './gettradingdata.php',
-        type: 'POST',
-        async: true,
-        success: function (response) {
-          relultarr = $.parseJSON(response);
-          if (relultarr[0] == 'unlogged') {
-            location.href = '/{$user_lng}/auth';
-          } else if (relultarr[0] == 'disabled') {
-            $('.loadingspin').remove();
-            // далее выводим значения:
-            $('#tradingdata').html('<span style="color:var(--color-ink-text-error)"> {{ 'Trading is disabled in the settings...'|trans }}</span>');
-          } else if (relultarr[0] == 'OK') {
-            $('.loadingspin').remove();
-            // далее выводим значения:
-            let assets = $.parseJSON(relultarr[2]);
-            let html = `
-              <div class="e-scroller">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>{{ 'Asset'|trans }}</th>
-                      <th class="table__cell is-num">{{ 'Available'|trans }}</th>
-                      <th class="table__cell is-num">{{ 'In Orders'|trans }}</th>
-                      <th class="table__cell is-num">{{ 'Current Price'|trans }}</th>
-                      <th class="table__cell is-num">{{ 'Purchase Price'|trans }}</th>
-                      <th class="table__cell is-num">{{ 'Total in'|trans }} ` + relultarr[1] + `</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-            `;
-
-            for (let asset in assets) {
-              let data = assets[asset];
-              let total = parseFloat(data.price) * (parseFloat(data.available) + parseFloat(data.onOrder));
-              if ($('#hideSmallAssets').is(':checked') && total < 0.01)
-                continue;
-
-              html += `
+function gettradingdata() {
+  $.ajax({
+    url: './gettradingdata.php',
+    type: 'POST',
+    async: true,
+    success: function (response) {
+      relultarr = $.parseJSON(response);
+      if (relultarr[0] == 'unlogged') {
+        location.href = '/{$user_lng}/auth';
+      } else if (relultarr[0] == 'disabled') {
+        $('.loadingspin').remove();
+        $('#tradingdata').html('<span style="color:var(--color-ink-text-error)"> {{ "Trading is disabled in the settings..."|trans }}</span>');
+      } else if (relultarr[0] == 'OK') {
+        $('.loadingspin').remove();
+        let assets = $.parseJSON(relultarr[2]);
+        let html = `
+          <div class="e-scroller">
+            <table>
+              <thead>
                 <tr>
-                  <td>${asset}</td>
-                  <td class="table__cell is-num">${formatNumberSmart(data.available)}</td>
-                  <td class="table__cell is-num">${parseFloat(data.onOrder)}</td>
-                  <td class="table__cell is-num">${formatNumberSmart(data.price)}</td>
-                  <td class="table__cell is-num">${formatNumberSmart(data.price_buy)}</td>
-                  <td class="table__cell is-num">${formatNumberSmart(total)}</td>
+                  <th>{{ 'Asset'|trans }}</th>
+                  <th class="table__cell is-num">{{ 'Available'|trans }}</th>
+                  <th class="table__cell is-num">{{ 'Current amount'|trans }}<br>$ {{ 'and price'|trans }}</th>
+                  <th class="table__cell is-num">{{ 'Purchase amount'|trans }}<br>$ {{ 'and price'|trans }}</th>
                 </tr>
-              `;
+              </thead>
+              <tbody>
+        `;
+
+        portfolioTotal = 0;
+        tradingTotal = 0;
+        forecastTotalSum = 0;
+        portfolioTotalBuy = 0;
+        TotalProfit = relultarr[4];
+
+        for (let asset in assets) {
+          let data = assets[asset];
+          let total = parseFloat(data.price) * parseFloat(data.available);
+          let forecastTotal = data.forecastprice ? parseFloat(data.forecastprice) * parseFloat(data.available) : 0;
+          let totalbuy = parseFloat(data.price) * parseFloat(data.available);
+
+          let hasBuyPrice = data.price_buy && parseFloat(data.price_buy) > 0;
+
+          if ($('#hideSmallAssets').is(':checked') && total < 0.01)
+            continue;
+
+          let colorStyle = '';
+          if (hasBuyPrice) {
+            totalbuy = parseFloat(data.price_buy) * parseFloat(data.available);
+            if (parseFloat(data.price) > parseFloat(data.price_buy)) {
+              colorStyle = 'style="color:#a8ffd2"';
+            } else if (parseFloat(data.price) < parseFloat(data.price_buy)) {
+              colorStyle = 'style="color:#f56c51"';
             }
-
-            html += `
-                  </tbody>
-                </table>
-              </div>
-              <small>{{ 'Do not refresh the page - the data in the table is updated automatically!'|trans }}</small>
-            `;
-
-            $('#tradingdata').html(html);
-            $('#warning').html('');
-            let warningsmg = $.parseJSON(relultarr[3]);
-            warningsmg.forEach(function (warning) {
-              $('#warning').html(warning + '<br>' + $('#warning').html());
-            });
           }
-          gettimer = setTimeout(function () {
-            gettradingdata();
-          }, 5000);
-        },
-        error: function (response) {
-          gettimer = setTimeout(function () {
-            gettradingdata();
-          }, 1000);
-        }
-      });
-    }
 
+          let availableDisplay =
+            Number.isInteger(parseFloat(data.available))
+              ? Number(parseFloat(data.available)).toLocaleString('en-US')
+              : formatNumberSmart(data.available);
+let assetNameHtml = `<a href="/markets/${asset}" target="_blank">${asset}</a>`;
+let assetBlur = ``;
+if (data.stopsale == 1) {
+  assetNameHtml = `<button class="btn" onclick="acceptintrade('${asset}',${formatNumberSmart(parseFloat(data.price_buy))})">${asset} <small style="color:#a8ffd2">{{ "Allow trading"|trans }}</small></button></a>`;
+  assetBlur = ` blur-text`;
+  colorStyle = '';
+}
+          html += `
+            <tr>
+              <td>${assetNameHtml}</td>
+              <td class="table__cell is-num">${availableDisplay}</td>
+              <td class="table__cell is-num ${assetBlur}" ${colorStyle}>
+                ${formatNumberSmart(total)}<br>
+                <small>${formatNumberSmart(data.price)}</small>
+              </td>
+              <td class="table__cell is-num ${assetBlur}">${
+                hasBuyPrice
+                  ? `${formatNumberSmart(parseFloat(data.price_buy) * parseFloat(data.available))}<br><small>${formatNumberSmart(data.price_buy)}</small>`
+                  : ''
+              }</td>
+            </tr>
+          `;
+
+          portfolioTotal += total;
+          portfolioTotalBuy += totalbuy;
+          tradingTotal += hasBuyPrice ? total : 0;
+          forecastTotalSum += forecastTotal;
+        }
+
+        // вычисляем ожидаемую прибыль
+        let expectedProfit = forecastTotalSum - portfolioTotalBuy;
+
+        // добавляем итоговые строки
+        html += `
+          <tr>
+            <td colspan="4" style="text-align:right; padding-top:1em;">
+              {{ 'Portfolio amount'|trans }}: $${portfolioTotal.toFixed(2)}<br>
+              {{ 'Total trading assets amount'|trans }}: $${tradingTotal.toFixed(2)}<br>
+              {{ 'Expected portfolio amount'|trans }}: $${forecastTotalSum.toFixed(2)}<br>
+              {{ 'Minimum expected profit'|trans }}: $${expectedProfit.toFixed(2)}<br>
+              {{ 'Previously received profit:'|trans }}: $${TotalProfit}
+            </td>
+          </tr>
+        `;
+
+        html += `
+              </tbody>
+            </table>
+          </div>
+          <small>{{ 'Do not refresh the page - the data in the table is updated automatically!'|trans }}</small>
+        `;
+
+        $('#tradingdata').html(html);
+        $('#warning').html('');
+        let warningsmg = $.parseJSON(relultarr[3]);
+        warningsmg.forEach(function (warning) {
+          $('#warning').html(warning + '<br>' + $('#warning').html());
+        });
+      }
+      gettimer = setTimeout(function () {
+        gettradingdata();
+      }, 5000);
+    },
+    error: function () {
+      gettimer = setTimeout(function () {
+        gettradingdata();
+      }, 1000);
+    }
+  });
+}
     window.addEventListener('DOMContentLoaded', () => {
       gettradingdata();
     });
   </script>
+
+<div id="tradeModal" class="modal__win" style="display:none;">
+  <div class="modal__overlay" onclick="closeModal()"></div>
+  <div class="modal__content">
+    <h2>{{ 'Accept the asset'|trans }} <span id="assetname"></span></h2>
+    <form id="tradeForm">
+      <label>
+        {{ 'Accept at a price:'|trans }}
+        <input type="number" class="modal__input" id="tradePrice" step="0.00000001" min="0" lang="en">
+      </label>
+      <p class="note">
+        {{ 'You can accept an asset at any price, including the one suggested by the system. Accepting an asset means granting permission to trade this asset. You may also choose not to accept the asset for trading — in that case, the system will keep it on your balance but will not perform any operations with it.'|trans }}
+      </p>
+      <div class="modal__actions">
+        <button type="button" class="btn is-allow" onclick="confirmTrade(true)">{{ 'Enable Trading'|trans }}</button>
+        <button type="button" class="btn is-deny" onclick="confirmTrade(false)">{{ 'Keep as is'|trans }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+  .modal__win {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+  }
+
+  .modal__overlay {
+    position: absolute;
+    inset: 0;
+  }
+
+  .modal__content {
+    position: relative;
+    background: #1c1c1c;
+    color: #ddd;
+    padding: 2rem;
+    border-radius: 14px;
+    max-width: 480px;
+    width: 90%;
+    z-index: 3100;
+    text-align: left;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  }
+
+  .modal__label {
+    display: block;
+    margin-bottom: 1rem;
+    color: #ccc;
+  }
+
+  .modal__input {
+    width: 100%;
+    background: #2a2a2a;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin-top: 0.3rem;
+  }
+
+  .modal__note {
+    font-size: 0.9rem;
+    color: #aaa;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+  }
+
+  .modal__actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .is-allow {
+    color:#a8ffd2
+  }
+</style>
+
+<script>
+  let currentAsset = null;
+
+  function acceptintrade(asset, price) {
+    currentAsset = asset;
+    document.getElementById('assetname').innerHTML = asset;
+    document.getElementById('tradePrice').value = price || 0;
+    document.getElementById('tradeModal').style.display = 'flex';
+  }
+
+  function closeModal() {
+    document.getElementById('tradeModal').style.display = 'none';
+  }
+
+  function confirmTrade(allow) {
+    const price = document.getElementById('tradePrice').value;
+    closeModal();
+
+    if (allow) {
+      $.ajax({
+        url: './acceptintrade.php',
+        type: 'POST',
+        data: { asset: currentAsset, price: price },
+        success: function (response) {
+          if (response != 'OK')
+          {
+              location.reload();
+              return;
+          }
+          gettradingdata();
+        },
+        error: function () {
+          alert('{{ "Error sending request" | trans }}');
+        }
+      });
+    }
+  }
+</script>
+
 {% endblock %}

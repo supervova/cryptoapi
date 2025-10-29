@@ -54,6 +54,22 @@
     {% endif %}
   {% endfor %}
 
+  <h2>
+    Smth just like this
+    <span class="has-rich-tooltip is-bottom-right">
+      <span class="tooltip__trigger" aria-describedby="tt-1">
+        {% include 'partials/icon.twig' with {name: 'sm-help', classes: 'is-sm'} %}
+      </span>
+      <span class="tooltip" id="tt-1" role="tooltip">
+        Text with markup<br>
+        <b>Note:</b> links are supported —
+        <a href="#">read more</a>
+      </span>
+    </span>
+  </h2>
+
+
+
   <div class="e-container">
 
     <header class="e-main__header">

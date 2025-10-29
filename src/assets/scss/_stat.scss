@@ -1,0 +1,78 @@
+@use 'abstracts' as *;
+
+// Container
+.e-stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--dim-3);
+  padding: var(--dim-2p5) 0;
+
+  @media (--tablet) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (--tablet-l) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+// Body
+.e-stat {
+  border-inline-start: 3px solid var(--color-ink-2ry-brand);
+  display: flex;
+  flex-direction: column;
+  gap: var(--dim-1);
+  justify-content: space-between;
+  font-variant-numeric: oldstyle-nums;
+  padding-block: var(--size-3) var(--size-2);
+  padding-inline: var(--size-4) var(--size-2);
+  height: rem(240);
+}
+
+// Content
+.e-stat__value {
+  @include text-format(display);
+
+  background-image: var(--color-gradient-brand);
+  background-clip: text;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  color: transparent;
+  font-family: var(--font-family-titles);
+  font-weight: 600;
+
+  &:has(small) {
+    margin-inline-end: -8px;
+  }
+
+  small {
+    font-size: var(--font-size-h3);
+    line-height: 1;
+  }
+}
+
+.e-stat__caption {
+  @include text-format(h3);
+
+  color: var(--color-ink-2ry);
+  font-weight: 600;
+}
+
+.e-stat:last-child {
+  @media (--tablet-l) {
+    background-color: var(--color-ink-min);
+    background-image:
+      radial-gradient(
+        circle farthest-side at 100% 0%,
+      rgb(255 255 255 / 0.34),
+      rgb(255 255 255 / 0.32) 2%,
+      rgb(255 255 255 / 0.27) 10%,
+      rgb(255 255 255 / 0.21) 20%,
+      rgb(255 255 255 / 0.13) 36%,
+      rgb(255 255 255 / 0.07) 54%,
+      rgb(255 255 255 / 0.02) 76%,
+      rgb(255 255 255 / 0)
+      );
+    border-radius: 0 var(--border-radius-lg) var(--border-radius-lg) 0;
+  }
+}

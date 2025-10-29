@@ -77,6 +77,7 @@
   // Navigation & Actions
   @include meta.load-css('menu');
   @include meta.load-css('segmented-control');
+  @include meta.load-css('balance');
   // @include meta.load-css('pagination');
 
   // Content
@@ -87,6 +88,7 @@
   @include meta.load-css('content/code');
   @include meta.load-css('content/main');
   @include meta.load-css('pricing');
+  @include meta.load-css('stat');
   @include meta.load-css('tag');
   // @include meta.load-css('badge');
   // @include meta.load-css('content/callout');

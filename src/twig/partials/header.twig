@@ -2,28 +2,13 @@
   <div class="e-container">
 
     {% if page.has_balance %}
-      {% set balance_num = user.balance|replace({'$': '', ' ' : ''}) %}
-      {% if balance_num < 50 %}
-        {% set balance_icon = 'warning' %}
-        {% set balance_tooltip = 'You don’t have enough funds to cover trading fees. Please top up your account.' %}
-      {% else %}
-        {% set balance_icon = 'wallet' %}
-        {% set balance_tooltip = 'Deposit' %}
-      {% endif %}
-
       <a class="e-balance" href="/{{ page.lang }}/finance">
-        <span class="e-balance__icon is-{{ balance_icon }}">
-          {% include 'partials/icon.twig' with {name: balance_icon} %}
+        <span class="e-balance__icon is-wallet">
+          {% include 'partials/icon.twig' with {name: 'wallet'} %}
         </span>
 
         <span class="e-balance__label">
-          <b>$
-            {% if page.lang == 'en' %}
-              {{ user.balance|number_format(2, '.', ',') }}
-            {% else %}
-              {{ user.balance|number_format(2, ',', ' ') }}
-            {% endif %}
-          </b>
+          <b>{$user_balancefnall}</b>
           <small>{{ 'account balance'|trans }}</small>
         </span>
 

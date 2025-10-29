@@ -1,10 +1,15 @@
 @use 'abstracts' as *;
 
+// -----------------------------------------------------------------------------
+// #region: BASE
+// -----------------------------------------------------------------------------
+
 // ☝️🧐 Add a .w-fit class to inline-block elements with tooltips
 
 // An element that has a tooltip
-.has-tooltip {
-  --tooltip-background: rgb(0 0 0 / 0.8);
+.has-tooltip,
+.has-rich-tooltip {
+  --tooltip-bg: rgb(0 0 0 / 0.8);
   --tooltip-color: var(--color-alpha-light-900);
   --tooltip-arrow-width: var(--size-1);
   --tooltip-padding: var(--size-1p5) var(--size-2);
@@ -12,7 +17,9 @@
   --tooltip-width: var(--width-sm);
 
   position: relative;
+}
 
+.has-tooltip {
   &::before,
   &::after {
     opacity: 0;
@@ -25,7 +32,7 @@
 
   // Tooltip's body
   &::after {
-    background-color: var(--tooltip-background);
+    background-color: var(--tooltip-bg);
     border-radius: var(--border-radius-sm);
     color: var(--tooltip-color);
     content: attr(aria-label);
@@ -69,7 +76,7 @@
 }
 
 // Top, default
-.has-tooltip:not(.is-right):not(.is-bottom):not(.is-left) {
+.has-tooltip:not(.is-right, .is-bottom, .is-left) {
   &::before,
   &::after {
     bottom: 100%;
@@ -81,7 +88,7 @@
   }
 
   &::before {
-    border-top-color: var(--tooltip-background);
+    border-top-color: var(--tooltip-bg);
     margin-left: calc(var(--tooltip-arrow-width) / -2);
     translate: 0 var(--tooltip-arrow-width);
   }
@@ -110,7 +117,7 @@
   }
 
   &::before {
-    border-bottom-color: var(--tooltip-background);
+    border-bottom-color: var(--tooltip-bg);
     translate: 0 calc(var(--tooltip-arrow-width) * -1);
   }
 
@@ -145,7 +152,7 @@
       top: calc(50% - calc(var(--tooltip-arrow-width) / 2));
       border-top-color: transparent;
       border-bottom-color: transparent;
-      border-left-color: var(--tooltip-background);
+      border-left-color: var(--tooltip-bg);
       translate: var(--size-line);
     }
 
@@ -181,7 +188,7 @@
       top: calc(50% - calc(var(--tooltip-arrow-width) / 2));
       border-top-color: transparent;
       border-bottom-color: transparent;
-      border-right-color: var(--tooltip-background);
+      border-right-color: var(--tooltip-bg);
       translate: calc(var(--size-line) * -1);
     }
 
@@ -208,3 +215,200 @@
     }
   }
 }
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// #region: RICH
+// -----------------------------------------------------------------------------
+
+// Supports minimal HTML inside bubble: <br>, <b>, <a>
+
+// <span class="has-rich-tooltip">
+//   <button class="btn" aria-describedby="tt-1">Tooltip trigger</button>
+//   <span class="tooltip" id="tt-1" role="tooltip">
+//     Text with markup<br>
+//     <b>Note:</b> links are supported —
+//     <a href="#">read more</a>
+//   </span>
+// </span>
+
+.has-rich-tooltip {
+  // Bubble
+  .tooltip {
+    background-color: var(--tooltip-bg);
+    border-radius: var(--border-radius-sm);
+    color: var(--tooltip-color);
+    font-size: var(--font-size-caption);
+    line-height: var(--line-height-caption);
+    text-transform: none;
+    white-space: normal;
+    opacity: 0;
+    padding: var(--tooltip-padding);
+    pointer-events: none;
+    position: absolute;
+    transition:
+      opacity var(--duration-100) var(--easing-base),
+      translate var(--duration-100) var(--easing-appearance);
+    visibility: hidden;
+    width: max-content;
+    max-width: var(--tooltip-width);
+    z-index: var(--zindex-tooltip);
+  }
+
+  .tooltip a { color: hsl(var(--h-blue) var(--s-2ry) 70%); }
+
+  // Default side: top
+  &:not(.is-right, .is-bottom, .is-bottom-right, .is-left) {
+    .tooltip {
+      bottom: 100%;
+      left: 50%;
+      translate: -50% var(--size-line);
+
+      // Arrow
+      &::after {
+        border: var(--tooltip-arrow-width) solid transparent;
+        border-top-color: var(--tooltip-bg);
+        content: '';
+        position: absolute;
+        bottom: calc(-2 * var(--tooltip-arrow-width));
+        left: 50%;
+        translate: -50% 0;
+        width: 0;
+        height: 0;
+      }
+    }
+
+    &:hover .tooltip,
+    &:focus-visible .tooltip,
+    &:active .tooltip {
+      opacity: 1;
+      pointer-events: auto;
+      translate: -50% calc(var(--tooltip-arrow-width) * -1);
+      visibility: visible;
+    }
+  }
+
+  // Bottom and side tooltips on mobile devices
+  &.is-bottom,
+  &.is-left,
+  &.is-right {
+    .tooltip {
+      top: 100%;
+      left: 50%;
+      translate: -50% calc(var(--size-line) * -1);
+
+      &::after {
+        border: var(--tooltip-arrow-width) solid transparent;
+        border-bottom-color: var(--tooltip-bg);
+        content: '';
+        position: absolute;
+        top: calc(-2 * var(--tooltip-arrow-width));
+        left: 50%;
+        translate: -50% 0;
+        width: 0;
+        height: 0;
+      }
+    }
+
+    &:hover .tooltip,
+    &:focus-visible .tooltip,
+    &:active .tooltip {
+      opacity: 1;
+      pointer-events: auto;
+      translate: -50% var(--tooltip-arrow-width);
+      visibility: visible;
+    }
+  }
+
+  // Left (desktop / tablet)
+  &.is-left {
+    @media (--tablet) {
+      .tooltip {
+        top: 50%;
+        left: auto;
+        right: 100%;
+        translate: var(--size-line) -50%;
+
+        &::after {
+          border: var(--tooltip-arrow-width) solid transparent;
+          border-left-color: var(--tooltip-bg);
+          top: 50%;
+          right: calc(-2 * var(--tooltip-arrow-width));
+          left: auto;
+          translate: 0 -50%;
+        }
+      }
+
+      &:hover .tooltip,
+      &:focus-visible .tooltip,
+      &:active .tooltip {
+        translate: calc(var(--tooltip-arrow-width) * -1) -50%;
+      }
+    }
+  }
+
+  // Right (desktop / tablet)
+  &.is-right {
+    @media (--tablet) {
+      .tooltip {
+        top: 50%;
+        left: 100%;
+        translate: calc(var(--size-line) * -1) -50%;
+
+        &::after {
+          border: var(--tooltip-arrow-width) solid transparent;
+          border-right-color: var(--tooltip-bg);
+          top: 50%;
+          right: auto;
+          left: calc(-2 * var(--tooltip-arrow-width));
+          translate: 0 -50%;
+        }
+      }
+
+      &:hover .tooltip,
+      &:focus-visible .tooltip,
+      &:active .tooltip {
+        translate: var(--tooltip-arrow-width) -50%;
+      }
+
+      // Lower a neighbor below the tooltip, same as simple variant
+      & ~ * {
+        z-index: -1;
+      }
+    }
+  }
+
+  // Bottom-right
+  &.is-bottom-right {
+    .tooltip {
+      top: 100%;
+      right: rem(-16);
+      left: auto;
+      translate: 0 calc(var(--size-line) * -1);
+
+      &::after {
+        border: var(--tooltip-arrow-width) solid transparent;
+        border-bottom-color: var(--tooltip-bg);
+        content: '';
+        position: absolute;
+        top: calc(-2 * var(--tooltip-arrow-width));
+        right: var(--size-2);
+        left: auto;
+        translate: 0;
+        width: 0;
+        height: 0;
+      }
+    }
+
+    &:hover .tooltip,
+    &:focus-visible .tooltip,
+    &:active .tooltip {
+      opacity: 1;
+      pointer-events: auto;
+      translate: 0 var(--tooltip-arrow-width);
+      visibility: visible;
+    }
+  }
+}
+// #endregion

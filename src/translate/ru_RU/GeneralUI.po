@@ -663,6 +663,9 @@ msgstr "Комиссия сервиса – 5% от прибыли"
 msgid "VIP support"
 msgstr "VIP-поддержка"
 
+msgid "VIP support and a dedicated account manager"
+msgstr "VIP-поддержка"
+
 msgid "$150/month or $1,080/year (25% off)"
 msgstr "$150/месяц или $1080/год (скидка 25 %)"
 
@@ -704,3 +707,6 @@ msgstr "Не удалось загрузить данные графика"
 
 msgid "Please note:"
 msgstr "Внимание:"
+
+msgid "Premium"
+msgstr "Премиум"

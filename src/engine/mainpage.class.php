@@ -95,7 +95,7 @@ $data_objects['data_plans'] = [
     "features" => [
       getphrase("Unlimited API “asset rating”,  “market indicators and indices” * no more than 1 request at any given moment"),
       getphrase("Service fee – 5% of profit (but not less than $0.25)"),
-      getphrase("VIP support"),
+      getphrase("VIP support and a dedicated account manager"),
       getphrase("Plus all benefits of the Expert plan")
     ]
   ]

@@ -427,8 +427,66 @@
     </div>
   </section>
 
+  {# STATS #}
+  <section class="e-section">
+    <div class="e-container">
+      <header class="e-section__header is-centered">
+        <h2 class="e-section__title">{{ 'CryptoAPI in Numbers'|trans }}</h2>
+        <p class="text-2ry">{{ 'What value can you gain from all these charts and tables?'|trans }}</p>
+      </header>
+
+      <div class="e-stats">
+        <figure class="e-stat" data-stat-id="monthly-return" data-stat-type="percent">
+          <span class="e-stat__caption">{{ 'Monthly Return'|trans }}</span>
+          <span class="e-stat__value">
+            <span class="e-stat__number">–</span>
+            <small>%</small>
+          </span>
+        </figure>
+
+        <figure class="e-stat" data-stat-id="annual-return" data-stat-type="percent">
+          <span class="e-stat__caption">{{ 'Annual Return'|trans }}</span>
+          <span class="e-stat__value">
+            <span class="e-stat__number">–</span>
+            <small>%</small>
+          </span>
+        </figure>
+
+        <figure class="e-stat" data-stat-id="trades-1y" data-stat-type="count">
+          <span class="e-stat__caption">{{ 'Trades (1Y)'|trans }}</span>
+          <span class="e-stat__value">
+            <span class="e-stat__number">–</span>
+          </span>
+        </figure>
+
+        <figure class="e-stat" data-stat-id="avg-return-trade" data-stat-type="percent">
+          <span class="e-stat__caption">{{ 'Average Return per Trade (1Y)'|trans }}</span>
+          <span class="e-stat__value">
+            <span class="e-stat__number">–</span>
+            <small>%</small>
+          </span>
+        </figure>
+      </div>
+    </div>
+  </section>
+
   {# RICING #}
   {% include 'partials/plans.twig' %}
+
+  {# AGENT PRICE #}
+  <section class="e-section is-agent-price">
+    <div class="e-container">
+      <div class="e-section__image">
+        <img src="{{ site.assets_prefix }}/assets/img/components/agent-price.jpg" srcset="{{ site.assets_prefix }}/assets/img/components/agent-price.jpg 1x, {{ site.assets_prefix }}/assets/img/components/agent-price@2x.jpg 2x" alt="Цена торгового агента">
+      </div>
+      <div class="e-section__body">
+        <h2>{{ 'Trading Agent Pricing'|trans }}</h2>
+        <p>{{ 'The AI trading agent’s services are paid on a different basis.'|trans }}</p>
+        <p class="text-success">{{ 'You pay from 5% on each profitable trade, but not less than $0.25.'|trans }}</p>
+        <a class="e-btn" href="/{{ page.lang }}/pricing">{{ 'Select'|trans }}</a>
+      </div>
+    </div>
+  </section>
 
   {# TESTIMONIALS #}
   {#

@@ -135,6 +135,28 @@ msgid "Top Currencies"
 msgstr "Топ-валюты"
 
 # ------------------------------------------------------------------------------
+# Stats
+# ------------------------------------------------------------------------------
+
+msgid "CryptoAPI in Numbers"
+msgstr "CryptoAPI в цифрах"
+
+msgid "What value can you gain from all these charts and tables?"
+msgstr "Какую выгоду вы можете извлечь из всех этих графиков и таблиц?"
+
+msgid "Monthly Return"
+msgstr "Доходность за месяц"
+
+msgid "Annual Return"
+msgstr "Доходность за год"
+
+msgid "Trades (1Y)"
+msgstr "Сделок за год"
+
+msgid "Average Return per Trade (1Y)"
+msgstr "Средняя доходность сделки за год"
+
+# ------------------------------------------------------------------------------
 # Plans
 # ------------------------------------------------------------------------------
 msgid "Plans & Pricing"
@@ -279,7 +301,10 @@ msgstr "Услуги ИИ-агента, торгующего автономно,
 msgid "You pay 10% on each profitable trade, with a minimum of $1."
 msgstr "Вы платите 10% с каждой прибыльной сделки, не меньше $1."
 
-msgid "Choose This One"
+msgid "You pay from 5% on each profitable trade, but not less than $0.25."
+msgstr "Вы платите от 5% с каждой прибыльной сделки, но не менее $0.25"
+
+msgid "Select"
 msgstr "Выбрать"
 
 # ------------------------------------------------------------------------------

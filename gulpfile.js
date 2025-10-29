@@ -373,6 +373,7 @@ const loadPhpMockData = () => {
       thispageurlencoded: '',
       thispagesimpleurl: 'localhost:9000',
       IP_external: '',
+      user_balancefnall: '$1,040.00',
     };
   } catch (error) {
     console.error('Error loading PHP mock data:', error);
