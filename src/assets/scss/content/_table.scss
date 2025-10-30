@@ -170,6 +170,13 @@ tbody tr:has(.table__link:focus-visible) {
 }
 // #endregion
 
+.table__th-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--size-half);
+  justify-content: end;
+}
+
 // -----------------------------------------------------------------------------
 // CELLS
 // -----------------------------------------------------------------------------

@@ -234,6 +234,8 @@
 // </span>
 
 .has-rich-tooltip {
+  display: inline-flex;
+
   // Bubble
   .tooltip {
     background-color: var(--tooltip-bg);
@@ -241,6 +243,7 @@
     color: var(--tooltip-color);
     font-size: var(--font-size-caption);
     line-height: var(--line-height-caption);
+    text-align: start;
     text-transform: none;
     white-space: normal;
     opacity: 0;
@@ -248,12 +251,11 @@
     pointer-events: none;
     position: absolute;
     transition:
-      opacity var(--duration-100) var(--easing-base),
-      translate var(--duration-100) var(--easing-appearance);
+      opacity var(--duration-100) var(--easing-base);
     visibility: hidden;
     width: max-content;
     max-width: var(--tooltip-width);
-    z-index: var(--zindex-tooltip);
+    z-index: calc(var(--zindex-tooltip) + 1);
   }
 
   .tooltip a { color: hsl(var(--h-blue) var(--s-2ry) 70%); }
@@ -263,7 +265,7 @@
     .tooltip {
       bottom: 100%;
       left: 50%;
-      translate: -50% var(--size-line);
+
 
       // Arrow
       &::after {
@@ -282,10 +284,7 @@
     &:hover .tooltip,
     &:focus-visible .tooltip,
     &:active .tooltip {
-      opacity: 1;
       pointer-events: auto;
-      translate: -50% calc(var(--tooltip-arrow-width) * -1);
-      visibility: visible;
     }
   }
 
@@ -296,7 +295,7 @@
     .tooltip {
       top: 100%;
       left: 50%;
-      translate: -50% calc(var(--size-line) * -1);
+
 
       &::after {
         border: var(--tooltip-arrow-width) solid transparent;
@@ -314,10 +313,7 @@
     &:hover .tooltip,
     &:focus-visible .tooltip,
     &:active .tooltip {
-      opacity: 1;
       pointer-events: auto;
-      translate: -50% var(--tooltip-arrow-width);
-      visibility: visible;
     }
   }
 
@@ -328,7 +324,7 @@
         top: 50%;
         left: auto;
         right: 100%;
-        translate: var(--size-line) -50%;
+
 
         &::after {
           border: var(--tooltip-arrow-width) solid transparent;
@@ -340,11 +336,7 @@
         }
       }
 
-      &:hover .tooltip,
-      &:focus-visible .tooltip,
-      &:active .tooltip {
-        translate: calc(var(--tooltip-arrow-width) * -1) -50%;
-      }
+
     }
   }
 
@@ -354,7 +346,7 @@
       .tooltip {
         top: 50%;
         left: 100%;
-        translate: calc(var(--size-line) * -1) -50%;
+
 
         &::after {
           border: var(--tooltip-arrow-width) solid transparent;
@@ -385,7 +377,7 @@
       top: 100%;
       right: rem(-16);
       left: auto;
-      translate: 0 calc(var(--size-line) * -1);
+
 
       &::after {
         border: var(--tooltip-arrow-width) solid transparent;
@@ -401,14 +393,30 @@
       }
     }
 
-    &:hover .tooltip,
-    &:focus-visible .tooltip,
-    &:active .tooltip {
-      opacity: 1;
-      pointer-events: auto;
-      translate: 0 var(--tooltip-arrow-width);
-      visibility: visible;
-    }
+          &:hover .tooltip,
+          &:focus-visible .tooltip,
+          &:active .tooltip {
+            pointer-events: auto;
+          }  }
+  .tooltip.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
+}
+
+.tooltip__trigger {
+  border-radius: 50%;
+  display: inline flex;
+  padding: rem(2);
+  transition: background-color var(--duration-100) var(--easing-base);
+
+  &:hover {
+    background-color: var(--color-border);
+  }
+}
+
+:where(.table__th-actions .e-btn) + .has-rich-tooltip {
+  translate: 0 rem(1px);
 }
 // #endregion

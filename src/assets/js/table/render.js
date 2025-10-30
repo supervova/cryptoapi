@@ -196,11 +196,13 @@ export function patchTableBody() {
   }
 }
 
-export function generateTableHeadHtml() {
+export function generateTableHeadHtml(t, lang) {
   if (!DOMElements.tableHead) return;
 
   const currentVisibleColumns = getVisibleColumns();
   let headHtml = '<tr>';
+
+  const tooltipKeys = ['watchlist', 'rating', 'risk', 'trindx', 'rsi'];
 
   currentVisibleColumns.forEach((col) => {
     const thClasses = `table__cell is-${col.type}${col.key === 'watchlist' ? ' is-action' : ''}`;
@@ -209,6 +211,34 @@ export function generateTableHeadHtml() {
       col.type === 'action' || col.type === 'icon'
         ? `aria-label="${col.label}"`
         : '';
+
+    let tooltipHtml = '';
+    let tooltipBaseKey = null;
+    if (tooltipKeys.includes(col.key)) {
+      tooltipBaseKey = col.key;
+    } else if (col.key.startsWith('rsi')) {
+      tooltipBaseKey = 'rsi';
+    }
+
+    if (tooltipBaseKey) {
+      const tooltipId = `tt-js-${col.key}`;
+      const tooltipContentHtml = t(`tooltip_${tooltipBaseKey}`);
+
+      if (tooltipContentHtml) {
+        const assetsBasePrefix = window.APP_CONFIG.assetsBasePrefix || '';
+        const iconPath = `${assetsBasePrefix}/assets/img/icons/sprite.svg#icon-sm-help`;
+
+        tooltipHtml = `
+          <span class="has-rich-tooltip is-bottom-right">
+            <span class="tooltip__trigger" aria-describedby="${tooltipId}">
+              <svg class="e-icon is-sm" aria-hidden="true" focusable="false"><use xlink:href="${iconPath}"></use></svg>
+            </span>
+            <span class="tooltip" id="${tooltipId}" role="tooltip">
+              ${tooltipContentHtml}
+            </span>
+          </span>`;
+      }
+    }
 
     if (col.sortable) {
       const isActive = marketState.sortState.field === col.key;
@@ -234,7 +264,15 @@ export function generateTableHeadHtml() {
         </button>`;
       ariaLabelAttr = '';
     }
-    headHtml += `<th class="${thClasses}" scope="col" ${ariaLabelAttr}>${thContent}</th>`;
+
+    // Теперь, оборачиваем тултип и thContent в div.table__th-actions
+    const finalThContent = `
+      <div class="table__th-actions">
+        ${thContent} <!-- Original content first -->
+        ${tooltipHtml} <!-- Tooltip last -->
+      </div>`;
+
+    headHtml += `<th class="${thClasses}" scope="col" ${ariaLabelAttr} data-col-key="${col.key}">${finalThContent}</th>`;
   });
   headHtml += '</tr>';
   DOMElements.tableHead.innerHTML = headHtml;

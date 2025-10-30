@@ -13,6 +13,7 @@ import {
 import { cleanup, throttle, announceUpdate } from './markets/utils.js';
 import { fetchData } from './markets/api.js';
 import { generateTableHeadHtml, patchTableBody } from './table/render.js';
+import initTooltipsDelay from './ui/tooltip.js';
 
 import {
   populateColumnCheckboxes,
@@ -55,7 +56,8 @@ async function initializeApp() {
 
     // 3. Теперь, когда заголовки переведены, генерируем элементы интерфейса
     populateColumnCheckboxes();
-    generateTableHeadHtml();
+    generateTableHeadHtml(t, window.APP_CONFIG.currentLang);
+    initTooltipsDelay(); // Инициализация тултипов после генерации заголовка
 
     const throttledPatch = throttle(patchTableBody, 100);
     if (DOMElements.scrollContainer) {
@@ -65,7 +67,10 @@ async function initializeApp() {
     const fetchWithMeta = () => fetchData(marketState.state.cryptoMeta);
     fetchWithMeta();
     marketState.setUpdateIntervalId(
-      setInterval(fetchWithMeta, REFRESH_INTERVAL_MS)
+      setInterval(() => {
+        fetchWithMeta();
+        initTooltipsDelay(); // Инициализация тултипов после обновления данных
+      }, REFRESH_INTERVAL_MS)
     );
 
     updateFilterCountBadge();
@@ -104,7 +109,8 @@ document.addEventListener('table:sort-click', (e) => {
 });
 
 document.addEventListener('table:columns-updated', () => {
-  generateTableHeadHtml();
+  generateTableHeadHtml(t, window.APP_CONFIG.currentLang);
+  initTooltipsDelay(); // Инициализация тултипов после обновления колонок
   applySortAndFilter(false);
   updateFilterCountBadge();
 });

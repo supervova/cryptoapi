@@ -16,6 +16,7 @@ import initSearchToggleHeader from './ui/search-toggle.js';
 import initDrawer from './ui/drawer.js';
 
 import initTabs from './ui/tabs.js';
+import initTooltipsDelay from './ui/tooltip.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initDragToScroll();
@@ -25,4 +26,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initSearchToggleHeader();
   initTabs();
   initPopovers();
+  initTooltipsDelay();
 });

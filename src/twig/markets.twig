@@ -32,14 +32,14 @@
   JS будет использовать этот же набор по умолчанию, но сможет его переопределить. #}
 
   {% set default_columns = [
-    {key: 'watchlist', type: 'action', label: 'Watchlist'|trans, sortable: false, visible: false},
+    {key: 'watchlist', type: 'action', label: 'Watchlist'|trans, sortable: false, visible: false, tooltip: "📋 A list of assets you want to track.<br><a href='/en/faq'>More</a>"},
     {key: 'asset', type: 'text', label: 'Asset'|trans, sortable: true},
     {key: 'price', type: 'num', label: 'Price, $'|trans, sortable: true},
     {key: 'change_24h', type: 'num', label: 'Chg (24H), %'|trans, sortable: true},
-    {key: 'rating', type: 'num', label: 'Rating'|trans, sortable: true},
-    {key: 'risk', type: 'icon', label: 'Risk'|trans, sortable: false},
-    {key: 'trindx', type: 'num', label: 'TRINDX'|trans, sortable: true},
-    {key: 'rsi', type: 'num', label: 'RSI (7D)'|trans, sortable: true}
+    {key: 'rating', type: 'num', label: 'Rating'|trans, sortable: true, tooltip: "📊 A general score of asset attractiveness based on the TRINDX™ index and other factors.<br><a href='/en/faq'>More</a>"},
+    {key: 'risk', type: 'icon', label: 'Risk'|trans, sortable: false, tooltip: "⚠️ A simplified risk score based on the TRINDX™ index.<br><a href='/en/faq'>More</a>"},
+    {key: 'trindx', type: 'num', label: 'TRINDX'|trans, sortable: true, tooltip: "🤖 A trading risk index calculated by the project’s AI system.<br><a href='/en/faq'>More</a>"},
+    {key: 'rsi', type: 'num', label: 'RSI (7D)'|trans, sortable: true, tooltip: "📈 Relative Strength Index indicating whether an asset is overbought or oversold over the selected period.<br><a href='/en/faq'>More</a>"}
   ] %}
 
 {% endblock %}
@@ -53,22 +53,6 @@
       {% set visible_columns_count = visible_columns_count + 1 %}
     {% endif %}
   {% endfor %}
-
-  <h2>
-    Smth just like this
-    <span class="has-rich-tooltip is-bottom-right">
-      <span class="tooltip__trigger" aria-describedby="tt-1">
-        {% include 'partials/icon.twig' with {name: 'sm-help', classes: 'is-sm'} %}
-      </span>
-      <span class="tooltip" id="tt-1" role="tooltip">
-        Text with markup<br>
-        <b>Note:</b> links are supported —
-        <a href="#">read more</a>
-      </span>
-    </span>
-  </h2>
-
-
 
   <div class="e-container">
 
@@ -245,6 +229,11 @@
       "tableInitError": "We couldn’t show the table. Something went wrong during setup."|trans,
       "tableLoading": "Table loading"|trans,
       "tableSortedBy": "Table sorted by"|trans,
+      "tooltip_watchlist": "📋 A list of assets you want to track.<br><a href='/en/faq'>More</a>"|trans,
+      "tooltip_rating": "📊 A general score of asset attractiveness based on the TRINDX™ index and other factors.<br><a href='/en/faq'>More</a>"|trans,
+      "tooltip_risk": "⚠️ A simplified risk score based on the TRINDX™ index.<br><a href='/en/faq'>More</a>"|trans,
+      "tooltip_trindx": "🤖 A trading risk index calculated by the project’s AI system.<br><a href='/en/faq'>More</a>"|trans,
+      "tooltip_rsi": "📈 Relative Strength Index indicating whether an asset is overbought or oversold over the selected period.<br><a href='/en/faq'>More</a>"|trans,
       "trindx": "TRINDX"|trans,
       "watchlist": "Watchlist"|trans
     } %}

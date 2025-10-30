@@ -61,14 +61,14 @@ if (isset($thispath[1]) && $thispath[1] === 'markets' && isset($thispath[2]) && 
 
     // Конфигурация колонок для таблицы (колонка 'chart' удалена)
     $data_objects['default_columns'] = [
-        ['key' => 'watchlist',  'type' => 'action', 'label' => 'Watchlist', 'sortable' => false, 'visible' => false],
+        ['key' => 'watchlist',  'type' => 'action', 'label' => 'Watchlist', 'sortable' => false, 'visible' => false, 'tooltip' => "📋 A list of assets you want to track.<br><a href='/en/faq'>More</a>"],
         ['key' => 'asset',      'type' => 'text',   'label' => 'Asset', 'sortable' => true],
         ['key' => 'price',      'type' => 'num',    'label' => 'Price, $', 'sortable' => true],
         ['key' => 'change_24h', 'type' => 'num',    'label' => 'Chg (24H), %', 'sortable' => true],
-        ['key' => 'rating',     'type' => 'num',    'label' => 'Rating', 'sortable' => true],
-        ['key' => 'risk',       'type' => 'icon',   'label' => 'Risk', 'sortable' => false],
-        ['key' => 'trindx',     'type' => 'num',    'label' => 'TRINDX', 'sortable' => true],
-        ['key' => 'rsi',        'type' => 'num',    'label' => 'RSI (7D)', 'sortable' => true]
+        ['key' => 'rating',     'type' => 'num',    'label' => 'Rating', 'sortable' => true, 'tooltip' => "📊 A general score of asset attractiveness based on the TRINDX™ index and other factors.<br><a href='/en/faq'>More</a>"],
+        ['key' => 'risk',       'type' => 'icon',   'label' => 'Risk', 'sortable' => false, 'tooltip' => "⚠️ A simplified risk score based on the TRINDX™ index.<br><a href='/en/faq'>More</a>"],
+        ['key' => 'trindx',     'type' => 'num',    'label' => 'TRINDX', 'sortable' => true, 'tooltip' => "🤖 A trading risk index calculated by the project’s AI system.<br><a href='/en/faq'>More</a>"],
+        ['key' => 'rsi',        'type' => 'num',    'label' => 'RSI (7D)', 'sortable' => true, 'tooltip' => "📈 Relative Strength Index indicating whether an asset is overbought or oversold over the selected period.<br><a href='/en/faq'>More</a>"]
     ];
 
     // Рендер шаблона для списка рынков
