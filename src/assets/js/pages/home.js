@@ -8,13 +8,6 @@ const { Chart } = window;
 
 const ASSETS_PATH_PREFIX = window.APP_CONFIG?.assetsBasePrefix || '';
 const REFRESH_INTERVAL = 30000;
-const DEAL_STATS_ENDPOINT = 'https://cryptoapi.ai/json/dealstat';
-const DEAL_STATS_TIMEOUT = 8000;
-const DEAL_STATS_REFRESH_INTERVAL = 300000;
-const DEAL_STATS_PERIODS = {
-  month: '1m',
-  year: '1y',
-};
 
 let chartInstance = null;
 let chartContainer = null;
@@ -70,134 +63,6 @@ const calcChange = (p) =>
     ? ((parseFloat(p.current) - parseFloat(p.dayago)) * 100) /
       parseFloat(p.dayago)
     : null;
-
-/**
- * Возвращает локаль для форматирования чисел
- * @returns {string} локаль
- */
-const getLocale = () => {
-  const lang = document.documentElement.lang || 'en';
-  return lang.toLowerCase().startsWith('ru') ? 'ru-RU' : 'en-US';
-};
-
-/**
- * Форматирует значение статистики
- * @param {number} value - исходное значение
- * @param {'percent'|'count'|'ratio'} type - тип данных
- * @returns {string|null} отформатированная строка
- */
-const formatStatValue = (value, type) => {
-  if (!Number.isFinite(value)) {
-    return null;
-  }
-
-  const decimalsMap = {
-    percent: 1,
-    ratio: 1,
-    count: 0,
-  };
-
-  const decimals = decimalsMap[type] ?? 1;
-
-  return value.toLocaleString(getLocale(), {
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals,
-  });
-};
-
-/**
- * Обновляет DOM-узел статистики
- * @param {string} statId - идентификатор блока
- * @param {number} value - новое значение
- * @param {'percent'|'count'|'ratio'} type - тип данных
- */
-const setStatValue = (statId, value, type) => {
-  if (!Number.isFinite(value)) {
-    return;
-  }
-
-  const target = document.querySelector(
-    `[data-stat-id="${statId}"] .e-stat__number`
-  );
-  if (!target) {
-    return;
-  }
-
-  const formatted = formatStatValue(value, type);
-  if (formatted) {
-    target.textContent = formatted;
-  }
-};
-
-/**
- * Получает статистику сделок с сервера
- * @param {'1m'|'1y'} period - период выборки
- * @returns {Promise<object|null>} объект статистики или null
- */
-const fetchDealStat = async (period) => {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), DEAL_STATS_TIMEOUT);
-  const requestUrl = new URL(DEAL_STATS_ENDPOINT);
-  requestUrl.searchParams.set('period', period);
-  requestUrl.searchParams.set('ts', Date.now().toString());
-  requestUrl.searchParams.set('jsonfather', 'true');
-
-  try {
-    const response = await fetch(requestUrl.toString(), {
-      signal: controller.signal,
-      cache: 'no-store',
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-
-    const payload = await response.json();
-    if (!Array.isArray(payload) || payload[0] !== 'OK' || !payload[1]) {
-      throw new Error('Unexpected payload structure');
-    }
-
-    return payload[1];
-  } catch (error) {
-    if (error.name === 'AbortError') {
-      console.error(`[home] Deal stats request timeout (${period})`);
-    } else {
-      console.error(`[home] Failed to fetch deal stats for ${period}`, error);
-    }
-    return null;
-  } finally {
-    clearTimeout(timeoutId);
-  }
-};
-
-/**
- * Загружает и отображает показатели блока .e-stats
- * @returns {Promise<void>}
- */
-const updateDealStats = async () => {
-  try {
-    const [monthStats, yearStats] = await Promise.all([
-      fetchDealStat(DEAL_STATS_PERIODS.month),
-      fetchDealStat(DEAL_STATS_PERIODS.year),
-    ]);
-
-    if (monthStats) {
-      setStatValue('monthly-return', Number(monthStats.total_profit), 'percent');
-    }
-
-    if (yearStats) {
-      setStatValue('annual-return', Number(yearStats.total_profit), 'percent');
-      setStatValue('trades-1y', Number(yearStats.dealscount), 'count');
-      setStatValue(
-        'avg-return-trade',
-        Number(yearStats.middle_profit),
-        'percent'
-      );
-    }
-  } catch (error) {
-    console.error('[home] Failed to update deal stats', error);
-  }
-};
 
 /**
  * Создает строку таблицы для актива
@@ -541,7 +406,6 @@ const init = async () => {
   chartLoader = document.getElementById('chart-loader');
   chartError = document.getElementById('chart-error');
   const assetsTable = document.querySelector('.e-assets__table tbody');
-  const statsAvailable = document.querySelector('[data-stat-id]') !== null;
 
   if (!assetsTable || !chartContainer || !chartLoader || !chartError) {
     console.error('Essential elements not found, aborting init.');
@@ -555,11 +419,6 @@ const init = async () => {
     }
 
     await refreshData();
-
-    if (statsAvailable) {
-      updateDealStats();
-      setInterval(updateDealStats, DEAL_STATS_REFRESH_INTERVAL);
-    }
 
     if (state.allAssets && state.allAssets.length > 0) {
       selectAsset('BTC');

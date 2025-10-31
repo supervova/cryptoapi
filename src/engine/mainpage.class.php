@@ -35,6 +35,29 @@ $data_objects['page']['market_tops'] = [
   'gainer_diff' => $market['leader']['growth']['diff']   ?? null,
 ];
 
+$data_objects['page']['stats'] = [
+  [
+    'label' => 'Monthly Return',
+    'value' => (float) $project_stat['1m_total_profit'],
+    'unit'  => '%',
+  ],
+  [
+    'label' => 'Annual Return',
+    'value' => (float) $project_stat['1y_total_profit'],
+    'unit'  => '%',
+  ],
+  [
+    'label' => 'Trades (1Y)',
+    'value' => (int) $project_stat['1y_dealscount'],
+    'unit'  => '',
+  ],
+  [
+    'label' => 'Average Return per Trade (1Y)',
+    'value' => (float) $project_stat['1y_middle_profit'],
+    'unit'  => '%',
+  ],
+];
+
 require_once __DIR__ . '/helpers/tariff.php';
 $data_objects['curr_plan'] = build_curr_plan($db, $user_id, $thisprojectid, $user_lng);
 

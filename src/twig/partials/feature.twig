@@ -1,4 +1,4 @@
-<div class="e-card{{ feature.isFeatured ? ' is-featured' : '' }}">
+<a class="e-card is-link{{ feature.isFeatured ? ' is-featured' : '' }}" href="/{{ lang|default("en") }}/{{ feature.link }}">
   <figure class="e-card__spot-icon">
     {% include 'partials/icon.twig' with {name: feature.icon} %}
   </figure>
@@ -7,4 +7,4 @@
     <h3 class="e-card__title">{{ feature.title|trans }}</h3>
     <p class="e-card__desc">{{ feature.description|trans }}</p>
   </div>
-</div>
+</a>

@@ -1,9 +1,9 @@
 @use 'abstracts' as *;
 
 // -----------------------------------------------------------------------------
-// BASE
+// #region: BASE
 // -----------------------------------------------------------------------------
-// #region
+
 .e-card {
   background-color: var(--color-bg-level-01);
   border-radius: var(--border-radius-lg);
@@ -121,13 +121,29 @@
   padding-bottom: 0.75rem;
 }
 
+// #endregion
+
+// -----------------------------------------------------------------------------
+// #region: LINK
+// -----------------------------------------------------------------------------
+
+.e-card.is-link {
+  @media (any-hover: hover) {
+    transition: filter var(--duration-100) var(--easing-base);
+
+    &:hover {
+      filter: var(--filter-brightness-up);
+      text-decoration: none;
+    }
+  }
+}
 
 // #endregion
 
 // -----------------------------------------------------------------------------
-// VARIANTS
+// #region: VARIANTS
 // -----------------------------------------------------------------------------
-// #region
+
 :where(.e-section.has-scroller-row) .e-card,
 :where(.e-section.has-scroller-row-reverse) .e-card {
   width: 100%;

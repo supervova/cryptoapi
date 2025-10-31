@@ -17,7 +17,14 @@
           gainer_ticker: 'SPK',
           gainer_price: 0.07472000,
           gainer_diff: '70.05',
-        }
+        },
+
+        stats: [
+          {label: "Monthly Return", value: "19,3", unit: "%"},
+          {label: "Annual Return", value: "5,4", unit: "%"},
+          {label: "Trades (1Y)", value: "1320", unit: ""},
+          {label: "Average Return per Trade (1Y)", value: "5,1", unit: "%"}
+        ]
       }
     ) %}
 
@@ -69,38 +76,44 @@
       "icon": "robot",
       "eyebrow": "01. Trading Agent",
       "title": "Connecting trading bots",
-      "description": "Automating transactions."
+      "description": "Automating transactions.",
+      "link": "trading"
     },
     {
       "icon": "candles",
       "eyebrow": "02. AI Consultant",
       "title": "Generating trading signals",
-      "description": "Forecasting and recommendations."
+      "description": "Forecasting and recommendations.",
+      "link": "signals"
     },
     {
       "icon": "plug",
       "eyebrow": "03. API Integrations",
       "title": "API interfaces",
       "description": "Market connection, data retrieval, signals.",
-      "isFeatured": true
+      "isFeatured": true,
+      "link": "cryptoapi"
     },
     {
       "icon": "award",
       "eyebrow": "Additionally",
       "title": "Asset ratings",
-      "description": "TRINDX™ – The Trading Risk Index."
+      "description": "TRINDX™ – The Trading Risk Index.",
+      "link": "markets"
     },
     {
       "icon": "speed",
       "eyebrow": "Additionally",
       "title": "Charts and indicators",
-      "description": "RSI, Fear & Greed Index."
+      "description": "RSI, Fear & Greed Index.",
+      "link": "markets"
     },
     {
       "icon": "bitcoin",
       "eyebrow": "Additionally",
       "title": "Embeddable widgets",
-      "description": "Cryptocurrency rates and analytics."
+      "description": "Cryptocurrency rates and analytics.",
+      "link": "widgets"
     },
     {
       "icon": "news",
@@ -116,7 +129,7 @@
     </header>
     <div class="e-scroller-row" data-role="draggable-scroll">
       {% for feature in data_features %}
-        {% include 'partials/feature.twig' with {'feature': feature, 'site': site} only %}
+        {% include "partials/feature.twig" with {"feature": feature, "lang": page.lang|default("en")} only %}
       {% endfor %}
     </div>
   </section>
@@ -436,36 +449,16 @@
       </header>
 
       <div class="e-stats">
-        <figure class="e-stat" data-stat-id="monthly-return" data-stat-type="percent">
-          <span class="e-stat__caption">{{ 'Monthly Return'|trans }}</span>
-          <span class="e-stat__value">
-            <span class="e-stat__number">–</span>
-            <small>%</small>
-          </span>
-        </figure>
+        {% for stat in page.stats %}
+          <figure class="e-stat">
+            <span class="e-stat__caption">{{ stat.label|trans }}</span>
+            <span class="e-stat__value">
+              <span class="e-stat__number">{{ stat.value }}</span>
+              {% if stat.unit == '%' %}<small>%</small>{% endif %}
+            </span>
+          </figure>
+        {% endfor %}
 
-        <figure class="e-stat" data-stat-id="annual-return" data-stat-type="percent">
-          <span class="e-stat__caption">{{ 'Annual Return'|trans }}</span>
-          <span class="e-stat__value">
-            <span class="e-stat__number">–</span>
-            <small>%</small>
-          </span>
-        </figure>
-
-        <figure class="e-stat" data-stat-id="trades-1y" data-stat-type="count">
-          <span class="e-stat__caption">{{ 'Trades (1Y)'|trans }}</span>
-          <span class="e-stat__value">
-            <span class="e-stat__number">–</span>
-          </span>
-        </figure>
-
-        <figure class="e-stat" data-stat-id="avg-return-trade" data-stat-type="percent">
-          <span class="e-stat__caption">{{ 'Average Return per Trade (1Y)'|trans }}</span>
-          <span class="e-stat__value">
-            <span class="e-stat__number">–</span>
-            <small>%</small>
-          </span>
-        </figure>
       </div>
     </div>
   </section>
