@@ -151,6 +151,10 @@ const paths = {
     src: `${srcBase}/assets/video/**/*.mp4`,
     dest: `${destAssets}/video`,
   },
+  coins: {
+    src: `${srcBase}/images/coins/**/*`,
+    dest: `${root.dest.prod}/images/coins`,
+  },
   fonts: {
     src: `${srcBase}/assets/fonts/**/*.{woff2,ttf}`,
     dest: `${destAssets}/fonts/`,
@@ -254,6 +258,11 @@ const js = () => {
 //     .pipe(changed(paths.video.dest))
 //     .pipe(dest(paths.video.dest));
 
+const copyCoins = () =>
+  src(paths.coins.src, { encoding: false })
+    .pipe(newer(paths.coins.dest))
+    .pipe(dest(paths.coins.dest));
+
 const copyFonts = () =>
   src(paths.fonts.src, { encoding: false })
     .pipe(changed(paths.fonts.dest))
@@ -302,6 +311,7 @@ const copyTpl = () =>
 const copy = parallel(
   copyData,
   copyEngine,
+  copyCoins,
   copyFonts,
   copyLocales,
   copyTpl,
@@ -532,11 +542,6 @@ const pages = () => {
             ? await fetchNewsFromApi(lang)
             : loadNewsFixture();
 
-          // читаем crypto-meta
-          const cryptoMeta = JSON.parse(
-            readFileSync(`${srcBase}/assets/data/crypto-meta.json`, 'utf8')
-          );
-
           return {
             ...phpMockData,
             ENV: process.env.NODE_ENV || 'production',
@@ -544,7 +549,6 @@ const pages = () => {
               ...phpMockData.page, // сохраняем page.lang и другие поля
               news: newsData, // добавляем новые
             },
-            crypto_meta: cryptoMeta,
           };
         })
       )

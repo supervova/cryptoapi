@@ -33,78 +33,101 @@ $page_settings = [
 // Обновляем $data_objects['page']
 $data_objects['page'] = array_merge($data_objects['page'] ?? [], $page_settings);
 
-// ЧТЕНИЕ CRYPTO-META.JSON — НАЗВАНИЕ ВАЛЮТЫ И ИКОНКА
-// Название валюты по умолчанию, если не найдено в meta
-$asset_name = strtoupper($ticker);
-// Название файла иконки по умолчанию
-$asset_icon_filename = strtolower($ticker) . '.svg';
-// Путь к иконке по умолчанию
-$asset_icon_path = ($data_objects['site']['assets_prefix'] ?? '') .
-                   '/assets/img/cryptologos/' . $asset_icon_filename;
+$ticker_upper = strtoupper($ticker);
+$asset_name = $ticker_upper;
+$asset_icon_path = '/images/coins/' . $ticker_upper . '.png';
 
-// Путь к crypto-meta.json
-$base_path_for_data = $_SERVER['DOCUMENT_ROOT']; // Корень документов веб-сервера
-$relative_path_to_meta_json = ($data_objects['site']['assets_prefix'] ?? '') .
-                              '/assets/data/crypto-meta.json';
-$crypto_meta_file_path = rtrim($base_path_for_data, '/') . '/' .
-                         ltrim($relative_path_to_meta_json, '/');
+$api_domain = $data_objects['site']['domain'] ?? 'cryptoapi.ai';
+$is_local_env = ($data_objects['ENV'] ?? 'production') === 'development' &&
+                ($api_domain === 'localhost' || strpos($api_domain, '.local') !== false);
+$api_protocol = $is_local_env ? 'http://' : 'https://';
+$api_lang_prefix = !empty($lng_html) ? '/' . $lng_html : '';
 
-if (file_exists($crypto_meta_file_path)) {
-    $meta_content = @file_get_contents($crypto_meta_file_path);
-    if ($meta_content !== false) {
-        $crypto_meta_data = json_decode($meta_content, true);
+$asset_directory = [];
+
+if (!$is_local_env) {
+    $trindx_url = $api_protocol . $api_domain . $api_lang_prefix . '/json/trindxrating';
+    $trindx_params = [
+        'jsonfather' => 'true',
+    ];
+
+    $curl_trindx = curl_init();
+    curl_setopt($curl_trindx, CURLOPT_URL, $trindx_url);
+    curl_setopt($curl_trindx, CURLOPT_POST, true);
+    curl_setopt($curl_trindx, CURLOPT_POSTFIELDS, http_build_query($trindx_params));
+    curl_setopt($curl_trindx, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl_trindx, CURLOPT_TIMEOUT, 10);
+
+    $trindx_response = curl_exec($curl_trindx);
+    $trindx_status = curl_getinfo($curl_trindx, CURLINFO_HTTP_CODE);
+    curl_close($curl_trindx);
+
+    if ($trindx_response !== false && $trindx_status === 200) {
+        $decoded = json_decode($trindx_response, true);
         if (
             json_last_error() === JSON_ERROR_NONE &&
-            is_array($crypto_meta_data) &&
-            isset($crypto_meta_data[strtoupper($ticker)])
+            is_array($decoded) &&
+            isset($decoded[0], $decoded[1]) &&
+            $decoded[0] === 'OK' &&
+            is_array($decoded[1])
         ) {
-            $asset_meta = $crypto_meta_data[strtoupper($ticker)];
-            $asset_name = $asset_meta['name'] ?? $asset_name;
-            if (isset($asset_meta['icon'])) {
-                $icon_filename = $asset_meta['icon'];
-                $relative_path = '/assets/img/cryptologos/' . $icon_filename;
-
-                // Публичный URL
-                $public_path = ($data_objects['site']['assets_prefix'] ?? '') . $relative_path;
-
-                /**
-                 * Абсолютный путь на ФС должен учитывать assets_prefix, иначе
-                 * проверка file_exists() на прод‑сервере возвращает false, и
-                 * мы остаёмся с несуществующим файлом <ticker>.svg.
-                 */
-                $assets_prefix_fs = rtrim(($data_objects['site']['assets_prefix'] ?? ''), '/');
-                $project_root     = rtrim($_SERVER['DOCUMENT_ROOT'], '/');
-                $server_path      = $project_root . $assets_prefix_fs . $relative_path;
-
-                // placeholder.svg считаем «существующим» всегда
-                if ($icon_filename === 'placeholder.svg' || file_exists($server_path)) {
-                    $asset_icon_path = $public_path;
-                }
-            }
+            $asset_directory = $decoded[1];
         }
     }
 }
 
-$icons_base_rel = '/assets/img/cryptologos/';
-$doc_root = rtrim($_SERVER['DOCUMENT_ROOT'], '/');
+if (empty($asset_directory)) {
+    $fixture_candidates = [
+        dirname(__DIR__) . '/assets/data/fixtures/crypto-data.json',
+        rtrim($_SERVER['DOCUMENT_ROOT'], '/') .
+        '/projects/cryptoapi.ai/assets/data/fixtures/crypto-data.json',
+    ];
 
-// Check whether the currently selected icon file actually exists
-$icon_filename_for_check = basename($asset_icon_path);
-$icon_server_path        = $doc_root . $assets_prefix_fs . $icons_base_rel . $icon_filename_for_check;
-
-if (!file_exists($icon_server_path)) {
-    // If not, fall back to the universal placeholder icon
-    $placeholder_rel  = $icons_base_rel . 'placeholder.svg';
-    $placeholder_path = ($data_objects['site']['assets_prefix'] ?? '') . $placeholder_rel;
-    $placeholder_server_path = $doc_root . $assets_prefix_fs . $placeholder_rel;
-
-    if (file_exists($placeholder_server_path)) {
-        $asset_icon_path = $placeholder_path;
+    foreach ($fixture_candidates as $fixture_path) {
+        if (!is_readable($fixture_path)) {
+            continue;
+        }
+        $fixture_content = file_get_contents($fixture_path);
+        if ($fixture_content === false) {
+            continue;
+        }
+        $fixture_decoded = json_decode($fixture_content, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            continue;
+        }
+        if (
+            is_array($fixture_decoded) &&
+            isset($fixture_decoded[0], $fixture_decoded[1]) &&
+            $fixture_decoded[0] === 'OK' &&
+            is_array($fixture_decoded[1])
+        ) {
+            $asset_directory = $fixture_decoded[1];
+            break;
+        }
+        if (is_array($fixture_decoded) && !isset($fixture_decoded[0])) {
+            $asset_directory = $fixture_decoded;
+            break;
+        }
     }
 }
 
+$asset_entry = [];
+if (!empty($asset_directory)) {
+    $asset_entry = $asset_directory[$ticker_upper] ??
+                   $asset_directory[strtolower($ticker_upper)] ??
+                   [];
+}
+
+if (
+    is_array($asset_entry) &&
+    isset($asset_entry['name']) &&
+    is_string($asset_entry['name']) &&
+    $asset_entry['name'] !== ''
+) {
+    $asset_name = $asset_entry['name'];
+}
+
 // Title и Description
-$ticker_upper = strtoupper($ticker);
 $data_objects['page']['title'] = sprintf(
     '%s (%s) Price Chart & Market Data – CryptoAPI.ai',
     $asset_name,
@@ -126,13 +149,6 @@ $ohl_data = [
   'change_24h_percent' => 'N/A' // Это поле пока нечем заполнить
 ];
 
-$api_domain = $data_objects['site']['domain'] ?? 'cryptoapi.ai';
-$is_local_env = ($data_objects['ENV'] ?? 'production') == 'development' &&
-                ($api_domain === 'localhost' || strpos($api_domain, '.local') !== false);
-$api_protocol = $is_local_env ? 'http://' : 'https://';
-
-// Языковой префикс для API URL, если он нужен
-$api_lang_prefix = !empty($lng_html) ? '/' . $lng_html : '';
 $api_url_pricechart = $api_protocol . $api_domain . $api_lang_prefix . '/json/pricechart';
 
 $api_url_params = [

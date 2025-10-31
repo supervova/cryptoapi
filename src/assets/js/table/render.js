@@ -102,7 +102,8 @@ function updateCellNode(td, asset, col, cryptoMeta) {
   const link = td.querySelector('.table__link');
 
   if (!link) {
-    td.innerHTML = `<a class="table__link" href="${assetUrl}">${newHtml}</a>`;
+    const cell = td;
+    cell.innerHTML = `<a class="table__link" href="${assetUrl}">${newHtml}</a>`;
     return;
   }
 
@@ -196,7 +197,8 @@ export function patchTableBody() {
   }
 }
 
-export function generateTableHeadHtml(t, lang) {
+// eslint-disable-next-line no-shadow
+export function generateTableHeadHtml(t) {
   if (!DOMElements.tableHead) return;
 
   const currentVisibleColumns = getVisibleColumns();

@@ -20,9 +20,8 @@ export const testExport = () => 'ok';
  * Обработка полученных данных с API
  * Извлекает данные из ответа API, обновляет состояние активов и применяет сортировку/фильтрацию.
  * @param {any} responseData - Данные, полученные от API
- * @param {object} cryptoData - Метаданные криптовалют
  */
-function processData(responseData, cryptoData) {
+function processData(responseData) {
   let actualCryptoDataObject;
 
   if (IS_DEVELOPMENT) {
@@ -99,109 +98,116 @@ function processData(responseData, cryptoData) {
   const newApiSymbols = Object.keys(actualCryptoDataObject).map((s) =>
     s.toUpperCase()
   );
+  const derivedMeta = newApiSymbols.reduce((acc, symbol) => {
+    const source =
+      actualCryptoDataObject[symbol] ||
+      actualCryptoDataObject[symbol.toLowerCase()];
+    acc[symbol] = {
+      name:
+        source && typeof source === 'object' && source.name
+          ? source.name
+          : symbol,
+      quote:
+        source && typeof source === 'object' && source.quote
+          ? source.quote
+          : undefined,
+    };
+    return acc;
+  }, {});
   const nextAllAssets = [];
   const processedSymbols = new Set();
 
-  // Используем marketState.state.allAssets
   const currentAssets = Array.isArray(marketState.state.allAssets)
     ? marketState.state.allAssets
     : [];
 
   currentAssets.forEach((existingAsset) => {
     const upperSymbol = existingAsset.symbol.toUpperCase();
-    if (newApiSymbols.includes(upperSymbol)) {
-      // Используем переданный cryptoData
-      const meta = (cryptoData && cryptoData[upperSymbol]) || {
-        name: upperSymbol,
-        icon: null,
-      };
-      const newAssetDataForSymbol =
-        actualCryptoDataObject[upperSymbol] ||
-        actualCryptoDataObject[existingAsset.symbol];
-
-      if (
-        typeof newAssetDataForSymbol === 'object' &&
-        newAssetDataForSymbol !== null
-      ) {
-        Object.assign(existingAsset, newAssetDataForSymbol, {
-          name: meta.name || upperSymbol,
-          icon: meta.icon
-            ? `${ASSETS_PATH_PREFIX}/assets/img/cryptologos/${meta.icon}`
-            : null,
-          symbol: upperSymbol,
-        });
-        nextAllAssets.push(existingAsset);
-      } else if (IS_DEVELOPMENT) {
-        console.warn(
-          `Incorrect or missing new data for existing symbol ${upperSymbol}. Asset data:`,
-          newAssetDataForSymbol
+    if (!newApiSymbols.includes(upperSymbol)) {
+      if (IS_DEVELOPMENT) {
+        console.log(
+          `Asset ${upperSymbol} no longer in API response, will be removed.`
         );
       }
-      processedSymbols.add(upperSymbol);
+      return;
+    }
+
+    const updatedPayload =
+      actualCryptoDataObject[upperSymbol] ||
+      actualCryptoDataObject[existingAsset.symbol] ||
+      actualCryptoDataObject[upperSymbol.toLowerCase()];
+    const meta = derivedMeta[upperSymbol] || { name: upperSymbol };
+    const iconPath = `/images/coins/${upperSymbol}.png`;
+
+    if (typeof updatedPayload === 'object' && updatedPayload !== null) {
+      Object.assign(existingAsset, updatedPayload, {
+        name: updatedPayload.name || meta.name || upperSymbol,
+        icon: iconPath,
+        symbol: upperSymbol,
+      });
+      nextAllAssets.push(existingAsset);
     } else if (IS_DEVELOPMENT) {
-      console.log(
-        `Asset ${upperSymbol} no longer in API response, will be removed.`
+      console.warn(
+        `Incorrect or missing new data for existing symbol ${upperSymbol}. Asset data:`,
+        updatedPayload
       );
     }
+    processedSymbols.add(upperSymbol);
   });
 
   newApiSymbols.forEach((upperSymbol) => {
-    if (!processedSymbols.has(upperSymbol)) {
-      // Используем переданный cryptoData
-      const meta = (cryptoData && cryptoData[upperSymbol]) || {
-        name: upperSymbol,
-        icon: null,
-      };
-      const assetApiData =
-        actualCryptoDataObject[upperSymbol] ||
-        actualCryptoDataObject[upperSymbol.toLowerCase()];
+    if (processedSymbols.has(upperSymbol)) return;
 
-      if (typeof assetApiData === 'object' && assetApiData !== null) {
-        nextAllAssets.push({
-          symbol: upperSymbol,
-          name: meta.name || upperSymbol,
-          id: upperSymbol,
-          icon: meta.icon
-            ? `${ASSETS_PATH_PREFIX}/assets/img/cryptologos/${meta.icon}`
-            : null,
-          watchlist: false,
-          chart_data: [],
-          ...assetApiData,
-        });
-      } else {
-        if (IS_DEVELOPMENT)
-          console.warn(
-            `Data for new symbol ${upperSymbol} is not an object or is null:`,
-            assetApiData
-          );
-        nextAllAssets.push({
-          symbol: upperSymbol,
-          name: meta.name || upperSymbol,
-          id: upperSymbol,
-          icon: meta.icon
-            ? `${ASSETS_PATH_PREFIX}/assets/img/cryptologos/${meta.icon}`
-            : null,
-          price: {
-            current: null,
-            yesterday: { middle: null },
-            today: { min: null, max: null, middle: null },
-          },
-          rating: null,
-          risk: null,
-          TRINDX: null,
-          RSI7: null,
-          watchlist: false,
-          chart_data: [],
-        });
-      }
+    const assetApiData =
+      actualCryptoDataObject[upperSymbol] ||
+      actualCryptoDataObject[upperSymbol.toLowerCase()];
+    const meta = derivedMeta[upperSymbol] || { name: upperSymbol };
+    const iconPath = `/images/coins/${upperSymbol}.png`;
+
+    if (typeof assetApiData === 'object' && assetApiData !== null) {
+      nextAllAssets.push({
+        symbol: upperSymbol,
+        name: assetApiData.name || meta.name || upperSymbol,
+        id: upperSymbol,
+        icon: iconPath,
+        watchlist: false,
+        chart_data: [],
+        ...assetApiData,
+      });
+      return;
     }
+
+    if (IS_DEVELOPMENT) {
+      console.warn(
+        `Data for new symbol ${upperSymbol} is not an object or is null:`,
+        assetApiData
+      );
+    }
+    nextAllAssets.push({
+      symbol: upperSymbol,
+      name: meta.name || upperSymbol,
+      id: upperSymbol,
+      icon: iconPath,
+      price: {
+        current: null,
+        yesterday: { middle: null },
+        today: { min: null, max: null, middle: null },
+      },
+      rating: null,
+      risk: null,
+      TRINDX: null,
+      RSI7: null,
+      watchlist: false,
+      chart_data: [],
+    });
   });
 
   marketState.setAllAssets(nextAllAssets); // Setter correctly updates marketState.state.allAssets
+  marketState.setCryptoMeta(derivedMeta);
   applySortAndFilter(marketState.state.isLoading); // Pass isLoading from marketState.state
 }
 
-export async function fetchData(cryptoData) {
+export async function fetchData() {
   // Используем marketState.state.currentRequestController
   if (marketState.state.currentRequestController) {
     marketState.state.currentRequestController.abort();
@@ -243,7 +249,7 @@ export async function fetchData(cryptoData) {
     const data = await response.json();
     const wasLoading = marketState.state.isLoading; // Access isLoading from marketState.state
 
-    processData(data, cryptoData);
+    processData(data);
 
     if (wasLoading) {
       marketState.setIsLoading(false); // Uses setter

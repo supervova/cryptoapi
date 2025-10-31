@@ -45,8 +45,6 @@ async function initializeApp() {
       throw new Error('Required table DOM elements not found');
     }
 
-    await marketState.loadCryptoMeta();
-
     if (DOMElements.filtersForm) {
       DOMElements.filtersForm.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -64,11 +62,11 @@ async function initializeApp() {
       DOMElements.scrollContainer.addEventListener('scroll', throttledPatch);
     }
 
-    const fetchWithMeta = () => fetchData(marketState.state.cryptoMeta);
-    fetchWithMeta();
+    const fetchLatest = () => fetchData();
+    fetchLatest();
     marketState.setUpdateIntervalId(
       setInterval(() => {
-        fetchWithMeta();
+        fetchLatest();
         initTooltipsDelay(); // Инициализация тултипов после обновления данных
       }, REFRESH_INTERVAL_MS)
     );

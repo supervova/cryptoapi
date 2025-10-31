@@ -476,7 +476,7 @@
 
 // Base button properties (structural)
 @mixin button-base() {
-  appearance: button;
+  appearance: auto;
   cursor: pointer;
   display: inline-flex;
   align-items: center;

@@ -22,22 +22,6 @@ import {
 } from './state.js';
 import { getPair } from '../utils/currency.js';
 
-let cryptoMeta = {}; // Default to empty object
-
-// Fetch meta immediately, do not block rendering
-(async () => {
-  try {
-    const ASSETS_PATH_PREFIX = window.APP_CONFIG?.assetsBasePrefix || '';
-    const response = await fetch(
-      `${ASSETS_PATH_PREFIX}/assets/data/crypto-meta.json`
-    );
-    if (!response.ok) throw new Error('Failed to fetch crypto meta');
-    cryptoMeta = await response.json();
-  } catch (error) {
-    console.error('[Asset Chart] Error fetching crypto meta:', error);
-  }
-})();
-
 /**
  * Приводит массив свечей к единому формату, приемлемому для Chart.js:
  *  • x → объект Date (или ISO-строка с «T…Z»)
@@ -84,7 +68,7 @@ export function updateAssetHeader({
 
   // Тикер
   if (DOMElements.assetHeader.symbol) {
-    DOMElements.assetHeader.symbol.textContent = getPair(ticker, cryptoMeta);
+    DOMElements.assetHeader.symbol.textContent = getPair(ticker);
   }
 
   // Иконка и data-fallback (без fetch)

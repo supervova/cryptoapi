@@ -129,7 +129,7 @@
     </header>
     <div class="e-scroller-row" data-role="draggable-scroll">
       {% for feature in data_features %}
-        {% include "partials/feature.twig" with {"feature": feature, "lang": page.lang|default("en")} only %}
+        {% include "partials/feature.twig" with {"feature": feature, "site": site, "lang": page.lang|default("en")} only %}
       {% endfor %}
     </div>
   </section>
@@ -303,7 +303,6 @@
             {% set asset = {
               name: 'N/A',
               symbol: 'N/A',
-              icon: 'placeholder.svg',
               price: 'N/A',
               change: 'N/A',
               open: 'N/A',
@@ -315,7 +314,6 @@
               {% set asset = asset|merge({
                 name: 'Bitcoin',
                 symbol: 'BTC',
-                icon: 'btc.svg',
                 price: '96 117,07',
                 change: '0,61',
                 open: '96 117,07',
@@ -325,7 +323,9 @@
             {% endif %}
 
             <figure class="e-asset-details__figure" data-fallback="{{ asset.symbol|slice(0, 3)|upper }}">
-              <img class="e-asset-details__icon" src="{{ site.assets_prefix }}/assets/img/cryptologos/{{ asset.icon }}" alt="{{ asset.name }}">
+              {% set icon_symbol = asset.symbol|default('')|upper %}
+              {% set icon_src = icon_symbol != 'N/A' and icon_symbol|length ? '/images/coins/' ~ icon_symbol ~ '.png' : '' %}
+              <img class="e-asset-details__icon" src="{{ icon_src }}" alt="{{ asset.name }}">
             </figure>
 
             <div class="e-asset-details__summary">
@@ -590,35 +590,91 @@
     document.addEventListener('DOMContentLoaded', () => {
       const tops = {
         loser: {
-          t: '{{ page.market_tops.loser_ticker|e("js") }}',
-          l: document.querySelector('[data-role="loser-logo"]'),
-          n: document.querySelector('[data-role="loser-name"]'),
+          symbol: '{{ page.market_tops.loser_ticker|e("js") }}',
+          logo: document.querySelector('[data-role="loser-logo"]'),
+          nameEl: document.querySelector('[data-role="loser-name"]'),
         },
         gainer: {
-          t: '{{ page.market_tops.gainer_ticker|e("js") }}',
-          l: document.querySelector('[data-role="gainer-logo"]'),
-          n: document.querySelector('[data-role="gainer-name"]'),
+          symbol: '{{ page.market_tops.gainer_ticker|e("js") }}',
+          logo: document.querySelector('[data-role="gainer-logo"]'),
+          nameEl: document.querySelector('[data-role="gainer-name"]'),
         },
       };
 
-      fetch('{{ site.assets_prefix }}/assets/data/crypto-meta.json')
-        .then((r) => r.json())
-        .then((meta) => {
-          Object.keys(tops).forEach((key) => {
-            const { t, l, n } = tops[key];
-            const m = meta[t] ?? {};
-            if (l && m.icon) {
-              l.src = `${'{{ site.assets_prefix }}'}/assets/img/cryptologos/${m.icon}`;
+      const toUpper = (symbol) =>
+        typeof symbol === 'string' ? symbol.trim().toUpperCase() : '';
+
+      Object.values(tops).forEach(({ symbol, logo }) => {
+        const upper = toUpper(symbol);
+        if (!logo || !upper) return;
+        logo.src = `/images/coins/${upper}.png`;
+        logo.alt = upper;
+      });
+
+      const appConfig = window.APP_CONFIG || {};
+      const isLocalHost =
+        window.location.hostname === 'localhost' ||
+        window.location.hostname.endsWith('.local') ||
+        window.location.hostname === '127.0.0.1';
+      const isDevelopment = appConfig.isDevelopment === true || isLocalHost;
+
+      const langAttr = document.documentElement.lang || '';
+      const langPrefix = /^[a-z]{2}$/i.test(langAttr)
+        ? `${langAttr.slice(0, 2).toLowerCase()}/`
+        : '';
+
+      const params = new URLSearchParams();
+      params.append('jsonfather', 'true');
+
+      const requestUrl = isDevelopment
+        ? appConfig.devApiUrl ||
+          `${appConfig.assetsBasePrefix || ''}/assets/data/fixtures/crypto-data.json`
+        : `${window.location.origin}/${langPrefix}json/trindxrating`;
+
+      const requestOptions = isDevelopment
+        ? { method: 'GET' }
+        : {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            credentials: 'include',
+            body: params.toString(),
+          };
+
+      fetch(requestUrl, requestOptions)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`status ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((raw) => {
+          const payload =
+            Array.isArray(raw) &&
+            raw.length >= 2 &&
+            raw[0] === 'OK' &&
+            typeof raw[1] === 'object'
+              ? raw[1]
+              : raw;
+
+          Object.values(tops).forEach(({ symbol, logo, nameEl }) => {
+            const upper = toUpper(symbol);
+            if (!upper) return;
+            const candidate =
+              (payload && (payload[upper] || payload[upper.toLowerCase()])) || {};
+            const displayName =
+              candidate && typeof candidate === 'object' && candidate.name
+                ? candidate.name
+                : upper;
+
+            if (logo) {
+              logo.alt = displayName;
             }
-            if (l && m.name) {
-              l.alt = `Логотип ${m.name}`;
-            }
-            if (n && m.name) {
-              n.textContent = m.name;
+            if (nameEl) {
+              nameEl.textContent = displayName;
             }
           });
         })
-        .catch((e) => console.error('[home] crypto‑meta error', e));
+        .catch((error) => console.error('[home] failed to load asset names', error));
     });
   </script>
 

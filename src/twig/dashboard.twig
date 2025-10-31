@@ -348,7 +348,8 @@
     <div class="e-flex is-featured-assets">
       {% for asset in featured_assets %}
         <a class="e-card is-album-metric {{ asset.card_class }}" href="/{{ page.lang }}/markets">
-          <img class="e-card__logo" src="{{ site.assets_prefix }}/assets/img/cryptologos/{{ asset.logo }}.svg" alt="{{ 'Logo –'|trans }} {{ asset.name }}">
+          {% set asset_symbol = asset.logo|upper %}
+          <img class="e-card__logo" src="/images/coins/{{ asset_symbol }}.png" alt="{{ 'Logo –'|trans }} {{ asset.name }}">
 
           <div class="e-card__content">
             <h3 class="e-eyebrow">{{ asset.label|trans }}</h3>

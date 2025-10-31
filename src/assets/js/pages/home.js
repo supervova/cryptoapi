@@ -1,12 +1,11 @@
 // src/assets/js/pages/home.js
 
 import { fetchData, fetchChartData } from '../markets/api.js';
-import { state, setCryptoMeta } from '../markets/state.js';
+import { state } from '../markets/state.js';
 import { getPair } from '../utils/currency.js';
 
 const { Chart } = window;
 
-const ASSETS_PATH_PREFIX = window.APP_CONFIG?.assetsBasePrefix || '';
 const REFRESH_INTERVAL = 30000;
 
 let chartInstance = null;
@@ -71,7 +70,9 @@ const calcChange = (p) =>
  * @returns {string} HTML строка
  */
 const createTableRow = (asset, cryptoMeta) => {
-  const meta = cryptoMeta[asset.symbol] || {};
+  const directory = cryptoMeta || {};
+  const meta = directory[asset.symbol] || {};
+  const assetName = asset.name || meta.name || asset.symbol;
   const change = calcChange(asset.price);
   let cls = '';
   if (change > 0) {
@@ -84,8 +85,8 @@ const createTableRow = (asset, cryptoMeta) => {
   return `
     <tr class="e-assets__tr" data-asset-id="${asset.symbol}">
       <th scope="row">
-        <div class="e-assets__symbol">${getPair(asset.symbol, cryptoMeta)}</div>
-        <div class="e-assets__name">${meta.name ?? asset.symbol}</div>
+        <div class="e-assets__symbol">${getPair(asset.symbol, directory)}</div>
+        <div class="e-assets__name">${assetName}</div>
       </th>
       <td class="e-assets__price">${formatPrice(asset.price?.current)}</td>
       <td class="e-assets__change ${cls}">${change == null ? '–' : `${sign}${change.toFixed(2)}%`}</td>
@@ -227,11 +228,13 @@ const renderLineChart = (chartData) => {
  */
 const updateAssetDetails = () => {
   const { asset, cryptoMeta } = state;
-  if (!asset || !cryptoMeta) {
+  if (!asset) {
     return;
   }
 
-  const meta = cryptoMeta[asset.symbol] || {};
+  const directory = cryptoMeta || {};
+  const meta = directory[asset.symbol] || {};
+  const assetName = asset.name || meta.name || asset.symbol;
   const change = calcChange(asset.price);
 
   const titleElems = document.querySelectorAll('.e-asset-details__title');
@@ -255,15 +258,15 @@ const updateAssetDetails = () => {
 
   titleElems.forEach((el) => {
     const item = el;
-    item.textContent = meta.name ?? asset.symbol;
+    item.textContent = assetName;
   });
 
-  symbolElem.textContent = getPair(asset.symbol, cryptoMeta);
+  symbolElem.textContent = getPair(asset.symbol, directory);
   figureElem.dataset.fallback = asset.symbol.slice(0, 3);
 
-  const iconFile = meta.icon || 'placeholder.svg';
-  iconElem.src = `${ASSETS_PATH_PREFIX}/assets/img/cryptologos/${iconFile}`;
-  iconElem.alt = meta.name ?? asset.symbol;
+  const iconPath = `/images/coins/${asset.symbol}.png`;
+  iconElem.src = iconPath;
+  iconElem.alt = assetName;
 
   const changeText =
     change !== null ? `${change > 0 ? '+' : ''}${change.toFixed(2)}%` : '–';
@@ -340,35 +343,18 @@ const selectAsset = (assetId) => {
 };
 
 /**
- * Получает метаданные криптовалют
- * @returns {Promise<object|null>} метаданные или null
- */
-const getCryptoData = async () => {
-  try {
-    const response = await fetch(
-      `${ASSETS_PATH_PREFIX}/assets/data/crypto-meta.json`
-    );
-    if (!response.ok) throw new Error('Failed to fetch crypto meta');
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching crypto meta data:', error);
-    return null;
-  }
-};
-
-/**
  * Обновляет данные активов и таблицу
  */
 const refreshData = async () => {
   try {
-    const { cryptoMeta, asset: currentAsset } = state;
-    await fetchData(cryptoMeta);
+    await fetchData();
 
-    const { allAssets } = state;
-
-    if (!allAssets || !cryptoMeta) {
+    const { allAssets, cryptoMeta, asset: currentAsset } = state;
+    if (!Array.isArray(allAssets) || allAssets.length === 0) {
       return;
     }
+
+    const directory = cryptoMeta || {};
 
     const btc = allAssets.find((c) => c.symbol === 'BTC');
     const otherAssets = allAssets
@@ -377,7 +363,7 @@ const refreshData = async () => {
 
     const topAssets = btc ? [btc, ...otherAssets] : otherAssets;
 
-    renderTable(topAssets, cryptoMeta);
+    renderTable(topAssets, directory);
 
     if (currentAsset) {
       const activeRow = document.querySelector(
@@ -413,14 +399,9 @@ const init = async () => {
   }
 
   try {
-    const cryptoData = await getCryptoData();
-    if (cryptoData) {
-      setCryptoMeta(cryptoData);
-    }
-
     await refreshData();
 
-    if (state.allAssets && state.allAssets.length > 0) {
+    if (Array.isArray(state.allAssets) && state.allAssets.length > 0) {
       selectAsset('BTC');
     } else {
       chartLoader.style.display = 'none';

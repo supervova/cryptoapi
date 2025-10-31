@@ -27,11 +27,11 @@
             {% set image_src = item.image|slice(0, 4) == 'http' ? item.image : site.assets_prefix ~ '/' ~ item.image %}
             <img src="{{ image_src }}" alt="{{ item.title|e }}" loading="lazy">
           {% else %}
-            {% set meta = crypto_meta[item.tag|upper] ?? {} %}
-            {% if meta.icon is defined %}
-              <span class="e-news-item__icon-spot"
-                {% if item.tag %}data-fallback="{{ item.tag|slice(0, 3)|upper }}"{% endif %}>
-                <img class="e-asset__icon" src="{{ site.assets_prefix }}/assets/img/cryptologos/{{ meta.icon }}" width="56" height="56" alt="{{ item.tag }}">
+            {% set symbol = item.tag|default('') %}
+            {% if symbol %}
+              {% set upper_symbol = symbol|upper %}
+              <span class="e-news-item__icon-spot" data-fallback="{{ upper_symbol|slice(0, 3) }}">
+                <img class="e-asset__icon" src="/images/coins/{{ upper_symbol }}.png" width="56" height="56" alt="{{ upper_symbol }}">
               </span>
             {% else %}
               <span class="e-news-item__icon-fallback">

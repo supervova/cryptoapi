@@ -121,6 +121,7 @@ function displayErrorState(message) {
  */
 const createTableRow = (asset) => {
   const meta = state.cryptoMeta[asset.symbol] || {};
+  const assetName = asset.name || meta.name || asset.symbol;
   const change = calcChange(asset.price);
   let cls = '';
   if (change > 0) cls = 'is-positive';
@@ -131,7 +132,7 @@ const createTableRow = (asset) => {
     <tr class="e-assets__tr" data-asset-id="${asset.symbol}">
       <th scope="row">
         <div class="e-assets__symbol">${getPair(asset.symbol, state.cryptoMeta)}</div>
-        <div class="e-assets__name">${meta.name ?? asset.symbol}</div>
+        <div class="e-assets__name">${assetName}</div>
       </th>
       <td class="e-assets__price">${formatPrice(asset.price?.current)}</td>
       <td class="e-assets__change ${cls}">${change == null ? '–' : `${sign}${change.toFixed(2)}%`}</td>
@@ -203,25 +204,55 @@ function processData(responseData) {
     return;
   }
 
+  const directory = {};
   const newAssets = Object.keys(actualCryptoDataObject).map((symbol) => {
     const upperSymbol = symbol.toUpperCase();
-    const meta = state.cryptoMeta[upperSymbol] || {
-      name: upperSymbol,
-      icon: null,
+    const assetApiData =
+      actualCryptoDataObject[symbol] ||
+      actualCryptoDataObject[upperSymbol] ||
+      actualCryptoDataObject[upperSymbol.toLowerCase()];
+
+    const assetName =
+      assetApiData && typeof assetApiData === 'object' && assetApiData.name
+        ? assetApiData.name
+        : upperSymbol;
+
+    directory[upperSymbol] = {
+      name: assetName,
+      quote:
+        assetApiData && typeof assetApiData === 'object' && assetApiData.quote
+          ? assetApiData.quote
+          : undefined,
     };
-    const assetApiData = actualCryptoDataObject[symbol];
+
+    if (typeof assetApiData === 'object' && assetApiData !== null) {
+      return {
+        symbol: upperSymbol,
+        name: assetApiData.name || assetName,
+        id: upperSymbol,
+        icon: `/images/coins/${upperSymbol}.png`,
+        ...assetApiData,
+      };
+    }
 
     return {
       symbol: upperSymbol,
-      name: meta.name || upperSymbol,
+      name: assetName,
       id: upperSymbol,
-      icon: meta.icon
-        ? `${ASSETS_PATH_PREFIX}/assets/img/cryptologos/${meta.icon}`
-        : null,
-      ...assetApiData,
+      icon: `/images/coins/${upperSymbol}.png`,
+      price: {
+        current: null,
+        dayago: null,
+        today: { min: null, max: null, middle: null },
+      },
+      rating: null,
+      risk: null,
+      TRINDX: null,
+      RSI7: null,
     };
   });
 
+  state.cryptoMeta = directory;
   state.allAssets = newAssets;
 }
 
@@ -281,33 +312,12 @@ async function fetchData() {
 }
 
 /**
- * Fetches crypto metadata.
- */
-async function getCryptoData() {
-  try {
-    const response = await fetch(
-      `${ASSETS_PATH_PREFIX}/assets/data/crypto-meta.json`
-    );
-    if (!response.ok) throw new Error('Failed to fetch crypto meta');
-    state.cryptoMeta = await response.json();
-  } catch (error) {
-    if (IS_DEVELOPMENT)
-      console.error('Error fetching crypto meta data:', error);
-    // Provide minimal fallback meta
-    state.cryptoMeta = {
-      BTC: { name: 'Bitcoin', icon: 'btc.svg' },
-      ETH: { name: 'Ethereum', icon: 'eth.svg' },
-    };
-  }
-}
-
-/**
  * Main data refresh and rendering cycle.
  */
 const refreshData = async () => {
   await fetchData();
 
-  if (!state.allAssets || !state.cryptoMeta) {
+  if (!Array.isArray(state.allAssets) || state.allAssets.length === 0) {
     return;
   }
 
@@ -342,7 +352,7 @@ const init = async () => {
   table.addEventListener('click', (event) => {
     const row = event.target.closest('.e-assets__tr');
     if (row && row.dataset.assetId) {
-      const assetId = row.dataset.assetId;
+      const { assetId } = row.dataset;
       const url = `https://cryptoapi.ai/${CURRENT_LANG}/markets/${assetId.toLowerCase()}`;
       window.open(url, '_blank', 'noopener');
     }
@@ -353,11 +363,9 @@ const init = async () => {
   style.textContent = '.e-assets .e-assets__tr { cursor: pointer; }';
   document.head.appendChild(style);
 
-  await getCryptoData();
   await refreshData();
 
   setInterval(refreshData, REFRESH_INTERVAL);
 };
 
 document.addEventListener('DOMContentLoaded', init);
-

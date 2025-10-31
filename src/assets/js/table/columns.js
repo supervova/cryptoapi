@@ -155,10 +155,11 @@ export const columnsConfig = ALL_COLUMNS_CONFIG.map((col) => ({ ...col }));
  * @param {Function} t - Функция-переводчик.
  */
 export function translateColumnHeaders(t) {
-  columnsConfig.forEach((col) => {
-    // Используем col.key для поиска перевода, а текущий col.label как fallback
-    col.label = t(col.key, col.label);
-  });
+  for (let i = 0; i < columnsConfig.length; i++) {
+    const c = columnsConfig[i];
+    // Используем c.key для поиска перевода, а текущий c.label как fallback
+    columnsConfig[i] = { ...c, label: t(c.key, c.label) };
+  }
 }
 
 let visibleColumnsInternal = columnsConfig.filter((c) => c.visible);

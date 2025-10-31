@@ -1,7 +1,5 @@
 // assets/js/markets/state.js
 import {
-  ASSETS_PATH_PREFIX,
-  IS_DEVELOPMENT,
   initialSortField,
   initialSortDirection,
   initialFilterState,
@@ -41,18 +39,6 @@ export const currentFilterState = {
  */
 export function setCryptoMeta(data) {
   state.cryptoMeta = data;
-
-  // обновляем ранее загруженные активы
-  state.allAssets = state.allAssets.map((a) => {
-    const m = data[a.symbol] || {};
-    return {
-      ...a,
-      name: m.name || a.name || a.symbol,
-      icon: m.icon
-        ? `${ASSETS_PATH_PREFIX}/assets/img/cryptologos/${m.icon}`
-        : a.icon,
-    };
-  });
   document.dispatchEvent(new Event(META_UPDATED_EVENT));
 }
 
@@ -94,36 +80,4 @@ export function setCurrentRequestController(controller) {
  */
 export function setUpdateIntervalId(id) {
   state.updateIntervalId = id;
-}
-
-/**
- * Загрузка метаданных криптовалют из файла
- * При ошибке устанавливает fallback данные.
- */
-export async function loadCryptoMeta() {
-  try {
-    const response = await fetch(
-      `${ASSETS_PATH_PREFIX}/assets/data/crypto-meta.json`
-    );
-    if (!response.ok) {
-      // Добавлена проверка ответа
-      throw new Error(`Failed to fetch crypto-meta.json: ${response.status}`);
-    }
-    const data = await response.json();
-    setCryptoMeta(data);
-  } catch (error) {
-    if (IS_DEVELOPMENT) {
-      console.error('Failed to load crypto metadata:', error);
-    }
-    // Fallback метаданные
-    setCryptoMeta({
-      BTC: { name: 'Bitcoin', icon: 'btc.svg' },
-      ETH: { name: 'Ethereum', icon: 'eth.svg' },
-      SOL: { name: 'Solana', icon: 'sol.svg' },
-      AVAX: { name: 'Avalanche', icon: 'avax.svg' },
-      BONK: { name: 'Bonk', icon: 'bonk.svg' },
-      DOGE: { name: 'Dogecoin', icon: 'doge.svg' },
-      BNB: { name: 'BNB', icon: 'bnb.svg' },
-    });
-  }
 }

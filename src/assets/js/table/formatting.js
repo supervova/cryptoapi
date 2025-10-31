@@ -56,11 +56,7 @@ export function formatChange24h(priceData) {
     return '–';
   const current = parseFloat(priceData.current);
   const dayAgoPrice = parseFloat(priceData.dayago);
-  if (
-    Number.isNaN(current) ||
-    Number.isNaN(dayAgoPrice) ||
-    dayAgoPrice === 0
-  )
+  if (Number.isNaN(current) || Number.isNaN(dayAgoPrice) || dayAgoPrice === 0)
     return '–';
   const change = ((current - dayAgoPrice) / dayAgoPrice) * 100;
   const sign = change > 0 ? '+' : '';

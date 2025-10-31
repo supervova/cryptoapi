@@ -4,13 +4,7 @@
  * выпадающие подсказки и переходит по выбору/submit.
  */
 import { state as marketsState } from './markets/state.js';
-import { CURRENT_LANG, ASSETS_PATH_PREFIX } from './markets/config.js';
-
-// fallback for prod where window.APP_CONFIG.assetsBasePrefix is set earlier
-const ASSETS_PREFIX =
-  ASSETS_PATH_PREFIX ||
-  (window.APP_CONFIG && window.APP_CONFIG.assetsBasePrefix) ||
-  '';
+import { CURRENT_LANG, IS_DEVELOPMENT, API_URL_DEV } from './markets/config.js';
 
 const SEARCH_MIN_LENGTH = 3;
 const MAX_SUGGESTIONS = 8;
@@ -22,7 +16,7 @@ if (!input) {
   );
 }
 
-let cryptoMeta = {};
+let assetDirectory = {};
 let box; // UL-контейнер подсказок
 let highlight = -1; // индекс подсвеченного <li>
 
@@ -54,18 +48,106 @@ const assetUrl = (symbol) => `/${lang}/markets/${symbol.toLowerCase()}`;
  */
 const stripHtml = (str = '') => str.replace(/[<&"]/g, ''); // минимальная защита
 
+const buildDirectoryFromObject = (source) => {
+  if (!source || typeof source !== 'object') return {};
+  return Object.keys(source).reduce((acc, key) => {
+    const upper = key.toUpperCase();
+    const payload = source[key];
+    acc[upper] = {
+      name:
+        payload && typeof payload === 'object' && payload.name
+          ? payload.name
+          : upper,
+      quote:
+        payload && typeof payload === 'object' && payload.quote
+          ? payload.quote
+          : undefined,
+    };
+    return acc;
+  }, {});
+};
+
+const buildDirectoryFromList = (assets = []) =>
+  assets.reduce((acc, asset) => {
+    if (!asset?.symbol) return acc;
+    const upper = asset.symbol.toUpperCase();
+    acc[upper] = {
+      name: asset.name || upper,
+      quote: asset.quote,
+    };
+    return acc;
+  }, {});
+
+const normalizeResponsePayload = (raw) => {
+  if (!raw) return {};
+  if (
+    Array.isArray(raw) &&
+    raw.length >= 2 &&
+    raw[0] === 'OK' &&
+    typeof raw[1] === 'object' &&
+    raw[1] !== null
+  ) {
+    return raw[1];
+  }
+  if (IS_DEVELOPMENT && typeof raw === 'object' && !Array.isArray(raw)) {
+    return raw;
+  }
+  return {};
+};
+
+async function fetchDirectoryFromApi() {
+  const params = new URLSearchParams();
+  params.append('jsonfather', 'true');
+
+  const options = IS_DEVELOPMENT
+    ? { method: 'GET' }
+    : {
+        method: 'POST',
+        body: params.toString(),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        credentials: 'include',
+      };
+
+  const langPrefix = lang ? `${lang}/` : '';
+  const requestUrl = IS_DEVELOPMENT
+    ? API_URL_DEV
+    : `${window.location.origin}/${langPrefix}json/trindxrating`;
+
+  const response = await fetch(requestUrl, options);
+  if (!response.ok) {
+    throw new Error(`Failed to load trindx directory: ${response.status}`);
+  }
+
+  const raw = await response.json();
+  return buildDirectoryFromObject(normalizeResponsePayload(raw));
+}
+
 /**
- * Загружает метаданные криптоактивов.
+ * Загружает справочник криптоактивов.
  * @return {Promise<void>}
  */
-async function loadMeta() {
-  if (Object.keys(cryptoMeta).length) return;
-  if (marketsState.cryptoMeta && Object.keys(marketsState.cryptoMeta).length) {
-    cryptoMeta = marketsState.cryptoMeta;
+async function loadDirectory() {
+  if (Object.keys(assetDirectory).length) return;
+
+  if (
+    marketsState.cryptoMeta &&
+    Object.keys(marketsState.cryptoMeta).length > 0
+  ) {
+    assetDirectory = marketsState.cryptoMeta;
     return;
   }
-  const res = await fetch(`${ASSETS_PREFIX}/assets/data/crypto-meta.json`);
-  cryptoMeta = await res.json();
+
+  if (Array.isArray(marketsState.allAssets) && marketsState.allAssets.length) {
+    assetDirectory = buildDirectoryFromList(marketsState.allAssets);
+    return;
+  }
+
+  try {
+    assetDirectory = await fetchDirectoryFromApi();
+  } catch (error) {
+    console.error('[search] Failed to load asset directory:', error);
+    assetDirectory = {};
+  }
 }
 // #endregion
 
@@ -170,7 +252,7 @@ function render(groups /* , q */) {
  */
 function getAssetMatches(q) {
   const term = q.toLowerCase();
-  return Object.entries(cryptoMeta)
+  return Object.entries(assetDirectory)
     .filter(
       ([sym, { name }]) =>
         sym.toLowerCase().includes(term) || name.toLowerCase().includes(term)
@@ -209,7 +291,7 @@ async function handleInput() {
 
   if (q.length < SEARCH_MIN_LENGTH) return clearBox();
 
-  await loadMeta();
+  await loadDirectory();
   const [assets, news, blog] = await Promise.all([
     getAssetMatches(q),
     // TODO: Раскомментировать, когда будут реализованы

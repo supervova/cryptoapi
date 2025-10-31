@@ -55,16 +55,6 @@ if (isset($thispath[1]) && $thispath[1] === 'news' && isset($thispath[2]) && !em
     $lang = $data_objects['page']['lang'] ?? 'en';
     $news = loadNewsFixture(); // Используем фикстуру напрямую
 
-    $metaPath = $_SERVER['DOCUMENT_ROOT'] . '/projects/cryptoapi.ai/assets/data/crypto-meta.json';
-
-    $cryptoMeta = [];
-    if (is_readable($metaPath)) {
-        $json = file_get_contents($metaPath);
-        $cryptoMeta = json_decode($json, true) ?: [];
-    } else {
-        error_log("crypto-meta.json not found or unreadable: $metaPath");
-    }
-
     $page_meta = [
       'app' => true,
       'classes' => 'is-news',
@@ -76,7 +66,6 @@ if (isset($thispath[1]) && $thispath[1] === 'news' && isset($thispath[2]) && !em
     ];
 
     $data_objects['page'] = array_merge($data_objects['page'] ?? [], $page_meta);
-    $data_objects['crypto_meta'] = $cryptoMeta;
 
     // Получение и отображение шаблона
     $final_html = get_template("news.twig");

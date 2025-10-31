@@ -62,7 +62,7 @@
 
     </header>
 
-    <div class="e-alert is-info max-w-prose" id="warning" role="alert"></div>
+    <div id="warning" role="alert"></div>
     <label>
       <input id="hideSmallAssets" type="checkbox" onchange="gettradingdata()" checked>
       {{ 'Hide assets with total'|trans }}
@@ -175,14 +175,30 @@ if (data.stopsale == 1) {
             <tr>
               <td>${assetNameHtml}</td>
               <td class="table__cell is-num">${availableDisplay}</td>
-              <td class="table__cell is-num ${assetBlur}" ${colorStyle}>
-                ${formatNumberSmart(total)}<br>
-                <small>${formatNumberSmart(data.price)}</small>
-              </td>
-              <td class="table__cell is-num ${assetBlur}">${
-                hasBuyPrice
-                  ? `${formatNumberSmart(parseFloat(data.price_buy) * parseFloat(data.available))}<br><small>${formatNumberSmart(data.price_buy)}</small>`
-                  : ''
+            <td class="table__cell is-num ${assetBlur}" ${colorStyle}>
+              ${formatNumberSmart(total)}<br>
+              <small>
+                ${formatNumberSmart(data.price)}
+                ${
+                  hasBuyPrice && data.forecastprice
+                    ? `<br>
+   <span class="forecast-tooltip">
+     <span class="forecast-icon">?</span>
+     <span class="forecast-popup">{{ "Minimum projected selling price"|trans }}</span>
+     ${formatNumberSmart(data.forecastprice)}
+   </span>`
+                    : ''
+                }
+              </small>
+            </td>
+                <td class="table__cell is-num ${assetBlur}">${
+                    asset === 'BNB'
+                      ? `<small class="bnb-note">
+                           {{ "Having BNB in your Binance spot balance reduces trading fees!"|trans }}
+                         </small>`
+                      : hasBuyPrice
+                        ? `${formatNumberSmart(parseFloat(data.price_buy) * parseFloat(data.available))}<br><small>${formatNumberSmart(data.price_buy)}</small>`
+                        : ''
               }</td>
             </tr>
           `;
@@ -202,9 +218,13 @@ if (data.stopsale == 1) {
             <td colspan="4" style="text-align:right; padding-top:1em;">
               {{ 'Portfolio amount'|trans }}: $${portfolioTotal.toFixed(2)}<br>
               {{ 'Total trading assets amount'|trans }}: $${tradingTotal.toFixed(2)}<br>
+              <span style="color:#00b34d;">
               {{ 'Expected portfolio amount'|trans }}: $${forecastTotalSum.toFixed(2)}<br>
               {{ 'Minimum expected profit'|trans }}: $${expectedProfit.toFixed(2)}<br>
-              {{ 'Previously received profit:'|trans }}: $${TotalProfit}
+              </span>
+              <span style="color:#f3ba2f;">
+              {{ 'Previously received profit'|trans }}: $${TotalProfit}
+              </span>
             </td>
           </tr>
         `;
@@ -218,9 +238,13 @@ if (data.stopsale == 1) {
 
         $('#tradingdata').html(html);
         $('#warning').html('');
+        let successsmg = $.parseJSON(relultarr[5]);
+        successsmg.forEach(function (warning) {
+          $('#warning').html($('#warning').html() + '<div class="tradesuccess">' + warning + '</div>');
+        });
         let warningsmg = $.parseJSON(relultarr[3]);
         warningsmg.forEach(function (warning) {
-          $('#warning').html(warning + '<br>' + $('#warning').html());
+          $('#warning').html($('#warning').html() + '<div class="tradewraning">' + warning + '</div>');
         });
       }
       gettimer = setTimeout(function () {
@@ -321,6 +345,141 @@ if (data.stopsale == 1) {
   .is-allow {
     color:#a8ffd2
   }
+  
+.tradewraning {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: linear-gradient(135deg, rgba(255, 80, 80, 0.12), rgba(255, 80, 80, 0.05));
+  border: 1px solid rgba(255, 90, 90, 0.3);
+  border-left: 4px solid #ff5b5b;
+  color: #f2dede;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  padding: 12px 16px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(255, 90, 90, 0.1);
+  margin-bottom: 12px;
+}
+
+.tradewraning::before {
+  content: "!";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: #ff5b5b;
+  color: #111;
+  font-weight: 700;
+  font-size: 0.9rem;
+  box-shadow: 0 0 6px rgba(255, 90, 90, 0.5);
+  margin-top: 2px;
+}
+/* Тёмная тема — адаптация под общий стиль */
+@media (prefers-color-scheme: dark) {
+  .tradewraning {
+    background: linear-gradient(135deg, rgba(255, 80, 80, 0.12), rgba(255, 80, 80, 0.03));
+    color: #ffecec;
+  }
+}
+.tradesuccess {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: linear-gradient(135deg, rgba(120, 255, 180, 0.10), rgba(120, 255, 180, 0.04));
+  border: 1px solid rgba(120, 255, 180, 0.25);
+  border-left: 4px solid #4dff9a;
+  color: #d9ffeb;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  padding: 12px 16px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(120, 255, 180, 0.1);
+  margin-bottom: 12px;
+}
+
+.tradesuccess::before {
+  content: "✓";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: #4dff9a;
+  color: #111;
+  font-weight: 700;
+  font-size: 0.9rem;
+  box-shadow: 0 0 6px rgba(120, 255, 180, 0.5);
+  margin-top: 2px;
+}
+/* Адаптация под тёмную тему */
+@media (prefers-color-scheme: dark) {
+  .tradesuccess {
+    background: linear-gradient(135deg, rgba(120, 255, 180, 0.12), rgba(120, 255, 180, 0.03));
+    color: #e8fff3;
+  }
+}
+
+.bnb-note {
+  display: inline-block;
+  max-width: 180px; /* ограничиваем ширину, чтобы ячейка не растягивалась */
+  white-space: normal; /* разрешаем перенос строк */
+  font-size: 0.8rem;
+  line-height: 1.3;
+  color: #4dff9a;
+  opacity: 0.9;
+  font-style: italic;
+  text-align: right;
+}
+.forecast-tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #4dff9a;
+  cursor: help;
+}
+
+.forecast-icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #00b34d;
+  color: #111;
+  font-weight: 700;
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.forecast-popup {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: -35px;
+  left: 22px;
+  background: #00b34d;
+  color: #000;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  z-index: 1000;
+}
+
+.forecast-icon:hover + .forecast-popup {
+  visibility: visible;
+  opacity: 1;
+}
 </style>
 
 <script>

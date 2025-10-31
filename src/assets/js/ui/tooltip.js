@@ -5,10 +5,12 @@
  */
 const initTooltipsDelay = () => {
   // Только неинициализированные тултипы
-  const richTooltips = document.querySelectorAll('.has-rich-tooltip:not([data-tooltip-initialized])');
+  const richTooltips = document.querySelectorAll(
+    '.has-rich-tooltip:not([data-tooltip-initialized])'
+  );
   const HIDE_DELAY = 240; // ms
 
-  richTooltips.forEach(parent => {
+  richTooltips.forEach((parent) => {
     const tooltip = parent.querySelector('.tooltip');
     if (!tooltip) return;
 

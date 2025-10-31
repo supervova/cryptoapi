@@ -159,7 +159,7 @@ button,
 html input[type="button"],
 input[type="reset"],
 input[type="submit"] {
-  appearance: button;
+  appearance: auto;
   cursor: pointer;
 }
 button[disabled],

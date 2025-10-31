@@ -4,7 +4,7 @@
       "pageType": "assetDetail",
       "assetTicker": "btc",
       "assetName": "Bitcoin",
-      "assetIconPath": "/assets/img/cryptologos/btc.svg",
+      "assetIconPath": "/images/coins/BTC.png",
       "assetOpenPrice": "68500.50",
       "assetHighPrice": "69200.00",
       "assetLowPrice": "68150.75",
@@ -28,7 +28,7 @@
   "asset_data": {
     "ticker": "BTC",
     "name": "Bitcoin",
-    "icon_path": "/assets/img/cryptologos/btc.svg",
+    "icon_path": "/images/coins/BTC.png",
     "open_price": "68500.50",
     "high_price": "69200.00",
     "low_price": "68150.75",
