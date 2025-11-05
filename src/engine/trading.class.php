@@ -1,5 +1,4 @@
 <?php
-
 if (!$islogged) {
     memcache_close($memcache_obj);
     if ($db) {
@@ -53,7 +52,7 @@ $data_objects += [
   ],
 ];
 
-if (!empty($tradesettings['binanceapikey']) && !empty($tradesettings['binancesecretkey']) && !empty($tradesettings['binanceallowed']) && !isset($_GET['settings']) && !isset($_GET['history'])) {
+if (!empty($tradesettings['binanceapikey']) && !empty($tradesettings['binancesecretkey']) && !isset($_GET['settings']) && !isset($_GET['history'])) {
     $final_html = get_template("tradingview.twig");
 } elseif (!isset($_GET['history'])) {
     $final_html = get_template("trading.twig");

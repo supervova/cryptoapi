@@ -42,3 +42,9 @@
 .e-asset-details__figure:has(.e-asset-details__icon[src$='placeholder.svg']) {
   @include logo-fallback();
 }
+
+.e-page.is-home .e-asset-details__figure {
+  @media (--phone-p) {
+    display: none;
+  }
+}

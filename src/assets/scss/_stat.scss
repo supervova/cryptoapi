@@ -7,7 +7,7 @@
   gap: var(--dim-3);
   padding: var(--dim-2p5) 0;
 
-  @media (--tablet) {
+  @media (--phone-l) {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -26,7 +26,10 @@
   font-variant-numeric: oldstyle-nums;
   padding-block: var(--size-3) var(--size-2);
   padding-inline: var(--size-4) var(--size-2);
-  height: rem(240);
+
+  @media (--tablet) {
+    height: rem(240);
+  }
 }
 
 // Content

@@ -6,68 +6,78 @@
  * Подготавливает данные и рендерит шаблон plans.twig с карточками тарифных планов.
  */
 
-if (!empty($thispath['2'])) {
-    if (!$islogged) {
-        memcache_close($memcache_obj);
-        if ($db) {
-            $db->close();
-        }
-        header('Location: https://' . $authhost . '/auth?returl=' . $thispagesimpleurl);
-        die();
-    }
-    // Тариф:
-    if ($thispath['2'] == 'free') {
-        $tariff_level = 0;
-    } elseif ($thispath['2'] == 'trader') {
-        $tariff_level = 1;
-    } elseif ($thispath['2'] == 'expert') {
-        $tariff_level = 2;
-    } elseif ($thispath['2'] == 'premium') {
-        $tariff_level = 3;
-    } else {
-        die("Incorrect parameters!");
-    }
-    // Период:
-    if ($thispath['3'] == 'monthly' || $thispath['3'] == 'annual') {
-        $tariff_interval = $thispath['3'];
-    } else {
-        die("Incorrect parameters!");
-    }
+if (!empty($thispath['2']))
+{
+	if (!$islogged)
+	{
+		memcache_close($memcache_obj);
+		if ($db) $db->close();
+		header('Location: https://'.$authhost.'/auth?returl='.$thispagesimpleurl);
+		die();
+	}
+	// Тариф:
+	if ($thispath['2'] == 'free')
+	{
+		$tariff_level = 0;
+	}
+	elseif ($thispath['2'] == 'trader')
+	{
+		$tariff_level = 1;
+	}
+	elseif ($thispath['2'] == 'expert')
+	{
+		$tariff_level = 2;
+	}
+	elseif ($thispath['2'] == 'premium')
+	{
+		$tariff_level = 3;
+	}
+	else
+	{
+		die("Incorrect parameters!");
+	}
+	// Период:
+	if ($thispath['3'] == 'monthly' || $thispath['3'] == 'annual')
+	{
+		$tariff_interval = $thispath['3'];
+	}
+	else
+	{
+		die("Incorrect parameters!");
+	}
 
-    $price = $config['tarrif'][$thispath['2']]['price'][$thispath['3']];
-    if (empty($price)) {
-        die("Incorrect parameters!");
-    }
-    if ($thispath['3'] == 'annual') {
-        $price = $price * 12;
-    }
-    $post = ['checkID' => $startruntime - 5, 'payobject' => 'tariff|' . $price . '|' . $thispath['2'] . '|' . $thispath['3'] . '|' . $tariff_level, 'udata' => $user_id . '|' . $user_country];
-    $uagent = "Cron";
-    curl_init();
-    curl_setopt($ch, CURLOPT_USERAGENT, $uagent);
-    curl_setopt($ch, CURLOPT_URL, "https://" . $thisdomain . "/createbill.php");
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-    curl_setopt($ch, CURLOPT_COOKIESESSION, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 3);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-    $billid = curl_exec($ch);
-    $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    //die($billid." *** ".$status_code);
-    $billid = $billid * 1;
-    if (empty($billid)) {
-        die("Error creating invoice!");
-    }
-    memcache_close($memcache_obj);
-    if ($db) {
-        $db->close();
-    }
-    header('Location: /' . $user_lng . '/bill/' . $billid);
-    die();
+	$price = $config['tarrif'][$thispath['2']]['price'][$thispath['3']];
+	if (empty($price))
+	{
+		die("Incorrect parameters!");
+	}
+    if ($thispath['3'] == 'annual') $price = $price * 12;
+	$post = array('checkID' => $startruntime-5, 'payobject' => 'tariff|'.$price.'|'.$thispath['2'].'|'.$thispath['3'].'|'.$tariff_level, 'udata' => $user_id.'|'.$user_country);
+	$uagent = "Cron";
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_USERAGENT, $uagent);
+	curl_setopt($ch, CURLOPT_URL, "https://".$thisdomain."/createbill.php");
+	curl_setopt($ch, CURLOPT_POST, True);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER ,True);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+	curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+	$billid = curl_exec ($ch);
+	$status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	curl_close ($ch);
+	//die($billid." *** ".$status_code);
+	$billid = $billid * 1;
+	if (empty($billid))
+	{
+		die("Error creating invoice!");
+	}
+	memcache_close($memcache_obj);
+	if ($db) $db->close();
+	header('Location: /'.$user_lng.'/bill/'.$billid);
+	die();
 }
 
 // Получение окружения приложения (development/production) из переменной окружения APP_ENV

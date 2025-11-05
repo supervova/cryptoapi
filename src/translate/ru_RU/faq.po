@@ -30,34 +30,69 @@ msgid "<p>Yes. You can use your Binance account as you normally would — buy, s
 msgstr "<p>Да, конечно. Вы можете использовать свой аккаунт Binance как обычно — покупать, продавать или держать активы на <b>СПОТОВОМ балансе</b></p><p>Если вы подключили биржу через API, система автоматически распознает ваши покупки и включает эти активы в торговлю ИИ без дополнительных действий с вашей стороны.</p>"
 
 # 2
+msgid "🪙 How can I register on Binance?"
+msgstr "🪙 Как зарегистрироваться в Binance?"
+
+msgid "<p>You can register on Binance using <a href='https://accounts.binance.com/register?ref=419166823' target='_blank' rel='noopener'>this link</a>.<br>Just complete the standard verification process with your personal identification documents.</p>"
+msgstr "<p>Вы можете зарегистрироваться в Binance <a href='https://accounts.binance.com/register?ref=419166823' target='_blank' rel='noopener'>по данной ссылке</a>.<br>Для прохождения верификации желательно использовать не российские документы — водительское удостоверение, паспорт или карту ВНЖ/ПМЖ.</p>"
+
+# 3
+msgid "💬 How does trading work in crypto markets? Can I hold assets indefinitely?"
+msgstr "💬 Как устроен трейдинг на крипторынках? Можно ли держать активы сколько угодно долго?"
+
+msgid "<p>Yes. In crypto markets, you own your assets directly — you can buy and hold them for as long as you want. <b>The market operates 24/7, with no closing hours or trading-day resets</b>.</p><p><b>Unlike Forex or derivatives markets</b>, where brokers often enforce daily trading limits (due to swaps, risk control, and regulatory requirements), there are no forced time limits in crypto trading.</p><p>On crypto exchanges, you can simply buy a coin and hold it for years — that’s considered long-term investing, not active trading.</p>"
+msgstr "<p>Да. На крипторынках вы владеете активами напрямую — можете покупать и хранить их без ограничений по времени. <b>Рынок работает 24/7, без выходных и закрытия торгового дня</b>.</p><p><b>В отличие от Forex и рынков деривативов</b>, где брокеры часто ограничивают торговлю в течение суток (из-за свопов, управления рисками и регуляторных требований), в криптотрейдинге таких принудительных ограничений нет.</p><p>На криптобиржах можно просто купить монету и держать её хоть годами — это уже не трейдинг, а долгосрочное инвестирование.</p>"
+
+# 4
+msgid "⚡ How can I save on USDT TRC20 transfer fees?"
+msgstr "⚡ Как сэкономить на комиссиях при переводах USDT TRC20?"
+
+msgid "<p>To reduce USDT TRC20 transfer fees by over 80 % when sending from cold wallets, you can buy energy <a href='https://t.me/tronless_bot' target='_blank' rel='noopener'>via the TronLess Telegram bot</a>.</p>"
+msgstr "<p>Чтобы сократить комиссии более чем на 80 % при переводах USDT TRC20 с холодных кошельков, можно покупать энергию в <a href='https://t.me/tronless_bot' target='_blank' rel='noopener'>телеграм-боте TronLess</a>.</p>"
+
+# 5
+msgid "🔒 How can I safely store my crypto assets?"
+msgstr "🔒 Как безопасно хранить криптоактивы?"
+
+msgid "<p>For long-term storage, it’s best to use cold (hardware) wallets, such as <a href='https://shop.ledger.com/?r=8c8cd5d864fa' target='_blank' rel='noopener'>Ledger</a>.</p>"
+msgstr "<p>Для долгосрочного хранения рекомендуется использовать холодные (аппаратные) кошельки, например <a href='https://shop.ledger.com/?r=8c8cd5d864fa' target='_blank' rel='noopener'>Ledger</a>.</p>"
+
+# 6
+msgid "💡 How to save on Binance trading fees"
+msgstr "💡 Как сэкономить на комиссиях Binance?"
+
+msgid "<ol><li>Log in to your Binance account.</li><li>In the user menu, go to Settings.<img class='mt-1l mb-1l' src='/projects/cryptoapi.ai/assets/img/pages/faq/bnb-fee-01.png' alt='Binance'></li><li>Scroll to the Trade section and click Manage next to Fee deduction.</li><li>Make sure the switch “Use BNB to pay fees” is turned on (yellow).<img class='mt-1l mb-1l' src='/projects/cryptoapi.ai/assets/img/pages/faq/bnb-fee-02.png' alt='Binance'></li><li>Close the window.</li></ol><p>This option allows you to pay trading fees in BNB tokens with a discount of up to 25%.</p>"
+msgstr "<ol><li>Авторизуйтесь на сайте Binance.</li><li>В меню пользователя выберите «Настройки» (Settings).<img class='mt-1l mb-1l' src='/projects/cryptoapi.ai/assets/img/pages/faq/bnb-fee-01.png' alt='Binance'></li><li>Прокрутите до раздела «Торговля» (Trade) и в строке «Скидка на комиссию» (Fee deduction) нажмите «Управлять» (Manage).</li><li>Убедитесь, что переключатель «Использовать BNB для оплаты комиссий» (Use BNB to pay fees) включен (жёлтый).<img class='mt-1l mb-1l' src='/projects/cryptoapi.ai/assets/img/pages/faq/bnb-fee-02.png' alt='Binance'></li><li>Закройте окно.</li></ol><p>Это опция позволит оплачивать торговые комиссии в токенах BNB со скидкой до 25%.</p>"
+
+# 7
 msgid "🔐 How to connect Binance via API?"
 msgstr "🔐 Как подключить Binance по API?"
 
 msgid "<p>To enable automated trading through your Binance account, connect it via API:</p> <ol> <li> <p>On <strong>Binance.com</strong>, click your profile icon (top right) → <strong>API Management</strong>.</p> </li> <li> <p>Create a <strong>new API key</strong>, name it, complete the security verification (email, 2FA), and get your <strong>API Key</strong> and <strong>Secret Key</strong>.</p> <p>⚠️ The Secret Key is shown <strong>only once</strong> — make sure to save it and enter both keys in your <strong>CRYPTOAPI</strong> trading settings.</p> </li> <li> <p>In the Binance API settings, enable <strong>Spot and Margin Trading</strong>.</p> </li> <li> <p>Under <strong>IP Access Restrictions</strong>, whitelist this IP: <code>176.9.166.90</code></p> </li> <li> <p>Transfer enough of your selected <strong>stablecoin</strong> to your <strong>spot balance</strong> and <strong>activate trading</strong>.</p> <p>💰 <strong>Note:</strong> funds must be placed on the <strong>SPOT balance</strong> — otherwise, the system won’t be able to use them.</p> </li> </ol>"
 msgstr "<p>Чтобы система могла автоматически торговать через ваш аккаунт Binance, подключите биржу по API:</p> <ol> <li> <p>На сайте <strong>Binance.com</strong> нажмите на значок профиля (в правом верхнем углу) → <strong>Управление API</strong>.</p> </li> <li> <p>Создайте <strong>новый API-ключ</strong>, введите имя, пройдите проверку безопасности (e-mail, 2FA) и получите <strong>API Key</strong> и <strong>Secret Key</strong>.</p> <p>⚠️ Секретный ключ показывается <strong>только один раз</strong> — обязательно сохраните его и добавьте оба ключа в настройках торговли <strong>CRYPTOAPI</strong>.</p> </li> <li> <p>В настройках API на Binance включите <strong>«Спотовую и маржинальную торговлю»</strong>.</p> </li> <li> <p>В разделе <strong>«Ограничения доступа по IP»</strong> добавьте этот IP в белый список: <code>176.9.166.90</code></p> </li> <li> <p>Переведите на свой спотовый баланс достаточную сумму выбранного <strong>стейблкоина</strong> и <strong>активируйте торговлю</strong>.</p> <p>💰 <strong>Важно:</strong> средства должны находиться <strong>на СПОТОВОМ балансе</strong>, иначе система не сможет их использовать.</p> </li> </ol>"
 
-# 3
+# 8
 msgid "What is the criteria for a cryptocurrency or exchange to be listed on CryptoAPI?"
 msgstr "Какие критерии включения криптовалюты или биржи в список на CryptoAPI?"
 
 msgid "<p>We strive to list every cryptocurrency and exchange in the universe, but it's virtually impossible to list everything. Listing cryptocurrencies and exchanges is largely a manual process that takes time and resources to ensure the accuracy of our data.</p>"
 msgstr "<p>Мы стараемся добавить все криптовалюты и биржи, но это невозможно. Листинг — в основном ручной процесс, требующий времени и ресурсов для точности данных.</p>"
 
-# 4
+# 9
 msgid "Why aren't you listing [insert random cryptocurrency]?"
 msgstr "Почему вы не добавили [можете вставить любую криптовалюту]?"
 
 msgid "<p>While we strive to add every single cryptocurrency in the universe, it's virtually impossible to list everything. Listing cryptocurrencies is largely a manual process that takes time and resources to ensure the accuracy of our data.</p>"
 msgstr "<p>Мы стараемся добавить все криптовалюты, но это невозможно. Листинг — в основном ручной процесс, требующий времени и ресурсов для точности данных.</p>"
 
-# 5
+# 10
 msgid "Do you offer an API for your data?"
 msgstr "Предоставляете ли вы API для данных?"
 
 msgid "<p>Yes! Check out the <a href='/en/api'>CryptoAPI API</a>.</p>"
 msgstr "<p>Да! См. <a href='/ru/api'>CryptoAPI API</a>.</p>"
 
-# 6
+# 11
 msgid "Am I allowed to use content (screenshots, data, graphs, etc.) for one of my personal projects and/or commercial use?"
 msgstr "Можно ли использовать контент (скриншоты, данные, графики и т. д.) для личных или коммерческих проектов?"
 

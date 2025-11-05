@@ -21,8 +21,13 @@ msgstr "Торгуй ИИ"
 msgid "Make It Work"
 msgstr "всё получится"
 
+# The old one
 msgid "Analytics. Automation. Forecasting. CRYPTOAPI.AI is an innovative platform for traders and investors, providing advanced APIs and intelligent cryptocurrency market analysis."
 msgstr "Аналитика. Автоматизация. Прогнозирование. CRYPTOAPI.AI — инновационная платформа для трейдеров и инвесторов, предоставляющая передовые API и интеллектуальный анализ криптовалютного рынка."
+
+# The new one
+msgid "Trade smart (artificially). Our AI analyzes trends, generates signals, and can act as a fully autonomous trading bot. It makes data-driven decisions, manages trades, and helps increase profits without constant supervision."
+msgstr "Торгуй с умом (искусственным) – наш ИИ анализирует тренды, генерирует сигналы и может действовать как полностью автономный торговый бот. Он принимает решения на основе данных, управляет сделками и помогает увеличивать прибыль без постоянного контроля."
 
 msgid "Try Now"
 msgstr "Попробовать"
@@ -101,6 +106,31 @@ msgid "Assessing news impact on the market."
 msgstr "Оценка влияния новостей на рынок."
 
 # ------------------------------------------------------------------------------
+# How-to
+# ------------------------------------------------------------------------------
+
+msgid "How to become a successful crypto trader"
+msgstr "Как стать удачным криптотрейдером"
+
+msgid "You don′t have to master fundamental or technical analysis (though it can help)"
+msgstr "Необязательно изучать фундаментальный и технический анализ (хотя это и полезно)"
+
+msgid "<strong>Sign up and log in</strong> to your CryptoAPI account."
+msgstr "<strong>Зарегистрируйся и войди</strong> в личный кабинет CryptoAPI."
+
+msgid "<strong>Connect our AI agent</strong> (a fully automated trading bot) to your Binance account using API keys."
+msgstr "<strong>Подключи нашего ИИ-агента</strong> (полностью автоматического торгового бота) к своему счёту на бирже Binance через API-ключи."
+
+msgid "<strong>Set your crypto trading parameters</strong> for automatic buy and sell actions."
+msgstr "<strong>Настрой параметры</strong> автоматической покупки и продажи (трейдинга) криптовалют."
+
+msgid "<strong>Launch the bot with one click</strong>. No deposit required – we provide a $10 credit."
+msgstr "<strong>Запусти бота в один клик</strong>. Депозит для начала не нужен – мы даем $10 в кредит"
+
+msgid "<strong>Our AI agent will handle the rest</strong> – buying and selling at the best possible prices. 🎉"
+msgstr "<strong>Наш ИИ-агент сделает всё остальное</strong> – купит и продаст по самым выгодным ценам. 🎉"
+
+# ------------------------------------------------------------------------------
 # Markets
 # ------------------------------------------------------------------------------
 msgid "Cryptocurrency Market Right Now"
@@ -133,6 +163,9 @@ msgstr "Мин:"
 # Assets
 msgid "Top Currencies"
 msgstr "Топ-валюты"
+
+msgid "Top TRINDX"
+msgstr "Топ-TRINDX"
 
 # ------------------------------------------------------------------------------
 # Stats
@@ -301,8 +334,8 @@ msgstr "Услуги ИИ-агента, торгующего автономно,
 msgid "You pay 10% on each profitable trade, with a minimum of $1."
 msgstr "Вы платите 10% с каждой прибыльной сделки, не меньше $1."
 
-msgid "You pay from 5% on each profitable trade, but not less than $0.25."
-msgstr "Вы платите от 5% с каждой прибыльной сделки, но не менее $0.25"
+msgid "You pay from 5% of the profit on each trade, but not less than $0.25."
+msgstr "Вы платите от 5% с прибыли по каждой сделке, не менее $0.25"
 
 msgid "Select"
 msgstr "Выбрать"

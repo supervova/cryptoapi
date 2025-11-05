@@ -104,6 +104,11 @@
         Number(intPart).toLocaleString('en-US')
       }.${fracPart}`;
     }
+function formatSum(n) {
+  const num = Number(n);
+  if (isNaN(num)) return n;
+  return num.toFixed(2);
+}
 function gettradingdata() {
   $.ajax({
     url: './gettradingdata.php',
@@ -176,7 +181,7 @@ if (data.stopsale == 1) {
               <td>${assetNameHtml}</td>
               <td class="table__cell is-num">${availableDisplay}</td>
             <td class="table__cell is-num ${assetBlur}" ${colorStyle}>
-              ${formatNumberSmart(total)}<br>
+              ${formatSum(total)}<br>
               <small>
                 ${formatNumberSmart(data.price)}
                 ${
@@ -197,7 +202,7 @@ if (data.stopsale == 1) {
                            {{ "Having BNB in your Binance spot balance reduces trading fees!"|trans }}
                          </small>`
                       : hasBuyPrice
-                        ? `${formatNumberSmart(parseFloat(data.price_buy) * parseFloat(data.available))}<br><small>${formatNumberSmart(data.price_buy)}</small>`
+                        ? `${formatSum(parseFloat(data.price_buy) * parseFloat(data.available))}<br><small>${formatNumberSmart(data.price_buy)}</small>`
                         : ''
               }</td>
             </tr>

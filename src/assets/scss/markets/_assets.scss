@@ -6,6 +6,7 @@
 // #region
 
 .e-assets__table {
+  width: 100%;
   margin: 0;
 }
 
@@ -51,18 +52,19 @@
   font-weight: 400;
   vertical-align: middle;
   padding-block: var(--size-1p5);
-  white-space: nowrap;
 }
 
 .e-assets th {
   font-weight: 400;
   padding-inline: var(--size-1p5);
   position: relative;
+  max-width: 0;
 }
 
 .e-assets td {
   font-weight: 400;
   padding-inline: 0 var(--size-1p5);
+  white-space: nowrap;
 }
 
 .e-assets__symbol,

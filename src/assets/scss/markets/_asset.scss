@@ -98,6 +98,7 @@
 .e-asset-details__stats {
   display: flex;
   gap: var(--size-1);
+  flex-wrap: wrap;
 }
 // #endregion
 

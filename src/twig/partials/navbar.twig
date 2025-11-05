@@ -1,6 +1,13 @@
 {#
 {% set data_menu_guest = {
 ...
+  "products": {
+    "comment": "instead trading",
+    "label": "Products",
+    "href": "products",
+    "icon": "grid-4x4"
+  },
+...
 "more": {
   ...
   "children": {
@@ -26,10 +33,10 @@
     "icon": "home",
     "classes": "tablet:d-none"
   },
-  "products": {
-    "label": "Products",
-    "href": "products",
-    "icon": "grid-4x4"
+  "trading": {
+    "label": "Trading",
+    "href": "trading",
+    "icon": "candles"
   },
   "markets": {
     "label": "Markets",
@@ -66,21 +73,22 @@
   }, #}
 
 {% set data_menu_user = {
-  "markets": {
-    "label": "Markets",
-    "href":  "markets",
-    "icon":  "chart-line"
+  "trading": {
+    "label": "Trading",
+    "href": "trading",
+    "icon": "candles"
   },
   "signals": {
     "label": "Signals",
     "href": "signals",
     "icon": "robot"
   },
-  "trading": {
-    "label": "Trading",
-    "href": "trading",
-    "icon": "candles"
+  "markets": {
+    "label": "Markets",
+    "href":  "markets",
+    "icon":  "chart-line"
   },
+
   "more": {
     "label": "More",
     "icon": "more",

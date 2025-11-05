@@ -296,7 +296,7 @@
       </div>
 
       {# Base #}
-      <h2 class="tablet-l:d-none">{{ 'Top Currencies'|trans }}</h2>
+      <h2 class="tablet-l:d-none">{{ 'Top TRINDX'|trans }}</h2>
       <div class="e-section__grid">
         <article class="e-asset-details">
           <header class="e-asset-details__header">
@@ -363,7 +363,7 @@
         </article>
         <div class="e-assets">
           <h2 aria-hidden="true">
-            {{ 'Top Currencies'|trans }}
+            {{ 'Top TRINDX'|trans }}
             <a href="{{ page.lang }}/markets">
               {{ 'All'|trans }}
               {% include 'partials/icon.twig' with {name: 'sm-chevron-right', classes: 'is-sm'} %}
@@ -389,7 +389,7 @@
                 <tr>
                   <th scope="row">
                     <div class="e-assets__symbol">ETH-USD</div>
-                    <div class="e-assets__name">Ethereum</div>
+                    <div class="e-assets__name">Ethereum Очень длинное название монеты</div>
                   </th>
                   <td class="e-assets__price">2 495,<small>33</small></td>
                   <td class="e-assets__change is-negative">-8,67%</td>
@@ -475,7 +475,7 @@
       <div class="e-section__body">
         <h2>{{ 'Trading Agent Pricing'|trans }}</h2>
         <p>{{ 'The AI trading agent’s services are paid on a different basis.'|trans }}</p>
-        <p class="text-success">{{ 'You pay from 5% on each profitable trade, but not less than $0.25.'|trans }}</p>
+        <p class="text-success">{{ 'You pay from 5% of the profit on each trade, but not less than $0.25.'|trans }}</p>
         <a class="e-btn" href="/{{ page.lang }}/pricing">{{ 'Select'|trans }}</a>
       </div>
     </div>
