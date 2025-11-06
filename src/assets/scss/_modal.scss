@@ -8,13 +8,13 @@
 // CONTAINER
 .e-modal {
   --modal-background: var(--color-bg-base);
-  --modal-border-radius: var(--border-radius-lg);
+  --modal-border-radius: var(--radius-lg);
   --modal-padding-x: var(--padding-x-box);
-  --modal-padding-y: var(--size-line);
+  --modal-padding-y: var(--dim-lh);
   --modal-overlay-background-color: var(--color-bg-scrim);
 
   background-color: var(--modal-overlay-background-color);
-  backdrop-filter: blur(var(--size-2p5));
+  backdrop-filter: blur(var(--dim-2p5));
   border: 0;
   display: flex;
   align-items: center;
@@ -55,15 +55,15 @@
 
 .e-modal__base {
   background: var(--modal-background);
-  border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
-  box-shadow: var(--box-shadow-level-03);
-  color: var(--color-ink-text);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  box-shadow: var(--shadow-z3);
+  color: var(--color-text);
   display: flex;
   flex-direction: column;
   margin: auto;
-  padding-top: var(--border-radius-md);
-  padding-bottom: var(--size-line);
-  padding-inline: var(--size-1);
+  padding-top: var(--radius-md);
+  padding-bottom: var(--dim-lh);
+  padding-inline: var(--dim-1);
   position: fixed;
   inset: auto 0 0;
   transition:
@@ -72,20 +72,20 @@
   translate: 0;
   width: 100%;
   max-width: var(--modal-max-width, var(--width-xl));
-  max-height: calc(100% - var(--size-5));
+  max-height: calc(100% - var(--dim-5));
 
   @starting-style {
     translate: 0 50%;
   }
 
   @media (--tablet) {
-    --modal-patch-offset: var(--size-line);
+    --modal-patch-offset: var(--dim-lh);
 
     border-radius: var(--modal-border-radius);
     padding-block: var(--modal-padding-x);
     inset: 0;
     height: max-content;
-    max-height: calc(100vh - var(--size-8));
+    max-height: calc(100vh - var(--dim-8));
 
     // Gradient content patches
     &::after,
@@ -95,7 +95,7 @@
       pointer-events: none;
       position: absolute;
       inset-inline: var(--modal-padding-x);
-      height: var(--size-4);
+      height: var(--dim-4);
       z-index: 1;
     }
 
@@ -137,20 +137,20 @@
 // #region
 
 .e-modal__body {
-  padding-inline: calc(var(--modal-padding-x) - var(--size-1));
+  padding-inline: calc(var(--modal-padding-x) - var(--dim-1));
   overflow-y: auto;
   scrollbar-gutter: stable both-edges;
 
   &.e-form {
     // Add some padding for focus outline
     padding-inline: var(--modal-padding-x);
-    padding-block: var(--size-1);
+    padding-block: var(--dim-1);
   }
 
   @media (pointer: fine) {
     @include scrollbar();
 
-    clip-path: inset(0 var(--size-2));
+    clip-path: inset(0 var(--dim-2));
     transition: clip-path var(--duration-500) var(--easing-base);
 
     &:hover {
@@ -184,7 +184,7 @@
 .e-modal__tab.is-hidden {
   opacity: 0;
   pointer-events: none;
-  translate: var(--size-3) 0;
+  translate: var(--dim-3) 0;
   visibility: hidden;
 }
 // #endregion
@@ -197,12 +197,12 @@
 .e-modal__base .e-btn.is-close {
   background: transparent;
   position: absolute;
-  top: var(--size-2);
-  right: var(--size-2);
+  top: var(--dim-2);
+  right: var(--dim-2);
 
   &:hover {
-    --icon-stroke: var(--color-ink-text);
-    background-color: var(--color-ink-min);
+    --icon-stroke: var(--color-text);
+    background-color: var(--color-fill);
   }
 }
 
@@ -218,7 +218,7 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: var(--size-1);
+  gap: var(--dim-1);
   justify-content: flex-end;
   padding-inline: var(--modal-padding-x);
   position: sticky;

@@ -34,13 +34,13 @@ $cryptoassetsstr .= ']';
 
 include_once(ROOTDIR . "projects/" . $config['project_path'] . "/engine/cleanpage.class.php");
 
-$final_html = get_template("clean_page.twig");
-
 $tpl = [
   '{$page_content_html}' => $page_content_html,
 ];
 
 $data_objects['page']['type'] = 'website';
 $data_objects['page']['app'] = true;
+
+$final_html = get_template("signals.twig");
 
 $final_html = strtr($final_html, $tpl);

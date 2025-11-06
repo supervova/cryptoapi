@@ -3,7 +3,7 @@
 // HTML: <div class="e-loader is-spinner"></div>
 
 .e-loader.is-spinner {
-  --spinner-size: var(--size-5);
+  --spinner-size: var(--dim-5);
   --spinner-stroke: #{rem(6)};
   --spinner-dur: 1s;
   --spinner-primary: var(--color-brand-primary);

@@ -2,7 +2,7 @@
 
 .e-stats {
   display: flex;
-  gap: var(--size-2);
+  gap: var(--dim-2);
 
   > * {
     flex: 1;
@@ -15,11 +15,11 @@
 
 .e-stat {
   background-color: var(--color-bg-base);
-  border-radius: var(--border-radius-base);
-  box-shadow: var(--box-shadow-level-01);
+  border-radius: var(--radius-base);
+  box-shadow: var(--shadow-z1);
   display: flex;
   flex-direction: column;
-  padding: var(--size-line) var(--size-2p5) var(--size-2p5);
+  padding: var(--dim-lh) var(--dim-2p5) var(--dim-2p5);
   width: 100%;
   max-width: var(--width-md);
 }
@@ -31,5 +31,5 @@
 
 .e-stat__caption {
   @include text-format(label-sm);
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
 }

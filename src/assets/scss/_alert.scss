@@ -2,14 +2,14 @@
 
 .e-alert {
   --color: rgb(255 255 255 / 0.7);
-  --margin: 0 auto var(--size-line);
+  --margin: 0 auto var(--dim-lh);
 
-  background-color: var(--color-bg-level-01);
-  border-radius: var(--border-radius-md);
+  background-color: var(--color-bg-z1);
+  border-radius: var(--radius-md);
   color: rgb(255 255 255 / 0.7);
   text-align: center;
   margin: var(--margin);
-  padding: var(--size-3);
+  padding: var(--dim-3);
   width: 100%;
   z-index: 2;
 
@@ -17,16 +17,16 @@
 }
 
 .e-alert.is-info {
-  --color: var(--color-ink-text-info);
+  --color: var(--color-text-info);
   background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-info));
 }
 
 .e-alert.is-warning {
-  --color: var(--color-ink-text-warning);
+  --color: var(--color-text-warning);
   background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-warning));
 }
 
 .e-alert.is-error {
-  --color: var(--color-ink-text-error);
+  --color: var(--color-text-error);
   background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-error));
 }

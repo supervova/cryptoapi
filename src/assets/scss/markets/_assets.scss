@@ -20,11 +20,11 @@
   position: relative;
 
   &:not(:last-child)::after {
-    border-bottom: 1px solid var(--color-ink-border);
+    border-bottom: 1px solid var(--color-border);
     content: '';
     position: absolute;
     bottom: 0;
-    inset-inline: var(--size-1p5);
+    inset-inline: var(--dim-1p5);
     height: 0;
   }
 
@@ -51,19 +51,19 @@
   box-shadow: none;
   font-weight: 400;
   vertical-align: middle;
-  padding-block: var(--size-1p5);
+  padding-block: var(--dim-1p5);
 }
 
 .e-assets th {
   font-weight: 400;
-  padding-inline: var(--size-1p5);
+  padding-inline: var(--dim-1p5);
   position: relative;
   max-width: 0;
 }
 
 .e-assets td {
   font-weight: 400;
-  padding-inline: 0 var(--size-1p5);
+  padding-inline: 0 var(--dim-1p5);
   white-space: nowrap;
 }
 
@@ -81,11 +81,11 @@
 
 .e-assets__change {
   &.is-positive {
-    color: var(--color-ink-text-success);
+    color: var(--color-text-success);
   }
 
   &.is-negative {
-    color: var(--color-ink-text-error);
+    color: var(--color-text-error);
   }
 }
 
@@ -97,8 +97,8 @@
 
 .e-assets__name {
   @include text-truncate();
-  color: var(--color-ink-2ry);
-  padding-top: var(--size-half);
+  color: var(--color-text-02);
+  padding-top: var(--dim-0p5);
 }
 // #endregion
 
@@ -110,7 +110,7 @@
 .e-asset {
   display: flex;
   align-items: center;
-  gap: var(--size-1p5);
+  gap: var(--dim-1p5);
 
   @media (any-hover: hover) and (pointer: fine) {
     &:hover {
@@ -142,7 +142,7 @@
 }
 
 .e-asset__symbol {
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
   font-size: var(--font-size-caption);
   line-height: var(--line-height-caption);
   font-weight: 500;

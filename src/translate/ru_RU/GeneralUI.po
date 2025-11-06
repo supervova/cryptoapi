@@ -91,8 +91,11 @@ msgstr "Документы"
 msgid "User Agreement"
 msgstr "Пользовательское соглашение"
 
-msgid "Widgets for websites"
+msgid "Widgets for Websites"
 msgstr "Виджеты для сайтов"
+
+msgid "Help Center"
+msgstr "Справка системы"
 
 # ------------------------------------------------------------------------------
 # BUTTONS
@@ -710,3 +713,12 @@ msgstr "Внимание:"
 
 msgid "Premium"
 msgstr "Премиум"
+
+# ------------------------------------------------------------------------------
+# CTA
+# ------------------------------------------------------------------------------
+msgid "Trade Cryptocurrency with AI Precision"
+msgstr "Торгуйте криптовалютой с точностью искусственного интеллекта"
+
+msgid "Get accurate AI-powered trading signals and stay ahead of the crypto market."
+msgstr "Получите точные торговые сигналы на основе ИИ и опережайте рынок криптовалют."

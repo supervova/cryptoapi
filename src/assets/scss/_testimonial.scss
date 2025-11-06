@@ -2,7 +2,7 @@
 
 .e-testimonial {
   direction: ltr;
-  gap: var(--size-2);
+  gap: var(--dim-2);
   position: relative;
 
   &::before {
@@ -38,11 +38,11 @@
 
 .e-testimonial__author {
   @include text-format(body-sm);
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
   margin-top: rem(3);
 
   strong {
-    color: var(--color-ink-text-success);
+    color: var(--color-text-success);
     display: block;
     font-weight: 400;
   }

@@ -4,30 +4,45 @@
 @use '../abstracts/custom';
 
 .signals {
-  background-color: var(--color-bg-2ry) !important;
+  background-color: var(--color-bg-02) !important;
   border: 0 !important;
-  color: var(--color-ink-2ry) !important;
-  border-radius: var(--border-radius-base);
+  color: var(--color-text-02) !important;
+  border-radius: var(--radius-base);
   font-family: var(--font-family-base) !important;
   font-size: var(--font-size-base) !important;
   overflow: auto !important;
-  margin-bottom: var(--size-3);
-  padding: var(--size-3) !important;
+  margin-bottom: var(--dim-3);
+  padding: var(--dim-3) !important;
   width: 100%;
   max-width: 920px;
 }
 
 // Row
 .signalmsg {
-  border-radius: var(--border-radius-sm);
-  display: flex !important;
-  align-items: center;
-  padding-inline: var(--size-1p5);
-  gap: var(--size-2);
-  height: var(--size-5);
+  border-radius: var(--radius-sm);
+  display: grid;
+  align-items: baseline;
+  gap: 0 var(--dim-1);
+  grid-template-columns: max-content 1fr;
+  grid-template-rows: auto auto;
+  padding-block: var(--dim-1p5);
+  padding-inline: var(--dim-1p5);
+
+  &,
+  &:active,
+  &:hover {
+    text-decoration: none;
+  }
 
   &:nth-child(odd) {
-    background-color: var(--color-ink-min);
+    background-color: var(--color-fill);
+  }
+
+  @media only screen and (min-width: 568px) {
+    align-items: center;
+    display: flex;
+    gap: var(--dim-2);
+    height: var(--dim-5);
   }
 }
 
@@ -39,7 +54,7 @@
 }
 
 .signaldate {
-  color: var(--color-ink-text);
+  color: var(--color-text);
   font-weight: 700;
   text-align: center;
   padding-top: var(--padding-top-caption);
@@ -54,14 +69,46 @@
 // Symbol
 .signalcurr {
   @include text-truncate;
-  color: var(--color-ink-text) !important;
+  color: var(--color-text) !important;
   text-align: center;
   width: 8ch !important;
 }
 
 // Message
 .signalmsgtext {
-  flex-grow: 1;
+  @include multiline-truncate($lines: 2);
+
+  color: var(--color-text-02);
+  grid-column: 1 / -1;
+  grid-row: 2;
+
+  @media only screen and (min-width: 568px) {
+    @multiline-truncate-reset;
+    @include text-truncate;
+
+    flex-grow: 1;
+    min-width: 0;
+  }
+}
+
+.alertmsg {
+  @include text-truncate;
+  margin-bottom: var(--dim-lh);
+  display: block;
+}
+
+[id='stngs'] {
+  max-width: 920px;
+}
+
+[id='linktg'] {
+  padding-top: var(--dim-6);
+  max-width: 70ch;
+
+  h2 {
+    font-weight: 500 !important;
+    text-align: left !important;
+  }
 }
 
 // Attention!

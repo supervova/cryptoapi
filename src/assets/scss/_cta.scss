@@ -9,22 +9,22 @@
   text-align: center;
   margin-inline: auto;
   padding-top: rem(72);
-  padding-bottom: var(--size-5);
+  padding-bottom: var(--dim-5);
   padding-inline: var(--padding-x-container);
   position: relative;
 
   // Decorative ball
   &::before {
     background: var(--color-gradient-brand);
-    border-radius: var(--border-radius-pill);
+    border-radius: var(--radius-pill);
     content: '';
     display: block;
     position: absolute;
-    top: calc(-1 * var(--size-3));
+    top: calc(-1 * var(--dim-3));
     left: 50%;
     translate: -50% 0;
-    width: var(--size-6);
-    height: var(--size-6);
+    width: var(--dim-6);
+    height: var(--dim-6);
   }
 
   @media (--tablet-l) {
@@ -41,5 +41,5 @@
 }
 
 .e-cta p {
-  margin-bottom: var(--size-3);
+  margin-bottom: var(--dim-3);
 }

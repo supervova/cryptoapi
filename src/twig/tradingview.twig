@@ -45,7 +45,7 @@
     <header class="e-main__header">
       <h1>
         {{ 'Trading'|trans }}.
-        <span class="text-2ry">{{ 'My Assets'|trans }}</span>
+        <span class="text-02">{{ 'My Assets'|trans }}</span>
       </h1>
 
       {% set trading_tabs = [
@@ -176,38 +176,56 @@ if (data.stopsale == 1) {
   assetBlur = ` blur-text`;
   colorStyle = '';
 }
-          html += `
-            <tr>
-              <td>${assetNameHtml}</td>
-              <td class="table__cell is-num">${availableDisplay}</td>
-            <td class="table__cell is-num ${assetBlur}" ${colorStyle}>
-              ${formatSum(total)}<br>
-              <small>
-                ${formatNumberSmart(data.price)}
-                ${
-                  hasBuyPrice && data.forecastprice
-                    ? `<br>
-   <span class="forecast-tooltip">
-     <span class="forecast-icon">?</span>
-     <span class="forecast-popup">{{ "Minimum projected selling price"|trans }}</span>
-     ${formatNumberSmart(data.forecastprice)}
-   </span>`
-                    : ''
-                }
-              </small>
-            </td>
-                <td class="table__cell is-num ${assetBlur}">${
-                    asset === 'BNB'
-                      ? `<small class="bnb-note">
-                           {{ "Having BNB in your Binance spot balance reduces trading fees!"|trans }}
-                         </small>`
-                      : hasBuyPrice
-                        ? `${formatSum(parseFloat(data.price_buy) * parseFloat(data.available))}<br><small>${formatNumberSmart(data.price_buy)}</small>`
-                        : ''
-              }</td>
-            </tr>
-          `;
 
+// помечаем строку актива
+const rowClasses = (data.stopsale == 2 && asset !== 'BNB')
+  ? 'asset-row has-warning'
+  : 'asset-row';
+
+html += `
+  <tr class="${rowClasses}">
+    <td>${assetNameHtml}</td>
+    <td class="table__cell is-num">${availableDisplay}</td>
+    <td class="table__cell is-num ${assetBlur}" ${colorStyle}>
+      ${formatSum(total)}<br>
+      <small>
+        ${formatNumberSmart(data.price)}
+        ${
+          hasBuyPrice && data.forecastprice
+            ? `<br>
+               <span class="forecast-tooltip">
+                 <span class="forecast-icon">?</span>
+                 <span class="forecast-popup">{{ "Minimum projected selling price"|trans }}</span>
+                 ${formatNumberSmart(data.forecastprice)}
+               </span>`
+            : ''
+        }
+      </small>
+    </td>
+    <td class="table__cell is-num ${assetBlur}">${
+      asset === 'BNB'
+        ? `<small class="bnb-note">
+             {{ "Having BNB in your Binance spot balance reduces trading fees!"|trans }}
+           </small>`
+        : hasBuyPrice
+          ? `${formatSum(parseFloat(data.price_buy) * parseFloat(data.available))}<br><small>${formatNumberSmart(data.price_buy)}</small>`
+          : ''
+    }</td>
+  </tr>
+`;
+
+// если stopsale == 2, добавляем пояснение под активом
+// строка-предупреждение ТОЛЬКО если stopsale == 2 и актив не BNB
+if (data.stopsale == 2 && asset !== 'BNB') {
+  html += `
+    <tr class="trade-warning-row">
+      <td colspan="4">
+        <span class="tw-caret">↳</span>
+         {{ "This position cannot be sold or included in trading because its amount does not meet the minimum required for trading. You must sell this asset manually in the Binance interface."|trans }}
+      </td>
+    </tr>
+  `;
+}
           portfolioTotal += total;
           portfolioTotalBuy += totalbuy;
           tradingTotal += hasBuyPrice ? total : 0;
@@ -350,7 +368,7 @@ if (data.stopsale == 1) {
   .is-allow {
     color:#a8ffd2
   }
-  
+
 .tradewraning {
   display: flex;
   align-items: flex-start;
@@ -484,6 +502,37 @@ if (data.stopsale == 1) {
 .forecast-icon:hover + .forecast-popup {
   visibility: visible;
   opacity: 1;
+}
+/* базовая нижняя граница между строками */
+.e-scroller table tbody tr.asset-row td {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+/* если есть предупреждение — убираем разделитель у строки актива */
+.e-scroller table tbody tr.asset-row.has-warning td {
+  border-bottom: 0 !important;
+}
+
+/* строка-предупреждение — визуально продолжение строки актива */
+.trade-warning-row td {
+  font-size: 0.9rem;
+  color: #f56c51;
+  background: rgba(255, 90, 90, 0.06);
+  text-align: left;
+  padding: 10px 14px 12px 44px; /* место под «стрелку» */
+  border-top: 0; /* важное: не отделяемся от строки выше */
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-radius: 0 0 12px 12px; /* ощущение единого блока с верхней строкой */
+  position: relative;
+}
+
+/* маленькая стрелка-якорь, указывающая на строку выше */
+.trade-warning-row td .tw-caret {
+  position: absolute;
+  left: 16px;
+  top: 10px;
+  opacity: 0.9;
+  font-weight: 700;
 }
 </style>
 

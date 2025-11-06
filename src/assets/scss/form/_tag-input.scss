@@ -8,7 +8,7 @@
 // #region
 
 .e-form__tag-input {
-  margin-block: var(--size-3);
+  margin-block: var(--dim-3);
 }
 
 .choices {
@@ -61,15 +61,15 @@
 
 .choices__inner {
   background-color: hsl(var(--h) var(--s) 90% / 0.05);
-  border-radius: var(--border-radius-sm);
+  border-radius: var(--radius-sm);
   display: block;
-  padding-top: var(--size-1p5);
-  padding-bottom: var(--size-half);
+  padding-top: var(--dim-1p5);
+  padding-bottom: var(--dim-0p5);
   padding-inline: var(--padding-x-input);
   overflow: hidden;
   vertical-align: top;
   width: 100%;
-  min-height: var(--size-7);
+  min-height: var(--dim-7);
 
   &:focus-within,
   .is-focused &,
@@ -83,7 +83,7 @@
   background-color: transparent;
   border-radius: 0;
   border: 0;
-  color: var(--color-ink-text);
+  color: var(--color-text);
   display: inline-block;
   flex: 1;
   font-size: var(--font-size-base);
@@ -93,7 +93,7 @@
   padding: 0;
   vertical-align: rem(2);
   min-width: rem(60);
-  min-height: var(--size-4);
+  min-height: var(--dim-4);
 
   &:focus {
     outline: 0;
@@ -114,36 +114,36 @@
   }
 
   &::placeholder {
-    color: var(--color-ink-3ry);
+    color: var(--color-text-03);
   }
 }
 
 // Tags
 .choices__item {
   background-color: var(--color-bg-bold-brand);
-  border-radius: var(--border-radius-pill);
-  color: var(--color-ink-text);
+  border-radius: var(--radius-pill);
+  color: var(--color-text);
   cursor: default;
   display: inline-flex;
   align-items: center;
-  gap: var(--size-half);
+  gap: var(--dim-0p5);
   font-size: var(--font-size-label);
   font-weight: 500;
   line-height: 1;
   word-break: break-all;
-  margin-bottom: var(--size-1);
-  margin-right: var(--size-1);
-  padding-block: var(--size-half);
-  padding-inline: var(--size-1p5);
+  margin-bottom: var(--dim-1);
+  margin-right: var(--dim-1);
+  padding-block: var(--dim-0p5);
+  padding-inline: var(--dim-1p5);
   vertical-align: middle;
-  min-height: var(--size-4);
+  min-height: var(--dim-4);
 
   &--selectable {
     cursor: pointer;
   }
 
   &[data-deletable] {
-    padding-inline-end: var(--size-1);
+    padding-inline-end: var(--dim-1);
   }
 
   &.is-highlighted {
@@ -165,15 +165,15 @@
   background-repeat: no-repeat;
   border: 0;
   cursor: pointer;
-  border-radius: var(--border-radius-pill);
+  border-radius: var(--radius-pill);
   display: inline-block;
   line-height: 1;
   text-indent: -999rem;
   margin: 0;
   padding: 0;
   position: relative;
-  width: var(--size-2p5);
-  height: var(--size-2p5);
+  width: var(--dim-2p5);
+  height: var(--dim-2p5);
 }
 // #endregion
 
@@ -193,7 +193,7 @@
 
   &--single {
     display: inline-block;
-    padding: var(--size-1);
+    padding: var(--dim-1);
     width: 100%;
 
     .choices__item {
@@ -278,7 +278,7 @@
       }
 
       &.is-highlighted {
-        background-color: var(--color-ink-min);
+        background-color: var(--color-fill);
 
         &::after {
           opacity: 0.5;
@@ -298,8 +298,8 @@
 
 // Select options +
 .choices__item--choice {
-  color: var(--color-ink-text);
-  padding: var(--size-1p5);
+  color: var(--color-text);
+  padding: var(--dim-1p5);
   transition: background-color var(--duration-200);
 
   &.is-highlighted {
@@ -313,9 +313,9 @@
 
 // Optgroup heading
 .choices__heading {
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
   font-weight: 500;
-  padding: var(--size-2);
+  padding: var(--dim-2);
 }
 
 // Hide unnecessary elements

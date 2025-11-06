@@ -11,7 +11,7 @@
 }
 
 :where(.e-page.is-pricing, .e-page.is-home) .e-section__header.is-centered {
-  padding-bottom: var(--size-4);
+  padding-bottom: var(--dim-4);
   max-width: 100%;
 
   p {
@@ -40,7 +40,7 @@
   @media (--tablet-l) {
     display: block;
     overflow-x: auto;
-    padding: var(--size-2p5) 0 0;
+    padding: var(--dim-2p5) 0 0;
     scroll-snap-type: x mandatory;
     max-width: 100%;
   }
@@ -54,11 +54,11 @@
 }
 
 .e-plans {
-  padding-inline: var(--size-2p5);
+  padding-inline: var(--dim-2p5);
 
   @media (--tablet-l) {
-    gap: var(--size-2);
-    padding-inline: var(--size-5);
+    gap: var(--dim-2);
+    padding-inline: var(--dim-5);
   }
 
   @media (--laptop) {
@@ -86,26 +86,26 @@
 // -----------------------------------------------------------------------------
 
 .e-current-plan {
-  background: var(--color-bg-level-01);
-  border-radius: var(--border-radius-lg);
+  background: var(--color-bg-z1);
+  border-radius: var(--radius-lg);
   text-align: left;
-  margin-bottom: var(--size-6);
-  padding: var(--size-2);
-  padding-inline-end: var(--size-3);
+  margin-bottom: var(--dim-6);
+  padding: var(--dim-2);
+  padding-inline-end: var(--dim-3);
   width: 100%;
   max-width: rem(604);
 
   &__list {
     margin: 0;
-    padding-left: var(--size-2);
+    padding-left: var(--dim-2);
   }
 
   &__list li {
-    color: var(--color-ink-text);
+    color: var(--color-text);
   }
 
   &__list span {
-    color: var(--color-ink-2ry);
+    color: var(--color-text-02);
   }
 
   // Button label change
@@ -143,7 +143,7 @@
   cursor: default;
   display: flex;
   flex-direction: column;
-  gap: var(--size-2);
+  gap: var(--dim-2);
   text-align: center;
   list-style: none;
 
@@ -169,21 +169,21 @@
 
   small {
     @include text-format('caption');
-    color: var(--color-ink-2ry);
+    color: var(--color-text-02);
   }
 }
 
 .e-current-plan__body {
-  padding-block: var(--size-1) var(--size-2);
+  padding-block: var(--dim-1) var(--dim-2);
   padding-inline: 0;
 
   @media (--phone-l) {
-    padding-inline-start: var(--size-6);
+    padding-inline-start: var(--dim-6);
   }
 }
 
 .e-plan__header .e-tag {
-  box-shadow: var(--box-shadow-level-02);
+  box-shadow: var(--shadow-z2);
   position: absolute;
   top: rem(-32);
   left: 50%;
@@ -191,7 +191,7 @@
 }
 
 .e-plan.is-current {
-  margin-top: var(--size-5);
+  margin-top: var(--dim-5);
 
   @media (--tablet-l) {
     margin-top: 0;

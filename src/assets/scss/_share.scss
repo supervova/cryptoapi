@@ -16,7 +16,7 @@
 .e-share__link {
   appearance: none;
   background: transparent;
-  border-radius: var(--border-radius-base);
+  border-radius: var(--radius-base);
   box-shadow: none;
   display: inline-flex;
   align-items: center;
@@ -28,24 +28,24 @@
   position: relative;
   transition: background var(--duration-100) var(--easing-base);
   user-select: none;
-  width: var(--size-5);
+  width: var(--dim-5);
   min-width: 0;
-  height: var(--size-5);
+  height: var(--dim-5);
 
   &:hover {
-    --icon-stroke: var(--color-ink-text);
-    background-color: var(--color-ink-border);
+    --icon-stroke: var(--color-text);
+    background-color: var(--color-border);
   }
 }
 
 .e-share__link.is-copy {
   &::after {
-    color: var(--color-ink-text-success);
+    color: var(--color-text-success);
     content: attr(data-copy-label);
     display: inline-block;
     opacity: 0;
     position: absolute;
-    inset-inline-start: calc(110% + var(--size-1));
+    inset-inline-start: calc(110% + var(--dim-1));
     transition: opacity var(--duration-150) var(--easing-base);
     user-select: none;
   }

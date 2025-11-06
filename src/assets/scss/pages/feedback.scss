@@ -15,12 +15,12 @@ h1 {
   @media (--tablet-l) {
     display: flex;
     align-items: center;
-    gap: var(--size-5);
-    padding-top: var(--size-8);
+    gap: var(--dim-5);
+    padding-top: var(--dim-8);
   }
 
   > * {
-    flex: 1 1 calc(50% - var(--size-2p5));
+    flex: 1 1 calc(50% - var(--dim-2p5));
     min-width: 0;
   }
 }

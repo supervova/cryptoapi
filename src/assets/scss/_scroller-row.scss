@@ -10,11 +10,11 @@
   cursor: grab;
   display: flex;
   flex-direction: row;
-  gap: var(--size-2);
+  gap: var(--dim-2);
   overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: smooth;
-  padding-bottom: var(--size-1);
+  padding-bottom: var(--dim-1);
 
   // Hide scrollbar by default
   -ms-overflow-style: none; // Edge
@@ -26,17 +26,17 @@
   // Show scrollbar on hover
   &:hover {
     scrollbar-width: thin;
-    scrollbar-color: var(--color-ink-border) transparent;
+    scrollbar-color: var(--color-border) transparent;
     &::-webkit-scrollbar {
       display: block;
-      height: var(--size-1);
+      height: var(--dim-1);
     }
     &::-webkit-scrollbar-track {
       background: transparent;
     }
     &::-webkit-scrollbar-thumb {
-      background: var(--color-ink-border);
-      border-radius: var(--size-half);
+      background: var(--color-border);
+      border-radius: var(--dim-0p5);
     }
   }
 
@@ -72,7 +72,7 @@
   @media (--tablet-l) {
     .e-section__header {
       position: absolute;
-      top: var(--size-6);
+      top: var(--dim-6);
       width: var(--section-header-width);
       z-index: -1;
     }
@@ -99,7 +99,7 @@
   }
   @media (--laptop) {
     .e-section__header {
-      padding-inline-end: var(--size-5);
+      padding-inline-end: var(--dim-5);
       inset-inline-start: calc((100% - var(--width-container)) / 2);
     }
   }
@@ -117,7 +117,7 @@
   }
   @media (--laptop) {
     .e-section__header {
-      padding-inline-start: var(--size-5);
+      padding-inline-start: var(--dim-5);
       inset-inline-end: calc((100% - var(--width-container)) / 2);
     }
   }
@@ -139,24 +139,24 @@
 .e-section.has-scroller-row-reverse .e-section__header {
   position: relative;
   padding-top: rem(72);
-  padding-bottom: var(--size-line);
+  padding-bottom: var(--dim-lh);
 
   &::after,
   &::before {
     content: '';
     display: block;
     position: absolute;
-    translate: calc(var(--padding-x-container) + var(--size-3)) 0;
+    translate: calc(var(--padding-x-container) + var(--dim-3)) 0;
   }
 
   // Decorative ball
   &::before {
     background: var(--color-gradient-brand);
-    border-radius: var(--border-radius-pill);
-    top: calc(-1 * var(--size-3));
+    border-radius: var(--radius-pill);
+    top: calc(-1 * var(--dim-3));
     left: 0;
-    width: var(--size-6);
-    height: var(--size-6);
+    width: var(--dim-6);
+    height: var(--dim-6);
   }
 
   // Gradient background
@@ -184,7 +184,7 @@
   @media (--laptop) {
     &::after,
     &::before {
-      translate: var(--size-5) 0;
+      translate: var(--dim-5) 0;
     }
   }
 }

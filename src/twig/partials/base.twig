@@ -124,14 +124,15 @@
 {% endblock %}
 </head>
 
-<body class="e-page
-  {{ page.app ? 'is-app' : 'is-site' }}
-  {% if page.classes %}
-    {{ page.classes }}
-  {% elseif page.slug is defined and page.slug %}
-    is-{{ page.slug }}
-  {% endif %}
-">
+{% set body_classes = 'e-page ' ~ (page.app ? 'is-app' : 'is-site') ~ ' ' ~ (user.id ? 'is-user' : 'is-guest') %}
+
+{% if page.classes %}
+  {% set body_classes = body_classes ~ ' ' ~ page.classes %}
+{% elseif page.slug is defined and page.slug %}
+  {% set body_classes = body_classes ~ ' is-' ~ page.slug %}
+{% endif %}
+
+<body class="{{ body_classes }}">
 
   {# NAVBAR ----------------------------------------------------------------- #}
   {% block navbar %}

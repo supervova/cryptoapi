@@ -53,7 +53,7 @@
           <strong>{{ 'Trade AI'|trans }}</strong>
           {{ 'Make It Work'|trans }}
         </h1>
-        <p>{{ 'Analytics. Automation. Forecasting. CRYPTOAPI.AI is an innovative platform for traders and investors, providing advanced APIs and intelligent cryptocurrency market analysis.'|trans }}</p>
+        <p>{{ 'Trade smart (artificially). Our AI analyzes trends, generates signals, and can act as a fully autonomous trading bot. It makes data-driven decisions, manages trades, and helps increase profits without constant supervision.'|trans }}</p>
         <div class="e-buttons">
 
           {% if user.id > 0 %}
@@ -64,7 +64,7 @@
           <a class="e-btn is-primary" href="{{ page.lang }}/{{ primary_link }}">
             {{ 'Try Now'|trans }}
           </a>
-          <a class="e-btn" href="{{ page.lang }}/cryptoapi">{{ 'API Documentation'|trans }}</a>
+          <a class="e-btn" href="{{ page.lang }}/faq">{{ 'Help Center'|trans }}</a>
         </div>
       </div>
     </div>
@@ -131,6 +131,42 @@
       {% for feature in data_features %}
         {% include "partials/feature.twig" with {"feature": feature, "site": site, "lang": page.lang|default("en")} only %}
       {% endfor %}
+    </div>
+  </section>
+
+  {# HOW TO #}
+  <section class="e-section">
+    <div class="e-container">
+      <header class="e-section__header is-centered">
+        <h2 class="e-section__title">{{ 'How to become a successful crypto trader'|trans }}</h2>
+        <p class="text-02">{{ 'You don′t have to master fundamental or technical analysis<br>(though it can help)'|trans|raw }}</p>
+      </header>
+
+      <ol class="e-how-to">
+        {% set how_to = [
+          '<strong>Sign up and log in</strong> to your CryptoAPI account.',
+          '<strong>Connect our AI agent</strong> (a fully automated trading bot) to your Binance account using API keys.',
+          '<strong>Set your crypto trading parameters</strong> for automatic buy and sell actions.',
+          '<strong>Launch the bot with one click</strong>. No deposit required – we provide a $10 credit.',
+          '<strong>Our AI agent will handle the rest</strong> – buying and selling at the best possible prices. <b>🎉</b>'
+        ]%}
+
+        {% for item in how_to %}
+          <li>
+            <img src="{{ site.assets_prefix }}/assets/img/pages/home/how-to-0{{ loop.index }}.jpg" srcset="{{ site.assets_prefix }}/assets/img/pages/home/how-to-0{{ loop.index }}@2x.jpg 2x" alt="{{ 'How to become a successful crypto trader'|trans }}">
+            <p>
+              {{ item|trans|raw }}
+              {% if user.id == 0 and loop.index == 1 %}
+                <a class="e-btn mt-2 has-end-icon" href="{{ page.lang }}/auth">
+                  {{ 'Start now'|trans }}
+                  {% include 'partials/icon.twig' with {name: 'sm-chevron-right', classes: 'is-sm'} %}
+                </a>
+              {% endif %}
+            </p>
+          </li>
+        {% endfor %}
+
+      </ol>
     </div>
   </section>
 
@@ -445,7 +481,7 @@
     <div class="e-container">
       <header class="e-section__header is-centered">
         <h2 class="e-section__title">{{ 'CryptoAPI in Numbers'|trans }}</h2>
-        <p class="text-2ry">{{ 'What value can you gain from all these charts and tables?'|trans }}</p>
+        <p class="text-02">{{ 'What value can you gain from all these charts and tables?'|trans }}</p>
       </header>
 
       <div class="e-stats">
@@ -463,20 +499,16 @@
     </div>
   </section>
 
-  {# RICING #}
-  {% include 'partials/plans.twig' %}
-
   {# AGENT PRICE #}
   <section class="e-section is-agent-price">
     <div class="e-container">
       <div class="e-section__image">
-        <img src="{{ site.assets_prefix }}/assets/img/components/agent-price.jpg" srcset="{{ site.assets_prefix }}/assets/img/components/agent-price.jpg 1x, {{ site.assets_prefix }}/assets/img/components/agent-price@2x.jpg 2x" alt="Цена торгового агента">
+        <img src="{{ site.assets_prefix }}/assets/img/components/agent-price.jpg" srcset="{{ site.assets_prefix }}/assets/img/components/agent-price.jpg 1x, {{ site.assets_prefix }}/assets/img/components/agent-price@2x.jpg 2x" alt="{{ 'Trading Agent Pricing'|trans }}">
       </div>
       <div class="e-section__body">
         <h2>{{ 'Trading Agent Pricing'|trans }}</h2>
-        <p>{{ 'The AI trading agent’s services are paid on a different basis.'|trans }}</p>
-        <p class="text-success">{{ 'You pay from 5% of the profit on each trade, but not less than $0.25.'|trans }}</p>
-        <a class="e-btn" href="/{{ page.lang }}/pricing">{{ 'Select'|trans }}</a>
+        <p class="text-success">{{ 'For the services of the autonomous AI trading agent, you pay from 5% of the profit per trade, with a minimum fee of $0.25.'|trans }}</p>
+        <a class="e-btn" href="/{{ page.lang }}/pricing">{{ 'Choose a plan'|trans }}</a>
       </div>
     </div>
   </section>

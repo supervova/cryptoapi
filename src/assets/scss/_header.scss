@@ -1,10 +1,10 @@
 @use 'abstracts' as *;
 
 .e-header {
-  background-color: var(--color-bg-2ry);
-  box-shadow: var(--box-shadow-level-02);
+  background-color: var(--color-bg-02);
+  box-shadow: var(--shadow-z2);
   position: fixed;
-  padding-block: var(--size-2p5);
+  padding-block: var(--dim-2p5);
   top: 0;
   right: 0;
   left: 0;
@@ -16,7 +16,7 @@
     background-color: transparent;
     box-shadow: none;
     position: static;
-    padding-top: var(--size-5);
+    padding-top: var(--dim-5);
     padding-bottom: 0;
     padding-inline-start: var(--navbar-area);
     translate: 0 0;
@@ -30,7 +30,7 @@
     // Overlay
     @media (--phone) {
       background-color: var(--color-bg-scrim);
-      backdrop-filter: var(--backdrop-filter-blur);
+      backdrop-filter: var(--backdrop-filter-glass);
       content: '';
       pointer-events: none;
       position: fixed;
@@ -51,13 +51,13 @@
 
 
   @media (--tablet) {
-    gap: var(--size-line);
+    gap: var(--dim-lh);
   }
 
   @media (--tablet-l) {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--size-4);
+    gap: var(--dim-4);
   }
 
   @media (--laptop) {
@@ -74,7 +74,7 @@
   @media (--tablet) {
     display: flex;
     justify-content: end;
-    gap: var(--size-2);
+    gap: var(--dim-2);
     font-weight: 600;
   }
 
@@ -102,19 +102,19 @@
 }
 
 .e-header__stat-value {
-  background-color: var(--color-ink-min);
-  border-radius: var(--border-radius-xs);
+  background-color: var(--color-fill);
+  border-radius: var(--radius-xs);
   display: block;
   white-space: nowrap;
-  padding-block: var(--size-half);
-  padding-inline: var(--size-1);
+  padding-block: var(--dim-0p5);
+  padding-inline: var(--dim-1);
 
   &.is-error {
-    background-color: var(--color-ink-2ry-error);
+    background-color: var(--color-text-02-error);
   }
 
   &.is-success {
-    background-color: var(--color-ink-2ry-success);
+    background-color: var(--color-text-02-success);
   }
 }
 
@@ -125,23 +125,23 @@
 // Market level color codes
 :where(.e-header__stats) {
   .is-hamburger.is-error  {
-    --icon-stroke: var(--color-ink-border-strong);
+    --icon-stroke: var(--color-border-strong);
 
     .e-icon-hamburger__low {
-      --icon-stroke: var(--color-ink-2ry-error);
+      --icon-stroke: var(--color-text-02-error);
     }
   }
 
   .is-hamburger.is-neutral  {
-    --icon-stroke: var(--color-ink-2ry);
+    --icon-stroke: var(--color-text-02);
 
     .e-icon-hamburger__high {
-      --icon-stroke: var(--color-ink-border-strong);
+      --icon-stroke: var(--color-border-strong);
     }
   }
 
   .is-hamburger.is-success  {
-    --icon-stroke: var(--color-ink-2ry-success);
+    --icon-stroke: var(--color-text-02-success);
   }
 }
 

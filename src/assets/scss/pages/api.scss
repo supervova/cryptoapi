@@ -13,16 +13,16 @@
   padding: 0 !important;
 
   h3,h4 {
-    color: var(--color-ink-2ry);
-    margin-top: var(--size-6);
+    color: var(--color-text-02);
+    margin-top: var(--dim-6);
   }
 }
 
 div:has(> .btn-info):has(> .btn-warning) {
   display: flex;
-  gap: var(--size-2);
+  gap: var(--dim-2);
   margin: 0 !important;
-  padding-bottom: calc(var(--size-6) - #{rem(10)});
+  padding-bottom: calc(var(--dim-6) - #{rem(10)});
 }
 
 [id='apidoc'] h3 {

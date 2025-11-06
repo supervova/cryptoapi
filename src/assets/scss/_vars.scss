@@ -13,8 +13,8 @@
   --h-yellow: 45;
 
   --s-base: 88%;
-  --s-2ry:  80%; // desaturate the base by 4-10% for dark theme
-  --s-3ry:  50%;
+  --s-02:  80%; // desaturate the base by 4-10% for dark theme
+  --s-03:  50%;
   --s-min:  11%; // for dark theme backgrounds
 
   --h:  254;
@@ -52,9 +52,8 @@
     hsl(from var(--color-bg-base) h s l / 0.05) 80%,
     hsl(from var(--color-bg-base) h s l / 0);
 
-  --color-bg-base-alpha:      hsl(from var(--color-bg-base) h s l / 0.8);
-  --backdrop-filter-elevated: saturate(180%) blur(20px);
-  --backdrop-filter-blur:     blur(20px);
+  --color-bg-base-alpha:   hsl(from var(--color-bg-base) h s l / 0.8);
+  --backdrop-filter-glass: blur(20px);
 
   // Adjustments
   --filter-brightness-up:   brightness(1.16);
@@ -116,7 +115,7 @@
   --padding-top-h2:     0;
   --padding-bottom-h2:  0;
 
-  --margin-top-subhead: var(--size-line);
+  --margin-top-subhead: var(--dim-lh);
 
   --font-size-h3:      #{rem(17)};
   --font-weight-h3:    var(--font-weight-titles-max);
@@ -153,24 +152,24 @@
   // 📐 SPACING
   // #region
 
-  --size-half: #{rem(4)};
-  --size-1:    #{rem(8)};
-  --size-1p5:  #{rem(12)};
-  --size-2:    #{rem(16)};
-  --size-2p5:  #{rem(20)};
-  --size-3:    #{rem(24)};
-  --size-4:    #{rem(32)};
-  --size-5:    #{rem(40)};
-  --size-6:    #{rem(48)};
-  --size-7:    #{rem(56)};
-  --size-8:    #{rem(64)};
+  --dim-0p5: #{rem(4)};
+  --dim-1:    #{rem(8)};
+  --dim-1p5:  #{rem(12)};
+  --dim-2:    #{rem(16)};
+  --dim-2p5:  #{rem(20)};
+  --dim-3:    #{rem(24)};
+  --dim-4:    #{rem(32)};
+  --dim-5:    #{rem(40)};
+  --dim-6:    #{rem(48)};
+  --dim-7:    #{rem(56)};
+  --dim-8:    #{rem(64)};
 
-  --size-line:       var(--size-3);
-  --spacer:          var(--size-line);
-  --spacer-half-max: var(--size-4);
-  --spacer-max:      var(--size-8);
-  --gap-base:        var(--size-2p5);
-  --gap-large:       var(--size-4);
+  --dim-lh:       var(--dim-3);
+  --spacer:          var(--dim-lh);
+  --spacer-half-max: var(--dim-4);
+  --spacer-max:      var(--dim-8);
+  --gap-base:        var(--dim-2p5);
+  --gap-large:       var(--dim-4);
   // #endregion
 
   // 🍱 COMPONENTS BASE
@@ -180,46 +179,46 @@
   --padding-bottom-list: #{rem(16)};
   --padding-bottom-li:   #{rem(10)};  // 2 base + 8 as margin
 
-  --padding-x-box:       var(--size-2);
-  --padding-x-container: var(--size-2p5);
+  --padding-x-box:       var(--dim-2);
+  --padding-x-container: var(--dim-2p5);
 
   --padding-y-btn: 0;
-  --padding-x-btn: var(--size-2);
-  --button-height: var(--size-6);
+  --padding-x-btn: var(--dim-2);
+  --button-height: var(--dim-6);
 
-  --padding-x-input:     var(--size-2);
-  --padding-y-input:     var(--size-2);
+  --padding-x-input:     var(--dim-2);
+  --padding-y-input:     var(--dim-2);
 
-  --size-icon:           #{rem(24)};
-  --size-icon-sm:        #{rem(20)};
+  --dim-icon:           #{rem(24)};
+  --dim-icon-sm:        #{rem(20)};
 
   --border-width: #{rem(1)};
 
   // RADIUS
   // Rectangular Images
-  --border-radius-xs:   var(--size-half);
+  --radius-xs:   var(--dim-0p5);
 
   // Buttons
-  --border-radius-sm:   var(--size-1);
-  --border-radius-base: var(--size-1p5);
+  --radius-sm:   var(--dim-1);
+  --radius-base: var(--dim-1p5);
 
   // Boxes: Pickers, Tooltips
-  --border-radius-md: var(--size-2);
+  --radius-md: var(--dim-2);
 
   // Drawers
-  --border-radius-lg:   #{rem(28)};
+  --radius-lg:   #{rem(28)};
 
   // Modals
-  --border-radius-xl:   var(--size-5);
-  --border-radius-xxl:   #{rem(52)};
+  --radius-xl:   var(--dim-5);
+  --radius-xxl:   #{rem(52)};
 
-  --border-radius-pill: 100vmax;
+  --radius-pill: 100vmax;
 
   // 🌓 SHADOWS
   // #region
 
   // FAB, Buttons hover, Snackbars, Sticky Components
-  --box-shadow-level-01:
+  --shadow-z1:
     inset 0 0 0.5px 1px var(--color-alpha-light-min),
     0 0 0 1px hsl(var(--color-shadow) / var(--shadow-ring, 0.04)),
     0 1px 2px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06)),
@@ -227,14 +226,14 @@
 
   // Overlays: popovers, Tooltips, Drawers, Dropdowns, Pickers,
   // Modal Bottom Sheets, FAB hover
-  --box-shadow-level-02:
+  --shadow-z2:
     inset 0 0 0.5px 1px var(--color-alpha-light-min),
     0 0 0 1px hsl(var(--color-shadow) / var(--shadow-ring, 0.04)),
     0 3px 6px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06)),
     0 15px 28px -1px hsl(var(--color-shadow) / var(--shadow-opacity-mid, 0.1));
 
   // Modals
-  --box-shadow-level-03:
+  --shadow-z3:
     inset 0 0 0.5px 1px var(--color-alpha-light-min),
     0 0 0 1px hsl(var(--color-shadow) / var(--shadow-ring, 0.04)),
     0 9px 14px -5px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06)),
@@ -309,18 +308,18 @@
   // 🧩 COMPONENTS SPECIFIC
   // #region
   --icon-fill: none;
-  --icon-stroke: var(--color-ink-icon);
+  --icon-stroke: var(--color-icon);
   --icon-stroke-width: 2;
 
-  --popover-body-background: var(--color-bg-level-02);
+  --popover-body-background: var(--color-bg-z2);
   --popover-body-border: 0;
-  --popover-body-border-radius: var(--border-radius-base);
-  --popover-body-box-shadow: var(--box-shadow-level-02);
+  --popover-body-border-radius: var(--radius-base);
+  --popover-body-box-shadow: var(--shadow-z2);
   // #endregion
 
   // 🏞️ LANDSCAPE PHONE OVERRIDES
   @media (--phone-l) {
-    --padding-x-container: var(--size-3);
+    --padding-x-container: var(--dim-3);
   }
 
   // 📋 TABLET OVERRIDES
@@ -356,12 +355,12 @@
     --padding-top-label:    #{rem(1)};
     --padding-bottom-label: #{rem(3)};
 
-    --spacer:               calc(var(--size-line) * 3);
-    --spacer-half-max:      var(--size-8);
-    --spacer-max:           calc(var(--size-8) * 2);
+    --spacer:               calc(var(--dim-lh) * 3);
+    --spacer-half-max:      var(--dim-8);
+    --spacer-max:           calc(var(--dim-8) * 2);
 
-    --padding-x-box:        var(--size-line);
-    --padding-x-container:  var(--size-5);
+    --padding-x-box:        var(--dim-lh);
+    --padding-x-container:  var(--dim-5);
 
     --navbar-area:          #{rem(96)};
 
@@ -372,6 +371,6 @@
 
   // 💻 LAPTOP OVERRIDES
   @media (--laptop) {
-    --padding-x-container:  var(--size-8);
+    --padding-x-container:  var(--dim-8);
   }
 }

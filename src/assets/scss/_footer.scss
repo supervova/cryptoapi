@@ -1,6 +1,6 @@
 @use 'abstracts' as *;
 
-:where(.e-page.is-app) .e-footer {
+.e-footer {
   @media (--tablet) {
     // Make room for navbar...
     padding-inline-start: var(--navbar-area);
@@ -14,12 +14,12 @@
 }
 
 .e-footer > .e-container {
-  border-top: 1px solid var(--color-ink-border);
+  border-top: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: var(--spacer);
-  padding-top: var(--size-6);
+  padding-top: var(--dim-6);
   padding-bottom: rem(96);
 
   @media (--tablet) {
@@ -28,7 +28,7 @@
 
   @media (--tablet-l) {
     flex-direction: row;
-    padding-bottom: var(--size-6);
+    padding-bottom: var(--dim-6);
   }
 }
 
@@ -37,9 +37,9 @@
   align-items: center;
   flex-direction: column;
   flex-grow: 1;
-  gap: var(--size-1);
+  gap: var(--dim-1);
   list-style: none;
-  margin: var(--size-3) 0;
+  margin: var(--dim-3) 0;
   padding: 0;
 
   li {
@@ -48,9 +48,17 @@
 
   @media (--tablet-l) {
     flex-direction: row;
-    gap: var(--size-2);
+    gap: var(--dim-2);
     margin: 0;
-    padding-inline-start: var(--size-5);
+    padding-inline-start: var(--dim-5);
+  }
+}
+
+.e-footer__menu-item.is-privacy,
+.e-footer__menu-item.is-widgets {
+  @media (--tablet-l) {
+    border-inline-start: 1px solid var(--color-border);
+    padding-inline-start: var(--dim-2);
   }
 }
 
@@ -64,14 +72,14 @@
 }
 
 .e-footer__copy {
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
 }
 
 .e-footer__menu a,
 .e-footer__summary {
   @include text-format(caption);
 
-  color: var(--color-ink-base);
+  color: var(--color-text);
   display: block;
 }
 
@@ -89,7 +97,7 @@
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  translate: 0 var(--size-5);
+  translate: 0 var(--dim-5);
 
   @media (--tablet-l) {
     left: auto;
@@ -109,7 +117,7 @@
 [data-lang^='ru'] .e-menu__item.is-ru,
 [data-lang^='en'] .e-menu__item.is-en {
   background-color: var(--menu-current-bg, hsl(0 0% 100% / 0.04));
-  border-radius: var(--border-radius-sm);
+  border-radius: var(--radius-sm);
   cursor: default;
   pointer-events: none;
 }

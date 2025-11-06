@@ -30,7 +30,7 @@
   <header class="e-main__header">
     <h1>
       {{ 'Trading'|trans }}.
-      <span class="text-2ry">{{ 'Transaction history'|trans }}</span>
+      <span class="text-02">{{ 'Transaction history'|trans }}</span>
     </h1>
 
     {% set trading_tabs = [
@@ -364,10 +364,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         htmlSales+=`</tbody></table></div>
-          <p class="text-right"><span class="text-2ry">{{ 'Total sales amount:'|trans }}</span> <b>$${formatMoney(totalSalesSum)}</b></p>
-          <p class="text-right"><span class="text-2ry">{{ 'Profit for the selected period:'|trans }}</span> <b>$${formatMoney(totalProfit)}</b></p>
+          <p class="text-right"><span class="text-02">{{ 'Total sales amount:'|trans }}</span> <b>$${formatMoney(totalSalesSum)}</b></p>
+          <p class="text-right"><span class="text-02">{{ 'Profit for the selected period:'|trans }}</span> <b>$${formatMoney(totalProfit)}</b></p>
           <div class="historydata__footer">
-            <p class="text-right"><span class="text-2ry">{{ 'All-time profit:'|trans }}</span> <b>$${formatMoney(relultarr[2])}</b></p>
+            <p class="text-right"><span class="text-02">{{ 'All-time profit:'|trans }}</span> <b>$${formatMoney(relultarr[2])}</b></p>
             <small>{{ 'Do not refresh the page - the data in the table is updated automatically!'|trans }}</small>
           </div>`;
 
@@ -396,7 +396,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         htmlPurchases+=`</tbody></table></div>
-          <p class="text-right"><span class="text-2ry">{{ 'Total purchase amount:'|trans }}</span> <b>$${formatMoney(totalPurchasesSum)}</b></p>`;
+          <p class="text-right"><span class="text-02">{{ 'Total purchase amount:'|trans }}</span> <b>$${formatMoney(totalPurchasesSum)}</b></p>`;
 
         $('#sales-content').html(htmlSales);
         $('#purchases-content').html(htmlPurchases);

@@ -2,24 +2,24 @@
 
 // Container. It can contains multiple items
 .e-toast {
-  --toast-padding: var(--size-2p5);
+  --toast-padding: var(--dim-2p5);
   width: 100%;
 
   @media (--tablet) {
-    --toast-padding: var(--size-4);
+    --toast-padding: var(--dim-4);
   }
 }
 
 // Box
 .e-toast__base {
-  background-color: var(--color-bg-2ry);
+  background-color: var(--color-bg-02);
   border: 0;
-  border-radius: var(--border-radius-md);
-  box-shadow: var(--box-shadow-level-02);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-z2);
   color: var(--toast-text-color);
   display: flex;
   align-items: center;
-  gap: var(--size-2);
+  gap: var(--dim-2);
   justify-content: space-between;
   padding: var(--toast-padding);
   opacity: 0;
@@ -37,10 +37,10 @@
   z-index: var(--zindex-fixed);
 
   @media (--tablet) {
-    --toast-padding: var(--size-4);
+    --toast-padding: var(--dim-4);
 
-    top: var(--size-line);
-    right: var(--size-line);
+    top: var(--dim-lh);
+    right: var(--dim-lh);
     bottom: auto;
     left: auto;
     translate: 0 0;
@@ -56,22 +56,22 @@
 // Semantic colors
 .e-toast__base.is-success {
   background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-success));
-  color: var(--color-ink-text-success);
+  color: var(--color-text-success);
 }
 
 .e-toast__base.is-error {
   background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-error));
-  color: var(--color-ink-text-error);
+  color: var(--color-text-error);
 }
 
 .e-toast__base.is-warning {
   background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-warning));
-  color: var(--color-ink-text-warning);
+  color: var(--color-text-warning);
 }
 
 .e-toast__base.is-info {
   background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-info));
-  color: var(--color-ink-text-info);
+  color: var(--color-text-info);
 }
 
 // Content
@@ -83,16 +83,16 @@
 
 // Close button
 .e-toast .e-btn.is-close {
-  --button-height: var(--size-4);
+  --button-height: var(--dim-4);
 
   background: transparent;
   position: absolute;
-  top: var(--size-2);
-  right: var(--size-2);
+  top: var(--dim-2);
+  right: var(--dim-2);
 
   &:hover {
-    --icon-stroke: var(--color-ink-text);
-    background-color: var(--color-ink-min);
+    --icon-stroke: var(--color-text);
+    background-color: var(--color-fill);
   }
 }
 

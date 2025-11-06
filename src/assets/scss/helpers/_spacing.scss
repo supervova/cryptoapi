@@ -7,22 +7,22 @@
 // prettier-ignore
 $spacing-values: (
   0:  0,
-  1s: var(--size-1),
-  2s: var(--size-2),
-  4s: var(--size-4),
-  5s: var(--size-5),
-  7s: var(--size-7),
-  8s: var(--size-8),
-  1:  var(--size-line),
-  2:  calc(var(--size-line) * 2),
-  3:  calc(var(--size-line) * 3),
-  4:  calc(var(--size-line) * 4),
+  1s: var(--dim-1),
+  2s: var(--dim-2),
+  4s: var(--dim-4),
+  5s: var(--dim-5),
+  7s: var(--dim-7),
+  8s: var(--dim-8),
+  1:  var(--dim-lh),
+  2:  calc(var(--dim-lh) * 2),
+  3:  calc(var(--dim-lh) * 3),
+  4:  calc(var(--dim-lh) * 4),
 );
 
 $spacing-values-negative: (
-  n1s: calc(var(--size-1) * -1),
-  n2s: calc(var(--size-2) * -1),
-  n1: calc(var(--size-line) * -1),
+  n1s: calc(var(--dim-1) * -1),
+  n2s: calc(var(--dim-2) * -1),
+  n1: calc(var(--dim-lh) * -1),
 );
 // prettier-ignore-end
 

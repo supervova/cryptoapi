@@ -2,25 +2,25 @@
 
 /* [type='checkbox'] */.switch,
 label:has([type='checkbox'][role='switch'], [switch]) {
-  color: var(--color-ink-2ry);
-  margin: 0 var(--size-1) 0 0;
-  padding-left: calc(var(--size-line) * 2);
+  color: var(--color-text-02);
+  margin: 0 var(--dim-1) 0 0;
+  padding-left: calc(var(--dim-lh) * 2);
 
   > [type='checkbox'][role='switch'] {
-    top: var(--size-1);
+    top: var(--dim-1);
   }
 }
 
 [type='checkbox'][role='switch'] {
-  --switch-background: var(--color-ink-border);
+  --switch-background: var(--color-border);
   --switch-background-checked: var(--color-brand-primary);
   --switch-border-width: #{rem(2)};
   --switch-height: #{rem(22)};
-  --switch-width: var(--size-5);
+  --switch-width: var(--dim-5);
   --switch-thumb-size: calc(var(--switch-height) - #{rem(4)});
 
   background-color: var(--switch-background);
-  border-radius: var(--border-radius-pill);
+  border-radius: var(--radius-pill);
   border: 0;
   display: flex;
   flex: 0 0 auto;

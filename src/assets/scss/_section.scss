@@ -7,7 +7,7 @@
 }
 
 .e-section__header p {
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
 }
 
 .e-section__header.is-centered {
@@ -16,17 +16,17 @@
   flex-direction: column;
   text-align: center;
   margin-inline: auto;
-  padding-bottom: var(--size-7);
+  padding-bottom: var(--dim-7);
   max-width: rem(622);
 
   h2 {
-    margin-top: var(--size-1);
+    margin-top: var(--dim-1);
     margin-bottom: 0;
   }
 }
 
 .e-section__title {
-  color: var(--color-ink-text);
+  color: var(--color-text);
 
   &.is-highlight {
     background-image: var(--color-gradient-brand);

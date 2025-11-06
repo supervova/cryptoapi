@@ -6,7 +6,7 @@
 }
 
 .e-grid.is-auto {
-  --layout-grid-min: calc(var(--size-line) * 7);
+  --layout-grid-min: calc(var(--dim-lh) * 7);
 
   @media (--tablet) {
     --grid-columns: repeat(auto-fit, minmax(min(100%, var(--layout-grid-min)), 1fr));

@@ -15,11 +15,18 @@
 
 {% block content %}
   <div class="e-container is-5/6">
-    <h1 class="e-main__title is-left">{{ 'Frequently Asked Questions'|trans }}</h1>
+    <h1 class="e-main__title is-left">
+      {{ 'Help Center'|trans }}.
+      <span class="text-02">{{ 'Frequently Asked Questions'|trans }}</span>
+    </h1>
 
     <div class="e-main__body">
       {% set data_faq = {
         "Platform & Usage": [
+          {
+            "question": "🚀 What is CryptoAPI and how does it work?",
+            "answer": "<p>CryptoAPI is an intelligent platform for automated and semi-automated trading on Binance.</p><p>Its AI analyzes the market and evaluates risks using TRINDX™ – the most accurate index for assessing the potential and reliability of every crypto asset – and can manage trades automatically through an API connection.</p><p class='mb-0'>To get started:</p><ol><li>Sign up on the website.</li><li>Connect your Binance account via API.</li><li>Choose your trading strategy and risk settings.</li><li>Launch the AI trader – it will take care of the rest.</li></ol>"
+          },
           {
             "question": "💱 Can I use Binance on my own?",
             "answer": "<p>Yes. You can use your Binance account as you normally would — buy, sell, or hold assets on your <b>SPOT balance</b>.</p><p>Once your exchange is connected via API, the system will automatically detect your manual purchases and include those assets in AI trading without any extra steps.</p>"
@@ -158,6 +165,19 @@
         {% endfor %}
       {% endfor %}
     </div>
+
+    {# CTA #}
+    <section class="e-section e-cta mt-max">
+      {% if user.id > 0 %}
+        {% set primary_link = 'trading' %}
+      {% else %}
+        {% set primary_link = 'auth' %}
+      {% endif %}
+
+      <h2>{{ 'Trade Cryptocurrency with AI Precision'|trans }}</h2>
+      <p>{{ 'Get accurate AI-powered trading signals and stay ahead of the crypto market.'|trans }}</p>
+      <a class="e-btn is-primary" href="{{ page.lang }}/{{ primary_link }}">{{ 'Try Now'|trans }}</a>
+    </section>
   </div>
 {% endblock %}
 

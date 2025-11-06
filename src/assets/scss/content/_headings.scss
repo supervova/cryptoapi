@@ -13,7 +13,7 @@ h5, h6 {
   text-rendering: optimizeLegibility;
   text-wrap: pretty;
   margin-top: 0;
-  margin-bottom: var(--size-2);
+  margin-bottom: var(--dim-2);
 }
 
 .e-h1, .e-h2, .e-h3, .e-h4 { display: block; }
@@ -35,9 +35,9 @@ h5, h6 {
 
   a {
     @include text-truncate;
-    color: var(--color-ink-2ry);
+    color: var(--color-text-02);
     display: block;
-    padding-right: var(--size-32);
+    padding-right: var(--dim-32);
   }
 
   .e-icon {
@@ -95,5 +95,5 @@ h5, h6 {
 
 :where(address, blockquote, div, dl, figure, form, ol, p, pre, table, ul)
   + :is(h2, h3, h4, h5, h6) {
-  margin-top: var(--margin-top-subhead, var(--size-line));
+  margin-top: var(--margin-top-subhead, var(--dim-lh));
 }

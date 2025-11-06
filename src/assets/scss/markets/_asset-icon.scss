@@ -3,7 +3,7 @@
 // Icon Container / fallback
 .e-asset__figure,
 .e-asset-details__figure {
-  background-color: var(--color-ink-2ry);
+  background-color: var(--color-text-02);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -28,14 +28,14 @@
 
 .e-asset__figure,
 .e-asset__icon {
-  width: var(--size-4);
-  height: var(--size-4);
+  width: var(--dim-4);
+  height: var(--dim-4);
 }
 
 .e-asset-details__figure,
 .e-asset-details__icon {
-  width: var(--size-5);
-  height: var(--size-5);
+  width: var(--dim-5);
+  height: var(--dim-5);
 }
 
 .e-asset__figure:has(.e-asset__icon[src$='placeholder.svg']),

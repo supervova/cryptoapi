@@ -11,9 +11,9 @@
     opacity var(--duration-50);
   vertical-align: middle;
 
-  width: var(--size-icon);
-  min-width: var(--size-icon);
-  height: var(--size-icon);
+  width: var(--dim-icon);
+  min-width: var(--dim-icon);
+  height: var(--dim-icon);
 
   @media (--retina) {
     --icon-stroke-width: 1.5;
@@ -27,15 +27,15 @@
 }
 
 .e-icon.is-sm {
-  width: var(--size-icon-sm);
-  min-width: var(--size-icon-sm);
-  height: var(--size-icon-sm);
+  width: var(--dim-icon-sm);
+  min-width: var(--dim-icon-sm);
+  height: var(--dim-icon-sm);
 }
 
 .e-icon.is-error {
-  --icon-stroke: var(--color-ink-2ry-error);
+  --icon-stroke: var(--color-text-02-error);
 }
 
 .e-icon.is-success {
-  --icon-stroke: var(--color-ink-2ry-success);
+  --icon-stroke: var(--color-text-02-success);
 }

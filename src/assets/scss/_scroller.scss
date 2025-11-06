@@ -31,10 +31,10 @@
     calc(var(--scroller-shadow-size) / 2) 100%,
     calc(var(--scroller-shadow-size) / 2) 100%;
 
-  border-radius: var(--border-radius-base);
-  border: 1px solid var(--color-ink-border);
+  border-radius: var(--radius-base);
+  border: 1px solid var(--color-border);
   display: block;
-  margin-block: var(--size-line);
+  margin-block: var(--dim-lh);
   max-width: 100%;
   overflow-x: auto;
   padding: 0;
@@ -74,7 +74,7 @@
     z-index: 10;
 
     &::after {
-      border-bottom: 1px solid var(--color-ink-border);
+      border-bottom: 1px solid var(--color-border);
       content: '';
       position: absolute;
       right: 0;

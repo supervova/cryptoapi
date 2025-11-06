@@ -8,14 +8,27 @@
     "icon": "grid-4x4"
   },
 ...
-"more": {
-  ...
-  "children": {
-    "news": {
-      "label": "News",
-      "href": "news",
-      "icon": "news"
-    },
+  "more": {
+    "label": "More",
+    "icon": "more",
+    "children": {
+      "pricing": {
+        "label": "Pricing",
+        "href": "pricing",
+        "icon": "money"
+      },
+      "news": {
+        "label": "News",
+        "href": "news",
+        "icon": "news"
+      },
+      "support": {
+        "label": "Support",
+        "href": "support",
+        "icon": "support"
+      }
+    }
+  }
 
 {% set data_menu_user = {
   "markets": {...},
@@ -43,21 +56,10 @@
     "href": "markets",
     "icon": "chart-line"
   },
-  "more": {
-    "label": "More",
-    "icon": "more",
-    "children": {
-      "pricing": {
-        "label": "Pricing",
-        "href": "pricing",
-        "icon": "money"
-      },
-      "support": {
-        "label": "Support",
-        "href": "support",
-        "icon": "support"
-      }
-    }
+  "support": {
+    "label": "Support",
+    "href": "support",
+    "icon": "support"
   }
  } %}
 

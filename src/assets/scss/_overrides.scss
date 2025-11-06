@@ -18,7 +18,7 @@
     100% 50% at 50% 100%,
     var(--color-bg-warning)
   );
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
 }
 // #endregion
 
@@ -28,7 +28,7 @@
 // #region
 .table th,
 .table thead td {
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
 }
 
 .table th,
@@ -37,7 +37,7 @@
 }
 
 .table-striped > tbody > tr:nth-of-type(odd) {
-  background-color: var(--color-ink-min);
+  background-color: var(--color-fill);
 }
 
 .hljs {
@@ -46,19 +46,19 @@
 }
 
 .hljs-attr {
-  color: var(--color-ink-text-info) !important;
+  color: var(--color-text-info) !important;
 }
 
 .hljs-punctuation {
-  color: var(--color-ink-2ry) !important;
+  color: var(--color-text-02) !important;
 }
 
 .hljs-string {
-  color: var(--color-ink-text-success) !important;
+  color: var(--color-text-success) !important;
 }
 
 .hljs-number {
-  color: var(--color-ink-text-warning) !important;
+  color: var(--color-text-warning) !important;
 }
 // #endregion
 
@@ -69,8 +69,8 @@
 
 .form-control {
   box-shadow: none;
-  border-radius: var(--border-radius-base);
-  background-color: var(--color-bg-2ry);
+  border-radius: var(--radius-base);
+  background-color: var(--color-bg-02);
   border: 0;
   color: color;
   font-family: inherit;
@@ -85,7 +85,7 @@
   background: transparent;
   border: 0;
   border-radius: 0;
-  color: var(--color-unk-2ry);
+  color: var(--color-text-02);
   text-align: left;
 }
 
@@ -102,20 +102,20 @@
 .typeahead__field textarea,
 .typeahead__field [contenteditable],
 .typeahead__field .typeahead__hint {
-  border-radius: var(--border-radius-base) !important;
-  background-color: var(--color-bg-2ry) !important;
+  border-radius: var(--radius-base) !important;
+  background-color: var(--color-bg-02) !important;
   border: 0 !important;
   line-height: var(--line-height-base) !important;
   padding-block: var(--padding-y-input) !important;
   padding-inline: var(--padding-x-input) !important;
-  min-height: calc(var(--size-line) * 2) !important;
+  min-height: calc(var(--dim-lh) * 2) !important;
 }
 
 .typeahead__cancel-button {
-  font-size: var(--size-line);
-  color: var(--color-ink-3ry);
+  font-size: var(--dim-lh);
+  color: var(--color-text-03);
   position: absolute;
-  right: var(--size-2);
+  right: var(--dim-2);
   top: 50%;
   translate: 0 -50%;
   user-select: none;
@@ -130,14 +130,14 @@
 // #region
 .e-loader:not(.is-spinner),
 .e-filter.is-row {
-  border-radius: var(--border-radius-base);
+  border-radius: var(--radius-base);
   display: inline-flex;
-  margin-bottom: var(--size-line);
+  margin-bottom: var(--dim-lh);
   padding: var(--padding-x-box);
 }
 
 .e-loader:not(.is-spinner) {
-  background-color: var(--color-ink-min);
+  background-color: var(--color-fill);
   flex-direction: column;
 
   a {
@@ -146,9 +146,9 @@
 }
 
 .e-filter.is-row {
-  background-color: var(--color-bg-2ry);
+  background-color: var(--color-bg-02);
   flex-wrap: wrap;
-  gap: var(--size-1p5);
+  gap: var(--dim-1p5);
 
   label {
     padding-bottom: var(--padding-bottom-base);
@@ -164,13 +164,13 @@
 .modal-dialog {
   // color: var(--bs-color, var(--color-alpha-dark-900));
 
-  margin: var(--size-4) auto;
+  margin: var(--dim-4) auto;
 }
 
 .modal-content {
-  background-color: var(--color-bg-2ry);
+  background-color: var(--color-bg-02);
   border: 0;
-  border-radius: var(--border-radius-md);
+  border-radius: var(--radius-md);
 }
 
 .modal-header,
@@ -186,7 +186,7 @@
 
 .bootpopup-button.close {
   background: transparent;
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
   position: absolute;
   top: 0;
   right: 0;
@@ -198,7 +198,7 @@
 
 .modal-backdrop.in {
   background-color: var(--color-bg-scrim);
-  backdrop-filter: blur(var(--size-2p5));
+  backdrop-filter: blur(var(--dim-2p5));
   opacity: 1;
 }
 // #endregion
@@ -211,12 +211,12 @@
 .tab-content > .tab-pane,
 .tab-content > .active {
   background-color: transparent;
-  padding-block: var(--size-2);
+  padding-block: var(--dim-2);
   padding-inline: 0;
 }
 
 .nav-tabs {
-  border-bottom: 1px solid var(--color-ink-border);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .nav-tabs > li {
@@ -225,23 +225,23 @@
 
 .nav-tabs > li > a {
   border: 0;
-  border-radius: var(--border-radius-base) var(--border-radius-base) 0 0;
+  border-radius: var(--radius-base) var(--radius-base) 0 0;
   background-color: transparent;
   margin-right: 1px;
-  padding: var(--size-2) var(--size-2p5);
+  padding: var(--dim-2) var(--dim-2p5);
 
   &:hover {
     text-decoration: none;
-    background-color: var(--color-ink-min);
+    background-color: var(--color-fill);
   }
 }
 
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
-  background-color: var(--color-ink-min);
+  background-color: var(--color-fill);
   border: 0;
-  color: var(--color-ink-base);
+  color: var(--color-text);
   cursor: default;
   pointer-events: none;
 }
@@ -271,25 +271,25 @@
   }
 
   :has(> [id='profilephoto']) {
-    background-color: var(--color-bg-2ry);
-    border-radius: var(--border-radius-base);
+    background-color: var(--color-bg-02);
+    border-radius: var(--radius-base);
     overflow: hidden;
-    margin: 0 0 var(--size-line) !important;
+    margin: 0 0 var(--dim-lh) !important;
     position: relative;
   }
 
   :has(> [id='profilephoto'][src$='profile_nophoto.jpg']) {
     &::after {
       background: var(--color-gradient-brand);
-      border-radius: var(--border-radius-pill);
+      border-radius: var(--radius-pill);
       color: var(--button-color-primary);
       content: '';
       position: absolute;
       top: 50%;
       left: 50%;
       translate: -50% -50%;
-      width: var(--size-8);
-      height: var(--size-8);
+      width: var(--dim-8);
+      height: var(--dim-8);
     }
   }
 
@@ -301,11 +301,11 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: var(--size-2);
+    gap: var(--dim-2);
   }
 
   h3 {
-    margin-top: var(--size-6);
+    margin-top: var(--dim-6);
 
     .file-field + & {
       margin-bottom: rem(-16);
@@ -313,7 +313,7 @@
   }
 
   .input-group {
-    margin-top: var(--size-3) !important;
+    margin-top: var(--dim-3) !important;
   }
 
   cite,
@@ -321,26 +321,26 @@
     width: 100%;
 
     @media (--tablet-l) {
-      width: calc(50% - var(--size-3));
+      width: calc(50% - var(--dim-3));
     }
   }
 
   .input-group-addon {
-    margin-bottom: var(--size-1);
+    margin-bottom: var(--dim-1);
   }
 
   cite,
   .checkbox,
   .input-group-addon {
     display: block;
-    color: var(--color-ink-2ry);
+    color: var(--color-text-02);
     font-style: normal;
   }
 
   cite {
     @include text-format(caption);
-    margin-top: var(--size-1);
-    padding-inline: var(--size-1p5);
+    margin-top: var(--dim-1);
+    padding-inline: var(--dim-1p5);
   }
 
   .form-control {
@@ -351,7 +351,7 @@
   :has(> [id='changephonelink']) {
     display: flex;
     align-items: end;
-    gap: var(--size-2);
+    gap: var(--dim-2);
   }
 
   :has(> [id='changephonelink']) {
@@ -364,25 +364,25 @@
 
   [id='enterconfirmcode'] + div {
     background: linear-gradient(rgba(43, 41, 51, 0.86), rgba(43, 41, 51, 0.86)),
-      linear-gradient(var(--color-bg-2ry), var(--color-bg-2ry)),
+      linear-gradient(var(--color-bg-02), var(--color-bg-02)),
       url('#{$assets-prefix}/assets/img/components/agent-price.jpg'),
-      var(--color-bg-2ry) !important;
+      var(--color-bg-02) !important;
     background-blend-mode: normal, color, normal, normal;
     background-size: cover !important;
-    border-radius: var(--border-radius-lg);
-    padding: var(--size-5) !important;
+    border-radius: var(--radius-lg);
+    padding: var(--dim-5) !important;
     width: 100%;
 
     h2 {
       text-align: left !important;
-      margin-top: var(--size-4) !important;
-      margin-bottom: var(--size-3) !important;
+      margin-top: var(--dim-4) !important;
+      margin-bottom: var(--dim-3) !important;
     }
   }
 
   [id='changemaillink'],
   [id='changephonelink'] {
-    margin-bottom: var(--size-half);
+    margin-bottom: var(--dim-0p5);
   }
 }
 
@@ -398,7 +398,7 @@
   }
 
   .notifymsg small {
-    color: var(--color-ink-2ry) !important;
+    color: var(--color-text-02) !important;
   }
 }
 

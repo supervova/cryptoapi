@@ -7,29 +7,29 @@
 
 // Navbar component variables
 $navbar-height-mobile: rem(88);
-$navbar-height-desktop: var(--size-6);
+$navbar-height-desktop: var(--dim-6);
 $navbar-menu-height-mobile: rem(80);
-$navbar-item-gap: var(--size-half);
-$navbar-dot-size: var(--size-1);
+$navbar-item-gap: var(--dim-0p5);
+$navbar-dot-size: var(--dim-1);
 
 // Mixin for navbar items with consistent styles
 @mixin navbar-item {
   background-image: none;
-  border-radius: var(--border-radius-base);
+  border-radius: var(--radius-base);
   display: flex;
   align-items: center;
   flex-direction: column;
   gap: $navbar-item-gap;
   text-align: center;
-  padding-top: var(--size-1p5);
-  padding-bottom: var(--size-1);
+  padding-top: var(--dim-1p5);
+  padding-bottom: var(--dim-1);
   transition:
     background-color var(--duration-100) var(--easing-base),
     background-image var(--duration-150) var(--easing-base);
   height: 100%;
 
   &:active {
-    background: var(--color-ink-min);
+    background: var(--color-fill);
     text-decoration: none;
   }
 
@@ -65,7 +65,7 @@ $navbar-dot-size: var(--size-1);
 @mixin navbar-label {
   @include text-format(caption);
   @include text-truncate;
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
 }
 // #endregion
 
@@ -78,8 +78,8 @@ $navbar-dot-size: var(--size-1);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: var(--size-1);
-  padding-inline: var(--size-2p5);
+  padding-top: var(--dim-1);
+  padding-inline: var(--dim-2p5);
   height: $navbar-height-mobile;
 
   @media (--tablet) {
@@ -87,11 +87,11 @@ $navbar-dot-size: var(--size-1);
         circle 216px at 50% 56px,
         var(--color-gradient-brand-radial)
       ),
-      var(--color-bg-level-01);
+      var(--color-bg-z1);
     align-items: stretch;
     flex-direction: column;
-    padding-top: var(--size-5);
-    padding-bottom: var(--size-4);
+    padding-top: var(--dim-5);
+    padding-bottom: var(--dim-4);
     padding-inline: 0;
     position: fixed;
     top: 0;
@@ -134,10 +134,10 @@ $navbar-dot-size: var(--size-1);
 
 .e-navbar__tagline {
   @include text-format(caption);
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
   position: absolute;
-  top: var(--size-3);
-  left: var(--size-6);
+  top: var(--dim-3);
+  left: var(--dim-6);
 
   .is-full,
   .is-compact {
@@ -159,11 +159,11 @@ $navbar-dot-size: var(--size-1);
 
 .e-navbar__beta {
   @include text-format(caption);
-  color: var(--color-ink-2ry-brand-accent);
+  color: var(--color-text-02-brand-accent);
   text-align: left;
   position: absolute;
   top: rem(-8);
-  left: var(--size-6);
+  left: var(--dim-6);
 
   @media (--tablet) {
     top: rem(-32);
@@ -180,13 +180,13 @@ $navbar-dot-size: var(--size-1);
 // #region
 
 .e-navbar__menu {
-  background: var(--color-bg-level-01);
+  background: var(--color-bg-z1);
   display: flex;
   align-items: stretch;
   justify-content: space-around;
-  padding-top: var(--size-half);
-  padding-bottom: calc(var(--size-half) + env(safe-area-inset-bottom));
-  padding-inline: var(--size-1);
+  padding-top: var(--dim-0p5);
+  padding-bottom: calc(var(--dim-0p5) + env(safe-area-inset-bottom));
+  padding-inline: var(--dim-1);
   position: fixed;
   bottom: 0;
   left: 0;
@@ -221,6 +221,12 @@ $navbar-dot-size: var(--size-1);
 .e-navbar__menu-label {
   @include navbar-label;
 }
+
+// Hide API and Pricing in horizontal navbar
+.e-page.is-site :where(.e-navbar__menu-item.is-more):has(.e-menu__item.is-api, .e-menu__item.is-pricing) {
+  display: none;
+}
+
 
 // Current Pages
 $current-pages: dashboard, home, markets, news, trading;
@@ -273,13 +279,13 @@ $current-pages: dashboard, home, markets, news, trading;
 }
 
 :where(.e-navbar__menu-item.is-more .is-open) [data-role='popover-summary'] {
-  background-color: var(--color-ink-min);
+  background-color: var(--color-fill);
 }
 
 :where(.e-navbar__menu-item.is-more) .e-popover__body {
   bottom: 100%;
-  right: var(--size-1p5);
-  translate: 0 var(--size-5);
+  right: var(--dim-1p5);
+  translate: 0 var(--dim-5);
 }
 
 // Duplicate for override
@@ -330,8 +336,8 @@ $current-pages: dashboard, home, markets, news, trading;
 
   @media (--phone) {
     --icon-stroke: var(--button-color);
-    background-color: var(--color-ink-min);
-    border-radius: var(--border-radius-pill);
+    background-color: var(--color-fill);
+    border-radius: var(--radius-pill);
   }
 
   @media (--tablet) {
@@ -340,19 +346,19 @@ $current-pages: dashboard, home, markets, news, trading;
     border-radius: 0;
     flex-direction: column;
     gap: $navbar-item-gap;
-    padding-top: var(--size-1p5);
-    padding-bottom: var(--size-1);
+    padding-top: var(--dim-1p5);
+    padding-bottom: var(--dim-1);
   }
 
   @media (--tablet-l) {
     background-color: var(--button-bg);
-    border-radius: var(--border-radius-base);
+    border-radius: var(--radius-base);
     font-size: var(--font-size-label);
     font-weight: var(--font-weight-titles-max);
     letter-spacing: var(--letter-spacing-label);
     line-height: 1;
     padding-block: 0;
-    padding-inline: var(--size-2);
+    padding-inline: var(--dim-2);
     height: $navbar-height-desktop;
 
     &:hover {
@@ -370,8 +376,8 @@ $current-pages: dashboard, home, markets, news, trading;
 }
 
 .e-avatar.e-navbar__avatar {
-  width: var(--size-5);
-  height: var(--size-5);
+  width: var(--dim-5);
+  height: var(--dim-5);
 }
 
 .e-navbar__user-menu {
@@ -394,7 +400,7 @@ $current-pages: dashboard, home, markets, news, trading;
     .e-popover__body {
       top: auto;
       right: auto;
-      bottom: calc(100% + var(--size-1));
+      bottom: calc(100% + var(--dim-1));
       left: 0;
     }
   }
@@ -404,14 +410,14 @@ $current-pages: dashboard, home, markets, news, trading;
 .e-menu__item.is-balance {
   > a {
     display: block;
-    padding-inline-start: var(--size-6);
+    padding-inline-start: var(--dim-6);
     position: relative;
   }
 
   .e-icon {
     position: absolute;
-    top: var(--size-1);
-    left: var(--size-2);
+    top: var(--dim-1);
+    left: var(--dim-2);
   }
 }
 // #endregion
@@ -426,10 +432,10 @@ $current-pages: dashboard, home, markets, news, trading;
     .e-navbar {
       background: hsl(var(--h) var(--s-min) 14% / 0.7); // fallback
       background-color: var(--color-bg-base-alpha);
-      backdrop-filter: var(--backdrop-filter-blur);
+      backdrop-filter: var(--backdrop-filter-glass);
       align-items: flex-start;
       padding-top: rem(43);
-      padding-bottom: var(--size-2p5);
+      padding-bottom: var(--dim-2p5);
       height: max-content;
       width: 100vw;
 
@@ -448,7 +454,7 @@ $current-pages: dashboard, home, markets, news, trading;
       @include text-format(caption);
       text-align: left;
       position: absolute;
-      top: var(--size-4);
+      top: var(--dim-4);
       left: rem(68);
       translate: 0 0;
 
@@ -475,7 +481,7 @@ $current-pages: dashboard, home, markets, news, trading;
       justify-content: end;
       margin-block: 0;
       padding-block: 0;
-      padding-inline-end: var(--size-2);
+      padding-inline-end: var(--dim-2);
     }
 
     .e-navbar__menu-item {
@@ -490,20 +496,20 @@ $current-pages: dashboard, home, markets, news, trading;
     .e-navbar__menu-item.is-more .e-menu__item > a,
     :where(.e-navbar__menu-item.is-more) [data-role='popover-summary'] {
       flex-direction: row;
-      border-radius: var(--border-radius-base);
+      border-radius: var(--radius-base);
       padding-block: 0;
-      padding-inline-start: var(--size-4);
-      padding-inline-end: var(--size-2);
+      padding-inline-start: var(--dim-4);
+      padding-inline-end: var(--dim-2);
       position: relative;
       height: $navbar-height-desktop;
 
       &:before {
-        background-color: var(--color-bg-level-03);
-        border-radius: var(--border-radius-pill);
+        background-color: var(--color-bg-z3);
+        border-radius: var(--radius-pill);
         content: '';
         position: absolute;
         top: calc(50% - rem(2));
-        left: var(--size-1p5);
+        left: var(--dim-1p5);
         width: $navbar-dot-size;
         height: $navbar-dot-size;
       }
@@ -518,7 +524,7 @@ $current-pages: dashboard, home, markets, news, trading;
     }
 
     .e-navbar__user-menu summary {
-      translate: 0 var(--size-half);
+      translate: 0 var(--dim-0p5);
 
       &::after {
         display: block;

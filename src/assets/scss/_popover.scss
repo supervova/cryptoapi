@@ -2,7 +2,7 @@
 
 // CONTAINER
 .e-popover {
-  --popover-body-color: var(--color-ink-2ry);
+  --popover-body-color: var(--color-text-02);
   --popover-body-width: var(--width-sm);
   --popover-body-padding-x: var(--padding-x-box);
   --popover-body-padding-y: var(--padding-x-box);
@@ -46,7 +46,7 @@
     opacity calc(var(--duration-200) * 0.8) var(--easing-disappearance),
     translate calc(var(--duration-200) * 0.8) var(--easing-disappearance);
   width: var(--popover-body-width);
-  max-width: calc(100vw - var(--size-2p5) * 2);
+  max-width: calc(100vw - var(--dim-2p5) * 2);
   z-index: var(--zindex-popover);
 
   [open] &,
@@ -74,8 +74,8 @@
   }
 
   &.e-menu {
-    --popover-body-padding-y: var(--size-1p5);
-    --popover-body-padding-x: var(--size-1p5);
+    --popover-body-padding-y: var(--dim-1p5);
+    --popover-body-padding-x: var(--dim-1p5);
   }
 }
 
@@ -95,10 +95,10 @@ summary,
     background-repeat: no-repeat;
     content: '';
     display: block;
-    margin-inline-start: var(--size-half);
+    margin-inline-start: var(--dim-0p5);
     transition: rotate var(--duration-50) var(--easing-base);
-    width: var(--size-icon);
-    height: var(--size-icon);
+    width: var(--dim-icon);
+    height: var(--dim-icon);
   }
 }
 
@@ -110,7 +110,7 @@ summary,
 // Share Specific Styles
 .e-popover.is-share {
   summary {
-    border-radius: var(--border-radius-small);
+    border-radius: var(--radius-small);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -126,8 +126,8 @@ summary,
   }
 
   .e-popover__body {
-    bottom: var(--size-offset);
-    right: calc(var(--size-offset) * -1);
+    bottom: var(--dim-offset);
+    right: calc(var(--dim-offset) * -1);
     left: auto;
   }
 }

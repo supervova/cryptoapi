@@ -1,9 +1,9 @@
 @use 'abstracts' as *;
 
 .e-avatar {
-  border-radius: var(--border-radius-pill);
-  width: var(--size-6);
-  height: var(--size-6);
+  border-radius: var(--radius-pill);
+  width: var(--dim-6);
+  height: var(--dim-6);
 }
 
 .e-avatar.is-empty {

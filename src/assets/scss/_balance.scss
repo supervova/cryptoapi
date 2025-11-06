@@ -3,7 +3,7 @@
 // Increase main content top padding for an absolute positioned balance panel
 .e-page.is-trading .e-main {
   @media (--phone) {
-    padding-top: calc(var(--size-line) * 4);
+    padding-top: calc(var(--dim-lh) * 4);
   }
 }
 
@@ -32,15 +32,15 @@
       rgb(255 255 255 / 0.01) 76%,
       rgb(255 255 255 / 0)
     ),
-    var(--color-bg-level-01);
-  border-radius: var(--border-radius-md);
+    var(--color-bg-z1);
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
-  gap: var(--size-2);
-  padding: rem(9) var(--size-2);
+  gap: var(--dim-2);
+  padding: rem(9) var(--dim-2);
   position: absolute;
   top: rem(152);
-  inset-inline: var(--size-2p5);
+  inset-inline: var(--dim-2p5);
   width: calc(100% - rem(40));
 
   @media (--tablet) {
@@ -63,8 +63,8 @@
 
 // Icon
 .e-balance__icon {
-  --icon-stroke: var(--color-ink-2ry-brand-accent);
-  --icon-bg: var(--color-ink-min);
+  --icon-stroke: var(--color-text-02-brand-accent);
+  --icon-bg: var(--color-fill);
 
   background: var(--icon-bg);
   border-radius: 50%;
@@ -72,8 +72,8 @@
   align-items: center;
   flex-shrink: 0;
   justify-content: center;
-  width: var(--size-5);
-  height: var(--size-5);
+  width: var(--dim-5);
+  height: var(--dim-5);
 }
 
 .e-balance__icon.is-warning {
@@ -89,7 +89,7 @@
 
   /* Amount */
   b {
-    color: var(--color-ink-text);
+    color: var(--color-text);
     font-weight: 400;
     letter-spacing: -0.02em;
     margin-bottom: rem(-4);
@@ -97,7 +97,7 @@
 
   /* Account Balance */
   small {
-    color: var(--color-ink-2ry);
+    color: var(--color-text-02);
     font-size: var(--font-size-caption);
     letter-spacing: var(--letter-spacing-caption);
     line-height: var(--line-height-caption);
@@ -105,9 +105,9 @@
 }
 
 .e-balance .e-btn {
-  --button-padding-x: var(--size-half);
-  --button-height: var(--size-4);
-  --icon-stroke: var(--color-ink-2ry-brand);
+  --button-padding-x: var(--dim-0p5);
+  --button-height: var(--dim-4);
+  --icon-stroke: var(--color-text-02-brand);
 }
 
 

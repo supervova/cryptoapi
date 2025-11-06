@@ -4,23 +4,23 @@
 @use 'base';
 
 .e-h3 {
-  margin-bottom: var(--size-1);
+  margin-bottom: var(--dim-1);
 
   span {
-    color: var(--color-ink-2ry);
+    color: var(--color-text-02);
     text-transform: uppercase;
   }
 }
 
 .signalmsg {
   align-items: baseline;
-  border-radius: var(--border-radius-sm);
+  border-radius: var(--radius-sm);
   display: grid;
-  gap: 0 var(--size-1);
+  gap: 0 var(--dim-1);
   grid-template-columns: max-content 1fr;
   grid-template-rows: auto auto;
-  padding-block: var(--size-1p5);
-  padding-inline: var(--size-1p5);
+  padding-block: var(--dim-1p5);
+  padding-inline: var(--dim-1p5);
 
   &,
   &:active,
@@ -29,20 +29,20 @@
   }
 
   &:nth-child(odd) {
-    background-color: var(--color-ink-min);
+    background-color: var(--color-fill);
   }
 
   @media only screen and (min-width: 568px) {
     align-items: center;
     display: flex;
-    gap: var(--size-2);
-    height: var(--size-5);
+    gap: var(--dim-2);
+    height: var(--dim-5);
   }
 }
 
 // Day
 .signalgroup + .signalgroup {
-  margin-top: var(--size-2);
+  margin-top: var(--dim-2);
 }
 
 // Date & Time
@@ -53,17 +53,17 @@
 }
 
 .signaldate {
-  color: var(--color-ink-2ry-success);
+  color: var(--color-text-02-success);
   font-weight: 700;
   position: relative;
   line-height: var(--line-height-caption);
   padding-top: var(--padding-top-caption);
   padding-bottom: var(--padding-top-caption);
-  padding-inline-start: var(--size-1p5);
-  translate: 0 var(--size-1);
+  padding-inline-start: var(--dim-1p5);
+  translate: 0 var(--dim-1);
 
   // &::after {
-  //   border-top: 1px dashed var(--color-ink-border);
+  //   border-top: 1px dashed var(--color-border);
   //   content: '';
   //   position: absolute;
   //   top: 50%;
@@ -74,7 +74,7 @@
 }
 
 .signaldt {
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
   grid-column: 2;
   grid-row: 1;
 
@@ -86,7 +86,7 @@
 
 // Symbol
 .signalcurr {
-  color: var(--color-ink-text);
+  color: var(--color-text);
   font-size: var(--font-size-body-sm);
   font-weight: 500;
   grid-column: 1;
@@ -106,7 +106,7 @@
 .signalmsgtext {
   @include multiline-truncate($lines: 2);
 
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
   grid-column: 1 / -1;
   grid-row: 2;
 
@@ -120,8 +120,8 @@
 }
 
 .cryptoapi-signals__icon {
-  color: var(--color-ink-text);
-  margin-inline-end: var(--size-1);
+  color: var(--color-text);
+  margin-inline-end: var(--dim-1);
   vertical-align: middle;
 }
 

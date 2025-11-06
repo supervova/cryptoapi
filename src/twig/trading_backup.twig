@@ -39,7 +39,7 @@
 {% block content %}
   <div class="e-container is-md">
     <h1>{{ 'Trading'|trans }}.
-      <span class="text-2ry">{{ 'Settings'|trans }}</span>
+      <span class="text-02">{{ 'Settings'|trans }}</span>
     </h1>
 
     <form class="e-form" id="form-trading-settings" action="/{{ page.lang }}/trading" method="post" autocomplete="off" novalidate>
@@ -52,7 +52,7 @@
           </span>
           <span class="e-accordion__hgroup">
             <span class="e-h3">API</span>
-            <span class="text-2ry">{{ 'CryptoAPI key, exchange and bot keys'|trans }}</span>
+            <span class="text-02">{{ 'CryptoAPI key, exchange and bot keys'|trans }}</span>
           </span>
           <span class="e-accordion__marker">
             {% include 'partials/icon.twig' with {name: 'sm-chevron-down', classes: 'is-sm'} %}
@@ -88,7 +88,7 @@
                   {% include 'partials/icon.twig' with {name: api.icon} %}
                   <div>
                     <strong>{{ api.name }}</strong>
-                    <span class="text-2ry">{{ api.status }}</span>
+                    <span class="text-02">{{ api.status }}</span>
                   </div>
                 </div>
                 <button class="e-btn is-icon is-ghost" type="button" data-role="open-modal" data-target="modal-api" title="{{ 'Settings'|trans }}">
@@ -110,7 +110,7 @@
           </span>
           <span class="e-accordion__hgroup">
             <span class="e-h3">{{ 'Strategy Preferences'|trans }}</span>
-            <span class="text-2ry">{{ 'Preferred risk-return balance'|trans }}</span>
+            <span class="text-02">{{ 'Preferred risk-return balance'|trans }}</span>
           </span>
           <span class="e-accordion__marker">
             {% include 'partials/icon.twig' with {name: 'sm-chevron-down', classes: 'is-sm'} %}
@@ -189,7 +189,7 @@
           </span>
           <span class="e-accordion__hgroup">
             <span class="e-h3">{{ 'Risk Management'|trans }}</span>
-            <span class="text-2ry">{{ 'Capital-protection limits'|trans }}</span>
+            <span class="text-02">{{ 'Capital-protection limits'|trans }}</span>
           </span>
           <span class="e-accordion__marker">
             {% include 'partials/icon.twig' with {name: 'sm-chevron-down', classes: 'is-sm'} %}
@@ -249,7 +249,7 @@
           </span>
           <span class="e-accordion__hgroup">
             <span class="e-h3">{{ 'Simulation'|trans }}</span>
-            <span class="text-2ry">{{ 'Try out CryptoAPI and your ideas'|trans }}</span>
+            <span class="text-02">{{ 'Try out CryptoAPI and your ideas'|trans }}</span>
           </span>
           <span class="e-accordion__marker">
             {% include 'partials/icon.twig' with {name: 'sm-chevron-down', classes: 'is-sm'} %}
@@ -290,7 +290,7 @@
       </span>
       <span class="e-accordion__hgroup">
         <span class="e-h3">{{ 'Profile Settings'|trans }}</span>
-        <span class="text-2ry">{{ 'Primary email, password, avatar'|trans }}</span>
+        <span class="text-02">{{ 'Primary email, password, avatar'|trans }}</span>
       </span>
       <a class="e-btn is-outline" href="/{{ page.lang }}/profile">
         {{ 'Go'|trans }}

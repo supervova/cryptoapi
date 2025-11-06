@@ -18,14 +18,14 @@
 
 // Body
 .e-stat {
-  border-inline-start: 3px solid var(--color-ink-2ry-brand);
+  border-inline-start: 3px solid var(--color-text-02-brand);
   display: flex;
   flex-direction: column;
   gap: var(--dim-1);
   justify-content: space-between;
   font-variant-numeric: oldstyle-nums;
-  padding-block: var(--size-3) var(--size-2);
-  padding-inline: var(--size-4) var(--size-2);
+  padding-block: var(--dim-3) var(--dim-2);
+  padding-inline: var(--dim-4) var(--dim-2);
 
   @media (--tablet) {
     height: rem(240);
@@ -53,13 +53,13 @@
 .e-stat__caption {
   @include text-format(h3);
 
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
   font-weight: 600;
 }
 
 .e-stat:last-child {
   @media (--tablet-l) {
-    background-color: var(--color-ink-min);
+    background-color: var(--color-fill);
     background-image:
       radial-gradient(
         circle farthest-side at 100% 0%,
@@ -72,6 +72,6 @@
       rgb(255 255 255 / 0.02) 76%,
       rgb(255 255 255 / 0)
       );
-    border-radius: 0 var(--border-radius-lg) var(--border-radius-lg) 0;
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
   }
 }

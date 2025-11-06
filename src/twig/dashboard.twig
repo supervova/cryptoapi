@@ -119,7 +119,7 @@
                   </a>
                 </h2>
                 <h3 class="e-card__total">
-                  <span class="text-2ry">$</span>
+                  <span class="text-02">$</span>
                   {{ watchlist.total_value }}
                 </h3>
               </hgroup>
@@ -207,7 +207,7 @@
                     <strong>{{ signal.trigger|trans }}
                       {{ price_direction.volume }}</strong>
                   {% endif %}
-                  <span class="text-2ry">{{ signal.type|trans }}</span>
+                  <span class="text-02">{{ signal.type|trans }}</span>
                 </div>
               </li>
             {% endfor %}
@@ -254,14 +254,14 @@
             {# Example icon #}
             <div class="e-card__details">
               <strong>Прогноз риска и волатильности:</strong>
-              <span class="text-2ry">Умеренный риск</span>
+              <span class="text-02">Умеренный риск</span>
             </div>
           </div>
           <div class="e-card__footnote is-personal">
             {% include 'partials/icon.twig' with {name: 'bulb'} %}
             <div class="e-card__details">
               <strong>Персональный совет:</strong>
-              <span class="text-2ry">Ужесточите стоп-лоссы</span>
+              <span class="text-02">Ужесточите стоп-лоссы</span>
             </div>
           </div>
         </section>
@@ -286,7 +286,7 @@
                 <div class="e-card__details">
                   <strong>{{ report.action }}
                     {{ report.asset }}</strong>
-                  <span class="text-2ry">{{ report.time }}</span>
+                  <span class="text-02">{{ report.time }}</span>
                 </div>
                 {% include 'partials/icon.twig' with { name: report_icon } %}
               </li>
@@ -327,7 +327,7 @@
                   {% include 'partials/icon.twig' with { name: 'robot' } %}
                   <div>
                     <strong>{{ api.name }}</strong>
-                    <span class="text-2ry">{{ api.status }}</span>
+                    <span class="text-02">{{ api.status }}</span>
                   </div>
                 </div>
                 <button class="e-btn is-icon is-ghost" type="button" title="{{ 'Settings'|trans }}">

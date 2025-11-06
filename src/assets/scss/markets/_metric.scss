@@ -6,8 +6,8 @@
 // #region
 .e-card.is-album-metric {
   // gradients are set in _card.scss
-  border-radius: var(--border-radius-lg);
-  gap: var(--size-line);
+  border-radius: var(--radius-lg);
+  gap: var(--dim-lh);
 
   &:hover {
     text-decoration: none;
@@ -24,8 +24,8 @@
     border-radius: 50%;
     margin-bottom: 0;
     overflow: hidden;
-    width: var(--size-6);
-    height: var(--size-6);
+    width: var(--dim-6);
+    height: var(--dim-6);
 
     &:has(img[src$='placeholder.svg']) {
       @include logo-fallback();
@@ -52,7 +52,7 @@
   .e-card__ticker,
   .e-card__name,
   .e-card__description {
-    color: var(--color-ink-2ry);
+    color: var(--color-text-02);
   }
 
   .e-card__ticker,

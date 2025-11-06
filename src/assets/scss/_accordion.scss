@@ -5,11 +5,11 @@
 // -----------------------------------------------------------------------------
 
 /* details */.e-accordion {
-  --summary-color: var(--color-ink-text);
-  --summary-padding-y: var(--size-3);
-  --summary-padding-right: var(--size-5);
+  --summary-color: var(--color-text);
+  --summary-padding-y: var(--dim-3);
+  --summary-padding-right: var(--dim-5);
 
-  border-top: 1px solid var(--color-ink-border);
+  border-top: 1px solid var(--color-border);
   display: block;
   overflow: hidden;
 
@@ -32,7 +32,7 @@
   // Body Animation
   // stylelint-disable-next-line selector-pseudo-element-no-unknown
   &::details-content {
-    color: var(--color-ink-2ry);
+    color: var(--color-text-02);
     transition:
       content-visibility var(--duration-200) var(--easing-base),
       height var(--duration-200) var(--easing-base);
@@ -43,8 +43,8 @@
   // Open
   &[open] {
     .e-accordion__marker {
-      --icon-stroke: var(--color-bg-level-01);
-      background-color: var(--color-ink-3ry);
+      --icon-stroke: var(--color-bg-z1);
+      background-color: var(--color-text-03);
       rotate: 180deg;
     }
 
@@ -57,27 +57,27 @@
 
 .e-accordion__marker {
   background-color: transparent;
-  border: 1px solid var(--color-ink-border);
-  border-radius: var(--border-radius-pill);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
   display: flex;
   align-items: center;
   justify-content: center;
   padding-top: rem(2);
   position: absolute;
-  top: var(--size-2p5);
+  top: var(--dim-2p5);
   inset-inline-end: 0;
   transition:
     rotate var(--duration-50) var(--easing-base),
     background-color var(--duration-50) var(--easing-base);
-  width: var(--size-4);
-  height: var(--size-4);
+  width: var(--dim-4);
+  height: var(--dim-4);
 }
 
 .e-accordion + :not(.e-accordion) {
-  margin-top: var(--size-line);
+  margin-top: var(--dim-lh);
 
   @media (--tablet) {
-    margin-top: calc(var(--size-line) * 2);
+    margin-top: calc(var(--dim-lh) * 2);
   }
 }
 
@@ -90,10 +90,10 @@
 .e-accordion__header.has-hgroup {
   display: flex;
   align-items: center;
-  gap: var(--size-2);
+  gap: var(--dim-2);
 
   @media (--phone-l) {
-    gap: var(--size-3);
+    gap: var(--dim-3);
   }
 }
 
@@ -111,7 +111,7 @@
     }
   }
 
-  .text-2ry {
+  .text-02 {
     @include text-truncate();
 
     display: block;
@@ -138,7 +138,7 @@
 .e-accordion__body h3 {
   @include text-format(base);
 
-  color: var(--color-ink-text);
+  color: var(--color-text);
   font-weight: 500;
 }
 

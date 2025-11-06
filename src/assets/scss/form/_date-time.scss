@@ -6,9 +6,9 @@
 [type='time'],
 [type='week'] {
   background-image: var(--icon-calendar);
-  background-position: center right var(--size-2p5);
+  background-position: center right var(--dim-2p5);
   background-repeat: no-repeat;
-  background-size: var(--size-icon) auto;
+  background-size: var(--dim-icon) auto;
 }
 
 [type='time'] {
@@ -18,5 +18,5 @@
 ::-webkit-calendar-picker-indicator {
   cursor: pointer;
   opacity: 0;
-  width: var(--size-icon);
+  width: var(--dim-icon);
 }

@@ -27,7 +27,7 @@ body {
   @media (--tablet) {
     display: flex;
     align-items: center;
-    padding-block: var(--size-5);
+    padding-block: var(--dim-5);
   }
 
   @media (--tablet-l) {
@@ -37,7 +37,7 @@ body {
     grid-template-areas: '. main';
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr;
-    padding: var(--size-5);
+    padding: var(--dim-5);
     overflow-y: auto;
     position: absolute;
     inset: 0;
@@ -54,9 +54,9 @@ article {
 
 .e-card.is-panel {
   text-align: center;
-  padding-top: var(--size-5);
-  padding-inline: var(--size-1p5);
-  padding-bottom: var(--size-3);
+  padding-top: var(--dim-5);
+  padding-inline: var(--dim-1p5);
+  padding-bottom: var(--dim-3);
   overflow: hidden;
   width: 100%;
   max-width: var(--width-md);
@@ -68,9 +68,9 @@ article {
 
   @media (--tablet) {
     background-color: hsl(from var(--color-bg-base) h s l / 0.8);
-    backdrop-filter: var(--backdrop-filter-blur);
-    padding-inline: var(--size-3);
-    padding-bottom: var(--size-4);
+    backdrop-filter: var(--backdrop-filter-glass);
+    padding-inline: var(--dim-3);
+    padding-bottom: var(--dim-4);
   }
 }
 
@@ -83,7 +83,7 @@ article {
 }
 
 .e-tabs__panel {
-  padding-inline: var(--size-1);
+  padding-inline: var(--dim-1);
   opacity: 0;
   overflow: clip;
   transition:
@@ -115,7 +115,7 @@ article {
 }
 
 .e-tabs__panel header {
-  padding-bottom: var(--size-2);
+  padding-bottom: var(--dim-2);
 
   h2 {
     margin-bottom: 0;
@@ -134,7 +134,7 @@ article {
   justify-content: space-between;
   text-align: center;
   margin-top: auto;
-  padding-top: calc(var(--padding-top-body-sm) + var(--size-5));
+  padding-top: calc(var(--padding-top-body-sm) + var(--dim-5));
 }
 
 .e-buttons > * {
@@ -147,14 +147,14 @@ article {
 
 .e-form__generate {
   @include text-format('caption');
-  margin-top: var(--size-1);
+  margin-top: var(--dim-1);
 }
 
 .e-footnote {
   @include text-format('caption');
 
   text-align: center;
-  margin-top: var(--size-2);
+  margin-top: var(--dim-2);
   max-width: var(--width-md);
 
   .e-icon {
@@ -172,11 +172,11 @@ article {
 }
 
 [id='loader'] {
-  background-color: var(--color-bg-2ry);
-  border-radius: var(--border-radius-base);
-  color: var(--color-ink-base);
+  background-color: var(--color-bg-02);
+  border-radius: var(--radius-base);
+  color: var(--color-text);
   display: none;
-  padding: var(--size-3);
+  padding: var(--dim-3);
   position: fixed;
   top: 50%;
   left: 50%;

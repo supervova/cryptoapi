@@ -6,17 +6,17 @@
 
 [type='checkbox'],
 [type='radio'] {
-  --option-size: var(--size-2);
+  --option-size: var(--dim-2);
   --option-border: 1px;
 
   appearance: none;
-  background-color: var(--color-bg-2ry);
+  background-color: var(--color-bg-02);
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  border: var(--option-border) solid var(--color-ink-3ry);
+  border: var(--option-border) solid var(--color-text-03);
   cursor: pointer;
-  margin-right: var(--size-1);
+  margin-right: var(--dim-1);
   padding: 0;
   vertical-align: middle;
   width: var(--option-size);
@@ -35,8 +35,8 @@
   }
 
   &:checked {
-    background-color: var(--color-ink-2ry-brand);
-    border-color: var(--color-ink-2ry-brand);
+    background-color: var(--color-text-02-brand);
+    border-color: var(--color-text-02-brand);
   }
 
   &:indeterminate {
@@ -59,7 +59,7 @@ input:is([type='checkbox'], [type='radio']) {
 }
 
 [type='checkbox'] {
-  border-radius: var(--size-half);
+  border-radius: var(--dim-0p5);
 
   &:checked {
     background-image: url('data:image/svg+xml,%3csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"%3e%3cpath fill="none" stroke="%23fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 10l3 3l6-6"/%3e%3c/svg%3e');
@@ -80,15 +80,15 @@ input:is([type='checkbox'], [type='radio']) {
 
 .e-form__option,
 label:has(> [type='checkbox'], > [type='radio']) {
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
   display: block;
-  margin: 0 var(--size-1) 0 0;
+  margin: 0 var(--dim-1) 0 0;
   font-size: var(--font-size-base);
   line-height: var(--line-height-base);
   text-align: left;
   padding-top: var(--padding-top-base);
   padding-bottom: var(--padding-bottom-base);
-  padding-left: var(--size-3);
+  padding-left: var(--dim-3);
 
   [type='checkbox'],
   [type='radio'] {
@@ -100,7 +100,7 @@ label:has(> [type='checkbox'], > [type='radio']) {
 
 :not(fieldset) > .e-form__option,
 :not(fieldset) > label:has(> [type='checkbox'], > [type='radio']) {
-  padding-bottom: var(--size-2p5);
+  padding-bottom: var(--dim-2p5);
   position: relative;
 }
 
@@ -115,10 +115,10 @@ label:has(> [type='checkbox'], > [type='radio']) {
 [type='checkbox'][role='switch'],
 [type='checkbox'][role='switch']:checked {
   &[aria-invalid='false'] {
-    border-color: var(--color-ink-border);
+    border-color: var(--color-border);
   }
 
   &[aria-invalid='true'] {
-    border-color: var(--color-base-error);
+    border-color: var(--color-error);
   }
 }

@@ -4,7 +4,7 @@ select {
   // General styles for select elements
   &:not([multiple]) {
     background-image: var(--icon-chevron-down);
-    background-position: center right var(--size-1);
+    background-position: center right var(--dim-1);
     background-repeat: no-repeat;
     padding-right: var(--padding-x-input-lg);
     padding-inline-end: var(--padding-x-input-lg);
@@ -24,5 +24,5 @@ option {
 select[multiple] {
   background-image: none;
   overflow-y: auto;
-  padding-right: var(--size-2);
+  padding-right: var(--dim-2);
 }

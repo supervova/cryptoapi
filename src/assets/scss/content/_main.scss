@@ -2,17 +2,17 @@
 
 .e-main {
   flex: 1;
-  padding-top: var(--size-3);
+  padding-top: var(--dim-3);
 
   @media (--tablet) {
-    padding-top: var(--size-7);
+    padding-top: var(--dim-7);
     // Make room for navbar...
     padding-inline-start: var(--navbar-area);
   }
 }
 
 :where(.e-page:not(.is-app)) .e-main {
-  padding-top: var(--size-5);
+  padding-top: var(--dim-5);
 
   @media (--tablet-l) {
     // On promotional and informational pages, the navbar is located at the top.
@@ -25,12 +25,13 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--size-2);
-  margin-bottom: var(--size-line);
+  gap: var(--dim-2);
+  margin-bottom: var(--dim-lh);
 
   > h1 {
     flex: 1 1 auto;
     margin: 0;
+    padding-inline: 0;
     min-width: 50%;
   }
 }
@@ -42,12 +43,12 @@
 
 .e-main__title {
   text-align: center;
-  margin-block: var(--size-6);
+  margin-block: var(--dim-6);
 }
 
 .e-main__title.is-left {
   text-align: left;
-  margin-block: var(--size-6);
+  margin-block: var(--dim-6);
   margin-inline: auto;
   max-width: rem(576);
 }

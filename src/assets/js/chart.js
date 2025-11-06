@@ -176,9 +176,9 @@ export function renderCandlestickChart(candles, wrapperEl) {
           barSpacing: GAP,
           borderColor: 'inherit',
           color: {
-            up: 'var(--color-ink-text-success)',
-            down: 'var(--color-ink-2ry-error)',
-            unchanged: 'var(--color-ink-3ry-error)',
+            up: 'var(--color-text-success)',
+            down: 'var(--color-text-02-error)',
+            unchanged: 'var(--color-text-03-error)',
           },
           data: processedData,
         },
@@ -193,7 +193,7 @@ export function renderCandlestickChart(candles, wrapperEl) {
         tooltip: {
           mode: 'index',
           intersect: false,
-          backgroundColor: 'var(--color-bg-level-02)',
+          backgroundColor: 'var(--color-bg-z2)',
           titleColor: 'rgb(255 255 255 / 0.6)',
           titleFont: { weight: 'normal' },
           bodyColor: 'rgb(255 255 255 / 0.87)',

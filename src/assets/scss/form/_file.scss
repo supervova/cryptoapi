@@ -6,13 +6,13 @@
   border: 0;
   border-radius: 0;
   background: none;
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
   padding: 0;
 
   &::file-selector-button,
   &::-webkit-file-upload-button,
   &::-ms-browse {
     @include button;
-    margin-inline-end: var(--size-2);
+    margin-inline-end: var(--dim-2);
   }
 }

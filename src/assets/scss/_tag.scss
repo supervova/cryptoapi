@@ -2,12 +2,12 @@
 
 .e-tag {
   --tag-background: var(--color-bg-bold-brand);
-  --tag-text: var(--color-ink-text);
-  --tag-radius: var(--border-radius-pill);
+  --tag-text: var(--color-text);
+  --tag-radius: var(--radius-pill);
   --tag-font-weight: 500;
-  --tag-padding-x: var(--size-1p5);
+  --tag-padding-x: var(--dim-1p5);
   --tag-max-width: #{rem(220)};
-  --tag-height: var(--size-line);
+  --tag-height: var(--dim-lh);
 
   @include label(false);
   @include text-truncate;
@@ -17,7 +17,7 @@
   color: var(--tag-text);
   display: inline-flex;
   align-items: center;
-  gap: var(--size-half);
+  gap: var(--dim-0p5);
   flex-shrink: 1;
   font-variant-numeric: lining-nums tabular-nums;
   font-weight: var(--tag-font-weight);
@@ -34,12 +34,12 @@
 }
 
 .e-tag.has-start-icon {
-  padding-inline-start: calc(var(--tag-padding-x) - var(--size-half));
+  padding-inline-start: calc(var(--tag-padding-x) - var(--dim-0p5));
 }
 
 .e-tag.is-lg {
-  --tag-height: var(--size-5);
-  --tag-padding-x: var(--size-2p5);
+  --tag-height: var(--dim-5);
+  --tag-padding-x: var(--dim-2p5);
 }
 
 :where(a, button).tag {

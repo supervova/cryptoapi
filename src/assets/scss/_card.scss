@@ -5,17 +5,17 @@
 // -----------------------------------------------------------------------------
 
 .e-card {
-  background-color: var(--color-bg-level-01);
-  border-radius: var(--border-radius-lg);
+  background-color: var(--color-bg-z1);
+  border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
   text-align: left;
-  padding-block: var(--size-3);
-  padding-inline: var(--size-3);
+  padding-block: var(--dim-3);
+  padding-inline: var(--dim-3);
 
   @media (--tablet-l) {
-    padding-block: var(--size-4);
-    padding-inline: var(--size-4);
+    padding-block: var(--dim-4);
+    padding-inline: var(--dim-4);
   }
 }
 
@@ -38,7 +38,7 @@
 
 // Summary
 .e-card__desc {
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
 }
 
 .e-card__content {
@@ -47,14 +47,14 @@
 
 .e-card__row {
   display: flex;
-  gap: var(--size-1p5);
+  gap: var(--dim-1p5);
   justify-content: space-between;
 }
 
 .e-card__change {
   display: flex;
   align-items: center;
-  gap: var(--size-1p5);
+  gap: var(--dim-1p5);
 }
 
 // Image
@@ -107,7 +107,7 @@
       rgb(255 255 255 / 0.01) 75%,
       rgb(255 255 255 / 0)
     ),
-    var(--color-bg-level-01);
+    var(--color-bg-z1);
   background-blend-mode: screen, screen, normal;
 }
 

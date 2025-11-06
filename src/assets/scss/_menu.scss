@@ -2,10 +2,10 @@
 
 // List
 .e-menu {
-  --menu-current-bg: var(--color-ink-min);
-  --menu-color: var(--color-ink-2ry);
-  --menu-padding: var(--size-2);
-  --menu-subtitle-margin: var(--size-2) 0 var(--size-1);
+  --menu-current-bg: var(--color-fill);
+  --menu-color: var(--color-text-02);
+  --menu-padding: var(--dim-2);
+  --menu-subtitle-margin: var(--dim-2) 0 var(--dim-1);
 
   display: flex;
   flex-direction: column;
@@ -15,7 +15,7 @@
 
   @media (--tablet) {
     li:not(:last-child) {
-      margin-bottom: var(--size-half);
+      margin-bottom: var(--dim-0p5);
     }
   }
 }
@@ -54,16 +54,16 @@
   @include text-format('label');
 
   background: transparent;
-  border-radius: var(--button-radius, var(--border-radius-base));
+  border-radius: var(--button-radius, var(--radius-base));
   color: var(--button-color, var(--color-brand-primary));
   cursor: pointer;
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  gap: var(--button-gap, var(--size-1p5));
+  gap: var(--button-gap, var(--dim-1p5));
   justify-content: start;
   padding-block: 0;
-  padding-inline: var(--button-padding-x, var(--size-2p5));
+  padding-inline: var(--button-padding-x, var(--dim-2p5));
   outline: 0;
   touch-action: manipulation;
   transition: background var(--duration-50) var(--easing-base);
@@ -71,7 +71,7 @@
   white-space: nowrap;
   width: 100%;
   min-width: 0;
-  height: var(--button-height, var(--size-6));
+  height: var(--button-height, var(--dim-6));
 
   &.is-disabled {
     cursor: default;
@@ -96,12 +96,12 @@
   padding: 0;
   top: 50%;
   translate: 0 (-50%);
-  inset-inline: auto var(--size-2);
-  width: var(--size-icon);
-  height: var(--size-icon);
+  inset-inline: auto var(--dim-2);
+  width: var(--dim-icon);
+  height: var(--dim-icon);
 
   &::after {
-    background-color: var(--color-ink-3ry);
+    background-color: var(--color-text-03);
     content: '';
     mask: url('#{$assets-prefix}/assets/img/icons/icon-checkmark.svg') no-repeat center / contain;
     opacity: 0;
@@ -120,7 +120,7 @@
 .e-menu__subtitle {
   @include text-format(caption);
 
-  color: var(--color-ink-text);
+  color: var(--color-text);
   font-weight: var(--font-weight-titles-max);
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -137,7 +137,7 @@
 
 // Divider
 .e-menu__divider {
-  border-top: 1px solid var(--color-ink-border);
+  border-top: 1px solid var(--color-border);
   height: 0;
 }
 

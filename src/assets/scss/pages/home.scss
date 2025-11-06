@@ -1,6 +1,83 @@
 @use '../abstracts' as *;
 @use '../abstracts/custom';
 
+// HOW TO
+
+.e-how-to {
+  counter-reset: step;
+  display:flex;
+  flex-direction: column;
+  gap: var(--dim-lh);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  b, strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  img {
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--dim-2);
+  }
+
+  @media (--phone-l) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.e-how-to li {
+  color: var(--color-text-02);
+  counter-increment: step;
+  flex: 1 1 0;
+  font-weight: 600;
+  padding: 0;
+  position: relative;
+  min-width: rem(160);
+
+  &::before {
+    background: hsl(var(--color-shadow) / 0.14);
+    backdrop-filter: var(--backdrop-filter-glass);
+    border-radius: 50%;
+    color: #fff;
+    content: counter(step);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: var(--dim-1);
+    inset-inline-start: var(--dim-1);
+    width: var(--dim-6);
+    height: var(--dim-6);
+  }
+
+  &:nth-child(5):before {
+    background:
+      var(--color-gradient-brand-lights),
+      linear-gradient(
+        to bottom right,
+        hsl(var(--h) var(--s) 64%),
+        var(--color-brand-accent)
+      );
+    backdrop-filter: none;
+  }
+
+  @media (--tablet) {
+    max-width: rem(178);
+  }
+
+  @media (--tablet-l) {
+    max-width: rem(168);
+  }
+
+  @media (--tablet-l) {
+    max-width: rem(227);
+  }
+}
+
 // MARKETS OVERVIEW
 
 // :where(.e-section.is-markets) .e-section__grid {
@@ -34,16 +111,16 @@
 :where(.e-section.is-markets) {
   .e-asset-details {
     flex: 1;
-    padding-bottom: var(--size-8);
+    padding-bottom: var(--dim-8);
 
     @media (--tablet-l) {
-      padding-inline-end: var(--size-2);
+      padding-inline-end: var(--dim-2);
     }
   }
 
   .e-assets {
     --columns: 3;
-    --gap: var(--size-3);
+    --gap: var(--dim-3);
 
     @media (--tablet-l) {
       width: calc(
@@ -60,7 +137,7 @@
 :where(.e-section.is-markets) .e-section__grid {
   display: flex;
   flex-direction: column;
-  gap: var(--size-2p5);
+  gap: var(--dim-2p5);
 
   @media (--tablet-l) {
     flex-direction: row;
@@ -70,16 +147,16 @@
 
 // Arrow-head row
 .e-assets tr[aria-current] {
-  background-color: var(--color-ink-min);
+  background-color: var(--color-fill);
   cursor: default;
   pointer-events: none;
 
   th {
-    border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
   }
 
   td:last-child {
-    border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   }
 
   @media (--tablet-l) {
@@ -91,7 +168,7 @@
         position: absolute;
         top: 0;
         left: rem(-24);
-        width: var(--size-3);
+        width: var(--dim-3);
       }
     }
   }
@@ -115,15 +192,15 @@
 
 // FAQ
 .e-section.is-faq {
-  border-radius: var(--border-radius-lg);
-  background-color: var(--color-bg-level-01);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-z1);
   background-blend-mode: screen;
   overflow: hidden;
   position: relative;
   margin-inline: auto;
-  padding-top: var(--size-5);
-  padding-bottom: var(--size-4);
-  padding-inline: var(--size-2p5);
+  padding-top: var(--dim-5);
+  padding-bottom: var(--dim-4);
+  padding-inline: var(--dim-2p5);
 
   &::before {
     background-image:
@@ -140,7 +217,7 @@
       );
     position: absolute;
     top: rem(-40);
-    left: var(--size-7);
+    left: var(--dim-7);
     rotate: -12deg;
     content: '';
     width: 100%;
@@ -148,7 +225,7 @@
   }
 
   @media (--tablet) {
-    padding-inline: var(--size-5);
+    padding-inline: var(--dim-5);
   }
 
   @media (--tablet-l) {
@@ -161,5 +238,5 @@
 }
 
 .e-section.is-faq h2 {
-  margin-bottom: var(--size-3);
+  margin-bottom: var(--dim-3);
 }

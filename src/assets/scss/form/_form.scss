@@ -6,8 +6,8 @@
 // -----------------------------------------------------------------------------
 // #region
 form {
-  accent-color: var(--color-ink-text-brand);
-  caret-color: var(--color-ink-2ry-brand);
+  accent-color: var(--color-text-brand);
+  caret-color: var(--color-text-02-brand);
 }
 
 fieldset {
@@ -26,9 +26,9 @@ form > div:not([class]) {
 // Two inputs, not iOS-like row
 .e-form__row {
   display: grid;
-  gap: var(--gap, var(--size-2));
+  gap: var(--gap, var(--dim-2));
   grid-template-columns: var(--columns,  1fr);
-  margin-bottom: var(--size-2);
+  margin-bottom: var(--dim-2);
 
   @media (--tablet) {
     --columns: repeat(auto-fit, minmax(0%, 1fr));
@@ -58,12 +58,12 @@ legend {
 
 // Label and input inline, like iOS row
 .e-form__item {
-  border-top:  1px solid var(--color-ink-border);
+  border-top:  1px solid var(--color-border);
   display: flex;
   align-items: center;
-  gap: var(--size-2);
-  padding-top: var(--padding-top, var(--size-1));
-  padding-bottom: var(--padding-bottom, var(--size-1p5));
+  gap: var(--dim-2);
+  padding-top: var(--padding-top, var(--dim-1));
+  padding-bottom: var(--padding-bottom, var(--dim-1p5));
   opacity: 1;
   transition:
     display var(--duration-500) var(--easing-base),
@@ -95,7 +95,7 @@ legend {
   }
 
   label strong {
-    color: var(--color-ink-text);
+    color: var(--color-text);
     margin-bottom: rem(-4);
     padding-top: var(--padding-top-base);
     padding-bottom: var(--padding-bottom-base);
@@ -119,10 +119,10 @@ legend {
 .e-form__item.has-select select {
   background-image: var(--icon-chevron-up-down);
   background-color: transparent;
-  color: var(--color-ink-text-brand);
+  color: var(--color-text-brand);
   text-align: end;
   padding-block: 0;
-  padding-inline-end: var(--size-4);
+  padding-inline-end: var(--dim-4);
   width: auto;
   min-height: auto;
 }
@@ -175,7 +175,7 @@ textarea {
   appearance: none;
   background-color: hsl(var(--h) var(--s) 90% / 0.05);
   border: 0;
-  color: var(--color-ink-text);
+  color: var(--color-text);
   display: block;
   padding-block: var(--padding-y-input);
   overflow: visible;
@@ -183,17 +183,17 @@ textarea {
     box-shadow var(--easing-base) var(--duration-50),
     color var(--easing-base) var(--duration-50);
   width: 100%;
-  min-height: calc(var(--size-line) * 2);
+  min-height: calc(var(--dim-lh) * 2);
 
   &:focus,
   &:focus-visible {
     @include state-focus;
-    color: var(--color-ink-text);
+    color: var(--color-text);
     border-color: transparent;
   }
 
   &::placeholder {
-    color: var(--color-ink-3ry);
+    color: var(--color-text-03);
     opacity: 1;
   }
 }
@@ -216,7 +216,7 @@ textarea {
   select,
   textarea
 ) {
-  border-radius: var(--border-radius-sm);
+  border-radius: var(--radius-sm);
   padding-inline: var(--padding-x-input);
 }
 
@@ -230,8 +230,8 @@ textarea {
 //   &:-webkit-autofill:hover,
 //   &:-webkit-autofill:focus,
 //   &:-webkit-autofill:active {
-//     -webkit-text-fill-color: var(--color-ink-text) !important;
-//     box-shadow: 0 0 0 1000px  var(--color-bg-2ry) inset !important;
+//     -webkit-text-fill-color: var(--color-text) !important;
+//     box-shadow: 0 0 0 1000px  var(--color-bg-02) inset !important;
 //   }
 // }
 // #endregion
@@ -247,7 +247,7 @@ textarea {
 }
 
 textarea:not([rows]) {
-  height: calc(var(--size-line) * 6);
+  height: calc(var(--dim-lh) * 6);
 }
 
 [disabled]:not([disabled='false']),
@@ -263,16 +263,16 @@ textarea:not([rows]) {
 
 /* small */.e-form__hint {
   display: block;
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
   text-align: left;
-  margin-top: var(--size-half);
+  margin-top: var(--dim-0p5);
   padding-block: var(--padding-top-caption);
-  padding-inline: var(--size-2);
+  padding-inline: var(--dim-2);
   max-width: var(--width-readable);
 }
 
 .e-form__disclaimer {
-  margin-block: var(--size-line);
+  margin-block: var(--dim-lh);
 }
 
 // -----------------------------------------------------------------------------
@@ -281,7 +281,7 @@ textarea:not([rows]) {
 
 .e-form__footer {
   > * {
-    margin-bottom: var(--size-2);
+    margin-bottom: var(--dim-2);
   }
 
   @media (--tablet) {
@@ -291,7 +291,7 @@ textarea:not([rows]) {
     padding-bottom: var(--padding-bottom-form-actions);
 
     > :not(:last-child) {
-      margin-right: var(--size-2);
+      margin-right: var(--dim-2);
     }
   }
 }
@@ -300,11 +300,11 @@ textarea:not([rows]) {
 .e-form__password-toggle {
   background: transparent;
   position: absolute;
-  top: var(--size-half);
-  right: var(--size-1);
+  top: var(--dim-0p5);
+  right: var(--dim-1);
 
   &:hover {
-    --icon-stroke: var(--color-ink-text);
+    --icon-stroke: var(--color-text);
     background: transparent;
   }
 }

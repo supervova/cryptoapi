@@ -2,19 +2,19 @@
 
 // #region: SPACING
 
-.mt-1 { margin-top: var(--size-1); }
-.mt-2 { margin-top: var(--size-2); }
-.mt-1l { margin-top: var(--size-line); }
-.mt-2l { margin-top: var(--size-6); }
+.mt-1 { margin-top: var(--dim-1); }
+.mt-2 { margin-top: var(--dim-2); }
+.mt-1l { margin-top: var(--dim-lh); }
+.mt-2l { margin-top: var(--dim-6); }
 .mt-auto { margin-top: auto; }
 .mt-half-max { margin-top: var(--spacer-half-max); }
 .mt-max { margin-top: var(--spacer-max); }
 
-.mb-1 { margin-bottom: var(--size-1); }
-.mb-2 { margin-bottom: var(--size-2); }
-.mb-1l { margin-bottom: var(--size-line); }
+.mb-1 { margin-bottom: var(--dim-1); }
+.mb-2 { margin-bottom: var(--dim-2); }
+.mb-1l { margin-bottom: var(--dim-lh); }
 
-.me-1 { margin-inline-end: var(--size-1); }
+.me-1 { margin-inline-end: var(--dim-1); }
 .mx-auto { margin-inline: auto; }
 
 .pb-0 { padding-bottom: 0;}
@@ -102,8 +102,8 @@
 
 // #region: FLEX AND GRID
 .align-center { align-items: center; }
-.gap-1 { gap: var(--size-1); }
-.gap-2 { gap: var(--size-2); }
+.gap-1 { gap: var(--dim-1); }
+.gap-2 { gap: var(--dim-2); }
 .justify-between { justify-content: space-between; }
 .justify-center { justify-content: center; }
 // #endregion
@@ -111,23 +111,23 @@
 // #region: TYPOOGRAPHY
 
 .nobr { white-space: nowrap; }
-.text-2ry { color: var(--color-ink-2ry); }
+.text-02 { color: var(--color-text-02); }
 .text-sm {
   @include text-format('body-sm');
 }
 .text-center { text-align: center; }
-.text-error { color: var(--color-ink-text-error); }
-.text-highlight { color: var(--color-ink-text-info); }
+.text-error { color: var(--color-text-error); }
+.text-highlight { color: var(--color-text-info); }
 .text-right { text-align: right; }
-.text-success { color: var(--color-ink-text-success); }
-.text-warning { color: var(--color-ink-text-warning); }
+.text-success { color: var(--color-text-success); }
+.text-warning { color: var(--color-text-warning); }
 // #endregion
 
 // #region: MISC
 
-.bg-error { background-color: var(--color-ink-2ry-error);}
-.bg-success { background-color: var(--color-ink-2ry-success); }
-.bg-fill { background-color: var(--color-ink-min); }
+.bg-error { background-color: var(--color-text-02-error);}
+.bg-success { background-color: var(--color-text-02-success); }
+.bg-fill { background-color: var(--color-fill); }
 
 .border-t-0 {
   border-top: 0;

@@ -1,5 +1,5 @@
 <h1>Notifications</h1>
-<p class="text-2ry">
+<p class="text-02">
   Click on the notification to mark it as read.
   <a href="javascript:void(0)" onclick="readnotify(-1)">Mark all as read</a>
 </p>

@@ -29,8 +29,8 @@
       maximumFractionDigits: 2,
     });
 
-  function setClass(el, positive, negative, neutral = 'text-2ry') {
-    el.classList.remove('is-success', 'is-error', 'text-2ry');
+  function setClass(el, positive, negative, neutral = 'text-02') {
+    el.classList.remove('is-success', 'is-error', 'text-02');
     if (positive > 0) el.classList.add('is-success');
     else if (positive < 0) el.classList.add('is-error');
     else el.classList.add(neutral);

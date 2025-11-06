@@ -9,8 +9,8 @@
 // #region
 .e-asset-details__header {
   display: flex;
-  gap: var(--size-3);
-  padding-bottom: var(--size-3);
+  gap: var(--dim-3);
+  padding-bottom: var(--dim-3);
 }
 
 .e-asset-details__figure {
@@ -30,13 +30,13 @@
 }
 
 .e-asset-details__icon {
-  width: var(--size-5);
-  height: var(--size-5);
+  width: var(--dim-5);
+  height: var(--dim-5);
 }
 
 .e-asset-details__summary {
   flex-grow: 1;
-  padding-inline-end: var(--size-2);
+  padding-inline-end: var(--dim-2);
 }
 
 :where(.e-asset-details__summary > .e-eyebrow) {
@@ -73,7 +73,7 @@
 }
 
 .e-asset-details__symbol {
-  margin-top: var(--size-1);
+  margin-top: var(--dim-1);
   margin-bottom: 0;
 
   @media (--tablet) {
@@ -84,7 +84,7 @@
 .e-asset-details__price {
   font-weight: var(--font-weight-title);
   margin-top: 0;
-  margin-bottom: var(--size-1);
+  margin-bottom: var(--dim-1);
 
   @media (--tablet) {
     margin-bottom: 0;
@@ -101,23 +101,23 @@
   padding-inline-start: 1ch;
 
   &.is-positive {
-    color: var(--color-ink-text-success);
+    color: var(--color-text-success);
   }
 
   &.is-negative {
-    color: var(--color-ink-text-error);
+    color: var(--color-text-error);
   }
 }
 
 .e-asset-details__title,
 .e-asset-details__stats span {
   @include text-format('body-sm');
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
 }
 
 .e-asset-details__stats {
   display: flex;
-  gap: var(--size-1);
+  gap: var(--dim-1);
 }
 // #endregion
 
@@ -159,11 +159,11 @@
 
 .e-chart__loader,
 .e-chart__error {
-  border-radius: var(--border-radius-base);
+  border-radius: var(--radius-base);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--size-3);
+  padding: var(--dim-3);
   position: absolute;
   top: 50%;
   left: 50%;
@@ -174,10 +174,10 @@
 
 .e-chart__loader {
   background-color: var(--color-bg-info);
-  color: var(--color-ink-text-info);
+  color: var(--color-text-info);
 
   [data-theme='dark'] & {
-    background-color: var(--color-bg-level-01);
+    background-color: var(--color-bg-z1);
     background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-info));
     color: rgb(255 255 255 / 0.7);
   }
@@ -185,10 +185,10 @@
 
 .e-chart__error {
   background-color: var(--color-bg-error);
-  color: var(--color-ink-text-error);
+  color: var(--color-text-error);
 
   [data-theme='dark'] & {
-    background-color: var(--color-bg-level-01);
+    background-color: var(--color-bg-z1);
     background-image: radial-gradient(circle 216px at 0 100%, var(--color-bg-error));
     color: rgb(255 255 255 / 0.7);
   }

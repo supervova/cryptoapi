@@ -9,17 +9,17 @@
 // -----------------------------------------------------------------------------
 // #region
 table {
-  --table-border-color: var(--color-ink-border);
+  --table-border-color: var(--color-border);
   --table-border-width: var(--border-width);
-  --cell-padding-x: var(--size-2);
-  --cell-padding-y: var(--size-1p5);
+  --cell-padding-x: var(--dim-2);
+  --cell-padding-y: var(--dim-1p5);
 
   border-collapse: collapse;
   border-spacing: 0;
   font-variant-numeric: lining-nums tabular-nums;
   text-indent: 0;
-  margin-top: var(--size-line);
-  margin-bottom: var(--size-line);
+  margin-top: var(--dim-lh);
+  margin-bottom: var(--dim-lh);
   width: 100%;
 }
 
@@ -37,7 +37,7 @@ caption {
 // #region
 thead th {
   box-shadow: none;
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
   cursor: default;
   font-size: var(--font-size-label);
   position: relative;
@@ -46,13 +46,13 @@ thead th {
 
   &:not(:first-child)::before,
   &.has-separator::before {
-    border-left: rem(1) solid var(--color-ink-border);
+    border-left: rem(1) solid var(--color-border);
     content: '';
     position: absolute;
     top: 50%;
     inset-inline-start: 0;
     translate: 0 (-50%);
-    height: var(--size-3);
+    height: var(--dim-3);
   }
 
   &[rowspan='2'] {
@@ -77,7 +77,7 @@ table:not(:has(thead)) > tbody > tr:first-child {
   td,
   th {
     border-top: 0;
-    height: var(--size-6);
+    height: var(--dim-6);
   }
 }
 
@@ -92,7 +92,7 @@ table:not(:has(thead)) > tbody > tr:first-child {
 // -----------------------------------------------------------------------------
 // #region
 .table__cell:has(.e-btn.is-sort) {
-  padding-block: var(--size-half);
+  padding-block: var(--dim-0p5);
 }
 
 .e-btn.is-sort {
@@ -105,9 +105,9 @@ table:not(:has(thead)) > tbody > tr:first-child {
   transition: color var(--duration-100) var(--easing-base);
 
   &:hover {
-    --icon-stroke: var(--color-ink-text);
+    --icon-stroke: var(--color-text);
     background-image: none;
-    color: var(--color-ink-text);
+    color: var(--color-text);
   }
 
   .table__cell.is-num & {
@@ -130,8 +130,8 @@ table:not(:has(thead)) > tbody > tr:first-child {
   &.is-active > .e-icon {
     display: block;
     opacity: 1;
-    width: var(--size-icon);
-    min-width: var(--size-icon);
+    width: var(--dim-icon);
+    min-width: var(--dim-icon);
 
     @starting-style {
       opacity: 0;
@@ -153,7 +153,7 @@ table:not(:has(thead)) > tbody > tr:first-child {
   transition: background-color var(--duration-100) var(--easing-base);
 
   &:hover {
-    background-color: var(--color-ink-min);
+    background-color: var(--color-fill);
     text-decoration: none;
   }
 }
@@ -173,7 +173,7 @@ tbody tr:has(.table__link:focus-visible) {
 .table__th-actions {
   display: flex;
   align-items: center;
-  gap: var(--size-half);
+  gap: var(--dim-0p5);
   justify-content: end;
 }
 
@@ -201,7 +201,7 @@ td {
 }
 
 .table__cell.is-date {
-  color: var(--color-ink-2ry);
+  color: var(--color-text-02);
   text-align: center;
 }
 
@@ -213,20 +213,20 @@ td {
 }
 
 .table__cell.is-action {
-  padding: var(--size-half) var(--size-1);
-  width: var(--size-7);
+  padding: var(--dim-0p5) var(--dim-1);
+  width: var(--dim-7);
 }
 
 .table__cell.is-positive {
-  color: var(--color-ink-text-success);
+  color: var(--color-text-success);
 }
 
 .table__cell.is-negative {
-  color: var(--color-ink-text-error);
+  color: var(--color-text-error);
 }
 
 .table__cell.is-2-liner {
-  padding-block: var(--size-half);
+  padding-block: var(--dim-0p5);
   min-width: 12ch;
 }
 
@@ -272,8 +272,8 @@ tfoot td {
     var(--color-bg-warning)
   );
   text-align: center;
-  color: var(--color-ink-2ry);
-  padding: var(--size-5);
+  color: var(--color-text-02);
+  padding: var(--dim-5);
   vertical-align: middle;
 }
 
@@ -299,13 +299,13 @@ tfoot td {
     100% 50% at 50% 100%,
     var(--color-bg-error)
   );
-  color: var(--color-ink-text-error);
+  color: var(--color-text-error);
 }
 
 .table__cell.is-error-state .e-btn {
   // Retry Button
   display: flex;
-  margin-top: var(--size-2);
+  margin-top: var(--dim-2);
   margin-inline: auto;
 }
 

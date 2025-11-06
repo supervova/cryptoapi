@@ -1,11 +1,11 @@
 @use 'abstracts' as *;
 
 .e-drawer {
-  background-color: var(--color-bg-2ry);
+  background-color: var(--color-bg-02);
   border: 0;
-  border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
-  box-shadow: var(--box-shadow-level-03);
-  color: var(--color-ink-text);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  box-shadow: var(--shadow-z3);
+  color: var(--color-text);
   flex-direction: column;
   margin-block: 0;
   margin-inline: auto;
@@ -20,8 +20,8 @@
     translate calc(var(--duration-500) * 0.8) var(--easing-disappearance);
   transition-behavior: allow-discrete;
   width: 100%;
-  max-height: calc(100vh - var(--size-5));
-  max-height: calc(100dvh - var(--size-5));
+  max-height: calc(100vh - var(--dim-5));
+  max-height: calc(100dvh - var(--dim-5));
   z-index: var(--zindex-drawer);
 
   // The backdrop appears only in modal mode when the dialog is opened using
@@ -109,24 +109,24 @@
 .e-drawer__header {
   padding-top: var(--padding-x-box);
   padding-inline-start: var(--padding-x-box);
-  padding-inline-end: var(--size-7);
+  padding-inline-end: var(--dim-7);
   position: relative;
 
   @media (--tablet) {
-    padding-top: var(--size-4);
-    padding-inline-start: var(--size-4);
+    padding-top: var(--dim-4);
+    padding-inline-start: var(--dim-4);
   }
 }
 
 .e-drawer .e-btn.is-close {
   background: transparent;
   position: absolute;
-  top: var(--size-1);
-  inset-inline-end: var(--size-1);
+  top: var(--dim-1);
+  inset-inline-end: var(--dim-1);
 
   &:hover {
-    --icon-stroke: var(--color-ink-text);
-    background-color: var(--color-ink-min);
+    --icon-stroke: var(--color-text);
+    background-color: var(--color-fill);
   }
 }
 
@@ -136,8 +136,8 @@
   padding-inline: var(--padding-x-box);
 
   @media (--tablet) {
-    padding-bottom: var(--size-4);
-    padding-inline: var(--size-4);
+    padding-bottom: var(--dim-4);
+    padding-inline: var(--dim-4);
   }
 }
 
@@ -146,14 +146,14 @@
   padding-inline: var(--padding-x-box);
 
   @media (--tablet) {
-    padding-bottom: var(--size-4);
-    padding-inline: var(--size-4);
+    padding-bottom: var(--dim-4);
+    padding-inline: var(--dim-4);
   }
 }
 
 .e-drawer__chart {
   // background-color: var(--color-bg-base);
-  // border-radius: var(--border-radius-md);
+  // border-radius: var(--radius-md);
   width: 100%;
   height: rem(400);
 

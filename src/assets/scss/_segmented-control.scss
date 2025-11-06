@@ -1,13 +1,13 @@
 @use 'abstracts' as *;
 
 .e-segmented-control {
-  background: var(--color-bg-level-01);
-  border-radius: calc(var(--border-radius-base) + var(--size-half));
+  background: var(--color-bg-z1);
+  border-radius: calc(var(--radius-base) + var(--dim-0p5));
   display: flex;
-  gap: var(--size-half);
+  gap: var(--dim-0p5);
   justify-content: center;
-  margin-bottom: var(--size-1);
-  padding: var(--size-half);
+  margin-bottom: var(--dim-1);
+  padding: var(--dim-0p5);
 }
 
 .e-segmented-control__item{
@@ -17,16 +17,16 @@
 
 .e-segmented-control__item,
 :where(.e-segmented-control) .e-btn {
-  --button-height: var(--size-5);
+  --button-height: var(--dim-5);
 
   background: none;
-  border-radius: var(--border-radius-base);
-  color: var(--color-ink-2ry);
+  border-radius: var(--radius-base);
+  color: var(--color-text-02);
   margin-inline-end: 0;
 
   &:hover {
-    --icon-stroke: var(--color-ink-text);
-    color: var(--color-ink-text);
+    --icon-stroke: var(--color-text);
+    color: var(--color-text);
   }
 }
 
@@ -38,9 +38,9 @@
 .e-segmented-control__item:has(input:checked)  {
   &,
   &:hover {
-    --icon-stroke: var(--color-ink-text);
+    --icon-stroke: var(--color-text);
     background: hsl(var(--h-green) var(--s) 88% / 0.08);
-    color: var(--color-ink-text-success);
+    color: var(--color-text-success);
     cursor: default;
     filter: none;
     pointer-events: none;

@@ -1,10 +1,13 @@
 {% set data_footer = [
   {
+    "label": "Pricing",
+    "href": "pricing"
+  }, {
+  "label": "Help Center",
+    "href": "faq"
+  }, {
     "label": "Contact Us",
     "href": "feedback"
-  }, {
-    "label": "FAQ",
-    "href": "faq"
   }, {
     "label": "Privacy",
     "href": "privacy"
@@ -12,8 +15,11 @@
     "label": "User Agreement",
     "href": "useragreement"
   }, {
-    "label": "Widgets for websites",
+    "label": "Widgets for Websites",
     "href": "widgets"
+  }, {
+    "label": "API",
+    "href": "cryptoapi"
   }
 ] %}
 
@@ -22,7 +28,7 @@
     <small class="e-footer__copy">© {{ "now"|date('Y') }}. CryptoAPI</small>
     <ul class="e-footer__menu">
       {% for item in data_footer %}
-        <li><a href="/{{ page.lang }}/{{ item.href }}">{{ item.label|trans|raw }}</a></li>
+        <li class="e-footer__menu-item is-{{ item.href }}"><a href="/{{ page.lang }}/{{ item.href }}">{{ item.label|trans|raw }}</a></li>
       {% endfor %}
     </ul>
     <details class="e-popover e-footer__languages" data-lang="{$lng_html}" data-role="popover">
