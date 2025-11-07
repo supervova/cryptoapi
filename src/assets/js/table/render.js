@@ -176,9 +176,15 @@ export function patchTableBody() {
       tr.classList.add('is-clickable');
       tr.innerHTML = generateCellsHtml(a, cryptoMeta);
     } else {
-      Array.from(tr.children).forEach((td, j) =>
-        updateCellNode(td, a, cols[j], cryptoMeta)
-      );
+      // If the number of cells in the row doesn't match the number of visible columns,
+      // it's cheaper to just regenerate the whole row's HTML.
+      if (tr.children.length !== cols.length) {
+        tr.innerHTML = generateCellsHtml(a, cryptoMeta);
+      } else {
+        Array.from(tr.children).forEach((td, j) =>
+          updateCellNode(td, a, cols[j], cryptoMeta)
+        );
+      }
     }
     frag.appendChild(tr);
   }

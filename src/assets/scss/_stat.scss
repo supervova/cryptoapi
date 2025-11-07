@@ -26,6 +26,27 @@
   font-variant-numeric: oldstyle-nums;
   padding-block: var(--dim-3) var(--dim-2);
   padding-inline: var(--dim-4) var(--dim-2);
+  position: relative;
+
+  &::before {
+    background: transparent;
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    transition: background var(--duration-200) var(--easing-base);
+  }
+
+  &:hover,
+  &:active,
+  &:focus-visible {
+    text-decoration: none;
+
+    &::before {
+      background: var(--color-fill);
+    }
+  }
 
   @media (--tablet) {
     height: rem(240);

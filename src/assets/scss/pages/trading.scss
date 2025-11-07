@@ -8,7 +8,7 @@
 // -----------------------------------------------------------------------------
 // #region
 
-h1:not(.is-history h1),
+h1:not(.is-history h1, .e-main__header h1),
 .e-accordion {
   @media (--tablet) {
     padding-inline: var(--dim-2p5);
@@ -153,6 +153,11 @@ h1:not(.is-history h1),
   margin-top: var(--dim-1p5);
   padding-block: var(--dim-1p5);
   padding-inline: var(--dim-2p5);
+}
+
+// Stats
+.e-accordion__header.is-stats {
+  width: 100%;
 }
 
 

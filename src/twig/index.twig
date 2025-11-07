@@ -486,16 +486,21 @@
 
       <div class="e-stats">
         {% for stat in page.stats %}
-          <figure class="e-stat">
+          <a class="e-stat" href="{{ page.lang }}/alldeals">
             <span class="e-stat__caption">{{ stat.label|trans }}</span>
             <span class="e-stat__value">
               <span class="e-stat__number">{{ stat.value }}</span>
               {% if stat.unit == '%' %}<small>%</small>{% endif %}
             </span>
-          </figure>
+          </a>
         {% endfor %}
-
       </div>
+      <p class="text-center mt-1l">
+        <a href="{{ page.lang }}/alldeals">
+          {{ 'Overall service statistics'|trans }}
+          {% include 'partials/icon.twig' with {name: 'sm-chevron-right', classes: 'is-sm'} %}
+        </a>
+      </p>
     </div>
   </section>
 

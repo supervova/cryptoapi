@@ -8,7 +8,12 @@
 // Remove default margin
 * {
   margin: 0;
+  background-color: transparent;
+
+  /* prevents flex/grid overflow in FF/Chrome */
+  min-width: 0;
 }
+
 
 // Balance text wrapping on headings
 h1, .e-h1,

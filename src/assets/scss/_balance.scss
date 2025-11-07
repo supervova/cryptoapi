@@ -1,9 +1,21 @@
 @use 'abstracts' as *;
 
-// Increase main content top padding for an absolute positioned balance panel
-.e-page.is-trading .e-main {
-  @media (--phone) {
-    padding-top: calc(var(--dim-lh) * 4);
+.e-page.is-trading .e-header {
+  background-color: transparent;
+  box-shadow: none;
+  position: static;
+  translate: 0 rem(-20);
+
+  @media (--tablet) {
+    translate: 0;
+  }
+}
+
+
+.e-page.is-trading {
+  .e-navbar__search-toggle,
+  .e-header__cancel {
+    display: none;
   }
 }
 
@@ -38,13 +50,9 @@
   align-items: center;
   gap: var(--dim-2);
   padding: rem(9) var(--dim-2);
-  position: absolute;
-  top: rem(152);
-  inset-inline: var(--dim-2p5);
-  width: calc(100% - rem(40));
+  width: 100%;
 
   @media (--tablet) {
-    position: static;
     width: min(100%, rem(373));
   }
 

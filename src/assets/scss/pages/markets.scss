@@ -8,25 +8,46 @@
 // -----------------------------------------------------------------------------
 // #region
 
-.table.has-hovered-rows.has-2-liners caption {
-  @include visually-hidden;
+.e-scroller {
+  @media (--tablet-l) {
+    margin-inline: calc(50% - 50vw + var(--dim-5) + var(--dim-6));
+    width: calc(100vw - rem(96) - rem(80));
+    max-width: none;
+  }
+}
+
+[id='crypto-table'] {
+  caption {
+    @include visually-hidden;
+  }
+
+  .has-rich-tooltip {
+    flex-shrink: 0;
+  }
 }
 
 tr:not(:has(td[colspan], th[colspan])) {
   height: var(--dim-7);
 }
 
-.table__cell.is-num {
-  width: 12%;
+.table__cell.is-2-liner {
+  width: rem(140);
 
-  // &.is-positive::before {
-  //   content: '+';
-  // }
+  @media (--phone-l) {
+    width: rem(244);
+  }
 }
 
-.table__cell.is-2-liner +
 .table__cell.is-num {
   width: 16%;
+}
+
+.table__cell.is-2-liner + .table__cell.is-num {
+  width: rem(140);
+
+  @media (--phone-l) {
+    width: rem(180);
+  }
 }
 
 // Price change

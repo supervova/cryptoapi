@@ -61,7 +61,7 @@
   }
 
   @media (--laptop) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 
@@ -80,6 +80,10 @@
 
   @media (--tablet-l) {
     grid-column: span 1;
+  }
+
+  @media (--laptop) {
+    grid-column: span 2;
   }
 }
 

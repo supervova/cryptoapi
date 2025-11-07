@@ -61,8 +61,8 @@ msgstr "Нет доступных данных об активах."
 msgid "📋 A list of assets you want to track.<br><a href='/en/faq'>More</a>"
 msgstr "📋 Список активов, которые вы хотите отслеживать.<br><a href='/ru/faq'>Подробнее</a>"
 
-msgid "📊 A general score of asset attractiveness based on the TRINDX™ index and other factors.<br><a href='/en/faq'>More</a>"
-msgstr "📊 Обобщённая оценка привлекательности актива на основе индекса TRINDX™ и других факторов.<br><a href='/ru/faq'>Подробнее</a>"
+msgid "🤖 TRINDX™ — the probability (%) that a trade with this asset won’t close in profit within 30 days. Lower means more reliable.<br><a href='/en/faq'>More</a>"
+msgstr "🤖 TRINDX™ — вероятность (в %), что сделку по активу не удастся закрыть с прибылью в течение 30 дней. Чем ниже значение, тем надёжнее актив.<br><a href='/ru/faq'>Подробнее</a>"
 
 msgid "⚠️ A simplified risk score based on the TRINDX™ index.<br><a href='/en/faq'>More</a>"
 msgstr "⚠️ Упрощённая оценка рискованности актива по индексу TRINDX™.<br><a href='/ru/faq'>Подробнее</a>"

@@ -132,6 +132,25 @@
 // #endregion
 
 // -----------------------------------------------------------------------------
+// #region: STATS
+// -----------------------------------------------------------------------------
+
+.e-accordion__header.is-stats {
+  background-color: transparent;
+  margin-top: var(--dim-8);
+  padding-block: var(--dim-1p5);
+  padding-inline: var(--dim-2p5);
+  width: fit-content;
+  max-width: rem(690);
+
+  .e-accordion__spot-icon {
+    background-color: var(--color-brand-accent);
+  }
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
 // #region: CONTENT
 // -----------------------------------------------------------------------------
 

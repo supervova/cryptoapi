@@ -67,7 +67,7 @@ if (isset($thispath[1]) && $thispath[1] === 'markets' && isset($thispath[2]) && 
         ['key' => 'change_24h', 'type' => 'num',    'label' => 'Chg (24H), %', 'sortable' => true],
         ['key' => 'rating',     'type' => 'num',    'label' => 'Rating', 'sortable' => true, 'tooltip' => "📊 A general score of asset attractiveness based on the TRINDX™ index and other factors.<br><a href='/en/faq'>More</a>"],
         ['key' => 'risk',       'type' => 'icon',   'label' => 'Risk', 'sortable' => false, 'tooltip' => "⚠️ A simplified risk score based on the TRINDX™ index.<br><a href='/en/faq'>More</a>"],
-        ['key' => 'trindx',     'type' => 'num',    'label' => 'TRINDX', 'sortable' => true, 'tooltip' => "🤖 A trading risk index calculated by the project’s AI system.<br><a href='/en/faq'>More</a>"],
+        ['key' => 'trindx',     'type' => 'num',    'label' => 'TRINDX', 'sortable' => true, 'tooltip' => "🤖 TRINDX™ — the probability (%) that a trade with this asset won’t close in profit within 30 days. Lower means more reliable.<br><a href='/en/faq'>More</a>"],
         ['key' => 'rsi',        'type' => 'num',    'label' => 'RSI (7D)', 'sortable' => true, 'tooltip' => "📈 Relative Strength Index indicating whether an asset is overbought or oversold over the selected period.<br><a href='/en/faq'>More</a>"]
     ];
 

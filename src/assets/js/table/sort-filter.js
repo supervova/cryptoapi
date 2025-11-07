@@ -175,19 +175,11 @@ export function applySortAndFilter(isInitialLoadOrManualSortAction = true) {
     DOMElements.scrollContainer.scrollTop = 0;
   }
 
-  // Используем marketState.state.isLoading и marketState.state.sortedFilteredAssets
-  if (
-    !marketState.state.isLoading ||
-    (marketState.state.isLoading &&
-      marketState.state.sortedFilteredAssets.length > 0)
-  ) {
-    patchTableBody();
-  } else if (
-    marketState.state.isLoading &&
-    marketState.state.sortedFilteredAssets.length === 0
-  ) {
-    patchTableBody();
-  }
+  // The patchTableBody function is smart enough to handle loading/empty states.
+  // We wrap it in requestAnimationFrame to ensure that any pending DOM updates,
+  // like setting scrollTop, are processed before we attempt to render the table.
+  // This prevents race conditions and rendering artifacts.
+  requestAnimationFrame(patchTableBody);
 }
 
 export function handleSortClick(event) {

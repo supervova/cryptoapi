@@ -343,6 +343,19 @@
           {{ 'Go'|trans }}
         </a>
       </div>
+
+      <div class="e-accordion__header has-hgroup is-stats">
+        <span class="e-accordion__spot-icon">
+          {% include 'partials/icon.twig' with {name: 'coins'} %}
+        </span>
+        <span class="e-accordion__hgroup">
+          <span class="e-h3">{{ 'Overall service statistics'|trans }}</span>
+          <span class="text-02">{{ 'Trade History Based on Project Signals'|trans }}</span>
+        </span>
+        <a class="e-btn is-outline" href="/{{ page.lang }}/alldeals">
+          {{ 'Go'|trans }}
+        </a>
+      </div>
     </div>
 
     <div class="e-container is-action">
