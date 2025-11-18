@@ -6,12 +6,19 @@
 }
 
 .e-grid.is-auto {
-  --layout-grid-min: calc(var(--dim-lh) * 7);
-
-  @media (--tablet) {
-    --grid-columns: repeat(auto-fit, minmax(min(100%, var(--layout-grid-min)), 1fr));
+  @media (--phone-l) {
+    --grid-columns: repeat(auto-fit, minmax(0, max-content));
   }
 }
+
+.e-grid.is-equal {
+  --grid-min-width: 132px;
+
+  @media (--phone-l) {
+    --grid-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min-width)), 1fr));
+  }
+}
+
 
 // Phone-specific grid layouts
 @media (--phone) {

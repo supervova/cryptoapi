@@ -42,7 +42,52 @@
 {% block content %}
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      const IS_DEV = {{ ((ENV == 'development') ? true : false)|json_encode|raw }};
+
+      function applySettings(settings) {
+        if (!settings) {
+          return;
+        }
+        isUpdatingSettings = true;
+        const data = settings;
+        for (const key in data) {
+          if (!Object.prototype.hasOwnProperty.call(data, key)) {
+            continue;
+          }
+          const el = document.getElementById(key);
+          if (! el && key !== 'risktrade') {
+            continue;
+          }
+
+          if (key == 'binanceapikey') {
+            oldbinanceapikey = data[key];
+          }
+          if (key == 'binancesecretkey') {
+            oldbinancesecretkey = data[key];
+          }
+          if (key === 'risktrade') {
+            $('input[name="risktrade"][value="' + data[key] + '"]').prop('checked', true);
+          } else if (el.type === 'checkbox') {
+            el.checked = (data[key] == 1);
+          } else {
+            el.value = data[key];
+          }
+        }
+        syncRiskControlsFromSettings();
+        setTimeout(() => {
+          isUpdatingSettings = false;
+        }, 300);
+      }
+
       function getsettings() {
+        if (IS_DEV) {
+          applySettings({
+            depositallocation: RISK_DEFAULT_SHARE,
+            maxdepositallocation: RISK_MAX_SHARE,
+            risktrade: 'balanced'
+          });
+          return;
+        }
         $.ajax({
           url: './trade_settings_get.php',
           type: 'POST',
@@ -52,31 +97,7 @@
             if (relultarr[0] == 'unlogged') {
               location.href = '/{$user_lng}/auth';
             } else if (relultarr[0] == 'OK') {
-              isUpdatingSettings = true; // Блокируем автосохранение
-              setarr = relultarr[1];
-              // Вот здесь устанавливаем данные формы в соответствии со значениями массива setarr:
-              for (const key in setarr) {
-                const el = document.getElementById(key);
-                if (! el && key !== 'risktrade')
-                  continue;
-
-                if (key == 'binanceapikey') {
-                  oldbinanceapikey = setarr[key];
-                }
-                if (key == 'binancesecretkey') {
-                  oldbinancesecretkey = setarr[key];
-                }
-                if (key === 'risktrade') {
-                  $('input[name="risktrade"][value="' + setarr[key] + '"]').prop('checked', true);
-                } else if (el.type === 'checkbox') {
-                  el.checked = (setarr[key] == 1);
-                } else {
-                  el.value = setarr[key];
-                }
-              }
-              setTimeout(() => {
-                isUpdatingSettings = false;
-              }, 300);
+              applySettings(relultarr[1]);
             } else {
               alert(relultarr[0]);
             }
@@ -85,6 +106,7 @@
             gettimer = setTimeout(function () {
               getsettings();
             }, 1000);
+            isUpdatingSettings = false;
           }
         });
       }
@@ -118,6 +140,272 @@
       function showSaveButton() {
         $('#savebtn').show();
       }
+
+      const RISK_DEFAULT_SHARE = 90;
+      const RISK_MAX_SHARE = 100;
+      const depositInput = document.getElementById('depositallocation');
+      const maxDepositInput = document.getElementById('maxdepositallocation');
+      const riskAiPanel = document.getElementById('risk-ai');
+      const riskAllocation = document.getElementById('risk-allocation');
+      const riskRange = document.getElementById('risk-allocation-range');
+      const riskValue = document.getElementById('risk-allocation-value');
+      const riskProgress = document.getElementById('risk-allocation-progress');
+      const riskWarning = document.getElementById('risk-allocation-warning');
+      const riskWarningMessages = riskWarning
+        ? Array.from(riskWarning.querySelectorAll('.risk-management__notice-msg'))
+        : [];
+      const riskModeAi = document.getElementById('risk-mode-ai');
+      const riskModeCustom = document.getElementById('risk-mode-custom');
+      const riskModeRadios = document.querySelectorAll('input[name="riskmode"]');
+      const riskModeItems = document.querySelectorAll('.risk-management .e-segmented-control__item');
+      const riskManagementFieldset = document.querySelector('.risk-management');
+      let currentRiskMode = 'ai';
+      let riskPanelTransitionHandler = null;
+      let warningResizeTimer = null;
+
+      function clampAllocation(value) {
+        const numeric = parseInt(value, 10);
+        if (Number.isNaN(numeric)) {
+          return RISK_DEFAULT_SHARE;
+        }
+        if (numeric < 0) {
+          return 0;
+        }
+        if (numeric > RISK_MAX_SHARE) {
+          return RISK_MAX_SHARE;
+        }
+        return numeric;
+      }
+
+      function setRiskStateClass(state) {
+        if (!riskAllocation) {
+          return;
+        }
+        riskAllocation.classList.remove('is-safe', 'is-low', 'is-high');
+        riskAllocation.classList.add(state);
+      }
+
+      function setWarningState(state) {
+        if (!riskWarning) {
+          return;
+        }
+        const targetState = state || 'default';
+        riskWarning.classList.add('is-visible');
+        riskWarning.setAttribute('aria-hidden', 'false');
+        riskWarningMessages.forEach((msg) => {
+          const msgType = msg.dataset.warning || 'default';
+          msg.classList.toggle('is-active', msgType === targetState);
+        });
+      }
+
+      function setWarningMaxHeight() {
+        if (!riskWarning || !riskWarningMessages.length) {
+          return;
+        }
+        const maxHeight = Math.max(
+          ...riskWarningMessages.map((msg) => msg.scrollHeight),
+          0
+        );
+        if (maxHeight > 0) {
+          riskWarning.style.setProperty('--notice-max-height', maxHeight + 'px');
+        }
+      }
+
+      function updateRiskVisual(value) {
+        if (!riskAllocation) {
+          return;
+        }
+        const safeValue = clampAllocation(value);
+        if (riskRange) {
+          riskRange.value = safeValue;
+        }
+        if (riskValue) {
+          riskValue.textContent = safeValue + '%';
+        }
+        if (riskProgress) {
+          riskProgress.style.setProperty('--risk-progress-width', safeValue + '%');
+        }
+        let warningState = 'default';
+        let stateClass = 'is-safe';
+        if (safeValue < RISK_DEFAULT_SHARE) {
+          warningState = 'low';
+          stateClass = 'is-low';
+        } else if (safeValue > RISK_DEFAULT_SHARE) {
+          warningState = 'high';
+          stateClass = 'is-high';
+        }
+        setRiskStateClass(stateClass);
+        setWarningState(warningState);
+      }
+
+      function toggleRiskPanels(mode) {
+        if (riskAiPanel) {
+          riskAiPanel.hidden = mode !== 'ai';
+        }
+        if (riskAllocation) {
+          riskAllocation.hidden = mode !== 'custom';
+        }
+      }
+
+      function setRiskPanelMode(mode, animate = false) {
+        const shouldAnimate =
+          animate &&
+          riskManagementFieldset &&
+          riskManagementFieldset.offsetHeight > 0 &&
+          currentRiskMode !== mode;
+
+        if (riskPanelTransitionHandler && riskManagementFieldset) {
+          riskManagementFieldset.removeEventListener('transitionend', riskPanelTransitionHandler);
+          riskPanelTransitionHandler = null;
+        }
+
+        if (!shouldAnimate) {
+          toggleRiskPanels(mode);
+          currentRiskMode = mode;
+          return;
+        }
+
+        const startHeight = riskManagementFieldset.offsetHeight;
+        riskManagementFieldset.style.height = startHeight + 'px';
+        riskManagementFieldset.classList.add('is-transitioning');
+
+        requestAnimationFrame(() => {
+          toggleRiskPanels(mode);
+          const targetHeight = riskManagementFieldset.scrollHeight;
+          riskManagementFieldset.style.height = targetHeight + 'px';
+        });
+
+        riskPanelTransitionHandler = function (event) {
+          if (event.target !== riskManagementFieldset) {
+            return;
+          }
+          riskManagementFieldset.style.height = '';
+          riskManagementFieldset.classList.remove('is-transitioning');
+          riskManagementFieldset.removeEventListener('transitionend', riskPanelTransitionHandler);
+          riskPanelTransitionHandler = null;
+        };
+        riskManagementFieldset.addEventListener('transitionend', riskPanelTransitionHandler);
+        currentRiskMode = mode;
+      }
+
+      function updateRiskModeUI() {
+        riskModeItems.forEach((item) => {
+          const input = item.querySelector('input[name="riskmode"]');
+          if (!input) {
+            return;
+          }
+          if (input.checked) {
+            item.classList.add('is-active');
+            item.setAttribute('aria-pressed', 'true');
+          } else {
+            item.classList.remove('is-active');
+            item.setAttribute('aria-pressed', 'false');
+          }
+        });
+      }
+
+      function applyAiRiskMode(options = {}) {
+        const { animate = false } = options;
+        if (riskModeAi) {
+          riskModeAi.checked = true;
+        }
+        if (riskModeCustom) {
+          riskModeCustom.checked = false;
+        }
+        setRiskPanelMode('ai', animate);
+        depositInput.value = RISK_DEFAULT_SHARE;
+        maxDepositInput.value = RISK_MAX_SHARE;
+        if (riskRange) {
+          riskRange.disabled = true;
+        }
+        updateRiskVisual(RISK_DEFAULT_SHARE);
+        updateRiskModeUI();
+      }
+
+      function applyCustomRiskMode(initialValue, options = {}) {
+        const { animate = false } = options;
+        if (riskModeCustom) {
+          riskModeCustom.checked = true;
+        }
+        if (riskModeAi) {
+          riskModeAi.checked = false;
+        }
+        setRiskPanelMode('custom', animate);
+        if (riskRange) {
+          riskRange.disabled = false;
+        }
+        const sourceValue = typeof initialValue === 'number'
+          ? initialValue
+          : (riskRange ? riskRange.value : depositInput.value);
+        const value = clampAllocation(sourceValue);
+        if (riskRange) {
+          riskRange.value = value;
+        }
+        depositInput.value = value;
+        maxDepositInput.value = RISK_MAX_SHARE;
+        updateRiskVisual(value);
+        updateRiskModeUI();
+      }
+
+      function syncRiskControlsFromSettings() {
+        const depositValue = clampAllocation(depositInput.value);
+        const maxValue = clampAllocation(maxDepositInput.value);
+        const shouldTrust =
+          depositValue === RISK_DEFAULT_SHARE && maxValue === RISK_MAX_SHARE;
+        if (shouldTrust) {
+          applyAiRiskMode();
+        } else {
+          applyCustomRiskMode(depositValue);
+        }
+      }
+
+      riskModeRadios.forEach((radio) => {
+        radio.addEventListener('change', (event) => {
+          const animate = Boolean(event.isTrusted);
+          if (event.target.value === 'ai') {
+            applyAiRiskMode({ animate });
+          } else {
+            applyCustomRiskMode(undefined, { animate });
+          }
+          showSaveButton();
+        });
+      });
+
+      if (riskRange) {
+        riskRange.addEventListener('input', () => {
+          const wasCustom = riskModeCustom && riskModeCustom.checked;
+          if (!wasCustom && riskModeCustom) {
+            riskModeCustom.checked = true;
+          }
+          applyCustomRiskMode(Number(riskRange.value), { animate: !wasCustom });
+          showSaveButton();
+        });
+      }
+
+      riskModeItems.forEach((item) => {
+        item.addEventListener('click', (event) => {
+          const input = item.querySelector('input[name="riskmode"]');
+          if (!input || input.disabled) {
+            return;
+          }
+          const animate = Boolean(event.isTrusted);
+          if (input.value === 'ai') {
+            applyAiRiskMode({ animate });
+          } else {
+            applyCustomRiskMode(undefined, { animate });
+          }
+          showSaveButton();
+          event.preventDefault();
+        });
+      });
+
+      setWarningMaxHeight();
+      window.addEventListener('resize', () => {
+        clearTimeout(warningResizeTimer);
+        warningResizeTimer = setTimeout(setWarningMaxHeight, 150);
+      });
+
+      syncRiskControlsFromSettings();
 
       if ('{$tradesettings[binanceapikey]}' == '') {
         document.getElementById('binanceapikey').removeAttribute('readonly');
@@ -158,8 +446,8 @@
       document.getElementById('savebtn').addEventListener('click', savesettings);
     });
   </script>
-  <div class="e-container is-md" id="settingsdiv" style="display:none;">
-    <header class="e-main__header">
+  <div class="e-container" id="settingsdiv" style="display:none;">
+    <header class="e-main__header max-w-9/12 mx-auto">
       <h1>
         {{ 'Trading'|trans }}.
         <span class="text-02">{{ 'Settings'|trans }}</span>
@@ -179,9 +467,9 @@
 
     </header>
 
-    <div style="width:100%;overflow:hidden;">
-      <form
-        class="e-form" id="form-trading-settings" action="javascript:void(0)" autocomplete="off" novalidate>
+    <div class="max-w-7/12 mx-auto">
+      <p class="mb-2lh text-center">{{ 'To start using our service, you need to connect to Binance and set up your trading strategy.'|trans }}</p>
+      <form class="e-form" id="form-trading-settings" action="javascript:void(0)" autocomplete="off" novalidate>
 
         {# 1. API KEYS #}
         <details class="e-accordion is-apis">
@@ -198,7 +486,7 @@
             </span>
           </summary>
           <div class="e-accordion__body">
-            <div style="width:100%">Binance API Key:</div>
+            <label class="e-label" for="binanceapikey">Binance API Key:</label>
             <div class="e-accordion__lead">
               <input type="password" id="binanceapikey" name="binanceapikey" placeholder="{{ 'My API key'|trans }}" value="{$tradesettings[binanceapikey]}" readonly>
 
@@ -209,7 +497,8 @@
                 {% include 'partials/icon.twig' with {name: 'eye'} %}
               </button>
             </div>
-            <div style="width:100%">Binance Secret Key:</div>
+
+            <label class="e-label" for="binancesecretkey">Binance Secret Key:</label>
             <div class="e-accordion__lead">
               <input type="password" id="binancesecretkey" name="binancesecretkey" placeholder="{{ 'My Secret key'|trans }}" value="{$tradesettings[binancesecretkey]}" readonly>
 
@@ -230,18 +519,33 @@
                 <option value="USDC">USDC</option>
               </select>
             </div>
-            <h2>{{ 'API Setup Guide'|trans }}.</h2>
-            <p>{{ '1. On the Binance.com website, click on the profile icon in the top right corner and go to the API Management section.'|trans }}</p>
-            <p>{{ '2. Create a new API key, enter its name, complete all security verification steps (email, 2FA), and obtain your API Key and Secret Key (the secret key is shown only once—make sure to copy it) Save the obtained API Key and Secret Key in the trading settings interface on CRYPTOAPI project.'|trans }}</p>
-            <p>{{ '3. On the Binance API settings page, check the “Enable Spot & Margin Trading” box.'|trans }}</p>
-            <p>{{ '4. In the “IP Access Restrictions” section, add this IP address to the whitelist:'|trans }}
-              <strong>{$IP_external}</strong>
-            </p>
-            <p>{{ '5. Transfer a sufficient amount of the stablecoin you choose to trade to your spot balance and enable trading on Binance.'|trans }}</p>
-            <div style="width:100%">
-              <label><input type="checkbox" id="binanceallowed" name="binanceallowed">
-                {{ 'Trading on Binance is allowed'|trans }}</label>
-            </div>
+
+            <h2 class="e-h3 mt-2lh">{{ 'API Setup Guide'|trans }}</h2>
+
+            {% set api_guide = [
+              {copy: "<strong>Open API Management</strong> — On the Binance.com website, click the profile icon in the top-right corner, select “Account”, then in the sidebar under the “Account” section, go to “API Management.”", icon: "plug"},
+              {copy: "<strong>Create an API key</strong> — Create a new API key, name it, complete all security verifications (email, 2FA), and obtain your <b>API Key</b> and <b>Secret Key</b> (the secret key is shown only once — make sure to copy it). Save both keys in the trading settings interface on the <b>CRYPTOAPI</b> project.", icon: "key"},
+              {copy: "<strong>Enable trading permissions</strong> — In your Binance API settings, check the box <b>“Enable Spot & Margin Trading.”</b>", icon: "chart-line"},
+              {copy: "<strong>Add a trusted IP</strong> — In the <b>“IP Access Restrictions”</b> section, add this IP address to the whitelist: ", icon: "shield-check"},
+              {copy: "<strong>Fund your balance with a stablecoin</strong> — Transfer a sufficient amount of a stablecoin (for example, <b>USDT</b>) to your <b>spot balance</b>. This stablecoin is used for <b>trading operations and profit settlements</b> on Binance.", icon: "dollar"},
+            ]%}
+
+            <ol class="list is-guide">
+              {% for step in api_guide %}
+                <li>
+                  {% include 'partials/icon.twig' with {name: step.icon} %}
+                  {{ step.copy|trans|raw }}
+                    {% if loop.index == 4 %}
+                      <strong>{{ white_list_api|default('176.9.166.90') }}</strong>
+                    {% endif %}
+                </li>
+              {% endfor %}
+            </ol>
+
+            <label class="mb-2lh">
+              <input type="checkbox" id="binanceallowed" name="binanceallowed">
+              {{ 'Trading on Binance is allowed'|trans|raw }}
+            </label>
 
           </div>
         </details>
@@ -306,23 +610,66 @@
               {% include 'partials/icon.twig' with {name: 'sm-chevron-down', classes: 'is-sm'} %}
             </span>
           </summary>
-          <fieldset class="e-accordion__body">
+          <fieldset class="e-accordion__body risk-management">
             <legend class="visually-hidden">{{ 'Risk Management'|trans }}</legend>
 
-            <div class="e-form__item has-input">
-              <label for="depositallocation">
-                <strong>{{ 'Deposit allocation'|trans }}, %</strong>
-                <span>{{ 'Maximum share of balance usable for trading. Funds allocated for the initial entry (excluding rebalancing).'|trans }}</span>
+            <div class="e-segmented-control">
+              <label class="e-segmented-control__item" for="billing-monthly">
+                <span class="phone-l:d-none">{{ 'The System'|trans }}</span>
+                <span class="d-none phone-l:d-inline">{{ 'Trust the System'|trans }}</span>
+                <input id="risk-mode-ai" name="riskmode" value="ai" type="radio" checked>
               </label>
-              <input id="depositallocation" name="depositallocation" type="number" value="50" min="1" max="90" step="1" required>
-            </div>
-            <div class="e-form__item has-input">
-              <label for="maxdepositallocation">
-                <strong>{{ 'Maximum deposit allocation'|trans }}, %</strong>
-                <span>{{ 'Maximum share of balance usable for trading. Funds allocated for all trading operations.'|trans }}</span>
+              <label class="e-segmented-control__item" for="billing-annual">
+                <input id="risk-mode-custom" name="riskmode" value="custom" type="radio">
+                <span class="phone-l:d-none">{{ 'Custom'|trans }}</span>
+                <span class="d-none phone-l:d-inline">{{ 'Custom Parameters'|trans }}</span>
               </label>
-              <input id="maxdepositallocation" name="maxdepositallocation" type="number" value="80" min="1" max="100" step="1" required>
             </div>
+
+            <div class="risk-management__option is-ai" id="risk-ai">
+              <p>{{ 'The AI will automatically determine exposure size, maintain an average load of around 50%, and keep enough free capital for new trades.'|trans }}</p>
+            </div>
+
+            <div class="risk-management__option is-allocation" id="risk-allocation" hidden>
+              <div class="risk-management__header">
+                <label for="risk-allocation-range">
+                  {{ 'Deposit Allocation Managed by AI'|trans }}
+                </label>
+                <span class="risk-management__value" id="risk-allocation-value">90%</span>
+              </div>
+              <div class="risk-management__slider">
+                <input
+                  id="risk-allocation-range"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="90"
+                  step="1"
+                  disabled
+                  aria-describedby="risk-allocation-warning"
+                >
+                <div class="risk-management__progress" id="risk-allocation-progress" aria-hidden="true"></div>
+              </div>
+              <p
+                class="risk-management__notice text-02"
+                id="risk-allocation-warning"
+                aria-live="polite"
+                aria-hidden="true"
+              >
+                <span class="risk-management__notice-msg is-default" data-warning="default">
+                  {{ "Recommended value — 90%. Allowed range: <span class='nobr'>0–100%.</span>"|trans|raw }}
+                </span>
+                <span class="risk-management__notice-msg is-low" data-warning="low">
+                  {{ 'A low deposit allocation reduces average position sizes and significantly decreases profitability. To achieve results close to the project’s statistics, use the recommended settings.'|trans }}
+                </span>
+                <span class="risk-management__notice-msg is-high" data-warning="high">
+                  {{ 'You must keep at least 10% of your total deposit unallocated to allow asset rebalancing.'|trans }}
+                </span>
+              </p>
+            </div>
+
+            <input id="depositallocation" name="depositallocation" type="hidden" value="90">
+            <input id="maxdepositallocation" name="maxdepositallocation" type="hidden" value="100">
 
           </fieldset>
         </details>

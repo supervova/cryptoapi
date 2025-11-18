@@ -56,10 +56,10 @@
   --line-height-body-sm: math.div(20, 15);
   --letter-spacing-body-sm: 0.1px;
 
-  --font-size-caption: 12px;
-  --line-height-caption: math.div(16, 12);
-  --padding-top-caption: 4px;
-  --padding-bottom-caption: 4px;
+  --font-size-fine-print: 12px;
+  --line-height-fine-print: math.div(16, 12);
+  --padding-top-fine-print: 4px;
+  --padding-bottom-fine-print: 4px;
 
   --dim-1: 8px;
   --dim-1p5: 12px;
@@ -170,10 +170,10 @@ p {
   > a {
     align-items: center;
     display: flex;
-    font-size: var(--font-size-caption);
+    font-size: var(--font-size-fine-print);
     font-weight: 500;
     gap: var(--dim-1);
-    line-height: var(--line-height-caption);
+    line-height: var(--line-height-fine-print);
     margin-top: var(--dim-1);
 
     &,

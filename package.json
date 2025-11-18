@@ -125,72 +125,6 @@
       "value-no-vendor-prefix": true
     }
   },
-  "eslintConfig": {
-    "root": true,
-    "extends": [
-      "airbnb-base",
-      "plugin:prettier/recommended"
-    ],
-    "env": {
-      "browser": true,
-      "es2023": true,
-      "node": true
-    },
-    "plugins": [
-      "import"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 2023,
-      "sourceType": "module"
-    },
-    "settings": {
-      "import/ignore": [
-        "node_modules",
-        "\\.(coffee|scss|css|less|hbs|svg|json)$"
-      ]
-    },
-    "rules": {
-      "import/no-extraneous-dependencies": "off",
-      "import/extensions": [
-        "error",
-        "ignorePackages",
-        {
-          "js": "always",
-          "jsx": "always",
-          "ts": "never",
-          "tsx": "never"
-        }
-      ],
-      "max-len": [
-        "error",
-        {
-          "ignoreComments": true,
-          "ignoreStrings": true,
-          "ignoreTemplateLiterals": true
-        }
-      ],
-      "no-multi-spaces": [
-        "error",
-        {
-          "exceptions": {
-            "BinaryExpression": true,
-            "VariableDeclarator": true
-          }
-        }
-      ],
-      "no-plusplus": [
-        2,
-        {
-          "allowForLoopAfterthoughts": true
-        }
-      ],
-      "no-template-curly-in-string": "error",
-      "quotes": [
-        "error",
-        "single"
-      ]
-    }
-  },
   "prettier": {
     "arrowParens": "always",
     "bracketSpacing": true,
@@ -237,6 +171,7 @@
     "@babel/core": "^7.28.0",
     "@babel/preset-env": "^7.28.0",
     "@babel/register": "^7.27.1",
+    "@eslint/js": "^9.39.1",
     "@fullhuman/postcss-purgecss": "^7.0.2",
     "autoprefixer": "^10.4.21",
     "browser-sync": "^3.0.4",
@@ -245,11 +180,13 @@
     "cssnano-preset-lite": "^4.0.4",
     "del": "^8.0.0",
     "esbuild": "^0.25.8",
-    "eslint": "^8.57.1",
-    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-prettier": "^5.5.3",
+    "eslint-plugin-n": "^17.23.1",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-promise": "^7.2.1",
+    "globals": "^16.5.0",
     "gulp": "^5.0.1",
     "gulp-changed": "^5.0.2",
     "gulp-data": "^1.3.1",

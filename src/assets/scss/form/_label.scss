@@ -41,8 +41,8 @@
   &:has(input:-moz-ui-invalid:not(output)) {
     label {
       color: var(--color-text-brand);
-      font-size: var(--font-size-caption);
-      line-height: var(--line-height-caption);
+      font-size: var(--font-size-fine-print);
+      line-height: var(--line-height-fine-print);
       top: var(--dim-0p5);
     }
   }
@@ -55,8 +55,8 @@
     &:focus ~ label,
     &:not(:placeholder-shown) ~ label {
       color: var(--color-text-brand);
-      font-size: var(--font-size-caption);
-      line-height: var(--line-height-caption);
+      font-size: var(--font-size-fine-print);
+      line-height: var(--line-height-fine-print);
       top: var(--dim-0p5);
     }
 
@@ -75,16 +75,16 @@
   select {
     &:focus ~ label {
       color: var(--color-text-brand);
-      font-size: var(--font-size-caption);
-      line-height: var(--line-height-caption);
+      font-size: var(--font-size-fine-print);
+      line-height: var(--line-height-fine-print);
       top: var(--dim-0p5);
     }
 
     &:not([value=""]):not([value]) ~ label,
     &[value]:not([value=""]) ~ label {
       color: var(--color-text-brand);
-      font-size: var(--font-size-caption);
-      line-height: var(--line-height-caption);
+      font-size: var(--font-size-fine-print);
+      line-height: var(--line-height-fine-print);
       top: var(--dim-0p5);
     }
 
@@ -108,8 +108,8 @@
     &:focus ~ label,
     &:not(:placeholder-shown) ~ label {
       color: var(--color-text-brand);
-      font-size: var(--font-size-caption);
-      line-height: var(--line-height-caption);
+      font-size: var(--font-size-fine-print);
+      line-height: var(--line-height-fine-print);
       top: var(--dim-0p5);
     }
 

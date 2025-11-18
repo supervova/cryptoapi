@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // -----------------------------------------------------------------------------
 // #region 📥 IMPORTS AND CONSTANTS
 // -----------------------------------------------------------------------------
@@ -384,6 +383,29 @@ const loadPhpMockData = () => {
       thispagesimpleurl: 'localhost:9000',
       IP_external: '',
       user_balancefnall: '$1,040.00',
+
+      aboutmehtml: 'Король, практически',
+      accesslog:
+        '<tr><td>2025-11-18 14:47:48</td><td>2025-11-17 22:44:06</td><td>62.4.55.125</td><td>ME</td><td>Podgorica</td><td>Chrome 0.0 (macOS)</td></tr>',
+      alertprofile: '',
+      cc_html:
+        '<select name="cclist" id="cclist" class="form-control"><option value="">Не выбрано</option><option value="AU">Австралия</option><option value="JP">Япония</option></select>',
+      defaultavatar: './images/profile_nophoto.jpg',
+      enteremailhtml: '',
+      g2faphrase: 'Включите авторизацию 2FA!',
+      linktomsg:
+        '<span style="color:#004524">Вы уже установили связь между мессенджером и своей учетной записью, но вы можете связать больше мессенджеров. Количество прикрепленных мессенджеров: <strong>1</strong>.</span>',
+      messengers_code: '428989',
+      myblogs: '',
+      mysites: '',
+      oldpassworddiv:
+        '<div class="input-group" style="margin-top:10px"><span class="input-group-addon">Старый пароль:</span><input type="password" class="form-control" name="oldpwd" id="oldpwd" value="></div>',
+      profile_links: '',
+      user_country: 'CD',
+      user_region: 'dss',
+      user_region_lng: 'dss',
+      utc_html:
+        '<select name="userUTC" id="userUTC" class="form-control"><option value="-11">(UTC-11) Alofi</option><option value="14">(UTC+14) Apia</option></select>',
     };
   } catch (error) {
     console.error('Error loading PHP mock data:', error);
@@ -569,7 +591,6 @@ const pages = () => {
               func(value, timezone = 'UTC', lang = 'en') {
                 try {
                   if (Array.isArray(timezone)) {
-                    // eslint-disable-next-line prefer-destructuring, no-param-reassign
                     timezone = timezone[0]; // берем первый элемент массива
                   }
                   const date = new Date(value);

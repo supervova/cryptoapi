@@ -47,7 +47,7 @@
     translate calc(var(--duration-200) * 0.8) var(--easing-disappearance);
   width: var(--popover-body-width);
   max-width: calc(100vw - var(--dim-2p5) * 2);
-  z-index: var(--zindex-popover);
+  z-index: var(--z-popover);
 
   [open] &,
   .is-open > & {
@@ -70,7 +70,7 @@
   }
 
   .has-tooltip > & {
-    --zindex-popover: calc(var(--zindex-tooltip) + 1);
+    --z-popover: calc(var(--z-tooltip) + 1);
   }
 
   &.e-menu {

@@ -118,7 +118,7 @@
 
 /* Subtitle styles */
 .e-menu__subtitle {
-  @include text-format(caption);
+  @include text-format(fine-print);
 
   color: var(--color-text);
   font-weight: var(--font-weight-titles-max);

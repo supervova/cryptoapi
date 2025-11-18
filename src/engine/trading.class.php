@@ -27,6 +27,8 @@ $page_meta = [
 
 $data_objects['page'] = array_merge($data_objects['page'] ?? [], $page_meta);
 
+$data_objects['white_list_api'] = $article_data;
+
 // TODO: MOCK ↓ Заменить на реальные данные — выборку из таблицы api_keys
 $data_objects['apis'] = [
     ['name' => 'BTC Bungavy Bot', 'status' => 'active', 'icon' => 'robot'],

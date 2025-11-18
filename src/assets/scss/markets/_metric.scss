@@ -7,7 +7,7 @@
 .e-card.is-album-metric {
   // gradients are set in _card.scss
   border-radius: var(--radius-lg);
-  gap: var(--dim-lh);
+  gap: var(--lh);
 
   &:hover {
     text-decoration: none;

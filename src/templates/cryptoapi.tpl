@@ -55,24 +55,27 @@ function getapi(arg) {
 	});
 }
 </script>
-<div style="width:100%;">
-<div class="header-h1"><h1>API Documentation</h1></div>
+
+<h1>API Documentation. <span class="text-02">For power users only</span></h1>
+
+<p class="mb-2lh">☝️🧐 You don’t need to be a developer or connect and use our API to access the service.</p>
+
+<div class="e-buttons">
+  <button class="btn btn-info" onclick="getapi('showkey')">Show API Key</button>
+  <button class="btn btn-warning" onclick="getapi('resetkey')">Reset API Key</button>
 </div>
-<div style="text-align:center;margin:10px;"><button class="btn btn-info" onclick="getapi('showkey')">Show API Key</button> <button class="btn btn-warning" onclick="getapi('resetkey')">Reset API Key</button></div>
-<div id="apidoc" style="text-align:left;padding:5px;border-radius:5px;">
-<div style="text-align:left;"><span class="nottranslate">YOUR_API_KEY</span> - this text should be replaced with your API key</div>
-<h4>Example 1. Cryptocurrency Asset Rating by TRINDX (Trade Appe Index):</h4>
-<pre><code>
-curl -X GET "https://cryptoapi.ai/userapi/p43/YOUR_API_KEY/assets/"
-</code></pre>
 
-<h4>Example 2. Technical analysis data of a cryptocurrency asset:</h4>
-<pre><code>
-curl -X GET "https://cryptoapi.ai/userapi/p43/YOUR_API_KEY/assets/BTC"
-</code></pre>
+<div id="apidoc">
+  <p><span class="nottranslate">YOUR_API_KEY</span> - this text should be replaced with your API key</p>
 
-<h3>Example of returned data in json format:</h3>
-<pre><code class="hljs language-json">
+  <h2 class="e-h4 mt-2lh">Example 1. Cryptocurrency Asset Rating by TRINDX (Trade Appe Index):</h2>
+  <pre><code>curl -X GET "https://cryptoapi.ai/userapi/p43/YOUR_API_KEY/assets/"</code></pre>
+
+  <h2 class="e-h4 mt-2lh">Example 2. Single asset dataset:</h2>
+  <pre><code>curl -X GET "https://cryptoapi.ai/userapi/p43/YOUR_API_KEY/assets/BTC"</code></pre>
+
+  <h2 class="e-h4 mt-2lh">Example of returned data in json format:</h2>
+  <pre><code class="hljs language-json">
 {
 "status":"OK",
 "assets": {
@@ -106,7 +109,7 @@ curl -X GET "https://cryptoapi.ai/userapi/p43/YOUR_API_KEY/assets/BTC"
   .....
   }
 }
-</code></pre>
+  </code></pre>
 
 </div>
 

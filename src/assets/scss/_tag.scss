@@ -7,7 +7,7 @@
   --tag-font-weight: 500;
   --tag-padding-x: var(--dim-1p5);
   --tag-max-width: #{rem(220)};
-  --tag-height: var(--dim-lh);
+  --tag-height: var(--lh);
 
   @include label(false);
   @include text-truncate;

@@ -7,7 +7,9 @@
   counter-reset: step;
   display:flex;
   flex-direction: column;
-  gap: var(--dim-lh);
+  align-items: center;
+  gap: var(--lh);
+  text-align: center;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -23,6 +25,7 @@
   }
 
   @media (--phone-l) {
+    align-items: normal;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
@@ -32,11 +35,10 @@
 .e-how-to li {
   color: var(--color-text-02);
   counter-increment: step;
-  flex: 1 1 0;
   font-weight: 600;
   padding: 0;
   position: relative;
-  min-width: rem(160);
+  width: rem(224);
 
   &::before {
     background: hsl(var(--color-shadow) / 0.14);
@@ -63,18 +65,6 @@
         var(--color-brand-accent)
       );
     backdrop-filter: none;
-  }
-
-  @media (--tablet) {
-    max-width: rem(178);
-  }
-
-  @media (--tablet-l) {
-    max-width: rem(168);
-  }
-
-  @media (--tablet-l) {
-    max-width: rem(227);
   }
 }
 

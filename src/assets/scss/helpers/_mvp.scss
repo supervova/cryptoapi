@@ -1,18 +1,22 @@
-@use 'abstracts/mixins' as *;
+@use 'abstracts' as *;
 
+// -----------------------------------------------------------------------------
 // #region: SPACING
+// -----------------------------------------------------------------------------
 
 .mt-1 { margin-top: var(--dim-1); }
 .mt-2 { margin-top: var(--dim-2); }
-.mt-1l { margin-top: var(--dim-lh); }
-.mt-2l { margin-top: var(--dim-6); }
+.mt-1lh { margin-top: var(--lh); }
+.mt-2lh { margin-top: var(--dim-6); }
 .mt-auto { margin-top: auto; }
 .mt-half-max { margin-top: var(--spacer-half-max); }
 .mt-max { margin-top: var(--spacer-max); }
 
+.mb-0 { margin-bottom: 0; }
 .mb-1 { margin-bottom: var(--dim-1); }
 .mb-2 { margin-bottom: var(--dim-2); }
-.mb-1l { margin-bottom: var(--dim-lh); }
+.mb-1lh { margin-bottom: var(--lh); }
+.mb-2lh { margin-bottom: var(--dim-6); }
 
 .me-1 { margin-inline-end: var(--dim-1); }
 .mx-auto { margin-inline: auto; }
@@ -30,11 +34,16 @@
 .pb-max { padding-bottom: var(--spacer-max); }
 
 .ps-0 { padding-inline-start: 0;}
+
 // #endregion
 
+// -----------------------------------------------------------------------------
 // #region: SIZE
+// -----------------------------------------------------------------------------
 .max-w-none { max-width: none; }
 .max-w-prose { max-width: var(--width-readable); }
+.max-w-7\/12 { max-width: rem(709); }
+.max-w-9\/12 { max-width: rem(880); }
 .w-1\/2	{ width: calc((100% - var(--gap, 0)) / 2); }
 .w-100	{ width: 100%; }
 // Use with inline-block elements with tooltips
@@ -42,7 +51,9 @@
 
 // #endregion
 
+// -----------------------------------------------------------------------------
 // #region:DISPLAY
+// -----------------------------------------------------------------------------
 
 .d-none {
   display: none;
@@ -98,22 +109,35 @@
     display: none;
   }
 }
+
 // #endregion
 
+// -----------------------------------------------------------------------------
 // #region: FLEX AND GRID
+// -----------------------------------------------------------------------------
+
 .align-center { align-items: center; }
 .gap-1 { gap: var(--dim-1); }
 .gap-2 { gap: var(--dim-2); }
+.flex-wrap { flex-wrap: wrap; }
+.grid-cols-auto { --grid-columns: repeat(auto-fit, minmax(0, max-content)); }
 .justify-between { justify-content: space-between; }
 .justify-center { justify-content: center; }
+
 // #endregion
 
+// -----------------------------------------------------------------------------
 // #region: TYPOOGRAPHY
+// -----------------------------------------------------------------------------
 
 .nobr { white-space: nowrap; }
 .text-02 { color: var(--color-text-02); }
 .text-sm {
   @include text-format('body-sm');
+}
+.text-xs {
+  font-size: var(--font-size-fine-print);
+  line-height: var(--line-height-fine-print);
 }
 .text-center { text-align: center; }
 .text-error { color: var(--color-text-error); }
@@ -123,7 +147,9 @@
 .text-warning { color: var(--color-text-warning); }
 // #endregion
 
+// -----------------------------------------------------------------------------
 // #region: MISC
+// -----------------------------------------------------------------------------
 
 .bg-error { background-color: var(--color-text-02-error);}
 .bg-success { background-color: var(--color-text-02-success); }
@@ -144,4 +170,5 @@
 .sticky {
   position: sticky;
 }
+
 // #endregion

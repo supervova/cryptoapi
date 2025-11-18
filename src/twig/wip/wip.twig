@@ -7,9 +7,8 @@
   {% if ENV == 'development' %}
     {% set page = page|merge(
       {
-        app: true,
-        classes: 'is-signals',
-        styles: 'markets.css',
+        classes: 'is-profile',
+        styles: 'profile.css',
       }
     ) %}
 
@@ -25,7 +24,7 @@
         name: "Bonk",
         symbol: "BONK",
         price: 0.0000192,
-        change_24h: -6.92,
+        change_24h: '-6.92',
         rating: 2,
         risk: "high",
         trandx: 20,
@@ -120,197 +119,839 @@
     {% set sort_field = 'rating' %}
 
     {# Направление сортировки: по возрастанию ('asc'; естественный порядок:
-        от A до Z, с 0 до 100 etc) или по убыванию ('desc') #}
+                от A до Z, с 0 до 100 etc) или по убыванию ('desc') #}
     {% set sort_direction = 'asc' %}
 
     {# Количество колонок управляется через фильтры, а нулевое состояние
-        выводится в ячейке с атрибутом colspan #}
+                выводится в ячейке с атрибутом colspan #}
     {% set columns = 9 %}
   {% endif %}
 {% endblock %}
 
-{# {% block head %}
-{% endblock %} #}
+{% block assets %}
+  <script src="/js/jquery-2.1.3.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/jquery.toast.min.js"></script>
+  <script src="/js/bootpopup.js"></script>
+  <script src="/js/qwerty.js"></script>
+  <script src='/js/tinymce/tinymce.min.js'></script>
+  <script src='/js/tinymce/jquery.tinymce.min.js'></script>
+  <script>
+    function js_translate(str) {
+      if (str == '{$phraseclose}') {
+        str = '{$btn_close}';
+      }
+      if (str == 'Close') {
+        str = '{$btn_close}';
+      }
+      if (str == '{$phraseok}') {
+        str = '{$btn_ok}';
+      }
+      if (str == '{$phrasecancel}') {
+        str = '{$btn_cancel}';
+      }
+      if (str == '{$phraseyes}') {
+        str = '{$btn_yes}';
+      }
+      if (str == '{$phraseno}') {
+        str = '{$btn_no}';
+      }
+      return str;
+    }
+  </script>
+  {{ parent() }}
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/legacy.css">
+  {{ parent() }}
+{% endblock %}
 
 {% block content %}
-  <div class="e-container">
+  <div class="e-container mt-half-max">
+    <script src="/js/jquery.typeahead.min.js"></script>
+    <link href="/css/jquery.typeahead.css" rel="stylesheet" />
 
-  <header class="e-main__header">
-    <button class="e-eyebrow" id="main-header-eyebrow" type="button" onclick="showsettings(0)" data-visible="false">
-      {% include 'partials/icon.twig' with {name: 'sm-chevron-left'} %}
-      {{ 'Back'|trans }}
-    </button>
-    <h1>
-      <span class="e-main__title">{{ 'Signals'|trans }}</span><span class="e-main__subtitle" id="main-header-subtitle" data-visible="false" aria-hidden="true">: {{ 'Settings'|trans }}</span>
-    </h1>
-    <button class="e-btn has-start-icon" id="main-header-settings" type="button" onclick="showsettings(1)">
-      {% include 'partials/icon.twig' with {name: 'settings'} %}
-      {{ 'Settings'|trans }}
-    </button>
-  </header>
+    <script>
+      $(document).ready(function () {
+        userphone = '{$userdata[phone]}';
+        if (document.location.href.indexOf('wmprofile.com') != -1) {
+          document.getElementById('notwmprofile').style.display = 'none';
+          document.getElementById('myblogstab').style.display = 'none';
+        } else {
+          document.getElementById('notwmprofile').style.display = 'block';
+        }
+        if (document.location.href.indexOf('visitorsale.com') != -1) {
+          document.getElementById('notvs').style.display = 'none';
+          document.getElementById('notificationstab').style.display = 'none';
+          document.getElementById('myblogstab').style.display = 'none';
+        } else {
+          document.getElementById('notvs').style.display = 'block';
+        }
+        if (document.location.href.indexOf('hightech.edu.eu') != -1 || document.location.href.indexOf('ratex.me') != -1 || document.location.href.indexOf('icg') != -1 || document.location.href.indexOf('p2payer') != -1) {
+          document.getElementById('myblogstab').style.display = 'none';
+          document.getElementById('sitestab').style.display = 'none';
+        }
+        if (document.location.href.indexOf('cryptoapi') != -1) {
+          document.getElementById('myblogstab').style.display = 'none';
+          document.getElementById('myblogstab').style.display = 'none';
+          document.getElementById('sitestab').style.display = 'none';
+        }
+        if (document.location.href.indexOf('worldvet') != -1) {
+          document.getElementById('myblogstab').style.display = 'none';
+          document.getElementById('sitestab').style.display = 'none';
+          document.getElementById('wmworkerletters').style.display = 'none';
+        }
+        document.getElementById("gender").options[{
+            $userdata [gender]
+          }].selected = true;
+        document.getElementById('checkip').checked = {
+          $checkip_logic
+        };
+        document.getElementById('birthdateshow').checked = {
+          $birthdateshow_logic
+        };
+        document.getElementById('hidelocation').checked = {
+          $hidelocation_logic
+        };
+        document.getElementById('notify1').checked = {
+          $notify1_logic
+        };
+        document.getElementById('notify2').checked = {
+          $notify2_logic
+        };
+        document.getElementById('notify3').checked = {
+          $notify3_logic
+        };
+        document.getElementById('notify4').checked = {
+          $notify4_logic
+        };
+        document.getElementById('notify5').checked = {
+          $notify5_logic
+        };
+        document.getElementById('notify6').checked = {
+          $notify6_logic
+        };
+        clienttime = new Date();
+        ClientTimeZoneOffset = -clienttime.getTimezoneOffset() / 60;
+        tinymce.remove();
+        tinymce.init({
+          selector: '#aboutme',
+          toolbar: 'undo redo | emoticons | link image media | ltr rtl',
+          plugins: "advlist autolink image link imagetools media visualblocks visualchars emoticons directionality",
+          menubar: false,
+          statusbar: false,
+          image_advtab: false,
+          force_p_newlines: false,
+          invalid_styles: 'color font-size',
+          remove_trailing_brs: false,
+          forced_root_block: false,
+          keep_styles: false, {
+            $tinymcelng
+          }
+          invalid_elements: 'style,p,span,lang,strong,b'
+        });
+        searchcities('{$user_country}');
+        $('#cclist').change(function () {
+          var usercountry = document.getElementById('cclist').value;
+          if (usercountry != '{$user_country}') {
+            document.getElementById('user_region').value = '';
+            document.getElementById('user_region_lng').value = '';
+          } else {
+            document.getElementById('user_region').value = '{$user_region}';
+            document.getElementById('user_region_lng').value = '{$user_region_lng}';
+          } searchcities(usercountry);
+        });
+        mailretry = 0;
+      });
+      function searchcities(country_code) {
+        $('.typeahead__result').remove();
+        $('#user_region_lng').typeahead({
+          minLength: 1,
+          order: "asc",
+          cache: false,
+          maxItem: false,
+          offset: true,
+          source: {
+            ajax: {
+              type: "POST",
+              url: "/json.php",
+              data: {
+                country_code: country_code,
+                user_lng: '{$user_lng}'
+              }
+            }
+          },
+          callback: {
+            onClick: function (node, a, item, event) {
+              $('#user_region_lng').val(item.display);
+              checkregion();
+            }
+          }
+        });
+      }
+      function resizeFile(file, profilephoto, b64field) {
+        $('#p_prldr').show();
+        var reader = new FileReader();
+        reader.onloadend = function () {
+          var tempImg = new Image();
+          tempImg.src = reader.result;
+          tempImg.onload = function () {
+            var tempW = tempImg.width;
+            var tempH = tempImg.height;
+            imgcrop(this, tempW, tempH, 300, 300, b64field);
+            $(profilephoto).attr('src', $(b64field).val());
+            $(profilephotosmall).attr('src', $(b64field).val());
+            $('#p_prldr').delay(100).fadeOut('slow');
+          }
+        }
+        reader.readAsDataURL(file);
+      }
+      function imgcrop(image, tempW, tempH, maxW, maxH, elem) {
+        var sourceX = 0;
+        var sourceY = 0;
+        var destWidth = tempW;
+        var destHeight = tempH;
+        if (tempW > maxW) {
+          var destWidth = maxW;
+          var destHeight = destHeight * (maxW / tempW);
+        }
+        if (destHeight > maxH) {
+          var destWidth = tempW;
+          var destHeight = tempH;
+          var destHeight = maxH;
+          var destWidth = destWidth * (maxH / tempH);
+        }
+        var destX = 0;
+        var destY = 0;
 
-    {# <header class="e-main__header">
-      <h1>{{ 'Markets'|trans }}.
-        <span class="text-02">{{ 'Asset Ranking'|trans }}</span>
-      </h1>
-      <div class="e-tag" role="status" aria-live="polite">
+        var canvas = document.createElement('canvas');
+        canvas.width = destWidth;
+        canvas.height = destHeight;
 
-        <button class="e-btn is-tag has-start-icon" type="button" data-role="filter-toggle">
-          {% include 'partials/icon.twig' with {name: 'filter'} %}
-          {{ 'Filters'|trans }}
-          {{ filters_count }}
-        </button>
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(0, 0, destWidth, destHeight);
+        ctx.drawImage(image, sourceX, sourceY, tempW, tempH, destX, destY, destWidth, destHeight);
+        var dataURL = canvas.toDataURL("image/jpeg");
+        $(elem).val(dataURL);
+      }
+      function showprofilephoto() {
+        var image = $("#PhotoFile");
+        if (image[0].files && image[0].files[0]) {
+          resizeFile(image[0].files[0], $('#profilephoto'), $('#photo_b64'))
+        }
+      }
+      function deletephoto() {
+        document.getElementById('profilephoto').src = '{$defaultavatar}';
+        document.getElementById('profilephotosmall').src = '{$defaultavatar}';
+        document.getElementById('photo_b64').value = 'delete';
+        document.getElementById('PhotoFile').value = '';
+      }
+      function changemail() {
+        document.getElementById('email').disabled = false;
+        document.getElementById('email').focus();
+        document.getElementById('changemaillink').style.display = "none";
+        document.getElementById('savemaillink').style.display = "inline-block";
+      }
+      function changephone() {
+        document.getElementById('smscode').value = '';
+        document.getElementById('phone').disabled = false;
+        document.getElementById('phone').focus();
+        document.getElementById('changephonelink').style.display = "none";
+        document.getElementById('savephonelink').style.display = "inline-block";
+        document.getElementById('phonetext').style.display = "block";
+      }
+      function cancelsavemail() {
+        document.getElementById('email').value = "{$userdata[email]}";
+        document.getElementById('email').disabled = true;
+        document.getElementById('changemaillink').style.display = "inline-block";
+        document.getElementById('savemaillink').style.display = "none";
+      }
+      function cancelsavephone() {
+        document.getElementById('phone').value = userphone;
+        document.getElementById('smscode').value = '';
+        document.getElementById('phone').disabled = true;
+        document.getElementById('changephonelink').style.display = "inline-block";
+        document.getElementById('savephonelink').style.display = "none";
+        document.getElementById('phonetext').style.display = "none";
+        document.getElementById('enterconfirmcode').style.display = "none";
+      }
+      function savemail() {
+        mailfunc = 'savemail()';
+        mailretry = mailretry + 1;
+        var newmail = document.getElementById('email').value;
+        if (newmail != "{$userdata[email]}" && newmail != '') {
+          document.getElementById('email').disabled = true;
+          document.getElementById('changemaillink').style.display = "none";
+          document.getElementById('savemaillink').style.display = "none";
+          $.post("./savesettings.php", {
+            email: newmail,
+            lng: "{$user_lng}",
+            mailretry: mailretry,
+            checkID: {
+              $startruntime
+            }
+          }).done(function (data) {
+            if (data != 'OK') {
+              document.getElementById('email').value = "{$userdata[email]}";
+              bootpopup.alert(data, 'Error');
+            } else {
+              mailmsg(mailretry);
+            }
+            document.getElementById('email').disabled = true;
+            document.getElementById('changemaillink').style.display = "inline-block";
+            document.getElementById('savemaillink').style.display = "none";
+          });
+        } else {
+          document.getElementById('email').disabled = true;
+          document.getElementById('changemaillink').style.display = "inline-block";
+          document.getElementById('savemaillink').style.display = "none";
+        }
+      }
+      function savephone() {
+        var newphone = document.getElementById('phone').value;
+        var smscode = document.getElementById('smscode').value;
+        document.getElementById('smscode').value = '';
+        if (newphone != userphone && newphone != '') {
+          document.getElementById('phone').disabled = true;
+          document.getElementById('changephonelink').style.display = "none";
+          document.getElementById('savephonelink').style.display = "none";
+          document.getElementById('enterconfirmcode').style.display = "none";
+          $.post("./confirmphone.php", {
+            phone: newphone,
+            smscode: smscode,
+            lng: "{$user_lng}",
+            checkID: {
+              $startruntime
+            }
+          }).done(function (data) {
+            if (data != 'OK') {
+              bootpopup.alert(data, 'Error');
+              if (smscode == '') {
+                document.getElementById('phone').value = userphone;
+                document.getElementById('enterconfirmcode').style.display = "none";
+              } else {
+                document.getElementById('enterconfirmcode').style.display = "block";
+              }
+            } else {
+              if (smscode == '') {
+                bootpopup.alert('The SMS message with a confirmation code will be sent to your phone number.', 'Please pay attention!');
+                document.getElementById('enterconfirmcode').style.display = "block";
+              } else {
+                userphone = newphone;
+                bootpopup.alert('New phone number saved successfully', 'Please pay attention!');
+              }
+            }
+            document.getElementById('phone').disabled = true;
+            document.getElementById('changephonelink').style.display = "inline-block";
+            document.getElementById('savephonelink').style.display = "none";
+            document.getElementById('phonetext').style.display = "none";
+          });
+        } else {
+          document.getElementById('phone').disabled = true;
+          document.getElementById('changephonelink').style.display = "inline-block";
+          document.getElementById('savephonelink').style.display = "none";
+          document.getElementById('enterconfirmcode').style.display = "none";
+          document.getElementById('phonetext').style.display = "none";
+        }
+      }
+      function savesettings() {
+        tinymce.get('aboutme').save();
+        $('#' + 'aboutme').html(tinymce.get('aboutme').getContent());
+        var aboutmehtml = $('#aboutme').val();
+        if (aboutmehtml.length > 60000) {
+          bootpopup.alert('The length of the text "About me" should be no more than 60000 symbols! The current text length - ' + aboutmehtml.length, 'Please pay attention!');
+          return;
+        }
+        var photo_b64 = document.getElementById('photo_b64').value;
+        var firstname = document.getElementById('firstname').value;
+        var surname = document.getElementById('surname').value;
+        var patronymic = document.getElementById('patronymic').value;
+        var nickname = document.getElementById('nickname').value;
+        var birthdate = document.getElementById('birthdate').value;
+        var gender = document.getElementById('gender').value;
+        var userUTC = document.getElementById('userUTC').value;
+        var usercountry = document.getElementById('cclist').value;
+        var user_region = document.getElementById('user_region').value;
+        var user_region_lng = document.getElementById('user_region_lng').value;
+        var oldpwd = document.getElementById('oldpwd').value;
+        var newpwd1 = document.getElementById('newpwd1').value;
+        var newpwd2 = document.getElementById('newpwd2').value;
+        var checkip = document.getElementById('checkip').checked;
+        var birthdateshow = document.getElementById('birthdateshow').checked;
+        var hidelocation = document.getElementById('hidelocation').checked;
+        var notify1 = document.getElementById('notify1').checked;
+        var notify2 = document.getElementById('notify2').checked;
+        var notify3 = document.getElementById('notify3').checked;
+        var notify4 = document.getElementById('notify4').checked;
+        var notify5 = document.getElementById('notify5').checked;
+        var notify6 = document.getElementById('notify6').checked;
+        $('#p_prldr').show();
+        $.post("./savesettings.php", {
+          photo_b64: photo_b64,
+          firstname: firstname,
+          surname: surname,
+          patronymic: patronymic,
+          nickname: nickname,
+          gender: gender,
+          birthdate: birthdate,
+          userUTC: userUTC,
+          usercountry: usercountry,
+          user_region: user_region,
+          user_region_lng: user_region_lng,
+          oldpwd: oldpwd,
+          newpwd1: newpwd1,
+          newpwd2: newpwd2,
+          checkip: checkip,
+          birthdateshow: birthdateshow,
+          hidelocation: hidelocation,
+          aboutmehtml: aboutmehtml,
+          notify1: notify1,
+          notify2: notify2,
+          notify3: notify3,
+          notify4: notify4,
+          notify5: notify5,
+          notify6: notify6,
+          lng: "{$user_lng}",
+          checkID: {
+            $startruntime
+          }
+        }).done(function (data) {
+          $('#p_prldr').delay(100).fadeOut('slow');
+          if (data != 'OK') {
+            bootpopup.alert(data, 'Error');
+          } else {
+            window.scrollTo(0, 0);
+            $.toast({
+              text: 'Saved successfully!',
+              textAlign: 'center',
+              position: 'mid-center',
+              icon: 'success',
+              showHideTransition: 'fade',
+              hideAfter: 3000,
+              loader: true,
+              stack: 5
+            });
+          }
+        });
+      }
+      function addblog() {
+        $('#addblogform').modal('show');
+      }
+      function showaddress(LastKeyCode) {
+        if (LastKeyCode != 13) {
+          var newblog = document.getElementById('blogname').value;
+          document.getElementById("message").innerHTML = '';
+          if (newblog != '') {
+            fontpt = 20;
+            if (newblog.length > 5)
+              fontpt = 16;
+
+            if (newblog.length > 10)
+              fontpt = 14;
+
+            if (newblog.length > 13)
+              fontpt = 12;
+
+            if (newblog.length > 17)
+              fontpt = 10;
+
+            if (newblog.length > 24)
+              fontpt = 8;
+
+            document.getElementById('newaddress').innerHTML = '<font style="font-family: Courier; font-size: ' + fontpt + 'pt; color: #000000;">' + newblog + '.qwerty.blog</font>';
+          } else {
+            document.getElementById('newaddress').innerHTML = '';
+          }
+        }
+      }
+      function regblog() {
+        var newblog = document.getElementById('blogname').value;
+        if (newblog != '') {
+          $('#p_prldr').show();
+          $.post("register.php", {
+            blogname: newblog,
+            lng: "{$user_lng}",
+            checkID: {
+              $startruntime
+            },
+            userUTC: ClientTimeZoneOffset
+          }).done(function (data) {
+            if (data.indexOf(newblog) + 1) {
+              location.href = data;
+            } else {
+              $('#p_prldr').delay(100).fadeOut('slow');
+              document.getElementById("message").innerHTML = '<font color="red">' + data + '</font>';
+              document.getElementById('newaddress').innerHTML = '';
+            }
+          });
+        }
+      }
+      function checkregion() {
+        var usercountry = document.getElementById('cclist').value;
+        var user_region_lng = document.getElementById('user_region_lng').value;
+        if (user_region_lng != '') {
+          if (user_region_lng != '{$user_region_lng}') {
+            $.ajax({
+              url: './regionlng.php',
+              type: 'POST',
+              data: {
+                region_lng: user_region_lng,
+                usercountry: usercountry
+              },
+              async: false,
+              success: function (response) {
+                response = $.parseJSON(response);
+                if (response[0] == 'OK') {
+                  document.getElementById('user_region').value = response[1];
+                  document.getElementById('user_region_lng').value = response[2];
+                }
+              }
+            });
+          } else {
+            document.getElementById('user_region').value = '{$user_region}';
+            document.getElementById('user_region_lng').value = '{$user_region_lng}';
+          }
+        } else {
+          document.getElementById('user_region').value = '';
+          document.getElementById('user_region_lng').value = '';
+        }
+      }
+      function mailcountdown(stopsec) {
+        var seconds = parseInt(new Date().getTime() / 1000);
+        showsec = stopsec - seconds;
+        if (showsec <= 0 || stopsend == 1) {
+          $('#waitsend').hide();
+          if (mailretry > 1) {
+            $('#difemail').show();
+          }
+          if (mailretry > 2) {
+            $('#resend').hide();
+          } else {
+            $('#resend').show();
+          }
+          return;
+        }
+        $('#waitsec').html(showsec);
+        timer = setTimeout(function () {
+          mailcountdown(stopsec);
+        }, 1000);
+      }
+      function mailmsg(argretry) {
+        if (argretry == 0) {
+          mailretry = argretry;
+          stopsend = 1;
+          $('#sended').hide();
+        } else {
+          $('#difemail').hide();
+          stopsend = 0;
+          showsec = 60;
+          $('#waitsec').html(showsec);
+          $('#resend').hide();
+          $('#waitsend').show();
+          $('#sended').show();
+          var seconds = parseInt(new Date().getTime() / 1000) + showsec;
+          mailcountdown(seconds);
+        }
+      }
+    </script>
+
+    {$profile_links}
+
+    <div class="tabs">
+
+      <header class="e-main__header" data-tabs-headline>
+        <h1>Profile. <span class="text-02">Settings</span></h1>
+        <ul class="e-tabs-nav" role='tablist'>
+          <li class="e-tabs-nav__item active" role="none">
+            <a href="#Generalsettings" role="tab" data-toggle="tab">
+              <span class="phone-l:d-none">Personal</span>
+              <span class="d-none phone-l:d-inline">Personal settings</span>
+            </a>
+          </li>
+          <li class="e-tabs-nav__item" role="none">
+            <a href="#accesslog" role="tab" data-toggle="tab">
+              <span class="phone-l:d-none">Log</span>
+              <span class="d-none phone-l:d-inline">Access log</span>
+            </a>
+          </li>
+          <li class="e-tabs-nav__item" id="notificationstab" role="none">
+            <a href="#notifications" role="tab" data-toggle="tab">Notifications</a>
+          </li>
+        </ul>
+      </header>
+
+      <div class="tab-content">
+
+        <!-- TAB: PROFILE -->
+        <div class="tab-pane active" id="Generalsettings">
+          <form class="e-form is-profile" action="javascript:void(0);">
+
+            <fieldset class="e-form-header">
+              <figure class="e-form-avatar">
+                <img id="profilephoto" src="{$userdata[avatar]}">
+              </figure>
+
+              <div id="selectfile">
+                <button onclick="$('#PhotoFile').click()" class="btn">Change photo</button>
+                <input type="file" id="PhotoFile" name="PhotoFile" onchange="showprofilephoto();" style="display:none;">
+                <input type="hidden" id="photo_b64" name="photo_b64">
+                <a class="e-btn is-icon is-danger has-tooltip" href="javascript:void(0)" onclick="deletephoto();" aria-label="Remove profile photo">
+                  <svg class="e-icon" aria-hidden="true" focusable="false">
+                    <use xlink:href="/assets/img/icons/sprite.svg#icon-trash"></use>
+                  </svg>
+                </a>
+              </div>
+            </fieldset>
+
+            {$alertprofile}
+
+            <div class="e-grid is-equal">
+              <p>
+                <label class="e-label" for="firstname">First Name:</label>
+                <input id="firstname" type="text" name="firstname" value="{$userdata[name]}" placeholder="Required">
+              </p>
+              <p>
+                <label class="e-label" for="surname">Last Name:</label>
+                <input id="surname" type="text" name="surname" value="{$userdata[surname]}" placeholder="Required">
+              </p>
+            </div>
+
+            <p>
+              <label class="e-label" for="patronymic">Patronymic:</label>
+              <input id="patronymic" type="text" cname="patronymic" value="{$userdata[patronymic]}" placeholder="Optional">
+            </p>
+
+            <p>
+              <label class="e-label" for="nickname">Pseudonym:</label>
+              <input id="nickname" type="text" name="nickname" value="{$userdata[nickname]}">
+              <small class="e-form__hint">If the pseudonym is not specified, then all your posts will be signed by your name.</small>
+            </p>
+
+            <p>
+              <label class="e-label" for="gender">Gender:</label>
+              <select id="gender" name="gender">
+                <option value="m">male</option>
+                <option value="f">female</option>
+                <option value="n">not chosen</option>
+              </select>
+            </p>
+
+            <p>
+              <label class="e-label" for="birthdate">Birthdate:</label>
+              <input id="birthdate" type="date" name="birthdate" value="{$userdata[birthdate]}">
+              <label class="mt-1 pb-0">
+                <input type="checkbox" name="birthdateshow" id="birthdateshow">
+                <span>Hide my birth date</span>
+              </label>
+            </p>
+
+            <p>
+              <label class="e-label" for="userUTC">Timezone:</label>
+              {$utc_html}
+            </p>
+
+            <p>
+              <label class="e-label" for="cclist">Country:</label>
+              {$cc_html}
+            </p>
+
+            <div>
+              <label class="e-label" for="user_region_lng">City:</label>
+              <div class="typeahead__container">
+                <div class="typeahead__field">
+                  <span class="typeahead__query">
+                    <input id="user_region_lng" name="user_region_lng" type="text" value="{$user_region_lng}" placeholder="City search..." autocomplete="off" onchange="checkregion()">
+                  </span>
+                </div>
+              </div>
+              <input type="hidden" name="user_region" id="user_region" value="{$user_region}">
+              <label class="mt-1">
+                <input type="checkbox" name="hidelocation" id="hidelocation">
+                <span>Hide location</span>
+              </label>
+            </div>
+
+            <fieldset>
+              <legend class="e-h3 mt-2lh mb-0">Security settings</legend>
+
+              <div class="e-form__contacts" id="savemaillink">
+                <label class="e-label" for="email"><!--nottranslate--><span class="nottranslate">Email:</span><!--nottranslate--></label>
+                <div class="e-grid is-equal">
+                  <input id="email" name="email" type="email" value="{$userdata[email]}" disabled>
+                  <a  class="e-btn is-ghost" href="javascript:void(0);" onclick="changemail();">Change</a>
+                </div>
+              </div>
+
+              {$enteremailhtml}
+
+              <div class="e-grid align-center grid-cols-auto" id="savemaillink" style="display: none;">
+                <a class="e-btn" href="javascript:void(0);" onclick="savemail();">Save changes</a>
+                <a class="e-btn is-ghost" ref="javascript:void(0);" onclick="cancelsavemail();">Cancel changes</a>
+              </div>
+
+              <fieldset class="e-form__contacts">
+                <label class="e-label" for="phone">Phone number:</label>
+                <div class="d-flex">
+                  <input id="phone"  name="phone" type="text" value="{$userdata[phone]}" disabled>
+                  <a class="e-btn is-ghost" id="changephonelink" href="javascript:void(0);" onclick="changephone();" style="display: inline-block;">
+                    Change
+                  </a>
+                </div>
+                <small class="e-form__hint" id="phonetext" style="display: none;">
+                  Enter the mobile phone number in the international format (starting with the "+")
+                </small>
+
+                <div class="e-grid align-center grid-cols-auto mt-1lh" id="savephonelink" style="display: none;">
+                  <a class="e-btn" href="javascript:void(0);" onclick="savephone();">Send SMS</a>
+                  <a  class="e-btn is-ghost" href="javascript:void(0);" onclick="cancelsavephone();">Cancel</a>
+                </div>
+
+                <div class="mt-2" id="enterconfirmcode" style="display: none;">
+                  <label class="e-label" for="smscode">SMS code:</label>
+                  <div class="e-grid is-equal">
+                    <input id="smscode" name="smscode" type="text" value="">
+                    <div id="changephonelink" style="display: inline-block;">
+                      <a class="e-btn" href="javascript:void(0);" onclick="savephone();">Check and save</a>
+                      <a class="e-btn is-ghost" href="javascript:void(0);" onclick="cancelsavephone();">Cancel</a>
+                    </div>
+                  </div>
+                </div>
+
+              </fieldset>
+
+              <details class="e-accordion is-messenger">
+                <summary>
+                  💬  Connect your messenger
+                  <span class="e-accordion__marker">
+                    <svg class="e-icon is-sm-chevron-down is-sm" aria-hidden="true" focusable="false">
+                      <use href="/assets/img/icons/sprite.svg#icon-sm-chevron-down"></use>
+                    </svg>
+                  </span>
+                </summary>
+                {$linktomsg}
+                <p>Receive important notifications via instant messenger. To link your account with Telegram, send the following code from your messenger…</p>
+                <div class="e-grid is-auto">
+                  <p class="h2 text-highlight" id="details-code">CODE{$messengers_code}</p>
+                  <button class="e-btn is-outline" type="button" data-role="copy-code">Copy</button>
+                </div>
+                <p>…to the following bots:</p>
+                <!--nottranslate-->
+                <ul class="nottranslate">
+                  <li>Telegram -
+                    <a href="https://t.me/{$config[TelegramBot]}" target="_blank">https://t.me/{$config[TelegramBot]}</a>
+                    (@{$config[TelegramBot]})</li>
+                  <li>Viber -
+                    <a href="https://qwertynetworks.com/l/QwertyAI" target="_blank">https://qwertynetworks.com/l/QwertyAI</a>
+                  </li>
+                </ul>
+                <!--nottranslate-->
+                <p class="text-xs mb-2lh">The link must be opened in the browser of your mobile device. You can connect one or several instant messengers.</p>
+              </details>
+            </fieldset>
+
+            <fieldset>
+              <legend class="e-h3 mt-2lh mb-0">Change Password</legend>
+
+              <p>
+                <label class="e-label" for="oldpwd">Old password:</label>
+                <input id="oldpwd" name="oldpwd" type="password" value="">
+              </p>
+
+              <p>
+                <label class="e-label" for="newpwd1">New password:</label>
+                <input id="newpwd1" name="newpwd1" type="password" value="">
+              </p>
+
+              <p>
+                <label class="e-label" for="newpwd2">Repeat password:</label>
+                <input id="newpwd2" name="newpwd2" type="password" value="">
+              </p>
+
+              <label class="checkbox">
+                <input type="checkbox" name="checkip" id="checkip">
+                <span>To require password when changing the</span>
+                <!--nottranslate-->
+                <span class="nottranslate">IP</span>
+                <!--nottranslate-->
+              </label>
+              <!-- New line -->
+              <div></div>
+              <!-- End: New line -->
+            </fieldset>
+          </form>
+
+        </div>
+
+        <!-- TAB: LOG -->
+        <div class="tab-pane" id="accesslog">
+          <div class="scroll-x">
+            <table>
+              <thead>
+                <tr>
+                  <th>Last access</th>
+                  <th>First access</th>
+                  <th>IP</th>
+                  <th>Country</th>
+                  <th>Region</th>
+                  <th>Browser (OS)</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {$accesslog}
+              </tbody>
+
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB: NOTIFICATIONS -->
+        <div class="tab-pane active" id="notifications">
+          <label>
+            <input type="checkbox" name="notify1" id="notify1">
+            System notifications
+          </label>
+
+          <label>
+            <input type="checkbox" name="notify2" id="notify2">
+            Notify about new comments to my posts
+          </label>
+
+          <label>
+            <input type="checkbox" name="notify3" id="notify3">
+            Notify about new replies to my comments
+          </label>
+
+          <label>
+            <input type="checkbox" name="notify4" id="notify4">
+            Notify about new private message
+          </label>
+
+          <label>
+            <input type="checkbox" name="notify5" id="notify5">
+            I agree to receive letters for which I am paid
+            <span style="white-space: nowrap;"><!--nottranslate--><span class="nottranslate">(wmworker.com - 0,03 WMC / 1 email)</span><!--nottranslate--></span>
+          </label>
+
+          <label>
+            <input type="checkbox" name="notify6" id="notify6">
+            Important critical notifications
+          </label>
+        </div>
+
       </div>
-    </header> #}
-
-    <div class="e-scroller is-2-directions">
-      <table class="table has-hovered-rows has-2-liners" id="crypto-table" data-sort-field="{{ sort_field }}" data-sort-direction="{{ sort_direction }}">
-        <thead>
-          <tr>
-            {# <th class="table__cell is-action" aria-label="{{ 'Watchlist'|trans }}" scope="col"></th> #}
-            <th class="table__cell is-text" scope="col">
-              <button class="e-btn is-sort {{ sort_field == 'asset' ? 'is-active' : '' }} {{ sort_field == 'asset' and sort_direction == 'desc' ? 'is-desc' : '' }}" type="button" data-sort-field="asset" aria-label="{{ 'Sort by asset'|trans }}" aria-sort="{{ sort_field == 'asset' ? (sort_direction == 'asc' ? 'ascending' : 'descending') : 'none' }}">
-                {{ 'Asset'|trans }}
-                {% include 'partials/icon.twig' with {name: 'up'} %}
-              </button>
-            </th>
-            <th class="table__cell is-num" scope="col">
-              <button type="button" class="e-btn is-sort {{ sort_field == 'price' ? 'is-active' : '' }} {{ sort_field == 'price' and sort_direction == 'desc' ? 'is-desc' : '' }}" data-sort-field="price" aria-label="{{ 'Sort by price'|trans }}" aria-sort="{{ sort_field == 'price' ? (sort_direction == 'asc' ? 'ascending' : 'descending') : 'none' }}">
-                {{ 'Price'|trans }}, $
-                {% include 'partials/icon.twig' with {name: 'up'} %}
-              </button>
-            </th>
-            <th class="table__cell is-num" scope="col">
-              <button class="e-btn is-sort {{ sort_field == 'change' ? 'is-active' : '' }} {{ sort_field == 'change' and sort_direction == 'desc' ? 'is-desc' : '' }}" type="button" data-sort-field="change" aria-label="{{ 'Sort by change'|trans }}" aria-sort="{{ sort_field == 'change' ? (sort_direction == 'asc' ? 'ascending' : 'descending') : 'none' }}">
-                {{ 'Chg (24H)'|trans }}, %
-                {% include 'partials/icon.twig' with {name: 'up'} %}
-              </button>
-            </th>
-            <th class="table__cell is-num" scope="col">
-              <button class="e-btn is-sort {{ sort_field == 'rating' ? 'is-active' : '' }} {{ sort_field == 'rating' and sort_direction == 'desc' ? 'is-desc' : '' }}" type="button" data-sort-field="rating" aria-label="{{ 'Sort by rating'|trans }}" aria-sort="{{ sort_field == 'rating' ? (sort_direction == 'asc' ? 'ascending' : 'descending') : 'none' }}">
-                {{ 'Rating'|trans }}
-                {% include 'partials/icon.twig' with {name: 'up'} %}
-              </button>
-            </th>
-            <th class="table__cell is-icon" scope="col">{{ 'Risk'|trans }}</th>
-            <th class="table__cell is-num" scope="col">
-              <button class="e-btn is-sort {{ sort_field == 'trandx' ? 'is-active' : '' }} {{ sort_field == 'trandx' and sort_direction == 'desc' ? 'is-desc' : '' }}" type="button" data-sort-field="trandx" aria-label="{{ 'Sort by TRANDX'|trans }}" aria-sort="{{ sort_field == 'trandx' ? (sort_direction == 'asc' ? 'ascending' : 'descending') : 'none' }}">
-                {{ 'TRANDX'|trans }}
-                {% include 'partials/icon.twig' with {name: 'up'} %}
-              </button>
-            </th>
-            <th class="table__cell is-num" scope="col">
-              <button class="e-btn is-sort {{ sort_field == 'rsi' ? 'is-active' : '' }} {{ sort_field == 'rsi' and sort_direction == 'desc' ? 'is-desc' : '' }}" type="button" data-sort-field="rsi" aria-label="{{ 'Sort by RSI'|trans }}" aria-sort="{{ sort_field == 'rsi' ? (sort_direction == 'asc' ? 'ascending' : 'descending') : 'none' }}">
-                {{ 'RSI (7D)'|trans }}
-                {% include 'partials/icon.twig' with {name: 'up'} %}
-              </button>
-            </th>
-            {# <th class="table__cell is-action" aria-label="{{ 'Chart'|trans }}" scope="col"></th> #}
-          </tr>
-        </thead>
-        <tbody id="crypto-table-body">
-          <tr style="height: 0px">
-            <td colspan="7" style="padding: 0; border: 0"></td>
-          </tr>
-
-                    <tr data-asset-id="SANTOS" data-asset-symbol="SANTOS" tabindex="0" aria-label="Santos FC Fan Token - 2.32 USD" id="asset-row-SANTOS">
-            <td class="table__cell is-text is-2-liner">
-              <div class="e-asset">
-                <div class="e-asset__copy">
-                  <span class="e-asset__name">Santos FC Fan Token Santos FC Fan Token Santos FC Fan Token Santos FC Fan Token Santos FC Fan Token Santos FC Fan Token Santos FC Fan Token Santos FC Fan Token</span>
-                  <span class="e-asset__symbol">SANTOS</span>
-                </div>
-                <img class="e-asset__icon" src="/projects/cryptoapi.ai/assets/img/cryptologos/santos.svg" alt="" loading="lazy" width="32" height="32" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';" style="display: none"/>
-                <span class="e-asset__icon-fallback" aria-hidden="true" style="display: inline-flex">SAN</span>
-              </div>
-            </td>
-            <td class="table__cell is-num">2.32</td>
-            <td class="table__cell is-num is-negative">-2.26</td>
-            <td class="table__cell is-num">1</td>
-            <td class="table__cell is-icon is-icon">
-              <span class="has-tooltip" aria-label="Низкий риск">
-                <svg class="e-icon is-success" aria-hidden="true" focusable="false">
-                  <use xlink:href="/projects/cryptoapi.ai/assets/img/icons/sprite.svg#icon-success"></use>
-                </svg>
-              </span>
-            </td>
-            <td class="table__cell is-num">42</td>
-            <td class="table__cell is-num">13</td>
-          </tr>
-          <tr data-asset-id="RLC" data-asset-symbol="RLC" tabindex="0" aria-label="iExec RLC - 1.06 USD" id="asset-row-RLC">
-            <td class="table__cell is-text is-2-liner">
-              <div class="e-asset">
-                <div class="e-asset__copy">
-                  <span class="e-asset__name">Bitcoin</span>
-                  <span class="e-asset__symbol">btc</span>
-                </div>
-                <img class="e-asset__icon" src="/projects/cryptoapi.ai/assets/img/cryptologos/rlc.svg" alt="" loading="lazy" width="32" height="32" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';" style="display: none"/>
-                <span class="e-asset__icon-fallback" aria-hidden="true" style="display: inline-flex">RLC</span>
-              </div>
-            </td>
-            <td class="table__cell is-num">1.06</td>
-            <td class="table__cell is-num is-negative">-2.13</td>
-            <td class="table__cell is-num">2</td>
-            <td class="table__cell is-icon is-icon">
-              <span class="has-tooltip" aria-label="Низкий риск">
-                <svg class="e-icon is-success" aria-hidden="true" focusable="false">
-                  <use xlink:href="/projects/cryptoapi.ai/assets/img/icons/sprite.svg#icon-success"></use>
-                </svg>
-              </span>
-            </td>
-            <td class="table__cell is-num">43</td>
-            <td class="table__cell is-num">14</td>
-          </tr>
-          <tr data-asset-id="IOTX" data-asset-symbol="IOTX" tabindex="0" aria-label="IoTeX - 0.0170 USD" id="asset-row-IOTX">
-            <td class="table__cell is-text is-2-liner">
-              <div class="e-asset">
-                <div class="e-asset__copy">
-                  <span class="e-asset__name">IoTeX</span>
-                  <span class="e-asset__symbol">IOTX</span>
-                </div>
-                <img class="e-asset__icon" src="/projects/cryptoapi.ai/assets/img/cryptologos/iotx.svg" alt="" loading="lazy" width="32" height="32" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';" style="display: none"/>
-                <span class="e-asset__icon-fallback" aria-hidden="true" style="display: inline-flex">IOT</span>
-              </div>
-            </td>
-            <td class="table__cell is-num">0.0170</td>
-            <td class="table__cell is-num is-negative">-2.59</td>
-            <td class="table__cell is-num">3</td>
-            <td class="table__cell is-icon is-icon">
-              <span class="has-tooltip" aria-label="Низкий риск">
-                <svg class="e-icon is-success" aria-hidden="true" focusable="false">
-                  <use xlink:href="/projects/cryptoapi.ai/assets/img/icons/sprite.svg#icon-success"></use>
-                </svg>
-              </span>
-            </td>
-            <td class="table__cell is-num">44</td>
-            <td class="table__cell is-num">17</td>
-          </tr>
-
-          <tr style="height: 0">
-            <td colspan="7" style="padding: 0; border: 0"></td>
-          </tr>
-        </tbody>
-      </table>
     </div>
 
-
-    <!-- Скрытое уведомление для Screen Readers -->
-    <div class="visually-hidden" aria-live="polite" id="screen-reader-announcement"></div>
-
+    <div class="e-grid is-actions">
+      <a href="/g2fa">
+        <span class="phone-l:d-none">Enable 2FA!</span>
+        <span class="d-none phone-l:d-inline">{$g2faphrase}</span>
+      </a>
+      <button class="e-btn is-primary" id="savebutton" type="button" onclick="savesettings();">Save</button>
+    </div>
   </div>
 {% endblock %}
 
-{% block body_suffix %}
-  <!-- Выдвижная панель с графиком -->
-  <dialog class="e-drawer is-bottom" id="drawer-chart">
-    <div class="e-drawer__header">
-      <h2>График актива</h2>
-      <button class="e-btn is-close" type="button" data-role="close-drawer" aria-label="{{ 'Close'|trans }}">
-        {% include 'partials/icon.twig' with {name: 'sm-x-mark', classes: 'is-sm', assets_prefix: assets_prefix} %}
-      </button>
-    </div>
-    <div class="e-drawer__content">
-      <div class="e-drawer__chart" id="asset-chart"></div>
-    </div>
-  </dialog>
-{% endblock %}
+{% block body_suffix %}{% endblock %}

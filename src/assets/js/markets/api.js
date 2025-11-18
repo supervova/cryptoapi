@@ -375,7 +375,7 @@ export async function fetchChartData(ticker, period = '1d', timeframe = '1m') {
           } else {
             errorDetail = JSON.stringify(errorJson);
           }
-        } catch (e) {
+        } catch {
           /* Не удалось распарсить JSON ошибки, используем статус */
         }
         throw new Error(errorDetail);

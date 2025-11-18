@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Скрываем индикатор загрузки
       chartLoader.style.display = 'none';
-    } catch (error) {
+    } catch {
       // console.error('Ошибка при рендеринге графика:', error);
       chartError.style.display = 'flex';
       chartLoader.style.display = 'none';

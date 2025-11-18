@@ -29,16 +29,6 @@ address {
   font-style: normal;
 }
 
-div,
-dd,
-dt,
-li,
-p,
-td,
-th {
-  overflow-wrap: break-word;
-}
-
 .e-lead {
   @include text-format(h3);
   margin: 0;
@@ -138,7 +128,7 @@ dd {
 }
 
 hr {
-  --margin: calc(var(--dim-lh) * 3);
+  --margin: calc(var(--lh) * 3);
   border: 0;
   border-top: var(--border-width) solid var(--color-border);
   margin-top: calc(var(--margin) - var(--border-width));
@@ -154,6 +144,7 @@ hr {
 
     color: var(--color-text-03);
     display: inline-block;
+    translate: rem(-14);
   }
 
   &::before,
@@ -236,12 +227,12 @@ i {
 }
 
 small {
-  font-size: var(--font-size-caption);
-  line-height: var(--line-height-caption);
+  font-size: var(--font-size-fine-print);
+  line-height: var(--line-height-fine-print);
 }
 
 .e-petit {
-  @include text-format(caption);
+  @include text-format(fine-print);
 }
 
 ::selection {
@@ -253,7 +244,7 @@ small {
 // Sub / Sup
 sub,
 sup {
-  font-size: var(--font-size-caption);
+  font-size: var(--font-size-fine-print);
   line-height: 0;
   position: relative;
   vertical-align: baseline;

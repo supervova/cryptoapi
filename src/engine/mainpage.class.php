@@ -23,16 +23,16 @@ $page_meta = [
 
 $data_objects['page'] = array_merge($data_objects['page'] ?? [], $page_meta);
 
-$market = fetch_marketdata();
+$marketdata = memcache_get($memcache_obj, "cryptomarketdata");
 
 $data_objects['page']['market_tops'] = [
-  'loser_ticker' => $market['leader']['fall']['curr']   ?? null,
-  'loser_price' => $market['leader']['fall']['price']   ?? null,
-  'loser_diff' => $market['leader']['fall']['diff']   ?? null,
+  'loser_ticker' => $marketdata['leader']['fall']['curr']   ?? null,
+  'loser_price' => $marketdata['leader']['fall']['price']   ?? null,
+  'loser_diff' => $marketdata['leader']['fall']['diff']   ?? null,
 
-  'gainer_ticker' => $market['leader']['growth']['curr']   ?? null,
-  'gainer_price' => $market['leader']['growth']['price']   ?? null,
-  'gainer_diff' => $market['leader']['growth']['diff']   ?? null,
+  'gainer_ticker' => $marketdata['leader']['growth']['curr']   ?? null,
+  'gainer_price' => $marketdata['leader']['growth']['price']   ?? null,
+  'gainer_diff' => $marketdata['leader']['growth']['diff']   ?? null,
 ];
 
 $data_objects['page']['stats'] = [

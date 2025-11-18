@@ -104,7 +104,7 @@ h1:not(.e-article__header h1) {
   flex-direction: column;
 
   time {
-    @include text-format(caption);
+    @include text-format(fine-print);
     color: var(--color-text-02);
     font-weight: 600;
     letter-spacing: rem(0.2);

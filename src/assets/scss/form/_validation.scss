@@ -32,8 +32,8 @@
 // Use span to prevent build error caused by div in p
 /* span */.e-form__error {
   color: var(--color-text-error);
-  font-size: var(--font-size-caption);
-  line-height: var(--line-height-caption);
+  font-size: var(--font-size-fine-print);
+  line-height: var(--line-height-fine-print);
   text-align: left;
   display: block;
   overflow: hidden;
@@ -48,7 +48,7 @@
 .e-form__error > small {
   display: block;
   margin-top: var(--dim-0p5);
-  padding-block: var(--padding-top-caption);
+  padding-block: var(--padding-top-fine-print);
   padding-inline: var(--dim-2);
 }
 
@@ -86,7 +86,7 @@
     display: block;
     opacity: 1;
     height: auto;
-    margin-bottom: var(--dim-lh);
+    margin-bottom: var(--lh);
 
     @starting-style {
       height: 0;

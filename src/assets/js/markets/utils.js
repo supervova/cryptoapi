@@ -1,6 +1,6 @@
 // assets/js/markets/utils.js
 import * as DOMElements from './dom.js';
-import * as state from './state.js';
+import { state, setUpdateIntervalId } from './state.js';
 
 /**
  * Получение вложенного значения из объекта по пути
@@ -19,7 +19,7 @@ export const getNestedValue = (obj, path) => {
 export function cleanup() {
   if (state.updateIntervalId) {
     clearInterval(state.updateIntervalId);
-    state.setUpdateIntervalId(null);
+    setUpdateIntervalId(null);
   }
 }
 

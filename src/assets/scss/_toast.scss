@@ -34,13 +34,13 @@
     transform var(--toast-animation-duration) ease;
   width: 100%;
   max-width: var(--width-base);
-  z-index: var(--zindex-fixed);
+  z-index: var(--z-fixed);
 
   @media (--tablet) {
     --toast-padding: var(--dim-4);
 
-    top: var(--dim-lh);
-    right: var(--dim-lh);
+    top: var(--lh);
+    right: var(--lh);
     bottom: auto;
     left: auto;
     translate: 0 0;

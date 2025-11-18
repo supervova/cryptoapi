@@ -1,6 +1,4 @@
-/* eslint-disable import/prefer-default-export */
 export function initPasswordToggles() {
-  /* eslint-disable import/prefer-default-export */
   document
     .querySelectorAll('input[data-role="password"]')
     .forEach((passwordInput) => {

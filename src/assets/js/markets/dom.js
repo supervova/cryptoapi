@@ -7,6 +7,7 @@ export const scrollContainer = document.getElementById(
 );
 export const table = document.getElementById('crypto-table');
 export const tableBody = document.getElementById('crypto-table-body');
+export const tableColGroup = table?.querySelector('colgroup');
 export const tableHead = table?.querySelector('thead'); // table может быть null, если DOM не загружен
 
 // Экранный диктор

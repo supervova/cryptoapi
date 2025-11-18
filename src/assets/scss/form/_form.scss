@@ -43,6 +43,8 @@ form > div:not([class]) {
 
 legend {
   @include text-format(base);
+
+  color: var(--color-text);
   display: block;
   font-weight: 500;
   white-space: normal;
@@ -102,7 +104,7 @@ legend {
   }
 
   label span {
-    @include text-format(caption);
+    @include text-format(fine-print);
   }
 
   input {
@@ -183,7 +185,7 @@ textarea {
     box-shadow var(--easing-base) var(--duration-50),
     color var(--easing-base) var(--duration-50);
   width: 100%;
-  min-height: calc(var(--dim-lh) * 2);
+  min-height: calc(var(--lh) * 2);
 
   &:focus,
   &:focus-visible {
@@ -247,7 +249,7 @@ textarea {
 }
 
 textarea:not([rows]) {
-  height: calc(var(--dim-lh) * 6);
+  height: calc(var(--lh) * 6);
 }
 
 [disabled]:not([disabled='false']),
@@ -264,15 +266,17 @@ textarea:not([rows]) {
 /* small */.e-form__hint {
   display: block;
   color: var(--color-text-02);
+  font-weight: 500;
+  letter-spacing: var(--letter-spacing-fine-print);
   text-align: left;
   margin-top: var(--dim-0p5);
-  padding-block: var(--padding-top-caption);
-  padding-inline: var(--dim-2);
-  max-width: var(--width-readable);
+  padding-block: var(--padding-top-fine-print);
+  padding-inline: 0;
+  max-width: 90ch;
 }
 
 .e-form__disclaimer {
-  margin-block: var(--dim-lh);
+  margin-block: var(--lh);
 }
 
 // -----------------------------------------------------------------------------

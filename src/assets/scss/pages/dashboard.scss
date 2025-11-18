@@ -13,13 +13,13 @@
 
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--dim-lh);
+  gap: var(--lh);
   padding-bottom: var(--dim-3);
 
   @media (--tablet) {
     grid-template-columns: 1fr 1fr;
     align-items: stretch;
-    padding-bottom: var(--dim-lh);
+    padding-bottom: var(--lh);
   }
 
   @media (--tablet-l) {
@@ -35,7 +35,7 @@
 .e-content__base {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--dim-lh);
+  gap: var(--lh);
   order: 1;
 
   @media (--tablet) {

@@ -108,11 +108,11 @@
   line-height: var(--line-height-base) !important;
   padding-block: var(--padding-y-input) !important;
   padding-inline: var(--padding-x-input) !important;
-  min-height: calc(var(--dim-lh) * 2) !important;
+  min-height: calc(var(--lh) * 2) !important;
 }
 
 .typeahead__cancel-button {
-  font-size: var(--dim-lh);
+  font-size: var(--lh);
   color: var(--color-text-03);
   position: absolute;
   right: var(--dim-2);
@@ -132,7 +132,7 @@
 .e-filter.is-row {
   border-radius: var(--radius-base);
   display: inline-flex;
-  margin-bottom: var(--dim-lh);
+  margin-bottom: var(--lh);
   padding: var(--padding-x-box);
 }
 
@@ -141,7 +141,7 @@
   flex-direction: column;
 
   a {
-    @include text-format(caption);
+    @include text-format(fine-print);
   }
 }
 
@@ -274,7 +274,7 @@
     background-color: var(--color-bg-02);
     border-radius: var(--radius-base);
     overflow: hidden;
-    margin: 0 0 var(--dim-lh) !important;
+    margin: 0 0 var(--lh) !important;
     position: relative;
   }
 
@@ -338,7 +338,7 @@
   }
 
   cite {
-    @include text-format(caption);
+    @include text-format(fine-print);
     margin-top: var(--dim-1);
     padding-inline: var(--dim-1p5);
   }

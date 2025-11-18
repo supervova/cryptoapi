@@ -114,5 +114,5 @@
 
   /* Первый вызов сразу после загрузки, затем каждые 30 сек */
   updateStats();
-  setInterval(updateStats, 30_000);
+  setInterval(updateStats, 10_000);
 })();

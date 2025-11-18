@@ -1,43 +1,4 @@
-{#
-{% set data_menu_guest = {
-...
-  "products": {
-    "comment": "instead trading",
-    "label": "Products",
-    "href": "products",
-    "icon": "grid-4x4"
-  },
-...
-  "more": {
-    "label": "More",
-    "icon": "more",
-    "children": {
-      "pricing": {
-        "label": "Pricing",
-        "href": "pricing",
-        "icon": "money"
-      },
-      "news": {
-        "label": "News",
-        "href": "news",
-        "icon": "news"
-      },
-      "support": {
-        "label": "Support",
-        "href": "support",
-        "icon": "support"
-      }
-    }
-  }
-
-{% set data_menu_user = {
-  "markets": {...},
-  "news": {
-    "label": "News",
-    "href": "news",
-    "icon": "news"
-  },
-#}
+{# @see there is version w/ alt list items in backup/twig #}
 
 {% set data_menu_guest = {
   "home": {
@@ -51,28 +12,28 @@
     "href": "trading",
     "icon": "candles"
   },
-  "markets": {
-    "label": "Markets",
-    "href": "markets",
-    "icon": "chart-line"
+  "signals": {
+    "label": "Signals",
+    "href": "signals",
+    "icon": "robot"
   },
-  "support": {
-    "label": "Support",
-    "href": "support",
-    "icon": "support"
+  "more": {
+    "label": "More",
+    "icon": "more",
+    "children": {
+      "markets": {
+        "label": "Markets",
+        "href": "markets",
+        "icon": "chart-line"
+      },
+      "support": {
+        "label": "Support",
+        "href": "support",
+        "icon": "support"
+      }
+    }
   }
  } %}
-
-  {# "dashboard": {
-    "label": "Dashboard",
-    "href": "dashboard",
-    "icon": "home"
-  },
-  "watchlist": {
-    "label": "Watchlist",
-    "href": "watchlist",
-    "icon": "coins"
-  }, #}
 
 {% set data_menu_user = {
   "trading": {
@@ -87,23 +48,23 @@
   },
   "markets": {
     "label": "Markets",
-    "href":  "markets",
-    "icon":  "chart-line"
+    "href": "markets",
+    "icon": "chart-line"
   },
 
   "more": {
     "label": "More",
     "icon": "more",
     "children": {
-      "api": {
-        "label": "API",
-        "href": "cryptoapi",
-        "icon": "plug"
-      },
       "pricing": {
         "label": "Pricing",
         "href": "pricing",
         "icon": "money"
+      },
+      "support": {
+        "label": "Support",
+        "href": "support",
+        "icon": "support"
       }
     }
   }
@@ -149,7 +110,7 @@
         {% endif %}
       </picture>
       <span class="e-navbar__tagline">
-        <span class="tablet:d-none">{{ 'AI for Crypto Market'|trans }}</span>
+        <span class=" nobr tablet:d-none">{{ 'AI for Crypto Market'|trans }}</span>
         <span class="is-compact">{{ 'for trading'|trans }}</span>
         <span class="is-full">{{ 'AI Crypto Analytics and Signals'|trans }}</span>
       </span>

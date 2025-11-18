@@ -45,7 +45,7 @@
     <header class="e-main__header">
       <h1>
         {{ 'Trading'|trans }}.
-        <span class="text-02">{{ 'My Assets'|trans }}</span>
+        <span class="text-2ry">{{ 'My Assets'|trans }}</span>
       </h1>
 
       {% set trading_tabs = [
@@ -234,6 +234,7 @@ if (data.stopsale == 2 && asset !== 'BNB') {
 
         // вычисляем ожидаемую прибыль
         let expectedProfit = forecastTotalSum - portfolioTotalBuy;
+        // forecastTotalSum = forecastTotalSum + expectedProfit;
 
         // добавляем итоговые строки
         html += `
@@ -368,7 +369,7 @@ if (data.stopsale == 2 && asset !== 'BNB') {
   .is-allow {
     color:#a8ffd2
   }
-
+  
 .tradewraning {
   display: flex;
   align-items: flex-start;

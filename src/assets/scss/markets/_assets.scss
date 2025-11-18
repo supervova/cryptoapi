@@ -91,8 +91,8 @@
 
 .e-assets__price small,
 .e-assets__name {
-  font-size: var(--font-size-caption);
-  line-height: var(--font-size-caption);
+  font-size: var(--font-size-fine-print);
+  line-height: var(--font-size-fine-print);
 }
 
 .e-assets__name {
@@ -111,6 +111,7 @@
   display: flex;
   align-items: center;
   gap: var(--dim-1p5);
+  max-width: 100%;
 
   @media (any-hover: hover) and (pointer: fine) {
     &:hover {
@@ -129,7 +130,7 @@
   display: block;
   font-size: var(--font-size-base);
   line-height: var(--line-height-base);
-  max-width: 40vw;
+  max-width: 100%;
   min-width: 0;
 
   @media (--tablet) {
@@ -143,8 +144,8 @@
 
 .e-asset__symbol {
   color: var(--color-text-02);
-  font-size: var(--font-size-caption);
-  line-height: var(--line-height-caption);
+  font-size: var(--font-size-fine-print);
+  line-height: var(--line-height-fine-print);
   font-weight: 500;
   margin-top: rem(-4);
 }

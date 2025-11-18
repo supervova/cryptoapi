@@ -1,0 +1,26 @@
+@use '../abstracts' as *;
+@use '../abstracts/custom';
+
+// Legacy pages: Profile, Legal
+:where(
+  .e-page:is(
+    .is-privacy,
+    .is-useragreement,
+    .is-notifications,
+    .is-finance,
+    .is-g2fa
+  )
+.e-main) {
+  > .e-container {
+    max-width: rem(880);
+  }
+
+  h1 small {
+    display: block;
+    color: var(--color-text-02);
+    font-size: inherit;
+    line-height: inherit;
+  }
+}
+
+

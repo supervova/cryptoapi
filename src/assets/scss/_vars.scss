@@ -4,8 +4,9 @@
 // prettier-ignore
 
 :root {
-  // 🎨 COLORS
-  // #region
+  // ---------------------------------------------------------------------------
+  // #region: 🎨 COLORS
+  // ---------------------------------------------------------------------------
 
   --h-blue:   223;
   --h-green:  168;
@@ -60,8 +61,9 @@
   --filter-brightness-down: brightness(0.84);
   // #endregion
 
-  // 🔠 TYPOGRAPHY
-  // #region
+  // ---------------------------------------------------------------------------
+  // #region: 🔠 TYPOGRAPHY
+  // ---------------------------------------------------------------------------
 
   --font-family-emoji:
    'Apple Color Emoji',
@@ -115,7 +117,7 @@
   --padding-top-h2:     0;
   --padding-bottom-h2:  0;
 
-  --margin-top-subhead: var(--dim-lh);
+  --margin-top-subhead: var(--lh);
 
   --font-size-h3:      #{rem(17)};
   --font-weight-h3:    var(--font-weight-titles-max);
@@ -131,26 +133,21 @@
   --padding-bottom-base: #{rem(2)};
 
   --font-size-body-sm:      #{rem(15)};
-  --line-height-body-sm:    #{math.div(20, 15)};
   --letter-spacing-body-sm: #{rem(0.1)};
+  --line-height-body-sm:    #{math.div(20, 15)};
   --padding-top-body-sm:    #{rem(1)};
   --padding-bottom-body-sm: #{rem(3)};
 
-  --font-size-label:      #{rem(15)};
-  --letter-spacing-label: 0;
-  --line-height-label:    #{math.div(20, 15)};
-  --padding-top-label:    #{rem(1)};
-  --padding-bottom-label: #{rem(3)};
-
-  --font-size-caption:      #{rem(12)};
-  --letter-spacing-caption: 0;
-  --line-height-caption:    #{math.div(16, 12)};
-  --padding-top-caption:    #{rem(4)};
-  --padding-bottom-caption: #{rem(4)};
+  --font-size-fine-print:      #{rem(12)};
+  --letter-spacing-fine-print: #{rem(0.5)};
+  --line-height-fine-print:    #{math.div(16, 12)};
+  --padding-top-fine-print:    #{rem(4)};
+  --padding-bottom-fine-print: #{rem(4)};
     // #endregion
 
-  // 📐 SPACING
-  // #region
+  // ---------------------------------------------------------------------------
+  // #region: 📐 SPACING
+  // ---------------------------------------------------------------------------
 
   --dim-0p5: #{rem(4)};
   --dim-1:    #{rem(8)};
@@ -164,16 +161,114 @@
   --dim-7:    #{rem(56)};
   --dim-8:    #{rem(64)};
 
-  --dim-lh:       var(--dim-3);
-  --spacer:          var(--dim-lh);
+  --lh:              var(--dim-3);
+  --spacer:          var(--lh);
   --spacer-half-max: var(--dim-4);
   --spacer-max:      var(--dim-8);
   --gap-base:        var(--dim-2p5);
   --gap-large:       var(--dim-4);
+
   // #endregion
 
-  // 🍱 COMPONENTS BASE
-  // #region
+  // ---------------------------------------------------------------------------
+  // #region: 🌓 SHADOWS
+  // ---------------------------------------------------------------------------
+
+  // FAB, Buttons hover, Snackbars, Sticky Components
+  --shadow-z1:
+    inset 0 0 0.5px 1px var(--color-alpha-light-min),
+    0 0 0 1px hsl(var(--color-shadow) / var(--shadow-ring, 0.04)),
+    0 1px 2px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06)),
+    0 2px 4px -1px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06));
+
+  // Overlays: popovers, Tooltips, Drawers, Dropdowns, Pickers,
+  // Modal Bottom Sheets, FAB hover
+  --shadow-z2:
+    inset 0 0 0.5px 1px var(--color-alpha-light-min),
+    0 0 0 1px hsl(var(--color-shadow) / var(--shadow-ring, 0.04)),
+    0 3px 6px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06)),
+    0 15px 28px -1px hsl(var(--color-shadow) / var(--shadow-opacity-mid, 0.1));
+
+  // Modals
+  --shadow-z3:
+    inset 0 0 0.5px 1px var(--color-alpha-light-min),
+    0 0 0 1px hsl(var(--color-shadow) / var(--shadow-ring, 0.04)),
+    0 9px 14px -5px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06)),
+    0 40px 72px -5px hsl(var(--color-shadow) / var(--shadow-opacity-hi, 0.12));
+
+  // Z-INDEX
+  --z-sticky:  10;
+  --z-fixed:   20;  // including app/nav bar
+  --z-fab:     30;
+  --z-popover: 40;
+  --z-tooltip: 50;
+  --z-drawer:  70;
+  --z-modal:   80;
+
+  // #endregion
+
+  // ---------------------------------------------------------------------------
+  // #region: 🔲 WIDTHS
+  // ---------------------------------------------------------------------------
+
+  --width-sm:        #{rem(272)};
+
+  // popovers, tablet and desktop drawers, alerts (.e-modal.is-sm) on landscape phones
+  --width-base:      #{rem(320)};
+
+  // Wide drawers, alerts (.e-modal.is-sm), popovers on tablets and up
+  --width-md:        #{rem(448)};
+
+  // Default modals on landscape phones and up
+  --width-lg:        #{rem(544)};
+
+  // Large modals on desktops
+  --width-xl:        #{rem(720)};
+
+  // 1232 + 64*2 paddings
+  --width-container: #{rem(1360)};
+
+  --width-readable:  70ch;
+
+  // #endregion
+
+  // ---------------------------------------------------------------------------
+  // #region: 👻 MOTION DESIGN
+  // ---------------------------------------------------------------------------
+
+  // https://designsystems.surf/directories/motion
+
+  // Micro-interactions such as button and toggle
+  --duration-50: 0.07s;
+
+  // Micro-interactions such as fade
+  --duration-100: 0.11s;
+
+  // Micro-interactions, small expansion, short distance movements
+  --duration-200: 0.15s;
+
+  // Expansion, system communication, toast
+  --duration-500: 0.24s;
+
+  // Large expansion, important system notifications
+  --duration-700: 0.4s;
+
+  // Background dimming and other ambient transitions that don't involve user input.
+  --duration-900: 0.7s;
+  --duration-1000: 1s;
+
+  // In the visible state of the panel, use --easing-appearance and the full duration variable in transition.
+  // In the hidden state, use --easing-disappearance and a reducing coefficient of 0.8 for duration.
+  --easing-base: cubic-bezier(0.2, 0, 0.38, 0.9);
+  --easing-appearance: cubic-bezier(0, 0, 0.38, 0.9);
+  --easing-disappearance: cubic-bezier(0.2, 0, 1, 0.9);
+  --easing-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  // #endregion
+
+  // ---------------------------------------------------------------------------
+  // #region: 🍱 COMPONENTS BASE
+  // ---------------------------------------------------------------------------
 
   // SPACING
   --padding-bottom-list: #{rem(16)};
@@ -214,99 +309,7 @@
 
   --radius-pill: 100vmax;
 
-  // 🌓 SHADOWS
-  // #region
-
-  // FAB, Buttons hover, Snackbars, Sticky Components
-  --shadow-z1:
-    inset 0 0 0.5px 1px var(--color-alpha-light-min),
-    0 0 0 1px hsl(var(--color-shadow) / var(--shadow-ring, 0.04)),
-    0 1px 2px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06)),
-    0 2px 4px -1px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06));
-
-  // Overlays: popovers, Tooltips, Drawers, Dropdowns, Pickers,
-  // Modal Bottom Sheets, FAB hover
-  --shadow-z2:
-    inset 0 0 0.5px 1px var(--color-alpha-light-min),
-    0 0 0 1px hsl(var(--color-shadow) / var(--shadow-ring, 0.04)),
-    0 3px 6px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06)),
-    0 15px 28px -1px hsl(var(--color-shadow) / var(--shadow-opacity-mid, 0.1));
-
-  // Modals
-  --shadow-z3:
-    inset 0 0 0.5px 1px var(--color-alpha-light-min),
-    0 0 0 1px hsl(var(--color-shadow) / var(--shadow-ring, 0.04)),
-    0 9px 14px -5px hsl(var(--color-shadow) / var(--shadow-opacity-low, 0.06)),
-    0 40px 72px -5px hsl(var(--color-shadow) / var(--shadow-opacity-hi, 0.12));
-
-  // Z-INDEX
-  --zindex-sticky:  10;
-  --zindex-fixed:   20;  // including app/nav bar
-  --zindex-fab:     30;
-  --zindex-popover: 40;
-  --zindex-tooltip: 50;
-  --zindex-drawer:  70;
-  --zindex-modal:   80;
-  // #endregion
-
-  // 🔲 WIDTHS
-  // #region
-
-  --width-sm:        #{rem(272)};
-
-  // popovers, tablet and desktop drawers, alerts (.e-modal.is-sm) on landscape phones
-  --width-base:      #{rem(320)};
-
-  // Wide drawers, alerts (.e-modal.is-sm), popovers on tablets and up
-  --width-md:        #{rem(448)};
-
-  // Default modals on landscape phones and up
-  --width-lg:        #{rem(544)};
-
-  // Large modals on desktops
-  --width-xl:        #{rem(720)};
-
-  // 1232 + 64*2 paddings
-  --width-container: #{rem(1360)};
-
-  --width-readable:  70ch;
-  // #endregion
-
-
-  // 👻 MOTION DESIGN
-  // #region
-  // https://designsystems.surf/directories/motion
-
-  // Micro-interactions such as button and toggle
-  --duration-50: 0.07s;
-
-  // Micro-interactions such as fade
-  --duration-100: 0.11s;
-
-  // Micro-interactions, small expansion, short distance movements
-  --duration-200: 0.15s;
-
-  // Expansion, system communication, toast
-  --duration-500: 0.24s;
-
-  // Large expansion, important system notifications
-  --duration-700: 0.4s;
-
-  // Background dimming and other ambient transitions that don't involve user input.
-  --duration-900: 0.7s;
-  --duration-1000: 1s;
-
-  // In the visible state of the panel, use --easing-appearance and the full duration variable in transition.
-  // In the hidden state, use --easing-disappearance and a reducing coefficient of 0.8 for duration.
-  --easing-base: cubic-bezier(0.2, 0, 0.38, 0.9);
-  --easing-appearance: cubic-bezier(0, 0, 0.38, 0.9);
-  --easing-disappearance: cubic-bezier(0.2, 0, 1, 0.9);
-  --easing-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  // #endregion
-
-
-  // 🧩 COMPONENTS SPECIFIC
-  // #region
+  // SPECIFIC
   --icon-fill: none;
   --icon-stroke: var(--color-icon);
   --icon-stroke-width: 2;
@@ -315,14 +318,19 @@
   --popover-body-border: 0;
   --popover-body-border-radius: var(--radius-base);
   --popover-body-box-shadow: var(--shadow-z2);
+
   // #endregion
 
-  // 🏞️ LANDSCAPE PHONE OVERRIDES
+  // ---------------------------------------------------------------------------
+  // #region: 💻 OVERRIDES
+  // ---------------------------------------------------------------------------
+
+  // LANDSCAPE PHONE
   @media (--phone-l) {
     --padding-x-container: var(--dim-3);
   }
 
-  // 📋 TABLET OVERRIDES
+  //  TABLET
   @media (--tablet) {
     --font-size-display:      #{rem(53)};
     --font-weight-display:    var(--font-weight-titles);
@@ -349,17 +357,17 @@
     --padding-top-h3:    #{rem(1)};
     --padding-bottom-h3: #{rem(7)};
 
-    --font-size-label:      #{rem(15)};
-    --letter-spacing-label: 0.1px;
-    --line-height-label:    #{math.div(20, 15)};
-    --padding-top-label:    #{rem(1)};
-    --padding-bottom-label: #{rem(3)};
+    --font-size-body-sm:      #{rem(15)};
+    --letter-spacing-body-sm: 0.1px;
+    --line-height-body-sm:    #{math.div(20, 15)};
+    --padding-top-body-sm:    #{rem(1)};
+    --padding-bottom-body-sm: #{rem(3)};
 
-    --spacer:               calc(var(--dim-lh) * 3);
+    --spacer:               calc(var(--lh) * 3);
     --spacer-half-max:      var(--dim-8);
     --spacer-max:           calc(var(--dim-8) * 2);
 
-    --padding-x-box:        var(--dim-lh);
+    --padding-x-box:        var(--lh);
     --padding-x-container:  var(--dim-5);
 
     --navbar-area:          #{rem(96)};
@@ -369,8 +377,10 @@
     --chart-height: 400px;
   }
 
-  // 💻 LAPTOP OVERRIDES
+  // LAPTOP
   @media (--laptop) {
     --padding-x-container:  var(--dim-8);
   }
+
+  // #endregion
 }

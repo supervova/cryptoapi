@@ -1,0 +1,124 @@
+/* stylelint-disable declaration-no-important */
+@use '../abstracts' as *;
+@use '../abstracts/custom';
+
+
+[id='Generalsettings'],
+[id='notifications'] {
+  margin-inline: auto;
+  max-width: rem(604);
+}
+
+.e-form.is-profile {
+  &, fieldset:not(.e-form-header, .e-form__contacts) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dim-2);
+  }
+
+  select,
+  [type='text'],
+  [type='date'],
+  [type='email'] {
+    background-color: var(--color-bg-02);
+  }
+}
+
+.e-form-header {
+  background-color: var(--color-bg-z1);
+  border-radius: var(--radius-base);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--dim-3);
+  padding: var(--dim-2p5);
+
+  .e-btn.is-danger {
+    --icon-stroke: var(--color-text-02-error);
+
+    background-color: transparent;
+  }
+
+  @media (--tablet) {
+    padding: var(--dim-3);
+  }
+}
+
+/* override hack */
+.e-form-avatar.e-form-avatar {
+  border-radius: 50%;
+  margin-bottom: 0 !important;
+  width: rem(96);
+  height: rem(96);
+
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+[id='savemaillink'] .e-grid {
+  --grid-columns: 1fr max-content;
+  align-items: center;
+}
+
+// Disable buttons next to disabled inputs
+[disabled] + .e-btn {
+  cursor: not-allowed;
+  filter: grayscale(100%);
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.e-form__contacts:has([disabled]) > .e-label {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+[id='Generalsettings'] :has(> [id='changephonelink']) {
+  flex-wrap: nowrap;
+}
+
+[id=Generalsettings] .e-grid:has(> [id=changephonelink]) {
+  display: grid;
+}
+
+.e-accordion.is-messenger {
+  border-top: 0;
+  border-bottom: 1px solid var(--color-border);
+  margin-top: var(--lh);
+
+  > summary + span[style] {
+    @include text-format(base);
+    display: block;
+    color: var(--color-text-warning) !important;
+    margin-bottom: var(--dim-2);
+  }
+
+  .e-grid.is-auto {
+    align-items: center;
+    margin-bottom: var(--dim-2);
+  }
+
+  .e-grid.is-auto p {
+    margin: 0;
+  }
+}
+
+.e-grid.is-actions {
+  align-items: center;
+  padding-inline: var(--dim-2p5);
+  margin-inline: auto;
+  max-width: rem(644);
+
+  @media (--phone-p) {
+    a {
+      text-align: center;
+    }
+  }
+
+  @media (--phone-l) {
+    --grid-columns: 1fr max-content;
+  }
+}

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // assets/js/widgets/btc.js
 
 const { Chart } = window;

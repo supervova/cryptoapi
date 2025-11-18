@@ -22,7 +22,7 @@
   width: 100%;
   max-height: calc(100vh - var(--dim-5));
   max-height: calc(100dvh - var(--dim-5));
-  z-index: var(--zindex-drawer);
+  z-index: var(--z-drawer);
 
   // The backdrop appears only in modal mode when the dialog is opened using
   // the `showModal` method

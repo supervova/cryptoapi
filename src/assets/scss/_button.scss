@@ -36,7 +36,6 @@ a[role='button'] {
 .e-btn.is-outline,
 .e-btn.is-ghost {
   background: transparent;
-  color: var(--button-color-outline);
 
   &:active,
   &:focus-visible {
@@ -94,7 +93,7 @@ a[role='button'] {
   aspect-ratio: 1;
   border-radius: var(--radius-pill);
   backdrop-filter: var(--backdrop-filter-glass);
-  z-index: var(--zindex-fixed);
+  z-index: var(--z-fixed);
 
   &:focus-visible {
     background: var(--button-hover, var(--color-fill));

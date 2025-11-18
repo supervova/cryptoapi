@@ -10,7 +10,7 @@
 
 .e-main__header {
   gap: var(--dim-2);
-  padding-bottom: var(--dim-lh);
+  padding-bottom: var(--lh);
 
   @media (--phone-l) {
     --dir: column;

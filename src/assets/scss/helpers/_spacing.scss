@@ -13,16 +13,16 @@ $spacing-values: (
   5s: var(--dim-5),
   7s: var(--dim-7),
   8s: var(--dim-8),
-  1:  var(--dim-lh),
-  2:  calc(var(--dim-lh) * 2),
-  3:  calc(var(--dim-lh) * 3),
-  4:  calc(var(--dim-lh) * 4),
+  1:  var(--lh),
+  2:  calc(var(--lh) * 2),
+  3:  calc(var(--lh) * 3),
+  4:  calc(var(--lh) * 4),
 );
 
 $spacing-values-negative: (
   n1s: calc(var(--dim-1) * -1),
   n2s: calc(var(--dim-2) * -1),
-  n1: calc(var(--dim-lh) * -1),
+  n1: calc(var(--lh) * -1),
 );
 // prettier-ignore-end
 

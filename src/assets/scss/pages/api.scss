@@ -9,6 +9,10 @@
 //   width: min(100%, var(--width-readable));
 // }
 
+.e-container.mt-half-max {
+  max-width: rem(880);
+}
+
 [id='apidoc'] {
   padding: 0 !important;
 
@@ -22,6 +26,7 @@ div:has(> .btn-info):has(> .btn-warning) {
   display: flex;
   gap: var(--dim-2);
   margin: 0 !important;
+  flex-wrap: wrap;
   padding-bottom: calc(var(--dim-6) - #{rem(10)});
 }
 

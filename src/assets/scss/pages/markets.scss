@@ -17,6 +17,8 @@
 }
 
 [id='crypto-table'] {
+  table-layout: fixed;
+
   caption {
     @include visually-hidden;
   }
@@ -26,34 +28,56 @@
   }
 }
 
-tr:not(:has(td[colspan], th[colspan])) {
-  height: var(--dim-7);
-}
-
-.table__cell.is-2-liner {
-  width: rem(140);
-
-  @media (--phone-l) {
-    width: rem(244);
-  }
-}
-
-.table__cell.is-num {
+col {
   width: 16%;
 }
 
-.table__cell.is-2-liner + .table__cell.is-num {
+.col.is-watchlist,
+.col.is-risk {
+  width:  rem(85);
+}
+
+.col.is-asset {
   width: rem(140);
+  max-width: rem(140);
+  min-width: rem(140);
+
+  @media (--phone-l) {
+    width: rem(244);
+    max-width: rem(244);
+    min-width: rem(244);
+  }
+}
+
+.col.is-price {
+  width: rem(140);
+  min-width: rem(140);
 
   @media (--phone-l) {
     width: rem(180);
+    min-width: rem(180);
   }
+}
+
+tr:not(:has(td[colspan], th[colspan])) {
+  height: var(--dim-7);
 }
 
 // Price change
 .table__cell.is-positive,
 .table__cell.is-negative {
   font-weight: 500;
+}
+
+// .e-asset__copy grid layout for asset name and symbol
+.e-asset__copy {
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: var(--dim-0p5);
+}
+
+.e-asset__name {
+  @include text-truncate;
 }
 // #endregion
 

@@ -63,7 +63,7 @@ $navbar-dot-size: var(--dim-1);
 
 // Mixin for navigation labels
 @mixin navbar-label {
-  @include text-format(caption);
+  @include text-format(fine-print);
   @include text-truncate;
   color: var(--color-text-02);
 }
@@ -99,7 +99,7 @@ $navbar-dot-size: var(--dim-1);
     left: 0;
     width: rem(96);
     height: auto;
-    z-index: calc(var(--zindex-drawer) + 1);
+    z-index: calc(var(--z-drawer) + 1);
   }
 }
 
@@ -133,7 +133,7 @@ $navbar-dot-size: var(--dim-1);
 }
 
 .e-navbar__tagline {
-  @include text-format(caption);
+  @include text-format(fine-print);
   color: var(--color-text-02);
   position: absolute;
   top: var(--dim-3);
@@ -158,7 +158,7 @@ $navbar-dot-size: var(--dim-1);
 }
 
 .e-navbar__beta {
-  @include text-format(caption);
+  @include text-format(fine-print);
   color: var(--color-text-02-brand-accent);
   text-align: left;
   position: absolute;
@@ -192,7 +192,7 @@ $navbar-dot-size: var(--dim-1);
   left: 0;
   right: 0;
   height: calc($navbar-menu-height-mobile + env(safe-area-inset-bottom));
-  z-index: var(--zindex-fixed);
+  z-index: var(--z-fixed);
 
   @media (--tablet) {
     background: transparent;
@@ -353,9 +353,9 @@ $current-pages: dashboard, home, markets, news, trading;
   @media (--tablet-l) {
     background-color: var(--button-bg);
     border-radius: var(--radius-base);
-    font-size: var(--font-size-label);
+    font-size: var(--font-size-body-sm);
     font-weight: var(--font-weight-titles-max);
-    letter-spacing: var(--letter-spacing-label);
+    letter-spacing: var(--letter-spacing-body-sm);
     line-height: 1;
     padding-block: 0;
     padding-inline: var(--dim-2);
@@ -451,7 +451,7 @@ $current-pages: dashboard, home, markets, news, trading;
     }
 
     .e-navbar__tagline {
-      @include text-format(caption);
+      @include text-format(fine-print);
       text-align: left;
       position: absolute;
       top: var(--dim-4);
@@ -517,9 +517,9 @@ $current-pages: dashboard, home, markets, news, trading;
 
     .e-menu__label,
     .e-navbar__menu-label {
-      font-size: var(--font-size-label);
+      font-size: var(--font-size-body-sm);
       font-weight: var(--font-weight-titles-max);
-      letter-spacing: var(--letter-spacing-label);
+      letter-spacing: var(--letter-spacing-body-sm);
       line-height: 1;
     }
 

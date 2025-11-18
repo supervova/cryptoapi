@@ -127,7 +127,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--dim-0p5);
-  font-size: var(--font-size-label);
+  font-size: var(--font-size-body-sm);
   font-weight: 500;
   line-height: 1;
   word-break: break-all;
@@ -219,7 +219,7 @@
   top: 100%;
   width: 100%;
   word-break: break-all;
-  z-index: var(--zindex-popover);
+  z-index: var(--z-popover);
 
   &.is-active {
     display: block;

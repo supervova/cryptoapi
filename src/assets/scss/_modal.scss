@@ -10,7 +10,7 @@
   --modal-background: var(--color-bg-base);
   --modal-border-radius: var(--radius-lg);
   --modal-padding-x: var(--padding-x-box);
-  --modal-padding-y: var(--dim-lh);
+  --modal-padding-y: var(--lh);
   --modal-overlay-background-color: var(--color-bg-scrim);
 
   background-color: var(--modal-overlay-background-color);
@@ -62,7 +62,7 @@
   flex-direction: column;
   margin: auto;
   padding-top: var(--radius-md);
-  padding-bottom: var(--dim-lh);
+  padding-bottom: var(--lh);
   padding-inline: var(--dim-1);
   position: fixed;
   inset: auto 0 0;
@@ -79,7 +79,7 @@
   }
 
   @media (--tablet) {
-    --modal-patch-offset: var(--dim-lh);
+    --modal-patch-offset: var(--lh);
 
     border-radius: var(--modal-border-radius);
     padding-block: var(--modal-padding-x);

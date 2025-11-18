@@ -18,8 +18,8 @@ table {
   border-spacing: 0;
   font-variant-numeric: lining-nums tabular-nums;
   text-indent: 0;
-  margin-top: var(--dim-lh);
-  margin-bottom: var(--dim-lh);
+  margin-top: var(--lh);
+  margin-bottom: var(--lh);
   width: 100%;
 }
 
@@ -39,7 +39,7 @@ thead th {
   box-shadow: none;
   color: var(--color-text-02);
   cursor: default;
-  font-size: var(--font-size-label);
+  font-size: var(--font-size-body-sm);
   position: relative;
   padding-top: var(--cell-padding-y);
   vertical-align: middle;
@@ -331,6 +331,7 @@ tfoot td {
 // SCROLLER
 // #region
 // Стили для горизонтальной прокрутки таблиц
+.scroll-x,
 .e-scroller {
   table {
     margin: 0;

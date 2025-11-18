@@ -53,6 +53,12 @@
       {% set visible_columns_count = visible_columns_count + 1 %}
     {% endif %}
   {% endfor %}
+  {% set col_class_map = {
+    watchlist: 'col is-watchlist',
+    asset: 'col is-asset',
+    price: 'col is-price',
+    risk: 'col is-risk'
+  } %}
 
   <div class="e-container">
 
@@ -75,6 +81,14 @@
         aria-busy="true"
       >
         <caption class="visually-hidden">{{ 'Cryptocurrency Market Data Table'|trans }}</caption>
+        <colgroup>
+          {% for col in default_columns %}
+            {% if col.visible is not defined or col.visible is not same as(false) %}
+              {% set col_class = col_class_map[col.key] ?? null %}
+              <col{% if col_class %} class="{{ col_class }}"{% endif %}>
+            {% endif %}
+          {% endfor %}
+        </colgroup>
         <thead>
           <tr>
             {# Генерируем заголовки на основе конфигурации колонок #}
@@ -171,7 +185,7 @@
         </div>
 
         <fieldset>
-            <legend class="e-h4 mt-2l mb-s">{{ 'Columns'|trans }}</legend>
+            <legend class="e-h4 mt-2lh mb-s">{{ 'Columns'|trans }}</legend>
             <ul class="e-list is-unstyled" id="filter-columns-list">
               {# Сюда JS будет вставлять чекбоксы #}
             </ul>

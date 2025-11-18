@@ -25,18 +25,24 @@ const getExternalContent = (event) => {
 
   event.preventDefault();
 
-  fetch(href)
+  modalExternal.addEventListener('close', () => {
+    container.innerHTML = '';
+  });
+
+  return fetch(href)
     .then((response) => response.text())
     .then((html) => {
       const parser = new DOMParser();
       const contentSource = parser.parseFromString(html, 'text/html');
-      const content = contentSource.querySelector('.e-content').innerHTML;
+      const contentEl = contentSource.querySelector('.e-content');
+      const content = contentEl ? contentEl.innerHTML : '';
       container.insertAdjacentHTML('beforeend', content);
+      return content;
+    })
+    .catch((error) => {
+      console.error('Failed to load external modal content:', error);
+      throw error;
     });
-
-  modalExternal.addEventListener('close', () => {
-    container.innerHTML = '';
-  });
 };
 
 // Close modal

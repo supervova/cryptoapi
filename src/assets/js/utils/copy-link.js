@@ -21,7 +21,6 @@ export default function copyLink(buttonSelector, successMessageSelector) {
         successMessage.classList.remove('is-visible');
       }, 2000);
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.error('Failed to copy text: ', err);
     }
 

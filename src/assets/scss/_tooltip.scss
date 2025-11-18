@@ -36,14 +36,14 @@
     border-radius: var(--radius-sm);
     color: var(--tooltip-color);
     content: attr(aria-label);
-    font-size: var(--font-size-caption);
-    line-height: var(--line-height-caption);
+    font-size: var(--font-size-fine-print);
+    line-height: var(--line-height-fine-print);
     text-transform: none;
     white-space: normal;
     padding: var(--tooltip-padding);
     width: max-content;
     max-width: var(--tooltip-width);
-    z-index: var(--zindex-tooltip);
+    z-index: var(--z-tooltip);
   }
 
   // Tooltip's arrow
@@ -51,7 +51,7 @@
     background: transparent;
     border: calc(var(--tooltip-arrow-width) / 2) solid transparent;
     content: '';
-    z-index: var(--zindex-tooltip) + 1;
+    z-index: var(--z-tooltip) + 1;
   }
 
   // Show the tooltip on active, hover and focus
@@ -84,7 +84,7 @@
   }
 
   &::after {
-    translate: -50% var(--dim-lh);
+    translate: -50% var(--lh);
   }
 
   &::before {
@@ -122,7 +122,7 @@
   }
 
   &::after {
-    translate: -50% (calc(var(--dim-lh) * -1));
+    translate: -50% (calc(var(--lh) * -1));
   }
 
   &:hover,
@@ -153,12 +153,12 @@
       border-top-color: transparent;
       border-bottom-color: transparent;
       border-left-color: var(--tooltip-bg);
-      translate: var(--dim-lh);
+      translate: var(--lh);
     }
 
     &::after {
       top: 50%;
-      translate: var(--dim-lh) -50%;
+      translate: var(--lh) -50%;
     }
 
     &:hover,
@@ -189,12 +189,12 @@
       border-top-color: transparent;
       border-bottom-color: transparent;
       border-right-color: var(--tooltip-bg);
-      translate: calc(var(--dim-lh) * -1);
+      translate: calc(var(--lh) * -1);
     }
 
     &::after {
       top: 50%;
-      translate: calc(var(--dim-lh) * -1) -50%;
+      translate: calc(var(--lh) * -1) -50%;
     }
 
     &:hover,
@@ -241,8 +241,8 @@
     background-color: var(--tooltip-bg);
     border-radius: var(--radius-sm);
     color: var(--tooltip-color);
-    font-size: var(--font-size-caption);
-    line-height: var(--line-height-caption);
+    font-size: var(--font-size-fine-print);
+    line-height: var(--line-height-fine-print);
     text-align: start;
     text-transform: none;
     white-space: normal;
@@ -255,7 +255,7 @@
     visibility: hidden;
     width: max-content;
     max-width: var(--tooltip-width);
-    z-index: calc(var(--zindex-tooltip) + 1);
+    z-index: calc(var(--z-tooltip) + 1);
   }
 
   .tooltip a { color: hsl(var(--h-blue) var(--s-02) 70%); }

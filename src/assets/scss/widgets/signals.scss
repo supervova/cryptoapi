@@ -48,7 +48,7 @@
 // Date & Time
 .signaldate,
 .signaldt {
-  font-size: var(--font-size-caption);
+  font-size: var(--font-size-fine-print);
   font-variant-numeric: lining-nums tabular-nums;
 }
 
@@ -56,9 +56,9 @@
   color: var(--color-text-02-success);
   font-weight: 700;
   position: relative;
-  line-height: var(--line-height-caption);
-  padding-top: var(--padding-top-caption);
-  padding-bottom: var(--padding-top-caption);
+  line-height: var(--line-height-fine-print);
+  padding-top: var(--padding-top-fine-print);
+  padding-bottom: var(--padding-top-fine-print);
   padding-inline-start: var(--dim-1p5);
   translate: 0 var(--dim-1);
 

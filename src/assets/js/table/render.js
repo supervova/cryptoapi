@@ -12,6 +12,13 @@ import { getNestedValue } from '../markets/utils.js';
 import { getVisibleColumns, getVisibleColumnsCount } from './columns.js';
 import { getPair } from '../utils/currency.js';
 
+const COL_CLASS_MAP = {
+  watchlist: 'col is-watchlist',
+  asset: 'col is-asset',
+  price: 'col is-price',
+  risk: 'col is-risk',
+};
+
 const getAssetUrl = (symbol) => `/markets/${symbol.toLowerCase()}`;
 
 const calcChange = (p) =>
@@ -203,8 +210,18 @@ export function patchTableBody() {
   }
 }
 
-// eslint-disable-next-line no-shadow
-export function generateTableHeadHtml(t) {
+function updateColGroup(columns) {
+  if (!DOMElements.tableColGroup) return;
+  const colHtml = columns
+    .map((col) => {
+      const colClass = COL_CLASS_MAP[col.key];
+      return colClass ? `<col class="${colClass}">` : '<col>';
+    })
+    .join('');
+  DOMElements.tableColGroup.innerHTML = colHtml;
+}
+
+export function generateTableHeadHtml(translator = t) {
   if (!DOMElements.tableHead) return;
 
   const currentVisibleColumns = getVisibleColumns();
@@ -228,9 +245,9 @@ export function generateTableHeadHtml(t) {
       tooltipBaseKey = 'rsi';
     }
 
-    if (tooltipBaseKey) {
+    if (tooltipBaseKey && translator) {
       const tooltipId = `tt-js-${col.key}`;
-      const tooltipContentHtml = t(`tooltip_${tooltipBaseKey}`);
+      const tooltipContentHtml = translator(`tooltip_${tooltipBaseKey}`);
 
       if (tooltipContentHtml) {
         const assetsBasePrefix = window.APP_CONFIG.assetsBasePrefix || '';
@@ -264,7 +281,7 @@ export function generateTableHeadHtml(t) {
           class="e-btn is-sort ${isActive ? 'is-active' : ''} ${isDesc ? 'is-desc' : ''}"
           type="button"
           data-sort-field="${col.key}"
-          aria-label="${t('sortByThisColumn', 'Sort by this column')}"
+          aria-label="${translator ? translator('sortByThisColumn', 'Sort by this column') : 'Sort by this column'}"
           aria-sort="${ariaSort}"
         >
           ${col.label}
@@ -296,6 +313,7 @@ export function generateTableHeadHtml(t) {
       );
     });
   });
+  updateColGroup(currentVisibleColumns);
 }
 
 export { calcChange };

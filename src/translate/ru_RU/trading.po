@@ -186,6 +186,56 @@ msgstr "Мои активы"
 msgid "buy_th"
 msgstr "Покупка"
 
-msgid "buy_th"
-msgstr "Покупка"
+# ------------------------------------------------------------------------------
+# API GUIDE
+# ------------------------------------------------------------------------------
+
+msgid "To start using our service, you need to connect to Binance and set up your trading strategy."
+msgstr "Для того, чтобы начать пользоваться нашим сервисом, вам нужно подключиться к Binance и настроить торговую стратегию."
+
+msgid "<strong>Open API Management</strong> — On the Binance.com website, click the profile icon in the top-right corner, select “Account”, then in the sidebar under the “Account” section, go to “API Management.”"
+msgstr "<strong>Откройте «Управление API» биржи Binance</strong> — На сайте Binance.com нажмите на иконку профиля в правом верхнем углу, выберите пункт «Аккаунт». Затем в боковом меню, в разделе «Аккаунт» нажмите «Управление API»."
+
+msgid "<strong>Create an API key</strong> — Create a new API key, name it, complete all security verifications (email, 2FA), and obtain your <b>API Key</b> and <b>Secret Key</b> (the secret key is shown only once — make sure to copy it). Save both keys in the trading settings interface on the <b>CRYPTOAPI</b> project."
+msgstr "<strong>Создайте API-ключ</strong> — Создайте новый API-ключ, укажите его имя, пройдите все этапы проверки безопасности (email, 2FA) и получите <b>API Key</b> и <b>Secret Key</b> (секретный ключ показывается только один раз — обязательно скопируйте его). Сохраните оба ключа в интерфейсе настроек торговли проекта <b>CRYPTOAPI</b>."
+
+msgid "<strong>Enable trading permissions</strong> — In your Binance API settings, check the box <b>“Enable Spot & Margin Trading.”</b>"
+msgstr "<strong>Включите торговые разрешения</strong> — В настройках API на Binance отметьте пункт <b>«Enable Spot & Margin Trading»</b>."
+
+msgid "<strong>Add a trusted IP</strong> — In the <b>“IP Access Restrictions”</b> section, add this IP address to the whitelist: "
+msgstr "<strong>Добавьте доверенный IP</strong> — В разделе <b>«IP Access Restrictions»</b> добавьте этот IP-адрес в белый список: "
+
+msgid "<strong>Fund your balance with a stablecoin</strong> — Transfer a sufficient amount of a stablecoin (for example, <b>USDT</b>) to your <b>spot balance</b>. This stablecoin is used for <b>trading operations and profit settlements</b> on Binance."
+msgstr "<strong>Пополните баланс стейблкоином</strong> — Переведите достаточную сумму выбранного стейблкойна (например, <b>USDT</b>) на свой <b>спотовый баланс</b>. Этот стейблкоин используется для <b>торговых операций и расчётов прибыли</b> на Binance."
+
+msgid "Trading on Binance is allowed"
+msgstr "<strong>Разрешаю</strong> торговлю на Binance"
+
+# ------------------------------------------------------------------------------
+# RISK MANAGEMENT
+# ------------------------------------------------------------------------------
+
+msgid "Trust the System"
+msgstr "Доверять системе"
+
+msgid "The AI will automatically determine exposure size, maintain an average load of around 50%, and keep enough free capital for new trades."
+msgstr "ИИ будет самостоятельно выбирать размер экспозиции, удерживать среднюю загрузку около 50% и сохранять свободный капитал для новых сделок."
+
+msgid "Custom Parameters"
+msgstr "Свои параметры"
+
+msgid "Set the maximum deposit allocation available for trading. All risks remain your responsibility."
+msgstr "Задайте максимальную долю депозита, доступную для сделок. Все риски вы берёте на себя."
+
+msgid "Deposit Allocation Managed by AI"
+msgstr "Доля депозита под управление ИИ"
+
+msgid "Recommended value — 90%. Allowed range: <span class='nobr'>0–100%.</span>"
+msgstr "Рекомендованное значение — 90%. Диапазон допустимых значений: <span class='nobr'>0–100%.</span>"
+
+msgid "A low deposit allocation reduces average position sizes and significantly decreases profitability. To achieve results close to the project’s statistics, use the recommended settings."
+msgstr "Низкая доля средств, доступных для управления ИИ, снижает размеры средних ставок и значительно уменьшает прибыльность. Если вы хотите, чтобы прибыль соответствовала статистике проекта, выбирайте рекомендуемые значения."
+
+msgid "You must keep at least 10% of your total deposit unallocated to allow asset rebalancing."
+msgstr "Необходимо оставить задел не менее 10% от максимальной суммы депозита, чтобы была возможность ребалансировать активы."
 

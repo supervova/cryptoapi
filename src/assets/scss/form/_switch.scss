@@ -4,7 +4,7 @@
 label:has([type='checkbox'][role='switch'], [switch]) {
   color: var(--color-text-02);
   margin: 0 var(--dim-1) 0 0;
-  padding-left: calc(var(--dim-lh) * 2);
+  padding-left: calc(var(--lh) * 2);
 
   > [type='checkbox'][role='switch'] {
     top: var(--dim-1);

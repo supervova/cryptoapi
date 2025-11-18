@@ -26,7 +26,7 @@
     padding-bottom: rem(34);
   }
 
-  @media (--tablet-l) {
+  @media (--laptop) {
     flex-direction: row;
     padding-bottom: var(--dim-6);
   }
@@ -66,7 +66,7 @@
 .e-footer__copy,
 .e-footer__menu a,
 .e-footer summary {
-  @include text-format(caption);
+  @include text-format(fine-print);
   display: inline-flex;
   text-align: center;
 }
@@ -77,7 +77,7 @@
 
 .e-footer__menu a,
 .e-footer__summary {
-  @include text-format(caption);
+  @include text-format(fine-print);
 
   color: var(--color-text);
   display: block;

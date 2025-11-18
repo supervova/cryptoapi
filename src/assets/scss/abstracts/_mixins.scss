@@ -198,10 +198,10 @@
 
 @mixin label($uppercase: true) {
   font-family: var(--font-family-base);
-  font-size: var(--font-size-label);
+  font-size: var(--font-size-body-sm);
   font-weight: 500;
   letter-spacing: 0.2px;
-  line-height: var(--line-height, var(--line-height-label));
+  line-height: var(--line-height, var(--line-height-body-sm));
 
   @if $uppercase {
     text-transform: uppercase;
@@ -339,7 +339,7 @@
 @mixin logo-fallback() {
   background: var(--color-gradient-brand);
   color: var(--button-color-primary);
-  font-size: var(--font-size-caption);
+  font-size: var(--font-size-fine-print);
   font-weight: 500;
   text-shadow: 0 1px 0 var(--color-alpha-light-400);
   text-transform: uppercase;

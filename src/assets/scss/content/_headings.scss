@@ -10,10 +10,13 @@ h2, .e-h2,
 h3, .e-h3,
 h4, .e-h4,
 h5, h6 {
-  text-rendering: optimizeLegibility;
-  text-wrap: pretty;
+  text-wrap: balance;
   margin-top: 0;
   margin-bottom: var(--dim-2);
+
+  @media (--phone-l) {
+    hyphens: manual;
+  }
 }
 
 .e-h1, .e-h2, .e-h3, .e-h4 { display: block; }
@@ -23,7 +26,7 @@ h5, h6 {
 // -----------------------------------------------------------------------------
 
 .e-eyebrow {
-  @include text-format(caption);
+  @include text-format(fine-print);
   color: var(--eyebrow-color, var(--color-brand-accent));
   font-weight: 600;
   letter-spacing: rem(0.4);
@@ -95,5 +98,5 @@ h5, h6 {
 
 :where(address, blockquote, div, dl, figure, form, ol, p, pre, table, ul)
   + :is(h2, h3, h4, h5, h6) {
-  margin-top: var(--margin-top-subhead, var(--dim-lh));
+  margin-top: var(--margin-top-subhead, var(--lh));
 }
