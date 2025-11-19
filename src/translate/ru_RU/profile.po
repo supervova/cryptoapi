@@ -1,0 +1,177 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+# ------------------------------------------------------------------------------
+# Meta
+# ------------------------------------------------------------------------------
+msgid "Profile Settings | CryptoAPI.ai - AI-Powered Crypto Trading"
+msgstr "Профиль | CryptoAPI.ai - Торговля криптовалютой с ИИ"
+
+msgid "Manage your personal data, email, password, and notification preferences in your CryptoAPI.ai account."
+msgstr "Управляйте личными данными, email, паролем и настройками уведомлений в своем аккаунте CryptoAPI.ai."
+
+# ------------------------------------------------------------------------------
+# Profile
+# ------------------------------------------------------------------------------
+
+msgid "First Name:"
+msgstr "Имя:"
+
+msgid "Required"
+msgstr "Обязательное поле"
+
+msgid "Optional"
+msgstr "Необязательное поле"
+
+msgid "Last Name:"
+msgstr "Фамилия:"
+
+msgid "Middle Name:"
+msgstr "Отчество:"
+
+msgid "Nickname:"
+msgstr "Псевдоним:"
+
+msgid "If the nickname is not specified, then all your messages will be signed by your name."
+msgstr "Если псевдоним не указан, все ваши сообщения будут подписаны реальным именем"
+
+msgid "Gender:"
+msgstr "Пол:"
+
+msgid "male"
+msgstr "мужской"
+
+msgid "female"
+msgstr "женский"
+
+msgid "not chosen"
+msgstr "не указан"
+
+msgid "Birthdate:"
+msgstr "Дата рождения"
+
+msgid "Hide my birth date"
+msgstr "Скрывать дату рождения от других"
+
+
+msgid "Timezone:"
+msgstr "Часовой пояс:"
+
+msgid "Country:"
+msgstr "Страна:"
+
+msgid "City:"
+msgstr "Город / населенный пункт:"
+
+msgid "City search..."
+msgstr "Ввести или найти..."
+
+msgid "Hide location"
+msgstr "Скрыть место проживания"
+
+msgid "Authorization Settings"
+msgstr "Настройки входа"
+
+msgid "Phone number:"
+msgstr "Номер мобильного:"
+
+msgid "Enter the mobile phone number in the international format (starting with the '+')"
+msgstr "Введите номер с кодом страны и оператора, начиная с '+'"
+
+msgid "Send SMS"
+msgstr "Отправить SMS"
+
+msgid "SMS code:"
+msgstr "Код из SMS:"
+
+msgid "Verify"
+msgstr "Проверить"
+
+msgid "Connect your messenger"
+msgstr "Подключить мессенджер для уведомлений"
+
+msgid "Receive important notifications via instant messenger. To link your account with Telegram, send the following code from your messenger…"
+msgstr "Получайте важные уведомления через мессенджер. Чтобы связать свой аккаунт с Telegram, отправьте следующий код из мессенджера…"
+
+msgid "…to the following bots:"
+msgstr "…этим ботам:"
+
+msgid "The link must be opened in the browser of your mobile device. You can connect one or several instant messengers."
+msgstr "Ссылка будет открыта в браузере вашего мобильного устройства. Можно подключить один или сразу несколько мессенджеров."
+
+msgid "Change Password"
+msgstr "Изменить пароль"
+
+msgid "Old password:"
+msgstr "Старый пароль:"
+
+msgid "New password:"
+msgstr "Новый пароль:"
+
+msgid "Confirm new password:"
+msgstr "Новый пароль ещё раз:"
+
+msgid "Require password when changing the IP"
+msgstr "Требовать ввод пароля при авторизации из нового места"
+
+msgid "Last access"
+msgstr "Последний вход"
+
+msgid "First access"
+msgstr "Первый вход"
+
+msgid "Country"
+msgstr "Страна"
+
+msgid "Region"
+msgstr "Регион"
+
+msgid "Browser (OS)"
+msgstr "Браузер (ОС)"
+
+msgid "System notifications"
+msgstr "Системные уведомления"
+
+msgid "Notify about new comments to my posts"
+msgstr "Уведомления о новых комментариях к моим постам"
+
+msgid "New replies to my comments"
+msgstr "Новые ответы на мои комментарии"
+
+msgid "New private message"
+msgstr "Новые личные сообщения"
+
+msgid "I agree to receive letters for which I am paid"
+msgstr "Я согласен получать письма, за которые мне платят"
+
+msgid "Important critical notifications"
+msgstr "Важные критические уведомления"
+
+msgid "We sent you a link to verify your email address"
+msgstr "Мы отправили вам ссылку для подтверждения вашего email-адреса"
+
+msgid "Don't forget to check your Spam folder. If the email ends up in this folder, click 'This is not spam.'"
+msgstr "Не забудьте проверить папку «Спам». Если письмо попало в эту папку, нажмите «Это не спам»."
+
+msgid "If you do not receive an email with a link to activation within the next minute, click here:"
+msgstr "Если в течение минуты вы не получите электронное письмо со ссылкой для активации, нажмите здесь:"
+
+msgid "Please, wait"
+msgstr "Ожидайте"
+
+msgid "sec."
+msgstr "сек."
+
+msgid "If this attempt also fails, we recommend using a different email address for registration."
+msgstr "Если эта попытка также будет неудачной, рекомендуем использовать для регистрации другой адрес электронной почты."
+
+msgid "Send via another server"
+msgstr "Отправить через другой сервер"
+
+msgid "Enable 2FA"
+msgstr "Включить 2FA"
+
+msgid "Enable 2FA authorization!"
+msgstr "Двухфакторная аутентификация"

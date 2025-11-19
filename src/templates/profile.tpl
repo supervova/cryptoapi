@@ -582,12 +582,11 @@ function mailmsg(argretry) {
 			</div>
 		</div>
 		<div style="margin-top:10px;padding:5px;background-color:#e2f7df;overflow:hidden;background-image:url(/images/qwertyaigreen.png);background-repeat:no-repeat;background-position:right bottom;background-size: 25% auto;">
-		{$linktomsg} <span>Receive important notifications via instant messenger - it's convenient! In addition, you can communicate with Qwerty Networks artificial intelligence, check with him about the weather and ask you to remind you of important things or to do. To link your account with Telegram, send the following code from your messenger:</span>
+		{$linktomsg} <span>Receive important notifications via instant messenger - it's convenient! To link your account with Telegram, send the following code from your messenger:</span>
 		<h2 style="margin:0;font-weight:600;text-align:center;overflow:hidden;width:100%;">CODE{$messengers_code}</h2>
 		To the following bots:
 		<!--nottranslate--><span class="nottranslate">
 		<div>Telegram - <a href="https://t.me/{$config[TelegramBot]}" target="_blank">https://t.me/{$config[TelegramBot]}</a> (@{$config[TelegramBot]})</div>
-		<div>Viber - <a href="https://qwertynetworks.com/l/QwertyAI" target="_blank">https://qwertynetworks.com/l/QwertyAI</a></div>
 		</span><!--nottranslate-->
 		<small>* <span>the link must be opened in the browser of your mobile device</span></small><br />
 		<small>** <span>you can connect one or several instant messengers.</span></small>

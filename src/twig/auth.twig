@@ -135,6 +135,17 @@
               </button>
             </p>
 
+            <p class="e-form__text-field mt-2lh">
+              <input id="promocodelf" name="promocode" type="text" autocomplete="off" minlength="8" maxlength="8" placeholder="{{ 'Get $10 added to your balance'|trans }}">
+              <label for="promocodelf">{{ 'Promo code (if you have one)'|trans }}</label>
+              <small class="e-form__hint">
+                {{ 'Have a promo code? Enter it here and we will apply it during registration. This field is optional.'|trans }}
+              </small>
+              <span class="e-form__error" role="alert" aria-live="polite">
+                <small>{{ 'Our promo codes are 8 characters long.'|trans }}</small>
+              </span>
+            </p>
+
             <label class="e-form__option">
               <input id="agreement-signup" type="checkbox" data-role="user-agreement" checked required>
               By continuing, you agree to
@@ -352,6 +363,7 @@
           regBirthdate: '#birthdate',
           regEmail: '#emaillf',
           regPassword: '#passwordlf',
+          regPromocode: '#promocodelf',
           resetEmail: '#rememberemailf',
           passwordField: '[data-role="password"]', // Selector for password fields for toggle
         },
@@ -515,8 +527,10 @@
         signup: {
           formSelector: SELECTORS.forms.register,
           url: 'register.php',
-          data: (form) => (
-            {
+          data: (form) => {
+            const promoInput = form.querySelector(SELECTORS.inputs.regPromocode);
+            const promocode = promoInput ? promoInput.value.trim() : '';
+            return {
               email: form.querySelector(SELECTORS.inputs.regEmail).value,
               password: form.querySelector(SELECTORS.inputs.regPassword).value,
               yourname: form.querySelector(SELECTORS.inputs.regName).value,
@@ -524,13 +538,14 @@
               birthdate: form.querySelector(SELECTORS.inputs.regBirthdate).value,
               blogname: 'registrationonly',
               mailretry: mailRetryCount,
+              promocode,
               // На всякий случай
               gender: 'not chosen',
               nickname: '',
               country: '',
               city: ''
-            }
-          ),
+            };
+          },
           messageEl: SELECTORS.elements.message.reg,
           successAction: () => {
             mailRetryCount = 0;

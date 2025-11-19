@@ -27,7 +27,7 @@
   // The backdrop appears only in modal mode when the dialog is opened using
   // the `showModal` method
   &::backdrop {
-    background-color: var(--color-bg-scrim);
+    background-color: var(--color-backdrop);
   }
 
   &[open] {
@@ -49,7 +49,7 @@
   // pseudo backdrop
   @media (--phone) {
     &::after {
-      background-color: var(--color-bg-scrim);
+      background-color: var(--color-backdrop);
       content: '';
       pointer-events: none;
       position: fixed;

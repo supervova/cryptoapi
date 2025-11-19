@@ -11,7 +11,7 @@
   --modal-border-radius: var(--radius-lg);
   --modal-padding-x: var(--padding-x-box);
   --modal-padding-y: var(--lh);
-  --modal-overlay-background-color: var(--color-bg-scrim);
+  --modal-overlay-background-color: var(--color-backdrop);
 
   background-color: var(--modal-overlay-background-color);
   backdrop-filter: blur(var(--dim-2p5));

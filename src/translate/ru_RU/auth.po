@@ -48,6 +48,15 @@ msgstr "Фамилия"
 msgid "Birthdate"
 msgstr "Дата рождения"
 
+msgid "Promo code (if you have one)"
+msgstr "Промокод (если есть)"
+
+msgid "Get $10 added to your balance"
+msgstr "Получи $10 на лицевой счёт"
+
+msgid "Have a promo code? Enter it here and we will apply it during registration. This field is optional."
+msgstr "Есть промокод? Введите его здесь, и мы применим его при регистрации. Заполнять это поле необязательно."
+
 # ------------------------------------------------------------------------------
 # Buttons
 # ------------------------------------------------------------------------------
@@ -137,6 +146,9 @@ msgstr "Пароль обязателен."
 
 msgid "Must include at least one digit, one letter, and be at least 8 characters long."
 msgstr "Как минимум: одна цифра, одна буква и не меньше 8 символов."
+
+msgid "Our promo codes are 8 characters long."
+msgstr "Наши промокоды состоят из 8 символов."
 
 # ------------------------------------------------------------------------------
 # JS Validation

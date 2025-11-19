@@ -197,7 +197,7 @@
 }
 
 .modal-backdrop.in {
-  background-color: var(--color-bg-scrim);
+  background-color: var(--color-backdrop);
   backdrop-filter: blur(var(--dim-2p5));
   opacity: 1;
 }

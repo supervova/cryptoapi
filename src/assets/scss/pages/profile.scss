@@ -2,6 +2,9 @@
 @use '../abstracts' as *;
 @use '../abstracts/custom';
 
+// -----------------------------------------------------------------------------
+// #region: BASE
+// -----------------------------------------------------------------------------
 
 [id='Generalsettings'],
 [id='notifications'] {
@@ -80,7 +83,7 @@
   flex-wrap: nowrap;
 }
 
-[id=Generalsettings] .e-grid:has(> [id=changephonelink]) {
+[id='Generalsettings'] .e-grid:has(> [id='changephonelink']) {
   display: grid;
 }
 
@@ -122,3 +125,75 @@
     --grid-columns: 1fr max-content;
   }
 }
+
+// #endregion
+
+//------------------------------------------------------------------------------
+// #region: LEGACY
+//------------------------------------------------------------------------------
+
+// MODAL
+
+.dm-overlay {
+  background: var(--color-backdrop);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  overflow: auto;
+  position: fixed;
+  inset: 0;
+  transition:
+    display var(--duration-300) allow-discrete,
+    opacity var(--duration-300) var(--easing-base);
+  z-index: var(--z-modal);
+
+  /* старт для СКРЫТИЯ: от  */
+  @starting-style {
+    opacity: 1;
+  }
+
+  &:target {
+    display: flex;
+    opacity: 1;
+    translate: 0 0;
+
+    /* старт для ПОЯВЛЕНИЯ */
+    @starting-style {
+      opacity: 0;
+    }
+  }
+}
+
+.dm-modal {
+  background: var(--color-bg-z3);
+  border-radius: var(--radius-xl);
+  box-shadow: --radius-xl;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: var(--dim-6) var(--padding-x-container);
+  width: calc(100% - var(--dim-5));
+  max-width: var(--width-xl);
+}
+
+// TYPES
+
+.tab-content > .tab-pane {
+  display: none;
+}
+
+.tab-content > .active {
+  display: block;
+}
+
+// COMBOBOX
+
+.typeahead__field input,
+.typeahead__field textarea {
+  color: var(--color-text);
+  font-family: var(--font-family-base);
+  font-size:var(--font-size-base);
+}
+
+// #endregion

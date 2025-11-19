@@ -67,6 +67,7 @@ const paths = {
         `!${srcBase}/assets/scss/pages/misc.scss`,
       ],
       legacy: `${srcBase}/assets/scss/legacy/index.scss`,
+      legacyShared: `${srcBase}/assets/legacy/css/*.css`,
       widgets: [
         `${srcBase}/assets/scss/widgets/*.scss`,
         `!${srcBase}/assets/scss/widgets/_*.scss`,
@@ -124,7 +125,10 @@ const paths = {
     dest: `${destAssets}/img/icons`,
   },
   js: {
-    src: `${srcBase}/assets/js`,
+    src: {
+      main: `${srcBase}/assets/js`,
+      legacyShared: `${srcBase}/assets/legacy/js/*.js`,
+    },
     entry: {
       main: `${srcBase}/assets/js/main.js`,
       'asset-chart': `${srcBase}/assets/js/asset-chart.js`,
@@ -144,7 +148,10 @@ const paths = {
       'widgets/trindx': `${srcBase}/assets/js/widgets/trindx.js`,
     },
     watch: `${srcBase}/assets/js/**/*.js`,
-    dest: `${destAssets}/js/`,
+    dest: {
+      base: `${destAssets}/js/`,
+      legacy: `${root.dest.dev}/js/`,
+    },
   },
   video: {
     src: `${srcBase}/assets/video/**/*.mp4`,
@@ -184,7 +191,7 @@ const cleanDist = () =>
   deleteAsync([
     `${root.dest.dev}/**/*`, // Очищаем dist
     `${paths.css.dest.base}/**/*.css`,
-    `${paths.js.dest}/**/*.js`,
+    `${paths.js.dest.base}/**/*.js`,
     `${paths.img.dest}/**/*`,
     `${destAssets}/data/**/*`,
     `${root.dest.prod}/engine/*.php`,
@@ -218,8 +225,8 @@ const js = () => {
     entries.map(([name, entry]) => {
       // Определяем выходную папку на основе имени
       const outputDir = name.includes('/')
-        ? `${paths.js.dest}${name.substring(0, name.lastIndexOf('/'))}/`
-        : paths.js.dest;
+        ? `${paths.js.dest.base}${name.substring(0, name.lastIndexOf('/'))}/`
+        : paths.js.dest.base;
 
       const outputFile = name.includes('/')
         ? `${name.substring(name.lastIndexOf('/') + 1)}.js`
@@ -307,6 +314,16 @@ const copyTpl = () =>
     .pipe(changed(paths.markup.dest.prodTpl))
     .pipe(dest(paths.markup.dest.prodTpl));
 
+const copyLegacySharedCss = () =>
+  src(paths.css.src.legacyShared, { encoding: false })
+    .pipe(newer(paths.css.dest.legacy))
+    .pipe(dest(paths.css.dest.legacy));
+
+const copyLegacySharedJs = () =>
+  src(paths.js.src.legacyShared, { encoding: false })
+    .pipe(newer(paths.js.dest.legacy))
+    .pipe(dest(paths.js.dest.legacy));
+
 const copy = parallel(
   copyData,
   copyEngine,
@@ -314,7 +331,9 @@ const copy = parallel(
   copyFonts,
   copyLocales,
   copyTpl,
-  copyTwig
+  copyTwig,
+  copyLegacySharedCss,
+  copyLegacySharedJs
 );
 // #endregion
 

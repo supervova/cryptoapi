@@ -29,7 +29,7 @@
   &::after {
     // Overlay
     @media (--phone) {
-      background-color: var(--color-bg-scrim);
+      background-color: var(--color-backdrop);
       backdrop-filter: var(--backdrop-filter-glass);
       content: '';
       pointer-events: none;
