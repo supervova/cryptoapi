@@ -72,8 +72,8 @@ label {
   padding-bottom: var(--padding-bottom, var(--dim-1p5));
   opacity: 1;
   transition:
-    display var(--duration-500) var(--easing-base),
-    opacity var(--duration-500) var(--easing-base);
+    display var(--duration-300) var(--easing-base),
+    opacity var(--duration-300) var(--easing-base);
   transition-behavior: allow-discrete;
 
   @starting-style {

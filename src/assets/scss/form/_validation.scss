@@ -38,7 +38,7 @@
   display: block;
   overflow: hidden;
   opacity: 0;
-  transition: opacity var(--duration-700);
+  transition: opacity var(--duration-400);
   height: 0;
 }
 
@@ -75,9 +75,9 @@
   opacity: 0;
   overflow: hidden;
   transition:
-    display var(--duration-500) var(--easing-base),
-    height var(--duration-500) var(--easing-base),
-    opacity var(--duration-500) var(--easing-base);
+    display var(--duration-300) var(--easing-base),
+    height var(--duration-300) var(--easing-base),
+    opacity var(--duration-300) var(--easing-base);
   transition-behavior: allow-discrete;
   width: 100%;
   height: 0;

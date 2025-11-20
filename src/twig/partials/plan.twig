@@ -1,8 +1,8 @@
-{% set isCurrent = (user.id > 0) and (curr_plan.level|default('') == plan.level|default('')) %}
+{% set isCurrent = (user.id|default(0) > 0 or UserId|default(0) > 0) and (curr_plan.level|default('') == plan.level|default('')) %}
 
 <div class="e-plan{{ plan.isFeatured ? ' is-featured' : '' }}{{ isCurrent ? ' is-current' : '' }}">
   <header class="e-plan__header">
-    {% if user.id > 0 and curr_plan.level == plan.level %}
+    {% if (user.id|default(0) > 0 or UserId|default(0) > 0) > 0 and curr_plan.level == plan.level %}
       <span class="e-tag is-lg has-start-icon" aria-current="true">
         {% include 'partials/icon.twig' with {name: 'checkmark', assets_prefix: site.assets_prefix} %}
         {{ 'Current plan'|trans }}
@@ -28,7 +28,7 @@
     <a class="e-btn" href="{{ plan.link }}" {% if curr_plan.level == plan.level %}disabled{% endif %}>
       {% if plan.anchor is defined %}
         {{ plan.anchor|trans }}
-      {% elseif user.id == 0 and plan.level == 0 %}
+      {% elseif (user.id|default(0) == 0 or UserId|default(0) == 0) and plan.level == 0 %}
         {{ 'Sign Up'|trans }}
       {% else %}
         {{ 'Choose a Plan'|trans }}

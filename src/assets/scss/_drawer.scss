@@ -16,8 +16,8 @@
   bottom: 0;
   translate: 0 100%;
   transition:
-    display calc(var(--duration-500) * 0.8) var(--easing-disappearance),
-    translate calc(var(--duration-500) * 0.8) var(--easing-disappearance);
+    display calc(var(--duration-300) * 0.8) var(--easing-disappearance),
+    translate calc(var(--duration-300) * 0.8) var(--easing-disappearance);
   transition-behavior: allow-discrete;
   width: 100%;
   max-height: calc(100vh - var(--dim-5));
@@ -34,8 +34,8 @@
     display: flex;
     translate: 0 0;
     transition:
-      display var(--duration-500) var(--easing-appearance),
-      translate var(--duration-500) var(--easing-appearance);
+      display var(--duration-300) var(--easing-appearance),
+      translate var(--duration-300) var(--easing-appearance);
 
     @starting-style {
       translate: 0 100%;
@@ -91,8 +91,8 @@
       /* ОТКРЫТОЕ ПОЛОЖЕНИЕ: без сдвига, панель на своем месте */
       translate: 0 0;
       transition:
-        display var(--duration-500) var(--easing-appearance), /* display остается, если нужно */
-        translate var(--duration-500) var(--easing-appearance);
+        display var(--duration-300) var(--easing-appearance), /* display остается, если нужно */
+        translate var(--duration-300) var(--easing-appearance);
 
       @starting-style {
         /* Начальное состояние для анимации открытия */

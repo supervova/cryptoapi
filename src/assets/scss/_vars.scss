@@ -248,14 +248,14 @@
   --duration-200: 0.15s;
 
   // Expansion, system communication, toast
-  --duration-500: 0.24s;
+  --duration-300: 0.24s;
 
   // Large expansion, important system notifications
-  --duration-700: 0.4s;
+  --duration-400: 0.4s;
 
   // Background dimming and other ambient transitions that don't involve user input.
-  --duration-900: 0.7s;
-  --duration-1000: 1s;
+  --duration-500: 0.7s;
+  --duration-600: 1s;
 
   // In the visible state of the panel, use --easing-appearance and the full duration variable in transition.
   // In the hidden state, use --easing-disappearance and a reducing coefficient of 0.8 for duration.

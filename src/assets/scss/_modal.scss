@@ -22,7 +22,7 @@
   padding: 0;
   position: fixed;
   inset: 0;
-  transition: opacity var(--duration-500) var(--easing-base);
+  transition: opacity var(--duration-300) var(--easing-base);
   opacity: 1;
   // Trick. When using viewport units, the dialog is not stretched to the full screen
   width: inherit;
@@ -67,8 +67,8 @@
   position: fixed;
   inset: auto 0 0;
   transition:
-    translate var(--duration-500) var(--easing-base),
-    opacity var(--duration-500) var(--easing-base);
+    translate var(--duration-300) var(--easing-base),
+    opacity var(--duration-300) var(--easing-base);
   translate: 0;
   width: 100%;
   max-width: var(--modal-max-width, var(--width-xl));
@@ -151,7 +151,7 @@
     @include scrollbar();
 
     clip-path: inset(0 var(--dim-2));
-    transition: clip-path var(--duration-500) var(--easing-base);
+    transition: clip-path var(--duration-300) var(--easing-base);
 
     &:hover {
       clip-path: inset(0);
@@ -168,8 +168,8 @@
   visibility: visible;
   translate: 0 0;
   transition:
-    translate var(--duration-500) var(--easing-base),
-    opacity var(--duration-500) var(--easing-base);
+    translate var(--duration-300) var(--easing-base),
+    opacity var(--duration-300) var(--easing-base);
   min-height: 100%;
 }
 

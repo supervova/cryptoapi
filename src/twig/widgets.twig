@@ -94,12 +94,14 @@
 {% block body_suffix %}
   {{ parent() }}
 
+  {% set affiliateId = user.id|default(UserId|default('')) %}
+
   {% if ENV == 'development' %}
     <script>
       window.APP_CONFIG = window.APP_CONFIG || {};
       window.APP_CONFIG.env = 'development';
       window.APP_CONFIG.lang = '{{ widget.lang|default('en') }}';
-      window.APP_CONFIG.affId = '{{ user.id|default('')|escape('js') }}';
+      window.APP_CONFIG.affId = '{{ affiliateId|escape('js') }}';
       // Dev: всё берём локально (BrowserSync middleware мокает /widgets/signals)
       window.APP_CONFIG.assetsBasePrefix = "/";
       window.APP_CONFIG.widgetsBasePrefix = "/";
@@ -109,7 +111,7 @@
     <script>
       window.APP_CONFIG = window.APP_CONFIG || {};
       window.APP_CONFIG.lang = '{{ widget.lang|default('en') }}';
-      window.APP_CONFIG.affId = '{{ user.id|default('')|escape('js') }}';
+      window.APP_CONFIG.affId = '{{ affiliateId|escape('js') }}';
       // Placeholder for production bypass token
       window.APP_CONFIG.widgetAuthQuery = "widget_bypass=PROD_STUB";
     </script>

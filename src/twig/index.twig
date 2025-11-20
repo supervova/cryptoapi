@@ -56,7 +56,7 @@
         <p>{{ 'Trade smart (artificially). Our AI analyzes trends, generates signals, and can act as a fully autonomous trading bot. It makes data-driven decisions, manages trades, and helps increase profits without constant supervision.'|trans }}</p>
         <div class="e-buttons">
 
-          {% if user.id > 0 %}
+          {% if user.id|default(0) > 0 or UserId|default(0) > 0 %}
             {% set primary_link = 'signals' %}
           {% else %}
             {% set primary_link = 'auth' %}
@@ -156,7 +156,7 @@
             <img src="{{ site.assets_prefix }}/assets/img/pages/home/how-to-0{{ loop.index }}.jpg" srcset="{{ site.assets_prefix }}/assets/img/pages/home/how-to-0{{ loop.index }}@2x.jpg 2x" alt="{{ 'How to become a successful crypto trader'|trans }}">
             <p>
               {{ item|trans|raw }}
-              {% if user.id == 0 and loop.index == 1 %}
+              {% if (user.id == 0 or UserId == 0) and loop.index == 1 %}
                 <a class="e-btn mt-2 has-end-icon" href="{{ page.lang }}/auth">
                   {{ 'Start now'|trans }}
                   {% include 'partials/icon.twig' with {name: 'sm-chevron-right', classes: 'is-sm'} %}

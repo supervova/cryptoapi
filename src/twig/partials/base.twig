@@ -65,7 +65,7 @@
   <link rel="apple-touch-icon" href="{{ site.assets_prefix }}/assets/img/icons/icon-192.png">
   <link rel="manifest" href="{{ site.assets_prefix }}/manifest.json">
 
-  <meta name="user-id" content="{{ user.id }}">
+  <meta name="user-id" content="{{ UserId }}">
 
   <script>
     window.APP_CONFIG = window.APP_CONFIG || {};
@@ -124,7 +124,7 @@
 {% endblock %}
 </head>
 
-{% set body_classes = 'e-page ' ~ (page.app ? 'is-app' : 'is-site') ~ ' ' ~ (user.id ? 'is-user' : 'is-guest') %}
+{% set body_classes = 'e-page ' ~ (page.app ? 'is-app' : 'is-site') ~ ' ' ~ (user.id|default(0) or UserId|default(0)) ? 'is-user' : 'is-guest' %}
 
 {% if page.classes %}
   {% set body_classes = body_classes ~ ' ' ~ page.classes %}

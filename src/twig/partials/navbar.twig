@@ -70,7 +70,7 @@
   }
  } %}
 
-{% if user.id > 0 %}
+{% if user.id|default(0) > 0 or UserId|default(0) > 0 %}
   {% set data_menu = data_menu_user %}
 {% else %}
   {% set data_menu = data_menu_guest %}
@@ -155,7 +155,7 @@
       {% endfor %}
     </ul>
 
-    {% if user.id > 0 %}
+    {% if user.id|default(0) > 0 or UserId|default(0) > 0 %}
 
       {# Search Toggle - Only on mobiles #}
       {% if page.app %}
