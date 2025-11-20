@@ -168,7 +168,7 @@
 
     {# CTA #}
     <section class="e-section e-cta mt-max">
-      {% if user.id|default(0) > 0 or UserId|default(0) > 0 %}
+      {% if user.id|default(0) > 0 %}
         {% set primary_link = 'trading' %}
       {% else %}
         {% set primary_link = 'auth' %}

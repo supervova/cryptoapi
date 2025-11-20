@@ -17,6 +17,7 @@ import initDrawer from './ui/drawer.js';
 
 import initTabs from './ui/tabs.js';
 import initTooltipsDelay from './ui/tooltip.js';
+import initProfilePage from './pages/profile.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initDragToScroll();
@@ -27,4 +28,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initTabs();
   initPopovers();
   initTooltipsDelay();
+  initProfilePage();
 });

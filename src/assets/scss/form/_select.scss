@@ -1,13 +1,25 @@
 @use '../abstracts' as *;
 
-select {
-  // General styles for select elements
-  &:not([multiple]) {
-    background-image: var(--icon-chevron-down);
-    background-position: center right var(--dim-1);
-    background-repeat: no-repeat;
-    padding-right: var(--padding-x-input-lg);
-    padding-inline-end: var(--padding-x-input-lg);
+select:not([multiple]) {
+  background-image: var(--icon-chevron-down);
+  background-position: center right var(--dim-1);
+  background-repeat: no-repeat;
+  padding-inline-end: var(--padding-x-input-lg);
+  overflow-x: clip;
+
+  &, &::picker(select) {
+    appearance: base-select;
+  }
+
+  &::picker(select) {
+    background-color: var(--color-bg-z3);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-z2);
+    padding: var(--dim-2);
+  }
+
+  &::picker-icon {
+    display: none;
   }
 
   // Hide arrow icon in IE browsers
@@ -17,7 +29,18 @@ select {
 }
 
 option {
+  border-radius: var(--radius-sm);
   font-weight: 400;
+  color: var(--color-text-02);
+  overflow-wrap: break-word;
+  white-space: normal;
+  padding-block: var(--dim-1);
+  padding-inline: var(--dim-2) var(--dim-1);
+  max-width: rem(604);
+
+  &:hover {
+    background-color: var(--color-fill);
+  }
 }
 
 // Support for multiple select elements

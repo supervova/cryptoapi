@@ -70,7 +70,7 @@
   }
  } %}
 
-{% if user.id|default(0) > 0 or UserId|default(0) > 0 %}
+{% if UserId > 0 %}
   {% set data_menu = data_menu_user %}
 {% else %}
   {% set data_menu = data_menu_guest %}
@@ -78,13 +78,13 @@
 
 {% set data_user_menu = [
   {
-    "label": "Notifications",
-    "href": "notifications",
-    "icon": "bell"
-  }, {
     "label": "Profile Settings",
     "href": "profile",
     "icon": "settings"
+  }, {
+    "label": "Notifications",
+    "href": "notifications",
+    "icon": "bell"
   }, {
     "label": "Sign Out",
     "href": "?action=logout",
@@ -155,7 +155,7 @@
       {% endfor %}
     </ul>
 
-    {% if user.id|default(0) > 0 or UserId|default(0) > 0 %}
+    {% if UserId > 0 %}
 
       {# Search Toggle - Only on mobiles #}
       {% if page.app %}
@@ -166,6 +166,7 @@
 
       <details class="e-popover e-navbar__user-menu" data-role="popover">
         <summary class="has-chevron">
+          <div class="visually-hidden">{{ user.avatar }}</div>
           {% if user.avatar and user.avatar != './images/profile_nophoto.jpg' %}
             <img class="e-avatar e-navbar__avatar" src="{{ user.avatar }}" alt="{{ user.name }}">
           {% else %}

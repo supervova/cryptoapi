@@ -1,0 +1,415 @@
+{% extends "partials/base.twig" %}
+
+{#
+  TODO: replace
+  - jQuery in profile.js → vanilla
+  - typeahead → server-powered detailslist (fetch for json on input)
+  - bootpopup → toast @see: docs/ui/modal-bootpop.md
+  - dm-modal → e-modal
+#}
+
+
+{% block config %}
+  {{ parent() }}
+
+  {% if ENV == 'development' %}
+    {% set page = page|merge({
+        classes: 'is-pricing',
+        lang: 'en'
+    }) %}
+
+    {% set html = {
+      country: "<select name='cclist' id='cclist' class='form-control'><option value=''>Не выбрано</option><option value='AU'>Австралия</option><option value='JP'>Япония</option></select>",
+      timezone: "<select name='userUTC' id='userUTC' class='form-control'><option value='-11'>(UTC-11) Alofi</option><option value='14'>(UTC+14) Apia</option></select>"
+    } %}
+
+    {# Dev fixtures for local testing #}
+    {% set user = user|merge({
+        id: 1,
+        avatar: 'https://cryptoapi.ai/images/profile_nophoto.jpg',
+        log: '<tr><td>2025-11-18 14:47:48</td><td>2025-11-17 22:44:06</td><td>62.4.55.125</td><td>ME</td><td>Podgorica</td><td>Chrome 0.0 (macOS)</td></tr>'
+    }) %}
+  {% endif %}
+{% endblock %}
+
+{% block assets %}
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <script
+    src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+    crossorigin="anonymous"
+    onerror="(function(){
+      var s=document.createElement('script');
+      s.src='/js/jquery-3.7.1.min.js';  // локальный fallback
+      document.head.appendChild(s);
+    })()"
+  ></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/bootpopup.js"></script>
+  <script src="/js/jquery.typeahead.min.js"></script>
+  {{ parent() }}
+{% endblock %}
+
+{% block css %}
+  {{ parent() }}
+  <link rel="stylesheet" href="/css/jquery.typeahead.css">
+  <link rel="stylesheet" href="{{ site.assets_prefix }}/assets/css/profile.css">
+{% endblock %}
+
+{% block content %}
+
+  <div class="e-container mt-half-max">
+    <div class="tabs">
+
+      <header class="e-main__header" data-tabs-headline>
+        <h1>Profile. <span class="text-02">Settings</span></h1>
+        <ul class="e-tabs-nav" role='tablist'>
+          <li class="e-tabs-nav__item active" role="none">
+            <a href="#Generalsettings" role="tab" data-toggle="tab">
+              <span class="phone-l:d-none">Personal</span>
+              <span class="d-none phone-l:d-inline">Personal settings</span>
+            </a>
+          </li>
+          <li class="e-tabs-nav__item" id="notificationstab" role="none">
+            <a href="#notifications" role="tab" data-toggle="tab">Notifications</a>
+          </li>
+          <li class="e-tabs-nav__item" role="none">
+            <a href="#accesslog" role="tab" data-toggle="tab">
+              <span class="phone-l:d-none">Log</span>
+              <span class="d-none phone-l:d-inline">Access log</span>
+            </a>
+          </li>
+        </ul>
+      </header>
+
+      <div class="tab-content">
+
+        <!-- TAB: PROFILE -->
+        <div class="tab-pane active" id="Generalsettings">
+          <form class="e-form is-profile" action="javascript:void(0);">
+
+            {# Photo #}
+            <fieldset class="e-form-header">
+              <figure class="e-form-avatar">
+                <img id="profilephoto" src="{$userdata[avatar]}" alt="{{ user.name|default('user'|trans) }}">
+              </figure>
+
+              <div id="selectfile">
+                <button type="button" class="btn" id="change-photo-button">
+                  <span class="phone-l:d-none">{{ 'Change'|trans }}</span>
+                  <span class="d-none phone-l:d-inline">{{ 'Change photo'|trans }}</span>
+                </button>
+                <input type="file" id="PhotoFile" name="PhotoFile" style="display:none;">
+                <input type="hidden" id="photo_b64" name="photo_b64">
+                <button
+                  type="button"
+                  class="e-btn is-icon is-danger has-tooltip"
+                  id="delete-photo-button"
+                  aria-label="{{ 'Remove profile photo'|trans }}"
+                >
+                  <svg class="e-icon" aria-hidden="true" focusable="false">
+                    <use href="{{ site.assets_prefix }}/assets/img/icons/sprite.svg#icon-trash"></use>
+                  </svg>
+                </button>
+              </div>
+            </fieldset>
+
+            {{ html.alert|raw }}
+
+            {# Full Name #}
+            <div class="e-grid is-equal">
+              <p>
+                <label class="e-label" for="firstname">{{ 'First Name:'|trans }}</label>
+                <input id="firstname" type="text" name="firstname" value="{{ user.first_name }}" placeholder="{{ 'Required'|trans }}">
+              </p>
+              <p>
+                <label class="e-label" for="surname">{{ 'Last Name:'|trans }}</label>
+                <input id="surname" type="text" name="surname" value="{{ user.last_name }}" placeholder="{{ 'Required'|trans }}">
+              </p>
+            </div>
+
+            {# Middle Name #}
+            <p>
+              <label class="e-label" for="patronymic">{{ 'Middle Name:'|trans }}</label>
+              <input id="patronymic" type="text" name="patronymic" value="{{ user.middle_name }}" placeholder="{{ 'Optional'|trans }}">
+            </p>
+
+            {# <p>
+              <label class="e-label" for="nickname">{{ 'Nickname'|trans }}</label>
+              <input id="nickname" type="text" name="nickname" value="{{ user.nickname }}">
+              <small class="e-form__hint">{{ 'If the nickname is not specified, then all your messages will be signed by your name.'|trans }}</small>
+            </p> #}
+
+            {# Gender #}
+            <p>
+              <label class="e-label" for="gender">{{ 'Gender:'|trans }}</label>
+              <select id="gender" name="gender">
+                <option value="m">{{ 'male'|trans }}</option>
+                <option value="f">{{ 'female'|trans }}</option>
+                <option value="n" selected>{{ 'not chosen'|trans }}</option>
+              </select>
+            </p>
+
+            {# Birthdate #}
+            <p>
+              <label class="e-label" for="birthdate">{{ 'Birthdate:'|trans }}</label>
+              <input id="birthdate" type="date" name="birthdate" value="{{ user.birthdate }}">
+              <label class="mt-1 pb-0">
+                <input type="checkbox" name="birthdateshow" id="birthdateshow">
+                <span>{{ 'Hide my birth date'|trans }}</span>
+              </label>
+            </p>
+
+            {# Timezone #}
+            <p>
+              <label class="e-label" for="userUTC">{{ 'Timezone:'|trans }}</label>
+              {{ html.timezone|raw }}
+            </p>
+
+            {# Country #}
+            <p>
+              <label class="e-label" for="cclist">{{ 'Country:'|trans }}</label>
+              {{ html.country|raw }}
+            </p>
+
+            {# City Combobox #}
+            <div>
+              <label class="e-label" for="user_region_lng">{{ 'City:'|trans }}</label>
+              <div class="typeahead__container">
+                <div class="typeahead__field">
+                  <span class="typeahead__query">
+                    <input id="user_region_lng" name="user_region_lng" type="text" value="{{ user.region_lng }}" placeholder="{{ 'City search...'|trans }}" autocomplete="off">
+                  </span>
+                </div>
+              </div>
+              <input type="hidden" name="user_region" id="user_region" value="{{ user.region }}">
+              <label class="mt-1">
+                <input type="checkbox" name="hidelocation" id="hidelocation">
+                <span>{{ 'Hide location'|trans }}</span>
+              </label>
+            </div>
+
+            {# Email #}
+            <fieldset>
+              <legend class="e-h3 mt-2lh mb-0">{{ 'Authorization Settings'|trans }}</legend>
+
+              <div class="e-form__contacts">
+                <label class="e-label" for="email">Email:</label>
+                <div class="d-flex align-center gap-2">
+                  <input id="email" name="email" type="email" autocomplete="email" value="{{ user.email }}" disabled>
+                  <button class="e-btn is-ghost" id="change-email-button" type="button">{{ 'Change'|trans }}</button>
+                </div>
+              </div>
+
+              {{ html.email|raw }}
+
+              <div class="e-grid align-center grid-cols-auto" id="savemaillink" style="display: none;">
+                <button type="button" class="e-btn" id="save-email-button">{{ 'Save'|trans }}</button>
+                <button type="button" class="e-btn is-ghost" id="cancel-email-button">{{ 'Cancel'|trans }}</button>
+              </div>
+
+              <fieldset class="e-form__contacts">
+                <label class="e-label" for="phone">{{ 'Phone number:'|trans }}</label>
+                <div class="d-flex align-center gap-2">
+                  <input id="phone"  name="phone" type="text" value="{{ user.phone }}" autocomplete="tel" disabled>
+                  <button class="e-btn is-ghost" id="changephonelink" type="button">
+                    {{ 'Change'|trans }}
+                  </button>
+                </div>
+                <small class="e-form__hint" id="phonetext" style="display: none;">
+                  {{ "Enter the mobile phone number in the international format (starting with the '+')"|trans }}
+                </small>
+
+                <div class="e-grid align-center grid-cols-auto mt-1lh" id="savephonelink" style="display: none;">
+                  <button class="e-btn" type="button" id="send-sms-button">{{ 'Send SMS'|trans }}</button>
+                  <button class="e-btn is-ghost" type="button" id="cancel-phone-button">{{ 'Cancel'|trans }}</button>
+                </div>
+
+                <div class="mt-2" id="enterconfirmcode" style="display: none;">
+                  <label class="e-label" for="smscode">{{ 'SMS code:'|trans }}</label>
+                  <div class="e-grid is-equal">
+                    <input id="smscode" name="smscode" type="text" value="">
+                    <div class="change-phone-actions" style="display: inline-block;">
+                      <button class="e-btn" type="button" id="confirm-phone-button">{{ 'Verify'|trans }}</button>
+                      <button class="e-btn is-ghost" type="button" id="cancel-phone-confirm-button">{{ 'Cancel'|trans }}</button>
+                    </div>
+                  </div>
+                </div>
+
+              </fieldset>
+
+              <details class="e-accordion is-messenger">
+                <summary>
+                  💬  {{ 'Connect your messenger'|trans }}
+                  <span class="e-accordion__marker">
+                    <svg class="e-icon is-sm-chevron-down is-sm" aria-hidden="true" focusable="false">
+                      <use href="{{ site.assets_prefix }}/assets/img/icons/sprite.svg#icon-sm-chevron-down"></use>
+                    </svg>
+                  </span>
+                </summary>
+                {{ helpers.messengers_alert }}
+                <p>{{ 'Receive important notifications via instant messenger. To link your account with Telegram, send the following code from your messenger…'|trans }}</p>
+                <div class="e-grid is-auto">
+                  <p class="h2 text-highlight" id="details-code">CODE{$messengers_code}</p>
+                  <button class="e-btn is-outline" type="button" data-role="copy-code">{{ 'Copy'|trans }}</button>
+                </div>
+                <p>{{ '…to the following bots:'|trans }}</p>
+
+                <ul>
+                  <li>Telegram - <a href="https://t.me/{$config[TelegramBot]}" target="_blank" rel="noopener">https://t.me/{$config[TelegramBot]}</a></li>
+                  <li>Viber - <a href="https://qwertynetworks.com/l/QwertyAI" target="_blank" rel="noopener">https://qwertynetworks.com/l/QwertyAI</a></li>
+                </ul>
+                <p class="text-xs mb-2lh">{{ 'The link must be opened in the browser of your mobile device. You can connect one or several instant messengers.'|trans }}</p>
+              </details>
+            </fieldset>
+
+            {# Password #}
+            <fieldset>
+              <legend class="e-h3 mt-2lh mb-0">{{ 'Change Password'|trans }}</legend>
+
+              <p>
+                <label class="e-label" for="oldpwd">{{ 'Old password:'|trans }}</label>
+                <input id="oldpwd" name="oldpwd" type="password" value="">
+              </p>
+
+              <p>
+                <label class="e-label" for="newpwd1">{{ 'New password:'|trans }}</label>
+                <input id="newpwd1" name="newpwd1" type="password" value="">
+              </p>
+
+              <p>
+                <label class="e-label" for="newpwd2">{{ 'Confirm new password:'|trans }}</label>
+                <input id="newpwd2" name="newpwd2" type="password" value="">
+              </p>
+
+              <label class="checkbox">
+                <input type="checkbox" name="checkip" id="checkip">
+                <span>{{ 'Require password when changing the IP'|trans }}</span>
+              </label>
+              <!-- New line -->
+              <div></div>
+              <!-- End: New line -->
+            </fieldset>
+          </form>
+
+        </div>
+
+        <!-- TAB: LOG -->
+        <div class="tab-pane" id="accesslog">
+          <div class="scroll-x">
+            <table>
+              <thead>
+                <tr>
+                  <th>{{ 'Last access'|trans }}</th>
+                  <th>{{ 'First access'|trans }}</th>
+                  <th>IP</th>
+                  <th>{{ 'Country'|trans }}</th>
+                  <th>{{ 'Region'|trans }}</th>
+                  <th>{{ 'Browser (OS)'|trans }}</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {{ user.log|raw }}
+              </tbody>
+
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB: NOTIFICATIONS -->
+        <div class="tab-pane" id="notifications">
+          <label>
+            <input type="checkbox" name="notify6" id="notify6">
+            {{ 'Important critical notifications'|trans }}
+          </label>
+
+          <label>
+            <input type="checkbox" name="notify1" id="notify1">
+            {{ 'System notifications'|trans }}
+          </label>
+
+          {# <label>
+            <input type="checkbox" name="notify2" id="notify2">
+            {{ 'Notify about new comments to my posts'|trans }}
+          </label>
+
+          <label>
+            <input type="checkbox" name="notify3" id="notify3">
+            {{ 'Notify about new replies to my comments'|trans }}
+          </label> #}
+
+          <label>
+            <input type="checkbox" name="notify4" id="notify4">
+            {{ 'New private message'|trans }}
+          </label>
+
+          <label>
+            <input type="checkbox" name="notify5" id="notify5">
+            {{ 'I agree to receive letters for which I am paid'|trans }}<br>
+            (wmworker.com - <span class="nobr">0,03 WMC / 1 email)</span>
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="e-grid is-actions">
+      <a href="/g2fa">
+        <span class="phone-l:d-none">{{ 'Enable 2FA!'|trans }}</span>
+        <span class="d-none phone-l:d-inline">{{ 'Enable 2FA authorization!'|trans }}</span>
+      </a>
+      <button class="e-btn is-primary" id="savebutton" type="button">Save</button>
+    </div>
+
+    <div class="dm-overlay" id="sended">
+      <div class="dm-modal">
+        <h2 class="text-highlight">{{ 'We sent you a link to verify your email address'|trans }}</h2>
+        <p><strong>{{ "Don't forget to check your Spam folder. If the email ends up in this folder, click 'This is not spam.'"|trans }}</strong></p>
+        <p>{{ 'If you do not receive an email with a link to activation within the next minute, click here:'|trans }}</p>
+        <p class="e-h4">{{ 'Please, wait'|trans }} <span id="waitsec"></span> {{ 'sec.'|trans }}</p>
+        <p id="difemail">{{ 'If this attempt also fails, we recommend using a different email address for registration.'|trans }}</p>
+
+        <div id="resend" class="d-flex gap-1 mt-1lh">
+          <button class="e-btn" type="button" id="resend-mail-button">
+            {{ 'Send via another server'|trans }}
+          </button>
+          <button class="e-btn is-ghost" type="button" id="close-mail-status">
+            {{ 'Close'|trans }}
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+{% endblock %}
+
+{% block body_suffix %}
+  {{ parent() }}
+  <script>
+    window.profileTemplateVars = {
+      avatarPlaceholder: "{{ helpers.avatar_placeholder|default('')|e('js') }}",
+      userPhone: "{{ user.phone|default('')|e('js') }}",
+      userEmail: "{{ user.email|default('')|e('js') }}",
+      userGenderIndex: "{{ user.gender|default('0')|e('js') }}",
+      userCountry: "{{ user.country|default('')|e('js') }}",
+      userRegion: "{{ user.region|default('')|e('js') }}",
+      userRegionLng: "{{ user.region_lng|default('')|e('js') }}",
+      userLang: "{{ user.lang|default('')|e('js') }}",
+      startRuntime: "{{ page.script_start|default('0')|e('js') }}",
+      logic: {
+        checkIp: "{{ logic.ip ? 'true' : 'false' }}",
+        birthdate: "{{ logic.birthdate ? 'true' : 'false' }}",
+        hideLocation: "{{ logic.location ? 'true' : 'false' }}",
+        notify1: "{{ logic.notify1 ? 'true' : 'false' }}",
+        notify2: "{{ logic.notify2 ? 'true' : 'false' }}",
+        notify3: "{{ logic.notify3 ? 'true' : 'false' }}",
+        notify4: "{{ logic.notify4 ? 'true' : 'false' }}",
+        notify5: "{{ logic.notify5 ? 'true' : 'false' }}",
+        notify6: "{{ logic.notify6 ? 'true' : 'false' }}",
+      },
+    };
+  </script>
+{% endblock %}
