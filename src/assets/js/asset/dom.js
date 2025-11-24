@@ -38,7 +38,8 @@ export const assetHeader = {
   open: document.querySelector('[data-asset-open]'),
   high: document.querySelector('[data-asset-high]'),
   low: document.querySelector('[data-asset-low]'),
-  price: document.querySelector('[data-asset-price]'),
+  priceValue: document.querySelector('[data-asset-price-value]'),
+  priceChange: document.querySelector('[data-asset-price-change]'),
 };
 
 // Контейнер для графика
@@ -60,3 +61,12 @@ export const timeframeRadioButtons = chartTimeframeMenu
       chartTimeframeMenu.querySelectorAll('input[name="chart-timeframe"]')
     )
   : [];
+
+// Строка статусов внизу страницы
+export const statsBar = {
+  trindx: document.querySelector('[data-asset-trindx]'),
+  forecastMiddle: document.querySelectorAll('[data-asset-forecast-middle]'),
+  forecastChange: document.querySelector('[data-asset-forecast-change]'),
+  forecastMinMax: document.querySelector('[data-asset-forecast-min-max]'),
+  rsi30: document.querySelector('[data-asset-rsi30]'),
+};

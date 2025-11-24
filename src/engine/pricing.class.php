@@ -92,6 +92,11 @@ $page_meta = [
   'title' => 'Pricing Plans for Crypto Traders | CryptoAPI.ai - AI-Powered Crypto Trading',
 ];
 
+$blog_name = getphrase("Pricing Plans for Crypto Traders | CryptoAPI.ai - AI-Powered Crypto Trading");
+$blog_description = getphrase("Pricing Plans for Crypto Traders | CryptoAPI.ai - AI-Powered Crypto Trading");
+$meta_title = $blog_name;
+$meta_description = $blog_description;
+
 $tariff = $db->super_query("select * from tariffs where user_id=" . $user_id . " and projectid=" . $thisprojectid . " and startdate<=date(NOW()) and lastdate>=date(NOW()) order by id desc limit 0,1");
 
 $tarrif_binance_api = getphrase("integration available");
@@ -179,6 +184,7 @@ $data_objects['data_plans'] = [
       getphrase("Up to 10,000 daily requests to the APIs “asset rating”,  “market indicators and indices”"),
       getphrase("Balanced trading strategy"),
       getphrase("Service fee – 20% of profit (but not less than $0.25)"),
+      getphrase("Extended price forecasts (7 days, 1 month)"),
       getphrase("Plus all benefits of the Free plan")
     ]
   ],

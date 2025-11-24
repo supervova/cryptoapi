@@ -49,6 +49,7 @@ if (!$is_local_env) {
     $trindx_url = $api_protocol . $api_domain . $api_lang_prefix . '/json/trindxrating';
     $trindx_params = [
         'jsonfather' => 'true',
+        'ticker'     => $ticker_upper,
     ];
 
     $curl_trindx = curl_init();
@@ -116,6 +117,49 @@ if (!empty($asset_directory)) {
     $asset_entry = $asset_directory[$ticker_upper] ??
                    $asset_directory[strtolower($ticker_upper)] ??
                    [];
+}
+
+$to_float_or_null = static function ($value) {
+    return is_numeric($value) ? (float) $value : null;
+};
+
+$trindx_value = null;
+$rsi_30_value = null;
+$price_current = null;
+$price_day_ago = null;
+$price_tomorrow_middle = null;
+$price_tomorrow_min = null;
+$price_tomorrow_max = null;
+
+if (!empty($asset_entry) && is_array($asset_entry)) {
+    $trindx_value = $asset_entry['TRINDX'] ?? null;
+    $rsi_30_value = $asset_entry['RSI30'] ?? null;
+
+    if (isset($asset_entry['price']) && is_array($asset_entry['price'])) {
+        $price_current = $to_float_or_null($asset_entry['price']['current'] ?? null);
+        $price_day_ago = $to_float_or_null($asset_entry['price']['dayago'] ?? null);
+
+        $price_tomorrow = $asset_entry['price']['tomorrow'] ?? [];
+        if (is_array($price_tomorrow)) {
+            $price_tomorrow_middle = $to_float_or_null($price_tomorrow['middle'] ?? null);
+            $price_tomorrow_min = $to_float_or_null($price_tomorrow['min'] ?? null);
+            $price_tomorrow_max = $to_float_or_null($price_tomorrow['max'] ?? null);
+        }
+    }
+}
+
+if ($price_current === null && is_numeric($ohl_data['current_price'] ?? null)) {
+    $price_current = (float) $ohl_data['current_price'];
+}
+
+$price_change_since_yesterday = null;
+if ($price_current !== null && $price_day_ago !== null) {
+    $price_change_since_yesterday = $price_current - $price_day_ago;
+}
+
+$tomorrow_change_percent = null;
+if ($price_current !== null && $price_current != 0 && $price_tomorrow_middle !== null) {
+    $tomorrow_change_percent = (($price_tomorrow_middle - $price_current) / $price_current) * 100;
 }
 
 if (
@@ -209,6 +253,14 @@ $data_objects['page']['asset'] = [
     'low_price'           => $ohl_data['low'],
     'current_price'       => $ohl_data['current_price'],
     'change_24h_percent'  => $ohl_data['change_24h_percent'],
+    'price_day_ago'       => $price_day_ago,
+    'price_change'        => $price_change_since_yesterday,
+    'price_tomorrow_mid'  => $price_tomorrow_middle,
+    'price_tomorrow_min'  => $price_tomorrow_min,
+    'price_tomorrow_max'  => $price_tomorrow_max,
+    'tomorrow_change_pct' => $tomorrow_change_percent,
+    'trindx'              => $trindx_value,
+    'rsi30'               => $rsi_30_value,
 ];
 
 // Данные, которые будут переданы в JavaScript через window.APP_CONFIG
@@ -222,6 +274,15 @@ $data_objects['page']['js'] = [
     'assetLowPrice'           => $ohl_data['low'],
     'assetCurrentPrice'       => $ohl_data['current_price'],
     'assetChange_24h_percent' => $ohl_data['change_24h_percent'],
+    'assetChange24hPercent'   => $ohl_data['change_24h_percent'],
+    'assetPriceDayAgo'        => $price_day_ago,
+    'assetPriceChange'        => $price_change_since_yesterday,
+    'assetPriceTomorrowMiddle'=> $price_tomorrow_middle,
+    'assetPriceTomorrowMin'   => $price_tomorrow_min,
+    'assetPriceTomorrowMax'   => $price_tomorrow_max,
+    'assetTomorrowChangePct'  => $tomorrow_change_percent,
+    'assetTrindx'             => $trindx_value,
+    'assetRsi30'              => $rsi_30_value,
     'initialChartPeriod'      => '1d',
     'initialChartTimeframe'   => '5m',
     'initialCandleData'       => $chart_data_raw,

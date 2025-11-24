@@ -70,6 +70,7 @@
 @media (--phone-l) {
   .phone-l\:d-none { display: none; }
   .phone-l\:d-inline { display: inline; }
+  .phone-l\:d-flex { display: flex; }
 }
 
 @media (--tablet) {

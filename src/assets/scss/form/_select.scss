@@ -1,11 +1,13 @@
 @use '../abstracts' as *;
 
 select:not([multiple]) {
+  @include text-truncate;
+
   background-image: var(--icon-chevron-down);
-  background-position: center right var(--dim-1);
+  background-position: center right var(--lh);
   background-repeat: no-repeat;
-  padding-inline-end: var(--padding-x-input-lg);
-  overflow-x: clip;
+  padding-inline-end: var(--dim-5);
+  max-width: 100%;
 
   &, &::picker(select) {
     appearance: base-select;

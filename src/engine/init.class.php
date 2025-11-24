@@ -14,12 +14,13 @@ $current_page = !empty($routes[1]) ? $routes[1] : 'home';
 // Получение окружения: development или production
 $data_objects['ENV'] = getenv('APP_ENV') ?: 'production';
 
+
+
 // Глобальные параметры сайта
 $version_file = __DIR__ . '/../../dist/assets/css/main.css';
 $assets_version = file_exists($version_file) ? filemtime($version_file) : time();
 
 $data_objects['site'] = [
-  'assets_legacy' => '',
   'assets_prefix' => '/projects/cryptoapi.ai',
   'assets_version' => $assets_version,
   'desc' => $blog_description ?? 'Unlock the power of advanced APIs designed for crypto traders and analysts. ' .
@@ -78,6 +79,21 @@ $data_objects['user'] = [
   'id' => $user_id,
   'name' => $username ?? '',
   'balance' => $user_balancefnall ?? '',
+];
+
+// Для обратной совместимости (если старые шаблоны ещё используют ExtraData)
+$data_objects['ExtraData'] = [
+  'title' => $data_objects['page']['title'] ?? '',
+  'desc' => $data_objects['page']['desc'] ?? '',
+  'body_classes' => $data_objects['page']['classes'] ?? false,
+  'lang' => $data_objects['page']['lang'] ?? '',
+
+  'assets_prefix' => $data_objects['site']['assets_prefix'] ?? '',
+  'domain' => $data_objects['site']['domain'] ?? '',
+
+  'user_id' => $data_objects['user']['id'] ?? null,
+  'user_name' => $data_objects['user']['name'] ?? '',
+  'user_avatar' => $data_objects['user']['avatar'] ?? '',
 ];
 
 $data_objects['UserId'] = $data_objects['user']['id'] ?? null;

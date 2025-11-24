@@ -57,6 +57,7 @@ export function updateAssetHeader({
   high,
   low,
   current,
+  priceDayAgo,
 }) {
   // Название валюты
   DOMElements.assetHeader.name.forEach((el) => {
@@ -80,23 +81,60 @@ export function updateAssetHeader({
   }
 
   // Цены
-  if (DOMElements.assetHeader.open)
-    DOMElements.assetHeader.open.textContent = formatPrice(open, {
-      tick: 0.001,
-    });
+  if (DOMElements.assetHeader.open) {
+    DOMElements.assetHeader.open.textContent = formatPrice(open);
+  }
 
-  if (DOMElements.assetHeader.high)
-    DOMElements.assetHeader.high.textContent = formatPrice(high, {
-      tick: 0.001,
-    });
+  if (DOMElements.assetHeader.high) {
+    DOMElements.assetHeader.high.textContent = formatPrice(high);
+  }
 
-  if (DOMElements.assetHeader.low)
-    DOMElements.assetHeader.low.textContent = formatPrice(low, { tick: 0.001 });
+  if (DOMElements.assetHeader.low) {
+    DOMElements.assetHeader.low.textContent = formatPrice(low);
+  }
 
-  if (DOMElements.assetHeader.price)
-    DOMElements.assetHeader.price.textContent = formatPrice(current, {
-      tick: 0.001,
-    });
+  if (DOMElements.assetHeader.priceValue) {
+    DOMElements.assetHeader.priceValue.textContent = formatPrice(current);
+  }
+
+  if (DOMElements.assetHeader.priceChange) {
+    const currentNumber = Number(current);
+    const dayAgoSource =
+      priceDayAgo !== undefined
+        ? priceDayAgo
+        : window.APP_CONFIG?.assetPriceDayAgo;
+    const dayAgoNumber = Number(dayAgoSource);
+    const hasNumbers =
+      Number.isFinite(currentNumber) &&
+      Number.isFinite(dayAgoNumber) &&
+      dayAgoNumber !== 0;
+
+    if (hasNumbers) {
+      const changePercent =
+        ((currentNumber - dayAgoNumber) / dayAgoNumber) * 100;
+      const isNegative = changePercent < 0;
+      const isPositive = changePercent > 0;
+
+      DOMElements.assetHeader.priceChange.textContent = `${isPositive ? '+' : ''}${changePercent.toFixed(
+        2
+      )}%`;
+
+      DOMElements.assetHeader.priceChange.classList.toggle(
+        'is-negative',
+        isNegative
+      );
+      DOMElements.assetHeader.priceChange.classList.toggle(
+        'is-positive',
+        isPositive
+      );
+    } else {
+      DOMElements.assetHeader.priceChange.textContent = '–';
+      DOMElements.assetHeader.priceChange.classList.remove(
+        'is-negative',
+        'is-positive'
+      );
+    }
+  }
 }
 
 /**
@@ -152,6 +190,7 @@ export function initializeChartWithData(initialCandles, chartContainer) {
       high,
       low,
       current: last.c,
+      priceDayAgo: window.APP_CONFIG.assetPriceDayAgo,
     });
   }
 }
@@ -270,6 +309,7 @@ export async function refreshAssetChartData({
         high,
         low,
         current: last.c,
+        priceDayAgo: window.APP_CONFIG.assetPriceDayAgo,
       });
     } else {
       DOMElements.assetChartContainer.innerHTML = `<p class="p-3 text-center">${t(

@@ -183,8 +183,8 @@ msgstr "CryptoAPI в цифрах"
 msgid "What value can you gain from all these charts and tables?"
 msgstr "Какую выгоду вы можете извлечь из всех этих графиков и таблиц?"
 
-msgid "Monthly Return"
-msgstr "Доходность за месяц"
+msgid "Return (Last 30 Days)"
+msgstr "Доходность за последний месяц"
 
 msgid "Annual Return"
 msgstr "Доходность за год"

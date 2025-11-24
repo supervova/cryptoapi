@@ -91,14 +91,11 @@ msgstr "Документы"
 msgid "User Agreement"
 msgstr "Пользовательское соглашение"
 
-msgid "Widgets for Websites"
+msgid "Widgets for websites"
 msgstr "Виджеты для сайтов"
 
-msgid "Help Center"
-msgstr "Справка системы"
-
 # ------------------------------------------------------------------------------
-# BUTTONS AND LINKS
+# BUTTONS
 # ------------------------------------------------------------------------------
 
 msgid "Add API"
@@ -134,23 +131,17 @@ msgstr "Повторная попытка"
 msgid "Submit"
 msgstr "Отправить"
 
-msgid "Overall service statistics"
-msgstr "Общая статистика сервиса"
+msgid "Price Forecast"
+msgstr "Прогноз курса"
 
-msgid "Trade History Based on Project Signals"
-msgstr "Посмотри, как ИИ делал деньги всем клиентам"
+msgid "Price Prediction & Forecast: for Tomorrow, Next Week and Month"
+msgstr "- прогноз курса на завтра, на неделю и на месяц"
 
-msgid "Go"
-msgstr "Открыть"
+msgid "forecast includes the expected price for tomorrow, the weekly trend and the monthly outlook supported by updated market data."
+msgstr "ожидаемый курс на завтра, недельный тренд и прогноз на месяц."
 
-msgid "Change"
-msgstr "Изменить"
-
-msgid "Save"
-msgstr "Сохранить"
-
-msgid "Copy"
-msgstr "Копировать"
+msgid "If you find any system or project that provides more precise predictive data, please let us know."
+msgstr "Если вы найдете какую-либо систему или проект, предоставляющий более точные прогнозы на рынке криптоактивов, пожалуйста, сообщите нам об этом."
 
 # ------------------------------------------------------------------------------
 # HEADER
@@ -385,6 +376,21 @@ msgstr "Низкий риск"
 
 msgid "No risk data"
 msgstr "Нет данных о риске"
+
+msgid "Tomorrow’s Price Forecast:"
+msgstr "Прогноз цены на завтра:"
+
+msgid "Next-Day Forecast:"
+msgstr "Прогноз на завтра:"
+
+msgid "Min–max:"
+msgstr "Мин.–макс.:"
+
+msgid "The forecast is provided in Central European Summer Time (UTC+2)"
+msgstr "Прогноз указывается по центральноевропейскому летнему времени (UTC+2)"
+
+msgid "History of previous price forecasts"
+msgstr "История предыдущих прогнозов цены"
 
 # ------------------------------------------------------------------------------
 # FINANCE
@@ -656,6 +662,9 @@ msgstr "$33/месяц или $297/год (скидка 25 %)"
 msgid "Plus all benefits of the Free plan"
 msgstr "Плюс все преимущества бесплатного тарифа"
 
+msgid "Extended price forecasts (7 days, 1 month)"
+msgstr "Расширенные прогнозы курсов (7 дней, 1 месяц)"
+
 # Expert
 
 msgid "Up to 50,000 daily requests to the APIs “asset rating”, “market indicators and indices”"
@@ -682,9 +691,6 @@ msgid "Service fee – 5% of profit"
 msgstr "Комиссия сервиса – 5% от прибыли"
 
 msgid "VIP support"
-msgstr "VIP-поддержка"
-
-msgid "VIP support and a dedicated account manager"
 msgstr "VIP-поддержка"
 
 msgid "$150/month or $1,080/year (25% off)"
@@ -731,12 +737,3 @@ msgstr "Внимание:"
 
 msgid "Premium"
 msgstr "Премиум"
-
-# ------------------------------------------------------------------------------
-# CTA
-# ------------------------------------------------------------------------------
-msgid "Trade Cryptocurrency with AI Precision"
-msgstr "Торгуйте криптовалютой с точностью искусственного интеллекта"
-
-msgid "Get accurate AI-powered trading signals and stay ahead of the crypto market."
-msgstr "Получите точные торговые сигналы на основе ИИ и опережайте рынок криптовалют."

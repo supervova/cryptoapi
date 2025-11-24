@@ -8,6 +8,7 @@
   {% if ENV == 'development' %}
     {% set page = page|merge(
       {
+        app: true,
         classes: 'is-asset',
         styles: 'markets.css'
       }
@@ -39,10 +40,20 @@
           <p class="e-asset-details__title tablet:d-none" data-asset-name aria-hidden="true">{{ asset.name|default(asset.ticker) }}</p>
           <h1 class="e-asset-details__symbol" data-asset-symbol>{{ asset.ticker|default('N/A') }}-USD</h1>
           <div class="e-asset-details__price" data-asset-price>
-            {{ asset.current_price|default('N/A') }}
-            {% if asset.change_24h_percent and asset.change_24h_percent != 'N/A' %}
-              <small class="e-asset-details__price-change {{ asset.change_24h_percent matches '/^-/' ? 'is-negative' : 'is-positive' }}">
-                {{ not (asset.change_24h_percent matches '/^-/') and asset.change_24h_percent != '0%' ? '+' : '' }}{{ asset.change_24h_percent }}
+            <span data-asset-price-value>
+              {% if asset.current_price is not null and asset.current_price != '' %}
+                {{ macros.format_price(asset.current_price) }}
+              {% else %}
+                {{ asset.current_price|default('N/A') }}
+              {% endif %}
+            </span>
+            {% if asset.change_24h_percent is not null %}
+              {% set change_pct = asset.change_24h_percent %}
+              <small
+                class="e-asset-details__price-change {% if change_pct < 0 %}is-negative{% elseif change_pct > 0 %}is-positive{% endif %}"
+                data-asset-price-change
+              >
+                {{ change_pct > 0 ? '+' : '' }}{{ change_pct|number_format(2, '.', ' ') }}%
               </small>
             {% endif %}
           </div>
@@ -101,11 +112,121 @@
       </div>
     </div>
   </div>
+
+  <footer class="e-stats-bar">
+    {% set use_mock_stats = (ENV == 'development') %}
+    {% if use_mock_stats %}
+      {% set stat_trindx = 24.36 %}
+      {% set stat_rsi30 = 30 %}
+      {% set stat_forecast_mid = 118480.6 %}
+      {% set stat_forecast_change = 3.78 %}
+      {% set stat_forecast_min = 83200.44 %}
+      {% set stat_forecast_max = 118480.6 %}
+      {% set stat_current_price = asset.current_price is not null ? asset.current_price : 84915.13 %}
+    {% else %}
+      {% set stat_trindx = asset.trindx is not null ? asset.trindx : null %}
+      {% set stat_rsi30 = asset.rsi30 is not null ? asset.rsi30 : null %}
+      {% set stat_forecast_mid = asset.price_tomorrow_mid is not null ? asset.price_tomorrow_mid : null %}
+      {% set stat_forecast_change = asset.tomorrow_change_pct is not null ? asset.tomorrow_change_pct : null %}
+      {% set stat_forecast_min = asset.price_tomorrow_min is not null ? asset.price_tomorrow_min : null %}
+      {% set stat_forecast_max = asset.price_tomorrow_max is not null ? asset.price_tomorrow_max : null %}
+      {% set stat_current_price = asset.current_price is not null ? asset.current_price : null %}
+    {% endif %}
+    <ul class="e-stats-bar__list">
+      <li class="d-none phone-l:d-flex">
+        <span class="e-stats-bar__caption">TRINDEX:</span>
+        <span class="e-stats-bar__value is-info" data-asset-trindx>
+          {{ stat_trindx is not null ? stat_trindx : '—' }}
+        </span>
+      </li>
+      <li>
+        <details class="e-popover is-up" data-role="popover">
+          <summary>
+            <span class="e-stats-bar__caption">
+              <span class="tablet:d-none">{{ 'Next-Day Forecast:'|trans }}</span>
+              <span class="d-none tablet:d-inline">{{ 'Tomorrow’s Price Forecast:'|trans }}</span>
+            </span>
+            <span
+              class="e-stats-bar__value{% if stat_forecast_mid is not null and stat_current_price is not null %} {{ stat_current_price < stat_forecast_mid ? 'is-success' : (stat_current_price > stat_forecast_mid ? 'is-error' : '') }}{% endif %}"
+              data-asset-forecast-middle
+            >
+              {% if stat_forecast_mid is not null %}
+                ${{ macros.format_price(stat_forecast_mid) }}
+              {% else %}
+                —
+              {% endif %}
+            </span>
+          </summary>
+          <div class="e-popover__body">
+            <div class="e-popover__forecast">
+              <strong
+                class="{% if stat_forecast_mid is not null and stat_current_price is not null %}{{ stat_current_price < stat_forecast_mid ? 'is-success' : (stat_current_price > stat_forecast_mid ? 'is-error' : '') }}{% endif %}"
+                data-asset-forecast-middle
+              >
+                {% if stat_forecast_mid is not null %}
+                  {{ macros.format_price(stat_forecast_mid) }}
+                {% else %}
+                  —
+                {% endif %}
+              </strong>
+              <span
+                class="e-stats-bar__value{% if stat_forecast_change is not null %} {{ stat_forecast_change >= 0 ? 'is-success' : 'is-error' }}{% endif %}"
+                data-asset-forecast-change
+              >
+                {% if stat_forecast_change is not null %}
+                  {{ stat_forecast_change > 0 ? '+' : '' }}{{ stat_forecast_change|number_format(2, '.', ' ') }}%
+                {% else %}
+                  —
+                {% endif %}
+              </span>
+            </div>
+            <small
+              class="e-popover__forecast-min-max"
+              data-asset-forecast-min-max
+              data-label="{{ 'Min–max:'|trans }}"
+            >
+              {{ 'Min–max:'|trans }}
+              {% if stat_forecast_min is not null %}
+                {{ macros.format_price(stat_forecast_min) }}
+              {% else %}
+                —
+              {% endif %}
+              —
+              {% if stat_forecast_max is not null %}
+                {{ macros.format_price(stat_forecast_max) }}
+              {% else %}
+                —
+              {% endif %}
+            </small>
+            <small class="e-popover__forecast-timezone">
+              {{ 'The forecast is provided in Central European Summer Time (UTC+2)'|trans }}<br>
+              <a href="https://cryptoapi.ai/{{ page.lang }}/prediction/{{ asset.ticker }}">
+                {{ 'History of previous price forecasts'|trans }}
+              </a>
+            </small>
+          </div>
+        </details>
+      </li>
+      <li class="d-none phone-l:d-flex">
+        <span class="e-stats-bar__caption">RSI(30D):</span>
+        <span class="e-stats-bar__value is-info" data-asset-rsi30>
+          {{ stat_rsi30 is not null ? stat_rsi30 : '—' }}
+        </span>
+      </li>
+    </ul>
+  </footer>
 {% endblock %}
 
 {% block body_suffix %}
   {# page.js содержит все данные для window.APP_CONFIG #}
   {% set js_config = page.js %}
+  {% set use_mock_stats_js = (ENV == 'development') %}
+  {% set js_trindx = js_config.assetTrindx is not null ? js_config.assetTrindx : (use_mock_stats_js ? 24.36 : null) %}
+  {% set js_rsi30 = js_config.assetRsi30 is not null ? js_config.assetRsi30 : (use_mock_stats_js ? 30 : null) %}
+  {% set js_forecast_mid = js_config.assetPriceTomorrowMiddle is not null ? js_config.assetPriceTomorrowMiddle : (use_mock_stats_js ? 118480.6 : null) %}
+  {% set js_forecast_change = js_config.assetTomorrowChangePct is not null ? js_config.assetTomorrowChangePct : (use_mock_stats_js ? 3.78 : null) %}
+  {% set js_forecast_min = js_config.assetPriceTomorrowMin is not null ? js_config.assetPriceTomorrowMin : (use_mock_stats_js ? 83200.44 : null) %}
+  {% set js_forecast_max = js_config.assetPriceTomorrowMax is not null ? js_config.assetPriceTomorrowMax : (use_mock_stats_js ? 118480.6 : null) %}
 
   <script id="js-translations" type="application/json">
     {{ {
@@ -135,6 +256,14 @@
       assetLowPrice:        '{{ js_config.assetLowPrice|escape("js") }}',
       assetCurrentPrice:    '{{ js_config.assetCurrentPrice|escape("js") }}',
       assetChange24hPercent:'{{ js_config.assetChange24hPercent|escape("js") }}',
+      assetPriceDayAgo:     {{ js_config.assetPriceDayAgo|json_encode()|raw }},
+      assetPriceChange:     {{ js_config.assetPriceChange|json_encode()|raw }},
+      assetPriceTomorrowMiddle: {{ js_forecast_mid|json_encode()|raw }},
+      assetPriceTomorrowMin: {{ js_forecast_min|json_encode()|raw }},
+      assetPriceTomorrowMax: {{ js_forecast_max|json_encode()|raw }},
+      assetTomorrowChangePct: {{ js_forecast_change|json_encode()|raw }},
+      assetTrindx:          {{ js_trindx|json_encode()|raw }},
+      assetRsi30:           {{ js_rsi30|json_encode()|raw }},
       initialChartPeriod:   '{{ js_config.initialChartPeriod|escape("js") }}',
       initialChartTimeframe:'{{ js_config.initialChartTimeframe|escape("js") }}',
       initialCandleData:     {{ js_config.initialCandleData|json_encode()|raw }}

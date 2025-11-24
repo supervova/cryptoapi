@@ -13,7 +13,7 @@
 	background:#cac4b0;
 }
 </style>
-<div style="text-align:right;font-size:12px;"><a href="/g2fa">{$g2faphrase}</a></div>
+<!-- <div style="text-align:right;font-size:12px;"><a href="/g2fa">{$g2faphrase}</a></div> -->
 {$payagentinfo}
 {$finance_html}
 <!--noindex-->

@@ -106,28 +106,3 @@ summary,
   rotate: 180deg;
 }
 
-
-// Share Specific Styles
-.e-popover.is-share {
-  summary {
-    border-radius: var(--radius-small);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--padding-small);
-
-    &:hover {
-      background-color: var(--color-background-hover);
-    }
-
-    &::after {
-      display: none;
-    }
-  }
-
-  .e-popover__body {
-    bottom: var(--dim-offset);
-    right: calc(var(--dim-offset) * -1);
-    left: auto;
-  }
-}

@@ -250,7 +250,7 @@
                 {{ helpers.messengers_alert }}
                 <p>{{ 'Receive important notifications via instant messenger. To link your account with Telegram, send the following code from your messenger…'|trans }}</p>
                 <div class="e-grid is-auto">
-                  <p class="h2 text-highlight" id="details-code">CODE{$messengers_code}</p>
+                  <p class="h2 text-highlight" id="details-code">CODE{{ helpers.messengers_code|default(428989) }}</p>
                   <button class="e-btn is-outline" type="button" data-role="copy-code">{{ 'Copy'|trans }}</button>
                 </div>
                 <p>{{ '…to the following bots:'|trans }}</p>
