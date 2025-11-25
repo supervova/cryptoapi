@@ -117,7 +117,7 @@
     {% set use_mock_stats = (ENV == 'development') %}
     {% if use_mock_stats %}
       {% set stat_trindx = 24.36 %}
-      {% set stat_rsi30 = 30 %}
+      {% set stat_rsi30 = 1 %}
       {% set stat_forecast_mid = 118480.6 %}
       {% set stat_forecast_change = 3.78 %}
       {% set stat_forecast_min = 83200.44 %}
@@ -125,7 +125,7 @@
       {% set stat_current_price = asset.current_price is not null ? asset.current_price : 84915.13 %}
     {% else %}
       {% set stat_trindx = asset.trindx is not null ? asset.trindx : null %}
-      {% set stat_rsi30 = asset.rsi30 is not null ? asset.rsi30 : null %}
+      {% set stat_rsi30 = asset.rating is not null ? asset.rating : null %}
       {% set stat_forecast_mid = asset.price_tomorrow_mid is not null ? asset.price_tomorrow_mid : null %}
       {% set stat_forecast_change = asset.tomorrow_change_pct is not null ? asset.tomorrow_change_pct : null %}
       {% set stat_forecast_min = asset.price_tomorrow_min is not null ? asset.price_tomorrow_min : null %}
@@ -208,8 +208,8 @@
         </details>
       </li>
       <li class="d-none phone-l:d-flex">
-        <span class="e-stats-bar__caption">RSI(30D):</span>
-        <span class="e-stats-bar__value is-info" data-asset-rsi30>
+        <span class="e-stats-bar__caption">{{ 'Rating'|trans }}:</span>
+        <span class="e-stats-bar__value is-info" data-asset-rating>
           {{ stat_rsi30 is not null ? stat_rsi30 : '—' }}
         </span>
       </li>
@@ -222,7 +222,7 @@
   {% set js_config = page.js %}
   {% set use_mock_stats_js = (ENV == 'development') %}
   {% set js_trindx = js_config.assetTrindx is not null ? js_config.assetTrindx : (use_mock_stats_js ? 24.36 : null) %}
-  {% set js_rsi30 = js_config.assetRsi30 is not null ? js_config.assetRsi30 : (use_mock_stats_js ? 30 : null) %}
+  {% set js_rsi30 = js_config.assetRsi30 is not null ? js_config.assetRsi30 : (use_mock_stats_js ? 1 : null) %}
   {% set js_forecast_mid = js_config.assetPriceTomorrowMiddle is not null ? js_config.assetPriceTomorrowMiddle : (use_mock_stats_js ? 118480.6 : null) %}
   {% set js_forecast_change = js_config.assetTomorrowChangePct is not null ? js_config.assetTomorrowChangePct : (use_mock_stats_js ? 3.78 : null) %}
   {% set js_forecast_min = js_config.assetPriceTomorrowMin is not null ? js_config.assetPriceTomorrowMin : (use_mock_stats_js ? 83200.44 : null) %}

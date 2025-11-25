@@ -41,8 +41,8 @@ function updateStatsBar({
   forecastMax,
   forecastChangePct,
   trindx,
-  rsi30,
-  // currentPrice,
+  rating,
+  currentPrice,
 }) {
   if (DOMElements.statsBar.trindx && trindx !== undefined && trindx !== null) {
     const numericTrindx = Number(trindx);
@@ -51,10 +51,10 @@ function updateStatsBar({
     }
   }
 
-  if (DOMElements.statsBar.rsi30 && rsi30 !== undefined && rsi30 !== null) {
-    const numericRsi = Number(rsi30);
-    if (Number.isFinite(numericRsi)) {
-      DOMElements.statsBar.rsi30.textContent = numericRsi.toFixed(0);
+  if (DOMElements.statsBar.rating && rating !== undefined && rating !== null) {
+    const numericRating = Number(rating);
+    if (Number.isFinite(numericRating)) {
+      DOMElements.statsBar.rating.textContent = numericRating.toFixed(0);
     }
   }
 
@@ -174,7 +174,7 @@ async function initializeAssetPage() {
       forecastMax: assetPriceTomorrowMax,
       forecastChangePct: assetTomorrowChangePct,
       trindx: assetTrindx,
-      rsi30: assetRsi30,
+      rating: assetRsi30,
       currentPrice: assetCurrentPrice,
     });
 

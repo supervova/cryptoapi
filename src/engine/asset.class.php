@@ -124,6 +124,7 @@ $to_float_or_null = static function ($value) {
 };
 
 $trindx_value = null;
+$rating_value = null;
 $rsi_30_value = null;
 $price_current = null;
 $price_day_ago = null;
@@ -133,6 +134,7 @@ $price_tomorrow_max = null;
 
 if (!empty($asset_entry) && is_array($asset_entry)) {
     $trindx_value = $asset_entry['TRINDX'] ?? null;
+    $rating_value = $asset_entry['rating'] ?? null;
     $rsi_30_value = $asset_entry['RSI30'] ?? null;
 
     if (isset($asset_entry['price']) && is_array($asset_entry['price'])) {
@@ -260,6 +262,7 @@ $data_objects['page']['asset'] = [
     'price_tomorrow_max'  => $price_tomorrow_max,
     'tomorrow_change_pct' => $tomorrow_change_percent,
     'trindx'              => $trindx_value,
+    'rating'              => $rating_value,
     'rsi30'               => $rsi_30_value,
 ];
 
@@ -282,7 +285,7 @@ $data_objects['page']['js'] = [
     'assetPriceTomorrowMax'   => $price_tomorrow_max,
     'assetTomorrowChangePct'  => $tomorrow_change_percent,
     'assetTrindx'             => $trindx_value,
-    'assetRsi30'              => $rsi_30_value,
+    'assetRsi30'              => $rating_value,
     'initialChartPeriod'      => '1d',
     'initialChartTimeframe'   => '5m',
     'initialCandleData'       => $chart_data_raw,

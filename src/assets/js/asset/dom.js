@@ -68,5 +68,5 @@ export const statsBar = {
   forecastMiddle: document.querySelectorAll('[data-asset-forecast-middle]'),
   forecastChange: document.querySelector('[data-asset-forecast-change]'),
   forecastMinMax: document.querySelector('[data-asset-forecast-min-max]'),
-  rsi30: document.querySelector('[data-asset-rsi30]'),
+  rating: document.querySelector('[data-asset-rating]'),
 };
