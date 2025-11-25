@@ -16,6 +16,8 @@
 }
 
 [id='crypto-table'] {
+  --forecast-width: #{rem(220)};
+
   table-layout: fixed;
 
   caption {
@@ -28,7 +30,7 @@
 }
 
 col {
-  width: 16%;
+  width: clamp(rem(90), 7%, rem(168));
 }
 
 .col.is-watchlist,
@@ -36,25 +38,28 @@ col {
   width:  rem(85);
 }
 
-.col.is-asset {
+.col.is-asset,
+.col.is-price {
   width: rem(140);
   max-width: rem(140);
   min-width: rem(140);
 
   @media (--phone-l) {
-    width: rem(244);
-    max-width: rem(244);
-    min-width: rem(244);
+    width: rem(180);
+    max-width: rem(180);
+    min-width: rem(180);
   }
 }
 
-.col.is-price {
+.col.is-forecast {
   width: rem(140);
+  max-width: rem(140);
   min-width: rem(140);
 
   @media (--phone-l) {
-    width: rem(180);
-    min-width: rem(180);
+    width: var(--forecast-width);
+    max-width: var(--forecast-width);
+    min-width: var(--forecast-width);
   }
 }
 
@@ -66,6 +71,28 @@ tr:not(:has(td[colspan], th[colspan])) {
 .table__cell.is-positive,
 .table__cell.is-negative {
   font-weight: 500;
+}
+
+.table__cell.is-forecast {
+  text-align: end;
+
+  small {
+    @include text-truncate;
+
+    color: var(--color-text-02);
+    display: block;
+    white-space: nowrap;
+    margin-inline-start: auto;
+    max-width: var(--forecast-width);
+  }
+
+  &.is-negative strong {
+    color: var(--color-text-error);
+  }
+
+  &.is-positive strong {
+    color: var(--color-text-success);
+  }
 }
 
 // .e-asset__copy grid layout for asset name and symbol

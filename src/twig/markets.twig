@@ -36,10 +36,17 @@
     {key: 'asset', type: 'text', label: 'Asset'|trans, sortable: true},
     {key: 'price', type: 'num', label: 'Price, $'|trans, sortable: true},
     {key: 'change_24h', type: 'num', label: 'Chg (24H), %'|trans, sortable: true},
+    {key: 'forecast', type: 'num', label: 'Forecast, $'|trans, sortable: true},
+    {key: 'trindx', type: 'num', label: 'TRINDX'|trans, sortable: true, tooltip: "🤖 A trading risk index calculated by the project’s AI system.<br><a href='/en/faq'>More</a>"},
     {key: 'rating', type: 'num', label: 'Rating'|trans, sortable: true, tooltip: "📊 A general score of asset attractiveness based on the TRINDX™ index and other factors.<br><a href='/en/faq'>More</a>"},
     {key: 'risk', type: 'icon', label: 'Risk'|trans, sortable: false, tooltip: "⚠️ A simplified risk score based on the TRINDX™ index.<br><a href='/en/faq'>More</a>"},
-    {key: 'trindx', type: 'num', label: 'TRINDX'|trans, sortable: true, tooltip: "🤖 A trading risk index calculated by the project’s AI system.<br><a href='/en/faq'>More</a>"},
-    {key: 'rsi', type: 'num', label: 'RSI (7D)'|trans, sortable: true, tooltip: "📈 Relative Strength Index indicating whether an asset is overbought or oversold over the selected period.<br><a href='/en/faq'>More</a>"}
+    {key: 'rsi_7d', type: 'num', label: 'RSI (7D)'|trans, sortable: true, tooltip: "📈 Relative Strength Index indicating whether an asset is overbought or oversold over the selected period.<br><a href='/en/faq'>More</a>"},
+    {key: 'rsi_30d', type: 'num', label: 'RSI (30D)'|trans, sortable: true},
+    {key: 'rsi_91d', type: 'num', label: 'RSI (91D)'|trans, sortable: true},
+    {key: 'rsi_182d', type: 'num', label: 'RSI (182D)'|trans, sortable: true},
+    {key: 'rsi_365d', type: 'num', label: 'RSI (365D)'|trans, sortable: true},
+    {key: 'rsi_1000d', type: 'num', label: 'RSI (1000D)'|trans, sortable: true},
+    {key: 'market', type: 'text', label: 'Market'|trans, sortable: true}
   ] %}
 
 {% endblock %}
@@ -57,6 +64,7 @@
     watchlist: 'col is-watchlist',
     asset: 'col is-asset',
     price: 'col is-price',
+    forecast: 'col is-forecast',
     risk: 'col is-risk'
   } %}
 
@@ -118,7 +126,7 @@
 
         <tbody id="crypto-table-body">
           <tr id="loading-row">
-            <td class="table__cell is-loading-state" colspan="{{ visible_columns_count }}">
+            <td class="table__cell is-loading-state" colspan="14">
               <p>{{ 'Loading data...'|trans }}</p>
             </td>
           </tr>
@@ -127,7 +135,6 @@
     </div>
 
     <div class="visually-hidden" aria-live="polite" id="screen-reader-announcement"></div>
-
   </div>
 {% endblock %}
 
@@ -184,12 +191,6 @@
           </select>
         </div>
 
-        <fieldset>
-            <legend class="e-h4 mt-2lh mb-s">{{ 'Columns'|trans }}</legend>
-            <ul class="e-list is-unstyled" id="filter-columns-list">
-              {# Сюда JS будет вставлять чекбоксы #}
-            </ul>
-        </fieldset>
       </form>
     </div>
     <div class="e-drawer__footer sticky">
@@ -201,13 +202,6 @@
       </button>
     </div>
   </dialog>
-
-  {# Отладка переводов #}
-  {# {% set translations_debug = {
-    "allDataLoaded": "All data has been successfully loaded."|trans,
-    "ascending": "ascending"|trans,
-    "asset": "Asset"|trans
-  } %} #}
 
   {# Словарь для JavaScript #}
   <script id="js-translations" type="application/json">
@@ -248,6 +242,7 @@
       "tooltip_risk": "⚠️ A simplified risk score based on the TRINDX™ index.<br><a href='/en/faq'>More</a>"|trans,
       "tooltip_trindx": "🤖 A trading risk index calculated by the project’s AI system.<br><a href='/en/faq'>More</a>"|trans,
       "tooltip_rsi": "📈 Relative Strength Index indicating whether an asset is overbought or oversold over the selected period.<br><a href='/en/faq'>More</a>"|trans,
+      "tooltip_forecast": "🔮 The most accurate price forecast for tomorrow: average, minimum, and maximum."|trans,
       "trindx": "TRINDX"|trans,
       "watchlist": "Watchlist"|trans
     } %}

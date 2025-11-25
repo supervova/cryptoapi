@@ -72,3 +72,6 @@ msgstr "🤖 Индекс торговых рисков, рассчитывае�
 
 msgid "📈 Relative Strength Index indicating whether an asset is overbought or oversold over the selected period.<br><a href='/en/faq'>More</a>"
 msgstr "📈 Индекс относительной силы, показывающий перекупленность или перепроданность актива за указанный период.<br><a href='/ru/faq'>Подробнее</a>"
+
+msgid "🔮 The most accurate price forecast for tomorrow: average, minimum, and maximum"
+msgstr "🔮 Самый точный прогноз цены на завтра: средняя, минимальная и максимальная"

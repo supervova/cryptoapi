@@ -7,7 +7,7 @@ import {
   ROW_HEIGHT_ESTIMATE,
   VISIBLE_BUFFER,
 } from '../markets/config.js';
-import { formatNullable } from './formatting.js';
+import { formatNullable, formatPrice } from './formatting.js';
 import { getNestedValue } from '../markets/utils.js';
 import { getVisibleColumns, getVisibleColumnsCount } from './columns.js';
 import { getPair } from '../utils/currency.js';
@@ -16,6 +16,7 @@ const COL_CLASS_MAP = {
   watchlist: 'col is-watchlist',
   asset: 'col is-asset',
   price: 'col is-price',
+  forecast: 'col is-forecast',
   risk: 'col is-risk',
 };
 
@@ -83,6 +84,38 @@ const buildCell = (col, asset, cryptoMeta) => {
       };
       const cls = getChangeClass(v);
       return [`table__cell is-num${cls}`, txt];
+    }
+    case 'forecast': {
+      const middle = getNestedValue(asset, 'price.tomorrow.middle');
+      const min = getNestedValue(asset, 'price.tomorrow.min');
+      const max = getNestedValue(asset, 'price.tomorrow.max');
+      const current = getNestedValue(asset, 'price.current');
+
+      const hasMiddle = middle !== null && middle !== undefined;
+      const hasMin = min !== null && min !== undefined;
+      const hasMax = max !== null && max !== undefined;
+
+      const middleText = hasMiddle ? formatPrice(middle) : formatNullable(null);
+      let rangeText = '';
+      if (hasMin || hasMax) {
+        const minText = hasMin ? formatPrice(min) : formatNullable(null);
+        const maxText = hasMax ? formatPrice(max) : formatNullable(null);
+        rangeText = `${minText}—${maxText}`;
+      }
+
+      const html = rangeText
+        ? `<strong>${middleText}</strong><small>${rangeText}</small>`
+        : `<strong>${middleText}</strong>`;
+
+      let deltaClass = '';
+      const middleNum = Number(middle);
+      const currentNum = Number(current);
+      if (Number.isFinite(middleNum) && Number.isFinite(currentNum)) {
+        if (middleNum > currentNum) deltaClass = ' is-positive';
+        else if (middleNum < currentNum) deltaClass = ' is-negative';
+      }
+
+      return [`table__cell is-2-liner is-forecast${deltaClass}`, html];
     }
     default: {
       const val = getNestedValue(asset, col.apiField);
@@ -227,7 +260,7 @@ export function generateTableHeadHtml(translator = t) {
   const currentVisibleColumns = getVisibleColumns();
   let headHtml = '<tr>';
 
-  const tooltipKeys = ['watchlist', 'rating', 'risk', 'trindx', 'rsi'];
+  const tooltipKeys = ['watchlist', 'rating', 'risk', 'trindx', 'rsi', 'forecast'];
 
   currentVisibleColumns.forEach((col) => {
     const thClasses = `table__cell is-${col.type}${col.key === 'watchlist' ? ' is-action' : ''}`;
