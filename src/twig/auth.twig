@@ -40,8 +40,8 @@
             <div class="e-form__error-box" id="messagelogin" role="alert" aria-live="assertive"></div>
 
             <p class="e-form__text-field">
-              <input id="loginemaillf" name="loginemaillf" value="{$setemail}" type="email" autocomplete="email" required placeholder="Email">
-              <label for="loginemaillf">Email</label>
+              <input id="loginemaillf" name="loginemaillf" value="{$setemail}" type="email" autocomplete="email" required placeholder="{{ 'Email'|trans }}">
+              <label for="loginemaillf">{{ 'Email'|trans }}</label>
               <span class="e-form__error" id="error-email" role="alert" aria-live="polite">
                 <small>{{ 'Enter a valid email address.'|trans }}</small>
               </span>
@@ -109,15 +109,15 @@
             </p>
 
             <p class="e-form__text-field">
-              <input id="emaillf" name="emaillf" type="email" autocomplete="email" required placeholder="Email">
-              <label for="emaillf">Email</label>
+              <input id="emaillf" name="emaillf" type="email" autocomplete="email" required placeholder="{{ 'Email'|trans }}">
+              <label for="emaillf">{{ 'Email'|trans }}</label>
               <span class="e-form__error" id="error-email-signup" role="alert" aria-live="polite">
                 <small>{{ 'Enter a valid email address.'|trans }}</small>
               </span>
             </p>
 
             <p class="e-form__text-field">
-              <input id="passwordlf" name="passwordlf" type="password" data-role="password" required placeholder="{{ 'Password'|trans }}" pattern="(?=.*[A-Za-z])(?=.*\d).{8,}" title="{{ 'Password must be at least 8 characters long and include at least one letter and one number.'|trans }}">
+              <input id="passwordlf" name="passwordlf" type="password" data-role="password" required placeholder="{{ 'Password'|trans }}" pattern="(?=.*[A-Za-z])(?=.*\d).{8,}" title="{{ 'Must include at least one digit, one letter, and be at least 8 characters long.'|trans }}">
               <label for="passwordlf">{{ 'Password'|trans }}</label>
               <button class="e-form__password-toggle e-btn is-icon" type="button" data-role="password-toggle" title="{{ 'Show/Hide Password'|trans }}">
                 {% include 'partials/icon.twig' with {name: 'eye'} %}
@@ -137,19 +137,18 @@
 
             <p class="e-form__text-field mt-2lh">
               <input id="promocodelf" name="promocode" type="text" autocomplete="off" minlength="8" maxlength="8" placeholder="{{ 'Get $10 added to your balance'|trans }}">
-              <label for="promocodelf">{{ 'Promo code (if you have one)'|trans }}</label>
+              <label for="promocodelf">{{ 'Invite code (if you have one)'|trans }}</label>
               <small class="e-form__hint">
-                {{ 'Have a promo code? Enter it here and we will apply it during registration. This field is optional.'|trans }}
+                {{ 'Have an invite code? Enter it here and we will apply it during registration. This field is optional.'|trans }}
               </small>
               <span class="e-form__error" role="alert" aria-live="polite">
-                <small>{{ 'Our promo codes are 8 characters long.'|trans }}</small>
+                <small>{{ 'Our invite codes are 8 characters long.'|trans }}</small>
               </span>
             </p>
 
             <label class="e-form__option">
               <input id="agreement-signup" type="checkbox" data-role="user-agreement" checked required>
-              By continuing, you agree to
-              <a href="https://{$this_http_host}/useragreement" target="_blank">our terms</a>.
+              {{ 'By continuing, you agree to <a href="https://{$this_http_host}/useragreement" target="_blank">our terms</a>.'|trans|raw }}
             </label>
 
             <button class="e-btn is-primary w-100" data-action="submit-auth-form" type="submit">
@@ -184,8 +183,8 @@
             <p
               class="e-form__text-field">
               {# Use type="email" for native validation #}
-              <input id="rememberemailf" name="rememberemailf" value="{$setemail}" type="email" autocomplete="email" required placeholder="Email">
-              <label for="rememberemailf">Email</label>
+              <input id="rememberemailf" name="rememberemailf" value="{$setemail}" type="email" autocomplete="email" required placeholder="{{ 'Email'|trans }}">
+              <label for="rememberemailf">{{ 'Email'|trans }}</label>
               <span class="e-form__error" id="error-email-restore" role="alert" aria-live="polite">
                 <small>{{ 'Enter a valid email address.'|trans }}</small>
               </span>
@@ -231,7 +230,7 @@
       <a href="https://t.me/{$config[TelegramBot]}" target="_blank">@QwertyAIbot</a>
     </p>
     <p>
-      {{ 'And send a message: '|trans }}
+      {{ 'And send a message'|trans }}
       <strong id="msgcode"></strong><br>
       {{ 'The code is valid'|trans }}
       <strong id="msgsec"></strong>
@@ -369,6 +368,12 @@
         },
         tabPanel: '.e-tabs__panel',
         tabPanelOpen: '.e-tabs__panel.is-open'
+      };
+
+      const SERVER_VARS = {
+        projectId: {{ project_id|default(0) }},
+        initsec: '{{ (page.hello_cookie ~ (user.unloggedid|default('')))|e("js") }}',
+        returl: '{{ page.returl|default('')|e("js") }}'
       };
 
       const POLLING_INTERVAL_MS = 3000;
@@ -677,7 +682,7 @@
             try {
               await makeRequest('./initmsgreg.php', {
                 cancelinit: msgcode,
-                thisprojectid: '{$thisprojectid}'
+                thisprojectid: SERVER_VARS.projectId
               });
             } catch (error) {
               showToast (` {{ "Failed to send cancellation request:"|trans|e("js") }}
@@ -715,7 +720,7 @@
           return;
         }
 
-        codeEl.textContent = code;
+        codeEl.textContent = `A${String(code)}`;
         const updateTimerDisplay = () => {
           timerEl.textContent = timeLeft;
         };
@@ -735,10 +740,8 @@
           try {
             const response = await makeRequest('./initmsgreg.php', {
               checkinit: msgcode,
-              thisprojectid: '{$thisprojectid}'
+              thisprojectid: SERVER_VARS.projectId
             }, 'json');
-
-            console.log('Poll response:', response);
 
             if (! msgPollingActive)
               return;
@@ -906,8 +909,8 @@
             toggleLoader(true);
             try { // console.log('Sending request to initmsgreg.php');
               const response = await makeRequest('./initmsgreg.php', {
-                initsec: '{$hello_cookie}{$unloggedid}',
-                thisprojectid: '{$thisprojectid}'
+                initsec: SERVER_VARS.initsec,
+                thisprojectid: SERVER_VARS.projectId
               }, 'json');
               // console.log('Response received:', response);
 
@@ -918,10 +921,7 @@
                 } else if (status === 'OK') {
                   const code = response[1] * 1;
                   const duration = 300;
-                  startMessengerPolling (` A$ {
-                code
-              }
-              `, duration);
+                  startMessengerPolling(code, duration);
                 } else {
                   showToast (` {{ "Error:"|trans|e("js") }}
               $ {

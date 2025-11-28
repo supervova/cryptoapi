@@ -114,6 +114,7 @@ $data_objects['page'] = array_merge(
 // auth.css is hardcoded in template
 
 $data_objects['user']['unloggedid'] = $unloggedid;
+$data_objects['project_id'] = $thisprojectid;
 
 // Рендеринг шаблона
 $final_html = get_template("auth.twig", $data_objects);
