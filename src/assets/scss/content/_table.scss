@@ -275,6 +275,14 @@ tfoot td {
   color: var(--color-text-02);
   padding: var(--dim-5);
   vertical-align: middle;
+
+  > div {
+    max-width: calc(100vw - rem(120));
+
+    @media (--tablet) {
+      max-width: calc(100vw - rem(160) - var(--navbar-area));
+    }
+  }
 }
 
 :where(.table__cell.is-loading-state) p {

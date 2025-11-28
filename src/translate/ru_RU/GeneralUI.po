@@ -104,8 +104,8 @@ msgstr "Добавить API"
 msgid "Add New Currency"
 msgstr "Добавить новую валюту"
 
-msgid "Add API"
-msgstr "Add Signal"
+msgid "Add Signal"
+msgstr "Добавить сигнал"
 
 msgid "Settings"
 msgstr "Настройки"

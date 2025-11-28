@@ -20,11 +20,7 @@
       <form class="e-header__search e-search" role="search">
         <label class="visually-hidden" for="header-search">{{ 'Search coins by name or symbol…'|trans }}</label>
         {% include 'partials/icon.twig' with {name: 'search'} %}
-        {% if search_on_page %}
-          <input type="search" id="header-search" autocomplete="off" placeholder="{{ 'Search coins by name or symbol…'|trans }}">
-        {% else %}
-          <input type="search" id="header-search" autocomplete="off" placeholder="{{ 'Search coins by name or symbol…'|trans }}">
-        {% endif %}
+        <input type="search" id="header-search" autocomplete="off" placeholder="{{ 'Search coins by name or symbol…'|trans }}">
       </form>
     {% endif %}
 

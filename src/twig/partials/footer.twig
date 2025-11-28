@@ -1,52 +1,52 @@
 {% set data_footer = [
-  {
-    "label": "Pricing",
-    "href": "pricing"
-  }, {
-  "label": "Help Center",
-    "href": "faq"
-  }, {
-    "label": "Contact Us",
-    "href": "feedback"
-  }, {
-    "label": "Privacy",
-    "href": "privacy"
-  }, {
-    "label": "User Agreement",
-    "href": "useragreement"
-  }, {
-    "label": "Widgets for Websites",
-    "href": "widgets"
-  }, {
-    "label": "API",
-    "href": "cryptoapi"
-  }
+  [
+    {"label": "Pricing", "href": "pricing"},
+    {"label": "Help Center", "href": "faq"},
+    {"label": "Contact Us", "href": "feedback"}
+  ], [
+    {"label": "Affiliate Program", "href": "partners"},
+    {"label": "Widgets for Websites", "href": "widgets"},
+    {"label": "API", "href": "cryptoapi"}
+  ], [
+    {"label": "Privacy", "href": "privacy"},
+    {"label": "User Agreement", "href": "useragreement"}
+  ]
 ] %}
 
 <footer class="e-footer">
   <div class="e-container">
-    <small class="e-footer__copy">© {{ "now"|date('Y') }}. CryptoAPI</small>
-    <ul class="e-footer__menu">
-      {% for item in data_footer %}
-        <li class="e-footer__menu-item is-{{ item.href }}"><a href="/{{ page.lang }}/{{ item.href }}">{{ item.label|trans|raw }}</a></li>
-      {% endfor %}
-    </ul>
+    <small class="e-footer__copy">©
+      {{ "now"|date('Y') }}. CryptoAPI</small>
+      <ul class="e-footer__menu">
+        {% for group in data_footer %}
+          <li>
+            <ul class="e-footer__submenu">
+              {% for item in group %}
+                <li class="e-footer__submenu-item is-{{ item.href }}">
+                  <a href="/{{ page.lang }}/{{ item.href }}">{{ item.label|trans|raw }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% endfor %}
+      </ul>
     <details class="e-popover e-footer__languages" data-lang="{$lng_html}" data-role="popover">
 
       <summary class="has-chevron">
         <span class="e-footer__ru">
-        {% include 'partials/icon.twig' with {name: 'flag-russia-ru', classes: 'me-1', file: 'flags'} %}
-        Русский
+          {% include 'partials/icon.twig' with {name: 'flag-russia-ru', classes: 'me-1', file: 'flags'} %}
+          Русский
         </span>
 
         <span class="e-footer__en">
-        {% include 'partials/icon.twig' with {name: 'flag-britain-en', file: 'flags'} %}
-        English
+          {% include 'partials/icon.twig' with {name: 'flag-britain-en', file: 'flags'} %}
+          English
         </span>
       </summary>
       <ul class="e-popover__body e-menu">
 
-        <li class="e-menu__item is-ru">
+        <li
+          class="e-menu__item is-ru">
           {# <a href="/ru{$simpleuri}" {% if lang == 'ru' or lang starts with 'ru_' %}aria-current="true"{% endif %}> #}
           <a href="/ru{$simpleuri}">
             {% include 'partials/icon.twig' with {name: 'flag-russia-ru', file: 'flags'} %}

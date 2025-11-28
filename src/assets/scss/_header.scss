@@ -26,7 +26,7 @@
 .e-header.is-open {
   translate: 0 0;
 
-  &::after {
+  :where(.e-page:not(.is-markets)) &::after {
     // Overlay
     @media (--phone) {
       background-color: var(--color-backdrop);

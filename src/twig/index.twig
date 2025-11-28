@@ -20,8 +20,8 @@
         },
 
         stats: [
-          {label: "Return (Last 30 Days)", value: "19,3", unit: "%"},
-          {label: "Annual Return", value: "5,4", unit: "%"},
+          {label: "Realized PnL (Last 30 Days)", value: "19,3", unit: "%"},
+          {label: "Annual Return (CAGR)", value: "5,4", unit: "%"},
           {label: "Trades (1Y)", value: "1320", unit: ""},
           {label: "Average Return per Trade (1Y)", value: "5,1", unit: "%"}
         ]
@@ -190,7 +190,17 @@
             <h3 class="e-eyebrow">{{ 'Top Loser'|trans }}</h3>
             <div class="e-card__row">
               <p class="e-card__ticker">{{ page.market_tops.loser_ticker }}–USD</p>
-              <p class="e-card__price">{{ page.market_tops.loser_price }}</p>
+              <p class="e-card__price">
+                {% if page.market_tops.loser_price is not null %}
+                  {% if page.lang == 'ru' %}
+                    {{ page.market_tops.loser_price|replace({'.': ','}) }}
+                  {% else %}
+                    {{ page.market_tops.loser_price }}
+                  {% endif %}
+                {% else %}
+                  —
+                {% endif %}
+              </p>
             </div>
             <div class="e-card__row">
               <p class="e-card__name" data-role="loser-name"></p>
@@ -209,7 +219,17 @@
             <h3 class="e-eyebrow">{{ 'Top Gainer'|trans }}</h3>
             <div class="e-card__row">
               <p class="e-card__ticker">{{ page.market_tops.gainer_ticker }}–USD</p>
-              <p class="e-card__price">{{ page.market_tops.gainer_price }}</p>
+              <p class="e-card__price">
+                {% if page.market_tops.gainer_price is not null %}
+                  {% if page.lang == 'ru' %}
+                    {{ page.market_tops.gainer_price|replace({'.': ','}) }}
+                  {% else %}
+                    {{ page.market_tops.gainer_price }}
+                  {% endif %}
+                {% else %}
+                  —
+                {% endif %}
+              </p>
             </div>
             <div class="e-card__row">
               <p class="e-card__name" data-role="gainer-name"></p>
@@ -489,7 +509,20 @@
           <a class="e-stat" href="{{ page.lang }}/alldeals">
             <span class="e-stat__caption">{{ stat.label|trans }}</span>
             <span class="e-stat__value">
-              <span class="e-stat__number">{{ stat.value }}</span>
+              {% if page.lang == 'ru' %}
+                {% if stat.unit == '%' %}
+                  {% set stat_number = stat.value|number_format(2, ',', ' ') %}
+                {% else %}
+                  {% set stat_number = stat.value|number_format(0, ',', ' ') %}
+                {% endif %}
+              {% else %}
+                {% if stat.unit == '%' %}
+                  {% set stat_number = stat.value|number_format(2, '.', ' ') %}
+                {% else %}
+                  {% set stat_number = stat.value|number_format(0, '.', ' ') %}
+                {% endif %}
+              {% endif %}
+              <span class="e-stat__number">{{ stat_number }}</span>
               {% if stat.unit == '%' %}<small>%</small>{% endif %}
             </span>
           </a>
@@ -601,7 +634,8 @@
   ] %}
   <div class="e-container">
     <section class="e-section is-faq">
-      <h2>{{ 'Frequently Asked Questions'|trans }}</h2>
+
+      <h2><a href="{{ page.lang }}/faq">{{ 'Frequently Asked Questions'|trans }}</a></h2>
       {% for faq in data_faq %}
         {% include 'partials/faq-item.twig' with {'faq': faq, 'site': site} only %}
       {% endfor %}

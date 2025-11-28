@@ -3,6 +3,7 @@
 import { fetchData, fetchChartData } from '../markets/api.js';
 import { state } from '../markets/state.js';
 import { getPair } from '../utils/currency.js';
+import { formatPrice as formatTablePrice } from '../table/formatting.js';
 
 const { Chart } = window;
 
@@ -13,30 +14,11 @@ let chartContainer = null;
 let chartLoader = null;
 let chartError = null;
 
-/**
- * Форматирует цену без HTML
- * @param {number} v - значение
- * @param {number} tick - тик
- * @returns {string} отформатированная цена
- */
-const fmtPriceRaw = (v, tick = 0) => {
-  if (v == null) return '–';
-  const p = Number(v);
-  if (!Number.isFinite(p)) return '–';
-  if (p === 0) return '0';
-  if (Math.abs(p) < 1e-8) return p.toExponential(2);
-
-  if (Math.abs(p) < 1) {
-    const e = Math.floor(Math.log10(Math.abs(p)));
-    const d = Math.min(8, Math.max(4, Math.abs(e) + 3));
-    return p.toFixed(d).replace(/0+$/, '').replace(/\.$/, '');
+const getCurrentLang = () => {
+  if (typeof document !== 'undefined' && document.documentElement.lang) {
+    return document.documentElement.lang;
   }
-
-  const d = tick && tick < 0.01 ? 4 : 2;
-  return p.toLocaleString('en-US', {
-    minimumFractionDigits: d,
-    maximumFractionDigits: d,
-  });
+  return 'en';
 };
 
 /**
@@ -46,10 +28,16 @@ const fmtPriceRaw = (v, tick = 0) => {
  * @returns {string} HTML строка
  */
 const formatPrice = (v, tick) => {
-  const s = fmtPriceRaw(v, tick);
-  if (!s.includes('.') || s.includes('e')) return s;
-  const [i, f] = s.split('.');
-  return `${i.replace(/,/g, ' ')}.<small>${f}</small>`;
+  const s = formatTablePrice(v, tick ? { tick } : {});
+  if (!s || s === '–' || s.includes('e')) return s;
+
+  const hasComma = s.includes(',');
+  const hasDot = s.includes('.');
+  if (!hasComma && !hasDot) return s;
+
+  const sep = hasComma && !hasDot ? ',' : '.';
+  const [i, f] = s.split(sep);
+  return `${i}${sep}<small>${f}</small>`;
 };
 
 /**
@@ -62,6 +50,17 @@ const calcChange = (p) =>
     ? ((parseFloat(p.current) - parseFloat(p.dayago)) * 100) /
       parseFloat(p.dayago)
     : null;
+
+const formatPercent = (value) => {
+  const num = Number(value);
+  if (!Number.isFinite(num)) return '–';
+  const currentLang = getCurrentLang();
+  const sign = num > 0 ? '+' : num < 0 ? '-' : '';
+  const absFixed = Math.abs(num).toFixed(2);
+  const formattedAbs =
+    currentLang === 'en' ? absFixed : absFixed.replace('.', ',');
+  return `${sign}${formattedAbs}%`;
+};
 
 /**
  * Создает строку таблицы для актива
@@ -89,7 +88,9 @@ const createTableRow = (asset, cryptoMeta) => {
         <div class="e-assets__name">${assetName}</div>
       </th>
       <td class="e-assets__price">${formatPrice(asset.price?.current)}</td>
-      <td class="e-assets__change ${cls}">${change == null ? '–' : `${sign}${change.toFixed(2)}%`}</td>
+      <td class="e-assets__change ${cls}">${
+        change == null ? '–' : formatPercent(change)
+      }</td>
     </tr>`;
 };
 
@@ -203,7 +204,7 @@ const renderLineChart = (chartData) => {
           grid: { color: 'rgb(255 255 255 / 0.08)' },
           ticks: {
             color: 'rgb(255 255 255 / 0.6)',
-            callback: (value) => fmtPriceRaw(value),
+            callback: (value) => formatTablePrice(value),
           },
           beginAtZero: false,
           border: { display: false },
@@ -268,8 +269,7 @@ const updateAssetDetails = () => {
   iconElem.src = iconPath;
   iconElem.alt = assetName;
 
-  const changeText =
-    change !== null ? `${change > 0 ? '+' : ''}${change.toFixed(2)}%` : '–';
+  const changeText = change !== null ? formatPercent(change) : '–';
   let changeCls = '';
   if (change > 0) {
     changeCls = 'is-positive';

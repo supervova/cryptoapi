@@ -353,6 +353,11 @@ if (input) {
   });
 
   input.form?.addEventListener('submit', (e) => {
+    if (isMarketsPage) {
+      e.preventDefault();
+      return false;
+    }
+
     if (chooseHighlighted()) {
       e.preventDefault();
       return false;

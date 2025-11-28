@@ -15,7 +15,10 @@
         styles: 'markets.css',
       }
     ) %}
+
     {% set user = user|merge({id: 1}) %}
+
+    {% set UserId = 1 %}
 
     {# Начальное поле сортировки #}
     {% set initial_sort_field = 'rating' %}
@@ -36,7 +39,7 @@
     {key: 'asset', type: 'text', label: 'Asset'|trans, sortable: true},
     {key: 'price', type: 'num', label: 'Price, $'|trans, sortable: true},
     {key: 'change_24h', type: 'num', label: 'Chg (24H), %'|trans, sortable: true},
-    {key: 'forecast', type: 'num', label: 'Forecast, $'|trans, sortable: true},
+    {key: 'forecast', type: 'num', label: 'Tomorrow, $'|trans, sortable: true},
     {key: 'trindx', type: 'num', label: 'TRINDX'|trans, sortable: true, tooltip: "🤖 A trading risk index calculated by the project’s AI system.<br><a href='/en/faq'>More</a>"},
     {key: 'rating', type: 'num', label: 'Rating'|trans, sortable: true, tooltip: "📊 A general score of asset attractiveness based on the TRINDX™ index and other factors.<br><a href='/en/faq'>More</a>"},
     {key: 'risk', type: 'icon', label: 'Risk'|trans, sortable: false, tooltip: "⚠️ A simplified risk score based on the TRINDX™ index.<br><a href='/en/faq'>More</a>"},
@@ -126,8 +129,10 @@
 
         <tbody id="crypto-table-body">
           <tr id="loading-row">
-            <td class="table__cell is-loading-state" colspan="14">
-              <p>{{ 'Loading data...'|trans }}</p>
+            <td class="table__cell is-loading-state" colspan="{{ visible_columns_count }}">
+              <div>
+                <p>{{ 'Loading data...'|trans }}</p>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -222,6 +227,7 @@
       "noRiskData": "No risk data"|trans,
       "noValidAssetData": "No valid asset data available."|trans,
       "price": "Price, $"|trans,
+      "forecast": "Tomorrow, $"|trans,
       "rating": "Rating"|trans,
       "retry": "Retry"|trans,
       "risk": "Risk"|trans,

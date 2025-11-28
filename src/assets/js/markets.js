@@ -1,5 +1,6 @@
 // assets/js/markets.js
 import * as DOMElements from './markets/dom.js';
+import { getHeaderColumnsCount } from './markets/dom.js';
 import * as marketState from './markets/state.js';
 import t, { initTranslations } from './markets/translate.js';
 import { IS_DEVELOPMENT, REFRESH_INTERVAL_MS } from './markets/config.js';
@@ -78,14 +79,15 @@ async function initializeApp() {
   } catch (error) {
     if (IS_DEVELOPMENT) console.error('Initialization failed:', error);
 
-    const initialVisibleCols =
-      ALL_COLUMNS_CONFIG.filter((c) => c.visible).length || 7;
+    const headerColumnsCount = getHeaderColumnsCount();
 
     if (DOMElements.tableBody) {
       DOMElements.tableBody.innerHTML = `
-        <tr><td class="table__cell is-empty-state is-error-state" colspan="${initialVisibleCols}">
-          <p>${t('tableInitError', 'We couldn’t show the table. Something went wrong during setup.')} ${error.message}</p>
-          <button class="e-btn is-text" onclick="location.reload()">${t('retry', 'Retry')}</button>
+        <tr><td class="table__cell is-empty-state is-error-state" colspan="${headerColumnsCount}">
+          <div>
+            <p>${t('tableInitError', 'We couldn’t show the table. Something went wrong during setup.')} ${error.message}</p>
+            <button class="e-btn is-text" onclick="location.reload()">${t('retry', 'Retry')}</button>
+          </div>
         </td></tr>`;
     } else {
       console.error(

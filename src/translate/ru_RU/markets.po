@@ -45,6 +45,9 @@ msgstr "Цена, $"
 msgid "Chg (24H), %"
 msgstr "Изм. (24ч), %"
 
+msgid "Tomorrow, $"
+msgstr "Завтра, $"
+
 msgid "Rating"
 msgstr "Рейтинг"
 

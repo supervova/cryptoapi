@@ -5,6 +5,7 @@ import {
   formatChange24h,
   formatRisk,
   formatNullable,
+  formatNumber,
 } from './formatting.js';
 
 export const ALL_COLUMNS_CONFIG = [
@@ -48,7 +49,7 @@ export const ALL_COLUMNS_CONFIG = [
   },
   {
     key: 'forecast',
-    label: 'Forecast, $',
+    label: 'Tomorrow, $',
     type: 'num',
     sortable: true,
     apiField: 'price.tomorrow.middle',
@@ -62,7 +63,7 @@ export const ALL_COLUMNS_CONFIG = [
     type: 'num',
     sortable: true,
     apiField: 'TRINDX',
-    formatter: formatNullable,
+    formatter: formatNumber,
     visible: true,
     canHide: true,
   },

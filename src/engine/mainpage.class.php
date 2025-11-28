@@ -37,12 +37,12 @@ $data_objects['page']['market_tops'] = [
 
 $data_objects['page']['stats'] = [
   [
-    'label' => 'Monthly Return',
+    'label' => 'Realized PnL (Last 30 Days)',
     'value' => (float) $project_stat['1m_total_profit'],
     'unit'  => '%',
   ],
   [
-    'label' => 'Annual Return',
+    'label' => 'Annual Return (CAGR)',
     'value' => (float) $project_stat['1y_total_profit'],
     'unit'  => '%',
   ],

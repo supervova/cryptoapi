@@ -7,9 +7,10 @@ import {
   ROW_HEIGHT_ESTIMATE,
   VISIBLE_BUFFER,
 } from '../markets/config.js';
-import { formatNullable, formatPrice } from './formatting.js';
+import { formatNullable, formatPrice, formatChange24h } from './formatting.js';
 import { getNestedValue } from '../markets/utils.js';
-import { getVisibleColumns, getVisibleColumnsCount } from './columns.js';
+import { getVisibleColumns } from './columns.js';
+import { getHeaderColumnsCount } from '../markets/dom.js';
 import { getPair } from '../utils/currency.js';
 
 const COL_CLASS_MAP = {
@@ -20,7 +21,23 @@ const COL_CLASS_MAP = {
   risk: 'col is-risk',
 };
 
+const getCurrentLang = () => {
+  if (typeof document !== 'undefined' && document.documentElement.lang) {
+    return document.documentElement.lang;
+  }
+  if (typeof window !== 'undefined' && window.APP_CONFIG?.currentLang) {
+    return window.APP_CONFIG.currentLang;
+  }
+  return 'en';
+};
+
 const getAssetUrl = (symbol) => `/markets/${symbol.toLowerCase()}`;
+
+const getPredictionUrl = (symbol) => {
+  const lang = getCurrentLang() || 'en';
+  const safeLang = String(lang).split(/[-_]/)[0] || 'en';
+  return `/${safeLang}/prediction/${String(symbol || '').toUpperCase()}`;
+};
 
 const calcChange = (p) =>
   p?.current && p?.dayago ? ((p.current - p.dayago) / p.dayago) * 100 : null;
@@ -73,9 +90,7 @@ const buildCell = (col, asset, cryptoMeta) => {
     case 'change_24h': {
       const v = calcChange(asset.price);
       const txt =
-        v === null || Number.isNaN(v)
-          ? '–'
-          : `${v > 0 ? '+' : ''}${v.toFixed(2)}`;
+        v === null || Number.isNaN(v) ? '–' : formatChange24h(asset.price);
       const getChangeClass = (value) => {
         if (value === null) return '';
         if (value > 0) return ' is-positive';
@@ -131,7 +146,9 @@ function generateCellsHtml(asset, cryptoMeta) {
   return getVisibleColumns()
     .map((c) => {
       const [cls, html] = buildCell(c, asset, cryptoMeta);
-      return `<td class="${cls}"><a class="table__link" href="${assetUrl}">${html}</a></td>`;
+      const href =
+        c.key === 'forecast' ? getPredictionUrl(asset.symbol) : assetUrl;
+      return `<td class="${cls}"><a class="table__link" href="${href}" target="_blank" rel="noopener">${html}</a></td>`;
     })
     .join('');
 }
@@ -139,17 +156,22 @@ function generateCellsHtml(asset, cryptoMeta) {
 function updateCellNode(td, asset, col, cryptoMeta) {
   const [, newHtml] = buildCell(col, asset, cryptoMeta);
   const assetUrl = getAssetUrl(asset.symbol);
+  const href =
+    col.key === 'forecast' ? getPredictionUrl(asset.symbol) : assetUrl;
   const link = td.querySelector('.table__link');
 
   if (!link) {
     const cell = td;
-    cell.innerHTML = `<a class="table__link" href="${assetUrl}">${newHtml}</a>`;
+    cell.innerHTML = `<a class="table__link" href="${href}" target="_blank" rel="noopener">${newHtml}</a>`;
     return;
   }
 
-  if (link.getAttribute('href') !== assetUrl) {
-    link.setAttribute('href', assetUrl);
+  if (link.getAttribute('href') !== href) {
+    link.setAttribute('href', href);
   }
+
+  link.setAttribute('target', '_blank');
+  link.setAttribute('rel', 'noopener');
 
   const isChanged = link.innerHTML !== newHtml;
 
@@ -174,7 +196,7 @@ export function patchTableBody() {
   const items = marketState.state.sortedFilteredAssets ?? [];
   const { cryptoMeta } = marketState.state;
   const total = items.length;
-  const colCnt = getVisibleColumnsCount();
+  const colCnt = getHeaderColumnsCount();
   const cols = getVisibleColumns();
 
   if (marketState.state.isLoading && total === 0) {
@@ -187,7 +209,9 @@ export function patchTableBody() {
   if (total === 0) {
     DOMElements.tableBody.innerHTML = `
       <tr><td class="table__cell is-empty-state" colspan="${colCnt}">
-        ${t('noDataAvailable', 'No data available')}
+        <div>
+          ${t('noDataAvailable', 'No data available')}
+        </div>
       </td></tr>`;
     return;
   }
@@ -260,14 +284,26 @@ export function generateTableHeadHtml(translator = t) {
   const currentVisibleColumns = getVisibleColumns();
   let headHtml = '<tr>';
 
-  const tooltipKeys = ['watchlist', 'rating', 'risk', 'trindx', 'rsi', 'forecast'];
+  const tooltipKeys = [
+    'watchlist',
+    'rating',
+    'risk',
+    'trindx',
+    'rsi',
+    'forecast',
+  ];
 
   currentVisibleColumns.forEach((col) => {
+    const columnLabel =
+      translator && typeof translator === 'function'
+        ? translator(col.key, col.label)
+        : col.label;
+
     const thClasses = `table__cell is-${col.type}${col.key === 'watchlist' ? ' is-action' : ''}`;
-    let thContent = col.label;
+    let thContent = columnLabel;
     let ariaLabelAttr =
       col.type === 'action' || col.type === 'icon'
-        ? `aria-label="${col.label}"`
+        ? `aria-label="${columnLabel}"`
         : '';
 
     let tooltipHtml = '';
@@ -317,7 +353,7 @@ export function generateTableHeadHtml(translator = t) {
           aria-label="${translator ? translator('sortByThisColumn', 'Sort by this column') : 'Sort by this column'}"
           aria-sort="${ariaSort}"
         >
-          ${col.label}
+          ${columnLabel}
           ${upIconSvg}
         </button>`;
       ariaLabelAttr = '';

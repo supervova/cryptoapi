@@ -2,6 +2,22 @@
 import t from '../markets/translate.js';
 import { ASSETS_PATH_PREFIX } from '../markets/config.js';
 
+const isEnglishLocale = () => {
+  let raw = '';
+
+  if (typeof document !== 'undefined' && document.documentElement) {
+    raw = String(document.documentElement.lang || '').toLowerCase();
+  }
+
+  if (!raw && typeof window !== 'undefined' && window.APP_CONFIG) {
+    raw = String(window.APP_CONFIG.currentLang || '').toLowerCase();
+  }
+
+  if (!raw) return true;
+
+  return raw === 'en' || raw.startsWith('en-') || raw.startsWith('en_');
+};
+
 /**
  * Форматирование цены с динамическим числом знаков после запятой.
  *  • < 1 e-8  → экспоненциальная запись `1.23e-9`
@@ -29,17 +45,33 @@ export function formatPrice(value, options = {}) {
   if (Math.abs(price) < 1) {
     const exponent = Math.floor(Math.log10(Math.abs(price)));
     const decimals = Math.min(8, Math.max(4, Math.abs(exponent) + 3));
-    return Number(price.toFixed(decimals)).toString();
+    const normalized = Number(price.toFixed(decimals)).toString();
+    if (isEnglishLocale()) {
+      return normalized;
+    }
+    return normalized.replace('.', ',');
   }
 
   // Для значений >= 1 — увеличиваем точность, если tick < 0.01
   const { tick } = options;
   const decimals = tick && tick < 0.01 ? 4 : 2;
 
-  return price.toLocaleString('en-US', {
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals,
-  });
+  if (isEnglishLocale()) {
+    return price.toLocaleString('en-US', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    });
+  }
+
+  const fixed = price.toFixed(decimals);
+  const [intPart, fracPart] = fixed.split('.');
+  const intWithSpaces = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+  if (!fracPart || Number(fracPart) === 0) {
+    return intWithSpaces;
+  }
+
+  return `${intWithSpaces},${fracPart}`;
 }
 
 /**
@@ -60,7 +92,33 @@ export function formatChange24h(priceData) {
     return '–';
   const change = ((current - dayAgoPrice) / dayAgoPrice) * 100;
   const sign = change > 0 ? '+' : '';
-  return `${sign}${change.toFixed(2)}`;
+  const fixed = change.toFixed(2);
+  const formatted = isEnglishLocale()
+    ? fixed
+    : fixed.replace('.', ',');
+  return `${sign}${formatted}`;
+}
+
+/**
+ * Форматирование обычного числа с локализованным разделителем.
+ * Используется для колонок вроде TRINDX.
+ * @param {string|number} value
+ * @param {number} [decimals=2]
+ * @returns {string}
+ */
+export function formatNumber(value, decimals = 2) {
+  if (value === null || value === undefined) return '–';
+  const num = Number(value);
+  if (!Number.isFinite(num)) return '–';
+
+  const fixed = num.toFixed(decimals);
+  if (isEnglishLocale()) return fixed;
+
+  const [intPart, fracPart] = fixed.split('.');
+  if (!fracPart || Number(fracPart) === 0) {
+    return intPart;
+  }
+  return `${intPart},${fracPart}`;
 }
 
 /**

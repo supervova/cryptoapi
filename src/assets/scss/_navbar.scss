@@ -382,6 +382,7 @@ $current-pages: dashboard, home, markets, news, trading;
 }
 
 .e-avatar.e-navbar__avatar {
+  flex-shrink: 0;
   width: var(--dim-5);
   height: var(--dim-5);
 }

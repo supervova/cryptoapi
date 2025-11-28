@@ -10,6 +10,25 @@ export const tableBody = document.getElementById('crypto-table-body');
 export const tableColGroup = table?.querySelector('colgroup');
 export const tableHead = table?.querySelector('thead'); // table может быть null, если DOM не загружен
 
+/**
+ * Возвращает количество колонок в заголовке таблицы.
+ * Используется для вычисления значения атрибута colspan в сервисных строках.
+ * @returns {number}
+ */
+export function getHeaderColumnsCount() {
+  if (!tableHead) {
+    return 1;
+  }
+
+  const headerRow = tableHead.querySelector('tr');
+  if (!headerRow) {
+    return 1;
+  }
+
+  const thElements = headerRow.querySelectorAll('th');
+  return thElements.length || 1;
+}
+
 // Экранный диктор
 export const screenReaderAnnouncer = document.getElementById(
   'screen-reader-announcement'
