@@ -48,7 +48,7 @@
             </p>
 
             <p class="e-form__text-field">
-              <input id="loginpasswordlf" name="loginpasswordlf" type="password" data-role="password" autocomplete="current-password" required placeholder="{{ 'Password'|trans }}" pattern="(?=.*[A-Za-z])(?=.*\d).{8,}" title="{{ 'Must include at least one digit, one letter, and be at least 8 characters long.'|trans }}">
+              <input id="loginpasswordlf" name="loginpasswordlf" type="password" data-role="password" autocomplete="current-password" required placeholder="{{ 'Password'|trans }}" pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=•]).{8,}" title="{{ 'At least one digit, one letter, and one symbol: ! @ # $ % ^ & * ( ) _ - + = •. Minimum length: 8 characters.'|trans }}">
               <label for="loginpasswordlf">{{ 'Password'|trans }}</label>
               <button class="e-form__password-toggle e-btn is-icon" type="button" data-role="password-toggle" title="{{ 'Show/Hide Password'|trans }}">
                 {% include 'partials/icon.twig' with {name: 'eye'} %}
@@ -56,7 +56,7 @@
               </button>
               <span class="e-form__error" id="error-password-login" role="alert" aria-live="polite">
                 <small>{{ 'Password is required.'|trans }}
-                  {{ 'Must include at least one digit, one letter, and be at least 8 characters long.'|trans }}</small>
+                  {{ 'At least one digit, one letter, and one symbol: ! @ # $ % ^ & * ( ) _ - + = •. Minimum length: 8 characters.'|trans }}</small>
               </span>
             </p>
 
@@ -117,18 +117,18 @@
             </p>
 
             <p class="e-form__text-field">
-              <input id="passwordlf" name="passwordlf" type="password" data-role="password" required placeholder="{{ 'Password'|trans }}" pattern="(?=.*[A-Za-z])(?=.*\d).{8,}" title="{{ 'Must include at least one digit, one letter, and be at least 8 characters long.'|trans }}">
+              <input id="passwordlf" name="passwordlf" type="password" data-role="password" required placeholder="{{ 'Password'|trans }}" pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=•]).{8,}" title="{{ 'At least one digit, one letter, and one symbol: ! @ # $ % ^ & * ( ) _ - + = •. Minimum length: 8 characters.'|trans }}">
               <label for="passwordlf">{{ 'Password'|trans }}</label>
               <button class="e-form__password-toggle e-btn is-icon" type="button" data-role="password-toggle" title="{{ 'Show/Hide Password'|trans }}">
                 {% include 'partials/icon.twig' with {name: 'eye'} %}
                 {% include 'partials/icon.twig' with {name: 'eye-slash', classes: 'd-none'} %}
               </button>
               <small class="e-form__hint">
-                {{ 'Must include at least one digit, one letter, and be at least 8 characters long.'|trans }}
+                {{ 'At least one digit, one letter, and one symbol: ! @ # $ % ^ & * ( ) _ - + = •. Minimum length: 8 characters.'|trans }}
               </small>
               <span class="e-form__error" id="error-password" role="alert" aria-live="polite">
                 <small>{{ 'Password is required.'|trans }}
-                  {{ 'Must include at least one digit, one letter, and be at least 8 characters long.'|trans }}</small>
+                  {{ 'At least one digit, one letter, and one symbol: ! @ # $ % ^ & * ( ) _ - + = •. Minimum length: 8 characters.'|trans }}</small>
               </span>
               <button class="e-btn is-link e-form__generate" type="button" data-action="generatepassword">
                 {{ 'Generate password'|trans }}

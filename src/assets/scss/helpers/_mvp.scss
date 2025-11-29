@@ -133,19 +133,19 @@
 
 .nobr { white-space: nowrap; }
 .text-02 { color: var(--color-text-02); }
-.text-sm {
-  @include text-format('body-sm');
-}
+.text-base { color: var(--color-text); }
+.text-center { text-align: center; }
+.text-end, .text-right { text-align: end; }
+.text-error { color: var(--color-text-error); }
+.text-highlight { color: var(--color-text-info); }
+.text-sm { @include text-format('body-sm');}
+.text-start { text-align: start; }
+.text-success { color: var(--color-text-success); }
+.text-warning { color: var(--color-text-warning); }
 .text-xs {
   font-size: var(--font-size-fine-print);
   line-height: var(--line-height-fine-print);
 }
-.text-center { text-align: center; }
-.text-error { color: var(--color-text-error); }
-.text-highlight { color: var(--color-text-info); }
-.text-right { text-align: right; }
-.text-success { color: var(--color-text-success); }
-.text-warning { color: var(--color-text-warning); }
 // #endregion
 
 // -----------------------------------------------------------------------------

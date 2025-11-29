@@ -112,8 +112,6 @@
   }
 
   .text-02 {
-    @include text-truncate();
-
     display: block;
     padding-top: var(--padding-top-base);
     padding-bottom: var(--padding-bottom-base);
@@ -139,6 +137,7 @@
   background-color: transparent;
   flex-wrap: wrap;
   margin-top: var(--dim-8);
+  margin-inline: rem(-20);
   padding-block: var(--dim-1p5);
   padding-inline: var(--dim-2p5);
   width: fit-content;
@@ -150,6 +149,10 @@
 
   @media (--phone-l) {
     flex-wrap: nowrap;
+  }
+
+  @media (--tablet) {
+    margin-inline: 0;
   }
 
   @media (--tablet-l) {

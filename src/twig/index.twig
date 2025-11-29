@@ -57,14 +57,22 @@
         <div class="e-buttons">
 
           {% if user.id > 0 %}
-            {% set primary_link = 'signals' %}
+            {% set cta = {
+              primary: {label: 'Start Trading', link: 'trading'},
+              secondary: {label: 'Get Signals', link: 'signals'},
+            } %}
           {% else %}
-            {% set primary_link = 'auth' %}
+            {% set cta = {
+              primary: {label: 'Try Now', link: 'auth'},
+            } %}
           {% endif %}
-          <a class="e-btn is-primary" href="{{ page.lang }}/{{ primary_link }}">
-            {{ 'Try Now'|trans }}
+          <a class="e-btn is-primary" href="{{ page.lang }}/{{ cta.primary.link }}">
+            {{ cta.primary.label|trans }}
           </a>
-          <a class="e-btn" href="{{ page.lang }}/faq">{{ 'Help Center'|trans }}</a>
+          {% if user.id > 0 %}
+            <a class="e-btn" href="{{ page.lang }}/{{ cta.secondary.link }}">{{ cta.secondary.label|trans }}</a>
+          {% endif %}
+          <a class="e-btn is-ghost" href="{{ page.lang }}/faq">{{ 'Help Center'|trans }}</a>
         </div>
       </div>
     </div>
@@ -149,7 +157,7 @@
           '<strong>Set your crypto trading parameters</strong> for automatic buy and sell actions.',
           '<strong>Launch the bot with one click</strong>. No deposit required – we provide a $10 credit.',
           '<strong>Our AI agent will handle the rest</strong> – buying and selling at the best possible prices. <b>🎉</b>'
-        ]%}
+        ] %}
 
         {% for item in how_to %}
           <li>
@@ -646,7 +654,7 @@
   <section class="e-section e-cta">
     <h2>{{ 'Trade Cryptocurrency with AI Precision'|trans }}</h2>
     <p>{{ 'Get accurate AI-powered trading signals and stay ahead of the crypto market.'|trans }}</p>
-    <a class="e-btn is-primary" href="{{ page.lang }}/{{ primary_link }}">{{ 'Try Now'|trans }}</a>
+    <a class="e-btn is-primary" href="{{ page.lang }}/{{ cta.primary.link }}">{{ cta.primary.label|trans }}</a>
   </section>
 
 {% endblock %}

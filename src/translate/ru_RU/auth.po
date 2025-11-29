@@ -156,8 +156,8 @@ msgstr "Введите корректный адрес электронной п
 msgid "Password is required."
 msgstr "Пароль обязателен."
 
-msgid "Must include at least one digit, one letter, and be at least 8 characters long."
-msgstr "Как минимум: одна цифра, одна буква и не меньше 8 символов."
+msgid "At least one digit, one letter, and one symbol: ! @ # $ % ^ & * ( ) _ - + = •. Minimum length: 8 characters."
+msgstr "Как минимум: одна цифра, одна буква, один символ: ! @ # $ % ^ & * ( ) _ - + = •. Всего – не менее 8 знаков."
 
 msgid "Our invite codes are 8 characters long."
 msgstr "Наши пригласительные коды состоят из 8 символов."

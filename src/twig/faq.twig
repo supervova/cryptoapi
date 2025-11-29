@@ -40,20 +40,24 @@
             "answer": "<p>Yes. In crypto markets, you own your assets directly — you can buy and hold them for as long as you want. <b>The market operates 24/7, with no closing hours or trading-day resets</b>.</p><p><b>Unlike Forex or derivatives markets</b>, where brokers often enforce daily trading limits (due to swaps, risk control, and regulatory requirements), there are no forced time limits in crypto trading.</p><p>On crypto exchanges, you can simply buy a coin and hold it for years — that’s considered long-term investing, not active trading.</p>"
           },
           {
-            "question": "🔒 How can I safely store my crypto assets?",
-            "answer": "<p>For long-term storage, it’s best to use cold (hardware) wallets, such as <a href='https://shop.ledger.com/?r=8c8cd5d864fa' target='_blank' rel='noopener'>Ledger</a>.</p>"
+            "question": "🔐 How to connect Binance via API?",
+            "answer": "<p>To enable automated trading through your Binance account, connect it via API:</p> <ol> <li> <p>On <strong>Binance.com</strong>, click your profile icon (top right) → <strong>API Management</strong>.</p> </li> <li> <p>Create a <strong>new API key</strong>, name it, complete the security verification (email, 2FA), and get your <strong>API Key</strong> and <strong>Secret Key</strong>.</p> <p>⚠️ The Secret Key is shown <strong>only once</strong> — make sure to save it and enter both keys in your <strong>CRYPTOAPI</strong> trading settings.</p> </li> <li> <p>In the Binance API settings, enable <strong>Spot and Margin Trading</strong>.</p> </li> <li> <p>Under <strong>IP Access Restrictions</strong>, whitelist this IP: <code>176.9.166.90</code></p> </li> <li> <p>Transfer enough of your selected <strong>stablecoin</strong> to your <strong>spot balance</strong> and <strong>activate trading</strong>.</p> <p>💰 <strong>Note:</strong> funds must be placed on the <strong>SPOT balance</strong> — otherwise, the system won’t be able to use them.</p> </li> </ol>"
           },
           {
-            "question": "⚡ How can I save on USDT TRC20 transfer fees?",
-            "answer": "<p>To reduce USDT TRC20 transfer fees by over 80 % when sending from cold wallets, you can buy energy <a href='https://t.me/tronless_bot' target='_blank' rel='noopener'>via the TronLess Telegram bot</a>.</p>"
+            "question": "💵 What is the minimum amount required for AI trading on Binance?",
+            "answer": "<p>Binance API applies different minimum order requirements for each trading pair (minimum order size, price step, quantity step, and minimum notional value in USDT). Because of these restrictions, the AI algorithm cannot place orders below the thresholds defined by the exchange. Additionally, if the account balance is too small, the system will be unable to perform proper portfolio rebalancing, which is an essential part of the strategy.</p><p>For technically correct operation, the AI trading system requires a minimum spot balance of at least 3000 USDT. This is the threshold at which the algorithm can execute basic operations without running into Binance API limits.</p><p>However, to achieve performance comparable to our historical AI trading model – and to enable full functionality, including dynamic rebalancing – a recommended spot balance is 5000 USDT or more.</p>"
           },
           {
             "question": "💡 How to save on Binance trading fees",
             "answer": "<ol><li>Log in to your Binance account.</li><li>In the user menu, go to Settings.<img class='mt-1lh mb-1lh' src='/projects/cryptoapi.ai/assets/img/pages/faq/bnb-fee-01.png' alt='Binance'></li><li>Scroll to the Trade section and click Manage next to Fee deduction.</li><li>Make sure the switch “Use BNB to pay fees” is turned on (yellow).<img class='mt-1lh mb-1lh' src='/projects/cryptoapi.ai/assets/img/pages/faq/bnb-fee-02.png' alt='Binance'></li><li>Close the window.</li></ol><p>This option allows you to pay trading fees in BNB tokens with a discount of up to 25%.</p>"
           },
           {
-            "question": "🔐 How to connect Binance via API?",
-            "answer": "<p>To enable automated trading through your Binance account, connect it via API:</p> <ol> <li> <p>On <strong>Binance.com</strong>, click your profile icon (top right) → <strong>API Management</strong>.</p> </li> <li> <p>Create a <strong>new API key</strong>, name it, complete the security verification (email, 2FA), and get your <strong>API Key</strong> and <strong>Secret Key</strong>.</p> <p>⚠️ The Secret Key is shown <strong>only once</strong> — make sure to save it and enter both keys in your <strong>CRYPTOAPI</strong> trading settings.</p> </li> <li> <p>In the Binance API settings, enable <strong>Spot and Margin Trading</strong>.</p> </li> <li> <p>Under <strong>IP Access Restrictions</strong>, whitelist this IP: <code>176.9.166.90</code></p> </li> <li> <p>Transfer enough of your selected <strong>stablecoin</strong> to your <strong>spot balance</strong> and <strong>activate trading</strong>.</p> <p>💰 <strong>Note:</strong> funds must be placed on the <strong>SPOT balance</strong> — otherwise, the system won’t be able to use them.</p> </li> </ol>"
+            "question": "⚡ How can I save on USDT TRC20 transfer fees?",
+            "answer": "<p>To reduce USDT TRC20 transfer fees by over 80 % when sending from cold wallets, you can buy energy <a href='https://t.me/tronless_bot' target='_blank' rel='noopener'>via the TronLess Telegram bot</a>.</p>"
+          },
+          {
+            "question": "🔒 How can I safely store my crypto assets?",
+            "answer": "<p>For long-term storage, it’s best to use cold (hardware) wallets, such as <a href='https://shop.ledger.com/?r=8c8cd5d864fa' target='_blank' rel='noopener'>Ledger</a>.</p>"
           },
           {
             "question": "What is the criteria for a cryptocurrency or exchange to be listed on CryptoAPI?",

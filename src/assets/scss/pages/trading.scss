@@ -14,6 +14,14 @@ h1:not(.is-history h1, .e-main__header h1),
   }
 }
 
+.e-intro {
+  margin-bottom: var(--dim-6);
+
+  @media (--tablet-l) {
+    text-align: center;
+  }
+}
+
 .e-accordion__body {
   @media (--phone-l) {
     padding-inline-start: rem(72);
@@ -327,10 +335,15 @@ h1:not(.is-history h1, .e-main__header h1),
 // Profile banner
 .e-accordion__header.is-banner {
   background-color: var(--color-bg-z1);
-  border-radius: var(--radius-base);
   margin-top: var(--dim-1p5);
+  margin-inline: rem(-20);
   padding-block: var(--dim-1p5);
   padding-inline: var(--dim-2p5);
+
+  @media (--tablet) {
+    border-radius: var(--radius-base);
+    margin-inline: 0;
+  }
 }
 
 // Stats

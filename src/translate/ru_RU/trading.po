@@ -193,6 +193,9 @@ msgstr "Покупка"
 msgid "To start using our service, you need to connect to Binance and set up your trading strategy."
 msgstr "Для того, чтобы начать пользоваться нашим сервисом, вам нужно подключиться к Binance и настроить торговую стратегию."
 
+msgid "To start using our service, you need to connect to Binance and set up your risk management."
+msgstr "Для того, чтобы начать пользоваться нашим сервисом, вам нужно подключиться к Binance и настроить управление риском."
+
 msgid "<strong>Open API Management</strong> — On the Binance.com website, click the profile icon in the top-right corner, select “Account”, then in the sidebar under the “Account” section, go to “API Management.”"
 msgstr "<strong>Откройте «Управление API» биржи Binance</strong> — На сайте Binance.com нажмите на иконку профиля в правом верхнем углу, выберите пункт «Аккаунт». Затем в боковом меню, в разделе «Аккаунт» нажмите «Управление API»."
 
@@ -207,6 +210,12 @@ msgstr "<strong>Добавьте доверенный IP</strong> — В раз�
 
 msgid "<strong>Fund your balance with a stablecoin</strong> — Transfer a sufficient amount of a stablecoin (for example, <b>USDT</b>) to your <b>spot balance</b>. This stablecoin is used for <b>trading operations and profit settlements</b> on Binance."
 msgstr "<strong>Пополните баланс стейблкоином</strong> — Переведите достаточную сумму выбранного стейблкойна (например, <b>USDT</b>) на свой <b>спотовый баланс</b>. Этот стейблкоин используется для <b>торговых операций и расчётов прибыли</b> на Binance."
+
+msgid "💵 What is the minimum amount required for AI trading on Binance?"
+msgstr "💵 Каков минимальный депозит для AI-трейдинга на Binance?"
+
+msgid "See the answers to this and other questions"
+msgstr "Ответ на этот и другие вопросы смотри"
 
 msgid "Trading on Binance is allowed"
 msgstr "<strong>Разрешаю</strong> торговлю на Binance"

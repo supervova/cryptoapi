@@ -468,7 +468,7 @@
     </header>
 
     <div class="max-w-7/12 mx-auto">
-      <p class="mb-2lh text-center">{{ 'To start using our service, you need to connect to Binance and set up your trading strategy.'|trans }}</p>
+      <p class="e-intro">{{ 'To start using our service, you need to connect to Binance and set up your risk management.'|trans }}</p>
       <form class="e-form" id="form-trading-settings" action="javascript:void(0)" autocomplete="off" novalidate>
 
         {# 1. API KEYS #}
@@ -528,7 +528,7 @@
               {copy: "<strong>Enable trading permissions</strong> — In your Binance API settings, check the box <b>“Enable Spot & Margin Trading.”</b>", icon: "chart-line"},
               {copy: "<strong>Add a trusted IP</strong> — In the <b>“IP Access Restrictions”</b> section, add this IP address to the whitelist: ", icon: "shield-check"},
               {copy: "<strong>Fund your balance with a stablecoin</strong> — Transfer a sufficient amount of a stablecoin (for example, <b>USDT</b>) to your <b>spot balance</b>. This stablecoin is used for <b>trading operations and profit settlements</b> on Binance.", icon: "dollar"},
-            ]%}
+            ] %}
 
             <ol class="list is-guide">
               {% for step in api_guide %}
@@ -542,6 +542,8 @@
               {% endfor %}
             </ol>
 
+            <p class="text-start"><strong class="text-base">{{ '💵 What is the minimum amount required for AI trading on Binance?'|trans }}</strong> {{ 'See the answers to this and other questions'|trans }} <a href = "{{ page.lang }}/faq">here</a>.</p>
+
             <label class="mb-2lh">
               <input type="checkbox" id="binanceallowed" name="binanceallowed">
               {{ 'Trading on Binance is allowed'|trans|raw }}
@@ -551,7 +553,7 @@
         </details>
 
         {# 2. STRATEGY PREFERENCES #}
-        <details class="e-accordion is-strategy">
+        <details class="e-accordion is-strategy visually-hidden">
           <summary class="e-accordion__header has-hgroup">
             <span class="e-accordion__spot-icon">
               {% include 'partials/icon.twig' with {name: 'chess'} %}
@@ -684,7 +686,7 @@
         </span>
         <span class="e-accordion__hgroup">
           <span class="e-h3">{{ 'Profile Settings'|trans }}</span>
-          <span class="text-02">{{ 'Primary email, password, avatar'|trans }}, Telegram</span>
+          <span class="text-02">{{ 'Primary email, password, avatar'|trans }}</span>
         </span>
         <a class="e-btn is-outline" href="/{{ page.lang }}/profile">
           {{ 'Go'|trans }}
