@@ -552,7 +552,8 @@
         }),
         messageEl: SELECTORS.elements.message.login,
         successAction: () => {
-          window.location.href = '{$returl}';
+          const lang = '{$user_lng}';
+          window.location.href = `/${lang}/markets`;
         },
       },
       signup: {
@@ -879,7 +880,9 @@
           // Закрыть модальное окно перед редиректом
           const sendDialog = document.querySelector(SELECTORS.elements.modals.sendStatus);
           if (sendDialog && sendDialog.open) sendDialog.close();
-          window.location.href = '/{{ page.lang }}/markets';
+          // Всегда редиректим на markets после подтверждения email
+          const lang = '{$user_lng}';
+          window.location.href = `/${lang}/markets`;
         } else if (response === 'LOGIN') {
           stopEmailPolling();
           // Закрыть модальное окно
