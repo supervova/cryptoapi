@@ -1,4 +1,4 @@
-/* global $, bootpopup */
+/* global $, bootpopup, js_translate */
 
 const TAB_TITLES = {
   Generalsettings: 'Profile. <span class="text-02">Settings</span>',
@@ -17,7 +17,10 @@ const ACTIVE_CLASS = 'active';
 const LINK_ACTIVE_CLASS = 'is-active';
 const PROFILE_TEMPLATE_KEY = 'profileTemplateVars';
 
-if (typeof window !== 'undefined' && typeof window.js_translate !== 'function') {
+if (
+  typeof window !== 'undefined' &&
+  typeof window.js_translate !== 'function'
+) {
   const runtimeTranslator =
     typeof window.t === 'function' ? window.t.bind(window) : null;
   window.js_translate = (str) =>

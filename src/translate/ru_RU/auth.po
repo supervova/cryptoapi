@@ -144,6 +144,18 @@ msgstr "Загрузка..."
 msgid "By continuing, you agree to <a href=\"https://{$this_http_host}/useragreement\" target=\"_blank\">our terms</a>."
 msgstr "Нажимая кнопку, вы соглашаетесь с <a href=\"https://{$this_http_host}/useragreement\" target=\"_blank\">нашими правилами</a>."
 
+msgid "Email not confirmed yet"
+msgstr "Email не подтвержден"
+
+msgid "We haven't received the confirmation yet. Please check your email and try again."
+msgstr "Мы не получили от вас подтверждения. Проверьте свою электронную почту и попробуйте снова."
+
+msgid "Check again"
+msgstr "Проверить ещё раз"
+
+msgid "Email confirmed! Please sign in."
+msgstr "Email подтвержден! Войдите в систему."
+
 # ------------------------------------------------------------------------------
 # Validation
 # ------------------------------------------------------------------------------

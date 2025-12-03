@@ -48,7 +48,7 @@
             </p>
 
             <p class="e-form__text-field">
-              <input id="loginpasswordlf" name="loginpasswordlf" type="password" data-role="password" autocomplete="current-password" required placeholder="{{ 'Password'|trans }}" pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=•]).{8,}" title="{{ 'At least one digit, one letter, and one symbol: ! @ # $ % ^ & * ( ) _ - + = •. Minimum length: 8 characters.'|trans }}">
+              <input id="loginpasswordlf" name="loginpasswordlf" type="password" data-role="password" autocomplete="current-password" required placeholder="{{ 'Password'|trans }}" minlength="8" title="{{ 'At least one digit, one letter, and one symbol: ! @ # $ % ^ & * ( ) _ - + = •. Minimum length: 8 characters.'|trans }}">
               <label for="loginpasswordlf">{{ 'Password'|trans }}</label>
               <button class="e-form__password-toggle e-btn is-icon" type="button" data-role="password-toggle" title="{{ 'Show/Hide Password'|trans }}">
                 {% include 'partials/icon.twig' with {name: 'eye'} %}
@@ -117,7 +117,7 @@
             </p>
 
             <p class="e-form__text-field">
-              <input id="passwordlf" name="passwordlf" type="password" data-role="password" required placeholder="{{ 'Password'|trans }}" pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=•]).{8,}" title="{{ 'At least one digit, one letter, and one symbol: ! @ # $ % ^ & * ( ) _ - + = •. Minimum length: 8 characters.'|trans }}">
+              <input id="passwordlf" name="passwordlf" type="password" data-role="password" required placeholder="{{ 'Password'|trans }}" minlength="8" title="{{ 'At least one digit, one letter, and one symbol: ! @ # $ % ^ & * ( ) _ - + = •. Minimum length: 8 characters.'|trans }}">
               <label for="passwordlf">{{ 'Password'|trans }}</label>
               <button class="e-form__password-toggle e-btn is-icon" type="button" data-role="password-toggle" title="{{ 'Show/Hide Password'|trans }}">
                 {% include 'partials/icon.twig' with {name: 'eye'} %}
@@ -263,821 +263,1004 @@
   {% endset %}
   {{ macros.modal('sended', modal_email, site.assets_prefix) }}
 
+  <!-- Email Confirmation Timeout Modal -->
+  {% set modal_email_timeout %}
+  <div class="e-modal__body">
+    <h2>{{ 'Email not confirmed yet'|trans }}</h2>
+    <p>{{ "We haven't received the confirmation yet. Please check your email and try again."|trans }}</p>
+    <button class="e-btn is-primary" type="button" id="btn-check-email-manual">
+      {{ 'Check again'|trans }}
+    </button>
+  </div>
+  {% endset %}
+  {{ macros.modal('email-timeout-modal', modal_email_timeout, site.assets_prefix) }}
+
   <!-- Loader -->
   <div id="loader">{{ 'Loading...'|trans }}</div>
 
-  <script type="module">
-    import {showToast} from '{{ site.assets_prefix }}/assets/js/ui/toast.js';
-    import dompurify from 'https://cdn.jsdelivr.net/npm/dompurify@3.2.6/+esm';
+<script type="module">
+  import { showToast } from '{{ site.assets_prefix }}/assets/js/ui/toast.js';
+  import dompurify from 'https://cdn.jsdelivr.net/npm/dompurify@3.2.6/+esm';
+
+  /**
+  * Переключение на вкладку восстановления пароля.
+  * Функция добавлена только потому, что сервер возвращает строку с ее вызовом.
+  */
+  // eslint-disable-next-line no-unused-vars
+  function forgotform() {
+    document
+      .querySelectorAll('.e-tabs__panel[role="tabpanel"]')
+      .forEach((panel) => panel.classList.remove('is-open'));
+    const activePanel = document.getElementById('resetpwd');
+
+    if (activePanel) {
+      activePanel.classList.add('is-open');
+      // Прокрутка к началу формы
+      const container = activePanel.closest('.e-card') || document.body;
+      container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      // console.warn('Reset password panel (#resetpwd) not found.');
+    }
+  }
+
+  /**
+  * Шифрование ROT13 (сервер принимает в таком виде)
+  */
+  function strRot13(str) {
+    return str.replace(/[a-zA-Z]/g, (char) => {
+      const isUpperCase = char <= 'Z';
+      const base = isUpperCase ? 65 : 97;
+      const charCode = char.charCodeAt(0);
+      return String.fromCharCode(((charCode - base + 13) % 26) + base);
+    });
+  }
+
+  /**
+  * Модуль управления аутентификацией и регистрацией
+  * @module AuthModule
+  */
+  const AuthModule = (() => {
+    /**
+    * ------------------------------------------------------------------------
+    * ПЕРЕМЕННЫЕ
+    * ------------------------------------------------------------------------
+    */
+    const SELECTORS = {
+      tabs: {
+        signin: 'signin',
+        signup: 'signup',
+        resetpwd: 'resetpwd',
+      },
+      buttons: {
+        submitAuthForm: '[data-action="submit-auth-form"]',
+        generatePassword: '[data-action="generatepassword"]',
+        cancelAuth: '[data-action="cancelauth"]', // For modal #loginmsgwin
+        resendMail: '[data-action="resend"]', // For modal #sended
+        passwordToggle: '[data-role="password-toggle"]', // More specific
+        forgotPassword: '[data-action="forgot-password"]',
+        checkEmailManual: '#btn-check-email-manual',
+      },
+      oauth: {
+        google: '[data-oauth="google"]',
+      },
+      messengers: {
+        telegram: '[data-msg="telegram"]',
+      },
+      elements: {
+        loader: '#loader',
+        userAgreement: '[data-role="user-agreement"]', // Used as base selector
+        message: {
+          login: '#messagelogin',
+          reg: '#messagereg',
+          lost: '#messagelost',
+        },
+        modals: {
+          sendStatus: '#sended',
+          loginMsgWindow: '#loginmsgwin',
+          emailTimeout: '#email-timeout-modal',
+        },
+        messengerCode: '#msgcode',
+        messengerTimer: '#msgsec',
+        // Elements for mail countdown
+        mailWaitSec: '#waitsec',
+        mailWaitSend: '#waitsend',
+        mailResend: '#resend',
+        mailDifEmail: '#difemail',
+      },
+      forms: {
+        login: '#loginform',
+        register: '#regform',
+        reset: '#lostpwd',
+      },
+      inputs: {
+        // Specific input IDs used in performAuthAction
+        loginEmail: '#loginemaillf',
+        loginPassword: '#loginpasswordlf',
+        regName: '#yournamelf',
+        regSurname: '#surnamelf',
+        regBirthdate: '#birthdate',
+        regEmail: '#emaillf',
+        regPassword: '#passwordlf',
+        regPromocode: '#promocodelf',
+        resetEmail: '#rememberemailf',
+        passwordField: '[data-role="password"]', // Selector for password fields for toggle
+      },
+      tabPanel: '.e-tabs__panel',
+      tabPanelOpen: '.e-tabs__panel.is-open',
+    };
+
+    const SERVER_VARS = {
+      projectId: {{ project_id|default(0) }},
+      initsec: '{{ (page.hello_cookie ~ (user.unloggedid|default('')))|e("js") }}',
+      returl: '{{ page.returl|default('')|e("js") }}'
+    };
+
+    const POLLING_INTERVAL_MS = 3000;
+    const POLLING_TIMEOUT_MS = 300000;
+
+    let msgcode = null;
+    let msgPollingInterval = null;
+    let msgPollingTimeout = null;
+    let msgPollingActive = false;
+    const currentClientTimeZoneOffset = -new Date().getTimezoneOffset() / 60;
+    let mailCountdownInterval = null; // Store interval ID for mail countdown
+    let mailRetryCount = 0;
+
+    const EMAIL_POLLING_INTERVAL = 5000;
+    const EMAIL_POLLING_TIMEOUT = 150000; // 2.5 minutes
+    let emailPollingInterval = null;
+    let emailPollingTimeout = null;
+    let emailPollingActive = false;
 
     /**
-    * Переключение на вкладку восстановления пароля.
-    * Функция добавлена только потому, что сервер возвращает строку с ее вызовом.
+    * ------------------------------------------------------------------------
+    * ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+    * ------------------------------------------------------------------------
     */
-    function forgotform() {
-      document.querySelectorAll('.e-tabs__panel[role="tabpanel"]').forEach((panel) => panel.classList.remove('is-open'));
-      const activePanel = document.getElementById('resetpwd');
+
+    const toggleLoader = (show) => {
+      const loader = document.querySelector(SELECTORS.elements.loader);
+      if (loader) {
+        loader.style.display = show ? 'flex' : 'none';
+      }
+    };
+
+    /**
+    * Переключение вкладок
+    */
+    function switchTab(tabId) {
+      document
+        .querySelectorAll(SELECTORS.tabPanel)
+        .forEach((panel) => panel.classList.remove('is-open'));
+      const activePanel = document.getElementById(tabId);
 
       if (activePanel) {
         activePanel.classList.add('is-open');
-        // Прокрутка к началу формы
         const container = activePanel.closest('.e-card') || document.body;
-        container.scrollIntoView({behavior: 'smooth', block: 'start'});
-      } else { // console.warn('Reset password panel (#resetpwd) not found.');
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
+
+      // else {
+      // console.warn(`Tab panel with ID "${tabId}" not found.`);
+      // }
     }
 
     /**
-    * Шифрование ROT13 (сервер принимает в таком виде)
+    * Таймер обратного отсчета для отправки почты
+    * @param {number} seconds - Количество секунд
     */
-    function strRot13(str) {
-      return str.replace(/[a-zA-Z]/g, (char) => {
-        const isUpperCase = char <= 'Z';
-        const base = isUpperCase ? 65 : 97;
-        const charCode = char.charCodeAt(0);
-        return String.fromCharCode(((charCode - base + 13) % 26) + base);
-      });
-    }
-
-    /**
-    * Модуль управления аутентификацией и регистрацией
-    * @module AuthModule
-    */
-    const AuthModule = (() => { /**
-      * ------------------------------------------------------------------------
-      * ПЕРЕМЕННЫЕ
-      * ------------------------------------------------------------------------
-      */
-      const SELECTORS = {
-        tabs: {
-          signin: 'signin',
-          signup: 'signup',
-          resetpwd: 'resetpwd'
-        },
-        buttons: {
-          submitAuthForm: '[data-action="submit-auth-form"]',
-          generatePassword: '[data-action="generatepassword"]',
-          cancelAuth: '[data-action="cancelauth"]', // For modal #loginmsgwin
-          resendMail: '[data-action="resend"]', // For modal #sended
-          passwordToggle: '[data-role="password-toggle"]', // More specific
-          forgotPassword: '[data-action="forgot-password"]'
-        },
-        oauth: {
-          google: '[data-oauth="google"]'
-        },
-        messengers: {
-          telegram: '[data-msg="telegram"]'
-        },
-        elements: {
-          loader: '#loader',
-          userAgreement: '[data-role="user-agreement"]', // Used as base selector
-          message: {
-            login: '#messagelogin',
-            reg: '#messagereg',
-            lost: '#messagelost'
-          },
-          modals: {
-            sendStatus: '#sended',
-            loginMsgWindow: '#loginmsgwin'
-          },
-          messengerCode: '#msgcode',
-          messengerTimer: '#msgsec',
-          // Elements for mail countdown
-          mailWaitSec: '#waitsec',
-          mailWaitSend: '#waitsend',
-          mailResend: '#resend',
-          mailDifEmail: '#difemail'
-        },
-        forms: {
-          login: '#loginform',
-          register: '#regform',
-          reset: '#lostpwd'
-        },
-        inputs: {
-          // Specific input IDs used in performAuthAction
-          loginEmail: '#loginemaillf',
-          loginPassword: '#loginpasswordlf',
-          regName: '#yournamelf',
-          regSurname: '#surnamelf',
-          regBirthdate: '#birthdate',
-          regEmail: '#emaillf',
-          regPassword: '#passwordlf',
-          regPromocode: '#promocodelf',
-          resetEmail: '#rememberemailf',
-          passwordField: '[data-role="password"]', // Selector for password fields for toggle
-        },
-        tabPanel: '.e-tabs__panel',
-        tabPanelOpen: '.e-tabs__panel.is-open'
-      };
-
-      const SERVER_VARS = {
-        projectId: {{ project_id|default(0) }},
-        initsec: '{{ (page.hello_cookie ~ (user.unloggedid|default('')))|e("js") }}',
-        returl: '{{ page.returl|default('')|e("js") }}'
-      };
-
-      const POLLING_INTERVAL_MS = 3000;
-      const POLLING_TIMEOUT_MS = 300000;
-
-      let msgcode = null;
-      let msgPollingInterval = null;
-      let msgPollingTimeout = null;
-      let msgPollingActive = false;
-      const currentClientTimeZoneOffset = -new Date().getTimezoneOffset() / 60;
-      let mailCountdownInterval = null; // Store interval ID for mail countdown
-      let mailRetryCount = 0;
-
-      /**
-      * ------------------------------------------------------------------------
-      * ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-      * ------------------------------------------------------------------------
-      */
-
-      const toggleLoader = (show) => {
-        const loader = document.querySelector(SELECTORS.elements.loader);
-        if (loader) {
-          loader.style.display = show ? 'flex' : 'none';
-        }
-      };
-
-      /**
-      * Переключение вкладок
-      */
-      function switchTab(tabId) {
-        document.querySelectorAll(SELECTORS.tabPanel).forEach((panel) => panel.classList.remove('is-open'));
-        const activePanel = document.getElementById(tabId);
-
-        if (activePanel) {
-          activePanel.classList.add('is-open');
-          const container = activePanel.closest('.e-card') || document.body;
-          container.scrollIntoView({behavior: 'smooth', block: 'start'});
-        }
-
-        // else {
-        // console.warn(`Tab panel with ID "${tabId}" not found.`);
-        // }
+    function mailCountdown(seconds) {
+      // Очистка предыдущего таймера, если он существует
+      if (mailCountdownInterval) {
+        clearInterval(mailCountdownInterval);
+        mailCountdownInterval = null;
       }
 
-      /**
-      * Таймер обратного отсчета для отправки почты
-      * @param {number} seconds - Количество секунд
-      */
-      function mailCountdown(seconds) { // Очистка предыдущего таймера, если он существует
-        if (mailCountdownInterval) {
-          clearInterval(mailCountdownInterval);
-          mailCountdownInterval = null;
-        }
+      const waitSecEl = document.querySelector(SELECTORS.elements.mailWaitSec);
+      const waitSendEl = document.querySelector(SELECTORS.elements.mailWaitSend);
+      const resendEl = document.querySelector(SELECTORS.elements.mailResend);
+      const difEmailEl = document.querySelector(SELECTORS.elements.mailDifEmail);
 
-        const waitSecEl = document.querySelector(SELECTORS.elements.mailWaitSec);
-        const waitSendEl = document.querySelector(SELECTORS.elements.mailWaitSend);
-        const resendEl = document.querySelector(SELECTORS.elements.mailResend);
-        const difEmailEl = document.querySelector(SELECTORS.elements.mailDifEmail);
+      if (!waitSecEl || !waitSendEl || !resendEl || !difEmailEl) {
+        // console.warn('Email countdown elements not found.');
+        return;
+      }
 
-        if (! waitSecEl || ! waitSendEl || ! resendEl || ! difEmailEl) { // console.warn('Email countdown elements not found.');
-          return;
-        }
+      let timeLeft = seconds;
 
-        let timeLeft = seconds;
+      waitSendEl.style.display = 'block';
+      resendEl.style.display = 'none';
+      // Предложение использовать другой email-адрес
+      difEmailEl.style.display = mailRetryCount > 0 ? 'block' : 'none';
 
-        waitSendEl.style.display = 'block';
-        resendEl.style.display = 'none';
-        // Предложение использовать другой email-адрес
-        difEmailEl.style.display = mailRetryCount > 0 ? 'block' : 'none';
+      const updateTimer = () => {
+        waitSecEl.textContent = timeLeft;
+      };
 
-        const updateTimer = () => {
-          waitSecEl.textContent = timeLeft;
-        };
+      updateTimer();
 
+      mailCountdownInterval = setInterval(() => {
+        timeLeft -= 1;
         updateTimer();
 
-        mailCountdownInterval = setInterval(() => {
-          timeLeft -= 1;
-          updateTimer();
+        if (timeLeft <= 0) {
+          clearInterval(mailCountdownInterval);
+          mailCountdownInterval = null;
+          waitSendEl.style.display = 'none';
+          resendEl.style.display = 'block';
+        }
+      }, 1000);
+    }
 
-          if (timeLeft <= 0) {
-            clearInterval(mailCountdownInterval);
-            mailCountdownInterval = null;
-            waitSendEl.style.display = 'none';
-            resendEl.style.display = 'block';
+    /**
+    * ------------------------------------------------------------------------
+    * ОСНОВНЫЕ ФУНКЦИИ
+    * ------------------------------------------------------------------------
+    */
+
+    const makeRequest = async (url, data, responseType = 'text') => {
+      toggleLoader(true);
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams(data),
+        });
+
+        if (!response.ok) {
+          let errorText = `HTTP error! status: ${response.status}`;
+          try {
+            const bodyText = await response.text();
+            if (bodyText)
+              errorText += ` - ${bodyText.substring(0, 100)}
+                `;
+          } catch {
+            /* Ignore if body can't be read */
           }
-        }, 1000);
+          throw new Error(errorText);
+        }
+
+        if (responseType === 'json') {
+          return await response.json();
+        }
+        return await response.text();
+      } catch (error) {
+        // console.error('Request failed:', error);
+        showToast('{{ "Request error."|trans|e("js") }}', 'error');
+        throw error;
+      } finally {
+        toggleLoader(false);
+      }
+    };
+
+    /**
+    * ------------------------------------------------------------------------
+    * ВХОД / РЕГИСТРАЦИЯ / ВОССТАНОВЛЕНИЯ
+    * ------------------------------------------------------------------------
+    */
+    const configMap = {
+      signin: {
+        formSelector: SELECTORS.forms.login,
+        url: 'register.php',
+        data: (form) => ({
+          loginemail: form.querySelector(SELECTORS.inputs.loginEmail).value,
+          loginpassword: strRot13(
+            form.querySelector(SELECTORS.inputs.loginPassword).value
+          ),
+        }),
+        messageEl: SELECTORS.elements.message.login,
+        successAction: () => {
+          window.location.href = '{$returl}';
+        },
+      },
+      signup: {
+        formSelector: SELECTORS.forms.register,
+        url: 'register.php',
+        data: (form) => {
+          const promoInput = form.querySelector(SELECTORS.inputs.regPromocode);
+          const promocode = promoInput ? promoInput.value.trim() : '';
+          return {
+            email: form.querySelector(SELECTORS.inputs.regEmail).value,
+            password: form.querySelector(SELECTORS.inputs.regPassword).value,
+            yourname: form.querySelector(SELECTORS.inputs.regName).value,
+            surname: form.querySelector(SELECTORS.inputs.regSurname).value,
+            birthdate: form.querySelector(SELECTORS.inputs.regBirthdate).value,
+            blogname: 'registrationonly',
+            mailretry: mailRetryCount,
+            promocode,
+            // На всякий случай
+            gender: 'not chosen',
+            nickname: '',
+            country: '',
+            city: '',
+          };
+        },
+        messageEl: SELECTORS.elements.message.reg,
+        successAction: (data) => {
+          mailRetryCount = 0;
+          const dialog = document.querySelector(
+            SELECTORS.elements.modals.sendStatus
+          );
+          if (dialog) {
+            if (!dialog.open) dialog.showModal();
+
+            mailCountdown(60);
+          }
+          if (data && data.email) {
+            startEmailPolling(data.email);
+          }
+        },
+      },
+      resetpwd: {
+        formSelector: SELECTORS.forms.reset,
+        url: 'register.php',
+        data: (form) => ({
+          rememberemail: form.querySelector(SELECTORS.inputs.resetEmail).value,
+          mailretry: mailRetryCount,
+        }),
+        messageEl: SELECTORS.elements.message.lost,
+        successAction: () => {
+          mailRetryCount = 0;
+          const dialog = document.querySelector(
+            SELECTORS.elements.modals.sendStatus
+          );
+          if (dialog) {
+            if (!dialog.open) dialog.showModal();
+
+            mailCountdown(60);
+          }
+        },
+      },
+    };
+
+    /**
+    * Действия аутентификации на основе полученного типа.
+    * @param {string} type - Тип действия ('signin', 'signup', 'resetpwd').
+    */
+    async function performAuthAction(type) {
+      const config = configMap[type];
+      if (!config) {
+        // console.error('Invalid auth action type:', type);
+        return;
       }
 
-      /**
-      * ------------------------------------------------------------------------
-      * ОСНОВНЫЕ ФУНКЦИИ
-      * ------------------------------------------------------------------------
-      */
+      const formElement = document.querySelector(config.formSelector);
+      const messageElement = document.querySelector(config.messageEl);
 
-      const makeRequest = async (url, data, responseType = 'text') => {
-        toggleLoader(true);
-        try {
-          const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: new URLSearchParams(data)
-          });
+      if (!formElement || !messageElement) {
+        // console.error('Form or message element not found for action:', type);
+        return;
+      }
 
-          if (! response.ok) {
-            let errorText = `HTTP error! status: ${
-              response.status
-            }`;
-            try {
-              const bodyText = await response.text();
-              if (bodyText)
-                errorText += ` - ${
-                 bodyText.substring(0, 100)
-              }
-              `;
+      messageElement.innerHTML = '';
 
-            } catch (e) { /* Ignore if body can't be read */
-            }
-            throw new Error(errorText);
-          }
+      if (!formElement.checkValidity()) {
+        messageElement.innerHTML =
+          '{{ "Please fix the errors in the form before submitting."|trans|e("js") }}';
+        // Прокрутка к сообщению об ошибке
+        messageElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        const firstInvalid = formElement.querySelector(':user-invalid');
+        firstInvalid?.focus();
+        return;
+      }
 
-          if (responseType === 'json') {
-            return await response.json();
-          }
-          return await response.text();
-        } catch (error) { // console.error('Request failed:', error);
-          showToast('{{ "Request error."|trans|e("js") }}', 'error');
-          throw error;
-        } finally {
-          toggleLoader(false);
-        }
-      };
+      toggleLoader(true);
 
-     /**
-      * ------------------------------------------------------------------------
-      * ВХОД / РЕГИСТРАЦИЯ / ВОССТАНОВЛЕНИЯ
-      * ------------------------------------------------------------------------
-      */
-      const configMap = {
-        signin: {
-          formSelector: SELECTORS.forms.login,
-          url: 'register.php',
-          data: (form) => (
-            {
-              loginemail: form.querySelector(SELECTORS.inputs.loginEmail).value,
-              loginpassword: strRot13(form.querySelector(SELECTORS.inputs.loginPassword).value)
-            }
-          ),
-          messageEl: SELECTORS.elements.message.login,
-          successAction: () => {
-            window.location.href = '{$returl}';
-          }
-        },
-        signup: {
-          formSelector: SELECTORS.forms.register,
-          url: 'register.php',
-          data: (form) => {
-            const promoInput = form.querySelector(SELECTORS.inputs.regPromocode);
-            const promocode = promoInput ? promoInput.value.trim() : '';
-            return {
-              email: form.querySelector(SELECTORS.inputs.regEmail).value,
-              password: form.querySelector(SELECTORS.inputs.regPassword).value,
-              yourname: form.querySelector(SELECTORS.inputs.regName).value,
-              surname: form.querySelector(SELECTORS.inputs.regSurname).value,
-              birthdate: form.querySelector(SELECTORS.inputs.regBirthdate).value,
-              blogname: 'registrationonly',
-              mailretry: mailRetryCount,
-              promocode,
-              // На всякий случай
-              gender: 'not chosen',
-              nickname: '',
-              country: '',
-              city: ''
-            };
-          },
-          messageEl: SELECTORS.elements.message.reg,
-          successAction: () => {
-            mailRetryCount = 0;
-            const dialog = document.querySelector(SELECTORS.elements.modals.sendStatus);
-            if (dialog) {
-              if (! dialog.open)
-                dialog.showModal();
+      try {
+        const requestBaseData = {
+          thisprojectid: '{$thisprojectid}',
+          this_http_host: '{$this_http_host}',
+          checkID: '{$startruntime}',
+          userUTC: currentClientTimeZoneOffset,
+          lng: '{$user_lng}',
+          returnurl: '{$returl}',
+        };
+        const specificData = config.data(formElement);
+        const requestData = {
+          ...requestBaseData,
+          ...specificData,
+        };
 
+        const result = await makeRequest(config.url, requestData);
 
-              mailCountdown(60);
-            }
-          }
-        },
-        resetpwd: {
-          formSelector: SELECTORS.forms.reset,
-          url: 'register.php',
-          data: (form) => (
-            {
-              rememberemail: form.querySelector(SELECTORS.inputs.resetEmail).value,
-              mailretry: mailRetryCount
-            }
-          ),
-          messageEl: SELECTORS.elements.message.lost,
-          successAction: () => {
-            mailRetryCount = 0;
-            const dialog = document.querySelector(SELECTORS.elements.modals.sendStatus);
-            if (dialog) {
-              if (! dialog.open)
-                dialog.showModal();
-
-
-              mailCountdown(60);
-            }
-          }
-        }
-      };
-
-     /**
-      * Действия аутентификации на основе полученного типа.
-      * @param {string} type - Тип действия ('signin', 'signup', 'resetpwd').
-      */
-      async function performAuthAction(type) {
-        const config = configMap[type];
-        if (! config) { // console.error('Invalid auth action type:', type);
-          return;
-        }
-
-        const formElement = document.querySelector(config.formSelector);
-        const messageElement = document.querySelector(config.messageEl);
-
-        if (! formElement || ! messageElement) { // console.error('Form or message element not found for action:', type);
-          return;
-        }
-
-        messageElement.innerHTML = '';
-
-        if (! formElement.checkValidity()) {
-          messageElement.innerHTML = '{{ "Please fix the errors in the form before submitting."|trans|e("js") }}';
-          const firstInvalid = formElement.querySelector(':user-invalid');
-          firstInvalid ?. focus();
-          return;
-        }
-
-        toggleLoader(true);
-
-        try {
-          const requestBaseData = {
-            thisprojectid: '{$thisprojectid}',
-            this_http_host: '{$this_http_host}',
-            checkID: '{$startruntime}',
-            userUTC: currentClientTimeZoneOffset,
-            lng: '{$user_lng}',
-            returnurl: '{$returl}'
-          };
-          const specificData = config.data(formElement);
-          const requestData = {
-            ... requestBaseData,
-            ... specificData
-          };
-
-          const result = await makeRequest(config.url, requestData);
-
-          if (result === 'OK') {
-            config.successAction();
-          } else { // Показать сообщение об ошибке, предоставленное сервером
-            messageElement.innerHTML = dompurify.sanitize(
-              result || '{{ "Request error."|trans|e("js") }}'
-            );
-            // Если попытка отправки почты была неудачной, обновим счетчик
-            if (type === 'signup' || type === 'resetpwd') {
-              mailRetryCount += 1;
-            }
-          }
-        } catch (error) {
-          messageElement.innerHTML = '{{ "Request error."|trans|e("js") }}';
+        if (result === 'OK') {
+          config.successAction(specificData);
+        } else {
+          // Показать сообщение об ошибке, предоставленное сервером
+          messageElement.innerHTML = dompurify.sanitize(
+            result || '{{ "Request error."|trans|e("js") }}'
+          );
+          // Прокрутка к сообщению об ошибке
+          messageElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          // Если попытка отправки почты была неудачной, обновим счетчик
           if (type === 'signup' || type === 'resetpwd') {
             mailRetryCount += 1;
           }
-        } finally {
-          toggleLoader(false);
         }
+      } catch {
+        messageElement.innerHTML = '{{ "Request error."|trans|e("js") }}';
+        // Прокрутка к сообщению об ошибке
+        messageElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        if (type === 'signup' || type === 'resetpwd') {
+          mailRetryCount += 1;
+        }
+      } finally {
+        toggleLoader(false);
+      }
+    }
+
+    /**
+    * ------------------------------------------------------------------------
+    * ВХОД ЧЕРЕЗ МЕССЕНДЖЕР (Logic largely unchanged, just formatting)
+    * ------------------------------------------------------------------------
+    */
+    const stopMessengerPolling = async (
+      cancelledByUser = false,
+      notifyServer = false
+    ) => {
+      if (!msgPollingActive) return;
+
+      clearInterval(msgPollingInterval);
+      clearTimeout(msgPollingTimeout);
+      msgPollingInterval = null;
+      msgPollingTimeout = null;
+      msgPollingActive = false;
+
+      const dialog = document.querySelector(
+        SELECTORS.elements.modals.loginMsgWindow
+      );
+      if (dialog && dialog.open) {
+        dialog.close();
       }
 
-     /**
-      * ------------------------------------------------------------------------
-      * ВХОД ЧЕРЕЗ МЕССЕНДЖЕР (Logic largely unchanged, just formatting)
-      * ------------------------------------------------------------------------
-      */
-      const stopMessengerPolling = async (cancelledByUser = false, notifyServer = false) => {
-        if (! msgPollingActive)
-          return;
-
-
-        clearInterval(msgPollingInterval);
-        clearTimeout(msgPollingTimeout);
-        msgPollingInterval = null;
-        msgPollingTimeout = null;
-        msgPollingActive = false;
-
-        const dialog = document.querySelector(SELECTORS.elements.modals.loginMsgWindow);
-        if (dialog && dialog.open) {
-          dialog.close();
-        }
-
-        if (cancelledByUser) {
-          showToast('{{ "Login canceled."|trans|e("js") }}', 'info');
-          if (notifyServer && msgcode) {
-            toggleLoader(true);
-            try {
-              await makeRequest('./initmsgreg.php', {
-                cancelinit: msgcode,
-                thisprojectid: SERVER_VARS.projectId
-              });
-            } catch (error) {
-              showToast (` {{ "Failed to send cancellation request:"|trans|e("js") }}
-              $ {
-                error
-              }
-              `, 'error');
-            } finally {
-              toggleLoader(false);
-              msgcode = null;
-            }
-          } else {
+      if (cancelledByUser) {
+        showToast('{{ "Login canceled."|trans|e("js") }}', 'info');
+        if (notifyServer && msgcode) {
+          toggleLoader(true);
+          try {
+            await makeRequest('./initmsgreg.php', {
+              cancelinit: msgcode,
+              thisprojectid: SERVER_VARS.projectId,
+            });
+          } catch {
+            showToast(
+              ` {{ "Failed to send cancellation request:"|trans|e("js") }}
+                $ {
+                  error
+                }
+                `,
+              'error'
+            );
+          } finally {
+            toggleLoader(false);
             msgcode = null;
           }
-        }
-      };
-
-      const startMessengerPolling = (code, durationSeconds) => {
-        if (msgPollingActive) { // console.warn('Polling is already active.');
-          return;
-        }
-
-        msgcode = code;
-        msgPollingActive = true;
-        let timeLeft = durationSeconds;
-
-        const codeEl = document.querySelector(SELECTORS.elements.messengerCode);
-        const timerEl = document.querySelector(SELECTORS.elements.messengerTimer);
-        const dialog = document.querySelector(SELECTORS.elements.modals.loginMsgWindow);
-
-        if (! codeEl || ! timerEl || ! dialog) { // console.error('Messenger polling UI elements not found!');
-          msgPollingActive = false;
+        } else {
           msgcode = null;
-          showToast('{{ "UI elements not found, please try again."|trans|e("js") }}', 'error');
-          return;
         }
+      }
+    };
 
-        codeEl.textContent = `A${String(code)}`;
-        const updateTimerDisplay = () => {
-          timerEl.textContent = timeLeft;
-        };
-        updateTimerDisplay();
-
-        if (! dialog.open) {
-          dialog.showModal();
-        }
-
-        const poll = async () => {
-          if (! msgPollingActive)
-            return;
-
-
-          // console.log('Polling messenger status for code:', msgcode);
-
-          try {
-            const response = await makeRequest('./initmsgreg.php', {
-              checkinit: msgcode,
-              thisprojectid: SERVER_VARS.projectId
-            }, 'json');
-
-            if (! msgPollingActive)
-              return;
-
-
-            if (Array.isArray(response) && response.length > 0) {
-              const status = response[0];
-              // console.log('Status received:', status);
-              if (status === 'LOG') {
-                stopMessengerPolling();
-                window.location.href = '{$returl}';
-              } else if (status === 'OK') {
-                // console.log('Status OK, continuing polling');
-                // Ожидаем, пока пользователь введёт код
-              } else {
-                // Не закрываем окно, а показываем сообщение об ошибке
-                // console.warn('Server returned an error:', status);
-                // Показываем ошибку, но не останавливаем опрос
-                showToast(status, 'warning');
-              }
-            } else { // console.warn('Unexpected response format:', response);
-              showToast('{{ "Unexpected server response format"|trans|e("js") }}', 'error');
-            }
-          } catch (error) { // console.error('Polling request failed:', error);
-            showToast('{{ "Request error."|trans|e("js") }}', 'error');
-          }
-        };
-
-        msgPollingInterval = setInterval(() => {
-          timeLeft -= 1;
-          updateTimerDisplay();
-
-          if (timeLeft <= 0) {
-            stopMessengerPolling();
-            showToast('{{ "Timeout expired. Try requesting the code again."|trans|e("js") }}', 'warning');
-            return;
-          }
-
-          if (timeLeft % Math.round(POLLING_INTERVAL_MS / 1000) === 0) {
-            poll();
-          }
-        }, 1000);
-
-        msgPollingTimeout = setTimeout(() => {
-          if (msgPollingActive) {
-            stopMessengerPolling();
-            showToast('{{ "Timeout expired. Try requesting the code again."|trans|e("js") }}', 'warning');
-          }
-        }, POLLING_TIMEOUT_MS);
-        // Первый опрос начнётся через POLLING_INTERVAL_MS (3 секунды)
-      };
-
-     /**
-      * Проверка согласия с пользовательским соглашением.
-      * @returns {boolean} True, если флажок поставлен.
-      */
-      function isUserAgreementChecked() {
-        const openPanel = document.querySelector(SELECTORS.tabPanelOpen);
-        if (! openPanel || (openPanel.id !== 'signin' && openPanel.id !== 'signup')) {
-          return true;
-        }
-        const agreementCheckbox = openPanel.querySelector(SELECTORS.elements.userAgreement);
-        if (agreementCheckbox && ! agreementCheckbox.checked) {
-          showToast('{{ "Please agree to the terms of service."|trans|e("js") }}', 'warning');
-          agreementCheckbox.focus();
-          return false;
-        }
-        return true;
+    const startMessengerPolling = (code, durationSeconds) => {
+      if (msgPollingActive) {
+        // console.warn('Polling is already active.');
+        return;
       }
 
-     /**
-      * ------------------------------------------------------------------------
-      * Инициализация обработчиков событий
-      * ------------------------------------------------------------------------
-      */
-      function initEventListeners() {
-        const rootElement = document.body;
+      msgcode = code;
+      msgPollingActive = true;
+      let timeLeft = durationSeconds;
 
-        rootElement.addEventListener('click', async (event) => {
-          const {target} = event;
+      const codeEl = document.querySelector(SELECTORS.elements.messengerCode);
+      const timerEl = document.querySelector(SELECTORS.elements.messengerTimer);
+      const dialog = document.querySelector(
+        SELECTORS.elements.modals.loginMsgWindow
+      );
 
-          // Переключение вкладок
-          const tabTargetButton = target.closest('[data-target]');
-          if (tabTargetButton && SELECTORS.tabs[tabTargetButton.dataset.target]) {
-            event.preventDefault();
-            switchTab(tabTargetButton.dataset.target);
-            return;
+      if (!codeEl || !timerEl || !dialog) {
+        // console.error('Messenger polling UI elements not found!');
+        msgPollingActive = false;
+        msgcode = null;
+        showToast(
+          '{{ "UI elements not found, please try again."|trans|e("js") }}',
+          'error'
+        );
+        return;
+      }
+
+      codeEl.textContent = `A${String(code)}`;
+      const updateTimerDisplay = () => {
+        timerEl.textContent = timeLeft;
+      };
+      updateTimerDisplay();
+
+      if (!dialog.open) {
+        dialog.showModal();
+      }
+
+      const poll = async () => {
+        if (!msgPollingActive) return;
+
+        // console.log('Polling messenger status for code:', msgcode);
+
+        try {
+          const response = await makeRequest(
+            './initmsgreg.php',
+            {
+              checkinit: msgcode,
+              thisprojectid: SERVER_VARS.projectId,
+            },
+            'json'
+          );
+
+          if (!msgPollingActive) return;
+
+          if (Array.isArray(response) && response.length > 0) {
+            const status = response[0];
+            // console.log('Status received:', status);
+            if (status === 'LOG') {
+              stopMessengerPolling();
+              window.location.href = '{$returl}';
+            } else if (status === 'OK') {
+              // console.log('Status OK, continuing polling');
+              // Ожидаем, пока пользователь введёт код
+            } else {
+              // Не закрываем окно, а показываем сообщение об ошибке
+              // console.warn('Server returned an error:', status);
+              // Показываем ошибку, но не останавливаем опрос
+              showToast(status, 'warning');
+            }
+          } else {
+            // console.warn('Unexpected response format:', response);
+            showToast(
+              '{{ "Unexpected server response format"|trans|e("js") }}',
+              'error'
+            );
           }
+        } catch {
+          // console.error('Polling request failed:', error);
+          showToast('{{ "Request error."|trans|e("js") }}', 'error');
+        }
+      };
 
-          // Восстановление пароля
-          const forgotPasswordButton = target.closest(SELECTORS.buttons.forgotPassword);
-          if (forgotPasswordButton) {
-            event.preventDefault();
-            switchTab('resetpwd');
-            return;
+      msgPollingInterval = setInterval(() => {
+        timeLeft -= 1;
+        updateTimerDisplay();
+
+        if (timeLeft <= 0) {
+          stopMessengerPolling();
+          showToast(
+            '{{ "Timeout expired. Try requesting the code again."|trans|e("js") }}',
+            'warning'
+          );
+          return;
+        }
+
+        if (timeLeft % Math.round(POLLING_INTERVAL_MS / 1000) === 0) {
+          poll();
+        }
+      }, 1000);
+
+      msgPollingTimeout = setTimeout(() => {
+        if (msgPollingActive) {
+          stopMessengerPolling();
+          showToast(
+            '{{ "Timeout expired. Try requesting the code again."|trans|e("js") }}',
+            'warning'
+          );
+        }
+      }, POLLING_TIMEOUT_MS);
+      // Первый опрос начнётся через POLLING_INTERVAL_MS (3 секунды)
+    };
+
+    /**
+    * ------------------------------------------------------------------------
+    * EMAIL CONFIRMATION POLLING
+    * ------------------------------------------------------------------------
+    */
+
+    const stopEmailPolling = () => {
+      emailPollingActive = false;
+      if (emailPollingInterval) clearInterval(emailPollingInterval);
+      if (emailPollingTimeout) clearTimeout(emailPollingTimeout);
+      const modal = document.querySelector(
+        SELECTORS.elements.modals.emailTimeout
+      );
+      if (modal && modal.open) modal.close();
+    };
+
+    const checkEmailConfirmation = async (email, isManual = false) => {
+      try {
+        const response = await makeRequest('registercheck.php', { email: email });
+        if (response === 'ISLOGGED') {
+          stopEmailPolling();
+          // Закрыть модальное окно перед редиректом
+          const sendDialog = document.querySelector(SELECTORS.elements.modals.sendStatus);
+          if (sendDialog && sendDialog.open) sendDialog.close();
+          window.location.href = '/{{ page.lang }}/markets';
+        } else if (response === 'LOGIN') {
+          stopEmailPolling();
+          // Закрыть модальное окно
+          const sendDialog = document.querySelector(SELECTORS.elements.modals.sendStatus);
+          if (sendDialog && sendDialog.open) sendDialog.close();
+          // Показать уведомление
+          showToast('{{ "Email confirmed! Please sign in."|trans|e("js") }}', 'success');
+          // Автозаполнить email в форме входа
+          const loginEmailInput = document.querySelector(SELECTORS.inputs.loginEmail);
+          if (loginEmailInput) {
+            loginEmailInput.value = email;
+            loginEmailInput.dispatchEvent(new Event('input', { bubbles: true }));
           }
+          // Переключить на вкладку входа
+          switchTab('signin');
+        } else if (response === 'ERROR') {
+          if (isManual) {
+            showToast('{{ "Email not confirmed yet"|trans|e("js") }}', 'warning');
+          }
+          // If polling, it will just retry naturally via setInterval
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
 
-          // Отправка формы
-          const submitButton = target.closest(SELECTORS.buttons.submitAuthForm);
-          if (submitButton) {
-            event.preventDefault();
-            const form = submitButton.closest('form');
-            const activeTabPanel = form ?. closest(SELECTORS.tabPanelOpen);
-            if (form && activeTabPanel) {
-              const action = activeTabPanel.id;
-              // 'signin', 'signup', 'resetpwd'
+    const startEmailPolling = (email) => {
+      if (emailPollingActive) return;
+      emailPollingActive = true;
 
-              // Проверка согласия с пользовательским соглашением
-              if (action === 'signin' || action === 'signup') {
-                if (! isUserAgreementChecked())
-                  return;
+      emailPollingInterval = setInterval(() => {
+        if (!emailPollingActive) return;
+        checkEmailConfirmation(email);
+      }, EMAIL_POLLING_INTERVAL);
 
-              }
+      emailPollingTimeout = setTimeout(() => {
+        stopEmailPolling();
+        const modal = document.querySelector(
+          SELECTORS.elements.modals.emailTimeout
+        );
+        if (modal) modal.showModal();
 
-              if (action && configMap[action]) {
-                await performAuthAction(action);
-              }
+        // Setup manual check button
+        const btn = document.querySelector(SELECTORS.buttons.checkEmailManual);
+        if (btn) {
+          btn.onclick = () => checkEmailConfirmation(email, true);
+        }
+      }, EMAIL_POLLING_TIMEOUT);
+    };
 
-              // else {
-              // console.error(
-              //     'Could not determine auth action for form in panel:',
-              //     activeTabPanel.id
-              // );
-              // }
+    /**
+    * Проверка согласия с пользовательским соглашением.
+    * @returns {boolean} True, если флажок поставлен.
+    */
+    function isUserAgreementChecked() {
+      const openPanel = document.querySelector(SELECTORS.tabPanelOpen);
+      if (
+        !openPanel ||
+        (openPanel.id !== 'signin' && openPanel.id !== 'signup')
+      ) {
+        return true;
+      }
+      const agreementCheckbox = openPanel.querySelector(
+        SELECTORS.elements.userAgreement
+      );
+      if (agreementCheckbox && !agreementCheckbox.checked) {
+        showToast(
+          '{{ "Please agree to the terms of service."|trans|e("js") }}',
+          'warning'
+        );
+        agreementCheckbox.focus();
+        return false;
+      }
+      return true;
+    }
+
+    /**
+    * ------------------------------------------------------------------------
+    * Инициализация обработчиков событий
+    * ------------------------------------------------------------------------
+    */
+    function initEventListeners() {
+      const rootElement = document.body;
+
+      rootElement.addEventListener('click', async (event) => {
+        const { target } = event;
+
+        // Переключение вкладок
+        const tabTargetButton = target.closest('[data-target]');
+        if (tabTargetButton && SELECTORS.tabs[tabTargetButton.dataset.target]) {
+          event.preventDefault();
+          switchTab(tabTargetButton.dataset.target);
+          return;
+        }
+
+        // Восстановление пароля
+        const forgotPasswordButton = target.closest(
+          SELECTORS.buttons.forgotPassword
+        );
+        if (forgotPasswordButton) {
+          event.preventDefault();
+          switchTab('resetpwd');
+          return;
+        }
+
+        // Отправка формы
+        const submitButton = target.closest(SELECTORS.buttons.submitAuthForm);
+        if (submitButton) {
+          event.preventDefault();
+          const form = submitButton.closest('form');
+          const activeTabPanel = form?.closest(SELECTORS.tabPanelOpen);
+          if (form && activeTabPanel) {
+            const action = activeTabPanel.id;
+            // 'signin', 'signup', 'resetpwd'
+
+            // Проверка согласия с пользовательским соглашением
+            if (action === 'signin' || action === 'signup') {
+              if (!isUserAgreementChecked()) return;
+            }
+
+            if (action && configMap[action]) {
+              await performAuthAction(action);
             }
 
             // else {
             // console.error(
-            //     'Submit button clicked outside of an active form/tab panel.'
+            //     'Could not determine auth action for form in panel:',
+            //     activeTabPanel.id
             // );
             // }
-            return;
           }
 
-          // OAuth: Google
-          const googleButton = target.closest(SELECTORS.oauth.google);
-          if (googleButton) {
-            event.preventDefault();
-            if (! isUserAgreementChecked())
-              return;
-
-
-            const googleUrl = '{$googleurl}';
-            if (googleUrl) {
-              window.location.href = ` $ {
-                googleUrl
-              } | $ {
-                currentClientTimeZoneOffset
-              }
-              `;
-            } else { // console.error('Google OAuth URL is not defined.');
-              showToast('{{ "Google login is unavailable."|trans|e("js") }}', 'error');
-            }
-            return;
-          }
-
-          // Telegram
-          const telegramButton = target.closest(SELECTORS.messengers.telegram);
-          if (telegramButton) { // console.log('Telegram button clicked');
-            event.preventDefault();
-            if (! isUserAgreementChecked())
-              return;
-
-
-            toggleLoader(true);
-            try { // console.log('Sending request to initmsgreg.php');
-              const response = await makeRequest('./initmsgreg.php', {
-                initsec: SERVER_VARS.initsec,
-                thisprojectid: SERVER_VARS.projectId
-              }, 'json');
-              // console.log('Response received:', response);
-
-              if (Array.isArray(response) && response.length > 0) {
-                const status = response[0];
-                if (status === 'LOG') {
-                  window.location.reload();
-                } else if (status === 'OK') {
-                  const code = response[1] * 1;
-                  const duration = 300;
-                  startMessengerPolling(code, duration);
-                } else {
-                  showToast (` {{ "Error:"|trans|e("js") }}
-              $ {
-                response[0]
-              }
-              `, 'error');
-                }
-              } else {
-                showToast('{{ "Failed to retrieve the verification code."|trans|e("js") }}', 'error');
-              }
-            } catch (error) {
-              showToast('{{ "Request error."|trans|e("js") }}', 'error');
-            } finally {
-              toggleLoader(false);
-            }
-            return;
-          }
-
-          // Отмена авторизации через мессенджер
-          const cancelAuthButton = target.closest(SELECTORS.buttons.cancelAuth);
-          if (cancelAuthButton) {
-            stopMessengerPolling(true, true);
-            return;
-          }
-
-          // Повторная оотправка email
-          const resendButton = target.closest(SELECTORS.buttons.resendMail);
-          if (resendButton) {
-            let lastAction = null;
-            if (document.querySelector(SELECTORS.elements.message.reg) ?. innerHTML)
-              lastAction = 'signup';
-             else if (document.querySelector(SELECTORS.elements.message.lost) ?. innerHTML)
-              lastAction = 'resetpwd';
-
-
-            if (lastAction) {
-              mailRetryCount += 1;
-              const resendEl = document.querySelector(SELECTORS.elements.mailResend);
-              const waitSendEl = document.querySelector(SELECTORS.elements.mailWaitSend);
-              const difEmailEl = document.querySelector(SELECTORS.elements.mailDifEmail);
-              if (resendEl)
-                resendEl.style.display = 'none';
-
-
-              if (waitSendEl)
-                waitSendEl.style.display = 'block';
-
-
-              if (difEmailEl)
-                difEmailEl.style.display = 'block';
-
-              mailCountdown(60);
-
-              await performAuthAction(lastAction);
-            } else {
-              showToast('{{ "Could not determine action to retry."|trans|e("js") }}', 'warning');
-            }
-            return;
-          }
-
-          // Генерация пароля
-          const generatePasswordButton = target.closest(SELECTORS.buttons.generatePassword);
-          if (generatePasswordButton) {
-            event.preventDefault();
-            try {
-              const generatedPassword = await makeRequest('index.php', {genpwd: 10});
-
-              const pwdField = document.getElementById(SELECTORS.inputs.regPassword.substring(1));
-              const pwdFieldContainer = pwdField ?. closest('.e-form__text-field');
-              const toggleButton = pwdFieldContainer ?. querySelector(SELECTORS.buttons.passwordToggle);
-              const eyeIcon = toggleButton ?. querySelector('[name="eye"]');
-              const eyeSlashIcon = toggleButton ?. querySelector('[name="eye-slash"]');
-
-              if (pwdField) {
-                pwdField.type = 'text';
-                pwdField.value = generatedPassword;
-                pwdFieldContainer ?. classList.add('is-active', 'is-filled');
-                eyeIcon ?. classList.add('d-none');
-                eyeSlashIcon ?. classList.remove('d-none');
-                pwdField.dispatchEvent(new Event('input', {bubbles: true}));
-              }
-
-              // else {
-              // console.warn(
-              //     'Password field #passwordlf not found for generation.'
-              // );
-              // }
-            } catch (error) {
-              showToast('{{ "Failed to generate password."|trans|e("js") }}', 'error');
-            }
-            return;
-          }
-
-          // Переключение видимости пароля
-          const passwordToggleButton = target.closest(SELECTORS.buttons.passwordToggle);
-          if (passwordToggleButton) {
-            const fieldContainer = passwordToggleButton.closest('.e-form__text-field');
-            const passwordInput = fieldContainer ?. querySelector(SELECTORS.inputs.passwordField);
-
-            const eyeIcon = passwordToggleButton.querySelector('[name="eye"]');
-            const eyeSlashIcon = passwordToggleButton.querySelector('[name="eye-slash"]');
-
-            if (passwordInput && eyeIcon && eyeSlashIcon) {
-              if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                eyeIcon.classList.add('d-none');
-                eyeSlashIcon.classList.remove('d-none');
-              } else {
-                passwordInput.type = 'password';
-                eyeIcon.classList.remove('d-none');
-                eyeSlashIcon.classList.add('d-none');
-              }
-            }
-          }
-        });
-      }
-
-     /**
-      * ------------------------------------------------------------------------
-      * Публичный интерфейс модуля
-      * ------------------------------------------------------------------------
-      * Чтобы перенаправить на вкладку авторизации с другой страницы, используй
-      * if (userId === 0) { // или {$user_id} === 0
-      *   window.location.href = '/auth?tab=signin';
-      * }
-      */
-      return {
-        init() {
-          const userId = parseInt(document.querySelector(SELECTORS.userIdMeta) ?. content || '0', 10);
-
-          // Перенаправление на страницу авторизации, если пользователь не авторизован
-          const urlParams = new URLSearchParams(window.location.search);
-          const redirectTab = urlParams.get('tab');
-
-          if (userId === 0 && redirectTab && SELECTORS.tabs[redirectTab]) {
-            requestAnimationFrame(() => switchTab(redirectTab));
-          } else {
-            const hash = window.location.hash.substring(1);
-            const initialTab = SELECTORS.tabs[hash] ? hash : 'signin';
-            requestAnimationFrame(() => switchTab(initialTab));
-          }
-
-          if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initEventListeners);
-          } else {
-            initEventListeners();
-          }
-        },
-        getCurrentTab() {
-          const activePanel = document.querySelector(SELECTORS.tabPanelOpen);
-          return activePanel ? activePanel.id : null;
+          // else {
+          // console.error(
+          //     'Submit button clicked outside of an active form/tab panel.'
+          // );
+          // }
+          return;
         }
-      };
-    })();
 
-    // Инициализация модуля
-    AuthModule.init();
-  </script>
+        // OAuth: Google
+        const googleButton = target.closest(SELECTORS.oauth.google);
+        if (googleButton) {
+          event.preventDefault();
+          if (!isUserAgreementChecked()) return;
+
+          const googleUrl = '{$googleurl}';
+          if (googleUrl) {
+            window.location.href = ` $ {
+                  googleUrl
+                } | $ {
+                  currentClientTimeZoneOffset
+                }
+                `;
+          } else {
+            // console.error('Google OAuth URL is not defined.');
+            showToast(
+              '{{ "Google login is unavailable."|trans|e("js") }}',
+              'error'
+            );
+          }
+          return;
+        }
+
+        // Telegram
+        const telegramButton = target.closest(SELECTORS.messengers.telegram);
+        if (telegramButton) {
+          // console.log('Telegram button clicked');
+          event.preventDefault();
+          if (!isUserAgreementChecked()) return;
+
+          toggleLoader(true);
+          try {
+            // console.log('Sending request to initmsgreg.php');
+            const response = await makeRequest(
+              './initmsgreg.php',
+              {
+                initsec: SERVER_VARS.initsec,
+                thisprojectid: SERVER_VARS.projectId,
+              },
+              'json'
+            );
+            // console.log('Response received:', response);
+
+            if (Array.isArray(response) && response.length > 0) {
+              const status = response[0];
+              if (status === 'LOG') {
+                window.location.reload();
+              } else if (status === 'OK') {
+                const code = response[1] * 1;
+                const duration = 300;
+                startMessengerPolling(code, duration);
+              } else {
+                showToast(
+                  ` {{ "Error:"|trans|e("js") }}
+                $ {
+                  response[0]
+                }
+                `,
+                  'error'
+                );
+              }
+            } else {
+              showToast(
+                '{{ "Failed to retrieve the verification code."|trans|e("js") }}',
+                'error'
+              );
+            }
+          } catch {
+            showToast('{{ "Request error."|trans|e("js") }}', 'error');
+          } finally {
+            toggleLoader(false);
+          }
+          return;
+        }
+
+        // Отмена авторизации через мессенджер
+        const cancelAuthButton = target.closest(SELECTORS.buttons.cancelAuth);
+        if (cancelAuthButton) {
+          stopMessengerPolling(true, true);
+          return;
+        }
+
+        // Повторная оотправка email
+        const resendButton = target.closest(SELECTORS.buttons.resendMail);
+        if (resendButton) {
+          let lastAction = null;
+          if (document.querySelector(SELECTORS.elements.message.reg)?.innerHTML)
+            lastAction = 'signup';
+          else if (
+            document.querySelector(SELECTORS.elements.message.lost)?.innerHTML
+          )
+            lastAction = 'resetpwd';
+
+          if (lastAction) {
+            mailRetryCount += 1;
+            const resendEl = document.querySelector(
+              SELECTORS.elements.mailResend
+            );
+            const waitSendEl = document.querySelector(
+              SELECTORS.elements.mailWaitSend
+            );
+            const difEmailEl = document.querySelector(
+              SELECTORS.elements.mailDifEmail
+            );
+            if (resendEl) resendEl.style.display = 'none';
+
+            if (waitSendEl) waitSendEl.style.display = 'block';
+
+            if (difEmailEl) difEmailEl.style.display = 'block';
+
+            mailCountdown(60);
+
+            await performAuthAction(lastAction);
+          } else {
+            showToast(
+              '{{ "Could not determine action to retry."|trans|e("js") }}',
+              'warning'
+            );
+          }
+          return;
+        }
+
+        // Генерация пароля
+        const generatePasswordButton = target.closest(
+          SELECTORS.buttons.generatePassword
+        );
+        if (generatePasswordButton) {
+          event.preventDefault();
+          try {
+            const generatedPassword = await makeRequest('index.php', {
+              genpwd: 10,
+            });
+
+            const pwdField = document.getElementById(
+              SELECTORS.inputs.regPassword.substring(1)
+            );
+            const pwdFieldContainer = pwdField?.closest('.e-form__text-field');
+            const toggleButton = pwdFieldContainer?.querySelector(
+              SELECTORS.buttons.passwordToggle
+            );
+            const eyeIcon = toggleButton?.querySelector('[name="eye"]');
+            const eyeSlashIcon =
+              toggleButton?.querySelector('[name="eye-slash"]');
+
+            if (pwdField) {
+              pwdField.type = 'text';
+              pwdField.value = generatedPassword;
+              pwdFieldContainer?.classList.add('is-active', 'is-filled');
+              eyeIcon?.classList.add('d-none');
+              eyeSlashIcon?.classList.remove('d-none');
+              pwdField.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+
+            // else {
+            // console.warn(
+            //     'Password field #passwordlf not found for generation.'
+            // );
+            // }
+          } catch {
+            showToast(
+              '{{ "Failed to generate password."|trans|e("js") }}',
+              'error'
+            );
+          }
+          return;
+        }
+
+        // Переключение видимости пароля
+        const passwordToggleButton = target.closest(
+          SELECTORS.buttons.passwordToggle
+        );
+        if (passwordToggleButton) {
+          const fieldContainer = passwordToggleButton.closest(
+            '.e-form__text-field'
+          );
+          const passwordInput = fieldContainer?.querySelector(
+            SELECTORS.inputs.passwordField
+          );
+
+          const eyeIcon = passwordToggleButton.querySelector('[name="eye"]');
+          const eyeSlashIcon =
+            passwordToggleButton.querySelector('[name="eye-slash"]');
+
+          if (passwordInput && eyeIcon && eyeSlashIcon) {
+            if (passwordInput.type === 'password') {
+              passwordInput.type = 'text';
+              eyeIcon.classList.add('d-none');
+              eyeSlashIcon.classList.remove('d-none');
+            } else {
+              passwordInput.type = 'password';
+              eyeIcon.classList.remove('d-none');
+              eyeSlashIcon.classList.add('d-none');
+            }
+          }
+        }
+      });
+    }
+
+    /**
+    * ------------------------------------------------------------------------
+    * Публичный интерфейс модуля
+    * ------------------------------------------------------------------------
+    * Чтобы перенаправить на вкладку авторизации с другой страницы, используй
+    * if (userId === 0) { // или {$user_id} === 0
+    *   window.location.href = '/auth?tab=signin';
+    * }
+    */
+    return {
+      init() {
+        const userId = parseInt(
+          document.querySelector(SELECTORS.userIdMeta)?.content || '0',
+          10
+        );
+
+        // Перенаправление на страницу авторизации, если пользователь не авторизован
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectTab = urlParams.get('tab');
+
+        if (userId === 0 && redirectTab && SELECTORS.tabs[redirectTab]) {
+          requestAnimationFrame(() => switchTab(redirectTab));
+        } else {
+          const hash = window.location.hash.substring(1);
+          const initialTab = SELECTORS.tabs[hash] ? hash : 'signin';
+          requestAnimationFrame(() => switchTab(initialTab));
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initEventListeners);
+        } else {
+          initEventListeners();
+        }
+      },
+      getCurrentTab() {
+        const activePanel = document.querySelector(SELECTORS.tabPanelOpen);
+        return activePanel ? activePanel.id : null;
+      },
+    };
+  })();
+
+  // Инициализация модуля
+  AuthModule.init();
+</script>
 {% endblock %}
