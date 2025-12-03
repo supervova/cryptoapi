@@ -26,6 +26,10 @@
   [type='email'] {
     background-color: var(--color-bg-02);
   }
+
+  select {
+    background-position: var(--lh);
+  }
 }
 
 .e-form-header {

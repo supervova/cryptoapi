@@ -4,7 +4,7 @@ select:not([multiple]) {
   @include text-truncate;
 
   background-image: var(--icon-chevron-down);
-  background-position: center right var(--lh);
+  background-position: center right var(--dim-1);
   background-repeat: no-repeat;
   padding-inline-end: var(--dim-5);
   max-width: 100%;

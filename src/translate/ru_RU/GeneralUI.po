@@ -94,6 +94,12 @@ msgstr "Пользовательское соглашение"
 msgid "Widgets for websites"
 msgstr "Виджеты для сайтов"
 
+msgid "Go"
+msgstr "Перейти"
+
+msgid "GO"
+msgstr "ПЕРЕЙТИ"
+
 # ------------------------------------------------------------------------------
 # BUTTONS
 # ------------------------------------------------------------------------------
@@ -641,8 +647,8 @@ msgstr "Комиссия сервиса – 30% от прибыли"
 
 # Trader
 
-msgid "Access to signals via Telegram"
-msgstr "Доступ к сигналам через телеграм"
+msgid "Access to signals on the website and via Telegram"
+msgstr "Доступ к сигналам на сайте и через Телеграм"
 
 msgid "Signal delay – none (real-time)"
 msgstr "Задержка сигналов – без задержки (онлайн)"

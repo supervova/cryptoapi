@@ -179,7 +179,7 @@ $data_objects['data_plans'] = [
     "subtitle" => getphrase("Perfect for beginner active traders"),
     "link" => "/" . $user_lng . "/pricing/trader/annual",
     "features" => [
-      getphrase("Access to signals via Telegram"),
+      getphrase("Access to signals on the website and via Telegram"),
       getphrase("Signal delay – none (real-time)"),
       getphrase("Up to 10,000 daily requests to the APIs “asset rating”,  “market indicators and indices”"),
       getphrase("Balanced trading strategy"),
